@@ -1134,9 +1134,9 @@ class PageLines_ShortCodes {
 	    ), $atts ) );
 
 	    $first = ( $first == 'yes' ) ? 'active' : '';
-	    $content = ( $content <> '' ) ? "<div class='carousel-caption'><h4>$title</h4><p>$content</p></div></div>" : '';
+	    $content = ( $content <> '' ) ? "<div class='carousel-caption'><h4>$title</h4><p>$content</p></div>" : '';
 
-		return sprintf( '<div class="item %s"><img src="%s">%s',
+		return sprintf( '<div class="item %s"><img src="%s">%s</div>',
 				$first,
 				$imageurl,
 				do_shortcode( $content )
