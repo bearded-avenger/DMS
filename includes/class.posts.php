@@ -389,7 +389,7 @@ class PageLinesPosts {
 		
 		$percent_width  = ( $mode == 'top' ) ? 100 : 25;
 		
-        $style = ( 'top' == $mode ) ? 'width: 100%' : sprintf( 'width: %s%%; max-width: %spx', $percent_width, $thumb_width );
+        $style = ( 'top' == $mode ) ? 'width: 100%' : sprintf( 'width: %s%%; max-width: %spx', apply_filters( 'pagelines_thumb_width', $percent_width ), $thumb_width );
 		
 		if ( $mode == 'left-excerpt' )
 			$classes .= ' alignleft';
@@ -625,8 +625,10 @@ class PageLinesPosts {
 
 		if(!VPRO) 
 			return false;
-
-		if(is_home() && ploption('blog_layout_mode') == 'magazine' && $count <= ploption('full_column_posts') && $paged == 0)
+		
+		$archives = apply_filters( 'pagelines_full_width_archives', false );
+		
+		if( ( is_home() || $archives ) && ploption('blog_layout_mode') == 'magazine' && $count <= ploption('full_column_posts') && $paged == 0)
 			return false;
 
 		elseif(ploption('blog_layout_mode') != 'magazine') 
