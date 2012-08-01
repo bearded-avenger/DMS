@@ -115,10 +115,6 @@ class PageLinesRenderCSS {
 		$url = 'themes.php?page=pagelines';
 
 		$upload_dir = wp_upload_dir();
-		
-		if ( ! function_exists( 'posix_geteuid') || ! function_exists( 'posix_getpwuid' ) )
-			return;
-		
 		$User = posix_getpwuid( posix_geteuid() );
 		$File = posix_getpwuid( fileowner( __FILE__ ) );
 		if( $User['name'] !== $File['name'] )
@@ -156,7 +152,7 @@ class PageLinesRenderCSS {
 			$pagelines_ID = null;
 		$oset = array( 'post_id' => $pagelines_ID );
 		$oid = 'page_background_image';
-		$sel = cssgroup('page_background_image');		
+		$sel = '.full_width #page .page-canvas, body.fixed_width';		
 		if( !ploption('supersize_bg', $oset) && ploption( $oid . '_url', $oset )){
 			
 			$bg_repeat = (ploption($oid.'_repeat', $oset)) ? ploption($oid.'_repeat', $oset) : 'no-repeat';
