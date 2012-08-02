@@ -301,6 +301,11 @@ class PageLinesSection {
 			// Standard content width and padding divs
 			if($this->settings['format'] == 'textured' || $this->settings['format'] == 'standard')
 				printf('<div class="content"><div class="content-pad">');
+		} else {
+			
+			printf('<section id="%s" class="container pl-section %s fix">', $this->id, trim($classes));
+
+			pagelines_register_hook('pagelines_outer_'.$this->id, $this->id); // hook
 		}
 		
 		pagelines_register_hook('pagelines_inside_top_'.$this->id, $this->id); // hook 
@@ -343,6 +348,8 @@ class PageLinesSection {
 			if($this->settings['format'] != 'raw')
 				printf('</section>');
 			
+		} else {
+			printf('</section>');
 		}
 			
 		pagelines_register_hook('pagelines_after_'.$this->id, $this->id);

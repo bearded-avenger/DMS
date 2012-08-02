@@ -75,7 +75,7 @@ define('PL_ADMIN_STORE_URL', 'admin.php?page='.PL_ADMIN_STORE_SLUG);
 define('PL_TEMPLATE_SETUP_URL', 'admin.php?page=pagelines_templates');
 define('PL_SPECIAL_OPTS_URL', 'admin.php?page=pagelines_special');
 
-
+define( 'PL_EDITOR', get_template_directory() . '/editor' );
 
 /**
  * Define theme path constants

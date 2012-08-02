@@ -247,6 +247,12 @@ if ( ploption( 'enable_debug' ) )
 	require_once ( PL_ADMIN . '/class.debug.php');
 
 /**
+ * Editor
+ */	
+require_once( PL_EDITOR . '/editor.init.php' );
+require_once( PL_EDITOR . '/editor.template.php' );
+
+/**
  * Run the pagelines_init Hook
  */
 pagelines_register_hook('pagelines_hook_init'); // Hook
