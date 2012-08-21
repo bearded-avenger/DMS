@@ -1,4 +1,7 @@
 
+@editorBorder: #35eafd;
+@placeholderBG: #f1fcfd;
+
 .pl-editor{
 	
 	// Palette/Dock
@@ -59,32 +62,47 @@
 	}
 
 	.pl-area{
-		outline: 1px solid #35eafd;
+		border-top: 1px solid #35eafd;
 		position: relative;
 	}
+		.pl-area-ctrl{
+			border-bottom: 1px solid #35eafd;
+		
+			background:rgba(0,0,0,.5);
+			box-shadow: inset 0 1px 3px rgba(0,0,0,.5);
+			font-size: 10px; 
+			line-height: 16px;
+			height: 16px;
+			color:#fff;
+			font-weight: bold;
+			text-align: center;
+	
+			
+		}
 	.pl-content{
 		position: relative;
 		width: 980px;
 		margin: 0 auto;
 	}
 	.pl-section{
+		.box-sizing(border-box);
 		position: relative;
 		&:hover, &.ui-sortable-helper { 
 			cursor: move;
-			#pattern > .striped( @baseDarker, -45deg, 30px, @baseDarkerMore );
+			background: @baseContrastSlight;
+			//#pattern > .striped( @baseContrastSlight, -45deg, 20px, @baseContrast );
 		}
 	}
 	.pl-area-controls{
+		z-index: 1000;
 		position: absolute; 
-		left: -40px; 
-		top: 10px;
+		left: 0; 
+		top: 0;
 		text-align: left;
 		.controls-toggle-btn{
 			.box-shadow();
-			padding: 0;
-			width: 25px;
-			height: 25px;
-			position: relative;
+			.border-radius(0);
+			vertical-align: top;
 		}
 		
 		.controls-toggle{
@@ -99,15 +117,14 @@
 		.controls-buttons{
 			display: none;
 			position: relative; 
-			bottom: -3px; 
+			bottom: 3px; 
 			
-			background: #fff;
-			border: 1px solid #CCC;
+			background: #555;
 			padding: 5px;
 			.border-radius(4px);
 			z-index: 1001;
 			margin: 0;
-			.box-shadow(0 1px 8px rgba(0,0,0,.25));
+			.box-shadow(inset 0 1px 3px rgba(0,0,0,.3), 0 1px 8px rgba(0,0,0,.25));
 			.btn-group{
 				vertical-align: top;
 				.btn-mini{margin-top: 0;}
@@ -124,12 +141,12 @@
 	
 	// Section Controls
 	.pl-section-controls{
+		display: none;
 		position: absolute;
 		top: 0;
 		left: 0; 
 		width: 100%;
 		z-index: 100;
-		display: none;
 		background: rgba(0,0,0,.5);
 		text-shadow: 0 -1px 0 rgba(0,0,0,.5);
 		text-align: center;
@@ -139,14 +156,10 @@
 		&:hover{cursor: move;}
 		.controls-right{
 			float: right;
-			display: inline-block;
-			text-align: right;
 			padding-right: 4px;
 		}
 		.controls-left{
 			float:left;
-			display: inline-block;
-			text-align: left;
 			padding-left: 4px;
 		}
 		a {
@@ -155,13 +168,9 @@
 			width: 16px; 
 			height: 16px;
 		}
+
 	}
-	
-	.ui-resizable-se{
-		background: rgba(0,0,0,.5);
-		.border-radius(3px);
-	}
-	
+
 	.pl-control{
 		.border-radius(2px);
 		line-height: 16px;
@@ -211,23 +220,17 @@
 			background-position: -240px -32px;
 		}
 	}
-	
+
 	.no_offset .section-offset-increase, .no_offset .section-offset-reduce, .no_offset .offset-size, .sortable_first .section-start-row{
 		.opacity(50);
 	}
-	
+
 	.force_start_row .pl-control.pl-control-icon.section-start-row{
 		.opacity(100);
 		background-image: url(@{plRoot}/editor/images/ui-icons-lblue.png);
 	}
 	
 	// Drag and Drop
-	
-		.pl-placeholder{
-			display: block;
-			background: blue;
-			float:left;
-		}
 	
 	// Resizing
 	.ui-resizable-handle {
@@ -245,10 +248,23 @@
 		#pattern > .striped( @baseContrast );
 	
 	}
+	.pl-placeholder {
+		
+		display: inline;
+		float: left;
+		position: relative;
+
+		margin: 0 0 1em 0;
+		padding: 0;
+		.box-sizing(border-box);
+		//background-image: url(@{plRoot}/editor/images/pattern.png);	
+		background: @baseContrast; 
+	}
+
 	
 	.ui-resizable-e{
 		cursor: e-resize;
-		border-left: 1px dashed #35eafd;
+		border-left: 1px dashed @editorBorder;
 		width: 5px;
 		right: -5px;
 		top: 0;
@@ -259,13 +275,23 @@
 	
 	.ui-resizable-w{
 		cursor: w-resize;
-		border-right: 1px dashed #35eafd;
+		border-right: 1px dashed @editorBorder;
 		width: 5px;
 		left: -5px;
 		top: 0;
 		height: 100%;
 		//background-position: 100% 50%;
 		// background-image: url(@{plRoot}/editor/images/drag-left-bar.png);	
+	}
+	
+	// Columns
+	
+	.section-ecolumn{
+		
+		.ecolumn-inner{
+			border: 1px dashed @editorBorder;
+			min-height: 100px;
+		}
 	}
 
 	

@@ -249,8 +249,10 @@ if ( ploption( 'enable_debug' ) )
 /**
  * Editor
  */	
+require_once( PL_EDITOR . '/editor.interface.php' );
+require_once( PL_EDITOR . '/editor.handler.php' );
 require_once( PL_EDITOR . '/editor.init.php' );
-require_once( PL_EDITOR . '/editor.template.php' );
+
 
 /**
  * Run the pagelines_init Hook
