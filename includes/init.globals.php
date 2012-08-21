@@ -76,7 +76,7 @@ define('PL_TEMPLATE_SETUP_URL', 'admin.php?page=pagelines_templates');
 define('PL_SPECIAL_OPTS_URL', 'admin.php?page=pagelines_special');
 
 define( 'PL_EDITOR', get_template_directory() . '/editor' );
-
+define( 'PL_EDITOR_URL', get_template_directory_uri() . '/editor' );
 /**
  * Define theme path constants
  */
