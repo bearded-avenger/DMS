@@ -1,207 +1,444 @@
+
+// On document ready stuff
+jQuery(document).ready(function() {
+
+	// Basic Setup
+	jQuery('body').addClass('pl-editor');
+	jQuery('.pl-inner').addClass('editor-row');
+	jQuery('.pl-area .pl-content .pl-inner').addClass('pl_sortable_area');
+	jQuery('.pl_sortable_area .pl-section').addClass('pl_sortable span12 offset0');
+	
+	
+	jQuery.pageBuilder.alignGrid( jQuery('.pl_sortable_area') );
+	jQuery.pageBuilder.startDroppable();
+	// jQuery.pageBuilder.startResize();
+	columnControls();
+	
+
+});
+
+
+		
+
 (function($) {
     $.log = function(text) {
         if(typeof(window['console'])!='undefined') console.log(text);
     };
 
-    $.pagebuild = {
-        addAlignClass: function(dom_tree) {
-            var total_width, width, next_width;
-            total_width = 0;
-            width = 0;
-            next_width = 0;
+    $.pageBuilder = {
+        alignGrid: function(dom_tree) {
+            var total_width = 0,
+            	width = 0,
+            	next_width = 0,
+				avail_offset = 0;
+	
             $dom_tree = $(dom_tree);
+			
+            $dom_tree.children(".pl_sortable").removeClass("sortable_first sortable_last");
 
-            $dom_tree.children(".wpb_sortable").removeClass("wpb_first wpb_last");
-
-            if ($dom_tree.hasClass("wpb_main_sortable")) {
-                $dom_tree.find(".wpb_sortable .wpb_sortable").removeClass("sortable_1st_level");
-                $dom_tree.children(".wpb_sortable").addClass("sortable_1st_level");
-                $dom_tree.children(".wpb_sortable:eq(0)").addClass("wpb_first");
-                $dom_tree.children(".wpb_sortable:last").addClass("wpb_last");
+            if ($dom_tree.hasClass("pl_sortable_area")) {
+                $dom_tree.find(".pl_sortable .pl_sortable").removeClass("sortable_1st_level");
+                $dom_tree.children(".pl_sortable").addClass("sortable_1st_level");
+                $dom_tree.children(".pl_sortable:eq(0)").addClass("sortable_first");
+                $dom_tree.children(".pl_sortable:last").addClass("sortable_last");
             }
 
-            if ($dom_tree.hasClass("wpb_column_container")) {
-                $dom_tree.children(".wpb_sortable:eq(0)").addClass("wpb_first");
-                $dom_tree.children(".wpb_sortable:last").addClass("wpb_last");
+            if ($dom_tree.hasClass("pl_column_container")) {
+                $dom_tree.children(".pl_sortable:eq(0)").addClass("sortable_first");
+                $dom_tree.children(".pl_sortable:last").addClass("sortable_last");
             }
 
-            $dom_tree.children(".wpb_sortable").each(function (index) {
+			
+            $dom_tree.children(".pl_sortable").each(function (index) {
+				
+                var cur_el = $(this),
+					col_size = getColumnSize(cur_el), 
+					off_size = getOffsetSize(cur_el);
+				
+				
+				width = col_size[4] + off_size[3];
+				
+				total_width += width;
+				
+				avail_offset = 12 - col_size[4]; 
+			
+				if(avail_offset == 0)
+					cur_el.addClass('no_offset');
+				else 
+					cur_el.removeClass('no_offset');
+			
+				if(width > 12){
+					avail_offset = 12 - col_size[4]; 
+					cur_el.removeClass(off_size[0]).addClass('offset'+avail_offset);
+					off_size = getOffsetSize(cur_el);
+				}
 
-                var cur_el = $(this);
-
-                // Width of current element
-                if (cur_el.hasClass("span12")
-                    || cur_el.hasClass("wpb_widget")) {
-                    width = 12;
-                }
-                else if (cur_el.hasClass("span10")) {
-                    width = 10;
-                }
-                else if (cur_el.hasClass("span9")) {
-                    width = 9;
-                }
-                else if (cur_el.hasClass("span8")) {
-                    width = 8;
-                }
-                else if (cur_el.hasClass("span6")) {
-                    width = 6;
-                }
-                else if (cur_el.hasClass("span4")) {
-                    width = 4;
-                }
-                else if (cur_el.hasClass("span3")) {
-                    width = 3;
-                }
-                else if (cur_el.hasClass("span2")) {
-                    width = 2;
-                }
-                total_width += width;// + next_width;
-
-                //console.log(next_width+" "+total_width);
-
-                if (total_width > 10 && total_width <= 12) {
-                    cur_el.addClass("wpb_last");
-                    cur_el.next('.wpb_sortable').addClass("wpb_first");
-                    total_width = 0;
-                }
-                if (total_width > 12) {
-                    cur_el.addClass('wpb_first');
-                    cur_el.prev('.wpb_sortable').addClass("wpb_last");
+               	// Set Numbers
+				jQuery(cur_el).find(".section-size:first").html(sizes[4]+'/12');
+				jQuery(cur_el).find(".offset-size:first").html(off_size[3]);
+				
+				if (total_width > 12 || cur_el.hasClass('force_start_row')) {
+					
+                    cur_el.addClass('sortable_first');
+                    cur_el.prev('.pl_sortable').addClass("sortable_last");
                     total_width = width;
-                }
+                } 
 
-                if (cur_el.hasClass('wpb_vc_column') || cur_el.hasClass('wpb_vc_tabs') || cur_el.hasClass('wpb_vc_tour') || cur_el.hasClass('wpb_vc_accordion')) {
-
-                    if (cur_el.find('.wpb_element_wrapper .wpb_column_container').length > 0) {
-                        cur_el.removeClass('empty_column');
-                        cur_el.addClass('not_empty_column');
-                        //addLastClass(cur_el.find('.wpb_element_wrapper .wpb_column_container'));
-                        cur_el.find('.wpb_element_wrapper .wpb_column_container').each(function (index) {
-                            $.wpb_composer.addLastClass($(this)); // Seems it does nothing
-
-                            if($(this).find('div:not(.container-helper)').length==0) {
-                                $(this).addClass('empty_column');
-                                $(this).html($('#container-helper-block').html());
-                            } else {
-                                $(this).removeClass('empty_column');
-                            }
-                        });
-                    }
-                    else if (cur_el.find('.wpb_element_wrapper .wpb_column_container').length == 0) {
-                        cur_el.removeClass('not_empty_column');
-                        cur_el.addClass('empty_column');
-                    }
-                    else {
-                        cur_el.removeClass('empty_column not_empty_column');
-                    }
-                }
-
-               
             });
-        }, // endjQuery.wpb_composer.addLastClass()
-        save_composer_html: function() {
-            this.addLastClass($(".wpb_main_sortable"));
+        }, // endjQuery.pageBuilder.alignGrid()
 
-            var shortcodes = generateShortcodesFromHtml($(".wpb_main_sortable"));
-            //console.log(shortcodes);
+        reloadConfig: function() {
+		
+			
+            jQuery.pageBuilder.alignGrid( jQuery('.pl_sortable_area') );
 
-            //console.log(tinyMCE.ed.isHidden());
+        }, // End jQuery.pageBuilder.reloadConfig()
 
-            //if ( tinyMCE.activeEditor == null ) {
+		saveConfig: function(){
+			//this.Droppable();
+			jQuery.pageBuilder.reloadConfig();
+		},
+		
+		startResize: function(){
+			// Resizable Content Area
+			jQuery('.pl-content').resizable({ 
+				handles: "e, w",
+				minWidth: 400,
+				resize: function(event, ui) { 
 
-            //setActive(wpb_def_wp_editor.editorId);
+					var resizeWidth = ui.size.width, 
+						resizeOrigWidth = ui.originalSize.width, 
+						resizeNewWidth = resizeOrigWidth + ((resizeWidth - resizeOrigWidth) * 2); 
 
-            if ( isTinyMceActive() != true ) {
-                //TODO: WPML and qTranslate
-                //tinyMCE.activeEditor.setContent(shortcodes, {format : 'html'});
-                $('#content').val(shortcodes);
-            } else {
-                tinyMCE.activeEditor.setContent(shortcodes, {format : 'html'});
-            }
+					jQuery('.pl-content').css('left', 'auto').width(resizeNewWidth); 
 
+				}
+			});
+			
+		},
 
+		startDroppable: function(){
 
-            /*var val = $.trim($(".wpb_main_sortable").html());
-             $("#visual_composer_html_code_holder").val(val);
+		    jQuery('.pl_sortable_area').sortable({
+		        items: "section",//wpb_sortable
+				forcePlaceholderSize: true,
+				helper: 'clone',
+		        connectWith: ".pl_sortable_area",
+				scrollSensitivity: 200,
+		        placeholder: "pl-placeholder",
+		        cursor: "move",
+				distance: 0.5,
+				update: function() {
+					jQuery.pageBuilder.reloadConfig();
+				},
+				over: function(event, ui) {
+		            ui.placeholder.css({maxWidth: ui.placeholder.parent().width()});
+		            ui.placeholder.removeClass('hidden-placeholder');
+		            if( ui.item.hasClass('not-column-inherit') && ui.placeholder.parent().hasClass('not-column-inherit')) {
+		                ui.placeholder.addClass('hidden-placeholder');
+		            }
 
-             var shortcodes = generateShortcodesFromHtml($(".wpb_main_sortable"));
-             $("#visual_composer_code_holder").val(shortcodes);
+		        },
+				beforeStop: function(event, ui) {
+		            if( ui.item.hasClass('not-column-inherit') && ui.placeholder.parent().hasClass('not-column-inherit')) {
+		                return false;
+		            }
+		        }
+				
+		    });
+		
+			
+			
+			jQuery('.pl_sortable_area').droppable({
+				greedy: true,
+				accept: ".droppable_el, .droppable_column, .pl-section",
+				hoverClass: "wpb_ui-state-active",
+				drop: function( event, ui ) {
+					jQuery.pageBuilder.reloadConfig();
+				}
+			});
+			
+			jQuery('.ecolumn-inner').droppable({
+		        greedy: true,
+		        accept: function(dropable_el) {
+		            if ( dropable_el.hasClass('dropable_el') && jQuery(this).hasClass('ui-droppable') && dropable_el.hasClass('not_dropable_in_third_level_nav') ) {
+		                return false;
+		            } else if ( dropable_el.hasClass('dropable_el') == true ) {
+		                return true;
+		            }
+		        },
+		        hoverClass: "wpb_ui-state-active",
+		        over: function( event, ui ) {
+		            jQuery(this).parent().addClass("wpb_ui-state-active");
+		        },
+		        out: function( event, ui ) {
+		            jQuery(this).parent().removeClass("wpb_ui-state-active");
+		        },
+		        drop: function( event, ui ) {
+		            //console.log(jQuery(this));
+		            jQuery(this).parent().removeClass("wpb_ui-state-active");
+		            getElementMarkup(jQuery(this), ui.draggable, "addLastClass");
+		        }
+		    });
+		 
 
-             var tiny_val = switchEditors.wpautop(shortcodes);
-
-             //[REVISE] Should determine what mode is currently on Visual/HTML
-             tinyMCE.get('content').setContent(tiny_val, {format : 'raw'});
-
-             /*try {
-             tinyMCE.get('content').setContent(tiny_val, {format : 'raw'});
-             }
-             catch (err) {
-             switchEditors.go('content', 'html');
-             $('#content').val(shortcodes);
-             }*/
-        }
+		} //------------->> end initDroppable() <--------------//
     }
 })(jQuery);
 
-
-/*jshint eqnull:true */
-/*!
- * jQuery Cookie Plugin v1.1
- * https://github.com/carhartl/jquery-cookie
- *
- * Copyright 2011, Klaus Hartl
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * http://www.opensource.org/licenses/mit-license.php
- * http://www.opensource.org/licenses/GPL-2.0
- */
-(function($, document) {
-
-	var pluses = /\+/g;
-	function raw(s) {
-		return s;
-	}
-	function decoded(s) {
-		return decodeURIComponent(s.replace(pluses, ' '));
-	}
-
-	$.cookie = function(key, value, options) {
-
-		// key and at least value given, set cookie...
-		if (arguments.length > 1 && (!/Object/.test(Object.prototype.toString.call(value)) || value == null)) {
-			options = $.extend({}, $.cookie.defaults, options);
-
-			if (value == null) {
-				options.expires = -1;
-			}
-
-			if (typeof options.expires === 'number') {
-				var days = options.expires, t = options.expires = new Date();
-				t.setDate(t.getDate() + days);
-			}
-
-			value = String(value);
-
-			return (document.cookie = [
-				encodeURIComponent(key), '=', options.raw ? value : encodeURIComponent(value),
-				options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-				options.path    ? '; path=' + options.path : '',
-				options.domain  ? '; domain=' + options.domain : '',
-				options.secure  ? '; secure' : ''
-			].join(''));
+/* Set action for column size and delete buttons
+---------------------------------------------------------- */
+function columnControls() {
+	
+	jQuery('html')
+		.on('click', function () {
+			jQuery(".pl-area-controls").removeClass('open').find('.controls-toggle-btn').removeClass('active');
+		});
+	jQuery('body')
+		.on('click', '.controls-buttons', function (e) { e.stopPropagation() })
+	
+	jQuery(".controls-toggle-btn").on("click", function(e) {
+		
+		var isActive
+		  , $parent
+		
+		e.stopPropagation()
+		
+		$parent = jQuery(this).parent()
+		
+		isActive = $parent.hasClass('open')
+		
+		if (!isActive){
+			$parent.toggleClass('open').find('.controls-toggle-btn').addClass('active');
 		}
-
-		// key and possibly options given, get cookie...
-		options = value || $.cookie.defaults || {};
-		var decode = options.raw ? raw : decoded;
-		var cookies = document.cookie.split('; ');
-		for (var i = 0, parts; (parts = cookies[i] && cookies[i].split('=')); i++) {
-			if (decode(parts.shift()) === key) {
-				return decode(parts.join('='));
-			}
+		
+	});
+	
+	jQuery('.pl-section').not('.section-ecolumn').hover(
+	  function () {
+	    jQuery('.pl-section-controls', this).show();
+	  }, 
+	  function () {
+	    jQuery('.pl-section-controls', this).hide();
+	  }
+	);
+	
+	jQuery('.section-ecolumn').hover(
+	  function () {
+	    jQuery('.pl-section-controls:eq(0)', this).css('position', 'relative').slideDown();
+	  }, 
+	  function () {
+	    jQuery('.pl-section-controls:eq(0)', this).slideUp();
+	  }
+	);;
+	
+	jQuery(".section-edit").on("click", function(e) {
+		e.preventDefault();
+		drawModal('The Cool Title');
+	});
+	
+	jQuery(".section-delete").live("click", function(e) {
+		e.preventDefault();
+		var answer = confirm ("Press OK to delete section, Cancel to leave");
+		if (answer) {
+            $parent = jQuery(this).closest(".pl_sortable");
+			jQuery(this).closest(".pl_sortable").remove();
+            $parent.addClass('empty_column');
+			jQuery.pageBuilder.reloadConfig();
 		}
-		return null;
+	});
+	jQuery(".section-clone").live("click", function(e) {
+		e.preventDefault();
+		var closest_el = jQuery(this).closest(".pl_sortable"),
+			cloned = closest_el.clone( true );
+
+		cloned.insertAfter(closest_el).hide().fadeIn().find('.pl-section-controls').hide();
+
+		//Fire INIT callback if it is defined
+		cloned.find('.pl_initialized').removeClass('pl_initialized');
+		cloned.find(".pl_vc_init_callback").each(function(index) {
+			var fn = window[jQuery(this).attr("value")];
+			if ( typeof fn === 'function' ) {
+			    fn(cloned);
+			}
+		});
+
+		//closest_el.clone().appendTo(jQuery(this).closest(".wpb_main_sortable, .wpb_column_container")).hide().fadeIn();
+		jQuery.pageBuilder.reloadConfig();
+	});
+
+
+	
+	jQuery(".pl_sortable .pl_sortable .column_popup").live("click", function(e) {
+		e.preventDefault();
+		var answer = confirm ("Press OK to pop (move) section to the top level, Cancel to leave");
+		if (answer) {
+			jQuery(this).closest(".pl_sortable").appendTo('.pl_main_sortable');//insertBefore('.wpb_main_sortable div.wpb_clear:last');
+			initDroppable();
+			jQuery.pageBuilder.reloadConfig();
+		}
+	});
+
+
+	jQuery(".section-increase").live("click", function(e) {
+		e.preventDefault();
+		var column = jQuery(this).closest(".pl_sortable"),
+			sizes = getColumnSize(column);
+		if (sizes[1]) {
+			column.removeClass(sizes[0]).addClass(sizes[1]);
+			jQuery.pageBuilder.reloadConfig();
+		}
+	});
+
+	jQuery(".section-decrease").live("click", function(e) {
+		e.preventDefault();
+		
+		var column = jQuery(this).closest(".pl_sortable"),
+			sizes = getColumnSize(column);
+			
+		if (sizes[2]) {
+			column.removeClass(sizes[0]).addClass(sizes[2]);
+			jQuery.pageBuilder.reloadConfig();
+		}
+	});
+	
+	jQuery(".section-offset-increase").live("click", function(e) {
+		e.preventDefault();
+		var column = jQuery(this).closest(".pl_sortable"),
+			sizes = getOffsetSize(column);
+			
+		if (sizes[1]) {
+			column.removeClass(sizes[0]).addClass(sizes[1]);
+			jQuery.pageBuilder.reloadConfig();
+		}
+	});
+	jQuery(".section-offset-reduce").live("click", function(e) {
+		e.preventDefault();
+		var column = jQuery(this).closest(".pl_sortable"),
+			sizes = getOffsetSize(column);
+			
+		if (sizes[1]) {
+			column.removeClass(sizes[0]).addClass(sizes[2]);
+			jQuery.pageBuilder.reloadConfig();
+		}
+	});
+	jQuery(".section-start-row").live("click", function(e) {
+		e.preventDefault();
+		var column = jQuery(this).closest(".pl_sortable");
+			
+		column.toggleClass('force_start_row');
+		
+		jQuery.pageBuilder.reloadConfig();
+	});
+	
+} // end columnControls()
+
+
+function getOffsetSize(column) {
+
+
+	sizes = getColumnSize(column);
+	
+	var max = 12, 
+		avail = max - sizes[4], 
+		data = []; 
+	
+	for( i = 0; i <= 12; i++){
+
+			next = ( i == avail ) ? 0 : i+1;
+
+			prev = ( i == 0 ) ? avail : i-1;	
+
+			if(column.hasClass("offset"+i))
+				data = new Array("offset"+i, "offset"+next, "offset"+prev, i);
+
+	}
+	
+	if(data.length === 0)
+		return new Array("offset0", "offset0", "offset0", 0);
+	else
+		return data;
+
+}
+
+function getColumnSize(column) {
+	
+	if (column.hasClass("span12")) //full-width
+		return new Array("span12", "span2", "span10", "12/12", 12);
+
+    else if (column.hasClass("span10")) //five-sixth
+        return new Array("span10", "span12", "span9", "10/12", 10);
+
+	else if (column.hasClass("span9")) //three-fourth
+		return new Array("span9", "span10", "span8", "9/12", 9);
+
+	else if (column.hasClass("span8")) //two-third
+		return new Array("span8", "span9", "span6", "8/12", 8);
+
+	else if (column.hasClass("span6")) //one-half
+		return new Array("span6", "span8", "span4", "6/12", 6);
+
+	else if (column.hasClass("span4")) // one-third
+		return new Array("span4", "span6", "span3", "4/12", 4);
+
+	else if (column.hasClass("span3")) // one-fourth
+		return new Array("span3", "span4", "span2", "3/12", 3);
+		
+    else if (column.hasClass("span2")) // one-sixth
+        return new Array("span2", "span3", "span12", "2/12", 2);
+
+	else
+		return false;
+		
+} // end getColumnSize()
+
+
+/* Get initial html markup for content element. This function
+   use AJAX to run do_shortcode and then place output code into
+   main content holder
+---------------------------------------------------------- */
+function getElementMarkup (target, element, action) {
+
+	var data = {
+		action: 'pl_save_pagebuilder',
+		element: element.attr('id'),
+		data_element: element.attr('data-element'),
+		data_width: element.attr('data-width')
 	};
 
-	$.cookie.defaults = {};
+	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+	jQuery.post(ajaxurl, data, function(response) {
+		//alert('Got this from the server: ' + response);
+		//jQuery(target).append(response);
 
-})(jQuery, document);
+		//Fire INIT callback if it is defined
+		//jQuery(response).find(".wpb_vc_init_callback").each(function(index) {
+        // target.removeClass('empty_column');
+        // 		jQuery(target).append(response).find(".wpb_vc_init_callback").each(function(index) {
+        // 			var fn = window[jQuery(this).attr("value")];
+        // 			if ( typeof fn === 'function' ) {
+        // 			    fn(jQuery(this).closest('.wpb_content_element').removeClass('empty_column'));
+        // 			}
+        // 		});
+        //         jQuery.wpb_composer.isMainContainerEmpty();
+
+		
+		jQuery.pageBuilder.reloadConfig();
+	});
+
+} // end getElementMarkup()
+
+
+
+
+// MISC JUNK
+function drawStructure(title){
+	
+}
+
+function drawModal(title){
+	
+	jQuery('#editModal h3').html(title);
+	
+	jQuery('#editModal').modal();
+}
