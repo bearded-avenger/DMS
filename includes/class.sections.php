@@ -283,7 +283,6 @@ class PageLinesSection {
 		
 		$classes .= sprintf(" section-%s %s", $section_id, $this->special_classes);
 		
-		
 		if( $set_markup == 'copy' ) 
 			printf('<section id="%s" class="copy %s"><div class="copy-pad">', $section_id, trim($classes));
 		elseif( $set_markup == 'content' ){
@@ -303,7 +302,7 @@ class PageLinesSection {
 				printf('<div class="content"><div class="content-pad">');
 		} else {
 			
-			printf('<section id="%s" class="container pl-section %s fix">', $this->id, trim($classes));
+			printf('<section id="%s" class="container pl-section %s fix" data-clone="%s">', $this->id, trim($classes), $clone_id);
 
 			pagelines_register_hook('pagelines_outer_'.$this->id, $this->id); // hook
 		}
@@ -351,7 +350,7 @@ class PageLinesSection {
 		} else {
 			printf('</section>');
 		}
-			
+		
 		pagelines_register_hook('pagelines_after_'.$this->id, $this->id);
 	}
 
@@ -815,7 +814,7 @@ function splice_section_slug( $slug ){
 	
 	$pieces = explode('ID', $slug);		
 	$section = (string) $pieces[0];
-	$clone_id = (isset($pieces[1])) ? $pieces[1] : null;
+	$clone_id = (isset($pieces[1])) ? $pieces[1] : 1;
 	
 	return array('section' => $section, 'clone_id' => $clone_id);
 }
