@@ -4,6 +4,20 @@
 
 ********************************************************
 
+Version 2.3
+
+	- NEW - Add code editor styling to backend.
+	- CORE - Upgrade LESS compiler.
+	- CORE - Remove placeholdit links.
+	- Bugs - Remove 'hide welcome' option.
+	- Bugs - Stop banner images overflowing.
+	- Bugs - Boxes, open in new window if set.
+	- Bugs - Fix carousel shortcode.
+	- Bugs - Nav fixes for IE8.
+	- Bugs - Feature slider stop images appearing before js kicks in. 
+	- Bugs - Bootstrap elements css teaks.
+	- Bugs - Make (edit) translatable.
+
 Version 2.2.5
     - CORE - Added new LESS variable @{plPluginsRoot}.
 	- CORE - New filter 'pagelines_thumb_width' use to set thumb widths.
