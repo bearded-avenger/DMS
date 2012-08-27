@@ -233,9 +233,6 @@ function pagelines_theme_settings_scripts() {
 	
 	wp_enqueue_script( 'jquery-layout', PL_ADMIN_JS . '/jquery.layout.js' );
 	
-	// PageLines CSS objects
-	pagelines_load_css_relative( 'css/objects.css', 'pagelines-objects' );
-	
 }
 
 add_action( 'admin_head', 'load_head' );
