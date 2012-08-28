@@ -305,7 +305,9 @@ select:focus:required:invalid {
 
 // Fixes
 //Checkbox Fix
-.radio input[type="radio"], .checkbox input[type="checkbox"] {float:none;}
+.radio input[type="radio"], .checkbox input[type="checkbox"] {
+	float:none;
+}
 
 //MultiSelect Fix
 select#multiSelect {width:220px;}
@@ -327,6 +329,7 @@ input[type="submit"], .submit, input[type="button"], .button, input[type="reset"
 	border:1px solid #bbbbbb; 
 	#gradient > .vertical(#ffffff, #dcdcdc);
 	box-shadow: inset 1px 1px 0px #FFF;
+	font-family: @buttonFontFamily; 
 	
 	&:hover{
 		color:#000000; 
