@@ -269,12 +269,6 @@ function pagelines_head_common(){
 		
 	// Allow for extension deactivation of all css
 	if(!has_action('override_pagelines_css_output')){	
-
-		// Get CSS Objects & Grids
-//		pagelines_load_css_relative('css/objects.css', 'pagelines-objects');
-		
-		// CSS Animations
-//		wp_enqueue_style('animate', PL_CSS.'/animate.css'); TODO do we need this?
 		
 		// Multisite CSS
 		if(is_multisite())
@@ -315,7 +309,7 @@ function pagelines_head_common(){
 	add_action( 'wp_head', 'pagelines_meta_tags', 9 );
 	
 	// Headerscripts option > custom code
-	if ( ploption( 'headerscripts' ) )
+	if ( ploption( 'headerscripts' ) && ploption( 'headerscripts' ) != default_headerscript() )
 		add_action( 'wp_head', create_function( '',  'print_pagelines_option("headerscripts");' ), 25 );
 
 	if( ploption('asynch_analytics'))

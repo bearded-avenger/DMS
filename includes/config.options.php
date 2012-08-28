@@ -998,24 +998,24 @@ class PageLinesOptionsArray {
 		$a = array(
 			'icon'			=> PL_ADMIN_ICONS.'/code.png',
 			'customcss' => array(
-					'default' 	=> 'body{}',
+					'default' 	=> default_less(),
 					'type' 		=> 'code',
 					'height'	=> '300px',
 					'layout' 	=> 'full',
 					'inputlabel'=> __( 'CSS/LESS Rules', 'pagelines' ),
 					'title' 	=> __( 'Custom CSS / LESS', 'pagelines' ),
-					'shortexp' 	=> __( 'Insert custom CSS or LESS styling here. It will be stored in the DB and not overwritten. <br/>Note: The professional way to customize your site is using a child theme, or customization plugin', 'pagelines' ),
+					'shortexp' 	=> __( 'Insert custom CSS or LESS styling here. It will be stored in the DB and not overwritten.', 'pagelines' ),
 					'exp' 		=> $this->css_examples(),
 					'vidtitle'	=> __( 'View Customization Documentation', 'pagelines' )
 				),
 			'headerscripts' => array(
 					'version'	=> 'pro',
-					'default'	=> '',
+					'default'	=> default_headerscript(),
 					'type'		=> 'code',
 					'layout'	=> 'full',
-					'inputlabel'=> __( 'Headerscripts Code', 'pagelines' ),
-					'title'		=> __( 'Header Scripts', 'pagelines' ),
-					'shortexp'	=> __( 'Scripts inserted directly before the end of the HTML &lt;head&gt; tag', 'pagelines' ),
+					'inputlabel'=> __( 'HTML/Javascript', 'pagelines' ),
+					'title'		=> __( 'Header Scripts - HTML/Javascript', 'pagelines' ),
+					'shortexp'	=> __( 'HTML and Scripts inserted directly before the end of the HTML &lt;head&gt; tag', 'pagelines' ),
 					'exp'		=> ''
 				),
 			'footerscripts' => array(
@@ -1084,6 +1084,14 @@ class PageLinesOptionsArray {
 	}
 	
 	
+}
+
+function default_headerscript(){
+	return sprintf("<script>%sjQuery(document).ready(function() {%s});%s</script>", "\n","\n\t//Add jQuery Code Here\n","\n");
+}
+
+function default_less(){
+	return sprintf('#page{%s}', "\n\t//Add LESS/CSS Rules Here\n");
 }
 
 /**
