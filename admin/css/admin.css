@@ -3043,6 +3043,7 @@ font-weight: bold;
 	background: #fff;
 	box-shadow: inset 2px 2px 4px  #eee;
 	border: 1px solid #DDD;
+	max-width: 700px;
 }
 .CodeMirror-gutter{
 	box-shadow: 1px 0 4px #f7f7f7;
