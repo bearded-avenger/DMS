@@ -27,7 +27,7 @@ class PageLinesTemplateHandler {
 
 		global $pl_section_factory; 
 		
-		$this->factory = &$pl_section_factory->sections; // pass by reference
+		$this->factory = $pl_section_factory->sections; // pass by reference
 		
 		$this->editor = new EditorInterface;
 		
@@ -47,20 +47,28 @@ class PageLinesTemplateHandler {
 				'height'	=> 200,
 				'name'		=> 'Template Area',
 				'content'	=> array(
+					'ScrollSpy'	=> array(),
+					'eColumn' => array( 
+						'span' 	=> 8,
+						'content'	=> array( 
+							'PageLinesPostLoop' => array( )
+						)
+					),
+					'eColumnID2' => array( 
+						'span' 	=> 4,
+						'content'	=> array( 
+							'PrimarySidebar' => array( )
+						)
+					),
 					'PLMasthead' => array( ), 
-					'PageLinesBoxes' => array( ), 
+					'PageLinesBoxesID1' => array( ), 
 					'PageLinesFeatures'=> array( ),
 					'PageLinesBoxesID2'=> array(
 						'clone'	=> 2, 
-						'width'	=> .5,
+						'span'	=> 6,
  					), 
-					'eColumn' => array( 
-						'width' => .5,
-						'content'	=> array( 
-							'PageLinesHighlight' => array( )
-						)
-					), 
-					'PageLinesContentBoxID3' => array('width' => '50%'),
+					
+					'PageLinesContentBoxID3' => array( 'span' => '8' ),
 					'PageLinesHighlight' => array( ), 
 				)
 			)
@@ -72,7 +80,8 @@ class PageLinesTemplateHandler {
 				'height'	=> 200,
 				'name'		=> 'Header',
 				'content'	=> array(
-					'PageLinesBranding' => array( )
+					'PageLinesBranding' => array( ), 
+					'PLNavBar'			=> array()
 				)
 			)
 			
@@ -112,7 +121,7 @@ class PageLinesTemplateHandler {
 			'id'		=> $p['section'],
 			'clone'		=> $p['clone_id'],  
 			'content'	=> array(),
-			'width'		=> 1,
+			'span'		=> 12,
 		);
 		
 		return $defaults;
@@ -168,7 +177,9 @@ class PageLinesTemplateHandler {
 			if($this->in_factory( $meta['id'] )) {
 
 				$s = $this->factory[ $meta['id'] ];
-
+				
+				$s->meta = $meta;
+				
 				$s->section_styles();
 				
 				// Auto load style.css for simplicity if its there.
@@ -189,6 +200,9 @@ class PageLinesTemplateHandler {
 			if( $this->in_factory( $meta['id'] ) ){
 
 				$s = $this->factory[ $meta['id'] ];
+				
+				$s->meta = $meta;
+				
 				$s->setup_oset( $meta['clone'] ); // refactor
 
 				ob_start();
@@ -215,41 +229,9 @@ class PageLinesTemplateHandler {
 			$this->editor->area_start($a);
 			
 			foreach($a['content'] as $key => $meta){
-			
-				if( $this->in_factory( $meta['id'] ) ){
-					
-					$s = $this->factory[ $meta['id'] ];
-
-					$s->setup_oset( $meta['clone'] ); // refactor
-
-					ob_start();
-
-						$s->section_template_load( $meta['clone'] ); // Check if in child theme, if not load section_template
-
-					$output =  ob_get_clean(); // Load in buffer, so we can check if empty
 				
-					if(isset($output) && $output != ''){
-						
-						echo pl_source_comment($s->name . ' | Section Template', 2); // Add Comment 
-
-						$s->before_section_template(  ); // refactor into before_section
-						
-						$s->before_section( 'editor', $meta['clone']);
-
-						$this->editor->section_controls($meta['id'], $s);
-
-						echo $output;
-
-						$s->after_section( 'editor' );
-						
-						$s->after_section_template( );
-						
-					}
+				$this->render_section( $meta );
 				
-					wp_reset_postdata(); // Reset $post data
-					wp_reset_query(); // Reset wp_query
-					
-				}
 			}
 			
 			$this->editor->area_end($a);
@@ -257,6 +239,47 @@ class PageLinesTemplateHandler {
 		}
 	}
 	
+	function render_section( $meta ){
+
+		if( $this->in_factory( $meta['id'] ) ){
+			
+			$s = $this->factory[ $meta['id'] ];
+
+			$s->meta = $meta;
+
+			$s->setup_oset( $meta['clone'] ); // refactor
+			
+			ob_start();
+
+				$s->section_template_load( $meta['clone'] ); // Check if in child theme, if not load section_template
+
+			$output =  ob_get_clean(); // Load in buffer, so we can check if empty
+		
+			if(isset($output) && $output != ''){
+				
+				echo pl_source_comment($s->name . ' | Section Template', 2); // Add Comment 
+
+				$s->before_section_template(  ); // refactor into before_section
+				
+				$s->before_section( 'editor', $meta['clone']);
+
+				$this->editor->section_controls($meta['id'], $s);
+
+				echo $output;
+
+				$s->after_section( 'editor' );
+				
+				$s->after_section_template( );
+				
+			}
+		
+			wp_reset_postdata(); // Reset $post data
+			wp_reset_query(); // Reset wp_query
+			
+		}
+		
+	}
+		
 	/**
 	 * Tests if the section is in the factory singleton
 	 */
@@ -266,4 +289,19 @@ class PageLinesTemplateHandler {
 	
 }
 
+/**
+ * For use inside of sections
+ */
+function render_nested_sections( $sections ){
+
+	global $pagelines_editor;
+
+	if( !empty( $sections ) ){
+
+		foreach( $sections as $key => $meta )
+			$pagelines_editor->handler->render_section( $meta );
+
+	}
+
+}
 

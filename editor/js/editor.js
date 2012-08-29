@@ -6,12 +6,11 @@ jQuery(document).ready(function() {
 	jQuery('body').addClass('pl-editor');
 	jQuery('.pl-inner').addClass('editor-row');
 	jQuery('.pl-area .pl-content .pl-inner').addClass('pl_sortable_area');
-	jQuery('.pl_sortable_area .pl-section').addClass('pl_sortable span12 offset0');
+	jQuery('.pl_sortable_area .pl-section').addClass('pl_sortable');
 	
-	
-	jQuery.pageBuilder.alignGrid( jQuery('.pl_sortable_area') );
+	jQuery.pageBuilder.reloadConfig();
 	jQuery.pageBuilder.startDroppable();
-	// jQuery.pageBuilder.startResize();
+	//jQuery.pageBuilder.startResize();
 	columnControls();
 	
 
@@ -26,27 +25,40 @@ jQuery(document).ready(function() {
     };
 
     $.pageBuilder = {
-        alignGrid: function(dom_tree) {
+	
+        reloadConfig: function() {
+		
+			jQuery('.pl_sortable_area').each(function () {
+				jQuery.pageBuilder.alignGrid( this );
+			});
+
+        },
+		isAreaEmpty: function(area){
+			var addTo = (area.hasClass('ecolumn-inner')) ? area.parent() : area;
+			if(!area.children(".pl_sortable").length) {
+			    addTo.addClass('empty-area');
+			} else {
+			    addTo.removeClass('empty-area');
+			}
+		},
+
+        alignGrid: function( area_dom ) {
+
             var total_width = 0,
             	width = 0,
             	next_width = 0,
 				avail_offset = 0;
 	
-            $dom_tree = $(dom_tree);
+            $dom_tree = $(area_dom);
 			
             $dom_tree.children(".pl_sortable").removeClass("sortable_first sortable_last");
 
-            if ($dom_tree.hasClass("pl_sortable_area")) {
-                $dom_tree.find(".pl_sortable .pl_sortable").removeClass("sortable_1st_level");
-                $dom_tree.children(".pl_sortable").addClass("sortable_1st_level");
-                $dom_tree.children(".pl_sortable:eq(0)").addClass("sortable_first");
-                $dom_tree.children(".pl_sortable:last").addClass("sortable_last");
-            }
+  			jQuery.pageBuilder.isAreaEmpty( $dom_tree );
 
-            if ($dom_tree.hasClass("pl_column_container")) {
-                $dom_tree.children(".pl_sortable:eq(0)").addClass("sortable_first");
-                $dom_tree.children(".pl_sortable:last").addClass("sortable_last");
-            }
+			$dom_tree.find(".pl_sortable .pl_sortable").removeClass("sortable_1st_level");
+			$dom_tree.children(".pl_sortable").addClass("sortable_1st_level");
+			$dom_tree.children(".pl_sortable:eq(0)").addClass("sortable_first");
+			$dom_tree.children(".pl_sortable:last").addClass("sortable_last");
 
 			
             $dom_tree.children(".pl_sortable").each(function (index) {
@@ -54,7 +66,6 @@ jQuery(document).ready(function() {
                 var cur_el = $(this),
 					col_size = getColumnSize(cur_el), 
 					off_size = getOffsetSize(cur_el);
-				
 				
 				width = col_size[4] + off_size[3];
 				
@@ -87,13 +98,6 @@ jQuery(document).ready(function() {
             });
         }, // endjQuery.pageBuilder.alignGrid()
 
-        reloadConfig: function() {
-		
-			
-            jQuery.pageBuilder.alignGrid( jQuery('.pl_sortable_area') );
-
-        }, // End jQuery.pageBuilder.reloadConfig()
-
 		saveConfig: function(){
 			//this.Droppable();
 			jQuery.pageBuilder.reloadConfig();
@@ -120,30 +124,48 @@ jQuery(document).ready(function() {
 		startDroppable: function(){
 
 		    jQuery('.pl_sortable_area').sortable({
-		        items: "section",//wpb_sortable
+		        items: ".pl-section",
+			//	revert: true,
+				dropOnEmpty: true,
 				forcePlaceholderSize: true,
-				helper: 'clone',
+				forceHelperSize: false,
 		        connectWith: ".pl_sortable_area",
 				scrollSensitivity: 200,
+				scrollSpeed: 40,
 		        placeholder: "pl-placeholder",
 		        cursor: "move",
 				distance: 0.5,
-				update: function() {
-					jQuery.pageBuilder.reloadConfig();
+				delay: 100,
+				opacity: 0.5,
+			//	tolerance: "pointer",
+			// cursorAt: { left: 5 },
+			// helper: function(){
+			// 	return '<div class="helpit">omg</div>';
+			// },
+				start: function(event, ui){
+					jQuery('#page').addClass('pl-dragging');
+				}, 
+				stop: function(event, ui){
+					jQuery('#page').removeClass('pl-dragging');
 				},
+				
 				over: function(event, ui) {
-		            ui.placeholder.css({maxWidth: ui.placeholder.parent().width()});
-		            ui.placeholder.removeClass('hidden-placeholder');
-		            if( ui.item.hasClass('not-column-inherit') && ui.placeholder.parent().hasClass('not-column-inherit')) {
+		         //  ui.placeholder.css({maxWidth: ui.placeholder.parent().width()}); 
+		           
+		 			ui.placeholder.removeClass('hidden-placeholder');
+		            if( ui.item.hasClass('section-ecolumn') && ui.placeholder.parent().parent().hasClass('section-ecolumn')) {
 		                ui.placeholder.addClass('hidden-placeholder');
 		            }
 
 		        },
 				beforeStop: function(event, ui) {
-		            if( ui.item.hasClass('not-column-inherit') && ui.placeholder.parent().hasClass('not-column-inherit')) {
+		            if( ui.item.hasClass('section-ecolumn') && ui.placeholder.parent().parent().hasClass('section-ecolumn') ) {
 		                return false;
 		            }
-		        }
+		        },
+				update: function() {
+					jQuery.pageBuilder.reloadConfig();
+				},
 				
 		    });
 		
@@ -182,7 +204,8 @@ jQuery(document).ready(function() {
 		    });
 		 
 
-		} //------------->> end initDroppable() <--------------//
+		}, //------------->> end initDroppable() <--------------//
+		
     }
 })(jQuery);
 
@@ -214,23 +237,15 @@ function columnControls() {
 		
 	});
 	
-	jQuery('.pl-section').not('.section-ecolumn').hover(
+	jQuery('.pl-section').hover(
 	  function () {
-	    jQuery('.pl-section-controls', this).show();
+	    jQuery('.pl-section-controls:eq(0)', this).show();
 	  }, 
 	  function () {
-	    jQuery('.pl-section-controls', this).hide();
+	    jQuery('.pl-section-controls:eq(0)', this).hide();
 	  }
 	);
-	
-	jQuery('.section-ecolumn').hover(
-	  function () {
-	    jQuery('.pl-section-controls:eq(0)', this).css('position', 'relative').slideDown();
-	  }, 
-	  function () {
-	    jQuery('.pl-section-controls:eq(0)', this).slideUp();
-	  }
-	);;
+
 	
 	jQuery(".section-edit").on("click", function(e) {
 		e.preventDefault();
