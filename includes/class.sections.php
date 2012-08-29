@@ -302,7 +302,12 @@ class PageLinesSection {
 				printf('<div class="content"><div class="content-pad">');
 		} else {
 			
-			printf('<section id="%s" class="container pl-section %s fix" data-clone="%s">', $this->id, trim($classes), $clone_id);
+			$span = (isset($this->meta['span'])) ? 'span'.$this->meta['span'] : 'span12';
+			$offset = (isset($this->meta['offset'])) ? 'offset'.$this->meta['span'] : 'offset0';
+			
+			$classes .= ' '.$span.' '.$offset;
+			
+			printf('<section id="%s" class="pl-section %s fix" data-clone="%s">', $this->id, trim($classes), $clone_id);
 
 			pagelines_register_hook('pagelines_outer_'.$this->id, $this->id); // hook
 		}
