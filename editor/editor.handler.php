@@ -48,6 +48,7 @@ class PageLinesTemplateHandler {
 				'name'		=> 'Template Area',
 				'content'	=> array(
 					'ScrollSpy'	=> array(),
+					'PLGal'		=> array(),
 					'eColumn' => array( 
 						'span' 	=> 8,
 						'content'	=> array( 

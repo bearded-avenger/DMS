@@ -10,7 +10,7 @@ jQuery(document).ready(function() {
 	
 	jQuery.pageBuilder.reloadConfig();
 	jQuery.pageBuilder.startDroppable();
-	//jQuery.pageBuilder.startResize();
+	jQuery.pageBuilder.startResize();
 	columnControls();
 	
 
@@ -51,7 +51,7 @@ jQuery(document).ready(function() {
 	
             $dom_tree = $(area_dom);
 			
-            $dom_tree.children(".pl_sortable").removeClass("sortable_first sortable_last");
+            $dom_tree.children(".pl_sortable").removeClass("sortable_first sortable_last").css('opacity', 1);
 
   			jQuery.pageBuilder.isAreaEmpty( $dom_tree );
 
@@ -125,7 +125,6 @@ jQuery(document).ready(function() {
 
 		    jQuery('.pl_sortable_area').sortable({
 		        items: ".pl-section",
-			//	revert: true,
 				dropOnEmpty: true,
 				forcePlaceholderSize: true,
 				forceHelperSize: false,
@@ -136,21 +135,23 @@ jQuery(document).ready(function() {
 		        cursor: "move",
 				distance: 0.5,
 				delay: 100,
-				opacity: 0.5,
-			//	tolerance: "pointer",
+				opacity: 0.6,
+				tolerance: "pointer",
+			//	appendTo: '.pl-area',
 			// cursorAt: { left: 5 },
 			// helper: function(){
 			// 	return '<div class="helpit">omg</div>';
 			// },
 				start: function(event, ui){
 					jQuery('#page').addClass('pl-dragging');
+					jQuery('.pl-section').effect('highlight', '#ff0000', 1000);
 				}, 
 				stop: function(event, ui){
 					jQuery('#page').removeClass('pl-dragging');
 				},
 				
 				over: function(event, ui) {
-		         //  ui.placeholder.css({maxWidth: ui.placeholder.parent().width()}); 
+		           ui.placeholder.css({maxWidth: ui.placeholder.parent().width()}); 
 		           
 		 			ui.placeholder.removeClass('hidden-placeholder');
 		            if( ui.item.hasClass('section-ecolumn') && ui.placeholder.parent().parent().hasClass('section-ecolumn')) {
@@ -457,3 +458,5 @@ function drawModal(title){
 	
 	jQuery('#editModal').modal();
 }
+
+

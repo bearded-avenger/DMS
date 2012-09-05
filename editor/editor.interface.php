@@ -15,7 +15,8 @@ class EditorInterface {
 
 
 	function __construct( ) {
-		add_action( 'wp_footer', array(&$this, 'pl_editor_palette' ) );
+		add_action( 'wp_footer', array( &$this, 'pl_editor_palette' ) );
+		add_action( 'wp_footer', array( &$this, 'control_panel' ) );
 		add_action( 'wp_print_styles', array(&$this, 'pl_editor_styles' ), 15 );
 		$this->url = PARENT_URL . '/editor';
 		$this->images = $this->url . '/images';
@@ -23,6 +24,8 @@ class EditorInterface {
 	
 	function pl_editor_styles(){
 		wp_enqueue_script( 'pl-editor-js', $this->url . '/js/editor.js' ); 
+		wp_enqueue_script( 'pl-modeless-js', $this->url . '/js/modeless.js', array('pagelines-bootstrap-all')); 
+		wp_enqueue_script( 'pl-gadget-js', $this->url . '/js/gadget.js', array('pl-modeless-js')); 
 		// wp_enqueue_script( 'jquery-ui-draggable'); 
 		// 		wp_enqueue_script( 'jquery-ui-droppable'); 
 		// 		wp_enqueue_script( 'jquery-ui-resizable'); 	
@@ -34,7 +37,10 @@ class EditorInterface {
 		wp_enqueue_script( 'jquery-new-ui-draggable', PL_ADMIN_JS . '/jquery.ui.draggable.js', $dep, 1.9, true);
 		wp_enqueue_script( 'jquery-new-ui-droppable', PL_ADMIN_JS . '/jquery.ui.droppable.js', $dep, 1.9, true);
 		wp_enqueue_script( 'jquery-new-ui-resizable', PL_ADMIN_JS . '/jquery.ui.resizable.js', $dep, 1.9, true);
-		wp_enqueue_script( 'jquery-new-ui-sortable', PL_ADMIN_JS . '/jquery.ui.sortable.js', $dep, 1.9, true);; 	
+		wp_enqueue_script( 'jquery-new-ui-sortable', PL_ADMIN_JS . '/jquery.ui.sortable.js', $dep, 1.9, true);
+		wp_enqueue_script( 'jquery-new-ui-effect', PL_ADMIN_JS . '/jquery.ui.effect.js', $dep, 1.9, true);	
+		wp_enqueue_script( 'jquery-new-ui-effect-highlight', PL_ADMIN_JS . '/jquery.ui.effect-highlight.js', array('jquery-new-ui-effect'), 1.9, true);
+			
 	}
 	
 	function area_start($a){
@@ -46,6 +52,33 @@ class EditorInterface {
 	
 	function area_end(){
 		echo '</div></div></div>';
+	}
+	
+	function control_panel(){
+	?>
+	
+	<div class="pl-modeless">
+		<div class="opts-handle fix">
+			<div class="opts-title">
+				<span>resize</span>
+				Title
+			</div>
+			<div class="opts-handle-control">
+				
+				<span data-dismiss="modeless">X</span>
+			</div>
+		</div>
+		<div class="opts">
+			<div id="opts-tabs" class="opts-content">
+				<ul class="the-opts-tabs">
+					<a href="#tab-1">Tab</a>
+				</ul>
+				<div id="tab-1" class="opts-optionset" >
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php 
 	}
 	
 	function area_controls($a){
@@ -113,12 +146,36 @@ class EditorInterface {
 						Drag &amp; Drop
 					</span>
 				</a>
-				<a class="gadget-item" href="#editModal" onClick="drawModal('Page Builder');">
+				<a class="gadget-item" href="#editModal" onClick="jQuery.gadget.loadModeless();">
 					<span class="gadget-icon">
 						<img src="<?php echo $this->images.'/icon-builder.png'; ?>" />
 					</span>
 					<span class="gadget-text">
-						Drag &amp; Drop
+						Settings
+					</span>
+				</a>
+				<a class="gadget-item" href="#editModal" onClick="jQuery.gadget.loadModeless();">
+					<span class="gadget-icon">
+						<img src="<?php echo $this->images.'/icon-builder.png'; ?>" />
+					</span>
+					<span class="gadget-text">
+						Colors
+					</span>
+				</a>
+				<a class="gadget-item" href="#editModal" onClick="jQuery.gadget.loadModeless();">
+					<span class="gadget-icon">
+						<img src="<?php echo $this->images.'/icon-builder.png'; ?>" />
+					</span>
+					<span class="gadget-text">
+						Typography
+					</span>
+				</a>
+				<a class="gadget-item" href="#editModal" onClick="jQuery.gadget.loadModeless();">
+					<span class="gadget-icon">
+						<img src="<?php echo $this->images.'/icon-builder.png'; ?>" />
+					</span>
+					<span class="gadget-text">
+						Layout Width
 					</span>
 				</a>
 			</div>
