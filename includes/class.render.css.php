@@ -54,7 +54,7 @@ class PageLinesRenderCSS {
 			'wells',
 			'forms',
 			'blockquotes',
-			'color', // HAS TO BE LAST	
+			
 		);
 		return $files;
 	}
