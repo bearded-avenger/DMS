@@ -13,7 +13,7 @@
 		.transition(left 0.15s ease-in-out);
 		position: fixed;
 		left: -40px;
-		top: 300px;
+		top: 30%;
 		z-index: 1001;
 		&::after{
 			content: '';
@@ -366,10 +366,13 @@
 	
 	// Resizing
 	.ui-resizable-handle {
-		cursor: move;
-		position: absolute;
-		font-size: 0.1px;
-		display: block;
+		&.ui-resizable-e, &.ui-resizable-w{
+			cursor: move;
+			position: absolute;
+			font-size: 0.1px;
+			display: block;
+		}
+		
 
 	}
 	
@@ -412,7 +415,10 @@
 		&.fade.in { bottom: 0; }
 		width: 100%;
 		z-index: 10000;
-		.opts-handle{
+		
+
+		.modeless-handle{
+			text-align: center;
 			.buttonBackground(#eee, #ddd);
 			box-shadow: inset 1px 1px 0 rgba(255,255,255,.8), 0 1px 3px rgba(0,0,0,.2);
 			border-top: 1px solid #BBB;
@@ -423,28 +429,37 @@
 			line-height: 24px;
 			font-size: 12px;
 			padding: 0 1%; 
-			.opts-title{
+			cursor: row-resize;
+			&:hover{
+				.buttonBackground(#e1e1e1, #d1d1d1);
+			}
+			.user-select(none);
+			.modeless-title{
 				float: left;
 			}
-			.opts-handle-control{
+			.modeless-close{
 				float: right;
+				margin-top: 2px;
+				border-radius: 10px;
+				.buttonBackground(#eee, #ccc);
+				color:#666;
 			}
 		}
-		.opts{
-			
+		.modeless-panel{
+			height: 200px;
+			overflow: scroll;
 			background:#fafafa;
-			.opts-content{
-				height: 200px;
-				overflow: scroll;
+			.modeless-content{
 				background:#fff; 
 				box-shadow: 0 0 5px rgba(0,0,0,.4);
-			/*	border-left: 1px solid #ccc; 
-							border-right: 1px solid #ccc;*/	
 				width: 980px;
 				margin: 0 auto;
-			
+				.modeless-set{
+					padding: 30px;
+				}
 			}
 		}
+		
 		
 	}
 }
