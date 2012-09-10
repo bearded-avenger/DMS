@@ -52,7 +52,8 @@ class PageLinesTemplateHandler {
 					'eColumn' => array( 
 						'span' 	=> 8,
 						'content'	=> array( 
-							'PageLinesPostLoop' => array( )
+							'PageLinesPostLoop' => array( ), 
+							'PageLinesComments' 	=> array(),	
 						)
 					),
 					'eColumnID2' => array( 
