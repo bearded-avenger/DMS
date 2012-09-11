@@ -7,6 +7,8 @@
  *
  */
 
+return;
+
 // Make sure user can handle this.
 if (!current_user_can('edit_themes') || !defined('PL_ANDREW_UX_DEV') || !PL_ANDREW_UX_DEV)
 	return;

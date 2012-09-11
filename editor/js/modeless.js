@@ -17,6 +17,7 @@
 		.addClass('fade hide')
     	.delegate('[data-dismiss="modeless"]', 'click.dismiss.modeless', $.proxy(this.hide, this))
     this.options.remote && this.$element.find('.modeless-body').load(this.options.remote)
+	
   }
 
   ModeLess.prototype = {

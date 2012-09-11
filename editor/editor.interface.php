@@ -40,7 +40,7 @@ class EditorInterface {
 		wp_enqueue_script( 'jquery-new-ui-sortable', PL_ADMIN_JS . '/jquery.ui.sortable.js', $dep, 1.9, true);
 		wp_enqueue_script( 'jquery-new-ui-effect', PL_ADMIN_JS . '/jquery.ui.effect.js', $dep, 1.9, true);	
 		wp_enqueue_script( 'jquery-new-ui-effect-highlight', PL_ADMIN_JS . '/jquery.ui.effect-highlight.js', array('jquery-new-ui-effect'), 1.9, true);
-			
+		wp_enqueue_script( 'jquery-mousewheel', $this->url . '/js/mousewheel.js' ); 
 	}
 	
 	function area_start($a){
@@ -58,22 +58,35 @@ class EditorInterface {
 	?>
 	
 	<div class="pl-modeless">
-		<div class="opts-handle fix">
-			<div class="opts-title">
-				<span>resize</span>
+		<div class="modeless-handle fix">
+			<div class="modeless-title">
 				Title
 			</div>
-			<div class="opts-handle-control">
-				
-				<span data-dismiss="modeless">X</span>
+			<div class="modeless-close btn btn-mini" data-dismiss="modeless">
+				x
 			</div>
 		</div>
-		<div class="opts">
-			<div id="opts-tabs" class="opts-content">
-				<ul class="the-opts-tabs">
+		<div class="modeless-panel">
+			<div class="modeless-content">
+				<ul class="modeless-tabs-">
 					<a href="#tab-1">Tab</a>
 				</ul>
-				<div id="tab-1" class="opts-optionset" >
+				<div class="modeless-set" id="tab-1">
+					<div class="opt">
+						<div class="opt-input">
+							<form class="bs-docs-example">
+								<legend>Legend</legend>
+								<label>Label name</label>
+								<input type="text" placeholder="Type something…">
+								<span class="help-block">Example block-level help text here.</span>
+								<label class="checkbox">
+								<input type="checkbox"> Check me out
+								</label>
+								<button type="submit" class="btn">Submit</button>
+							</form>
+						</div>
+						<div class="opt-exp">
+					</div>
 				</div>
 			</div>
 		</div>
