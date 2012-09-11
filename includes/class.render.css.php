@@ -53,10 +53,10 @@ class PageLinesRenderCSS {
 			'pl-editor',
 			'wells',
 			'forms',
-			'blockquotes',
 			'breadcrumbs', 
 			'close', 
-			'pager'
+			'pager', 
+			'pagination'
 		);
 		return $files;
 	}
