@@ -604,6 +604,6 @@ class PLImageUploader{
 	 * @since 3.4.0
 	 */
 	function filter_upload_tabs() {
-		return array( 'library' => __('Media Library') );
+		return array( 'library' => __('Media Library', 'pagelines') );
 	}
 }
