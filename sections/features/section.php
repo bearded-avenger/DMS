@@ -88,10 +88,12 @@ class PageLinesFeatures extends PageLinesSection {
 		
 ?>
 
-<script type="text/javascript">/* <![CDATA[ */ jQuery(document).ready(function () {
+<script type="text/javascript">
+/* <![CDATA[ */ jQuery(document).ready(function () {
 	
 	jQuery('#feature-area').css('overflow', 'hidden');
-	jQuery(window).load(function() {
+	
+	
 		
 <?php if( ! ploption( 'feature_height_mode', $oset ) || ploption( 'feature_height_mode', $oset ) == 'aspect' ) :
 		
@@ -101,12 +103,13 @@ class PageLinesFeatures extends PageLinesSection {
 		
 		printf( '$height_selectors%s = "%s";', $clone_id, $this->selectors( '', $wrap_class.' ' ) );
 	?>
-	
+	jQuery(window).load(function() {
 	
 		$the_width<?php echo $clone_id;?> = jQuery($width_area<?php echo $clone_id;?>).width();
 	
 		$new_height<?php echo $clone_id;?> = $the_width<?php echo $clone_id;?> / $aspect<?php echo $clone_id;?>;
 		jQuery($height_selectors<?php echo $clone_id;?>).height($new_height<?php echo $clone_id;?>);
+	
 	});
 	
 	jQuery(window).resize(function() {
