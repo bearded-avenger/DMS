@@ -317,7 +317,7 @@ function pagelines_head_common(){
 }
 
 function load_prettify(){
-	
+	pagelines_add_bodyclass( 'prettify-on' );
 	wp_enqueue_script( 'prettify', PL_JS . '/prettify/prettify.js' );
 	wp_enqueue_style( 'prettify', PL_JS . '/prettify/prettify.css' );
 	add_action( 'wp_head', create_function( '',  'echo pl_js_wrap("prettyPrint()");' ), 14 );
@@ -613,7 +613,13 @@ function pagelines_font_replacement( $default_font = ''){
  */
 function pagelines_pagination() {
 	if(function_exists('wp_pagenavi') && show_posts_nav() && VPRO):
-		wp_pagenavi(); 
+		
+		$args = array(
+			'before' => '<div class="pagination pagenavi">', 
+			'after' => '</div>', 
+		); 
+		wp_pagenavi( $args );
+		 
 	elseif (show_posts_nav()) : ?>
 		<ul class="pager page-nav-default fix">
 			<li class="previous previous-entries">
