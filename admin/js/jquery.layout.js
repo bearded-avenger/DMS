@@ -2315,7 +2315,7 @@ $.fn.layout = function (opts) {
 	* @param {string=}	[panes=""]	The edge(s) to process
 	*/
 ,	initResizable = function (panes) {
-		var	draggingAvailable = true
+		var	draggingAvailable = true // PAGELINES HACK #L33T
 		,	side // set in start()
 		;
 		panes = panes ? panes.split(",") : _c.borderPanes;
@@ -2323,7 +2323,6 @@ $.fn.layout = function (opts) {
 		$.each(panes, function (idx, pane) {
 			var o = options[pane];
 			if (!draggingAvailable || !$Ps[pane] || !o.resizable) {
-			
 				o.resizable = false;
 				return true; // skip to next
 			}
