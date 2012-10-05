@@ -24,8 +24,8 @@ define('PL_PARENT_DIR', get_template_directory());
 define('PL_CHILD_DIR', get_stylesheet_directory());
 
 define('PL_PARENT_URL', get_template_directory_uri());
-define('CHILD_URL', get_stylesheet_directory_uri());
-define('CHILD_IMAGES', CHILD_URL . '/images');
+define('PL_CHILD_URL', get_stylesheet_directory_uri());
+define('CHILD_IMAGES', PL_CHILD_URL . '/images');
 
 /**
  * Define Settings Constants for option DB storage
