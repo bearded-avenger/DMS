@@ -16,7 +16,7 @@ define( 'PL_CORE_LIB', PL_INCLUDES); // Deprecated, but used in bbPress forum < 
 define( 'PL_THEMENAME', $theme );
 define( 'PL_CHILDTHEMENAME', get_option('stylesheet') );
 
-define('NICETHEMENAME', pl_get_theme_data( get_template_directory(), 'Name' ) );
+define('PL_NICETHEMENAME', pl_get_theme_data( get_template_directory(), 'Name' ) );
 define('NICECHILDTHEMENAME',  pl_get_theme_data( get_stylesheet_directory(), 'Name' ) );
 
 
