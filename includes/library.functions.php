@@ -113,7 +113,7 @@ function pl_meta_set_url( $tab = null ){
  * @link        http://www.pagelines.com/wiki/Pagelines_body_classes
  *
  * @uses        ploption
- * @uses        CHILDTHEMENAME (constant)
+ * @uses        PL_CHILDTHEMENAME (constant)
  *
  * @return      string $body_classes - PageLines default body classes
  */
@@ -133,7 +133,7 @@ function pagelines_body_classes(){
 		'custom %s %s %s %s %s %s', 
 		$canvas_shadow, 
 		$responsive, 
-		strtolower(CHILDTHEMENAME), 
+		strtolower( PL_CHILDTHEMENAME ), 
 		$pagelines_template->template_type, 
 		$design_mode, 
 		$special_body_class
