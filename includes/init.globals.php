@@ -11,10 +11,10 @@ define( 'PL_CHILD_VERSION', get_theme_mod( 'pagelines_child_version' ) );
  */
 $theme = 'PageLines';
 
-define('CORE_LIB', PL_INCLUDES); // Deprecated, but used in bbPress forum < 1.2.3
+define( 'PL_CORE_LIB', PL_INCLUDES); // Deprecated, but used in bbPress forum < 1.2.3
 
-define('THEMENAME', $theme);
-define('CHILDTHEMENAME', get_option('stylesheet'));
+define( 'PL_THEMENAME', $theme );
+define( 'CHILDTHEMENAME', get_option('stylesheet') );
 
 define('NICETHEMENAME', pl_get_theme_data( get_template_directory(), 'Name' ) );
 define('NICECHILDTHEMENAME',  pl_get_theme_data( get_stylesheet_directory(), 'Name' ) );
