@@ -25,7 +25,7 @@ define('PL_CHILD_DIR', get_stylesheet_directory());
 
 define('PL_PARENT_URL', get_template_directory_uri());
 define('PL_CHILD_URL', get_stylesheet_directory_uri());
-define('CHILD_IMAGES', PL_CHILD_URL . '/images');
+define('PL_CHILD_IMAGES', PL_CHILD_URL . '/images' );
 
 /**
  * Define Settings Constants for option DB storage
@@ -85,7 +85,7 @@ define('PL_SECTIONS', get_template_directory() . '/sections');
 /**
  * Define web constants
  */
-define('SECTION_ROOT', PL_PARENT_URL . '/sections');
+define('PL_SECTION_ROOT', PL_PARENT_URL . '/sections');
 
 /**
  * Define theme web constants
