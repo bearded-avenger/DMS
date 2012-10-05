@@ -20,7 +20,7 @@ define('PL_NICETHEMENAME', pl_get_theme_data( get_template_directory(), 'Name' )
 define('PL_NICECHILDTHEMENAME',  pl_get_theme_data( get_stylesheet_directory(), 'Name' ) );
 
 
-define('PARENT_DIR', get_template_directory());
+define('PL_PARENT_DIR', get_template_directory());
 define('CHILD_DIR', get_stylesheet_directory());
 
 define('PARENT_URL', get_template_directory_uri());
@@ -111,7 +111,7 @@ define( 'PL_EXTEND_FUNCTIONS', EXTEND_CHILD_DIR . '/functions.php' );
 define( 'PL_EXTEND_THEMES_DIR', WP_CONTENT_DIR .'/themes/' );
 define( 'PL_EXTEND_SECTIONS_PLUGIN', 'pagelines-sections.php' );
 define( 'PL_STORE_URL', 'http://www.pagelines.com/store' );
-define( 'CORE_LESS', PARENT_DIR . '/less' );
+define( 'CORE_LESS', PL_PARENT_DIR . '/less' );
 define( 'CHILD_LESS', CHILD_DIR . '/less' );
 
 if ( is_multisite() && ! is_super_admin() )
