@@ -17,7 +17,7 @@ define( 'PL_THEMENAME', $theme );
 define( 'PL_CHILDTHEMENAME', get_option('stylesheet') );
 
 define('PL_NICETHEMENAME', pl_get_theme_data( get_template_directory(), 'Name' ) );
-define('NICECHILDTHEMENAME',  pl_get_theme_data( get_stylesheet_directory(), 'Name' ) );
+define('PL_NICECHILDTHEMENAME',  pl_get_theme_data( get_stylesheet_directory(), 'Name' ) );
 
 
 define('PARENT_DIR', get_template_directory());
