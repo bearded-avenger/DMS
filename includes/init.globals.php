@@ -4,7 +4,7 @@
  * Define framework version
  */
 define( 'PL_CORE_VERSION', get_theme_mod( 'pagelines_version' ) );
-define( 'CHILD_VERSION', get_theme_mod( 'pagelines_child_version' ) );
+define( 'PL_CHILD_VERSION', get_theme_mod( 'pagelines_child_version' ) );
 
 /**
  * Set Theme Name

@@ -747,7 +747,7 @@ function pagelines_get_style_ver( $tpath = false ){
 	// Get cache number that accounts for edits to base.css or style.css
 	if( is_file(get_stylesheet_directory() .'/base.css') && !$tpath ){
 		$date_modified = filemtime( get_stylesheet_directory() .'/base.css' );
-		$cache_ver = str_replace('.', '', CHILD_VERSION) . '-' . date('mdGis', $date_modified); 
+		$cache_ver = str_replace('.', '', PL_CHILD_VERSION) . '-' . date('mdGis', $date_modified); 
 	} elseif(is_file(get_stylesheet_directory() .'/style.css') && !$tpath ){
 		$date_modified = filemtime( get_stylesheet_directory() .'/style.css' );
 		$cache_ver = str_replace('.', '', PL_CORE_VERSION) .'-'.date('mdGis', $date_modified);
