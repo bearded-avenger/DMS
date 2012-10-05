@@ -714,7 +714,7 @@ function pagelines_load_css_relative( $relative_style_url, $id){
 		
 		$cache_ver = pl_cache_version( get_template_directory() . $rurl ); 
 		
-		pagelines_load_css( PARENT_URL . $rurl , $id, $cache_ver);
+		pagelines_load_css( PL_PARENT_URL . $rurl , $id, $cache_ver);
 		
 	} 
 	

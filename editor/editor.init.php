@@ -34,7 +34,7 @@ class PageLinesEditor {
 		add_action( 'wp_ajax_pl_save_pagebuilder', array(&$this, 'save_configuration_callback' ));
 		
 		$this->path = get_template_directory() . '/editor';
-		$this->url = PARENT_URL . '/editor';
+		$this->url = PL_PARENT_URL . '/editor';
 		$this->images = $this->url . '/images';
 		$this->handler = new PageLinesTemplateHandler();
 	}
