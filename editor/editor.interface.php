@@ -18,7 +18,7 @@ class EditorInterface {
 		add_action( 'wp_footer', array( &$this, 'pl_editor_palette' ) );
 		add_action( 'wp_footer', array( &$this, 'control_panel' ) );
 		add_action( 'wp_print_styles', array(&$this, 'pl_editor_styles' ), 15 );
-		$this->url = PARENT_URL . '/editor';
+		$this->url = PL_PARENT_URL . '/editor';
 		$this->images = $this->url . '/images';
 	}
 	

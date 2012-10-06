@@ -211,7 +211,7 @@ class PageLinesRegister {
 				
 				preg_match( '#[\/|\-]sections[\/|\\\]([^\/|\\\]+)#', $fullFileName, $out );
 				
- 				$version = ( '' != $headers['version'] ) ? $headers['version'] : CORE_VERSION;
+ 				$version = ( '' != $headers['version'] ) ? $headers['version'] : PL_CORE_VERSION;
 				
 				$folder = sprintf( '/%s', $out[1] );
 
@@ -246,7 +246,7 @@ class PageLinesRegister {
 					
 				}
 				$base_dir = ( isset( $base_dir ) ) ? $base_dir : PL_SECTIONS . $folder;
-				$base_url = ( isset( $base_url ) ) ? $base_url : SECTION_ROOT . $folder;
+				$base_url = ( isset( $base_url ) ) ? $base_url : PL_SECTION_ROOT . $folder;
 							
 				// do we need to load this section?
 				if ( 'child' == $type && is_multisite() ) {
