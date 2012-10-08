@@ -1153,7 +1153,7 @@ class PageLines_ShortCodes {
 	    extract( shortcode_atts( array(
 		    'first' => '',
 		    'title' => '',
-		    'imageurl' => 'http://placehold.it/1200x300&text=Specify+a+url+using+the+imageurl=&quot;&quot;+attribute!', // fallback "reminder" image
+		    'imageurl' => sprintf( '%s/screenshot.png', PL_PARENT_URL ), // fallback "reminder" image
 		    'caption' => '',
 	    ), $atts ) );
 
