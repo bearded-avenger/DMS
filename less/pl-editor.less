@@ -405,60 +405,190 @@
 	
 
 
-	.pl-modeless{
+	.pl-toolbox{
 		position: fixed; 
-		background: #fff; 
-		&.fade {
-		  .transition(e('opacity .2s linear, bottom .4s ease-out'));
-		  bottom: -500px;
-		}
-		&.fade.in { bottom: 0; }
+		bottom: 0;
+		background: #fff;
 		width: 100%;
-		z-index: 10000;
-		
-
-		.modeless-handle{
-			text-align: center;
+		z-index: 10000; 
+	
+		.toolbox-handle{
+			
+			@media (max-width: 1200px) {
+				 a {
+					.txt{
+						display: none;
+					}
+					&:hover .txt{
+						display: inline;
+					}
+				}
+			}
+			
+			text-align: left;
 			.buttonBackground(#eee, #ddd);
 			box-shadow: inset 1px 1px 0 rgba(255,255,255,.8), 0 1px 3px rgba(0,0,0,.2);
 			border-top: 1px solid #BBB;
 			border-bottom: 1px solid #AAA;
 			font-weight: bold;
 			text-shadow: 0 1px 0 #fff; 
-			height: 24px;
-			line-height: 24px;
-			font-size: 12px;
+			height: 28px;
+			line-height: 28px;
+			font-size: 13px;
 			padding: 0 1%; 
-			cursor: row-resize;
-			&:hover{
-				.buttonBackground(#e1e1e1, #d1d1d1);
-			}
+			
 			.user-select(none);
-			.modeless-title{
+			i, i:before{
+				vertical-align: middle;
+				font-size: 18px;
+				width: 20px;
+			}
+			 
+			ul{
 				float: left;
-			}
-			.modeless-close{
-				float: right;
-				margin-top: 2px;
-				border-radius: 10px;
-				.buttonBackground(#eee, #ccc);
-				color:#666;
-			}
-		}
-		.modeless-panel{
-			height: 200px;
-			overflow: scroll;
-			background:#fafafa;
-			.modeless-content{
-				background:#fff; 
-				box-shadow: 0 0 5px rgba(0,0,0,.4);
-				width: 980px;
-				margin: 0 auto;
-				.modeless-set{
-					padding: 30px;
+				margin-right: 5px;
+				&.controls{
+					border-left: 1px solid #cdcdcd;
+					border-right: 1px solid #fff;
+				}
+				&.send-right{
+					float: right;
+					margin-right: 0;
+				}
+				li, lh{
+					float: left;
+					height: 28px;
+				}
+				> lh{
+					line-height: 28px;
+					padding: 0 5px 0 25px;
+					color: #aaa; 
+					border-right: 1px solid #cdcdcd;
+					i{display: block;}
+				}
+				> li > a{
+					display: block;
+					color: #444;
+					padding: 0 15px;
+					font-size: 11px;
+					line-height: 26px;
+					cursor: pointer;
+				}
+				&.controls > li > a{
+					border-left: 1px solid #fff; 
+					border-right: 1px solid #cdcdcd;
+				}
+				&.panel-control a{
+					i:before{
+						font-size: 13px;
+					}
+					
+					padding: 0 3px;
+				}
+				.h-resizer, 
+				.h-toggler{
+					color: #999; 
+					border-left: 1px solid transparent;
+					border-right: 1px solid transparent;
+					&:hover, &:active{
+						color:#08c;
+						background:rgba(0,0,0,.1);
+					}
+				}
+				.h-toggler{
+					padding: 0 5px;
+				}
+				.h-resizer{
+					cursor: -webkit-grabbing;
 				}
 			}
+			
 		}
+		.toolbox-panel-wrap{
+			overflow: hidden;
+		}
+		.toolbox-panel{
+			.transition(margin-bottom .5s);
+			margin-bottom: -20%;
+			opacity:0;
+			&.in { 
+				margin-bottom: 0; 
+				opacity: 1;
+			}
+			
+			width: 100%;
+			max-height: 80%;
+			height: 240px;
+			overflow: scroll;
+			background:#fafafa url(@{plRoot}/editor/images/whitey.png);
+			.toolbox-content{
+				background:#fff; 
+				box-shadow: 0 0 5px rgba(0,0,0,.4);
+				width: 800px;
+				margin: 0 auto;
+			}
+			.tabbed-set{
+				overflow: hidden;
+			}
+			.tabs-nav, .tab-panel{
+				float: left;
+				margin-bottom: -99999px;
+				padding-bottom: 99999px;
+			}
+			
+			.tabs-nav{
+				width: 25%;
+				background:#fafafa;
+				box-shadow: inset 1px 1px 0px rgba(255,255,255,1);
+				.box-model(border-box);
+				border-right: 1px solid #CDCDCD;
+				font-family: @readingFont;
+				font-weight: 800;
+				font-size: 1em;
+				lh{
+					color: #BBB;
+					font-size: .85em;
+					letter-spacing: .05em;
+					text-transform: uppercase;	
+					padding: 10px 10px 5px;
+					display: block;
+				}
+				li{
+					border-top: 1px solid transparent;
+					border-bottom: 1px solid transparent;
+					a{
+						padding: 5px 0px 5px 20px;
+						display: block;
+						color: #222;
+					}
+					&:hover{
+						background: #f7f7f7;
+					}
+					&:active{
+						background:#eee;
+					}
+					&.ui-state-active{
+						a{ color:#fff; text-shadow: 0 -1px 0 rgba(0,0,0,.7);}
+						.buttonBackground(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
+						box-shadow: inset 1px 1px 0px rgba(255,255,255,.2), 0 1px 3px rgba(0,0,0,.2);
+						border-top-color: @btnPrimaryBackground;
+						border-bottom-color: @btnPrimaryBackground;
+					}
+				}
+			}
+			.tab-panel{
+				width: 73%;
+				.tab-panel-inner{
+					min-height: 300px;
+					padding: 15px 10px 35px 35px;
+				}
+				p, ul, ol{font-size: 1em;}
+			}
+			.ui-tabs .ui-tabs-hide{
+				display: none;
+			}
+		}
+		
 		
 		
 	}

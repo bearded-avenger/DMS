@@ -6,7 +6,6 @@
  * @since 3.0.0
  *
  */
-
 return;
 
 // Make sure user can handle this.
@@ -20,6 +19,9 @@ class PageLinesEditor {
 
 	function __construct() {
 		
+		
+		// DISABLE 
+		add_filter('show_admin_bar', '__return_false');  
 		
 		// TEMPLATE ACTIONS
 		add_action('wp_print_styles', array(&$this, 'process_styles' ));

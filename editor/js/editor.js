@@ -11,11 +11,12 @@ jQuery(document).ready(function() {
 	jQuery('.pl-area .pl-content .pl-inner').addClass('pl_sortable_area');
 	jQuery('.pl_sortable_area .pl-section').addClass('pl_sortable');
 	
-//	jQuery.pageBuilder.reloadConfig();
-//	jQuery.pageBuilder.startDroppable();
+	jQuery.pageBuilder.reloadConfig();
+	jQuery.pageBuilder.startDroppable();
 //	jQuery.pageBuilder.startResize();
-//	columnControls();
+	columnControls();
 	
+	var ml = jQuery('.pl-toolbox').toolbox()
 
 });
 

@@ -11,178 +11,181 @@
  /* MODAL CLASS DEFINITION
   * ====================== */
 
-  var ModeLess = function (element, options) {
-    this.options = options
-    this.$element = $(element)
-		.addClass('fade hide')
-    	.delegate('[data-dismiss="modeless"]', 'click.dismiss.modeless', $.proxy(this.hide, this))
-    this.options.remote && this.$element.find('.modeless-body').load(this.options.remote)
+	var ToolBox = function (element, options) {
 	
-  }
+	    this.options = options
+    
+		this.$element = $(element)
+			.delegate('[data-toggle="toolbox"]', 'click.dismiss.toolbox', $.proxy(this.toggle, this))
+	
+		this.$panel = this.$element
+			.find('.toolbox-panel')
+		
+		this.resizer = $('.h-resizer')
+		this.toggler = $('.h-toggler')
 
-  ModeLess.prototype = {
+		this.resizePanel()
+		this.scrollPanel()
 
-      constructor: ModeLess
+		// TODO needs to work w/ multiple tabbing
+		jQuery('.tabbed-set').tabs()
+	
+	}
+
+  ToolBox.prototype = {
+
+      constructor: ToolBox
 
     , toggle: function () {
-
-        return this[!this.isShown ? 'show' : 'hide']()
-      }
+		return this[!this.isShown ? 'show' : 'hide']()
+	}
 
     , show: function () {
+	
         var that = this
-          , e = $.Event('show')
-
-        this.$element.trigger(e)
+		,	e = $.Event('show')
 
         if (this.isShown || e.isDefaultPrevented()) return
 
-        $('body').addClass('modeless-open')
+        $('body').addClass('toolbox-open')
 
         this.isShown = true
+        this.escape() 
 
-        this.escape()
-
-          var transition = $.support.transition && that.$element.hasClass('fade')
-
-          if (!that.$element.parent().length) {
-            that.$element.appendTo(document.body) //don't move modals dom position
-          }
-
-          that.$element
-            .show()
-
-          if (transition) {
-            that.$element[0].offsetWidth // force reflow
-          }
-
-          that.$element
-            .addClass('in')
-            .attr('aria-hidden', false)
+		that.$panel
+			.show()
+			.css('margin-bottom', 0)
+			.addClass('in')
             .focus()
-
-          that.enforceFocus()
-
-          transition ?
-            that.$element.one($.support.transition.end, function () { that.$element.trigger('shown') }) :
-            that.$element.trigger('shown')
-
-      }
+	
+		this.resizer
+			.show()
+		
+		this.toggler
+			.find('i')
+			.removeClass('icon-chevron-up')
+			.addClass('icon-chevron-down')
+	}
 
     , hide: function (e) {
-		
+	
         e && e.preventDefault()
 
         var that = this
-
-        e = $.Event('hide')
-
-        this.$element.trigger(e)
+		,	e = $.Event('hide')
+		, 	ht = this.$panel.height()
+		
+		// Method
+        this.$panel.trigger(e)
 
         if (!this.isShown || e.isDefaultPrevented()) return
 
         this.isShown = false
 
-        $('body').removeClass('modal-open')
-
+        $('body')
+			.removeClass('toolbox-open')
+		
         this.escape()
-
-        $(document).off('focusin.modal')
-
-        this.$element
-          .removeClass('in')
-          .attr('aria-hidden', true)
-
-        $.support.transition && this.$element.hasClass('fade') ?
-          this.hideWithTransition() :
-          this.hideModal()
+		
+        this.$panel
+          	.removeClass('in')
+			.css('margin-bottom', ht * -1)
+		
+		this.resizer
+			.hide()
+	
+		this.toggler
+			.find('i')
+			.removeClass('icon-chevron-down')
+			.addClass('icon-chevron-up')
       }
 
-    , enforceFocus: function () {
-        var that = this
-        $(document).on('focusin.modeless', function (e) {
-          if (that.$element[0] !== e.target && !that.$element.has(e.target).length) {
-            that.$element.focus()
-          }
-        })
-      }
+		, escape: function () {
+			var that = this
+		
+			if (this.isShown && this.options.keyboard) {
+				this.$panel.on('keyup.dismiss.toolbox', function ( e ) {
+					e.which == 27 && that.hide()
+				})
+			} else if (!this.isShown) {
+				this.$panel.off('keyup.dismiss.toolbox')
+			}
+		
+		}
+		
+		, resizePanel: function() {
+			
+			var obj = this;
+			
+			this.resizer.on('mousedown', function(evnt) {
+				
+				var startY = evnt.pageY
+				, 	startHeight = obj.$panel.outerHeight()
+	
+				$(document).on('mousemove.resizehandle', function(e) {
+					
+					var newY = e.pageY
+					,	newHeight = Math.max(0, startHeight + startY - newY)
+			
+					if(newY > 30)
+						obj.$panel.css('height', newHeight)
+				});
+			})
+			
+			$(document).mouseup(function(event) {
+				$(document).unbind('mousemove.resizehandle')
+			});
+			
+		}
+		, scrollPanel: function() {
+			
+			var obj = this;
+			
+			obj.$panel.bind('mousewheel', function(e, d) {
+					
+				var	height = obj.$panel.height()
+				,	scrollHeight = obj.$panel[0].scrollHeight
+			
+		    	if((this.scrollTop === (scrollHeight - height) && d < 0) || (this.scrollTop === 0 && d > 0)) {
+					e.preventDefault()
+		    	}
+			})
+			
+		}
 
-    , escape: function () {
-        var that = this
-        if (this.isShown && this.options.keyboard) {
-          this.$element.on('keyup.dismiss.modeless', function ( e ) {
-            e.which == 27 && that.hide()
-          })
-        } else if (!this.isShown) {
-          this.$element.off('keyup.dismiss.modeless')
-        }
-      }
-
-    , hideWithTransition: function () {
-        var that = this
-          , timeout = setTimeout(function () {
-              that.$element.off($.support.transition.end)
-              that.hideModeless()
-            }, 500)
-
-        this.$element.one($.support.transition.end, function () {
-          clearTimeout(timeout)
-          that.hideModeless()
-        })
-      }
-
-    , hideModeless: function (that) {
-        this.$element
-          .hide()
-          .trigger('hidden')
-
-      }
-
-   
   }
 
 
  /* MODAL PLUGIN DEFINITION
   * ======================= */
 
-  $.fn.modeless = function (option) {
-    return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('modeless')
-        , options = $.extend({}, $.fn.modal.defaults, $this.data(), typeof option == 'object' && option)
-      if (!data) $this.data('modeless', (data = new ModeLess(this, options)))
-      if (typeof option == 'string') data[option]()
-      else if (options.show) data.show()
-    })
-  }
+  	$.fn.toolbox = function (option) {
+	
+		return this.each(function () {
 
-  $.fn.modeless.defaults = {
-      backdrop: true
-    , keyboard: true
-    , show: true
-  }
+			var $this = $(this)
+			,	data = $this.data('toolbox')
+			,	options = $.extend({}, $.fn.modal.defaults, $this.data(), typeof option == 'object' && option)
 
-  $.fn.modeless.Constructor = ModeLess
+			if (!data) 
+				$this.data('toolbox', (data = new ToolBox(this, options)))
 
+			if (typeof option == 'string') 
+				data[option]()
+			else if 
+				(options.show) data.show()
+				
+		})
+  
+	}
 
- /* MODAL DATA-API
-  * ============== */
+	$.fn.toolbox.defaults = {
+		backdrop: true
+		, keyboard: true
+		, show: true
+	}
 
-  $(function () {
-    $('body').on('click.modeless.data-api', '[data-toggle="modeless"]', function ( e ) {
-      var $this = $(this)
-        , href = $this.attr('href')
-        , $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
-        , option = $target.data('modeless') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
+  $.fn.toolbox.Constructor = ToolBox
 
-      e.preventDefault()
-
-      $target
-        .modeless(option)
-        .one('hide', function () {
-          $this.focus()
-        })
-    })
-  })
 
 }(window.jQuery);
