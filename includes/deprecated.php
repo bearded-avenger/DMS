@@ -70,3 +70,13 @@ function pl_get_themes() {
 
 	return $theme_data;	
 }
+/**
+ * Deprecated constants, removing after a couple of revision, this will ensure store products get time to update.
+ *
+ */
+define( 'CORE_VERSION', get_theme_mod( 'pagelines_version' ) );
+define( 'THEMENAME', 'PageLines' );
+define( 'CHILD_URL', get_stylesheet_directory_uri() );
+define( 'CHILD_IMAGES', CHILD_URL . '/images' );
+define( 'CHILD_DIR', get_stylesheet_directory() );
+define( 'SECTION_ROOT', get_template_directory_uri() . '/sections');

@@ -123,7 +123,7 @@ class PageLinesRenderCSS {
 		$gfonts = preg_match( '#(@import[^;]*;)#', $a['type'], $g ); 
 		$out = '';
 		if ( $gfonts ) {
-			$out .= $g[1];
+			$a['core'] = sprintf( "%s\n%s", $g[1], $a['core'] );
 			$a['type'] = str_replace( $g[1], '', $a['type'] );
 		}
 		$out .= $this->minify( $a['core'] );
@@ -131,7 +131,11 @@ class PageLinesRenderCSS {
 		$out .= $this->minify( $a['type'] );
 		$out .= $this->minify( $a['dynamic'] );
 		$mem = ( function_exists('memory_get_usage') ) ? round( memory_get_usage() / 1024 / 1024, 2 ) : 0;
-		$out .= sprintf( __( 'CSS was compiled at %s and took %s seconds using %sMB of unicorn dust.', 'pagelines' ), date( DATE_RFC822, $a['time'] ), $a['c_time'],  $mem );
+		if ( is_multisite() )
+			$blog = sprintf( ' on blog [%s]', $blog_id );
+		else
+			$blog = '';
+		$out .= sprintf( __( '%s/* CSS was compiled at %s and took %s seconds using %sMB of unicorn dust%s.*/', 'pagelines' ), "\n", date( DATE_RFC822, $a['time'] ), $a['c_time'], $mem, $blog );
 		$this->write_css_file( $out );	
 	}
 	
@@ -328,7 +332,7 @@ class PageLinesRenderCSS {
 		$version = sprintf( '%s_%s', $id, $version );
 				
 		if ( '' != get_option('permalink_structure') && ! $this->check_compat() )
-			$url = sprintf( '%s/pagelines-compiled-css-%s/', PARENT_URL, $version );
+			$url = sprintf( '%s/pagelines-compiled-css-%s/', PL_PARENT_URL, $version );
 		else {
 			
 			if ( false !== ( strpos( $this->get_base_url(), '?' ) ) )
@@ -573,7 +577,7 @@ class PageLinesRenderCSS {
 			$gfonts = preg_match( '#(@import[^;]*;)#', $a['type'], $g ); 
 			
 			if ( $gfonts ) {
-				echo $g[1];
+				$a['core'] = sprintf( "%s\n%s", $g[1], $a['core'] );
 				$a['type'] = str_replace( $g[1], '', $a['type'] );
 			}
 			echo $this->minify( $a['core'] );

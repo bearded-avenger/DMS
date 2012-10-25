@@ -81,7 +81,7 @@
 	 function master_array( $type, $key, $ext, $tab ){
 		
 		$a = array( 
-			'plversion'		=>	CORE_VERSION,
+			'plversion'		=>	PL_CORE_VERSION,
 			'price'		=>	'free',
 			'featured'	=>	'false',
 			'type'		=>	'internal',
@@ -202,7 +202,7 @@
 				'mode'		=>	'pro_fail',
 				'path'		=>	$type,
 				'condition'	=> $this->is_pro_only( $type, $key, $ext, $tab ),
-				'text'		=> __( 'Upgrade', 'pagelines' ),
+				'text'		=> __( 'Upgrade to Pro', 'pagelines' ),
 				),
 	
 			'download'	=> array(
@@ -249,7 +249,7 @@
 	 function show_in_tab( $type, $key, $ext, $tab ){
 
 		$a = array( 
-			'plversion'			=>	CORE_VERSION,
+			'plversion'			=>	PL_CORE_VERSION,
 			'price'				=>	'free',
 			'featured'			=>	'false',
 			'loaded' 			=> ( isset( $ext['status']['status'] ) ) ? true : false,
@@ -336,7 +336,7 @@
 	 *
 	 */
 	 function version_check( $version ){
-		return ( version_compare( CORE_VERSION, $version ) >= 0 ) ? true : false;
+		return ( version_compare( PL_CORE_VERSION, $version ) >= 0 ) ? true : false;
 	}
 	
 
@@ -484,8 +484,7 @@
 	*/
 	function is_pro_only( $type, $key, $ext, $tab ) {
 		
-		if ( isset( $ext['edition']) && 'pro' == $ext['edition'] && ! VPRO 
-			&& $this->is_purchased( $type, $key, $ext ) )
+		if ( isset( $ext['edition']) && 'pro' == strtolower( $ext['edition'] ) && ! VPRO )
 			return true;
 		else 
 			return false;	
@@ -674,6 +673,7 @@
 			&& $this->is_premium( $type, $key, $ext )
 			&& ! $this->version_fail( $ext['plversion'] )
 			&& !($this->is_user_plus() && $this->is_plus_product( $type, $key, $ext, $tab ))
+			&& ! $this->is_pro_only( $type, $key, $ext, $tab )
 		){
 			return true;
 		} else 

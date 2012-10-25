@@ -276,7 +276,7 @@ function pagelines_head_common(){
 		
 		// Allow for PHP include of Framework CSS
 //		if( !apply_filters( 'disable_pl_framework_css', '' ) )
-//			pagelines_load_css(  PARENT_URL.'/style.css', 'pagelines-framework', pagelines_get_style_ver( true ));
+//			pagelines_load_css(  PL_PARENT_URL.'/style.css', 'pagelines-framework', pagelines_get_style_ver( true ));
 	
 		// RTL Language Support
 		if(is_rtl()) 
@@ -351,7 +351,7 @@ function pagelines_meta_tags(){
 function pagelines_source_attribution() {
 	
 	echo "\n\n<!-- "; 
-	printf ( "Site Crafted Using PageLines v%s - WordPress - HTML5 ( %s ) - www.PageLines.com ", CORE_VERSION, get_pagelines_credentials( 'licence' ) );
+	printf ( "Site Crafted Using PageLines v%s - WordPress - HTML5 ( %s ) - www.PageLines.com ", PL_CORE_VERSION, get_pagelines_credentials( 'licence' ) );
 
 	echo "-->\n";
 }
@@ -494,7 +494,7 @@ function pagelines_filter_wp_title( $title ) {
 	$bloginfo_description = get_bloginfo( 'description' );
 	if( is_feed() ) {
 		$new_title = $title;
-	} elseif ( ( is_home () || is_front_page() ) && ! empty( $bloginfo_description ) && ! $paged && ! $page ) {
+	} elseif ( ( is_home () || is_front_page() ) && ! empty( $bloginfo_description ) ) {
 		$new_title .= $sep . ' ' . $bloginfo_description;
 	} elseif ( is_category() ) {
 		$new_title .= $sep . ' ' . single_cat_title( '', false );
@@ -504,7 +504,7 @@ function pagelines_filter_wp_title( $title ) {
 		$new_title .= $sep . ' ' . sprintf( __( 'Search Results: %s','pagelines' ), esc_html( $s ) );
 	} else
 		$new_title .= $sep . ' ' . $title;
-	if ( $paged || $page ) {
+	if ( $paged >= 2 || $page >= 2 ) {
 		$new_title .= ' ' . $sep . ' ' . sprintf( __( 'Page: %s', 'pagelines' ), max( $paged, $page ) );
 	}
     return apply_filters( 'pagelines_meta_title', $new_title );
@@ -536,7 +536,7 @@ function pagelines_fix_ie( ){
 
 	// If IE7 add the Internet Explorer 7 specific stylesheet
 	if ( $ie_ver == 7 )
-		wp_enqueue_style('ie7-style', PL_CSS  . '/ie7.css', array(), CORE_VERSION);
+		wp_enqueue_style('ie7-style', PL_CSS  . '/ie7.css', array(), PL_CORE_VERSION);
 } 
 
 /**
@@ -787,6 +787,41 @@ function pagelines_settings_menu_link(  ){
 	if( $template_name && is_pagelines_special() && $spurl){
 		$wp_admin_bar->add_menu( array( 'id' => 'special_settings', 'title' => __('Edit Meta', 'pagelines'), 'href' => $spurl ) );
 	}
+
+	if ( is_pl_debug() && ! is_admin() ) {
+
+		$wp_admin_bar->add_menu(
+			array(
+				'id'    => 'pl_flush',
+				'title' => __('Flush LESS', 'pagelines'),
+				'href'  => get_pl_reset_less_url()
+				) );
+	}
+}
+
+function get_pl_reset_less_url() {
+
+	$flush = array( 'pl_reset_less' => 1 );
+
+	$request = explode( '?', $_SERVER['REQUEST_URI'] );
+
+	$page = $request[0];
+
+	$query = array();
+
+	if ( isset( $request[1] ) )
+		wp_parse_str( $request[1], $query );
+
+	$query = wp_parse_args( $flush, $query );
+
+	$url = sprintf( '%s://%s%s?%s',
+		is_ssl() ? 'https' : 'http',
+		$_SERVER['HTTP_HOST'],
+		$page,
+		http_build_query( $query )
+		);
+
+	return $url;
 }
 
 /**
