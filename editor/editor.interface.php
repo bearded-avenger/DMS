@@ -15,7 +15,7 @@ class EditorInterface {
 
 
 	function __construct( ) {
-		add_action( 'wp_footer', array( &$this, 'pl_editor_palette' ) );
+	//	add_action( 'wp_footer', array( &$this, 'pl_editor_palette' ) );
 		add_action( 'wp_footer', array( &$this, 'control_panel' ) );
 		add_action( 'wp_print_styles', array(&$this, 'pl_editor_styles' ), 15 );
 		$this->url = PL_PARENT_URL . '/editor';
@@ -26,10 +26,13 @@ class EditorInterface {
 		wp_enqueue_script( 'pl-editor-js', $this->url . '/js/editor.js' ); 
 		wp_enqueue_script( 'pl-modeless-js', $this->url . '/js/modeless.js', array('pagelines-bootstrap-all')); 
 		wp_enqueue_script( 'pl-gadget-js', $this->url . '/js/gadget.js', array('pl-modeless-js')); 
+		
 		// wp_enqueue_script( 'jquery-ui-draggable'); 
-		// 		wp_enqueue_script( 'jquery-ui-droppable'); 
-		// 		wp_enqueue_script( 'jquery-ui-resizable'); 	
-		// 		wp_enqueue_script( 'jquery-ui-sortable'); 
+		// wp_enqueue_script( 'jquery-ui-droppable'); 
+		// wp_enqueue_script( 'jquery-ui-resizable'); 	
+		
+		wp_enqueue_script( 'jquery-ui-tabs'); 
+		
 		$dep = array('jquery-new-ui-core','jquery-new-ui-widget', 'jquery-new-ui-mouse');	
 		wp_enqueue_script( 'jquery-new-ui-core', PL_ADMIN_JS . '/jquery.ui.core.js', array(), 1.9, true);
 		wp_enqueue_script( 'jquery-new-ui-widget', PL_ADMIN_JS . '/jquery.ui.widget.js', array(), 1.9, true);
@@ -41,6 +44,7 @@ class EditorInterface {
 		wp_enqueue_script( 'jquery-new-ui-effect', PL_ADMIN_JS . '/jquery.ui.effect.js', $dep, 1.9, true);	
 		wp_enqueue_script( 'jquery-new-ui-effect-highlight', PL_ADMIN_JS . '/jquery.ui.effect-highlight.js', array('jquery-new-ui-effect'), 1.9, true);
 		wp_enqueue_script( 'jquery-mousewheel', $this->url . '/js/mousewheel.js' ); 
+		
 	}
 	
 	function area_start($a){
@@ -57,35 +61,72 @@ class EditorInterface {
 	function control_panel(){
 	?>
 	
-	<div class="pl-modeless">
-		<div class="modeless-handle fix">
-			<div class="modeless-title">
-				Title
-			</div>
-			<div class="modeless-close btn btn-mini" data-dismiss="modeless">
-				x
-			</div>
+	
+	<div class="pl-toolbox">
+		<div class="toolbox-handle fix">
+			
+			<ul class="unstyled controls">
+				<li ><a class="h-nav h-toggler" data-toggle="toolbox" ><i class="icon-chevron-down"></i></a></li>
+				<li><a class="h-nav" ><i class="icon-random"></i> <span class="txt">Drag &amp; Drop</span></a></li>
+				<li><a class="h-nav"><i class="icon-plus-sign"></i> <span class="txt">Add Sections</span></a></li>
+				<li><a class="h-nav"><i class="icon-copy"></i> <span class="txt">Template</span></a></li>
+				<li><a class="h-nav"><i class="icon-magic"></i> <span class="txt">Color</span></a></li>
+				<li><a class="h-nav"><i class="icon-font"></i> <span class="txt">Typography</span></a></li>
+				<li><a class="h-nav"><i class="icon-resize-horizontal"></i> <span class="txt">Layout</span></a></li>
+				<li><a class="h-nav"><i class="icon-cog"></i> <span class="txt">Settings</span></a></li>
+				<li><a class="h-nav"><i class="icon-user"></i> <span class="txt">Account</span></a></li>
+				<li><a class="h-nav"><i class="icon-pagelines"></i> <span class="txt">PageLines</span></a></li>
+			</ul>
+			
+			<ul class="unstyled panel-control send-right">
+				
+				<li><a class="h-nav h-resizer"><i class="icon-reorder"></i></a></li>
+				
+			</ul>
 		</div>
-		<div class="modeless-panel">
-			<div class="modeless-content">
-				<ul class="modeless-tabs-">
-					<a href="#tab-1">Tab</a>
-				</ul>
-				<div class="modeless-set" id="tab-1">
-					<div class="opt">
-						<div class="opt-input">
-							<form class="bs-docs-example">
-								<legend>Legend</legend>
-								<label>Label name</label>
-								<input type="text" placeholder="Type something…">
-								<span class="help-block">Example block-level help text here.</span>
-								<label class="checkbox">
-								<input type="checkbox"> Check me out
-								</label>
-								<button type="submit" class="btn">Submit</button>
-							</form>
+		<div class="toolbox-panel-wrap">
+			<div class="toolbox-panel">
+				<div class="toolbox-content fix">
+					<div class="tabbed-set">
+						<ul class="tabs-nav unstyled">
+							<lh>Settings</lh>
+							<li><a href="#tab-1"><i class="icon-camera-retro"></i> Tab 1</a></li>
+							<li><a href="#tab-2">Tab 2</a></li>
+							<li><a href="#tab-3">Tab 3</a></li>
+						</ul>
+						<div class="tab-panel" id="tab-1">
+					
+							<div class="tab-panel-inner">
+								<div class="opt">
+									<div class="opt-input">
+										<form class="bs-docs-example">
+											<legend>Legend</legend>
+											<label>Label name</label>
+											<input type="text" placeholder="Type something…">
+											<span class="help-block">Example block-level help text here.</span>
+											<label class="checkbox">
+											<input type="checkbox"> Check me out
+											</label>
+											<button type="submit" class="btn">Submit</button>
+										</form>
+									</div>
+									<div class="opt-exp">explanation</div>
+								</div>
+							</div>
 						</div>
-						<div class="opt-exp">
+						<div class="tab-panel" id="tab-2">
+							<div class="tab-panel-inner">
+						
+									<legend>tab 2</legend>
+									<label>Label name</label>
+									<input type="text" placeholder="Type something…">
+							
+							</div>
+						</div>
+						<div class="tab-panel" id="tab-3">
+							<div class="tab-panel-inner">
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
