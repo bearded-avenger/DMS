@@ -48,7 +48,6 @@ class PageLinesTemplateHandler {
 				'name'		=> 'Template Area',
 				'content'	=> array(
 					'ScrollSpy'	=> array(),
-					'PLGal'		=> array(),
 					'eColumn' => array( 
 						'span' 	=> 8,
 						'content'	=> array( 
@@ -89,16 +88,6 @@ class PageLinesTemplateHandler {
 			
 		);
 		
-		$t['page_footer'] = array(
-			'area-1'	=> array(
-				'height'	=> 200,
-				'name'		=> 'Page Footer',
-				'content'	=> array(
-					'PageLinesTwitterBar' => array( )
-				)
-			)
-			
-		);
 		$t['footer'] = array(
 			'area-1'	=> array(
 				'height'	=> 200,
@@ -221,12 +210,14 @@ class PageLinesTemplateHandler {
 		}
 	}
 	
-	function process_area( $area = 'template' ){
+	function process_region( $region = 'template' ){
 		
-		if(!isset($this->map[ $area ]))
+		if(!isset($this->map[ $region ]))
 			return;
 		
-		foreach( $this->map[ $area ] as $area => $a ){
+		$this->editor->region_start( $region );
+		
+		foreach( $this->map[ $region ] as $area => $a ){
 			
 			$this->editor->area_start($a);
 			

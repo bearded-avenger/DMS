@@ -393,11 +393,11 @@
 // BACKGROUNDS
 // --------------------------------------------------
 // Common Highlight
-.highlightMe(){
-	.buttonBackground(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
+.highlightMe( @bg: @btnPrimaryBackground, @hl: @btnPrimaryBackgroundHighlight){
+	.buttonBackground(@bg, @hl);
 	color: #fff; 
 	text-shadow: 0 -1px 0 rgba(0,0,0,.7);
-	border-color: @btnPrimaryBackground;
+	border-color: @bg;
 	box-shadow: inset 1px 1px 0 rgba(255,255,255,.2);
 	a{ 
 		color:#fff; 

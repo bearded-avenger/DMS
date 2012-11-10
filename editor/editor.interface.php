@@ -24,8 +24,7 @@ class EditorInterface {
 	
 	function pl_editor_styles(){
 		wp_enqueue_script( 'pl-editor-js', $this->url . '/js/editor.js' ); 
-		wp_enqueue_script( 'pl-modeless-js', $this->url . '/js/modeless.js', array('pagelines-bootstrap-all')); 
-		wp_enqueue_script( 'pl-gadget-js', $this->url . '/js/gadget.js', array('pl-modeless-js')); 
+		wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/toolbox.js', array('pagelines-bootstrap-all')); 
 		
 		// wp_enqueue_script( 'jquery-ui-draggable'); 
 		// wp_enqueue_script( 'jquery-ui-droppable'); 
@@ -47,10 +46,13 @@ class EditorInterface {
 		
 	}
 	
+	function region_start( $region ){
+		printf( '<div class="pl-region-bar"><a class="btn-region">%s</a></div>', ucfirst($region)); 
+	}
+	
 	function area_start($a){
 		
 		printf( '<div class="pl-area">%s<div class="pl-content"><div class="pl-inner">', $this->area_controls($a)); 
-		
 		
 	}
 	
@@ -61,13 +63,15 @@ class EditorInterface {
 	function control_panel(){
 	?>
 	
-	
+	<div class="pl-toolbox-pusher">
+	</div>
 	<div class="pl-toolbox">
 		<div class="toolbox-handle fix">
 			
 			<ul class="unstyled controls">
 				<li ><a class="h-nav h-toggler" data-toggle="toolbox" ><i class="icon-chevron-down"></i></a></li>
-				<li><a class="h-nav" ><i class="icon-random"></i> <span class="txt">Drag &amp; Drop</span></a></li>
+				<li><a class="h-nav" ><i class="icon-random"></i> <span class="txt">Drag <span class="spamp">&amp;</span> Drop</span></a></li>
+				<li><a class="h-nav" ><i class="icon-check-empty"></i> <span class="txt">Regions</span></a></li>
 				<li><a class="h-nav"><i class="icon-plus-sign"></i> <span class="txt">Add Sections</span></a></li>
 				<li><a class="h-nav"><i class="icon-copy"></i> <span class="txt">Template</span></a></li>
 				<li><a class="h-nav"><i class="icon-magic"></i> <span class="txt">Color</span></a></li>
@@ -141,7 +145,10 @@ class EditorInterface {
 		?>
 
 		<div class="pl-area-controls">
-			<div class="controls-toggle-btn btn btn-inverse btn-mini"><?php echo $a['name'];?> <b class="caret"></b></div>
+			<div class="controls-toggle-btn ">
+				<a class="btn btn-mini btn-inverse"><i class="icon-caret-up"></i></a>
+				<a class="btn btn-mini btn-inverse"><i class="icon-caret-down"></i></a>
+			</div>
 			<div class="controls-buttons btn-toolbar">
 				<div class="btn-group">
 					<button class="btn btn-mini btn-inverse" href="#editModal" onClick="drawModal(\'Page Builder\');">Add New Area</button>

@@ -103,7 +103,32 @@
 
 
 	}
-
+	
+	
+.pl_area_container{
+	position: relative;
+}
+	.pl-region-bar{
+		line-height: 12px;	
+		position: absolute;
+	
+		width: 100%;
+		top: -13px;
+		a.btn-region{
+			vertical-align: top;
+			color: #000;
+			text-shadow: 0 1px 0 rgba(255,255,255,.7);
+			box-shadow: inset 2px 1px 0 rgba(255,255,255,.5); 
+			outline: 1px dashed  @editorBorder;
+			#gradient > .vertical(rgba(182, 242, 253, .5), rgba(125, 233, 253, .5));
+			
+			font-size: 9px;
+			line-height: 13px;
+			padding: 1px 4px;
+			font-weight: bold;
+			.border-radius(0);
+		}
+	}
 	.pl-area{
 		border-top: 1px dashed #35eafd;
 		position: relative;
@@ -134,10 +159,14 @@
 		top: 0;
 		text-align: left;
 		.controls-toggle-btn{
-			.box-shadow();
+			font-size: 10px;
+			padding: 0px;
+			font-weight: bold;
 			.border-radius(0);
-			vertical-align: top;
-			background: @interfaceBG;
+			a{
+				padding: 0px 4px;
+				line-height: 13px;
+			}
 		}
 		
 		.controls-toggle{
@@ -411,16 +440,13 @@
 		background: #fff;
 		width: 100%;
 		z-index: 10000; 
-	
+		min-width: 600px;
 		.toolbox-handle{
 			
 			@media (max-width: 1200px) {
 				 a {
 					.txt{
 						display: none;
-					}
-					&:hover .txt{
-						display: inline;
 					}
 				}
 			}
@@ -507,6 +533,7 @@
 		.toolbox-panel-wrap{
 			overflow: hidden;
 		}
+		
 		.toolbox-panel{
 			.transition(margin-bottom .5s);
 			margin-bottom: -20%;
@@ -518,7 +545,7 @@
 			
 			width: 100%;
 			max-height: 80%;
-			height: 240px;
+
 			overflow: scroll;
 			background:#fafafa url(@{plRoot}/editor/images/whitey.png);
 			.toolbox-content{

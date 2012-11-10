@@ -8,12 +8,19 @@ jQuery(document).ready(function() {
 	// Basic Setup
 	jQuery('body').addClass('pl-editor');
 	jQuery('.pl-inner').addClass('editor-row');
+	
+	// Adds class for drag/dropping content sections
 	jQuery('.pl-area .pl-content .pl-inner').addClass('pl_sortable_area');
+	
+	// Adds class for drag/dropping areas
+	jQuery('.outline').addClass('pl_area_container');
+	
 	jQuery('.pl_sortable_area .pl-section').addClass('pl_sortable');
 	
 	jQuery.pageBuilder.reloadConfig();
 	jQuery.pageBuilder.startDroppable();
-//	jQuery.pageBuilder.startResize();
+//	jQuery.pageBuilder.startResize(); // Layout resize
+	
 	columnControls();
 	
 	var ml = jQuery('.pl-toolbox').toolbox()
@@ -127,6 +134,22 @@ jQuery(document).ready(function() {
 
 		startDroppable: function(){
 
+			jQuery('.pl_area_container').sortable({
+				items: ".pl-area",
+				connectWith: ".pl-area",
+				dropOnEmpty: true,
+				forcePlaceholderSize: true,
+				forceHelperSize: false,
+				cursorAt: { left: 5 },
+				helper: function(){
+					return '<div class="helpit">omg</div>';
+				},
+				start: function(event, ui){
+					jQuery('#page').addClass('pl-dragging');
+					jQuery('.pl-section').effect('highlight', '#ff0000', 1000);
+				},
+			});
+			
 		    jQuery('.pl_sortable_area').sortable({
 		        items: ".pl-section",
 				dropOnEmpty: true,

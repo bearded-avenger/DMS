@@ -880,7 +880,7 @@
 			border: 1px solid #2d4a79;
 			border-right: 1px solid #2d4a79;
 			border-bottom: 1px solid #2d4a79;
-			
+			box-shadow: none;
 		}
 			.extend_button:hover, .sl-blue .superlink:hover, .ohead .osave:hover, .admin-blue:hover{
 				background: #82a2ca url(../images/superlink-sprite-blue.png) 0 -35px repeat-x; color: #fff;
