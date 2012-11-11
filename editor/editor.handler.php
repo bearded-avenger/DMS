@@ -14,6 +14,7 @@
 class PageLinesTemplateHandler {
 
 	var $section_list = array();
+	var $area_number = 1;
 
 	function __construct( ) {
 		
@@ -215,9 +216,11 @@ class PageLinesTemplateHandler {
 		if(!isset($this->map[ $region ]))
 			return;
 		
-		$this->editor->region_start( $region );
+		$this->editor->region_start( $region, $this->area_number++ );
 		
 		foreach( $this->map[ $region ] as $area => $a ){
+			
+			$a['area_number'] = $this->area_number++; 
 			
 			$this->editor->area_start($a);
 			

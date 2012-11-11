@@ -3,25 +3,26 @@
 jQuery(document).ready(function() {
 	
 	// Disable Text Selector on Drag
-	document.onselectstart = function () { return false; };
+	document.onselectstart = function () { return false };
 
 	// Basic Setup
-	jQuery('body').addClass('pl-editor');
-	jQuery('.pl-inner').addClass('editor-row');
+	jQuery('body').addClass('pl-editor')
+	jQuery('.pl-inner').addClass('editor-row')
 	
 	// Adds class for drag/dropping content sections
-	jQuery('.pl-area .pl-content .pl-inner').addClass('pl_sortable_area');
+	jQuery('.pl-area .pl-content .pl-inner').addClass('pl_sortable_area')
 	
 	// Adds class for drag/dropping areas
-	jQuery('.outline').addClass('pl_area_container');
+	jQuery('.outline').addClass('pl_area_container')
 	
-	jQuery('.pl_sortable_area .pl-section').addClass('pl_sortable');
+	jQuery('.pl_sortable_area .pl-section').addClass('pl_sortable')
 	
-	jQuery.pageBuilder.reloadConfig();
-	jQuery.pageBuilder.startDroppable();
+	jQuery.pageBuilder.reloadConfig()
+	jQuery.pageBuilder.startDroppable()
 //	jQuery.pageBuilder.startResize(); // Layout resize
 	
-	columnControls();
+	columnControls()
+	areaControls()
 	
 	var ml = jQuery('.pl-toolbox').toolbox()
 
@@ -133,22 +134,6 @@ jQuery(document).ready(function() {
 		},
 
 		startDroppable: function(){
-
-			jQuery('.pl_area_container').sortable({
-				items: ".pl-area",
-				connectWith: ".pl-area",
-				dropOnEmpty: true,
-				forcePlaceholderSize: true,
-				forceHelperSize: false,
-				cursorAt: { left: 5 },
-				helper: function(){
-					return '<div class="helpit">omg</div>';
-				},
-				start: function(event, ui){
-					jQuery('#page').addClass('pl-dragging');
-					jQuery('.pl-section').effect('highlight', '#ff0000', 1000);
-				},
-			});
 			
 		    jQuery('.pl_sortable_area').sortable({
 		        items: ".pl-section",
@@ -237,6 +222,72 @@ jQuery(document).ready(function() {
     }
 })(jQuery);
 
+function areaControls() {
+	
+	jQuery(".btn-area-down").on("click", function(e) {
+		e.stopPropagation()
+		moveArea(jQuery(this), 'down')
+	});
+	jQuery(".btn-area-up").on("click", function(e) {
+		e.stopPropagation()
+		moveArea(jQuery(this), 'up')
+	});
+	
+}
+
+function moveArea( button, direction ){
+	
+	
+	var iteration = (direction == 'up') ? -1 : 1
+	,	currentArea = button.closest('.pl-area')
+	,	areaNumber = currentArea.data('area-number')
+	, 	moveAreaNumber = areaNumber + iteration
+	,	moveArea = jQuery("[data-area-number='"+moveAreaNumber+"']")
+	
+	
+	
+	if(moveArea.hasClass('pl-region-bar')){
+	
+		moveAreaNumber = moveAreaNumber + iteration
+	
+		moveArea = jQuery("[data-area-number='"+moveAreaNumber+"']")
+		
+		if(direction == 'up'){
+			moveArea
+				.after( currentArea )
+		} else {
+			moveArea
+				.before( currentArea )
+		}
+			
+	} else {
+		
+		if(direction == 'up'){
+			moveArea
+				.before( currentArea )
+		} else {
+			moveArea
+				.after( currentArea )
+		}
+			
+	}
+	
+	currentArea.effect('highlight')
+	
+	updateAreas()
+	
+}
+
+function updateAreas(){
+	jQuery('.area-tag').each( function(index) {
+		
+		var num = index + 1
+		
+	    jQuery(this).data('area-number', num).attr('data-area-number', num)
+	
+	})
+}
+
 /* Set action for column size and delete buttons
 ---------------------------------------------------------- */
 function columnControls() {
@@ -248,23 +299,7 @@ function columnControls() {
 	jQuery('body')
 		.on('click', '.controls-buttons', function (e) { e.stopPropagation() })
 	
-	jQuery(".controls-toggle-btn").on("click", function(e) {
-		
-		var isActive
-		  , $parent
-		
-		e.stopPropagation()
-		
-		$parent = jQuery(this).parent()
-		
-		isActive = $parent.hasClass('open')
-		
-		if (!isActive){
-			$parent.toggleClass('open').find('.controls-toggle-btn').addClass('active');
-		}
-		
-	});
-	
+
 	jQuery('.pl-section').hover(
 	  function () {
 	    jQuery('.pl-section-controls:eq(0)', this).show();

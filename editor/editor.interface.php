@@ -46,13 +46,23 @@ class EditorInterface {
 		
 	}
 	
-	function region_start( $region ){
-		printf( '<div class="pl-region-bar"><a class="btn-region">%s</a></div>', ucfirst($region)); 
+	function region_start( $region, $area_number ){
+		
+		printf( 
+			'<div class="pl-region-bar area-tag" data-area-number="%s"><a class="btn-region">%s</a></div>', 
+			$area_number, 
+			ucfirst($region) 
+		); 
+		
 	}
 	
 	function area_start($a){
 		
-		printf( '<div class="pl-area">%s<div class="pl-content"><div class="pl-inner">', $this->area_controls($a)); 
+		printf( 
+			'<div class="pl-area area-tag" data-area-number="%s">%s<div class="pl-content"><div class="pl-inner">', 
+			$a['area_number'], 
+			$this->area_controls($a)
+		); 
 		
 	}
 	
@@ -71,11 +81,11 @@ class EditorInterface {
 			<ul class="unstyled controls">
 				<li ><a class="h-nav h-toggler" data-toggle="toolbox" ><i class="icon-chevron-down"></i></a></li>
 				<li><a class="h-nav" ><i class="icon-random"></i> <span class="txt">Drag <span class="spamp">&amp;</span> Drop</span></a></li>
-				<li><a class="h-nav" ><i class="icon-check-empty"></i> <span class="txt">Regions</span></a></li>
-				<li><a class="h-nav"><i class="icon-plus-sign"></i> <span class="txt">Add Sections</span></a></li>
-				<li><a class="h-nav"><i class="icon-copy"></i> <span class="txt">Template</span></a></li>
-				<li><a class="h-nav"><i class="icon-magic"></i> <span class="txt">Color</span></a></li>
-				<li><a class="h-nav"><i class="icon-font"></i> <span class="txt">Typography</span></a></li>
+				<li><a class="h-nav" ><i class="icon-check-empty"></i> <span class="txt">Regions/Areas</span></a></li>
+				<li><a class="h-nav"><i class="icon-plus-sign"></i> <span class="txt">Add</span></a></li>
+				<li><a class="h-nav"><i class="icon-copy"></i> <span class="txt">Templates</span></a></li>
+				<li><a class="h-nav"><i class="icon-magic"></i> <span class="txt">Colors</span></a></li>
+				<li><a class="h-nav"><i class="icon-font"></i> <span class="txt">Type</span></a></li>
 				<li><a class="h-nav"><i class="icon-resize-horizontal"></i> <span class="txt">Layout</span></a></li>
 				<li><a class="h-nav"><i class="icon-cog"></i> <span class="txt">Settings</span></a></li>
 				<li><a class="h-nav"><i class="icon-user"></i> <span class="txt">Account</span></a></li>
@@ -146,8 +156,8 @@ class EditorInterface {
 
 		<div class="pl-area-controls">
 			<div class="controls-toggle-btn ">
-				<a class="btn btn-mini btn-inverse"><i class="icon-caret-up"></i></a>
-				<a class="btn btn-mini btn-inverse"><i class="icon-caret-down"></i></a>
+				<a class="btn btn-mini btn-inverse btn-area-up"><i class="icon-caret-up"></i></a>
+				<a class="btn btn-mini btn-inverse btn-area-down"><i class="icon-caret-down"></i></a>
 			</div>
 			<div class="controls-buttons btn-toolbar">
 				<div class="btn-group">
