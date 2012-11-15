@@ -28,15 +28,6 @@ class EditorInterface {
 
 		wp_enqueue_script( 'jquery-ui-tabs'); 
 		
-		// $dep = array('jquery-new-ui-core','jquery-new-ui-widget', 'jquery-new-ui-mouse');	
-		// 		wp_enqueue_script( 'jquery-new-ui-core', PL_ADMIN_JS . '/jquery.ui.core.js', array(), 1.9, true);
-		// 		wp_enqueue_script( 'jquery-new-ui-widget', PL_ADMIN_JS . '/jquery.ui.widget.js', array(), 1.9, true);
-		// 		wp_enqueue_script( 'jquery-new-ui-mouse', PL_ADMIN_JS . '/jquery.ui.mouse.js', array('jquery-new-ui-widget'), 1.9, true);
-		// 		wp_enqueue_script( 'jquery-new-ui-draggable', PL_ADMIN_JS . '/jquery.ui.draggable.js', $dep, 1.9, true);
-		// 		wp_enqueue_script( 'jquery-new-ui-droppable', PL_ADMIN_JS . '/jquery.ui.droppable.js', $dep, 1.9, true);
-		// 		wp_enqueue_script( 'jquery-new-ui-resizable', PL_ADMIN_JS . '/jquery.ui.resizable.js', $dep, 1.9, true);
-		// 		wp_enqueue_script( 'jquery-new-ui-sortable', PL_ADMIN_JS . '/jquery.ui.sortable.js', $dep, 1.9, true);
-		// 		
 		$dep = array('jquery-ui-core','jquery-ui-widget', 'jquery-ui-mouse');	
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-widget' );

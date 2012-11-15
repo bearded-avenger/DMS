@@ -1,16 +1,16 @@
 <?php
 /*
 	Section: Column
-	Class Name: eColumn	
+	Class Name: PLColumn	
 */
 
-class eColumn extends PageLinesSection {
+class PLColumn extends PageLinesSection {
 
 
 	function section_template() { 
-		
+
 		?>
-		<div class="ecolumn-inner pl_sortable_area editor-row not-column-inherit">
+		<div class="pl-column-sortable editor-row not-column-inherit">
 			
 			<?php
 			

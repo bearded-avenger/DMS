@@ -10,12 +10,12 @@ jQuery(document).ready(function() {
 	jQuery('.pl-inner').addClass('editor-row')
 	
 	// Adds class for drag/dropping content sections
-	jQuery('.pl-area .pl-content .pl-inner').addClass('pl_sortable_area')
+	jQuery('.pl-area .pl-content .pl-inner').addClass('pl-sortable-area')
 	
 	// Adds class for drag/dropping areas
 	jQuery('.outline').addClass('pl_area_container')
 	
-	jQuery('.pl_sortable_area .pl-section').addClass('pl_sortable')
+	jQuery('.pl-sortable-area .pl-section').addClass('pl_sortable')
 	
 //	jQuery.pageBuilder.startResize(); // Layout resize	
 	
@@ -183,15 +183,16 @@ jQuery(document).ready(function() {
 		
         , reloadConfig: function() {
 		
-			$('.pl_sortable_area').each(function () {
+			$('.pl-sortable-area').each(function () {
 				$.pageBuilder.alignGrid( this );
 			});
 
         }
+
 		, isAreaEmpty: function(area){
-			var addTo = (area.hasClass('ecolumn-inner')) ? area.parent() : area
+			var addTo = (area.hasClass('pl-column-sortable')) ? area.parent() : area
 			
-			if(!area.children(".pl_sortable").length)
+			if(!area.children(".pl_sortable").not('.ui-sortable-helper').length)
 			    addTo.addClass('empty-area')
 			else 
 			    addTo.removeClass('empty-area')
@@ -220,7 +221,6 @@ jQuery(document).ready(function() {
 				section
 					.removeClass("sortable_first sortable_last")
 					.addClass("sortable_1st_level")
-					.css('opacity', 1)
 					.find('.pl_sortable')
 						.removeClass("sortable_1st_level")
 				
@@ -324,49 +324,60 @@ jQuery(document).ready(function() {
 
 		}
 
-		
-		
-		
-
 		, startDroppable: function(){
 			
-		    $('.pl_sortable_area').sortable({
-		        items: ".pl-section",
-				dropOnEmpty: true,
-				forcePlaceholderSize: true,
-				forceHelperSize: false,
-		        connectWith: ".pl_sortable_area",
-				scrollSensitivity: 200,
-				scrollSpeed: 40,
-		        placeholder: "pl-placeholder",
-		        cursor: "move",
-				distance: 0.5,
-				delay: 100,
-				opacity: 0.6,
-				tolerance: "pointer",
-				start: function(event, ui){
-					$('#page').addClass('pl-dragging')
-					$('.pl-section').effect('highlight', '#ff0000', 1000)
-				}, 
-				stop: function(event, ui){
-					$('#page').removeClass('pl-dragging');
-				},
+		    $('.pl-sortable-area').sortable({
+			
+		        items: 	".pl-section"
+				,	placeholder: "pl-placeholder"
+				,	connectWith: ".pl-sortable-area"
+				,	dropOnEmpty: true
+				,	forcePlaceholderSize: true
+				,	forceHelperSize: false
+		        ,	tolerance: "pointer"		// basis for calculating where to drop
+				,	helper: 	"clone" 		// needed or positioning issues ensue
+				,	scrollSensitivity: 200
+				,	scrollSpeed: 40
+		        ,	cursor: "move"
+				,	distance: 0.5
+				,	delay: 100
 				
-				over: function(event, ui) {
-		           ui.placeholder.css({maxWidth: ui.placeholder.parent().width()}); 
+				, start: function(event, ui){
+					$('body')
+						.addClass('pl-dragging')
+					
+					$('.pl-section')
+						.effect('highlight', '#ff0000', 1000)
+			
+				} 
+				, stop: function(event, ui){
+				
+					$('body')
+						.removeClass('pl-dragging')
+				
+				}
+				
+				, over: function(event, ui) {
 		           
-		 			ui.placeholder.removeClass('hidden-placeholder');
-		            if( ui.item.hasClass('section-ecolumn') && ui.placeholder.parent().parent().hasClass('section-ecolumn')) {
-		                ui.placeholder.addClass('hidden-placeholder');
+					ui.placeholder.css({
+						maxWidth: ui.placeholder.parent().width()
+					})
+		           
+		 			ui.placeholder.removeClass('hidden-placeholder')
+		
+		            if( ui.item.hasClass('section-plcolumn') && ui.placeholder.parent().parent().hasClass('section-plcolumn')) {
+		                ui.placeholder.addClass('hidden-placeholder')
 		            }
 
-		        },
-				beforeStop: function(event, ui) {
-		            if( ui.item.hasClass('section-ecolumn') && ui.placeholder.parent().parent().hasClass('section-ecolumn') ) {
+		        }
+				, beforeStop: function(event, ui) {
+					
+		            if( ui.item.hasClass('section-plcolumn') && ui.placeholder.parent().parent().hasClass('section-plcolumn') ) {
 		                return false
 		            }
-		        },
-				update: function() {
+		
+		        }
+				, update: function() {
 					$.pageBuilder.reloadConfig()
 				}
 				

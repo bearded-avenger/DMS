@@ -49,22 +49,36 @@ class PageLinesTemplateHandler {
 				'name'		=> 'Template Area',
 				'content'	=> array(
 			//		'ScrollSpy'	=> array(),
-					'eColumn' => array( 
+				
+					'PLColumn' => array( 
 						'span' 	=> 8,
-						'content'	=> array( 
-							'PageLinesPostLoop' => array( ), 
-							'PageLinesComments' 	=> array(),	
-						)
+						// 'content'	=> array( 
+						// 						'PageLinesPostLoop' => array( ), 
+						// 						'PageLinesComments' 	=> array(),	
+						// 					)
 					),
-					'eColumnID2' => array( 
+					'PLColumnID2' => array( 
 						'span' 	=> 4,
-						'content'	=> array( 
-							'PrimarySidebar' => array( )
-						)
+						// 'content'	=> array( 
+						// 						'PrimarySidebar' => array( )
+						// 					)
+					),
+					'PLColumnID3' => array( 
+						'span' 	=> 4,
+						// 'content'	=> array( 
+						// 						'PageLinesPostLoop' => array( ), 
+						// 						'PageLinesComments' 	=> array(),	
+						// 					)
+					),
+					'PLColumnID4' => array( 
+						'span' 	=> 8,
+						// 'content'	=> array( 
+						// 						'PrimarySidebar' => array( )
+						// 					)
 					),
 					'PLMasthead' => array( ), 
 					'PageLinesBoxesID1' => array( ), 
-					'PageLinesFeatures'=> array( ),
+				//	'PageLinesFeatures'=> array( ),
 					'PageLinesBoxesID2'=> array(
 						'clone'	=> 2, 
 						'span'	=> 6,
@@ -82,7 +96,7 @@ class PageLinesTemplateHandler {
 				'height'	=> 200,
 				'name'		=> 'Header',
 				'content'	=> array(
-					'PageLinesBranding' => array( ), 
+			//		'PageLinesBranding' => array( ), 
 					'PLNavBar'			=> array()
 				)
 			)
@@ -236,7 +250,7 @@ class PageLinesTemplateHandler {
 	}
 	
 	function render_section( $meta ){
-
+		
 		if( $this->in_factory( $meta['id'] ) ){
 			
 			$s = $this->factory[ $meta['id'] ];
