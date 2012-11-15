@@ -25,21 +25,34 @@ class EditorInterface {
 	function pl_editor_styles(){
 		wp_enqueue_script( 'pl-editor-js', $this->url . '/js/editor.js' ); 
 		wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/toolbox.js', array('pagelines-bootstrap-all')); 
-		
-		// wp_enqueue_script( 'jquery-ui-draggable'); 
-		// wp_enqueue_script( 'jquery-ui-droppable'); 
-		// wp_enqueue_script( 'jquery-ui-resizable'); 	
-		
+
 		wp_enqueue_script( 'jquery-ui-tabs'); 
 		
-		$dep = array('jquery-new-ui-core','jquery-new-ui-widget', 'jquery-new-ui-mouse');	
-		wp_enqueue_script( 'jquery-new-ui-core', PL_ADMIN_JS . '/jquery.ui.core.js', array(), 1.9, true);
-		wp_enqueue_script( 'jquery-new-ui-widget', PL_ADMIN_JS . '/jquery.ui.widget.js', array(), 1.9, true);
-		wp_enqueue_script( 'jquery-new-ui-mouse', PL_ADMIN_JS . '/jquery.ui.mouse.js', array('jquery-new-ui-widget'), 1.9, true);
-		wp_enqueue_script( 'jquery-new-ui-draggable', PL_ADMIN_JS . '/jquery.ui.draggable.js', $dep, 1.9, true);
-		wp_enqueue_script( 'jquery-new-ui-droppable', PL_ADMIN_JS . '/jquery.ui.droppable.js', $dep, 1.9, true);
-		wp_enqueue_script( 'jquery-new-ui-resizable', PL_ADMIN_JS . '/jquery.ui.resizable.js', $dep, 1.9, true);
+		// $dep = array('jquery-new-ui-core','jquery-new-ui-widget', 'jquery-new-ui-mouse');	
+		// 		wp_enqueue_script( 'jquery-new-ui-core', PL_ADMIN_JS . '/jquery.ui.core.js', array(), 1.9, true);
+		// 		wp_enqueue_script( 'jquery-new-ui-widget', PL_ADMIN_JS . '/jquery.ui.widget.js', array(), 1.9, true);
+		// 		wp_enqueue_script( 'jquery-new-ui-mouse', PL_ADMIN_JS . '/jquery.ui.mouse.js', array('jquery-new-ui-widget'), 1.9, true);
+		// 		wp_enqueue_script( 'jquery-new-ui-draggable', PL_ADMIN_JS . '/jquery.ui.draggable.js', $dep, 1.9, true);
+		// 		wp_enqueue_script( 'jquery-new-ui-droppable', PL_ADMIN_JS . '/jquery.ui.droppable.js', $dep, 1.9, true);
+		// 		wp_enqueue_script( 'jquery-new-ui-resizable', PL_ADMIN_JS . '/jquery.ui.resizable.js', $dep, 1.9, true);
+		// 		wp_enqueue_script( 'jquery-new-ui-sortable', PL_ADMIN_JS . '/jquery.ui.sortable.js', $dep, 1.9, true);
+		// 		
+		$dep = array('jquery-ui-core','jquery-ui-widget', 'jquery-ui-mouse');	
+		wp_enqueue_script( 'jquery-ui-core' );
+		wp_enqueue_script( 'jquery-ui-widget' );
+		wp_enqueue_script( 'jquery-ui-mouse' );
+		
+		wp_enqueue_script( 'jquery-ui-draggable' );
+		wp_enqueue_script( 'jquery-ui-droppable' );
+		wp_enqueue_script( 'jquery-ui-resizable' );
+	//	wp_enqueue_script( 'jquery-ui-sortable' );
+	
+	// Older sortable needs to be used for now
+	// 	https://github.com/jquery/jquery-ui/commit/bae06d2b1ef6bbc946dce9fae91f68cc41abccda#commitcomment-2141597
+	//	http://bugs.jqueryui.com/ticket/8810
 		wp_enqueue_script( 'jquery-new-ui-sortable', PL_ADMIN_JS . '/jquery.ui.sortable.js', $dep, 1.9, true);
+		
+		
 		wp_enqueue_script( 'jquery-new-ui-effect', PL_ADMIN_JS . '/jquery.ui.effect.js', $dep, 1.9, true);	
 		wp_enqueue_script( 'jquery-new-ui-effect-highlight', PL_ADMIN_JS . '/jquery.ui.effect-highlight.js', array('jquery-new-ui-effect'), 1.9, true);
 		wp_enqueue_script( 'jquery-mousewheel', $this->url . '/js/mousewheel.js' ); 
@@ -80,10 +93,9 @@ class EditorInterface {
 			
 			<ul class="unstyled controls">
 				<li ><a class="h-nav h-toggler" data-toggle="toolbox" ><i class="icon-chevron-down"></i></a></li>
-				<li><a class="h-nav" ><i class="icon-random"></i> <span class="txt">Drag <span class="spamp">&amp;</span> Drop</span></a></li>
-				<li><a class="h-nav" ><i class="icon-check-empty"></i> <span class="txt">Regions/Areas</span></a></li>
+				<li><a class="h-nav btn-drag-drop" ><i class="icon-random"></i> <span class="txt">Drag <span class="spamp">&amp;</span> Drop Editing</span></a></li>
 				<li><a class="h-nav"><i class="icon-plus-sign"></i> <span class="txt">Add</span></a></li>
-				<li><a class="h-nav"><i class="icon-copy"></i> <span class="txt">Templates</span></a></li>
+				<li><a class="h-nav"><i class="icon-paste"></i> <span class="txt">Templates</span></a></li>
 				<li><a class="h-nav"><i class="icon-magic"></i> <span class="txt">Colors</span></a></li>
 				<li><a class="h-nav"><i class="icon-font"></i> <span class="txt">Type</span></a></li>
 				<li><a class="h-nav"><i class="icon-resize-horizontal"></i> <span class="txt">Layout</span></a></li>
@@ -155,26 +167,8 @@ class EditorInterface {
 		?>
 
 		<div class="pl-area-controls">
-			<div class="controls-toggle-btn ">
-				<a class="btn btn-mini btn-inverse btn-area-up"><i class="icon-caret-up"></i></a>
-				<a class="btn btn-mini btn-inverse btn-area-down"><i class="icon-caret-down"></i></a>
-			</div>
-			<div class="controls-buttons btn-toolbar">
-				<div class="btn-group">
-					<button class="btn btn-mini btn-inverse" href="#editModal" onClick="drawModal(\'Page Builder\');">Add New Area</button>
-				</div><div class="btn-group">
-					<button class="btn btn-mini btn-inverse dropdown-toggle" data-toggle="dropdown" >Add Section <b class="caret"></b></button> 
-					<ul id="add_section" class="dropdown-menu">
-						<li><a href="#">Drop</a></li>
-					</ul>
-				</div><div class="btn-group">
-					<button class="btn btn-mini btn-inverse dropdown-toggle" data-toggle="dropdown">Add Element <b class="caret"></b></button>
-					<ul id="add_element" class="dropdown-menu">
-						<li><a href="#">Drop</a></li>
-						<li><a href="#">Drop II</a></li>
-					</ul>
-				</div>
-			</div>
+			<a class="area-move-btn btn-area-up"><i class="icon-caret-up"></i></a>
+			<a class="area-move-btn btn-area-down"><i class="icon-caret-down"></i></a>
 		</div>
 		<?php
 		
@@ -184,18 +178,18 @@ class EditorInterface {
 	function section_controls($sid, $s){ ?>
 		<div id="<?php echo $sid;?>_control" class="pl-section-controls fix">
 			<div class="controls-left">
-				<a title="Section Decrease Width" href="#" class="pl-control pl-control-icon section-decrease">L</a>
-				<span title="Width" class="pl-control section-size">12/12</span>
-				<a title="Section Increase Width" href="#" class="pl-control pl-control-icon section-increase">R</a>
-				<a title="Increase Offset" href="#" class="pl-control pl-control-icon section-offset-increase">OL</a>
-				<span title="Offset Size" class="pl-control offset-size"></span>
-				<a title="Reduce Offset" href="#" class="pl-control pl-control-icon section-offset-reduce">OR</a>
-				<a title="Force New Row" href="#" class="pl-control pl-control-icon section-start-row">S</a>
+				<a title="Section Decrease Width" href="#" class="s-control s-control-icon section-decrease"><i class="icon-caret-left"></i></a>
+				<span title="Width" class="s-control section-size"></span>
+				<a title="Section Increase Width" href="#" class="s-control s-control-icon section-increase"><i class="icon-caret-right"></i></a>
+				<a title="Reduce Offset" href="#" class="s-control s-control-icon section-offset-reduce"><i class="icon-step-backward"></i></a>
+				<span title="Offset Size" class="s-control offset-size"></span>
+				<a title="Increase Offset" href="#" class="s-control s-control-icon section-offset-increase"><i class="icon-step-forward"></i></a>
+				<a title="Force New Row" href="#" class="s-control s-control-icon section-start-row"><i class="icon-fast-backward"></i></a>
 			</div>
 			<div class="controls-right">
-				<a title="Edit Section" href="#" class="pl-control pl-control-icon section-edit">E</a>
-				<a title="Clone Section" href="#" class="pl-control pl-control-icon section-clone">C</a>
-				<a title="Delete Section" href="#" class="pl-control pl-control-icon section-delete">X</a>
+				<a title="Edit Section" href="#" class="s-control s-control-icon section-edit"><i class="icon-pencil"></i></a>
+				<a title="Clone Section" href="#" class="s-control s-control-icon section-clone"><i class="icon-copy"></i></a>
+				<a title="Delete Section" href="#" class="s-control s-control-icon section-delete"><i class="icon-remove"></i></a>
 			</div>
 			<div class="controls-title"><?php echo $s->name;?></div>
 		</div>

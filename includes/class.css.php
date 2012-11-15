@@ -105,7 +105,7 @@ class PageLinesCSS {
 					
 				}	
 				
-				elseif( isset( $o['type'] ) && $o['type'] == 'colorpicker')
+				elseif( isset( $o['type'] ) && $o['type'] == 'colorpicker' && isset($o['cssgroup']) && isset($o['css_prop']))
 					$this->render_css_colors($oid, $o['cssgroup'], $o['css_prop']);
 				
 				elseif( isset( $o['type'] ) && $o['type'] == 'color_multi'){

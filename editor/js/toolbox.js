@@ -205,8 +205,8 @@
  /* MODAL PLUGIN DEFINITION
   * ======================= */
 
-  	$.fn.toolbox = function (option) {
-	
+	$.fn.toolbox = function (option) {
+
 		return this.each(function () {
 
 			var $this = $(this)
@@ -222,9 +222,9 @@
 				(options.show) data.show()
 			else if
 				(!options.show) data.hide()
-			
+	
 		})
-  
+
 	}
 
 	$.fn.toolbox.defaults = {
@@ -233,7 +233,7 @@
 		, show: false
 	}
 
-  $.fn.toolbox.Constructor = ToolBox
+	$.fn.toolbox.Constructor = ToolBox
 
 
 }(window.jQuery);

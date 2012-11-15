@@ -1,220 +1,50 @@
 
-@editorBorder: #35eafd;
+
 @placeholderBG: #f1fcfd;
 
 @interfaceBG: rgba(0,0,0,.7);
 
+@editorBorder: #35eafd;
+@editorText: #017c8c;
+
 .pl-editor{
 	
-	// Palette/Dock
-	// --------------------------------------------------
-	.pl-gadget{
-		width: 50px;
-		.transition(left 0.15s ease-in-out);
-		position: fixed;
-		left: -40px;
-		top: 30%;
-		z-index: 1001;
-		&::after{
-			content: '';
-			display: block;
-			width: 120px;
-			height: 110%;
-			position: absolute;
-			top: -5%;
-			right: -40px;
-			z-index: -100;
-		}
-		&:hover{
-			left: 0;
-		}
-		
-		a.gadget-item{
-			position: relative;
-			display: block;
-			background: #000;
-			.transition( background .3s );
-			&:hover{
-				background: #225E9B;
-				.gadget-text{
-					background: #000;
-					text-shadow: 0 -1px 0 #000;
-					visibility: visible;
-					left: 50px;
-					.transition(left 0.15s ease-in-out);	
-					opacity: 1;
-				}
-			}
-			&:active{
-				
-				background: #4b91d8;
-				
-			}
-			.gadget-icon{
-				border-top: 1px solid rgba(255,255,255,.1);
-				&:first-child{
-					border-top: 1px solid transparent
-				}
-				display: inline-block;
-				line-height: 50px;
-				text-align: center;
-				.size(50px, 50px);
-				
-				img{
-					display: inline-block;
-					vertical-align: middle;
-					width: 26px;
-					height: 26px;
-				}
-			}
-			.gadget-text{
-				opacity: 0;
-				position: absolute;
-				top: 0;
-				left: -100px;
-				
-				text-align: left;
-				visibility: hidden;
-				z-index: -1;
-				
-				word-wrap: break-word;
-				max-width: 700px;
-					
-				display: block;
-				color: white;
-				display: block;
-				font-size: 14px;
-				font-weight: bold;
-				padding: 1px 16px 0 16px;
-				height: 50px;
-				line-height: 50px;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				overflow: hidden;
-				&:hover{
-					background: rgba(0,0,0,.8);
-				}
-				&:active{
-					background: #000;
-				}
-			}
-			
-		}
-
-
-	}
 	
-	
-.pl_area_container{
-	position: relative;
-}
-	.pl-region-bar{
-		line-height: 12px;	
-		position: absolute;
-	
-		width: 100%;
-		top: -13px;
-		a.btn-region{
-			vertical-align: top;
-			color: #000;
-			text-shadow: 0 1px 0 rgba(255,255,255,.7);
-			box-shadow: inset 2px 1px 0 rgba(255,255,255,.5); 
-			outline: 1px dashed  @editorBorder;
-			#gradient > .vertical(rgba(182, 242, 253, .5), rgba(125, 233, 253, .5));
-			
-			font-size: 9px;
-			line-height: 13px;
-			padding: 1px 4px;
-			font-weight: bold;
-			.border-radius(0);
-		}
-	}
-	.pl-area{
-		border-top: 1px dashed #35eafd;
-		position: relative;
-	}
-		.pl-area-ctrl{
-			border-bottom: 1px solid #35eafd;
-			background:rgba(0,0,0,.5);
-			box-shadow: inset 0 1px 3px rgba(0,0,0,.5);
-			font-size: 10px; 
-			line-height: 16px;
-			height: 16px;
-			color:#fff;
-			font-weight: bold;
-			text-align: center;		
-		}
-		
-		
 	.pl-content{
 		position: relative;
 		width: 980px;
 		margin: 0 auto;
 	}
-	
-	.pl-area-controls{
-		z-index: 1000;
-		position: absolute; 
-		left: 0; 
-		top: 0;
-		text-align: left;
-		.controls-toggle-btn{
-			font-size: 10px;
-			padding: 0px;
-			font-weight: bold;
-			.border-radius(0);
-			a{
-				padding: 0px 4px;
-				line-height: 13px;
-			}
-		}
+
+}
+
+// Drag and Drop Editing
+// --------------------------------------------------
+
+.pl-section-controls, 
+.pl-region-bar, 
+.pl-area-controls{
+	display: none;
+}
+.drag-drop-editing{
+	.pl-section{
+		.box-sizing(border-box);
+		position: relative;
 		
-		.controls-toggle{
-			position: absolute;
-			left: 4px;
-			top: 4px;
-			width: 16px;
-			height: 16px;
-			background-image: url(@{plRoot}/editor/images/ui-icons-white.png);
-			background-position: -32px -128px;
-		}
-		.controls-buttons{
-			display: none;
-			position: relative; 
-			bottom: 3px; 
-			
-			background: rgba(0,0,0,.5);
-			padding: 5px;
-			z-index: 1001;
-			margin: 0;
-			.box-shadow(inset 0 1px 3px rgba(0,0,0,.3), 0 1px 8px rgba(0,0,0,.25));
-			.btn-group{
-				vertical-align: top;
-				.btn-mini{margin-top: 0;}
-			}
-		}
-		&.open{
-			.controls-buttons{
+		&:hover, 
+		&.ui-sortable-helper { 
+			cursor: move;
+			background: @baseContrastSlight;
+			> .pl-section-controls{
 				display: block;
 			}
 		}
 		
-		
-	}
-	
-	.pl-section{
-		.box-sizing(border-box);
-		position: relative;
-		&:hover, &.ui-sortable-helper { 
-			cursor: move;
-			background: @baseContrastSlight;
-			
-		}
 		&.section-ecolumn{
-			&:hover, &.empty-area{
+			&:hover, 
+			&.empty-area{
 				background: @pl-base;
 				outline: 1px dashed #35eafd;
-				
 			}
 			
 			&.empty-area {
@@ -225,8 +55,100 @@
 					min-height: 150px;
 				}
 			}	
+			
+			> .pl-section-controls:first-child{
+				top: -20px;
+				#gradient > .vertical(rgba(182, 242, 253, .5), rgba(125, 233, 253, .5));
+				box-shadow: inset 1px 1px 0 rgba(255,255,255,.5); 
+				outline: 1px dashed  @editorBorder;
+				color: #017c8c;
+				text-shadow: 0 1px 0 rgba(255,255,255,.7);
+				
+				a.s-control{
+					color: @editorText;
+					&:hover{
+						background:@editorText;
+						color:#000;
+					}
+					&:active{
+						background-color: #01c5df;
+						color:#222;
+					}
+				}
+			}
 		}
+		// Section Controls
+		.pl-section-controls{
+			position: absolute;
+			top: 0;
+			left: 0; 
+			width: 100%;
+			z-index: 2200;
+			background: @interfaceBG;
+			text-shadow: 0 -1px 0 @interfaceBG;	
+			text-align: center;
+			color: #fff;
+			font-weight: bold;
+			font-size: 10px;
+			.box-sizing(border-box);
+			&:hover{
+				cursor: move;
+			}
+			.controls-title,
+			.controls-right, 
+			.controls-left{
+				display: inline;
+				clear: none;
+			}
+			.controls-right{
+				padding-right: 4px;
+				float: right;
+			}
+			.controls-left{
+				padding-left: 4px;
+				float: left;
+			}
+			.s-control{
+				line-height: 16px;
+				font-size: 11px;
+				display: inline-block;
+				text-align: center;
+			}
+			span.s-control{
+				letter-spacing: .1em;
+			}
+			a.s-control{
+				
+				width: 16px; 
+				height: 16px;
+				
+				padding: 0 1px;
+				
+				&:hover{
+					background: rgba(0,0,0,.6);
+					color:#eee;
+				}
+				&:active{
+					background: rgba(0,0,0,.4);
+					color:#ccc;
+				}
+				.caret, &:hover .caret{
+				  border-top:   4px solid #fff;
+				  .opacity(60);
+				  content: "";
+				}
+				&.s-control-icon{
+					width: 16px;
+					height: 16px;
+					color:#fff;
+				}
+			}
+
+
+		}
+
 	}
+	
 	.pl-dragging{
 		.pl_sortable_area{
 			padding: 5px 0;
@@ -249,129 +171,22 @@
 		}
 	}
 	
-	// Section Controls
-	.pl-section-controls{
-		display: none;
-		position: absolute;
-		top: 0;
-		left: 0; 
-		width: 100%;
-		z-index: 2200;
-		background: @interfaceBG;
-		text-shadow: 0 -1px 0 @interfaceBG;	
-		text-align: center;
-		color: #fff;
-		font-weight: bold;
-		font-size: 10px;
-		.box-sizing(border-box);
-		&:hover{cursor: move;}
-		.controls-title{
-			display: inline;
-			clear: none;
-		}
-		.controls-right{
-			display: inline;
-			padding-right: 4px;
-			float: right;
-			clear: none;
-		}
-		.controls-left{
-			display: inline;
-			padding-left: 4px;
-			float: left;
-			clear: none;
-		}
-		a {
-			text-align: center;
-			padding: 0;
-			width: 16px; 
-			height: 16px;
-		}
-	}
 	
-	.section-ecolumn > .pl-section-controls:first-child{
-		top: -20px;
-		#gradient > .vertical(rgba(182, 242, 253, .5), rgba(125, 233, 253, .5));
-		box-shadow: inset 1px 1px 0 rgba(255,255,255,.5); 
-		outline: 1px dashed  @editorBorder;
-		color: #000;
-		text-shadow: 0 1px 0 rgba(255,255,255,.7);
-		.pl-control.pl-control-icon{
-			background-image: url(@{plRoot}/editor/images/ui-icons-black.png);
-		}
-		.pl-control{
+	
+	
 
-			&:hover{
-				background-color: #fff;
-				color:#444;
-			}
-			&:active{
-				background-color: #ccc;
-				color:#222;
-			}
-			.caret, &:hover .caret{
-			  border-top:   4px solid #000;
-			}
-		}
-	}
+	
 
-	.pl-control{
-		
-		line-height: 16px;
-		padding: 0 4px;
-		display: inline-block;
-		&:hover{
-			background: rgba(0,0,0,.6);
-			color:#eee;
-		}
-		&:active{
-			background: rgba(0,0,0,.4);
-			color:#ccc;
-		}
-		.caret, &:hover .caret{
-		  border-top:   4px solid #fff;
-		  .opacity(60);
-		  content: "";
-		}
-		&.pl-control-icon{
-			background-image: url(@{plRoot}/editor/images/ui-icons-white.png);
-			width: 16px;
-			height: 16px;
-			text-indent: -1000em;
-		}
-		&.section-increase{
-			background-position: -32px -16px;
-		}
-		&.section-decrease{
-			background-position: -96px -16px;
-		}
-		&.section-edit{
-			background-position: -64px -112px;
-		}
-		&.section-clone{
-			background-position: -160px -96px;
-		}
-		&.section-delete{
-			background-position: -96px -128px;
-		}
-		&.section-offset-increase{
-			background-position: -32px -224px;
-		}
-		&.section-offset-reduce{
-			background-position: 0 -224px;
-		}
-		&.section-start-row{
-			background-position: -240px -32px;
-		}
-	}
-
-	.no_offset .section-offset-increase, .no_offset .section-offset-reduce, .no_offset .offset-size, .sortable_first .section-start-row{
+	.no_offset .section-offset-increase, 
+	.no_offset .section-offset-reduce, 
+	.no_offset .offset-size, 
+	.sortable_first .section-start-row{
 		.opacity(50);
 	}
 
-	.force_start_row .pl-control.pl-control-icon.section-start-row{
+	.force_start_row .s-control.s-control-icon.section-start-row{
 		.opacity(100);
-		background-image: url(@{plRoot}/editor/images/ui-icons-lblue.png);
+		color: @editorBorder;
 	}
 	
 	// Drag and Drop
@@ -384,18 +199,83 @@
 		.box-sizing(border-box);
 		box-shadow: inset 0 0 7px rgba(0,0,0,.2);
 		#pattern > .striped( @baseContrast );
-	//	background-image: url(@{plRoot}/editor/images/pattern.png);
 	}
-	.hidden-placeholder{display: none;}
+	.hidden-placeholder{
+		display: none;
+	}
 	.pl_sortable_area.empty-area{
-			min-height: 25px;
+		min-height: 25px;
 	}
 	
-	
-	
+	// Area Controls
+	// --------------------------------------------------
+	.pl-region-bar{
+		display: block;
+		
+		line-height: 12px;	
+		#gradient > .vertical(rgba(182, 242, 253, .06), rgba(125, 233, 253, .06));
+		width: 100%;
+		height: 13px;
+		a.btn-region{
+			vertical-align: top;
+			color: @editorText;
+			text-shadow: 0 1px 0 rgba(255,255,255,.7);
+			box-shadow: inset 2px 1px 0 rgba(255,255,255,.5); 
+			outline: 1px dashed  @editorBorder;
+			#gradient > .vertical(rgba(182, 242, 253, .5), rgba(125, 233, 253, .5));
+
+			font-size: 9px;
+			line-height: 13px;
+			padding: 1px 4px;
+			font-weight: bold;
+			.border-radius(0);
+		}
+	}
+	.pl-area{
+		position: relative;
+		border-top: 1px dashed #35eafd;
+
+		.pl-area-controls{
+			display: block;
+			z-index: 1000;
+			position: absolute; 
+			left: 7px; 
+			top: 4px;
+			text-align: left;
+			width: 50px;
+			.area-move-btn{
+				color: @editorText;
+				font-size: 11px;
+				padding: 1px 4px;
+				line-height: 16px;
+				width: 12px;
+				height: 14px;
+				font-weight: bold;
+				#gradient > .vertical(rgba(182, 242, 253, .4), rgba(125, 233, 253, .4));
+				
+				&:hover{
+					#gradient > .vertical(rgba(182, 242, 253, .7), rgba(125, 233, 253, .7));
+				}
+				&:active{
+					opacity: .6;
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+
+// Layout
+// --------------------------------------------------
+.layout-resize{
 	// Resizing
 	.ui-resizable-handle {
-		&.ui-resizable-e, &.ui-resizable-w{
+		&.ui-resizable-e, 
+		&.ui-resizable-w{
 			cursor: move;
 			position: absolute;
 			font-size: 0.1px;
@@ -432,192 +312,316 @@
 		height: 100%;	
 	}
 	
+}
 
 
-	.pl-toolbox{
-		position: fixed; 
-		bottom: 0;
-		background: #fff;
-		width: 100%;
-		z-index: 10000; 
-		min-width: 600px;
-		.toolbox-handle{
-			
-			@media (max-width: 1200px) {
-				 a {
-					.txt{
-						display: none;
-					}
+// Toolbox/Toolbar
+// --------------------------------------------------
+.pl-toolbox{
+	position: fixed; 
+	bottom: 0;
+	background: #fff;
+	width: 100%;
+	z-index: 10000; 
+	min-width: 600px;
+	.toolbox-handle{
+		
+		@media (max-width: 1200px) {
+			 a {
+				.txt{
+					display: none;
 				}
 			}
-			
-			text-align: left;
-			.buttonBackground(#eee, #ddd);
-			box-shadow: inset 1px 1px 0 rgba(255,255,255,.8), 0 1px 3px rgba(0,0,0,.2);
-			border-top: 1px solid #BBB;
-			border-bottom: 1px solid #AAA;
-			font-weight: bold;
-			text-shadow: 0 1px 0 #fff; 
-			height: 28px;
-			line-height: 28px;
-			font-size: 13px;
-			padding: 0 1%; 
-			
-			.user-select(none);
-			i, i:before{
-				vertical-align: middle;
-				font-size: 18px;
-				width: 20px;
+		}
+		
+		text-align: left;
+		.buttonBackground(#eee, #ddd);
+		box-shadow: inset 1px 1px 0 rgba(255,255,255,.8), 0 1px 3px rgba(0,0,0,.2);
+		border-top: 1px solid #BBB;
+		border-bottom: 1px solid #AAA;
+		font-weight: bold;
+		text-shadow: 0 1px 0 #fff; 
+		height: 28px;
+		line-height: 28px;
+		font-size: 13px;
+		padding: 0 1%; 
+		
+		.user-select(none);
+		i, i:before{
+			vertical-align: middle;
+			font-size: 18px;
+			width: 20px;
+		}
+		 
+		ul{
+			float: left;
+			margin-right: 5px;
+			&.controls{
+				border-left: 1px solid #cdcdcd;
+				border-right: 1px solid #fff;
 			}
-			 
-			ul{
+			&.send-right{
+				float: right;
+				margin-right: 0;
+			}
+			li, lh{
 				float: left;
-				margin-right: 5px;
-				&.controls{
-					border-left: 1px solid #cdcdcd;
-					border-right: 1px solid #fff;
+				height: 28px;
+			}
+			> lh{
+				line-height: 28px;
+				padding: 0 5px 0 25px;
+				color: #aaa; 
+				border-right: 1px solid #cdcdcd;
+				i{display: block;}
+			}
+			> li > a{
+				display: block;
+				color: #444;
+				padding: 0 15px;
+				font-size: 11px;
+				line-height: 26px;
+				cursor: pointer;
+				&:hover{
+					.buttonBackground(#eee, #ccc);
 				}
-				&.send-right{
-					float: right;
-					margin-right: 0;
+				&:active{
+					.buttonBackground(#bbb, #ddd);
 				}
-				li, lh{
-					float: left;
-					height: 28px;
-				}
-				> lh{
-					line-height: 28px;
-					padding: 0 5px 0 25px;
-					color: #aaa; 
-					border-right: 1px solid #cdcdcd;
-					i{display: block;}
-				}
-				> li > a{
-					display: block;
-					color: #444;
-					padding: 0 15px;
-					font-size: 11px;
-					line-height: 26px;
-					cursor: pointer;
-				}
-				&.controls > li > a{
-					border-left: 1px solid #fff; 
-					border-right: 1px solid #cdcdcd;
-				}
-				&.panel-control a{
-					i:before{
-						font-size: 13px;
+				&.active{
+					.buttonBackground(#e1e1e1, #bbb);
+					i{
+						color: @linkColor;
 					}
 					
-					padding: 0 3px;
-				}
-				.h-resizer, 
-				.h-toggler{
-					color: #999; 
-					border-left: 1px solid transparent;
-					border-right: 1px solid transparent;
-					&:hover, &:active{
-						color:#08c;
-						background:rgba(0,0,0,.1);
-					}
-				}
-				.h-toggler{
-					padding: 0 5px;
-				}
-				.h-resizer{
-					cursor: -webkit-grabbing;
-				}
-			}
-			
-		}
-		.toolbox-panel-wrap{
-			overflow: hidden;
-		}
-		
-		.toolbox-panel{
-			.transition(margin-bottom .5s);
-			margin-bottom: -20%;
-			opacity:0;
-			&.in { 
-				margin-bottom: 0; 
-				opacity: 1;
-			}
-			
-			width: 100%;
-			max-height: 80%;
-
-			overflow: scroll;
-			background:#fafafa url(@{plRoot}/editor/images/whitey.png);
-			.toolbox-content{
-				background:#fff; 
-				box-shadow: 0 0 5px rgba(0,0,0,.4);
-				width: 800px;
-				margin: 0 auto;
-			}
-			.tabbed-set{
-				overflow: hidden;
-			}
-			.tabs-nav, .tab-panel{
-				float: left;
-				margin-bottom: -99999px;
-				padding-bottom: 99999px;
-			}
-			
-			.tabs-nav{
-				width: 25%;
-				background:#fafafa;
-				box-shadow: inset 1px 1px 0px rgba(255,255,255,1);
-				.box-model(border-box);
-				border-right: 1px solid #CDCDCD;
-				font-family: @readingFont;
-				font-weight: 800;
-				font-size: 1em;
-				lh{
-					color: #BBB;
-					font-size: .85em;
-					letter-spacing: .05em;
-					text-transform: uppercase;	
-					padding: 10px 10px 5px;
-					display: block;
-				}
-				li{
-					border-top: 1px solid transparent;
-					border-bottom: 1px solid transparent;
-					a{
-						padding: 5px 0px 5px 20px;
-						display: block;
-						color: #222;
-					}
 					&:hover{
-						background: #f7f7f7;
-					}
-					&:active{
-						background:#eee;
-					}
-					&.ui-state-active{
-						a{ color:#fff; text-shadow: 0 -1px 0 rgba(0,0,0,.7);}
-						.buttonBackground(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
-						box-shadow: inset 1px 1px 0px rgba(255,255,255,.2), 0 1px 3px rgba(0,0,0,.2);
-						border-top-color: @btnPrimaryBackground;
-						border-bottom-color: @btnPrimaryBackground;
+
 					}
 				}
 			}
-			.tab-panel{
-				width: 73%;
-				.tab-panel-inner{
-					min-height: 300px;
-					padding: 15px 10px 35px 35px;
+			&.controls > li > a{
+				border-left: 1px solid #fff; 
+				border-right: 1px solid #bbb;
+				&:hover,
+				&.active{
+					border-left: 1px solid #e1e1e1; 
+					border-right: 1px solid #aaa;
 				}
-				p, ul, ol{font-size: 1em;}
+				&:active{
+					border-left: 1px solid #aaa; 
+				}
 			}
-			.ui-tabs .ui-tabs-hide{
-				display: none;
+			&.panel-control a{
+				i:before{
+					font-size: 13px;
+				}
+				
+				padding: 0 3px;
+			}
+			.h-resizer, 
+			.h-toggler{
+				color: #999; 
+				border-left: 1px solid transparent;
+				border-right: 1px solid transparent;
+				&:hover, &:active{
+					color:#08c;
+					background:rgba(0,0,0,.1);
+				}
+			}
+			.h-toggler{
+				padding: 0 5px;
+			}
+			.h-resizer{
+				cursor: -webkit-grabbing;
 			}
 		}
-		
-		
 		
 	}
+	.toolbox-panel-wrap{
+		overflow: hidden;
+	}
+	
+	.toolbox-panel{
+		.transition(margin-bottom .5s);
+		margin-bottom: -20%;
+		opacity:0;
+		&.in { 
+			margin-bottom: 0; 
+			opacity: 1;
+		}
+		
+		width: 100%;
+		max-height: 80%;
+
+		overflow: scroll;
+		background:#fafafa url(@{plRoot}/editor/images/whitey.png);
+		.toolbox-content{
+			background:#fff; 
+			box-shadow: 0 0 5px rgba(0,0,0,.4);
+			width: 800px;
+			margin: 0 auto;
+		}
+		.tabbed-set{
+			overflow: hidden;
+		}
+		.tabs-nav, .tab-panel{
+			float: left;
+			margin-bottom: -99999px;
+			padding-bottom: 99999px;
+		}
+		
+		.tabs-nav{
+			width: 25%;
+			background:#fafafa;
+			box-shadow: inset 1px 1px 0px rgba(255,255,255,1);
+			.box-model(border-box);
+			border-right: 1px solid #CDCDCD;
+			font-family: @readingFont;
+			font-weight: 800;
+			font-size: 1em;
+			lh{
+				color: #BBB;
+				font-size: .85em;
+				letter-spacing: .05em;
+				text-transform: uppercase;	
+				padding: 10px 10px 5px;
+				display: block;
+			}
+			li{
+				border-top: 1px solid transparent;
+				border-bottom: 1px solid transparent;
+				a{
+					padding: 5px 0px 5px 20px;
+					display: block;
+					color: #222;
+				}
+				&:hover{
+					background: #f7f7f7;
+				}
+				&:active{
+					background:#eee;
+				}
+				&.ui-state-active{
+					a{ color:#fff; text-shadow: 0 -1px 0 rgba(0,0,0,.7);}
+					.buttonBackground(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
+					box-shadow: inset 1px 1px 0px rgba(255,255,255,.2), 0 1px 3px rgba(0,0,0,.2);
+					border-top-color: @btnPrimaryBackground;
+					border-bottom-color: @btnPrimaryBackground;
+				}
+			}
+		}
+		.tab-panel{
+			width: 73%;
+			.tab-panel-inner{
+				min-height: 300px;
+				padding: 15px 10px 35px 35px;
+			}
+			p, ul, ol{font-size: 1em;}
+		}
+		.ui-tabs .ui-tabs-hide{
+			display: none;
+		}
+	}
+	
+}
+
+
+
+// Palette/Dock
+// --------------------------------------------------
+.pl-gadget{
+	width: 50px;
+	.transition(left 0.15s ease-in-out);
+	position: fixed;
+	left: -40px;
+	top: 30%;
+	z-index: 1001;
+	&::after{
+		content: '';
+		display: block;
+		width: 120px;
+		height: 110%;
+		position: absolute;
+		top: -5%;
+		right: -40px;
+		z-index: -100;
+	}
+	&:hover{
+		left: 0;
+	}
+	
+	a.gadget-item{
+		position: relative;
+		display: block;
+		background: #000;
+		.transition( background .3s );
+		&:hover{
+			background: #225E9B;
+			.gadget-text{
+				background: #000;
+				text-shadow: 0 -1px 0 #000;
+				visibility: visible;
+				left: 50px;
+				.transition(left 0.15s ease-in-out);	
+				opacity: 1;
+			}
+		}
+		&:active{
+			
+			background: #4b91d8;
+			
+		}
+		.gadget-icon{
+			border-top: 1px solid rgba(255,255,255,.1);
+			&:first-child{
+				border-top: 1px solid transparent
+			}
+			display: inline-block;
+			line-height: 50px;
+			text-align: center;
+			.size(50px, 50px);
+			
+			img{
+				display: inline-block;
+				vertical-align: middle;
+				width: 26px;
+				height: 26px;
+			}
+		}
+		.gadget-text{
+			opacity: 0;
+			position: absolute;
+			top: 0;
+			left: -100px;
+			
+			text-align: left;
+			visibility: hidden;
+			z-index: -1;
+			
+			word-wrap: break-word;
+			max-width: 700px;
+				
+			display: block;
+			color: white;
+			display: block;
+			font-size: 14px;
+			font-weight: bold;
+			padding: 1px 16px 0 16px;
+			height: 50px;
+			line-height: 50px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			&:hover{
+				background: rgba(0,0,0,.8);
+			}
+			&:active{
+				background: #000;
+			}
+		}
+		
+	}
+
+
 }
 

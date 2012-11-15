@@ -48,7 +48,7 @@ class PageLinesTemplateHandler {
 				'height'	=> 200,
 				'name'		=> 'Template Area',
 				'content'	=> array(
-					'ScrollSpy'	=> array(),
+			//		'ScrollSpy'	=> array(),
 					'eColumn' => array( 
 						'span' 	=> 8,
 						'content'	=> array( 
@@ -68,7 +68,7 @@ class PageLinesTemplateHandler {
 					'PageLinesBoxesID2'=> array(
 						'clone'	=> 2, 
 						'span'	=> 6,
- 					), 
+				 	), 
 					
 					'PageLinesContentBoxID3' => array( 'span' => '8' ),
 					'PageLinesHighlight' => array( ), 

@@ -17,12 +17,12 @@ jQuery(document).ready(function() {
 	
 	jQuery('.pl_sortable_area .pl-section').addClass('pl_sortable')
 	
-	jQuery.pageBuilder.reloadConfig()
-	jQuery.pageBuilder.startDroppable()
-//	jQuery.pageBuilder.startResize(); // Layout resize
+//	jQuery.pageBuilder.startResize(); // Layout resize	
 	
-	columnControls()
-	areaControls()
+	// Aligns things
+	jQuery.pageBuilder.reloadConfig()
+	
+	jQuery.toolBar.listen()
 	
 	var ml = jQuery('.pl-toolbox').toolbox()
 
@@ -31,111 +31,306 @@ jQuery(document).ready(function() {
 
 		
 
-(function($) {
-    $.log = function(text) {
-        if(typeof(window['console'])!='undefined') console.log(text);
-    };
-
-    $.pageBuilder = {
-	
-        reloadConfig: function() {
+!function ($) {
+    
+	// Event Listening
+	$.toolBar = {
+		listen: function() {
 		
-			jQuery('.pl_sortable_area').each(function () {
-				jQuery.pageBuilder.alignGrid( this );
-			});
+			$(".btn-drag-drop").on("click", function(e) {
+				e.stopPropagation()
+				
+				$.pageBuilder.toggle($(this))
+				
+				$.areaControl.toggle($(this))
+				
+			})
 
         },
-		isAreaEmpty: function(area){
-			var addTo = (area.hasClass('ecolumn-inner')) ? area.parent() : area;
-			if(!area.children(".pl_sortable").length) {
-			    addTo.addClass('empty-area');
-			} else {
-			    addTo.removeClass('empty-area');
-			}
-		},
+	}
 
-        alignGrid: function( area_dom ) {
-
-            var total_width = 0,
-            	width = 0,
-            	next_width = 0,
-				avail_offset = 0;
+	// Page Drag/Drop Builder
+    $.pageBuilder = {
 	
-            $dom_tree = $(area_dom);
+		toggle: function( btn ){
 			
-            $dom_tree.children(".pl_sortable").removeClass("sortable_first sortable_last").css('opacity', 1);
-
-  			jQuery.pageBuilder.isAreaEmpty( $dom_tree );
-
-			$dom_tree.find(".pl_sortable .pl_sortable").removeClass("sortable_1st_level");
-			$dom_tree.children(".pl_sortable").addClass("sortable_1st_level");
-			$dom_tree.children(".pl_sortable:eq(0)").addClass("sortable_first");
-			$dom_tree.children(".pl_sortable:last").addClass("sortable_last");
-
+			if(!jQuery.pageBuilder.isActive){
+				
+				
+				// Graphical Flare
+				$('.pl_sortable').effect('highlight', 1500)
+				btn.addClass('active')
+				
+				// Enable CSS
+				$('body').addClass('drag-drop-editing')
 			
-            $dom_tree.children(".pl_sortable").each(function (index) {
-				
-                var cur_el = $(this),
-					col_size = getColumnSize(cur_el), 
-					off_size = getOffsetSize(cur_el);
-				
-				width = col_size[4] + off_size[3];
-				
-				total_width += width;
-				
-				avail_offset = 12 - col_size[4]; 
+				// Track Toggling
+				$.pageBuilder.isActive = true
 			
-				if(avail_offset == 0)
-					cur_el.addClass('no_offset');
+				// JS
+				$.pageBuilder.startDroppable()
+				
+				$.pageBuilder.reloadConfig()
+				
+				$.pageBuilder.sectionControls()
+				
+			} else {
+				$('body').removeClass('drag-drop-editing')
+				
+				btn.removeClass('active')
+				
+				$.pageBuilder.isActive = false
+			
+				$('.s-control')
+					.off('click.sectionControls')
+			}
+			
+		}
+		
+		, sectionControls: function() {
+			
+			$('.s-control').on('click.sectionControls', function(e){
+		
+				e.preventDefault()
+			
+				var btn = $(this)
+				,	section = btn.closest(".pl_sortable")
+			
+				if(btn.hasClass('section-edit')){
+					
+					// TODO Open up and load options panel
+					
+				} else if (btn.hasClass('section-delete')){
+					
+					var answer = confirm ("Press OK to delete section or Cancel");
+					if (answer) {
+			            
+						section.remove();
+			            section.addClass('empty_column');
+						
+					}
+					
+				} else if (btn.hasClass('section-clone')){
+				
+					var cloned = section.clone( true )
+
+					cloned
+						.insertAfter(section)
+						.hide()
+						.fadeIn()
+
+					// TODO make cloning work
+				
+				} else if (btn.hasClass('column-popup')){
+					
+					// Pop to top level
+					
+					var answer = confirm ("Press OK to pop (move) section to the top level or cancel.")
+					
+					if (answer)
+						section.appendTo('.pl_main_sortable') //insertBefore('.wpb_main_sortable div.wpb_clear:last');
+					
+					
+				} else if ( btn.hasClass('section-increase')){
+					
+					var sizes = $.pageBuilder.getColumnSize(section)
+
+					if ( sizes[1] )
+						section.removeClass( sizes[0] ).addClass( sizes[1] )
+
+					
+				} else if ( btn.hasClass('section-decrease')){
+
+					var sizes = $.pageBuilder.getColumnSize( section )
+
+					if (sizes[2])
+						section.removeClass(sizes[0]).addClass(sizes[2]) // Switch for next class
+
+
+				} else if ( btn.hasClass('section-offset-increase')){
+					
+					var sizes = $.pageBuilder.getOffsetSize( section )
+
+					if (sizes[1])
+						section.removeClass(sizes[0]).addClass(sizes[1])
+						
+
+				} else if ( btn.hasClass('section-offset-reduce')){
+
+					var sizes = $.pageBuilder.getOffsetSize( section )
+
+					if (sizes[1])
+						section.removeClass(sizes[0]).addClass(sizes[2])
+					
+
+				} else if ( btn.hasClass('section-start-row') ){
+				
+					section.toggleClass('force_start_row')
+					
+				}
+				
+				$.pageBuilder.reloadConfig()
+				
+			})
+		
+		}
+	
+		, saveConfig: function(){
+
+			$.pageBuilder.reloadConfig()
+			
+		}
+		
+        , reloadConfig: function() {
+		
+			$('.pl_sortable_area').each(function () {
+				$.pageBuilder.alignGrid( this );
+			});
+
+        }
+		, isAreaEmpty: function(area){
+			var addTo = (area.hasClass('ecolumn-inner')) ? area.parent() : area
+			
+			if(!area.children(".pl_sortable").length)
+			    addTo.addClass('empty-area')
+			else 
+			    addTo.removeClass('empty-area')
+			
+		}
+
+        , alignGrid: function( area ) {
+		
+            var total_width = 0
+            ,	width = 0
+            ,	next_width = 0
+			,	avail_offset = 0
+			, 	sort_area = $(area)
+			, 	len = sort_area.children(".pl_sortable").length
+	
+  			$.pageBuilder.isAreaEmpty( sort_area )
+
+            sort_area.children(".pl_sortable").each(function ( index ) {
+				
+                var section = $(this)
+				,	col_size = $.pageBuilder.getColumnSize( section )
+				,	off_size = $.pageBuilder.getOffsetSize( section )
+				
+				
+				// Deal with classes 
+				section
+					.removeClass("sortable_first sortable_last")
+					.addClass("sortable_1st_level")
+					.css('opacity', 1)
+					.find('.pl_sortable')
+						.removeClass("sortable_1st_level")
+				
+				if ( index == 0 )
+					section.addClass("sortable_first")
+				else if ( index === len - 1 ) 
+					section.addClass("sortable_last")
+					
+				
+				// Deal with width and offset
+				width = col_size[4] + off_size[3]
+				
+				total_width += width
+				
+				avail_offset = 12 - col_size[4];
+			
+				if( avail_offset == 0 )
+					section.addClass('no_offset')
 				else 
-					cur_el.removeClass('no_offset');
+					section.removeClass('no_offset')
 			
 				if(width > 12){
 					avail_offset = 12 - col_size[4]; 
-					cur_el.removeClass(off_size[0]).addClass('offset'+avail_offset);
-					off_size = getOffsetSize(cur_el);
+					section.removeClass( off_size[0] ).addClass( 'offset'+avail_offset )
+					off_size = $.pageBuilder.getOffsetSize( section )
 				}
 
                	// Set Numbers
-				jQuery(cur_el).find(".section-size:first").html(sizes[4]+'/12');
-				jQuery(cur_el).find(".offset-size:first").html(off_size[3]);
+				section.find(".section-size:first").html( col_size[3] )
+				section.find(".offset-size:first").html( off_size[3] )
 				
-				if (total_width > 12 || cur_el.hasClass('force_start_row')) {
+				if (total_width > 12 || section.hasClass('force_start_row')) {
 					
-                    cur_el.addClass('sortable_first');
-                    cur_el.prev('.pl_sortable').addClass("sortable_last");
-                    total_width = width;
+                    section
+						.addClass('sortable_first')
+                    	.prev('.pl_sortable')
+						.addClass("sortable_last")
+						
+                    total_width = width
+
                 } 
 
-            });
-        }, // endjQuery.pageBuilder.alignGrid()
+            })
 
-		saveConfig: function(){
-			//this.Droppable();
-			jQuery.pageBuilder.reloadConfig();
-		},
+        } 
+
+		, getOffsetSize: function( column ) {
+			
+			var max = 12
+			,	sizes = $.pageBuilder.getColumnSize( column )
+			,	avail = max - sizes[4]
+			,	data = []
+
+			for( i = 0; i <= 12; i++){
+
+					next = ( i == avail ) ? 0 : i+1
+
+					prev = ( i == 0 ) ? avail : i-1	
+
+					if(column.hasClass("offset"+i))
+						data = new Array("offset"+i, "offset"+next, "offset"+prev, i)
+
+			}
+
+			if(data.length === 0)
+				return new Array("offset0", "offset0", "offset0", 0)
+			else
+				return data
+
+		}
 		
-		startResize: function(){
-			// Resizable Content Area
-			jQuery('.pl-content').resizable({ 
-				handles: "e, w",
-				minWidth: 400,
-				resize: function(event, ui) { 
 
-					var resizeWidth = ui.size.width, 
-						resizeOrigWidth = ui.originalSize.width, 
-						resizeNewWidth = resizeOrigWidth + ((resizeWidth - resizeOrigWidth) * 2); 
+		, getColumnSize: function(column) {
 
-					jQuery('.pl-content').css('left', 'auto').width(resizeNewWidth); 
+			if (column.hasClass("span12")) //full-width
+				return new Array("span12", "span2", "span10", "1/1", 12)
 
-				}
-			});
+		    else if (column.hasClass("span10")) //five-sixth
+		        return new Array("span10", "span12", "span9", "5/6", 10)
+
+			else if (column.hasClass("span9")) //three-fourth
+				return new Array("span9", "span10", "span8", "3/4", 9)
+
+			else if (column.hasClass("span8")) //two-third
+				return new Array("span8", "span9", "span6", "2/3", 8)
+
+			else if (column.hasClass("span6")) //one-half
+				return new Array("span6", "span8", "span4", "1/2", 6)
+
+			else if (column.hasClass("span4")) // one-third
+				return new Array("span4", "span6", "span3", "1/3", 4)
+
+			else if (column.hasClass("span3")) // one-fourth
+				return new Array("span3", "span4", "span2", "1/4", 3)
+
+		    else if (column.hasClass("span2")) // one-sixth
+		        return new Array("span2", "span3", "span12", "1/6", 2)
+
+			else
+				return false
+
+		}
+
+		
+		
+		
+
+		, startDroppable: function(){
 			
-		},
-
-		startDroppable: function(){
-			
-		    jQuery('.pl_sortable_area').sortable({
+		    $('.pl_sortable_area').sortable({
 		        items: ".pl-section",
 				dropOnEmpty: true,
 				forcePlaceholderSize: true,
@@ -149,17 +344,12 @@ jQuery(document).ready(function() {
 				delay: 100,
 				opacity: 0.6,
 				tolerance: "pointer",
-			//	appendTo: '.pl-area',
-			// cursorAt: { left: 5 },
-			// helper: function(){
-			// 	return '<div class="helpit">omg</div>';
-			// },
 				start: function(event, ui){
-					jQuery('#page').addClass('pl-dragging');
-					jQuery('.pl-section').effect('highlight', '#ff0000', 1000);
+					$('#page').addClass('pl-dragging')
+					$('.pl-section').effect('highlight', '#ff0000', 1000)
 				}, 
 				stop: function(event, ui){
-					jQuery('#page').removeClass('pl-dragging');
+					$('#page').removeClass('pl-dragging');
 				},
 				
 				over: function(event, ui) {
@@ -173,302 +363,139 @@ jQuery(document).ready(function() {
 		        },
 				beforeStop: function(event, ui) {
 		            if( ui.item.hasClass('section-ecolumn') && ui.placeholder.parent().parent().hasClass('section-ecolumn') ) {
-		                return false;
+		                return false
 		            }
 		        },
 				update: function() {
-					jQuery.pageBuilder.reloadConfig();
-				},
+					$.pageBuilder.reloadConfig()
+				}
 				
-		    });
+		    })
 		
-			
-			
-			jQuery('.pl_sortable_area').droppable({
-				greedy: true,
-				accept: ".droppable_el, .droppable_column, .pl-section",
-				hoverClass: "wpb_ui-state-active",
-				drop: function( event, ui ) {
-					jQuery.pageBuilder.reloadConfig();
+		}
+		
+		, startResize: function(){
+			// Resizable Content Area
+			$('.pl-content').resizable({ 
+				handles: "e, w",
+				minWidth: 400,
+				resize: function(event, ui) { 
+
+					var resizeWidth = ui.size.width, 
+						resizeOrigWidth = ui.originalSize.width, 
+						resizeNewWidth = resizeOrigWidth + ((resizeWidth - resizeOrigWidth) * 2); 
+
+					jQuery('.pl-content').css('left', 'auto').width(resizeNewWidth); 
+
 				}
 			});
 			
-			jQuery('.ecolumn-inner').droppable({
-		        greedy: true,
-		        accept: function(dropable_el) {
-		            if ( dropable_el.hasClass('dropable_el') && jQuery(this).hasClass('ui-droppable') && dropable_el.hasClass('not_dropable_in_third_level_nav') ) {
-		                return false;
-		            } else if ( dropable_el.hasClass('dropable_el') == true ) {
-		                return true;
-		            }
-		        },
-		        hoverClass: "wpb_ui-state-active",
-		        over: function( event, ui ) {
-		            jQuery(this).parent().addClass("wpb_ui-state-active");
-		        },
-		        out: function( event, ui ) {
-		            jQuery(this).parent().removeClass("wpb_ui-state-active");
-		        },
-		        drop: function( event, ui ) {
-		            //console.log(jQuery(this));
-		            jQuery(this).parent().removeClass("wpb_ui-state-active");
-		            getElementMarkup(jQuery(this), ui.draggable, "addLastClass");
-		        }
-		    });
-		 
-
-		}, //------------->> end initDroppable() <--------------//
+		}
 		
     }
-})(jQuery);
 
-function areaControls() {
 	
-	jQuery(".btn-area-down").on("click", function(e) {
-		e.stopPropagation()
-		moveArea(jQuery(this), 'down')
-	});
-	jQuery(".btn-area-up").on("click", function(e) {
-		e.stopPropagation()
-		moveArea(jQuery(this), 'up')
-	});
+	$.areaControl = {
 	
-}
-
-function moveArea( button, direction ){
-	
-	
-	var iteration = (direction == 'up') ? -1 : 1
-	,	currentArea = button.closest('.pl-area')
-	,	areaNumber = currentArea.data('area-number')
-	, 	moveAreaNumber = areaNumber + iteration
-	,	moveArea = jQuery("[data-area-number='"+moveAreaNumber+"']")
-	
-	
-	
-	if(moveArea.hasClass('pl-region-bar')){
-	
-		moveAreaNumber = moveAreaNumber + iteration
-	
-		moveArea = jQuery("[data-area-number='"+moveAreaNumber+"']")
+        toggle: function(btn) {
 		
-		if(direction == 'up'){
-			moveArea
-				.after( currentArea )
-		} else {
-			moveArea
-				.before( currentArea )
-		}
+			if(!jQuery.areaControl.isActive){
+				
+				$('body')
+					.addClass('area-controls')
+					.find('area-tag')
+					.effect('highlight')
 			
-	} else {
-		
-		if(direction == 'up'){
-			moveArea
-				.before( currentArea )
-		} else {
-			moveArea
-				.after( currentArea )
-		}
+				btn.addClass('active')
 			
-	}
-	
-	currentArea.effect('highlight')
-	
-	updateAreas()
-	
-}
-
-function updateAreas(){
-	jQuery('.area-tag').each( function(index) {
-		
-		var num = index + 1
-		
-	    jQuery(this).data('area-number', num).attr('data-area-number', num)
-	
-	})
-}
-
-/* Set action for column size and delete buttons
----------------------------------------------------------- */
-function columnControls() {
-	
-	jQuery('html')
-		.on('click', function () {
-			jQuery(".pl-area-controls").removeClass('open').find('.controls-toggle-btn').removeClass('active');
-		});
-	jQuery('body')
-		.on('click', '.controls-buttons', function (e) { e.stopPropagation() })
-	
-
-	jQuery('.pl-section').hover(
-	  function () {
-	    jQuery('.pl-section-controls:eq(0)', this).show();
-	  }, 
-	  function () {
-	    jQuery('.pl-section-controls:eq(0)', this).hide();
-	  }
-	);
-
-	
-	jQuery(".section-edit").on("click", function(e) {
-		e.preventDefault();
-		drawModal('The Cool Title');
-	});
-	
-	jQuery(".section-delete").live("click", function(e) {
-		e.preventDefault();
-		var answer = confirm ("Press OK to delete section, Cancel to leave");
-		if (answer) {
-            $parent = jQuery(this).closest(".pl_sortable");
-			jQuery(this).closest(".pl_sortable").remove();
-            $parent.addClass('empty_column');
-			jQuery.pageBuilder.reloadConfig();
-		}
-	});
-	jQuery(".section-clone").live("click", function(e) {
-		e.preventDefault();
-		var closest_el = jQuery(this).closest(".pl_sortable"),
-			cloned = closest_el.clone( true );
-
-		cloned.insertAfter(closest_el).hide().fadeIn().find('.pl-section-controls').hide();
-
-		//Fire INIT callback if it is defined
-		cloned.find('.pl_initialized').removeClass('pl_initialized');
-		cloned.find(".pl_vc_init_callback").each(function(index) {
-			var fn = window[jQuery(this).attr("value")];
-			if ( typeof fn === 'function' ) {
-			    fn(cloned);
+				jQuery.areaControl.isActive = true
+			
+				jQuery.areaControl.listen()
+				
+			} else {
+				btn.removeClass('active')
+				jQuery.areaControl.isActive = false
+				$('body').removeClass('area-controls')
+				
 			}
-		});
-
-		//closest_el.clone().appendTo(jQuery(this).closest(".wpb_main_sortable, .wpb_column_container")).hide().fadeIn();
-		jQuery.pageBuilder.reloadConfig();
-	});
-
-
-	
-	jQuery(".pl_sortable .pl_sortable .column_popup").live("click", function(e) {
-		e.preventDefault();
-		var answer = confirm ("Press OK to pop (move) section to the top level, Cancel to leave");
-		if (answer) {
-			jQuery(this).closest(".pl_sortable").appendTo('.pl_main_sortable');//insertBefore('.wpb_main_sortable div.wpb_clear:last');
-			initDroppable();
-			jQuery.pageBuilder.reloadConfig();
-		}
-	});
-
-
-	jQuery(".section-increase").live("click", function(e) {
-		e.preventDefault();
-		var column = jQuery(this).closest(".pl_sortable"),
-			sizes = getColumnSize(column);
-		if (sizes[1]) {
-			column.removeClass(sizes[0]).addClass(sizes[1]);
-			jQuery.pageBuilder.reloadConfig();
-		}
-	});
-
-	jQuery(".section-decrease").live("click", function(e) {
-		e.preventDefault();
 		
-		var column = jQuery(this).closest(".pl_sortable"),
-			sizes = getColumnSize(column);
-			
-		if (sizes[2]) {
-			column.removeClass(sizes[0]).addClass(sizes[2]);
-			jQuery.pageBuilder.reloadConfig();
 		}
-	});
-	
-	jQuery(".section-offset-increase").live("click", function(e) {
-		e.preventDefault();
-		var column = jQuery(this).closest(".pl_sortable"),
-			sizes = getOffsetSize(column);
-			
-		if (sizes[1]) {
-			column.removeClass(sizes[0]).addClass(sizes[1]);
-			jQuery.pageBuilder.reloadConfig();
-		}
-	});
-	jQuery(".section-offset-reduce").live("click", function(e) {
-		e.preventDefault();
-		var column = jQuery(this).closest(".pl_sortable"),
-			sizes = getOffsetSize(column);
-			
-		if (sizes[1]) {
-			column.removeClass(sizes[0]).addClass(sizes[2]);
-			jQuery.pageBuilder.reloadConfig();
-		}
-	});
-	jQuery(".section-start-row").live("click", function(e) {
-		e.preventDefault();
-		var column = jQuery(this).closest(".pl_sortable");
-			
-		column.toggleClass('force_start_row');
+
+		, listen: function() {
+			$(".btn-area-down").on("click", function(e) {
+				e.stopPropagation()
+				$.areaControl.move($(this), 'down')
+			});
+			$(".btn-area-up").on("click", function(e) {
+				e.stopPropagation()
+				$.areaControl.move($(this), 'up')
+			});
+		} 
 		
-		jQuery.pageBuilder.reloadConfig();
-	});
-	
-} // end columnControls()
+		, update: function() {
+			$('.area-tag').each( function(index) {
+
+				var num = index + 1
+
+			    $(this).data('area-number', num).attr('data-area-number', num)
+
+			})
+		}
+		
+		, move: function( button, direction ){
 
 
-function getOffsetSize(column) {
+			var iteration = (direction == 'up') ? -1 : 1
+			,	currentArea = button.closest('.pl-area')
+			,	areaNumber = currentArea.data('area-number')
+			, 	moveAreaNumber = areaNumber + iteration
+			,	moveArea = $("[data-area-number='"+moveAreaNumber+"']")
 
 
-	sizes = getColumnSize(column);
-	
-	var max = 12, 
-		avail = max - sizes[4], 
-		data = []; 
-	
-	for( i = 0; i <= 12; i++){
 
-			next = ( i == avail ) ? 0 : i+1;
+			if(moveArea.hasClass('pl-region-bar') && direction == 'up'){
 
-			prev = ( i == 0 ) ? avail : i-1;	
+				moveAreaNumber = moveAreaNumber + iteration
 
-			if(column.hasClass("offset"+i))
-				data = new Array("offset"+i, "offset"+next, "offset"+prev, i);
+				moveArea = $("[data-area-number='"+moveAreaNumber+"']")
 
+				if(direction == 'up'){
+					moveArea
+						.after( currentArea )
+				} else {
+					moveArea
+						.before( currentArea )
+				}
+
+			} else {
+
+				if(direction == 'up'){
+					moveArea
+						.before( currentArea )
+				} else {
+					moveArea
+						.after( currentArea )
+				}
+
+			}
+
+			currentArea.effect('highlight')
+
+			$.areaControl.update()
+
+		}
+		
 	}
 	
-	if(data.length === 0)
-		return new Array("offset0", "offset0", "offset0", 0);
-	else
-		return data;
-
-}
-
-function getColumnSize(column) {
 	
-	if (column.hasClass("span12")) //full-width
-		return new Array("span12", "span2", "span10", "12/12", 12);
+}(window.jQuery);
 
-    else if (column.hasClass("span10")) //five-sixth
-        return new Array("span10", "span12", "span9", "10/12", 10);
 
-	else if (column.hasClass("span9")) //three-fourth
-		return new Array("span9", "span10", "span8", "9/12", 9);
 
-	else if (column.hasClass("span8")) //two-third
-		return new Array("span8", "span9", "span6", "8/12", 8);
 
-	else if (column.hasClass("span6")) //one-half
-		return new Array("span6", "span8", "span4", "6/12", 6);
 
-	else if (column.hasClass("span4")) // one-third
-		return new Array("span4", "span6", "span3", "4/12", 4);
 
-	else if (column.hasClass("span3")) // one-fourth
-		return new Array("span3", "span4", "span2", "3/12", 3);
-		
-    else if (column.hasClass("span2")) // one-sixth
-        return new Array("span2", "span3", "span12", "2/12", 2);
 
-	else
-		return false;
-		
-} // end getColumnSize()
 
 
 /* Get initial html markup for content element. This function
@@ -505,20 +532,5 @@ function getElementMarkup (target, element, action) {
 	});
 
 } // end getElementMarkup()
-
-
-
-
-// MISC JUNK
-function drawStructure(title){
-	
-}
-
-function drawModal(title){
-	
-	jQuery('#editModal h3').html(title);
-	
-	jQuery('#editModal').modal();
-}
 
 

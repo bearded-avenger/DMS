@@ -7,7 +7,7 @@
  *
  */
 
-return;
+ return;
 
 // Make sure user can handle this.
 if (!current_user_can('edit_themes') || !defined('PL_ANDREW_UX_DEV') || !PL_ANDREW_UX_DEV)
@@ -22,7 +22,7 @@ class PageLinesEditor {
 		
 		
 		// DISABLE 
-		add_filter('show_admin_bar', '__return_false');  
+	//	add_filter('show_admin_bar', '__return_false');  
 		
 		// TEMPLATE ACTIONS
 		add_action('wp_print_styles', array(&$this, 'process_styles' ));
