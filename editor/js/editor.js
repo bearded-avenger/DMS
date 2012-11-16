@@ -326,14 +326,14 @@ jQuery(document).ready(function() {
 
 		, startDroppable: function(){
 			
+		
+			
 		    $('.pl-sortable-area').sortable({
 			
 		        items: 	".pl-section"
 				,	placeholder: "pl-placeholder"
 				,	connectWith: ".pl-sortable-area"
-				,	dropOnEmpty: true
 				,	forcePlaceholderSize: true
-				,	forceHelperSize: false
 		        ,	tolerance: "pointer"		// basis for calculating where to drop
 				,	helper: 	"clone" 		// needed or positioning issues ensue
 				,	scrollSensitivity: 200
