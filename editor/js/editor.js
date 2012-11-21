@@ -1,9 +1,6 @@
 
 // On document ready stuff
 jQuery(document).ready(function() {
-	
-	// Disable Text Selector on Drag
-	document.onselectstart = function () { return false };
 
 	// Basic Setup
 	jQuery('body').addClass('pl-editor')
@@ -51,7 +48,7 @@ jQuery(document).ready(function() {
 			// Click event listener
 			$(".btn-toolbox").on("click.toolBar", function(e) {
 				
-				e.stopPropagation()
+				e.preventDefault()
 				
 				var btn = $(this)
 				, 	btnAction = btn.data('action')
@@ -264,22 +261,39 @@ jQuery(document).ready(function() {
 			, 	sort_area = $(area)
 			, 	len = sort_area.children(".pl_sortable").length
 	
-  			$.pageBuilder.isAreaEmpty( sort_area )
+  			this.isAreaEmpty( sort_area )
 
-            sort_area.children(".pl_sortable").each(function ( index ) {
+            sort_area.children(".pl_sortable").each( function ( index ) {
 				
                 var section = $(this)
 				,	col_size = $.pageBuilder.getColumnSize( section )
 				,	off_size = $.pageBuilder.getOffsetSize( section )
 				
 				
-				// Deal with classes 
+				if(sort_area.hasClass('pl-column-sortable')){
+				
+					if(section.hasClass('sortable_1st_level')){
+						section
+							.removeClass('sortable_1st_level')
+							.removeClass(col_size[0])
+							.removeClass(off_size[0])
+							.addClass('span12 offset0')
+							
+						col_size = this.getColumnSize( section, true )
+						off_size = this.getOffsetSize( section, true )
+					}
+					
+				} else {
+					
+					section
+						.addClass("sortable_1st_level")
+					
+				}
+				
+				// First/last spacing
 				section
 					.removeClass("sortable_first sortable_last")
-					.addClass("sortable_1st_level")
-					.find('.pl_sortable')
-						.removeClass("sortable_1st_level")
-				
+					
 				if ( index == 0 )
 					section.addClass("sortable_first")
 				else if ( index === len - 1 ) 
@@ -323,7 +337,7 @@ jQuery(document).ready(function() {
 
         } 
 
-		, getOffsetSize: function( column ) {
+		, getOffsetSize: function( column, defaultValue ) {
 			
 			var max = 12
 			,	sizes = $.pageBuilder.getColumnSize( column )
@@ -341,7 +355,7 @@ jQuery(document).ready(function() {
 
 			}
 
-			if(data.length === 0)
+			if(data.length === 0 || defaultValue)
 				return new Array("offset0", "offset0", "offset0", 0)
 			else
 				return data
@@ -349,9 +363,9 @@ jQuery(document).ready(function() {
 		}
 		
 
-		, getColumnSize: function(column) {
+		, getColumnSize: function(column, defaultValue) {
 
-			if (column.hasClass("span12")) //full-width
+			if (column.hasClass("span12") || defaultValue) //full-width
 				return new Array("span12", "span2", "span10", "1/1", 12)
 
 		    else if (column.hasClass("span10")) //five-sixth

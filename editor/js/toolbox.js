@@ -78,8 +78,6 @@
 	}
 
     , hide: function (e) {
-		
-        e && e.preventDefault()
 	
         var that = this
 		,	e = $.Event('hide')

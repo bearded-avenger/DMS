@@ -25,11 +25,13 @@
 
 .pl-section-controls, 
 .pl-region-bar, 
-.pl-area-controls{
+.pl-area-controls,
+.pl-column-forcer{
 	display: none;
 }
 
 .drag-drop-editing{
+	
 	.pl-section{
 		.box-sizing(border-box);
 		position: relative;
@@ -51,6 +53,11 @@
 			
 			&.empty-area .pl-column-sortable{
 				min-height: 50px;
+				.pl-column-forcer{
+					display: block;
+					width: 0; 
+					height: 0;
+				}
 			}	
 			
 			> .pl-section-controls:first-child{

@@ -24,7 +24,7 @@
 					
 				} else if ( o.type == 'checkbox' ) {
 					
-					var checked = (!o.value) ? '' : 'checked'
+					var checked = (!o.value || o.value == 'false') ? '' : 'checked'
 					
 					out +=  sprintf('<label class="checkbox"><input id="%1$s" type="checkbox" %2$s>%3$s</label>', o.key, checked, o.name )
 					
