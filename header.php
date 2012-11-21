@@ -23,7 +23,7 @@
 
 pagelines_register_hook('pagelines_before_html'); // Hook
 ?><!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html <?php language_attributes(); do_action('the_html_tag'); ?>>
 <head>
 <?php 		
 		pagelines_register_hook('pagelines_head'); // Hook 

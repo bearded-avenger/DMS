@@ -45,13 +45,12 @@
 		
 		
 		&.section-plcolumn{
-			height: 100px;
 			margin-bottom: 20px;
 			background: @pl-base;
 			outline: 1px dashed #35eafd;
 			
-			&.empty-area .pl-column-inner{
-					min-height: 150px;
+			&.empty-area .pl-column-sortable{
+				min-height: 50px;
 			}	
 			
 			> .pl-section-controls:first-child{
@@ -149,7 +148,6 @@
 
 	&.pl-dragging{
 		.pl-sortable-area{
-			padding-top: 20px;
 			min-height: 25px;
 			.transition(.5s);
 			.pl-sortable-area{
@@ -364,7 +362,8 @@
 				float: right;
 				margin-right: 0;
 			}
-			li, lh{
+			li, 
+			lh{
 				float: left;
 				height: 28px;
 			}
@@ -419,7 +418,7 @@
 				padding: 0 3px;
 			}
 			.h-resizer, 
-			.h-toggler{
+			.btn-toggler{
 				color: #999; 
 				border-left: 1px solid transparent;
 				border-right: 1px solid transparent;
@@ -428,7 +427,7 @@
 					background:rgba(0,0,0,.1);
 				}
 			}
-			.h-toggler{
+			.btn-toggler{
 				padding: 0 5px;
 			}
 			.h-resizer{
@@ -460,11 +459,18 @@
 			box-shadow: 0 0 5px rgba(0,0,0,.4);
 			width: 800px;
 			margin: 0 auto;
+			min-height: 300px;
+			.option-panel{
+				max-width: 400px;
+				margin: 0 auto;
+				padding: 30px;
+			}
 		}
 		.tabbed-set{
 			overflow: hidden;
 		}
-		.tabs-nav, .tab-panel{
+		.tabs-nav, 
+		.tab-panel{
 			float: left;
 			margin-bottom: -99999px;
 			padding-bottom: 99999px;

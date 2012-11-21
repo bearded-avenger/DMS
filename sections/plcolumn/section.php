@@ -16,7 +16,7 @@ class PLColumn extends PageLinesSection {
 			
 			render_nested_sections( $this->meta['content'] );
 			
-			?>
+			?>&nbsp;
 		</div>
 	<?php 
 	

@@ -20,11 +20,16 @@ class EditorInterface {
 		add_action( 'wp_print_styles', array(&$this, 'pl_editor_styles' ), 15 );
 		$this->url = PL_PARENT_URL . '/editor';
 		$this->images = $this->url . '/images';
+		
+		// angular
+		add_action( 'the_html_tag', array( &$this, 'angular_start' ) );
 	}
 	
 	function pl_editor_styles(){
+		wp_enqueue_script( 'js-sprintf', $this->url . '/js/sprintf.js' ); 
 		wp_enqueue_script( 'pl-editor-js', $this->url . '/js/editor.js' ); 
 		wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/toolbox.js', array('pagelines-bootstrap-all')); 
+		wp_enqueue_script( 'pl-optpanel', $this->url . '/js/optpanel.js'); 
 
 		wp_enqueue_script( 'jquery-ui-tabs'); 
 		
@@ -48,6 +53,13 @@ class EditorInterface {
 		wp_enqueue_script( 'jquery-new-ui-effect-highlight', PL_ADMIN_JS . '/jquery.ui.effect-highlight.js', array('jquery-new-ui-effect'), 1.9, true);
 		wp_enqueue_script( 'jquery-mousewheel', $this->url . '/js/mousewheel.js' ); 
 		
+		wp_enqueue_script( 'angular', $this->url . '/angular/angular.min.js' ); 
+		wp_enqueue_script( 'angular-options', $this->url . '/angular/OptionsCtrl.js', array('angular') ); 
+		
+	}
+
+	function angular_start(){
+		echo 'ng-app';
 	}
 	
 	function region_start( $region, $area_number ){
@@ -83,73 +95,83 @@ class EditorInterface {
 		<div class="toolbox-handle fix">
 			
 			<ul class="unstyled controls">
-				<li ><a class="h-nav h-toggler" data-toggle="toolbox" ><i class="icon-chevron-down"></i></a></li>
-				<li><a class="h-nav btn-drag-drop" ><i class="icon-random"></i> <span class="txt">Drag <span class="spamp">&amp;</span> Drop Editing</span></a></li>
-				<li><a class="h-nav"><i class="icon-plus-sign"></i> <span class="txt">Add</span></a></li>
-				<li><a class="h-nav"><i class="icon-paste"></i> <span class="txt">Templates</span></a></li>
-				<li><a class="h-nav"><i class="icon-magic"></i> <span class="txt">Colors</span></a></li>
-				<li><a class="h-nav"><i class="icon-font"></i> <span class="txt">Type</span></a></li>
-				<li><a class="h-nav"><i class="icon-resize-horizontal"></i> <span class="txt">Layout</span></a></li>
-				<li><a class="h-nav"><i class="icon-cog"></i> <span class="txt">Settings</span></a></li>
-				<li><a class="h-nav"><i class="icon-user"></i> <span class="txt">Account</span></a></li>
-				<li><a class="h-nav"><i class="icon-pagelines"></i> <span class="txt">PageLines</span></a></li>
+				<li ><a class="btn-toolbox btn-toggler"><i class="icon-chevron-down"></i></a></li>
+				<li><a class="btn-toolbox" data-action="drag-drop" ><i class="icon-random"></i> <span class="txt">Drag <span class="spamp">&amp;</span> Drop Editing</span></a></li>
+				<li><a class="btn-toolbox"><i class="icon-plus-sign"></i> <span class="txt">Add</span></a></li>
+				<li><a class="btn-toolbox"><i class="icon-paste"></i> <span class="txt">Templates</span></a></li>
+				<li><a class="btn-toolbox"><i class="icon-magic"></i> <span class="txt">Colors</span></a></li>
+				<li><a class="btn-toolbox"><i class="icon-font"></i> <span class="txt">Type</span></a></li>
+				<li><a class="btn-toolbox"><i class="icon-resize-horizontal"></i> <span class="txt">Layout</span></a></li>
+				<li><a class="btn-toolbox"><i class="icon-cog"></i> <span class="txt">Settings</span></a></li>
+				<li><a class="btn-toolbox"><i class="icon-user"></i> <span class="txt">Account</span></a></li>
+				<li><a class="btn-toolbox"><i class="icon-pagelines"></i> <span class="txt">PageLines</span></a></li>
 			</ul>
 			
 			<ul class="unstyled panel-control send-right">
 				
-				<li><a class="h-nav h-resizer"><i class="icon-reorder"></i></a></li>
+				<li><a class="btn-toolbox h-resizer"><i class="icon-reorder"></i></a></li>
 				
 			</ul>
 		</div>
 		<div class="toolbox-panel-wrap">
 			<div class="toolbox-panel">
-				<div class="toolbox-content fix">
-					<div class="tabbed-set">
-						<ul class="tabs-nav unstyled">
-							<lh>Settings</lh>
-							<li><a href="#tab-1"><i class="icon-camera-retro"></i> Tab 1</a></li>
-							<li><a href="#tab-2">Tab 2</a></li>
-							<li><a href="#tab-3">Tab 3</a></li>
-						</ul>
-						<div class="tab-panel" id="tab-1">
-					
-							<div class="tab-panel-inner">
-								<div class="opt">
-									<div class="opt-input">
-										<form class="bs-docs-example">
-											<legend>Legend</legend>
-											<label>Label name</label>
-											<input type="text" placeholder="Type something…">
-											<span class="help-block">Example block-level help text here.</span>
-											<label class="checkbox">
-											<input type="checkbox"> Check me out
-											</label>
-											<button type="submit" class="btn">Submit</button>
-										</form>
-									</div>
-									<div class="opt-exp">explanation</div>
-								</div>
-							</div>
-						</div>
-						<div class="tab-panel" id="tab-2">
-							<div class="tab-panel-inner">
-						
-									<legend>tab 2</legend>
-									<label>Label name</label>
-									<input type="text" placeholder="Type something…">
-							
-							</div>
-						</div>
-						<div class="tab-panel" id="tab-3">
-							<div class="tab-panel-inner">
-							</div>
-						</div>
+				<div class="toolbox-content fix" ng-controller="OptionsCtrl">
+					<div class="toolbox-content-pad option-panel">
+						<?php $this->test_panel(); ?>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<?php 
+	}
+	
+	function test_panel(){
+		
+		return '';
+		?>
+		<div class="tabbed-set">
+			<ul class="tabs-nav unstyled">
+				<lh>Settings</lh>
+				<li><a href="#tab-1"><i class="icon-camera-retro"></i> Tab 1</a></li>
+				<li><a href="#tab-2">Tab 2</a></li>
+				<li><a href="#tab-3">Tab 3</a></li>
+			</ul>
+			<div class="tab-panel" id="tab-1">
+		
+				<div class="tab-panel-inner">
+					<div class="opt" >
+						<div class="opt-input">
+							<form class="bs-docs-example">
+								<legend>Legend</legend>
+								<label>Label name</label>
+								<input type="text" placeholder="Type something…" ng-model="optionText">
+								<span class="help-block">{{optionText}} Example block-level help text here.</span>
+								<label class="checkbox">
+								<input type="checkbox"> Check me out
+								</label>
+								<button type="submit" class="btn">Submit</button>
+							</form>
+						</div>
+						<div class="opt-exp">explanation</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-panel" id="tab-2">
+				<div class="tab-panel-inner">
+			
+						<legend>tab 2</legend>
+						<label>Label name</label>
+						<input type="text" placeholder="Type something…">
+				
+				</div>
+			</div>
+			<div class="tab-panel" id="tab-3">
+				<div class="tab-panel-inner">
+				</div>
+			</div>
+		</div>
+		<?php 
 	}
 	
 	function area_controls($a){
@@ -239,78 +261,10 @@ class EditorInterface {
 		
 		
 		<?php 
-		
-		$this->the_modal();
+	
 	}
 	
-	function the_modal(){
-		?>
-			<div class="modal modal-interface fade hide" id="editModal">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">×</button>
-					<h3>Modal header</h3>
-				</div>
-				<div class="modal-body">
-					<div class="pl-page-builder">
-						<div class="navbar fix">
-						  <div class="navbar-inner">
-						    <div class="container">
-						      	<ul class="navline">
-									<li class="dropdown">
-									  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									        Common <b class="caret"></b>
-									  </a>
-									  <ul class="dropdown-menu">
-									    	<li class="active">
-									    <a href="#">Home</a>
-									  </li>
-									  <li><a href="#">Link</a></li>
-									  <li><a href="#">Link</a></li>
-									  </ul>
-									</li>
-									<li class="dropdown">
-									   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									         Sections <b class="caret"></b>
-									   </a>
-									   <ul class="dropdown-menu">
-									     	<li class="active">
-										    <a href="#">Home</a>
-										  </li>
-										  <li><a href="#">Link</a></li>
-										  <li><a href="#">Link</a></li>
-									   </ul>
-									 </li>
-								</ul>
-								<ul class="navline pull-right">
-									<li class="dropdown">
-									  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									        Templates <b class="caret"></b>
-									  </a>
-									  <ul class="dropdown-menu">
-									    	<li class="active">
-									    <a href="#">Home</a>
-									  </li>
-									  <li><a href="#">Link</a></li>
-									  <li><a href="#">Link</a></li>
-									  </ul>
-									</li>
-								
-								</ul>
-						    </div>
-						  </div>
-						</div>
-						
-					</div>
-				</div>
-				<div class="modal-footer">
-					<a href="#" class="btn" data-dismiss="modal">Close</a>
-					<a href="#" class="btn btn-primary">Save changes</a>
-				</div>
-			</div>
-		<?php 
-		
-		
-	}
+
 
 }
 

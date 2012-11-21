@@ -19,12 +19,8 @@ jQuery(document).ready(function() {
 	
 //	jQuery.pageBuilder.startResize(); // Layout resize	
 	
-	// Aligns things
-	jQuery.pageBuilder.reloadConfig()
 	
-	jQuery.toolBar.listen()
-	
-	var ml = jQuery('.pl-toolbox').toolbox()
+	jQuery.pageTools.startUp()
 
 });
 
@@ -34,56 +30,107 @@ jQuery(document).ready(function() {
 !function ($) {
     
 	// Event Listening
-	$.toolBar = {
-		listen: function() {
+	$.pageTools = {
 		
-			$(".btn-drag-drop").on("click", function(e) {
+		startUp: function(){
+			
+			$.pageBuilder.reloadConfig()
+			
+			$.pageBuilder.onStart()
+			
+			var theToolBox = $('body').toolbox()
+			
+			this.listener()
+			
+			
+			
+		}
+		
+		, listener: function() {
+		
+			// Click event listener
+			$(".btn-toolbox").on("click.toolBar", function(e) {
+				
 				e.stopPropagation()
 				
-				$.pageBuilder.toggle($(this))
-				
-				$.areaControl.toggle($(this))
+				var btn = $(this)
+				, 	btnAction = btn.data('action')
+			
+				if( btnAction == 'drag-drop' )
+					$.pageBuilder.toggle()
 				
 			})
+        }
 
-        },
+	
 	}
 
 	// Page Drag/Drop Builder
     $.pageBuilder = {
+
+		onStart: function(){
+		
+			var localState = ( localStorage.getItem( 'plDragDrop' ) )
+			,	theState = (localState == 'true') ? true : false
+			
+			if(theState)
+				$.pageBuilder.show()
+			
+		}
 	
-		toggle: function( btn ){
+		, toggle: function( ){
 			
-			if(!jQuery.pageBuilder.isActive){
+			var localState = ( localStorage.getItem( 'plDragDrop' ) )
+			,	theState = (localState == 'true') ? true : false
+		
+			if( !theState ){
 				
+				theState = true 
 				
-				// Graphical Flare
-				$('.pl_sortable').effect('highlight', 1500)
-				btn.addClass('active')
-				
-				// Enable CSS
-				$('body').addClass('drag-drop-editing')
-			
-				// Track Toggling
-				$.pageBuilder.isActive = true
-			
-				// JS
-				$.pageBuilder.startDroppable()
-				
-				$.pageBuilder.reloadConfig()
-				
-				$.pageBuilder.sectionControls()
+				$.pageBuilder.show()
 				
 			} else {
-				$('body').removeClass('drag-drop-editing')
 				
-				btn.removeClass('active')
-				
-				$.pageBuilder.isActive = false
-			
-				$('.s-control')
-					.off('click.sectionControls')
+				theState = false
+			 
+				$.pageBuilder.hide()
+					
 			}
+			
+			localStorage.setItem( 'plDragDrop', theState )
+				
+		}
+		
+		, show: function() {
+			
+			// Graphical Flare
+			$('.pl_sortable').effect('highlight', 1500)
+			$('[data-action="drag-drop"]').addClass('active')
+			
+			// Enable CSS
+			$('body').addClass('drag-drop-editing')
+		
+			// JS
+			$.pageBuilder.startDroppable()
+			
+			$.pageBuilder.reloadConfig()
+			
+			$.pageBuilder.sectionControls()
+			
+			$.areaControl.toggle($(this))
+			
+		}
+		
+		, hide: function() {
+			
+			$('body').removeClass('drag-drop-editing')
+		
+			$('[data-action="drag-drop"]').removeClass('active')
+	
+			$('.s-control')
+				.off('click.sectionControls')
+				
+			$.areaControl.toggle($(this))
 			
 		}
 		
@@ -99,6 +146,15 @@ jQuery(document).ready(function() {
 				if(btn.hasClass('section-edit')){
 					
 					// TODO Open up and load options panel
+					
+					$('body').toolbox({
+						action: 'show'
+						, panel: function(){
+						
+							$.optPanel.render()
+						
+						}
+					})
 					
 				} else if (btn.hasClass('section-delete')){
 					
@@ -382,6 +438,39 @@ jQuery(document).ready(function() {
 				}
 				
 		    })
+		
+			$('.pl-sortable-area').droppable({
+				greedy: true
+				,	accept: ".pl-section"
+				,	hoverClass: "wpb_ui-state-active"
+				,	drop: function( event, ui ) {
+						jQuery.pageBuilder.reloadConfig();
+					}
+			})
+
+			$('.pl-column-sortable').droppable({
+			    greedy: true
+			    ,	accept: function( dropable_el ) {
+				
+			        if ( dropable_el.hasClass('dropable_el') && jQuery(this).hasClass('ui-droppable') && dropable_el.hasClass('not_dropable_in_third_level_nav') )
+			            return false;
+			        else if ( dropable_el.hasClass('dropable_el') == true )
+			            return true;
+			
+			    }
+			    ,	hoverClass: "wpb_ui-state-active"
+			    ,	over: function( event, ui ) {
+			        	jQuery(this).parent().addClass("wpb_ui-state-active");
+			    	}
+				,	out: function( event, ui ) {
+			        	jQuery(this).parent().removeClass("wpb_ui-state-active");
+			    	}
+				,	drop: function( event, ui ) {
+			        	//console.log(jQuery(this));
+			        	jQuery(this).parent().removeClass("wpb_ui-state-active");
+			        	getElementMarkup(jQuery(this), ui.draggable, "addLastClass");
+			    	}
+			})
 		
 		}
 		

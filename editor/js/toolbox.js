@@ -12,14 +12,14 @@
   * ====================== */
 
 	var ToolBox = function (element, options) {
-	
+		
 	    this.options = options
     
 		this.$element = $(element)
-			.delegate('[data-toggle="toolbox"]', 'click.toggle.toolbox', $.proxy(this.toggle, this))
+		
+		$('.btn-toggler').on('click.toolbox.toggler', $.proxy(this.toggle, this))
 	
-		this.$panel = this.$element
-			.find('.toolbox-panel')
+		this.$panel = this.$element.find('.toolbox-panel')
 		
 		this.$pusher =  $('.pl-toolbox-pusher')
 		
@@ -29,22 +29,24 @@
 
 		this.resizePanel()
 		this.scrollPanel()
+		
 
 		// TODO needs to work w/ multiple tabbing
-		jQuery('.tabbed-set').tabs()
+		$('.tabbed-set').tabs()
 	
 	}
 
   ToolBox.prototype = {
 
-      constructor: ToolBox
+    constructor: ToolBox
 
     , toggle: function () {
+
 		return this[!this.isShown ? 'show' : 'hide']()
 	}
 
     , show: function () {
-		
+
         var that = this
 		,	e = $.Event('show')
 
@@ -53,7 +55,7 @@
         $('body').addClass('toolbox-open')
 
         this.isShown = true
-        this.escape() 
+        this.keyboard() 
 
 		that.setHeight()
 
@@ -90,7 +92,7 @@
         $('body')
 			.removeClass('toolbox-open')
 		
-        this.escape()
+        this.keyboard()
 		
         this.$panel
           	.removeClass('in')
@@ -161,12 +163,13 @@
 				if(newY > 30 && newHeight > 50){
 					obj.setHeight(newHeight)
 				}
-			});
+			})
+			
 		})
 		
 		$(document).mouseup(function(event) {
 			$(document).unbind('mousemove.resizehandle')
-		});
+		})
 		
 	}
 	, scrollPanel: function() {
@@ -185,11 +188,13 @@
 		
 	}
 	
-	, escape: function () {
+	, keyboard: function () {
 		var that = this
-
-		if (this.isShown && this.options.keyboard) {
-			this.$panel.on('keyup.dismiss.toolbox', function ( e ) {
+		
+		// Escape key
+		if ( this.isShown ) {
+		
+			$('body').on('keyup.dismiss.toolbox', function ( e ) {
 				e.which == 27 && that.hide()
 			})
 		} else if (!this.isShown) {
@@ -202,35 +207,40 @@
   }
 
 
- /* MODAL PLUGIN DEFINITION
-  * ======================= */
+/* MODAL PLUGIN DEFINITION
+ * ======================= */
 
-	$.fn.toolbox = function (option) {
+	$.fn.toolbox = function ( option ) {
 
-		return this.each(function () {
+		return this.each( function() {
+			var tbSelector = $('.pl-toolbox')
+			,	toolBoxObject = tbSelector.data('toolbox')
+			,	options = $.extend({}, $.fn.toolbox.defaults, tbSelector.data(), typeof option == 'object' && option)
 
-			var $this = $(this)
-			,	data = $this.data('toolbox')
-			,	options = $.extend({}, $.fn.toolbox.defaults, $this.data(), typeof option == 'object' && option)
+			if ( !toolBoxObject ) 
+				tbSelector.data( 'toolbox', ( toolBoxObject = new ToolBox( tbSelector, options ) ) )
 
-			if (!data) 
-				$this.data('toolbox', (data = new ToolBox(this, options)))
-
-			if (typeof option == 'string') 
-				data[option]()
-			else if 
-				(options.show) data.show()
-			else if
-				(!options.show) data.hide()
+			// Action
+			if ( typeof option == 'string' ) 
+				toolBoxObject[option]()
+			else if ( $.isFunction( options.action ) )
+				options.action.call( this )
+			else if ( options.action == 'show' ) 
+				toolBoxObject.show()
+			else
+				toolBoxObject.hide()
+				
+			// Panel Load
+			
+			if ( $.isFunction( options.panel ) )
+				options.panel.call( this )
 	
 		})
-
 	}
 
 	$.fn.toolbox.defaults = {
-		backdrop: true
-		, keyboard: true
-		, show: false
+		action: false
+		, panel: false
 	}
 
 	$.fn.toolbox.Constructor = ToolBox
