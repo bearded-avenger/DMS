@@ -32,53 +32,160 @@ class PageLinesTemplateHandler {
 		
 		$this->editor = new EditorInterface;
 		
-		$this->map = $this->dummy_config();
+		$this->map = $this->dummy_template_data();
 
 		$this->parse_config();
 		
 		$this->setup_processing();
 		
+		add_action( 'pagelines_head_last', array( &$this, 'json_data' ) );
+		
 	}
 	
-	function dummy_config(){
+	function json_data(){
+	
+		?>
+		<script>
+		
+			var option_config = <?php echo json_encode($this->dummy_option_config_data(), JSON_FORCE_OBJECT); ?>
+			
+			var page_data = <?php echo json_encode($this->dummy_page_content_data(), JSON_FORCE_OBJECT); ?>
+		
+		</script>
+		<?php
+		
+	}
+	
+	function dummy_option_config_data(){
+		
+		$data = array(
+			'PLMasthead' => array(
+				array(
+					'key'	=> 'settingA',
+					'label'	=> 'Setting Label', 
+					'type'	=> 'text', 
+					'help'	=> 'Help Text goes here!', 
+					
+				),
+				array(
+					'key'	=> 'settingB',
+					'label'	=> 'Setting Label', 
+					'type'	=> 'checkbox', 
+					'help'	=> 'Help Text goes here!'
+				), 
+				array(
+					'key'	=> 'settingC',
+					'label'	=> 'Setting Label', 
+					'type'	=> 'select', 
+					'help'	=> 'Help Text goes here!',
+					'opts'	=> array(
+						'val1'	=> array('name' => 'Value 1'),
+						'val2'	=> array('name' => 'Value 2'),
+						'val3'	=> array('name' => 'Value 3'),
+					)
+				)
+			
+			)
+			
+		);
+		
+		return $data;
+		
+	}
+		
+	function dummy_page_content_data(){
+		
+		$d = array(
+			'settingA' 		=> array('value qqq', 'value settingA Clone2'),
+			'settingB' 		=> array('value BBB', 'value settingB Clone2'),
+			'settingC' 		=> array('value CCC', 'value settingC Clone2'),
+		);
+		
+		return $d;
+	}
+	
+	function dummy_template_config_data(){
+			$t = array();
+
+			$t['template'] = array(
+				1	=> array(
+					'area'	=> 'TemplateAreaID',
+					'content'	=> array(
+						array(
+							'id'	=> 'PLMasthead'
+						), 
+						array(
+							'id'	=> 'PageLinesBoxes'
+						),
+						array(
+							'id'	=> 'PageLinesBoxes',
+							'clone'	=> 2, 
+							'span'	=> 6,
+						),
+						array(
+							'id'	=> 'PageLinesHighlight'
+						),
+						array(
+							'id'	=> 'PLColumn',
+							'span' 	=> 8,
+							'content'	=> array( 
+								'PageLinesPostLoop' => array( ), 
+								'PageLinesComments' 	=> array(),	
+							)
+						),
+						array(
+							'id'	=> 'PLColumn',
+							'clone'	=> 2, 
+							'span' 	=> 4,
+							'content'	=> array( 
+								'PrimarySidebar' => array( )
+							)
+						),
+					)
+				)
+
+			);
+
+			$t['header'] = array(
+				array(
+					'areaID'	=> 'HeaderArea',
+					'content'	=> array(
+						array(
+							'id'	=> 'PageLinesBranding'
+						),
+						array(
+							'id'	=> 'PLNavBar'
+						),
+					)
+				)
+
+			);
+
+			$t['footer'] = array(
+				array(
+					'areaID'	=> 'FooterArea',
+					'content'	=> array(
+						array(
+							'id'	=> 'SimpleNav'
+						)
+					)
+				)
+
+			);
+
+			return $t;
+	}
+	
+	function dummy_template_data(){
 		$t = array();
 		
 		$t['template'] = array(
 			'area-1'	=> array(
-				'height'	=> 200,
 				'name'		=> 'Template Area',
 				'content'	=> array(
-			//		'ScrollSpy'	=> array(),
 				
-					'PLColumn' => array( 
-						'span' 	=> 8,
-						// 'content'	=> array( 
-						// 						'PageLinesPostLoop' => array( ), 
-						// 						'PageLinesComments' 	=> array(),	
-						// 					)
-					),
-					'PLColumnID2' => array( 
-						'span' 	=> 4,
-						// 'content'	=> array( 
-						// 						'PrimarySidebar' => array( )
-						// 					)
-					),
-					'PLColumnID3' => array( 
-						'span' 	=> 4,
-						// 'content'	=> array( 
-						// 						'PageLinesPostLoop' => array( ), 
-						// 						'PageLinesComments' 	=> array(),	
-						// 					)
-					),
-					'PLColumnID4' => array( 
-						'span' 	=> 8,
-						// 'content'	=> array( 
-						// 						'PrimarySidebar' => array( )
-						// 					)
-					),
 					'PLMasthead' => array( ), 
-					'PageLinesBoxesID1' => array( ), 
-				//	'PageLinesFeatures'=> array( ),
+					'PageLinesBoxesID1' => array( ),
 					'PageLinesBoxesID2'=> array(
 						'clone'	=> 2, 
 						'span'	=> 6,
@@ -86,6 +193,20 @@ class PageLinesTemplateHandler {
 					
 					'PageLinesContentBoxID3' => array( 'span' => '8' ),
 					'PageLinesHighlight' => array( ), 
+					
+					'PLColumn' => array( 
+						'span' 	=> 8,
+						'content'	=> array( 
+							'PageLinesPostLoop' => array( ), 
+							'PageLinesComments' 	=> array(),	
+						)
+					),
+					'PLColumnID2' => array( 
+						'span' 	=> 4,
+						'content'	=> array( 
+							'PrimarySidebar' => array( )
+						)
+					),
 				)
 			)
 			

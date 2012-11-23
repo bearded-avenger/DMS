@@ -23,6 +23,8 @@ class EditorInterface {
 		
 		// angular
 		add_action( 'the_html_tag', array( &$this, 'angular_start' ) );
+		
+		
 	}
 	
 	function pl_editor_styles(){
@@ -59,7 +61,7 @@ class EditorInterface {
 	}
 
 	function angular_start(){
-		echo 'ng-app';
+		echo ' ng-app';
 	}
 	
 	function region_start( $region, $area_number ){
@@ -127,8 +129,7 @@ class EditorInterface {
 	}
 	
 	function test_panel(){
-		
-		return '';
+
 		?>
 		<div class="tabbed-set">
 			<ul class="tabs-nav unstyled">
@@ -200,7 +201,7 @@ class EditorInterface {
 				<a title="Force New Row" href="#" class="s-control s-control-icon section-start-row"><i class="icon-fast-backward"></i></a>
 			</div>
 			<div class="controls-right">
-				<a title="Edit Section" href="#" class="s-control s-control-icon section-edit"><i class="icon-pencil"></i></a>
+				<a title="Edit Section" href="#" class="s-control s-control-icon section-edit" data-section-id="<?php echo $sid;?>"><i class="icon-pencil"></i></a>
 				<a title="Clone Section" href="#" class="s-control s-control-icon section-clone"><i class="icon-copy"></i></a>
 				<a title="Delete Section" href="#" class="s-control s-control-icon section-delete"><i class="icon-remove"></i></a>
 			</div>

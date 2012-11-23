@@ -148,7 +148,7 @@ jQuery(document).ready(function() {
 						action: 'show'
 						, panel: function(){
 						
-							$.optPanel.render()
+							$.optPanel.render(btn.data('section-id'))
 						
 						}
 					})
