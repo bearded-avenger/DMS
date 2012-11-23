@@ -97,7 +97,8 @@ class EditorInterface {
 		<div class="toolbox-handle fix">
 			
 			<ul class="unstyled controls">
-				<li ><a class="btn-toolbox btn-toggler"><i class="icon-chevron-down"></i></a></li>
+				<li ><a class="btn-toolbox btn-toggler"><i class="icon-remove"></i></a></li>
+				<li><a class="btn-toolbox h-resizer"><i class="icon-reorder"></i></a></li>
 				<li><a class="btn-toolbox" data-action="drag-drop" ><i class="icon-random"></i> <span class="txt">Drag <span class="spamp">&amp;</span> Drop Editing</span></a></li>
 				<li><a class="btn-toolbox"><i class="icon-plus-sign"></i> <span class="txt">Add</span></a></li>
 				<li><a class="btn-toolbox"><i class="icon-paste"></i> <span class="txt">Templates</span></a></li>
@@ -109,9 +110,9 @@ class EditorInterface {
 				<li><a class="btn-toolbox"><i class="icon-pagelines"></i> <span class="txt">PageLines</span></a></li>
 			</ul>
 			
-			<ul class="unstyled panel-control send-right">
+			<ul class="unstyled controls send-right">
+				<li><a class="btn-toolbox"><i class="icon-save"></i> <span class="txt">Publish</span></a></li>
 				
-				<li><a class="btn-toolbox h-resizer"><i class="icon-reorder"></i></a></li>
 				
 			</ul>
 		</div>
@@ -134,7 +135,7 @@ class EditorInterface {
 		<div class="tabbed-set">
 			<ul class="tabs-nav unstyled">
 				<lh>Settings</lh>
-				<li><a href="#tab-1"><i class="icon-camera-retro"></i> Tab 1</a></li>
+				<li><a href="#tab-1">Tab 1</a></li>
 				<li><a href="#tab-2">Tab 2</a></li>
 				<li><a href="#tab-3">Tab 3</a></li>
 			</ul>
@@ -147,7 +148,9 @@ class EditorInterface {
 								<legend>Legend</legend>
 								<label>Label name</label>
 								<input type="text" placeholder="Type something…" ng-model="optionText">
-								<span class="help-block">{{optionText}} Example block-level help text here.</span>
+								<span class="help-block">{{optionText}}Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu lectus metus, id malesuada orci. Curabitur laoreet mi quis enim pharetra et ornare lectus laoreet. Sed sit amet nunc tellus. Sed orci augue, pharetra vel fringilla sed, luctus vitae tortor. Suspendisse at gravida nisl. Etiam molestie pellentesque rutrum. Aliquam quis dolor eros, sit amet aliquam nisl. Suspendisse potenti. Etiam elementum ante at metus scelerisque viverra. Nam nec libero magna. Suspendisse eu felis in lacus semper volutpat ac quis eros.
+
+								Morbi libero neque, aliquam vitae volutpat tempor, blandit quis arcu. Quisque at lorem semper dui vulputate tempor. Fusce sed elit non lorem feugiat dictum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet eros et erat semper convallis. Proin a</span>
 								<label class="checkbox">
 								<input type="checkbox"> Check me out
 								</label>
@@ -189,8 +192,10 @@ class EditorInterface {
 		return ob_get_clean();
 	}
 	
-	function section_controls($sid, $s){ ?>
-		<div id="<?php echo $sid;?>_control" class="pl-section-controls fix">
+	function section_controls($sid, $s){ 
+		
+		?>
+		<div id="<?php echo $sid;?>_control" class="pl-section-controls fix" >
 			<div class="controls-left">
 				<a title="Section Decrease Width" href="#" class="s-control s-control-icon section-decrease"><i class="icon-caret-left"></i></a>
 				<span title="Width" class="s-control section-size"></span>
@@ -201,7 +206,7 @@ class EditorInterface {
 				<a title="Force New Row" href="#" class="s-control s-control-icon section-start-row"><i class="icon-fast-backward"></i></a>
 			</div>
 			<div class="controls-right">
-				<a title="Edit Section" href="#" class="s-control s-control-icon section-edit" data-section-id="<?php echo $sid;?>"><i class="icon-pencil"></i></a>
+				<a title="Edit Section" href="#" class="s-control s-control-icon section-edit"><i class="icon-pencil"></i></a>
 				<a title="Clone Section" href="#" class="s-control s-control-icon section-clone"><i class="icon-copy"></i></a>
 				<a title="Delete Section" href="#" class="s-control s-control-icon section-delete"><i class="icon-remove"></i></a>
 			</div>

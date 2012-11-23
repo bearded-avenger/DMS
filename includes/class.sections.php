@@ -307,7 +307,7 @@ class PageLinesSection {
 			
 			$classes .= ' '.$span.' '.$offset;
 			
-			printf('<section id="%s" class="pl-section fix %s" data-clone="%s">', $this->id, trim($classes), $clone_id);
+			printf('<section id="%s" data-sid="%s" data-clone="%s" class="pl-section fix %s">', $this->id.$clone_id, $this->id, $clone_id, trim($classes));
 
 			pagelines_register_hook('pagelines_outer_'.$this->id, $this->id); // hook
 		}

@@ -11,8 +11,10 @@
 		
 			if(!option_config[sectionID] || option_config[sectionID].length == 0)
 				return
+				
+				alert('h')
 			
-			$.each( option_config[sectionID] , function(index, o) {
+			$.each( option_config[sectionID][opts] , function(index, o) {
 			 	
 				o.value = (page_data[o.key][cloneID]) ? page_data[o.key][cloneID] : false
 				
@@ -54,7 +56,7 @@
 				
 			var out = $.optPanel.engine(sectionID, cloneID)
 			
-			$('.option-panel').html(out)
+			$('.tab-panel-inner').html(out)
 			
 		}
 	

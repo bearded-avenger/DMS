@@ -60,30 +60,36 @@ class PageLinesTemplateHandler {
 		
 		$data = array(
 			'PLMasthead' => array(
-				array(
-					'key'	=> 'settingA',
-					'label'	=> 'Setting Label', 
-					'type'	=> 'text', 
-					'help'	=> 'Help Text goes here!', 
-					
+				'info'	=> array(
+					'name'	=> 'Masthead', 
+					'icon'	=> '...'
 				),
-				array(
-					'key'	=> 'settingB',
-					'label'	=> 'Setting Label', 
-					'type'	=> 'checkbox', 
-					'help'	=> 'Help Text goes here!'
-				), 
-				array(
-					'key'	=> 'settingC',
-					'label'	=> 'Setting Label', 
-					'type'	=> 'select', 
-					'help'	=> 'Help Text goes here!',
-					'opts'	=> array(
-						'val1'	=> array('name' => 'Value 1'),
-						'val2'	=> array('name' => 'Value 2'),
-						'val3'	=> array('name' => 'Value 3'),
+				'opts'	=> array(
+					array(
+						'key'	=> 'settingA',
+						'label'	=> 'Setting Label', 
+						'type'	=> 'text', 
+						'help'	=> 'Help Text goes here!', 
+					),
+					array(
+						'key'	=> 'settingB',
+						'label'	=> 'Setting Label', 
+						'type'	=> 'checkbox', 
+						'help'	=> 'Help Text goes here!'
+					), 
+					array(
+						'key'	=> 'settingC',
+						'label'	=> 'Setting Label', 
+						'type'	=> 'select', 
+						'help'	=> 'Help Text goes here!',
+						'opts'	=> array(
+							'val1'	=> array('name' => 'Value 1'),
+							'val2'	=> array('name' => 'Value 2'),
+							'val3'	=> array('name' => 'Value 3'),
+						)
 					)
 				)
+				
 			
 			)
 			
@@ -119,7 +125,7 @@ class PageLinesTemplateHandler {
 						),
 						array(
 							'id'	=> 'PageLinesBoxes',
-							'clone'	=> 2, 
+							'clone'	=> 1, 
 							'span'	=> 6,
 						),
 						array(
@@ -135,7 +141,7 @@ class PageLinesTemplateHandler {
 						),
 						array(
 							'id'	=> 'PLColumn',
-							'clone'	=> 2, 
+							'clone'	=> 1, 
 							'span' 	=> 4,
 							'content'	=> array( 
 								'PrimarySidebar' => array( )
@@ -187,7 +193,7 @@ class PageLinesTemplateHandler {
 					'PLMasthead' => array( ), 
 					'PageLinesBoxesID1' => array( ),
 					'PageLinesBoxesID2'=> array(
-						'clone'	=> 2, 
+						'clone'	=> 1, 
 						'span'	=> 6,
 				 	), 
 					
@@ -382,25 +388,21 @@ class PageLinesTemplateHandler {
 			
 			ob_start();
 
-				$s->section_template_load( $meta['clone'] ); // Check if in child theme, if not load section_template
+				$this->section_template_load( $s ); // Check if in child theme, if not load section_template
 
 			$output =  ob_get_clean(); // Load in buffer, so we can check if empty
 		
 			if(isset($output) && $output != ''){
 				
 				echo pl_source_comment($s->name . ' | Section Template', 2); // Add Comment 
-
-				$s->before_section_template(  ); // refactor into before_section
 				
-				$s->before_section( 'editor', $meta['clone']);
+				$this->before_section( $s );
 
 				$this->editor->section_controls($meta['id'], $s);
 
 				echo $output;
 
-				$s->after_section( 'editor' );
-				
-				$s->after_section_template( );
+				$this->after_section( $s );
 				
 			}
 		
@@ -408,6 +410,57 @@ class PageLinesTemplateHandler {
 			wp_reset_query(); // Reset wp_query
 			
 		}
+		
+	}
+	
+	function before_section( $s ){
+			
+		pagelines_register_hook('pagelines_before_'.$s->id, $s->id); // hook
+		
+		// Rename to prevent conflicts
+		// TODO remove this or check to remove this strange non-algorhythmic code
+		if ( 'comments' == $s->id )
+			$sid = 'wp-comments';
+		elseif ( 'content' == $s->id )
+			$sid = 'content-area';
+		else
+			$sid = $s->id;
+		
+		
+		$span = (isset($s->meta['span'])) ? sprintf('span%s', $s->meta['span']) : 'span12';
+		$offset = (isset($s->meta['offset'])) ? sprintf('offset%s', $s->meta['span']) : 'offset0';
+		$clone = $s->meta['clone'];
+		
+		$class[] = sprintf("pl-section fix section-%s", $sid);
+		$class[] = $span;
+		$class[] = $offset;
+		
+		printf('<section id="%s" data-sid="%s" data-clone="%s" class="%s">', $s->id.$clone, $s->id, $clone, implode(" ", $class));
+
+		pagelines_register_hook('pagelines_outer_'.$s->id, $s->id); // hook
+		pagelines_register_hook('pagelines_inside_top_'.$s->id, $s->id); // hook 
+		
+ 	}
+
+	function after_section( $s ){
+		
+		pagelines_register_hook('pagelines_inside_bottom_'.$s->id, $s->id);
+	 	
+		printf('</section>');
+
+		pagelines_register_hook('pagelines_after_'.$s->id, $s->id);
+	}
+
+	function section_template_load( $s ) {
+		
+		// Variables for override
+		$override_template = 'template.' . $s->id .'.php';
+		$override = ( '' != locate_template(array( $override_template), false, false)) ? locate_template(array( $override_template )) : false;
+
+		if( $override != false) 
+			require( $override );
+		else
+			$s->section_template( $s->meta['clone'] );
 		
 	}
 		
