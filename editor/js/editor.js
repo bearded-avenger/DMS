@@ -139,6 +139,10 @@ jQuery(document).ready(function() {
 			
 				var btn = $(this)
 				,	section = btn.closest(".pl_sortable")
+				,	config	= {
+					sid: section.data('sid')
+					, 	clone: section.data('clone')
+				}
 			
 				if(btn.hasClass('section-edit')){
 					
@@ -148,7 +152,7 @@ jQuery(document).ready(function() {
 						action: 'show'
 						, panel: function(){
 						
-							$.optPanel.render(btn.data('section-id'))
+							$.optPanel.render( config )
 						
 						}
 					})

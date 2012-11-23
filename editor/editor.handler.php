@@ -32,7 +32,7 @@ class PageLinesTemplateHandler {
 		
 		$this->editor = new EditorInterface;
 		
-		$this->map = $this->dummy_template_data();
+		$this->map = $this->dummy_template_config_data();
 
 		$this->parse_config();
 		
@@ -59,7 +59,7 @@ class PageLinesTemplateHandler {
 	function dummy_option_config_data(){
 		
 		$data = array(
-			'PLMasthead' => array(
+			'masthead' => array(
 				'info'	=> array(
 					'name'	=> 'Masthead', 
 					'icon'	=> '...'
@@ -251,8 +251,8 @@ class PageLinesTemplateHandler {
 		$p = splice_section_slug($key);
 		
 		$defaults = array(
-			'id'		=> $p['section'],
-			'clone'		=> $p['clone_id'],  
+			'id'		=> $key,
+			'clone'		=> 0,  
 			'content'	=> array(),
 			'span'		=> 12,
 		);
@@ -270,13 +270,13 @@ class PageLinesTemplateHandler {
 					if(!empty($meta['content'])){
 						foreach($meta['content'] as $subkey => &$sub_meta){
 							$sub_meta = wp_parse_args($sub_meta, $this->meta_defaults($subkey));
-							$this->section_list[$subkey] = $sub_meta;
+							$this->section_list[] = $sub_meta;
 						}
 						unset($sub_meta); // set by reference
 					
-						$this->section_list[$key] = $meta;
+						$this->section_list[] = $meta;
 					}else		
-						$this->section_list[$key] = $meta;
+						$this->section_list[] = $meta;
 				}
 				unset($meta); // set by reference
 			}

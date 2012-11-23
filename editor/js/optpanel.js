@@ -4,19 +4,21 @@
 		
 		title : 'The Option Panel Title!'
 		
-		, engine: function(sectionID, cloneID) {
+		, engine: function( config ) {
 
-			var out = sprintf('<legend>%s</legend>', this.title)
 			
-		
-			if(!option_config[sectionID] || option_config[sectionID].length == 0)
+			var sid = config.sid
+			,	clone = config.clone
+			
+			
+			if(!option_config[sid] || option_config[sid].length == 0)
 				return
 				
-				alert('h')
+			var out = sprintf('<legend>%s</legend>', this.title)
 			
-			$.each( option_config[sectionID][opts] , function(index, o) {
+			$.each( option_config[sid].opts , function(index, o) {
 			 	
-				o.value = (page_data[o.key][cloneID]) ? page_data[o.key][cloneID] : false
+				o.value = (page_data[o.key][clone]) ? page_data[o.key][clone] : false
 				
 				out += '<div class="opt">'
 			
@@ -50,11 +52,9 @@
 			
 		}
 		
-		, render: function(sectionID, cloneID) {
-				
-			cloneID = (cloneID != undefined) ? cloneID : 0
-				
-			var out = $.optPanel.engine(sectionID, cloneID)
+		, render: function( config ) {
+			
+			var out = $.optPanel.engine(config)
 			
 			$('.tab-panel-inner').html(out)
 			
