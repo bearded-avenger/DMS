@@ -77,7 +77,7 @@ function plmeta( $key, $args ){
 	$o = wp_parse_args($args, $d);
 		
 	// Deal with cloning options	
-	if( isset($args['clone_id']) && $args['clone_id'] != 1 )
+	if( isset($args['clone_id']) && $args['clone_id'] != 1 && $args['clone_id'] != 0)
 		$id_key = $key.'_'.$args['clone_id'];	
 	else 
 		$id_key = $key;
