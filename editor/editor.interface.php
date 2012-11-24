@@ -94,24 +94,21 @@ class EditorInterface {
 	<div class="pl-toolbox-pusher">
 	</div>
 	<div class="pl-toolbox">
+		<div class="resizer-handle"></div>
 		<div class="toolbox-handle fix">
 			
 			<ul class="unstyled controls">
-				<li ><a class="btn-toolbox btn-toggler"><i class="icon-remove"></i></a></li>
-				<li><a class="btn-toolbox h-resizer"><i class="icon-reorder"></i></a></li>
+				<li ><a class="btn-toolbox btn-closer"><i class="icon-remove-sign"></i></a></li>
 				<li><a class="btn-toolbox" data-action="drag-drop" ><i class="icon-random"></i> <span class="txt">Drag <span class="spamp">&amp;</span> Drop Editing</span></a></li>
-				<li><a class="btn-toolbox"><i class="icon-plus-sign"></i> <span class="txt">Add</span></a></li>
-				<li><a class="btn-toolbox"><i class="icon-paste"></i> <span class="txt">Templates</span></a></li>
-				<li><a class="btn-toolbox"><i class="icon-magic"></i> <span class="txt">Colors</span></a></li>
-				<li><a class="btn-toolbox"><i class="icon-font"></i> <span class="txt">Type</span></a></li>
-				<li><a class="btn-toolbox"><i class="icon-resize-horizontal"></i> <span class="txt">Layout</span></a></li>
-				<li><a class="btn-toolbox"><i class="icon-cog"></i> <span class="txt">Settings</span></a></li>
-				<li><a class="btn-toolbox"><i class="icon-user"></i> <span class="txt">Account</span></a></li>
-				<li><a class="btn-toolbox"><i class="icon-pagelines"></i> <span class="txt">PageLines</span></a></li>
+				<li><a class="btn-toolbox" data-action="add-new"><i class="icon-plus-sign"></i> <span class="txt">Add <span class="spamp">&amp;</span> Extend</span></a></li>
+				<li><a class="btn-toolbox" data-action="add-new"><i class="icon-paste"></i> <span class="txt">Page Templates</span></a></li>
+				<li><a class="btn-toolbox" data-action="site-width"><i class="icon-resize-horizontal"></i> <span class="txt">Site Width</span></a></li>
+				<li><a class="btn-toolbox" data-action="add-new"><i class="icon-cog"></i> <span class="txt">Global Settings</span></a></li>
+				<li><a class="btn-toolbox" data-action="add-new"><i class="icon-pagelines"></i> <span class="txt">Account</span></a></li>
 			</ul>
 			
 			<ul class="unstyled controls send-right">
-				<li><a class="btn-toolbox"><i class="icon-save"></i> <span class="txt">Publish</span></a></li>
+				<li><a class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish</span></a></li>
 				
 				
 			</ul>

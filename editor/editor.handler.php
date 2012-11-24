@@ -182,70 +182,7 @@ class PageLinesTemplateHandler {
 			return $t;
 	}
 	
-	function dummy_template_data(){
-		$t = array();
-		
-		$t['template'] = array(
-			'area-1'	=> array(
-				'name'		=> 'Template Area',
-				'content'	=> array(
-				
-					'PLMasthead' => array( ), 
-					'PageLinesBoxesID1' => array( ),
-					'PageLinesBoxesID2'=> array(
-						'clone'	=> 1, 
-						'span'	=> 6,
-				 	), 
-					
-					'PageLinesContentBoxID3' => array( 'span' => '8' ),
-					'PageLinesHighlight' => array( ), 
-					
-					'PLColumn' => array( 
-						'span' 	=> 8,
-						'content'	=> array( 
-							'PageLinesPostLoop' => array( ), 
-							'PageLinesComments' 	=> array(),	
-						)
-					),
-					'PLColumnID2' => array( 
-						'span' 	=> 4,
-						'content'	=> array( 
-							'PrimarySidebar' => array( )
-						)
-					),
-				)
-			)
-			
-		);
-		
-		$t['header'] = array(
-			'area-1'	=> array(
-				'height'	=> 200,
-				'name'		=> 'Header',
-				'content'	=> array(
-			//		'PageLinesBranding' => array( ), 
-					'PLNavBar'			=> array()
-				)
-			)
-			
-		);
-		
-		$t['footer'] = array(
-			'area-1'	=> array(
-				'height'	=> 200,
-				'name'		=> 'Body Footer',
-				'content'	=> array(
-					'SimpleNav' => array( )
-				)
-			)
-			
-		);
-		
-		return $t;
-		
-		
-	}
-	
+
 	function meta_defaults($key){
 		
 		$p = splice_section_slug($key);
@@ -270,19 +207,18 @@ class PageLinesTemplateHandler {
 					if(!empty($meta['content'])){
 						foreach($meta['content'] as $subkey => &$sub_meta){
 							$sub_meta = wp_parse_args($sub_meta, $this->meta_defaults($subkey));
-							$this->section_list[] = $sub_meta;
+							$this->section_list[  ] = $sub_meta;
 						}
 						unset($sub_meta); // set by reference
 					
-						$this->section_list[] = $meta;
+						$this->section_list[  ] = $meta;
 					}else		
-						$this->section_list[] = $meta;
+						$this->section_list[  ] = $meta;
 				}
 				unset($meta); // set by reference
 			}
 			unset($a); // set by reference
 		}
-		
 	}
 	
 	function setup_processing(){

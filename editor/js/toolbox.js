@@ -17,18 +17,22 @@
     
 		this.$element = $(element)
 		
-		$('.btn-toggler').on('click.toolbox.toggler', $.proxy(this.toggle, this))
+		
 	
 		this.$panel = this.$element.find('.toolbox-panel')
 		
 		this.$pusher =  $('.pl-toolbox-pusher')
 		
-		this.resizer = $('.h-resizer')
-		this.toggler = $('.h-toggler')
+		this.resizer = $('.resizer-handle')
+		this.closer = $('.btn-closer')
 		this.handleHeight = 30
 
 		this.resizePanel()
 		this.scrollPanel()
+		
+		this.closer.on('click.toolbox.toggler', $.proxy(this.hide, this))
+		
+		$('[data-action="add-new"]').on('click', $.proxy(this.toggle, this))
 		
 
 		// TODO needs to work w/ multiple tabbing
@@ -71,10 +75,8 @@
 		this.resizer
 			.show()
 		
-		this.toggler
-			.find('i')
-			.removeClass('icon-chevron-up')
-			.addClass('icon-chevron-down')
+		this.closer
+			.fadeIn()
 	}
 
     , hide: function (e) {
@@ -99,13 +101,12 @@
 		this.resizer
 			.hide()
 		
+		this.closer
+			.hide()
+		
 		that.$pusher
 			.height(that.handleHeight)
 	
-		this.toggler
-			.find('i')
-			.removeClass('icon-chevron-down')
-			.addClass('icon-chevron-up')
       }
 
 	, setHeight: function( newHeight ) {
@@ -150,8 +151,14 @@
 		
 		this.resizer.on('mousedown', function(evnt) {
 			
+			evnt.stopPropagation()
+			
 			var startY = evnt.pageY
 			, 	startHeight = obj.$panel.outerHeight()
+			
+			obj.resizer.addClass('resizing')
+			
+			$('body').addClass('disable-select')
 
 			$(document).on('mousemove.resizehandle', function(e) {
 				
@@ -166,7 +173,9 @@
 		})
 		
 		$(document).mouseup(function(event) {
-			$(document).unbind('mousemove.resizehandle')
+			$(document).off('mousemove.resizehandle')
+			obj.resizer.removeClass('resizing')
+			$('body').removeClass('disable-select')
 		})
 		
 	}

@@ -23,6 +23,11 @@
 // Drag and Drop Editing
 // --------------------------------------------------
 
+// Used to disable text selection, used in resize.. and more
+.disable-select{
+	.user-select(none);
+}
+
 .pl-section-controls, 
 .pl-region-bar, 
 .pl-area-controls,
@@ -332,6 +337,18 @@
 	width: 100%;
 	z-index: 10000; 
 	min-width: 600px;
+	.resizer-handle{
+		position: absolute; 
+		height: 2px; 
+		top: -1px; 
+		width: 100%;
+		cursor: move;
+		cursor: resize-row;
+		&:hover,
+		&.resizing{
+			background: rgba(0,0,0,.2);
+		}
+	}
 	.toolbox-handle{
 		
 		@media (max-width: 1200px) {
@@ -345,7 +362,7 @@
 		text-align: left;
 		.buttonBackground(#eee, #ddd);
 		box-shadow: inset 1px 1px 0 rgba(255,255,255,.8), 0 1px 3px rgba(0,0,0,.2);
-		border-top: 1px solid #BBB;
+		border-top: 1px solid #999;
 		border-bottom: 1px solid #999;
 		font-weight: bold;
 		text-shadow: 0 1px 0 #fff; 
@@ -363,10 +380,11 @@
 		 
 		ul{
 			float: left;
-			margin-right: 5px;
+			margin-left: 11px;
 			&.controls{
-				border-left: 1px solid #cdcdcd;
+				border-left: 1px solid #AAA;
 				border-right: 1px solid #fff;
+				position: relative;
 			}
 			&.send-right{
 				float: right;
@@ -410,7 +428,7 @@
 			}
 			&.controls > li > a{
 				border-left: 1px solid #fff; 
-				border-right: 1px solid #bbb;
+				border-right: 1px solid #AAA;
 				&:hover,
 				&.active{
 					border-left: 1px solid #e1e1e1; 
@@ -418,6 +436,20 @@
 				}
 				&:active{
 					border-left: 1px solid #aaa; 
+				}
+				&.btn-closer{
+					color: #999; 
+					border-left: 1px solid transparent;
+					border-right: 1px solid transparent;
+					position: absolute; 
+					left: -27px;
+					padding: 0 2px;
+					&:hover{
+						color:#08c;
+					}
+					&:active{
+						color: #444;
+					}
 				}
 			}
 			&.panel-control a{
@@ -427,23 +459,9 @@
 				
 				padding: 0 3px;
 			}
-			.h-resizer, 
-			.btn-toggler{
-				color: #999; 
-				border-left: 1px solid transparent;
-				border-right: 1px solid transparent;
-				padding: 0 5px;
-				&:hover, &:active{
-					color:#08c;
-					background:rgba(0,0,0,.1);
-				}
-			}
-			.btn-toggler{
-				
-			}
-			.h-resizer{
-				cursor: -webkit-grabbing;
-			}
+			 
+			
+		
 		}
 		
 	}
