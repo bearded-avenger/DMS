@@ -662,7 +662,7 @@
 
 		.offset (@columns) {
 			@offsetMargin: (@fluidGridColumnWidth * @columns) + (@fluidGridGutterWidth * (@columns + 1));
-			&.sortable_first, 
+			&.sortable-first, 
 			&:first-child{
 				margin-left: @offsetMargin - @fluidGridGutterWidth;
 			}
@@ -682,7 +682,7 @@
 				
 			}
 			> [class*="span"]:first-child, 
-			.sortable_first {
+			.sortable-first {
 				margin-left: 0;
 				clear: both;
 			}

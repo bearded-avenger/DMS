@@ -206,14 +206,14 @@
 
 
 
-	.no_offset .section-offset-increase, 
-	.no_offset .section-offset-reduce, 
-	.no_offset .offset-size, 
-	.sortable_first .section-start-row{
+	.cant-offset .section-offset-increase, 
+	.cant-offset .section-offset-reduce, 
+	.cant-offset .offset-size, 
+	.sortable-first .section-start-row{
 		.opacity(50);
 	}
 
-	.force_start_row .s-control.s-control-icon.section-start-row{
+	.force-start-row .s-control.s-control-icon.section-start-row{
 		.opacity(100);
 		color: @editorBorder;
 	}
@@ -222,9 +222,17 @@
 	
 	// Area Controls
 	// --------------------------------------------------
+	
+	.pl-region{
+		position: relative;
+		&.header{
+			margin-top: 13px;
+		}
+	}
 	.pl-region-bar{
 		display: block;
-		
+		position: absolute; 
+		top: -13px;
 		line-height: 12px;	
 		#gradient > .vertical(rgba(182, 242, 253, .06), rgba(125, 233, 253, .06));
 		width: 100%;
@@ -284,7 +292,7 @@
 
 // Layout
 // --------------------------------------------------
-.layout-resize{
+.width-resize{
 	// Resizing
 	.ui-resizable-handle {
 		&.ui-resizable-e, 
@@ -298,20 +306,22 @@
 
 	}
 	
-	.ui-resizable-resizing .ui-resizable-e, 
-	.ui-resizable-resizing .ui-resizable-w,
-	.ui-resizable-e:hover, 
-	.ui-resizable-w:hover{
-		#pattern > .striped( @baseContrast );
-	
+	&.resize-hover .ui-resizable-handle{
+		background: rgba(182, 242, 253, .2);
+		
 	}
+	&.width-resizing .ui-resizable-handle{
+		background: rgba(182, 242, 253, .4);
+	}
+	
+
 
 	
 	.ui-resizable-e{
 		cursor: e-resize;
 		border-left: 1px dashed @editorBorder;
 		width: 5px;
-		right: -5px;
+		right: -6px;
 		top: 0;
 		height: 100%;	
 	}
@@ -320,9 +330,13 @@
 		cursor: w-resize;
 		border-right: 1px dashed @editorBorder;
 		width: 5px;
-		left: -5px;
+		left: -6px;
 		top: 0;
 		height: 100%;	
+	}
+	
+	.footer .pl-content{
+		border-bottom: 1px dashed @editorBorder;
 	}
 	
 }
@@ -339,8 +353,8 @@
 	min-width: 600px;
 	.resizer-handle{
 		position: absolute; 
-		height: 2px; 
-		top: -1px; 
+		height: 3px; 
+		top: -2px; 
 		width: 100%;
 		cursor: move;
 		cursor: resize-row;
@@ -352,10 +366,8 @@
 	.toolbox-handle{
 		
 		@media (max-width: 1200px) {
-			 a {
-				.txt{
+			 a .txt{
 					display: none;
-				}
 			}
 		}
 		
@@ -495,7 +507,6 @@
 		}
 		.tabs-nav, 
 		.tab-panel{
-		//	float: left;
 			margin-bottom: -99999px;
 			padding-bottom: 99999px;
 		}

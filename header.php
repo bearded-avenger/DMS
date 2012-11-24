@@ -50,13 +50,13 @@ else:  ?>
 		<?php pagelines_register_hook('pagelines_page'); // Hook ?>
 		<div class="page-canvas">
 			<?php pagelines_register_hook('pagelines_before_header');?>
-			<header id="header" class="container-group">
+			<header id="header" class="header pl-region">
 				<div class="outline">
 					<?php pagelines_template_area('pagelines_header', 'header'); // Hook ?>
 				</div>
 			</header>
 			<?php pagelines_register_hook('pagelines_before_main'); // Hook ?>
-			<div id="page-main" class="container-group">
+			<div id="page-main" class="pl-region">
 				<div id="dynamic-content" class="outline">	
 <?php 
 				pagelines_special_content_wrap_top();

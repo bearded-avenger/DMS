@@ -10,18 +10,13 @@ jQuery(document).ready(function() {
 	jQuery('.pl-area .pl-content .pl-inner').addClass('pl-sortable-area')
 	
 	// Adds class for drag/dropping areas
-	jQuery('.outline').addClass('pl_area_container')
+	jQuery('.outline').addClass('pl-area-container')
 	
-	jQuery('.pl-sortable-area .pl-section').addClass('pl_sortable')
-	
-//	jQuery.pageBuilder.startResize(); // Layout resize	
-	
+	jQuery('.pl-sortable-area .pl-section').addClass('pl-sortable')
 	
 	jQuery.pageTools.startUp()
 
-});
-
-
+})
 		
 
 !function ($) {
@@ -33,9 +28,9 @@ jQuery(document).ready(function() {
 			
 			$.pageBuilder.reloadConfig()
 			
-			$.pageBuilder.onStart()
-			
 			var theToolBox = $('body').toolbox()
+			
+			this.onStart()
 			
 			this.listener()
 			
@@ -45,6 +40,8 @@ jQuery(document).ready(function() {
 		
 		, listener: function() {
 		
+			that = this
+			
 			// Click event listener
 			$(".btn-toolbox").on("click.toolBar", function(e) {
 				
@@ -54,30 +51,73 @@ jQuery(document).ready(function() {
 				, 	btnAction = btn.data('action')
 			
 				if( btnAction == 'drag-drop' )
-					$.pageBuilder.toggle()
+					that.stateInit('drag-drop', function() { $.pageBuilder.show() }, function() { $.pageBuilder.hide() }, true)
+				else if (btnAction == 'site-width' )
+					that.stateInit('site-width', function() { $.widthResize.startUp() }, function() { $.widthResize.shutDown() }, true)
+				
 				
 			})
         }
+		
+		, onStart: function(){
+			
+			this.stateInit('drag-drop', function() { $.pageBuilder.show() })
+			
+			this.stateInit('site-width', function() { $.widthResize.startUp() })
+			
+		}
+		
+		, stateInit: function( slug, call_on_true, call_on_false, toggle ){
+			
+			var localState = ( localStorage.getItem( slug ) )
+			,	theState = (localState == 'true') ? true : false
+			 
+			
+			if( toggle ){
+				theState = (theState) ? false : true;
+				localStorage.setItem( slug, theState )
+			}
+			
+			if (!theState){
+					
+				$('[data-action="'+slug+'"]').removeClass('active')	
+					
+				if($.isFunction(call_on_false))
+					call_on_false.call( slug )
+			}
+			
+			if (theState){
+				
+				$('[data-action="'+slug+'"]').addClass('active')
+					
+				if($.isFunction(call_on_true))
+					call_on_true.call( slug )
+			}
+				
+				
+			
+			
+		}
 
 	
 	}
 
 	// Page Drag/Drop Builder
     $.pageBuilder = {
-
-		onStart: function(){
-		
-			var localState = ( localStorage.getItem( 'plDragDrop' ) )
-			,	theState = (localState == 'true') ? true : false
-			
-			if(theState)
-				$.pageBuilder.show()
-			
-		}
+		// 
+		// onStart: function(){
+		// 
+		// 	var localState = ( localStorage.getItem( 'plDragDrop' ) )
+		// 	,	theState = (localState == 'true') ? true : false
+		// 	
+		// 	if(theState)
+		// 		$.pageBuilder.show()
+		// 	
+		// }
 	
-		, toggle: function( ){
+		toggle: function( ){
 			
-			var localState = ( localStorage.getItem( 'plDragDrop' ) )
+			var localState = ( localStorage.getItem( 'drag-drop' ) )
 			,	theState = (localState == 'true') ? true : false
 		
 			if( !theState ){
@@ -94,14 +134,14 @@ jQuery(document).ready(function() {
 					
 			}
 			
-			localStorage.setItem( 'plDragDrop', theState )
+			localStorage.setItem( 'drag-drop', theState )
 				
 		}
 		
 		, show: function() {
 			
 			// Graphical Flare
-			$('.pl_sortable').effect('highlight', 1500)
+			$('.pl-sortable').effect('highlight', 1500)
 			$('[data-action="drag-drop"]').addClass('active')
 			
 			// Enable CSS
@@ -138,7 +178,7 @@ jQuery(document).ready(function() {
 				e.preventDefault()
 			
 				var btn = $(this)
-				,	section = btn.closest(".pl_sortable")
+				,	section = btn.closest(".pl-sortable")
 				,	config	= {
 					sid: section.data('sid')
 					, 	clone: section.data('clone')
@@ -163,7 +203,7 @@ jQuery(document).ready(function() {
 					if (answer) {
 			            
 						section.remove();
-			            section.addClass('empty_column');
+			            section.addClass('empty-column');
 						
 					}
 					
@@ -222,7 +262,7 @@ jQuery(document).ready(function() {
 
 				} else if ( btn.hasClass('section-start-row') ){
 				
-					section.toggleClass('force_start_row')
+					section.toggleClass('force-start-row')
 					
 				}
 				
@@ -249,7 +289,7 @@ jQuery(document).ready(function() {
 		, isAreaEmpty: function(area){
 			var addTo = (area.hasClass('pl-column-sortable')) ? area.parent() : area
 			
-			if(!area.children(".pl_sortable").not('.ui-sortable-helper').length)
+			if(!area.children(".pl-sortable").not('.ui-sortable-helper').length)
 			    addTo.addClass('empty-area')
 			else 
 			    addTo.removeClass('empty-area')
@@ -263,11 +303,11 @@ jQuery(document).ready(function() {
             ,	next_width = 0
 			,	avail_offset = 0
 			, 	sort_area = $(area)
-			, 	len = sort_area.children(".pl_sortable").length
+			, 	len = sort_area.children(".pl-sortable").length
 	
   			this.isAreaEmpty( sort_area )
 
-            sort_area.children(".pl_sortable").each( function ( index ) {
+            sort_area.children(".pl-sortable").each( function ( index ) {
 				
                 var section = $(this)
 				,	col_size = $.pageBuilder.getColumnSize( section )
@@ -276,9 +316,9 @@ jQuery(document).ready(function() {
 				
 				if(sort_area.hasClass('pl-column-sortable')){
 				
-					if(section.hasClass('sortable_1st_level')){
+					if(section.hasClass('sortable-1st-level')){
 						section
-							.removeClass('sortable_1st_level')
+							.removeClass('sortable-1st-level')
 							.removeClass(col_size[0])
 							.removeClass(off_size[0])
 							.addClass('span12 offset0')
@@ -290,18 +330,18 @@ jQuery(document).ready(function() {
 				} else {
 					
 					section
-						.addClass("sortable_1st_level")
+						.addClass("sortable-1st-level")
 					
 				}
 				
 				// First/last spacing
 				section
-					.removeClass("sortable_first sortable_last")
+					.removeClass("sortable-first sortable-last")
 					
 				if ( index == 0 )
-					section.addClass("sortable_first")
+					section.addClass("sortable-first")
 				else if ( index === len - 1 ) 
-					section.addClass("sortable_last")
+					section.addClass("sortable-last")
 					
 				
 				// Deal with width and offset
@@ -312,9 +352,9 @@ jQuery(document).ready(function() {
 				avail_offset = 12 - col_size[4];
 			
 				if( avail_offset == 0 )
-					section.addClass('no_offset')
+					section.addClass('cant-offset')
 				else 
-					section.removeClass('no_offset')
+					section.removeClass('cant-offset')
 			
 				if(width > 12){
 					avail_offset = 12 - col_size[4]; 
@@ -326,12 +366,12 @@ jQuery(document).ready(function() {
 				section.find(".section-size:first").html( col_size[3] )
 				section.find(".offset-size:first").html( off_size[3] )
 				
-				if (total_width > 12 || section.hasClass('force_start_row')) {
+				if (total_width > 12 || section.hasClass('force-start-row')) {
 					
                     section
-						.addClass('sortable_first')
-                    	.prev('.pl_sortable')
-						.addClass("sortable_last")
+						.addClass('sortable-first')
+                    	.prev('.pl-sortable')
+						.addClass("sortable-last")
 						
                     total_width = width
 
@@ -492,25 +532,68 @@ jQuery(document).ready(function() {
 		
 		}
 		
-		, startResize: function(){
-			// Resizable Content Area
-			$('.pl-content').resizable({ 
-				handles: "e, w",
-				minWidth: 400,
-				resize: function(event, ui) { 
-
-					var resizeWidth = ui.size.width, 
-						resizeOrigWidth = ui.originalSize.width, 
-						resizeNewWidth = resizeOrigWidth + ((resizeWidth - resizeOrigWidth) * 2); 
-
-					jQuery('.pl-content').css('left', 'auto').width(resizeNewWidth); 
-
-				}
-			});
-			
-		}
 		
     }
+
+	$.widthResize = {
+		
+		startUp: function(){
+			
+			var	widthSel = $('.pl-content')
+			
+			$('body').addClass('width-resize')
+	
+			
+
+
+			widthSel.resizable({ 
+				handles: "e, w",
+				minWidth: 400,
+				start: function(event, ui){
+					$('body').addClass('width-resizing')
+				}
+				, stop: function(event, ui){
+					$('body').removeClass('width-resizing')
+				}
+				, resize: function(event, ui) { 
+
+					var resizeWidth = ui.size.width
+					,	resizeOrigWidth = ui.originalSize.width
+					,	resizeNewWidth = resizeOrigWidth + ((resizeWidth - resizeOrigWidth) * 2)
+
+					widthSel
+						.css('left', 'auto')
+						.width(resizeNewWidth)
+
+				}
+			})
+			
+			$('.ui-resizable-handle')
+				.effect('highlight', 2500 )
+				.hover(
+					function () {
+						$('body').addClass("resize-hover")
+					}
+					, function () {
+						$('body').removeClass("resize-hover")
+					}
+				)
+			
+		}
+		, shutDown: function(){
+			
+			var	widthSel = $('.pl-content')
+			
+			$('body').removeClass('width-resize')
+			
+			$(".ui-resizable-handle").unbind('mouseenter mouseleave')
+			
+			this.widthSel.resizable( "destroy" )
+			
+			
+			
+		}
+	}
 
 	
 	$.areaControl = {

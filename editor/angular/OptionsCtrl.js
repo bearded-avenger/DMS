@@ -1,8 +1,3 @@
-var jqxhr = jQuery.getJSON('http://localhost/wp2/api/get_post/?post_id=1', function(data){
-	console.log(data)
-	
-})
-
 
 function OptionsCtrl($scope) {
 	
