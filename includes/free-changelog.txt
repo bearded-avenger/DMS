@@ -1,3 +1,8 @@
+= 1.3.1 =
+
+* Fix accordian shortcode if %s is in the content, props Evan.
+* Fix community links in dashboard, props Evan.
+* Fix Linkedin option in the sharebar, props Evan.
 
 = 1.3.0 =
 
