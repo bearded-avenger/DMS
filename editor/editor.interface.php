@@ -107,7 +107,7 @@ class EditorInterface {
 					foreach($this->toolbar_config() as $key => $tab){
 						
 						printf(
-							'<li><span class="btn-toolbox" data-action="%s" ><i class="%s"></i> <span class="txt">%s</span></span></li>', 
+							'<li><span class="btn-toolbox btn-panel" data-action="%s" ><i class="%s"></i> <span class="txt">%s</span></span></li>', 
 							$key, 
 							$tab['icon'], 
 							$tab['name']
@@ -133,6 +133,8 @@ class EditorInterface {
 							
 							if(isset($tab['panel']) && !empty($tab['panel']))
 								$this->panel($key, $tab['panel']);
+							else 
+								printf('<div class="panel-%s tabbed-set error-panel">There was an issue rendering the panel.</div>', $key);
 						}
 							 ?>
 					</div>

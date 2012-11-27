@@ -95,6 +95,8 @@
         this.$panel
           	.removeClass('in')
 			.css('margin-bottom', ht * -1)
+			
+		$('.btn-panel').removeClass('active-tab')
 		
 		this.resizer
 			.hide()

@@ -53,7 +53,7 @@ jQuery(document).ready(function() {
 				if( btnAction == 'drag-drop' )
 					that.stateInit(btnAction, function() { $.pageBuilder.show() }, function() { $.pageBuilder.hide() }, true)
 				
-				else 
+				else if(btn.hasClass('btn-panel'))
 					that.showPanel(btnAction)
 				
 				
@@ -61,7 +61,7 @@ jQuery(document).ready(function() {
         }
 		
 		, showPanel: function( key ){
-			
+		
 			$('body').toolbox('show')
 			$('.tabbed-set').hide()
 			$('.panel-'+key).show()

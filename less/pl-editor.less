@@ -440,7 +440,7 @@
 					.buttonBackground(#fff, #eee);
 					i{
 						color: @linkColor;
-				//		color: #ff7300;
+			
 					}
 				}
 			}
@@ -506,7 +506,13 @@
 			box-shadow: 0 0 5px rgba(0,0,0,.4);
 		
 			min-height: 3000px;
-			
+			.error-panel {
+				font-size: 1.6em;
+				color: #CCC;
+				font-weight: bold; 
+				text-align: center; 
+				padding: 50px 25px;
+			}
 		}
 		.tabbed-set{
 			overflow: hidden;
@@ -538,25 +544,30 @@
 				display: block;
 			}
 			li{
-				border-top: 1px solid transparent;
-				border-bottom: 1px solid transparent;
+				
 				a{
-					padding: 5px 0px 5px 25px;
+					font-size: 13px;
+					padding: 5px 0px 6px 25px;
+					line-height: 1.4em;
 					display: block;
+					border-top: 1px solid transparent;
+					border-bottom: 1px solid transparent;
 					color: #222;
+					&:hover{
+						background: #f7f7f7;
+					}
+					&:active{
+						background:#ddd;
+					}
 				}
-				&:hover{
-					background: #f7f7f7;
-				}
-				&:active{
-					background:#eee;
-				}
-				&.ui-state-active{
-					a{ color:#fff; text-shadow: 0 -1px 0 rgba(0,0,0,.7);}
-					.buttonBackground(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
-					box-shadow: inset 1px 1px 0px rgba(255,255,255,.2), 0 1px 3px rgba(0,0,0,.2);
-					border-top-color: @btnPrimaryBackground;
-					border-bottom-color: @btnPrimaryBackground;
+				
+				&.ui-state-active a{ 
+						.buttonBackground(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
+						box-shadow: inset 1px 1px 0px rgba(255,255,255,.2), 0 1px 3px rgba(0,0,0,.2);
+						border-top-color: 1px solid @btnBorder;
+						border-bottom-color: darken(@btnBorder, 10%);
+						color:#fff; 
+						text-shadow: 0 -1px 0 rgba(0,0,0,.7);
 				}
 			}
 		}
