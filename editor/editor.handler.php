@@ -116,6 +116,10 @@ class PageLinesTemplateHandler {
 	function dummy_template_config_data(){
 			$t = array();
 
+			// Regions
+			// --> Areas
+			// --> --> Sections
+
 			$t['template'] = array(
 				1	=> array(
 					'area'	=> 'TemplateAreaID',

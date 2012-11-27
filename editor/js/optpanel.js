@@ -10,7 +10,6 @@
 			var sid = config.sid
 			,	clone = config.clone
 			
-			
 			if(!option_config[sid] || option_config[sid].length == 0)
 				return
 				

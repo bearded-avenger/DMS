@@ -49,6 +49,7 @@ jQuery(document).ready(function() {
 				
 				e.preventDefault()
 				
+				
 				var btn = $(this)
 				, 	btnAction = btn.data('action')
 			

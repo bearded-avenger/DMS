@@ -202,6 +202,8 @@ class EditorInterface {
 					'sections'	=> array('name'	=> 'Sections'),
 					'plugins'	=> array('name'	=> 'Plugins'),
 					'themes'	=> array('name'	=> 'Themes'),
+					'upload'	=> array('name'	=> 'Upload'),
+					'search'	=> array('name'	=> 'Search'),
 				)
 			)
 		);
