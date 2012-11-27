@@ -5,7 +5,7 @@
 @interfaceBG: rgba(0,0,0,.7);
 
 @editorBorder: #35eafd;
-@editorText: #017c8c;
+@editorText: #000;
 
 .pl-editor{
 	
@@ -74,7 +74,7 @@
 				box-shadow: inset 1px 1px 0 rgba(255,255,255,.5); 
 				outline: 1px dashed  @editorBorder;
 				color: @editorText;
-				text-shadow: 0 1px 0 rgba(255,255,255,.7);
+				text-shadow: 0 1px 0 rgba(255,255,255,.4);
 				
 				a.s-control{
 					color: @editorText;
@@ -240,7 +240,7 @@
 		a.btn-region{
 			vertical-align: top;
 			color: @editorText;
-			text-shadow: 0 1px 0 rgba(255,255,255,.7);
+			text-shadow: 0 1px 0 rgba(255,255,255,.4);
 			box-shadow: inset 2px 1px 0 rgba(255,255,255,.5); 
 			outline: 1px dashed  @editorBorder;
 			#gradient > .vertical(rgba(182, 242, 253, .5), rgba(125, 233, 253, .5));
@@ -266,6 +266,7 @@
 			width: 50px;
 			.area-move-btn{
 				color: @editorText;
+				text-shadow: 0 1px 0 rgba(255,255,255,.4);
 				font-size: 11px;
 				padding: 1px 4px;
 				line-height: 16px;
@@ -414,7 +415,7 @@
 				border-right: 1px solid #cdcdcd;
 				i{display: block;}
 			}
-			> li > a{
+			> li > span{
 				display: block;
 				color: #444;
 				padding: 0 15px;
@@ -427,22 +428,20 @@
 				&:active{
 					.buttonBackground(#bbb, #ddd);
 				}
-				&.active{
+				&.active-toggle, 
+				&.active-tab{
 					.buttonBackground(#e1e1e1, #bbb);
 					i{
 						color: @linkColor;
 					}
-					
-					&:hover{
-
-					}
 				}
 			}
-			&.controls > li > a{
+			&.controls > li > span{
 				border-left: 1px solid #fff; 
 				border-right: 1px solid #AAA;
 				&:hover,
-				&.active{
+				&.active-toggle, 
+				&.active-tab{
 					border-left: 1px solid #e1e1e1; 
 					border-right: 1px solid #aaa;
 				}
@@ -464,7 +463,7 @@
 					}
 				}
 			}
-			&.panel-control a{
+			&.panel-control span{
 				i:before{
 					font-size: 13px;
 				}
@@ -483,13 +482,13 @@
 	
 	.toolbox-panel{
 		.transition(margin-bottom .5s);
-		margin-bottom: -20%;
+		
 		opacity:0;
 		&.in { 
 			margin-bottom: 0; 
 			opacity: 1;
 		}
-		
+		margin-bottom: -20%;
 		width: 100%;
 		max-height: 80%;
 
@@ -499,11 +498,12 @@
 			background:#fff; 
 			box-shadow: 0 0 5px rgba(0,0,0,.4);
 		
-			min-height: 300px;
+			min-height: 3000px;
 			
 		}
 		.tabbed-set{
 			overflow: hidden;
+			display: none;
 		}
 		.tabs-nav, 
 		.tab-panel{

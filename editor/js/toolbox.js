@@ -31,9 +31,7 @@
 		this.scrollPanel()
 		
 		this.closer.on('click.toolbox.toggler', $.proxy(this.hide, this))
-		
-		$('[data-action="add-new"]').on('click', $.proxy(this.toggle, this))
-		
+			
 
 		// TODO needs to work w/ multiple tabbing
 		$('.tabbed-set').tabs()

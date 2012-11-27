@@ -28,7 +28,7 @@ jQuery(document).ready(function() {
 			
 			$.pageBuilder.reloadConfig()
 			
-			var theToolBox = $('body').toolbox()
+			this.theToolBox = $('body').toolbox()
 			
 			this.onStart()
 			
@@ -43,7 +43,7 @@ jQuery(document).ready(function() {
 			that = this
 			
 			// Click event listener
-			$(".btn-toolbox").on("click.toolBar", function(e) {
+			$(".btn-toolbox").on("click.toolboxHandle", function(e) {
 				
 				e.preventDefault()
 				
@@ -51,47 +51,54 @@ jQuery(document).ready(function() {
 				, 	btnAction = btn.data('action')
 			
 				if( btnAction == 'drag-drop' )
-					that.stateInit('drag-drop', function() { $.pageBuilder.show() }, function() { $.pageBuilder.hide() }, true)
-				else if (btnAction == 'site-width' )
-					that.stateInit('site-width', function() { $.widthResize.startUp() }, function() { $.widthResize.shutDown() }, true)
+					that.stateInit(btnAction, function() { $.pageBuilder.show() }, function() { $.pageBuilder.hide() }, true)
+				
+				else 
+					that.showPanel(btnAction)
 				
 				
 			})
         }
 		
+		, showPanel: function( key ){
+			
+			$('body').toolbox('show')
+			$('.tabbed-set').hide()
+			$('.panel-'+key).show()
+			$('.btn-toolbox').removeClass('active-tab')
+			$('[data-action="'+key+'"]').addClass('active-tab')
+		}
+
 		, onStart: function(){
 			
 			this.stateInit('drag-drop', function() { $.pageBuilder.show() })
-			
-			this.stateInit('site-width', function() { $.widthResize.startUp() })
-			
 		}
 		
-		, stateInit: function( slug, call_on_true, call_on_false, toggle ){
+		, stateInit: function( key, call_on_true, call_on_false, toggle ){
 			
-			var localState = ( localStorage.getItem( slug ) )
+			var localState = ( localStorage.getItem( key ) )
 			,	theState = (localState == 'true') ? true : false
 			 
 			
 			if( toggle ){
 				theState = (theState) ? false : true;
-				localStorage.setItem( slug, theState )
+				localStorage.setItem( key, theState )
 			}
 			
 			if (!theState){
 					
-				$('[data-action="'+slug+'"]').removeClass('active')	
+				$('[data-action="'+key+'"]').removeClass('active-toggle')	
 					
 				if($.isFunction(call_on_false))
-					call_on_false.call( slug )
+					call_on_false.call( key )
 			}
 			
 			if (theState){
 				
-				$('[data-action="'+slug+'"]').addClass('active')
+				$('[data-action="'+key+'"]').addClass('active-toggle')
 					
 				if($.isFunction(call_on_true))
-					call_on_true.call( slug )
+					call_on_true.call( key )
 			}
 				
 				
@@ -156,6 +163,10 @@ jQuery(document).ready(function() {
 			
 			$.areaControl.toggle($(this))
 			
+			$.widthResize.startUp()
+			
+			
+			
 		}
 		
 		, hide: function() {
@@ -168,6 +179,8 @@ jQuery(document).ready(function() {
 				.off('click.sectionControls')
 				
 			$.areaControl.toggle($(this))
+			
+			$.widthResize.shutDown()
 			
 		}
 		
@@ -588,7 +601,7 @@ jQuery(document).ready(function() {
 			
 			$(".ui-resizable-handle").unbind('mouseenter mouseleave')
 			
-			this.widthSel.resizable( "destroy" )
+			widthSel.resizable( "destroy" )
 			
 			
 			

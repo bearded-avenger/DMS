@@ -89,6 +89,8 @@ class EditorInterface {
 	}
 	
 	function control_panel(){
+		
+		
 	?>
 	
 	<div class="pl-toolbox-pusher">
@@ -98,17 +100,26 @@ class EditorInterface {
 		<div class="toolbox-handle fix">
 			
 			<ul class="unstyled controls">
-				<li ><a class="btn-toolbox btn-closer"><i class="icon-remove-sign"></i></a></li>
-				<li><a class="btn-toolbox" data-action="drag-drop" ><i class="icon-random"></i> <span class="txt">Drag <span class="spamp">&amp;</span> Drop Editing</span></a></li>
-				<li><a class="btn-toolbox" data-action="add-new"><i class="icon-plus-sign"></i> <span class="txt">Add <span class="spamp">&amp;</span> Extend</span></a></li>
-				<li><a class="btn-toolbox" data-action="add-new"><i class="icon-paste"></i> <span class="txt">Page Templates</span></a></li>
-				<li><a class="btn-toolbox" data-action="site-width"><i class="icon-resize-horizontal"></i> <span class="txt">Site Width</span></a></li>
-				<li><a class="btn-toolbox" data-action="add-new"><i class="icon-cog"></i> <span class="txt">Global Settings</span></a></li>
-				<li><a class="btn-toolbox" data-action="add-new"><i class="icon-pagelines"></i> <span class="txt">Account</span></a></li>
+				<li ><span class="btn-toolbox btn-closer" title="Close [esc]"><i class="icon-remove-sign"></i></span></li>
+				
+				<?php 
+				
+					foreach($this->toolbar_config() as $key => $tab){
+						
+						printf(
+							'<li><span class="btn-toolbox" data-action="%s" ><i class="%s"></i> <span class="txt">%s</span></span></li>', 
+							$key, 
+							$tab['icon'], 
+							$tab['name']
+						);
+						
+					}
+				?>
+				
 			</ul>
 			
 			<ul class="unstyled controls send-right">
-				<li><a class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish</span></a></li>
+				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish</span></span></li>
 				
 				
 			</ul>
@@ -117,7 +128,13 @@ class EditorInterface {
 			<div class="toolbox-panel">
 				<div class="toolbox-content fix" ng-controller="OptionsCtrl">
 					<div class="toolbox-content-pad option-panel">
-						<?php $this->test_panel(); ?>
+						<?php 
+						foreach($this->toolbar_config() as $key => $tab){
+							
+							if(isset($tab['panel']) && !empty($tab['panel']))
+								$this->panel($key, $tab['panel']);
+						}
+							 ?>
 					</div>
 				</div>
 			</div>
@@ -126,51 +143,106 @@ class EditorInterface {
 	<?php 
 	}
 	
-	function test_panel(){
+	function toolbar_config(){
+		
+		$data = array(
+			'drag-drop' => array(
+				'name'	=> 'Drag <span class="spamp">&amp;</span> Drop Editing',
+				'icon'	=> 'icon-random'
+			),
+			'page-setup' => array(
+				'name'	=> 'Pages',
+				'icon'	=> 'icon-paste',
+				'panel'	=> array()
+				
+			),
+			'add-new' => array(
+				'name'	=> 'Add',
+				'icon'	=> 'icon-plus-sign',
+				'panel'	=> array(
+					'heading'	=> "Add To Page",
+					'add_section'	=> array(
+						'name'	=> 'Available Sections', 
+						'type'	=> 'call',
+						'call'	=> array(&$this, 'test_callback')
+					)
+				)
+			), 
+			'pl-design' => array(
+				'name'	=> 'Design',
+				'icon'	=> 'icon-magic',
+				'panel'	=> array()
+			), 
+			'pl-settings' => array(
+				'name'	=> 'Settings',
+				'icon'	=> 'icon-cog',
+				'panel'	=> array(
+					'heading'	=> "Global Settings",
+					'basic'		=> array('name'	=> 'Basic Setup'),
+					'colors'	=> array('name'	=> 'Color Control'),
+					'type'		=> array('name'	=> 'Typography'),
+					'advanced'	=> array('name'	=> 'Advanced')
+				)
+			), 
+			'pl-extend' => array(
+				'name'	=> 'Extend',
+				'icon'	=> 'icon-download',
+				'panel'	=> array()
+			)
+		);
+		
+		return $data;
+		
+	}
+	
+	function test_callback(){
+		echo 'hello this is the test callback' . rand();
+	}
+	
+	function panel($key, $panel){
 
 		?>
-		<div class="tabbed-set">
+		<div class="<?php echo 'panel-'.$key;?> tabbed-set" data-key="<?php echo $key;?>">
 			<ul class="tabs-nav unstyled">
-				<lh>Settings</lh>
-				<li><a href="#tab-1">Tab 1</a></li>
-				<li><a href="#tab-2">Tab 2</a></li>
-				<li><a href="#tab-3">Tab 3</a></li>
-			</ul>
-			<div class="tab-panel" id="tab-1">
-		
-				<div class="tab-panel-inner">
-					<div class="opt" >
-						<div class="opt-input">
-							<form class="bs-docs-example">
-								<legend>Legend</legend>
-								<label>Label name</label>
-								<input type="text" placeholder="Type something…" ng-model="optionText">
-								<span class="help-block">{{optionText}}Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu lectus metus, id malesuada orci. Curabitur laoreet mi quis enim pharetra et ornare lectus laoreet. Sed sit amet nunc tellus. Sed orci augue, pharetra vel fringilla sed, luctus vitae tortor. Suspendisse at gravida nisl. Etiam molestie pellentesque rutrum. Aliquam quis dolor eros, sit amet aliquam nisl. Suspendisse potenti. Etiam elementum ante at metus scelerisque viverra. Nam nec libero magna. Suspendisse eu felis in lacus semper volutpat ac quis eros.
-
-								Morbi libero neque, aliquam vitae volutpat tempor, blandit quis arcu. Quisque at lorem semper dui vulputate tempor. Fusce sed elit non lorem feugiat dictum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet eros et erat semper convallis. Proin a</span>
-								<label class="checkbox">
-								<input type="checkbox"> Check me out
-								</label>
-								<button type="submit" class="btn">Submit</button>
-							</form>
-						</div>
-						<div class="opt-exp">explanation</div>
-					</div>
-				</div>
-			</div>
-			<div class="tab-panel" id="tab-2">
-				<div class="tab-panel-inner">
-			
-						<legend>tab 2</legend>
-						<label>Label name</label>
-						<input type="text" placeholder="Type something…">
 				
-				</div>
-			</div>
-			<div class="tab-panel" id="tab-3">
-				<div class="tab-panel-inner">
-				</div>
-			</div>
+				<?php 
+					foreach($panel as $tab_key => $t){
+						
+						if($tab_key == 'heading'){
+							printf('<lh>%s</lh>', $t); 
+						} else {
+							printf('<li><a href="#%s">%s</a></li>', $tab_key, $t['name']);
+						}
+						
+						
+					}
+					
+				?>
+
+			</ul>
+			<?php 
+				foreach($panel as $tab_key => $t){ 
+					
+					if($tab_key == 'heading') 
+						continue;
+						
+					if(isset($t['type']) && $t['type'] == 'call'){
+						ob_start(); 
+						call_user_func($t['call']);
+						$content = ob_get_clean();
+					}	else {
+						$content = 'content --> ' . rand();
+					}
+						
+					printf(
+						'<div class="tab-panel" id="%s"><div class="tab-panel-inner"><legend>%s</legend><div class="tab-content">%s</div></div></div>', 
+						$tab_key, 
+						$t['name'], 
+						$content
+					);
+				}
+			?>
+		
 		</div>
 		<?php 
 	}
