@@ -155,7 +155,10 @@ class EditorInterface {
 			'page-setup' => array(
 				'name'	=> 'Pages',
 				'icon'	=> 'icon-paste',
-				'panel'	=> array()
+				'panel'	=> array(
+					'heading'	=> "Page Templates",
+					'template'	=> array('name'	=> 'Select Template')
+				)
 				
 			),
 			'add-new' => array(
@@ -173,7 +176,12 @@ class EditorInterface {
 			'pl-design' => array(
 				'name'	=> 'Design',
 				'icon'	=> 'icon-magic',
-				'panel'	=> array()
+				'panel'	=> array(
+					'heading'	=> "Site Design",
+					'theme'		=> array('name'	=> 'Theme'),
+					'custom'	=> array('name'	=> 'Custom LESS/CSS'),
+					'advanced'	=> array('name'	=> 'Advanced')
+				)
 			), 
 			'pl-settings' => array(
 				'name'	=> 'Settings',
@@ -189,7 +197,12 @@ class EditorInterface {
 			'pl-extend' => array(
 				'name'	=> 'Extend',
 				'icon'	=> 'icon-download',
-				'panel'	=> array()
+				'panel'	=> array(
+					'heading'	=> "Extend PageLines",
+					'sections'	=> array('name'	=> 'Sections'),
+					'plugins'	=> array('name'	=> 'Plugins'),
+					'themes'	=> array('name'	=> 'Themes'),
+				)
 			)
 		);
 		
@@ -205,6 +218,7 @@ class EditorInterface {
 
 		?>
 		<div class="<?php echo 'panel-'.$key;?> tabbed-set" data-key="<?php echo $key;?>">
+
 			<ul class="tabs-nav unstyled">
 				
 				<?php 
@@ -215,8 +229,7 @@ class EditorInterface {
 						} else {
 							printf('<li><a href="#%s">%s</a></li>', $tab_key, $t['name']);
 						}
-						
-						
+												
 					}
 					
 				?>

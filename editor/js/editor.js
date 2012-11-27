@@ -6,6 +6,8 @@ jQuery(document).ready(function() {
 	jQuery('body').addClass('pl-editor')
 	jQuery('.pl-inner').addClass('editor-row')
 	
+
+	
 	// Adds class for drag/dropping content sections
 	jQuery('.pl-area .pl-content .pl-inner').addClass('pl-sortable-area')
 	
