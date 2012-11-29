@@ -28,7 +28,7 @@ class PageLinesTemplateHandler {
 
 		global $pl_section_factory; 
 		
-		$this->factory = $pl_section_factory->sections; // pass by reference
+		$this->factory = $pl_section_factory->sections; 
 		
 		$this->editor = new EditorInterface;
 		
@@ -43,13 +43,29 @@ class PageLinesTemplateHandler {
 	}
 	
 	function json_data(){
+		
+		// in php 
 	
 		?>
 		<script>
 		
+			!function ($) {
+				
+				$.PLData = {
+					
+					options: <?php echo json_encode($this->dummy_option_config_data(), JSON_FORCE_OBJECT); ?>
+					
+				}
+
+			
+			}(window.jQuery);
+			
 			var option_config = <?php echo json_encode($this->dummy_option_config_data(), JSON_FORCE_OBJECT); ?>
 			
 			var page_data = <?php echo json_encode($this->dummy_page_content_data(), JSON_FORCE_OBJECT); ?>
+		
+			
+			
 		
 		</script>
 		<?php
@@ -60,7 +76,7 @@ class PageLinesTemplateHandler {
 		
 	
 	function dummy_option_config_data(){
-		
+
 		$data = array(
 			'masthead' => array(
 				'info'	=> array(

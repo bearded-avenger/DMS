@@ -19,7 +19,7 @@
 		
 		
 	
-		this.$panel = this.$element.find('.toolbox-panel')
+		this.$panel = this.$element.find('.toolbox-panel').on('click', function(e){e.stopPropagation()})
 		
 		this.$pusher =  $('.pl-toolbox-pusher')
 		

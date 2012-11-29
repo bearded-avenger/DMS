@@ -17,6 +17,7 @@ jQuery(document).ready(function() {
 	jQuery('.pl-sortable-area .pl-section').addClass('pl-sortable')
 	
 	jQuery.pageTools.startUp()
+	
 
 })
 		
@@ -65,11 +66,20 @@ jQuery(document).ready(function() {
 		
 		, showPanel: function( key ){
 		
+			var selectedPanel = $('.panel-'+key)
+			, 	selectedTab = $('[data-action="'+key+'"]')
+			
 			$('body').toolbox('show')
 			$('.tabbed-set').hide()
-			$('.panel-'+key).show()
 			$('.btn-toolbox').removeClass('active-tab')
-			$('[data-action="'+key+'"]').addClass('active-tab')
+			
+			selectedPanel.show()
+			selectedTab.addClass('active-tab')
+			
+		//	$.xList.listStop()
+			
+			$.xList.listStart(selectedPanel)
+			
 		}
 
 		, onStart: function(){
@@ -110,6 +120,50 @@ jQuery(document).ready(function() {
 		}
 
 	
+	}
+	
+	$.xList = {
+		
+		listStart: function( panel ){
+			panel.find('.x-list').isotope({
+				itemSelector : '.x-item'
+				, layoutMode : 'fitRows'
+			})
+			this.makeDraggable(panel)
+		}
+		, makeDraggable: function(panel){
+			
+			list = this
+		
+			panel.find( '.x-item' ).draggable({
+				revert: "invalid"
+				, appendTo: "body"
+				, helper: "clone"
+				, cursor: "move" 
+				, connectToSortable: ".pl-sortable-area"
+				, start: function(event, ui){
+					ui.helper.removeAttr("style")
+				}
+				, stop: function(event, ui){
+					$('.pl-sortable-area .x-item')
+						.removeAttr("style")
+						.removeClass('x-item')
+						.html(list.refreshHTML('123'))
+				}
+			})
+		
+			
+		}
+		, listStop: function(){
+			$('.x-list').isotope( 'destroy' )
+		}
+		
+		, refreshHTML: function(name){
+			var text = sprintf('<h2>%s Refresh page to load</h2>', name )
+			
+			return sprintf('<div class="pl-refresh-banner">%s <a href="#" class="btn btn-primary">Refresh</a></div>', text)
+		}
+		
 	}
 
 	// Page Drag/Drop Builder
@@ -475,6 +529,7 @@ jQuery(document).ready(function() {
 				, start: function(event, ui){
 					$('body')
 						.addClass('pl-dragging')
+						.toolbox('hide')
 					
 					$('.pl-section')
 						.effect('highlight', '#ff0000', 1000)
@@ -488,7 +543,8 @@ jQuery(document).ready(function() {
 				}
 				
 				, over: function(event, ui) {
-		           
+		           $( "#droppable" ).droppable( "disable" )
+		
 					ui.placeholder.css({
 						maxWidth: ui.placeholder.parent().width()
 					})
@@ -521,6 +577,7 @@ jQuery(document).ready(function() {
 						jQuery.pageBuilder.reloadConfig();
 					}
 			})
+			
 
 			$('.pl-column-sortable').droppable({
 			    greedy: true
@@ -749,5 +806,4 @@ function getElementMarkup (target, element, action) {
 	});
 
 } // end getElementMarkup()
-
 

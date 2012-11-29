@@ -31,7 +31,8 @@
 .pl-section-controls, 
 .pl-region-bar, 
 .pl-area-controls,
-.pl-column-forcer{
+.pl-column-forcer,
+.pl-refresh-banner{
 	display: none;
 }
 
@@ -284,6 +285,14 @@
 			}
 		}
 	}
+	.pl-refresh-banner{
+		display: block; 
+		text-align: center; 
+		padding: 35px;
+		font-weight: bold;
+		color: @textColorSubtle;
+		background: @baseContrastSlight;
+	}
 }
 
 
@@ -385,13 +394,14 @@
 		padding: 0 1%; 
 		
 		.user-select(none);
-		i, i:before{
+		i, 
+		i:before{
 			vertical-align: middle;
 			font-size: 18px;
 			width: 20px;
 		}
 		 
-		ul{
+		ul.controls{
 			float: left;
 			margin-left: 11px;
 			&.controls{
@@ -403,11 +413,7 @@
 				float: right;
 				margin-right: 0;
 			}
-			li, 
-			lh{
-				float: left;
-				height: 28px;
-			}
+			
 			> lh{
 				line-height: 28px;
 				padding: 0 5px 0 25px;
@@ -415,36 +421,20 @@
 				border-right: 1px solid #cdcdcd;
 				i{display: block;}
 			}
-			> li > span{
+			> li, 
+			> lh{
+				position: relative; // dropdown
+				float: left;
+				height: 28px;
+			}
+			> li > .btn-toolbox{
+				
 				display: block;
 				color: #444;
 				padding: 0 15px;
 				font-size: 11px;
 				line-height: 26px;
 				cursor: pointer;
-				&:hover{
-					.buttonBackground(#eee, #ccc);
-				}
-				&:active{
-					.buttonBackground(#bbb, #ddd);
-				}
-			
-				&.active-tab{
-					.buttonBackground(#e1e1e1, #bbb);
-					i{
-						color: @linkColor;
-					}
-				}
-				
-				&.active-toggle {
-					.buttonBackground(#fff, #eee);
-					i{
-						color: @linkColor;
-			
-					}
-				}
-			}
-			&.controls > li > span{
 				border-left: 1px solid #fff; 
 				border-right: 1px solid #AAA;
 				&:hover,
@@ -454,6 +444,27 @@
 				}
 				&:active{
 					border-left: 1px solid #aaa; 
+				}
+				&:hover{
+					.buttonBackground(#eee, #ccc);
+				}
+				&:active{
+					.buttonBackground(#bbb, #ddd);
+				}
+
+				&.active-tab{
+					.buttonBackground(#e1e1e1, #bbb);
+					i{
+						color: #0f63cc;
+					}
+				}
+
+				&.active-toggle {
+					.buttonBackground(#fff, #eee);
+					i{
+						color: #0f63cc;
+
+					}
 				}
 				&.btn-closer{
 					color: #999; 
@@ -469,16 +480,8 @@
 						color: #444;
 					}
 				}
-			}
-			&.panel-control span{
-				i:before{
-					font-size: 13px;
-				}
-				
-				padding: 0 3px;
-			}
-			 
 			
+			}
 		
 		}
 		
@@ -574,17 +577,109 @@
 			.tab-panel-inner{
 			
 				min-height: 300px;
-					padding: 15px 35px 35px 235px;
+				padding: 15px 35px 35px 235px;
+				legend{
+					font-size: 15px;
+					line-height: 30px; 
+					font-weight:bold;
+				}
+				
 			}
-			p, ul, ol{font-size: 1em;}
+			p, 
+			ul, 
+			ol{
+				font-size: 1em;
+			}
+			
+			
+			.x-list .x-item{
+				width: 100px;
+				box-shadow: 0 1px 4px rgba(0,0,0,.2);
+				&:hover .x-item-frame{
+					background: #eee;
+					border:1px solid #f7f7f7; 
+					cursor:pointer;
+				}
+				.x-item-frame{
+					padding: 4px; 
+					background:#f7f7f7;
+					border:1px solid #fff; 
+				}
+				.x-item-text{
+					padding: 3px 2px 2px;
+				}
+				img{
+
+					background:#fff; 
+
+					max-width: 100%;
+				}
+				margin: 5px;
+				float: left;
+				text-align: center; 
+				font-size: 11px;
+				line-height: 1.2em;
+				font-weight: bold;
+				overflow: hidden;
+			//	position: relative;
+			}
+			
 		}
 		.ui-tabs .ui-tabs-hide{
 			display: none;
 		}
 	}
 	
+
+
 }
 
+.isotope-item {
+	z-index: 2;
+	&.isotope-hidden{
+		pointer-events: none;
+ 		z-index: 1;
+	}
+}
+
+/**** Isotope CSS3 transitions ****/
+
+.isotope,
+.isotope .isotope-item {
+  -webkit-transition-duration: 0.8s;
+     -moz-transition-duration: 0.8s;
+      -ms-transition-duration: 0.8s;
+       -o-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.isotope {
+  -webkit-transition-property: height, width;
+     -moz-transition-property: height, width;
+      -ms-transition-property: height, width;
+       -o-transition-property: height, width;
+          transition-property: height, width;
+}
+
+.isotope .isotope-item {
+  -webkit-transition-property: -webkit-transform, opacity;
+     -moz-transition-property:    -moz-transform, opacity;
+      -ms-transition-property:     -ms-transform, opacity;
+       -o-transition-property:      -o-transform, opacity;
+          transition-property:         transform, opacity;
+}
+
+/**** disabling Isotope CSS3 transitions ****/
+
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+  -webkit-transition-duration: 0s;
+     -moz-transition-duration: 0s;
+      -ms-transition-duration: 0s;
+       -o-transition-duration: 0s;
+          transition-duration: 0s;
+}
 
 
 // Palette/Dock

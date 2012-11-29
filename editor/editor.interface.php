@@ -32,6 +32,7 @@ class EditorInterface {
 		wp_enqueue_script( 'pl-editor-js', $this->url . '/js/editor.js' ); 
 		wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/toolbox.js', array('pagelines-bootstrap-all')); 
 		wp_enqueue_script( 'pl-optpanel', $this->url . '/js/optpanel.js'); 
+		wp_enqueue_script( 'isotope', $this->url . '/js/isotope.js', array('jquery')); 
 
 		wp_enqueue_script( 'jquery-ui-tabs'); 
 		
@@ -106,11 +107,27 @@ class EditorInterface {
 				
 					foreach($this->toolbar_config() as $key => $tab){
 						
+						if(!isset($tab['type']))
+							$tab['type'] = 'panel'; 
+							
+						
+						$data = ($tab['type'] == 'dropup') ? 'data-toggle="dropdown"' : '';
+						$suffix = ($tab['type'] == 'dropup') ? ' <icon class="icon-caret-up"></span>' : '';
+						
+						
+						$content = ($tab['type'] == 'dropup') ? '<ul class="dropdown-menu dropup"><li><a>test</a></li><li><a>test2</a></li></ul>' : '';
+						  
+						$classes = ($tab['type'] == 'panel') ? 'btn-panel' : '';
+						
 						printf(
-							'<li><span class="btn-toolbox btn-panel" data-action="%s" ><i class="%s"></i> <span class="txt">%s</span></span></li>', 
+							'<li class="dropup"><span class="btn-toolbox %s" data-action="%s" %s><i class="uxi %s"></i> <span class="txt">%s %s</span></span>%s</li>', 
+							$classes,
 							$key, 
+							$data, 
 							$tab['icon'], 
-							$tab['name']
+							$tab['name'], 
+							$suffix, 
+							$content
 						);
 						
 					}
@@ -155,6 +172,7 @@ class EditorInterface {
 			'page-setup' => array(
 				'name'	=> 'Pages',
 				'icon'	=> 'icon-paste',
+				'type'	=> 'dropup', 
 				'panel'	=> array(
 					'heading'	=> "Page Templates",
 					'template'	=> array('name'	=> 'Select Template')
@@ -213,7 +231,20 @@ class EditorInterface {
 	}
 	
 	function test_callback(){
-		echo 'hello this is the test callback' . rand();
+		$sections = get_available_sections(); 
+	
+		$list = '';
+		foreach($sections as $key => $s){
+			$list .= sprintf(
+				'<section class="x-item pl-section pl-sortable span12 sortable-first sortable-last" data-name="%s"><div class="x-item-frame"><img src="%s" /><div class="x-item-text">%s</div></div></section>', 
+				$s->name,
+				$s->screenshot, 
+				$s->name
+			);
+		}
+		 
+		printf('<div class="x-list">%s</div>', $list);
+	
 	}
 	
 	function panel($key, $panel){
@@ -252,7 +283,7 @@ class EditorInterface {
 					}
 						
 					printf(
-						'<div class="tab-panel" id="%s"><div class="tab-panel-inner"><legend>%s</legend><div class="tab-content">%s</div></div></div>', 
+						'<div class="tab-panel" id="%s"><div class="tab-panel-inner"><legend>%s</legend><div class="panel-tab-content">%s</div></div></div>', 
 						$tab_key, 
 						$t['name'], 
 						$content
