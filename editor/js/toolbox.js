@@ -31,10 +31,6 @@
 		this.scrollPanel()
 		
 		this.closer.on('click.toolbox.toggler', $.proxy(this.hide, this))
-			
-
-		// TODO needs to work w/ multiple tabbing
-		$('.tabbed-set').tabs()
 	
 	}
 

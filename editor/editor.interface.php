@@ -24,10 +24,14 @@ class EditorInterface {
 		// angular
 		add_action( 'the_html_tag', array( &$this, 'angular_start' ) );
 		
-		
+		add_action( 'wp_ajax_the_store_callback', array( &$this, 'the_store_callback' ) );
 	}
 	
 	function pl_editor_styles(){
+		
+		// Global AjaxURL variable --> http://www.garyc40.com/2010/03/5-tips-for-using-ajax-in-wordpress/
+		wp_localize_script( 'pagelines-ajax', 'PLAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+		
 		wp_enqueue_script( 'js-sprintf', $this->url . '/js/sprintf.js' ); 
 		wp_enqueue_script( 'pl-editor-js', $this->url . '/js/editor.js' ); 
 		wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/toolbox.js', array('pagelines-bootstrap-all')); 
@@ -136,6 +140,7 @@ class EditorInterface {
 			</ul>
 			
 			<ul class="unstyled controls send-right">
+				<li><span class="btn-toolbox"><i class="icon-save"></i> <span class="txt">Save</span></span></li>
 				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish</span></span></li>
 				
 				
@@ -166,18 +171,8 @@ class EditorInterface {
 		
 		$data = array(
 			'drag-drop' => array(
-				'name'	=> 'Drag <span class="spamp">&amp;</span> Drop Editing',
+				'name'	=> 'Page Editing',
 				'icon'	=> 'icon-random'
-			),
-			'page-setup' => array(
-				'name'	=> 'Pages',
-				'icon'	=> 'icon-paste',
-				'type'	=> 'dropup', 
-				'panel'	=> array(
-					'heading'	=> "Page Templates",
-					'template'	=> array('name'	=> 'Select Template')
-				)
-				
 			),
 			'add-new' => array(
 				'name'	=> 'Add',
@@ -187,10 +182,22 @@ class EditorInterface {
 					'add_section'	=> array(
 						'name'	=> 'Available Sections', 
 						'type'	=> 'call',
-						'call'	=> array(&$this, 'test_callback')
+						'call'	=> array(&$this, 'add_stuff_callback')
 					)
 				)
-			), 
+			),
+			
+			'page-setup' => array(
+				'name'	=> 'Templates',
+				'icon'	=> 'icon-paste',
+				'type'	=> 'dropup', 
+				'panel'	=> array(
+					'heading'	=> "Page Templates",
+					'template'	=> array('name'	=> 'Select Template')
+				)
+				
+			),
+			
 			'pl-design' => array(
 				'name'	=> 'Design',
 				'icon'	=> 'icon-magic',
@@ -217,9 +224,35 @@ class EditorInterface {
 				'icon'	=> 'icon-download',
 				'panel'	=> array(
 					'heading'	=> "Extend PageLines",
-					'sections'	=> array('name'	=> 'Sections'),
-					'plugins'	=> array('name'	=> 'Plugins'),
-					'themes'	=> array('name'	=> 'Themes'),
+					'store'		=> array(
+						'name'	=> 'PageLines Store', 
+						'type'	=> 'call',
+						'call'	=> array(&$this, 'the_store_callback'),
+						'hook'	=> 'the_store_callback',
+						'filter'=> '*'
+					),
+					'heading2'	=> "Filters",
+					'plus'		=> array(
+						'name'	=> 'Free with Plus', 
+						'href'	=> '#store', 
+						'filter'=> '.plugins'
+					),
+					'sections'		=> array(
+						'name'	=> 'Sections', 
+						'href'	=> '#store', 
+						'filter'=> '.sections'
+					),
+					'plugins'		=> array(
+						'name'	=> 'Plugins', 
+						'href'	=> '#store', 
+						'filter'=> '.plugins'
+					),
+					'themes'		=> array(
+						'name'	=> 'Themes', 
+						'href'	=> '#store', 
+						'filter'=> '.themes'
+					),
+					'heading3'	=> "Tools",
 					'upload'	=> array('name'	=> 'Upload'),
 					'search'	=> array('name'	=> 'Search'),
 				)
@@ -230,14 +263,15 @@ class EditorInterface {
 		
 	}
 	
-	function test_callback(){
+	function add_stuff_callback(){
 		$sections = get_available_sections(); 
 	
 		$list = '';
 		foreach($sections as $key => $s){
 			$list .= sprintf(
-				'<section class="x-item pl-section pl-sortable span12 sortable-first sortable-last" data-name="%s"><div class="x-item-frame"><img src="%s" /><div class="x-item-text">%s</div></div></section>', 
+				'<section class="x-item pl-section pl-sortable span12 sortable-first sortable-last" data-name="%s" data-image="%s"><div class="x-item-frame"><img src="%s" /><div class="x-item-text">%s</div></div></section>', 
 				$s->name,
+				$s->screenshot,
 				$s->screenshot, 
 				$s->name
 			);
@@ -246,6 +280,60 @@ class EditorInterface {
 		printf('<div class="x-list">%s</div>', $list);
 	
 	}
+	
+	function the_store_callback(){
+		
+		$items = '';
+		foreach(get_store_mixed() as $key => $item){
+			$class = array();
+			$class[] = $item['type'];
+			
+			$class[] = ($item['type'] == 'themes') ? 'x-item-size-10' : 'x-item-size-5';
+			
+			$classes = implode(' ', $class);
+			
+			$items .= sprintf('<div class="x-item %s"><div class="x-item-frame"><img src="%s" /></div></div>', $classes, $item['thumb']);
+
+		}
+		
+		printf('<div class="x-list">%s</div>', $items);
+	}
+	
+	function get_store_mixed(){
+		
+		// would return something like this
+		$array = array(
+			array(
+				'id'		=> 'cool_item',  	// unique id
+				'name'		=> 'Cool Item',  	// title of extension
+				'type'		=> 'plugin', 		// type (section, plugin, theme)
+				'thumb'		=> 'http://pic/url.jpg',  // thumb
+				'overview'	=> 'http://overview/url/',	// link to overview
+				'rating'	=> 3.5,  			// rating on the store
+				'downloads'	=> 100,  			// number of downloads
+				'featured'	=> true, 			// is it featured?
+				'emphasis'	=> '7', 			// emphasis in teh store, can use this to control size in isotope
+				'tags'		=> array('tags', 'for', 'isotope', 'filtering') // tags for filtering
+			),
+			array(
+				'id'		=> 'another_item',  	// unique id
+				'name'		=> 'Wow Another Item',  	// title of extension
+				'type'		=> 'section', 		// type (section, plugin, theme)
+				'thumb'		=> 'http://pic/url.jpg',  // thumb
+				'overview'	=> 'http://overview/url/',	// link to overview
+				'rating'	=> 3.5,  			// rating on the store
+				'downloads'	=> 50,  			// number of downloads
+				'featured'	=> true, 			// is it featured?
+				'emphasis'	=> '4', 			// emphasis in teh store, can use this to control size in isotope
+				'tags'		=> array('tags', 'for', 'isotope', 'filtering') // tags for filtering
+			)
+		); 
+		
+		return $array;
+		
+	}
+	
+	
 	
 	function panel($key, $panel){
 
@@ -257,10 +345,28 @@ class EditorInterface {
 				<?php 
 					foreach($panel as $tab_key => $t){
 						
-						if($tab_key == 'heading'){
+						
+						
+						if( substr($tab_key, 0, 7) == 'heading'){
 							printf('<lh>%s</lh>', $t); 
+							
 						} else {
-							printf('<li><a href="#%s">%s</a></li>', $tab_key, $t['name']);
+							
+							$d = array(
+								'hook'	=> '', 
+								'href'	=> '',
+								'filter'=> ''
+							);
+
+							$t = wp_parse_args($t, $d);
+							
+							$href = ($t['href'] != '') ? $t['href'] : '#'.$tab_key;
+							
+							$hook = ($t['hook'] != '') ? sprintf('data-hook="%s"', $t['hook']) : '';
+							
+							$filter = ($t['filter'] != '') ? sprintf('data-filter="%s"', $t['filter']) : '';
+							
+							printf('<li %s %s><a  href="%s">%s</a></li>', $hook, $filter, $href, $t['name']);
 						}
 												
 					}
@@ -271,7 +377,7 @@ class EditorInterface {
 			<?php 
 				foreach($panel as $tab_key => $t){ 
 					
-					if($tab_key == 'heading') 
+					if( $tab_key == 'heading' || (isset($t['href']) && $t['href'] != '') ) 
 						continue;
 						
 					if(isset($t['type']) && $t['type'] == 'call'){

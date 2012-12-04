@@ -68,17 +68,32 @@ jQuery(document).ready(function() {
 		
 			var selectedPanel = $('.panel-'+key)
 			, 	selectedTab = $('[data-action="'+key+'"]')
+			, 	allPanels = $('.tabbed-set')
 			
 			$('body').toolbox('show')
-			$('.tabbed-set').hide()
 			$('.btn-toolbox').removeClass('active-tab')
+			
+			allPanels
+				.hide()
+				
+			$('.ui-tabs').tabs('destroy')
+				
+			// TODO needs to work w/ multiple tabbing
+			selectedPanel.tabs({
+				activate: function(event, ui){
+					
+					if(ui.newTab.attr('data-filter'))
+						selectedPanel.find('.x-list').isotope({ filter: ui.newTab.attr('data-filter') })
+					
+				}
+			})
 			
 			selectedPanel.show()
 			selectedTab.addClass('active-tab')
 			
-		//	$.xList.listStop()
+			$.xList.listStop()
 			
-			$.xList.listStart(selectedPanel)
+			$.xList.listStart(selectedPanel, key)
 			
 		}
 
@@ -100,7 +115,7 @@ jQuery(document).ready(function() {
 			
 			if (!theState){
 					
-				$('[data-action="'+key+'"]').removeClass('active-toggle')	
+				$('[data-action="'+key+'"]').removeClass('active-tab')	
 					
 				if($.isFunction(call_on_false))
 					call_on_false.call( key )
@@ -108,7 +123,7 @@ jQuery(document).ready(function() {
 			
 			if (theState){
 				
-				$('[data-action="'+key+'"]').addClass('active-toggle')
+				$('[data-action="'+key+'"]').addClass('active-tab')
 					
 				if($.isFunction(call_on_true))
 					call_on_true.call( key )
@@ -124,13 +139,18 @@ jQuery(document).ready(function() {
 	
 	$.xList = {
 		
-		listStart: function( panel ){
+		listStart: function( panel, key ){
+			
 			panel.find('.x-list').isotope({
 				itemSelector : '.x-item'
 				, layoutMode : 'fitRows'
 			})
-			this.makeDraggable(panel)
+			
+			if(key == 'add-new')
+				this.makeDraggable(panel)
+				
 		}
+		
 		, makeDraggable: function(panel){
 			
 			list = this
@@ -142,26 +162,34 @@ jQuery(document).ready(function() {
 				, cursor: "move" 
 				, connectToSortable: ".pl-sortable-area"
 				, start: function(event, ui){
-					ui.helper.removeAttr("style")
-				}
-				, stop: function(event, ui){
-					$('.pl-sortable-area .x-item')
-						.removeAttr("style")
-						.removeClass('x-item')
-						.html(list.refreshHTML('123'))
+				
+					list.switchOnAdd(ui.helper)
+					ui.helper
+						.css('max-width', '300px')
+						.css('height', 'auto')
 				}
 			})
 		
 			
 		}
 		, listStop: function(){
-			$('.x-list').isotope( 'destroy' )
+		 	$('.x-list.isotope').isotope( 'destroy' )
 		}
 		
-		, refreshHTML: function(name){
-			var text = sprintf('<h2>%s Refresh page to load</h2>', name )
+		, switchOnAdd: function( element ){
 			
-			return sprintf('<div class="pl-refresh-banner">%s <a href="#" class="btn btn-primary">Refresh</a></div>', text)
+			
+			var name = element.data('name')
+			, 	image = element.data('image')
+			, 	imageHTML = sprintf('<div class="banner-frame"><img class="section-thumb" src="%s" /></div>', image )
+			, 	text = sprintf('<h3 class="banner-title">%s</h3>', name )
+			, 	refresh = '<div class="banner-refresh" style="display: none;"><a href="#" class="btn btn-info">Refresh Page To Load <i class="icon-undo"></i></a></div>'
+			, 	theHTML = sprintf('<div class="pl-refresh-banner">%s %s %s</div>', imageHTML, text, refresh)
+			
+			element
+				.removeAttr("style")
+				.html(theHTML)
+				
 		}
 		
 	}
@@ -533,16 +561,22 @@ jQuery(document).ready(function() {
 					
 					$('.pl-section')
 						.effect('highlight', '#ff0000', 1000)
-			
+					
+					if(ui.item.hasClass('x-item'))
+						$.xList.switchOnAdd(ui.item)
+					
 				} 
 				, stop: function(event, ui){
 				
 					$('body')
 						.removeClass('pl-dragging')
-				
+					
+					ui.item.find('.banner-refresh').fadeIn('slow')
+					
 				}
 				
 				, over: function(event, ui) {
+					
 		           $( "#droppable" ).droppable( "disable" )
 		
 					ui.placeholder.css({
