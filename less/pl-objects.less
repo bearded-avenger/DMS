@@ -205,18 +205,11 @@ ul.tabbed-list {
 	body .ntb{border-top: none}
 	body .nbb{border-bottom: none}
 
-	.r4{
-		-moz-border-radius: 4px;
-		-khtml-border-radius: 4px;
-		-webkit-border-radius: 4px;
-		border-radius: 4px;
-	}
-	
 
-	
 /* @ Clearfixing */
-		.fix:after{content:".";display:block;height:0;clear:both;visibility:hidden;} .fix{display:inline-block;} * html .fix{height:1%;} .fix{display:block;}
-		.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;} .clearfix{display:inline-block;} * html .clearfix{height:1%;} .clearfix{display:block;}
+.fix{
+	.clearfix();
+} 
 	
 /* @ Buttons */
 .blink-wrap{
