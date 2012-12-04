@@ -244,6 +244,7 @@
 	$.fn.toolbox.defaults = {
 		action: false
 		, panel: false
+		, persist: true
 	}
 
 	$.fn.toolbox.Constructor = ToolBox

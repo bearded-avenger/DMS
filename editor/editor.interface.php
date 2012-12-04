@@ -93,79 +93,7 @@ class EditorInterface {
 		echo '</div></div></div>';
 	}
 	
-	function control_panel(){
-		
-		
-	?>
-	
-	<div class="pl-toolbox-pusher">
-	</div>
-	<div class="pl-toolbox">
-		<div class="resizer-handle"></div>
-		<div class="toolbox-handle fix">
-			
-			<ul class="unstyled controls">
-				<li ><span class="btn-toolbox btn-closer" title="Close [esc]"><i class="icon-remove-sign"></i></span></li>
-				
-				<?php 
-				
-					foreach($this->toolbar_config() as $key => $tab){
-						
-						if(!isset($tab['type']))
-							$tab['type'] = 'panel'; 
-							
-						
-						$data = ($tab['type'] == 'dropup') ? 'data-toggle="dropdown"' : '';
-						$suffix = ($tab['type'] == 'dropup') ? ' <icon class="icon-caret-up"></span>' : '';
-						
-						
-						$content = ($tab['type'] == 'dropup') ? '<ul class="dropdown-menu dropup"><li><a>test</a></li><li><a>test2</a></li></ul>' : '';
-						  
-						$classes = ($tab['type'] == 'panel') ? 'btn-panel' : '';
-						
-						printf(
-							'<li class="dropup"><span class="btn-toolbox %s" data-action="%s" %s><i class="uxi %s"></i> <span class="txt">%s %s</span></span>%s</li>', 
-							$classes,
-							$key, 
-							$data, 
-							$tab['icon'], 
-							$tab['name'], 
-							$suffix, 
-							$content
-						);
-						
-					}
-				?>
-				
-			</ul>
-			
-			<ul class="unstyled controls send-right">
-				<li><span class="btn-toolbox"><i class="icon-save"></i> <span class="txt">Save</span></span></li>
-				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish</span></span></li>
-				
-				
-			</ul>
-		</div>
-		<div class="toolbox-panel-wrap">
-			<div class="toolbox-panel">
-				<div class="toolbox-content fix" ng-controller="OptionsCtrl">
-					<div class="toolbox-content-pad option-panel">
-						<?php 
-						foreach($this->toolbar_config() as $key => $tab){
-							
-							if(isset($tab['panel']) && !empty($tab['panel']))
-								$this->panel($key, $tab['panel']);
-							else 
-								printf('<div class="panel-%s tabbed-set error-panel">There was an issue rendering the panel.</div>', $key);
-						}
-							 ?>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<?php 
-	}
+
 	
 	function toolbar_config(){
 		
@@ -183,6 +111,9 @@ class EditorInterface {
 						'name'	=> 'Available Sections', 
 						'type'	=> 'call',
 						'call'	=> array(&$this, 'add_stuff_callback')
+					), 
+					'add_layout'	=> array(
+						'name'	=> 'Layouts'
 					)
 				)
 			),
@@ -190,10 +121,10 @@ class EditorInterface {
 			'page-setup' => array(
 				'name'	=> 'Templates',
 				'icon'	=> 'icon-paste',
-				'type'	=> 'dropup', 
 				'panel'	=> array(
 					'heading'	=> "Page Templates",
-					'template'	=> array('name'	=> 'Select Template')
+					'tmp_load'	=> array('name'	=> 'Load Template'),
+					'tmp_save'	=> array('name'	=> 'Save As Template')
 				)
 				
 			),
@@ -256,11 +187,110 @@ class EditorInterface {
 					'upload'	=> array('name'	=> 'Upload'),
 					'search'	=> array('name'	=> 'Search'),
 				)
-			)
+			),
+			'pl-actions' => array(
+				'name'	=> 'Actions',
+				'icon'	=> 'icon-paste',
+				'type'	=> 'dropup', 
+				'panel'	=> array(
+					
+					'template'	=> array('name'	=> 'Select Template'),
+					'revert'	=> array('name'	=> 'Revert to saved')
+				)
+				
+			),
 		);
 		
 		return $data;
 		
+	}
+	
+	function control_panel(){
+		
+		
+	?>
+	
+	<div class="pl-toolbox-pusher">
+	</div>
+	<div class="pl-toolbox">
+		<div class="resizer-handle"></div>
+		<div class="toolbox-handle fix">
+			
+			<ul class="unstyled controls">
+				<li ><span class="btn-toolbox btn-closer" title="Close [esc]"><i class="icon-remove-sign"></i></span></li>
+				
+				<?php 
+				
+					foreach($this->toolbar_config() as $key => $tab){
+						
+						if(!isset($tab['type']))
+							$tab['type'] = 'panel'; 
+						
+						$data = '';
+						$suffix = '';
+						$content = '';
+						$li_class = '';	
+						
+						if($tab['type'] == 'dropup'){
+							
+							$data = 'data-toggle="dropdown"';
+							$suffix = ' <span class="crt icon-caret-right"></span>';
+							$li_class = 'dropup';	
+							$menu = ''; 
+							
+							foreach($tab['panel'] as $key => $i){
+								$menu .= sprintf('<li><a href="">%s</a></li>', $i['name']);
+							}
+							$content = sprintf('<ul class="dropdown-menu">%s</ul>', $menu);
+						} 
+						
+					
+						  
+						$classes = ($tab['type'] == 'panel') ? 'btn-panel' : '';
+						
+						printf(
+							'<li class="%s"><span class="btn-toolbox %s" data-action="%s" %s><i class="uxi %s"></i> <span class="txt">%s %s</span></span>%s</li>', 
+							$li_class,
+							$classes,
+							$key, 
+							$data, 
+							$tab['icon'], 
+							$tab['name'], 
+							$suffix, 
+							$content
+						);
+						
+					}
+				?>
+				
+			</ul>
+			
+			<ul class="unstyled controls send-right">
+				<li><span class="btn-toolbox"><i class="icon-save"></i> <span class="txt">Save</span></span></li>
+				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish</span></span></li>
+				
+				
+			</ul>
+		</div>
+		<div class="toolbox-panel-wrap">
+			<div class="toolbox-panel">
+				<div class="toolbox-content fix" ng-controller="OptionsCtrl">
+					<div class="toolbox-content-pad option-panel">
+						<?php 
+						foreach($this->toolbar_config() as $key => $tab){
+							
+							if(isset($tab['panel']) && !empty($tab['panel']))
+								$this->panel($key, $tab['panel']);
+							else 
+								printf('<div class="panel-%s tabbed-set error-panel">There was an issue rendering the panel.</div>', $key);
+						}
+							 ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php 
 	}
 	
 	function add_stuff_callback(){
@@ -299,6 +329,16 @@ class EditorInterface {
 		printf('<div class="x-list">%s</div>', $items);
 	}	
 	
+	function defaults(){
+		$d = array(
+			'hook'		=> '', 
+			'href'		=> '',
+			'filter'	=> '', 
+			'type'		=> 'opts'
+		);
+		return $d;
+	}
+	
 	function panel($key, $panel){
 
 		?>
@@ -315,14 +355,9 @@ class EditorInterface {
 							printf('<lh>%s</lh>', $t); 
 							
 						} else {
-							
-							$d = array(
-								'hook'	=> '', 
-								'href'	=> '',
-								'filter'=> ''
-							);
+				
 
-							$t = wp_parse_args($t, $d);
+							$t = wp_parse_args($t, $this->defaults());
 							
 							$href = ($t['href'] != '') ? $t['href'] : '#'.$tab_key;
 							
@@ -330,7 +365,7 @@ class EditorInterface {
 							
 							$filter = ($t['filter'] != '') ? sprintf('data-filter="%s"', $t['filter']) : '';
 							
-							printf('<li %s %s><a  href="%s">%s</a></li>', $hook, $filter, $href, $t['name']);
+							printf('<li %s %s><a href="%s">%s</a></li>', $hook, $filter, $href, $t['name']);
 						}
 												
 					}
@@ -341,20 +376,32 @@ class EditorInterface {
 			<?php 
 				foreach($panel as $tab_key => $t){ 
 					
-					if( $tab_key == 'heading' || (isset($t['href']) && $t['href'] != '') ) 
+					$t = wp_parse_args($t, $this->defaults());
+					
+					if( $tab_key == 'heading' || $t['href'] != '' ) 
 						continue;
 						
-					if(isset($t['type']) && $t['type'] == 'call'){
+					$content = '';
+						
+					if($t['type'] == 'call'){
 						ob_start(); 
 						call_user_func($t['call']);
 						$content = ob_get_clean();
-					}	else {
+					} else {
 						$content = 'content --> ' . rand();
 					}
+				
 						
 					printf(
-						'<div class="tab-panel" id="%s"><div class="tab-panel-inner"><legend>%s</legend><div class="panel-tab-content">%s</div></div></div>', 
-						$tab_key, 
+						'<div id="%s" class="tab-panel" data-panel="%s" data-type="%s">
+							<div class="tab-panel-inner">
+								<legend>%s</legend>
+								<div class="panel-tab-content">%s</div>
+							</div>
+						</div>',
+						$tab_key,  
+						$tab_key,  
+						$t['type'],
 						$t['name'], 
 						$content
 					);

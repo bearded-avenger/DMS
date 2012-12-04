@@ -19,10 +19,10 @@
 		margin-bottom: 0;
 	}
 	
+	#footer section:last-child{
+		margin-bottom: 0;
+	}
 	
-}
-#footer section:last-child{
-	margin-bottom: 0;
 }
 
 // Drag and Drop Editing
@@ -452,6 +452,16 @@
 				position: relative; // dropdown
 				float: left;
 				height: 28px;
+
+				&.dropup.open > .btn-toolbox{
+					.buttonBackground(#bbb, #ddd);
+					.crt{
+						color: #0f63cc;
+					}
+					.icon-caret-right:before{
+						content: "\f0d8";
+					}
+				}
 			}
 			> li > .btn-toolbox{
 				
@@ -506,6 +516,7 @@
 						color: #444;
 					}
 				}
+				
 			
 			}
 		

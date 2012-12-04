@@ -64,9 +64,14 @@
 			, 	allPanels = $('.tabbed-set')
 			
 			$('body').toolbox('show')
+			
+			if(selectedPanel.hasClass('current-panel'))
+				return
+			
 			$('.btn-toolbox').removeClass('active-tab')
 			
 			allPanels
+				.removeClass('current-panel')
 				.hide()
 				
 			$('.ui-tabs').tabs('destroy')
@@ -81,7 +86,10 @@
 				}
 			})
 			
-			selectedPanel.show()
+			selectedPanel
+				.addClass('current-panel')
+				.show()
+		
 			selectedTab.addClass('active-tab')
 			
 			$.xList.listStop()
