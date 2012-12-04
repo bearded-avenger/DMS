@@ -1179,9 +1179,12 @@
 	* Simple cache.
 	* @return object
 	*/
-	function get_latest_cached( $type, $flush = null ) {
-		
+	function get_latest_cached( $type, $flush = null, $timeout = 86400 ) {
+
 		$url = trailingslashit( PL_API . $type );
+		if( 'all' == $type )
+			$url = 'www.pagelines.com/api/v4/all';
+
 		$options = array(
 			'body' => array(
 				'username'	=>	( $this->username != '' ) ? $this->username : false,
@@ -1189,7 +1192,18 @@
 				'flush'		=>	$flush
 			)
 		);
-		
+		// if v4 all, we just want stuff, its cached on the server.
+		if( 'all' == $type ) {			
+				$response = pagelines_try_api( $url, $options );
+
+				if ( $response !== false ) {
+					// ok we have the data parse and store it
+					$api = wp_remote_retrieve_body( $response );
+					return json_decode( $api );
+				}
+			return false;		
+		}
+				
 		if ( false === ( $api_check = get_transient( 'pagelines_extend_' . $type ) ) ) {
 			
 			// ok no transient, we need an update...
@@ -1201,7 +1215,7 @@
 				// ok we have the data parse and store it
 				
 				$api = wp_remote_retrieve_body( $response );
-				set_transient( 'pagelines_extend_' . $type, true, 86400 );
+				set_transient( 'pagelines_extend_' . $type, true, $timeout );
 				update_option( 'pagelines_extend_' . $type, $api );
 			} 
 
