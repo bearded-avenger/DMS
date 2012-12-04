@@ -284,7 +284,7 @@ class EditorInterface {
 	function the_store_callback(){
 		
 		$items = '';
-		foreach(get_store_mixed() as $key => $item){
+		foreach(store_mixed_array() as $key => $item){
 			$class = array();
 			$class[] = $item['type'];
 			
@@ -297,43 +297,7 @@ class EditorInterface {
 		}
 		
 		printf('<div class="x-list">%s</div>', $items);
-	}
-	
-	function get_store_mixed(){
-		
-		// would return something like this
-		$array = array(
-			array(
-				'id'		=> 'cool_item',  	// unique id
-				'name'		=> 'Cool Item',  	// title of extension
-				'type'		=> 'plugin', 		// type (section, plugin, theme)
-				'thumb'		=> 'http://pic/url.jpg',  // thumb
-				'overview'	=> 'http://overview/url/',	// link to overview
-				'rating'	=> 3.5,  			// rating on the store
-				'downloads'	=> 100,  			// number of downloads
-				'featured'	=> true, 			// is it featured?
-				'emphasis'	=> '7', 			// emphasis in teh store, can use this to control size in isotope
-				'tags'		=> array('tags', 'for', 'isotope', 'filtering') // tags for filtering
-			),
-			array(
-				'id'		=> 'another_item',  	// unique id
-				'name'		=> 'Wow Another Item',  	// title of extension
-				'type'		=> 'section', 		// type (section, plugin, theme)
-				'thumb'		=> 'http://pic/url.jpg',  // thumb
-				'overview'	=> 'http://overview/url/',	// link to overview
-				'rating'	=> 3.5,  			// rating on the store
-				'downloads'	=> 50,  			// number of downloads
-				'featured'	=> true, 			// is it featured?
-				'emphasis'	=> '4', 			// emphasis in teh store, can use this to control size in isotope
-				'tags'		=> array('tags', 'for', 'isotope', 'filtering') // tags for filtering
-			)
-		); 
-		
-		return $array;
-		
-	}
-	
-	
+	}	
 	
 	function panel($key, $panel){
 

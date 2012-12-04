@@ -18,6 +18,11 @@
 	.section-plcolumn{
 		margin-bottom: 0;
 	}
+	
+	
+}
+#footer section:last-child{
+	margin-bottom: 0;
 }
 
 // Drag and Drop Editing
@@ -617,11 +622,11 @@
 				width: 80px;
 				margin: 5px;
 				&.x-item-size-5{
-					width: 120px;
+					width: 100px;
 					margin: 10px;
 				}
 				&.x-item-size-10{
-					width: 160px;
+					width: 210px;
 					margin: 10px;
 				}
 				box-shadow: 0 1px 4px rgba(0,0,0,.2);
@@ -710,6 +715,22 @@
        -o-transition-duration: 0s;
           transition-duration: 0s;
 }
+
+.isotope-item {
+  z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+
+
+
+// FOR LATER USE 
 
 
 // Palette/Dock

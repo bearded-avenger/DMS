@@ -41,7 +41,10 @@ class PageLinesEditor {
 		$this->handler = new PageLinesTemplateHandler();
 	}
 	
+	
 	function process_styles(){
+		pagelines_add_bodyclass('pl-editor');
+		
 		$this->handler->process_styles();
 	}
 	

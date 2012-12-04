@@ -1,28 +1,21 @@
-
-// On document ready stuff
-jQuery(document).ready(function() {
-
-	// Basic Setup
-	jQuery('body').addClass('pl-editor')
-	jQuery('.pl-inner').addClass('editor-row')
-	
-
-	
-	// Adds class for drag/dropping content sections
-	jQuery('.pl-area .pl-content .pl-inner').addClass('pl-sortable-area')
-	
-	// Adds class for drag/dropping areas
-	jQuery('.outline').addClass('pl-area-container')
-	
-	jQuery('.pl-sortable-area .pl-section').addClass('pl-sortable')
-	
-	jQuery.pageTools.startUp()
-	
-
-})
-		
+// PageLines Editor - Copyright 2013
 
 !function ($) {
+	
+	// --> Initialize 
+	$(document).ready(function() {
+
+		$('.pl-inner').addClass('editor-row')
+		
+		$('.pl-area .pl-content .pl-inner').addClass('pl-sortable-area')
+
+		$('.outline').addClass('pl-area-container')
+
+		$('.pl-sortable-area .pl-section').addClass('pl-sortable')
+
+		$.pageTools.startUp()
+
+	})
     
 	// Event Listening
 	$.pageTools = {
@@ -140,10 +133,12 @@ jQuery(document).ready(function() {
 	$.xList = {
 		
 		listStart: function( panel, key ){
+		
+			var layout = (key == 'pl-extend') ? 'masonry' : 'fitRows'; 
 			
 			panel.find('.x-list').isotope({
 				itemSelector : '.x-item'
-				, layoutMode : 'fitRows'
+				, layoutMode : layout
 			})
 			
 			if(key == 'add-new')
@@ -670,6 +665,7 @@ jQuery(document).ready(function() {
 
 					widthSel
 						.css('left', 'auto')
+						.css('height', 'auto')
 						.width(resizeNewWidth)
 
 				}

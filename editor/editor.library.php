@@ -14,6 +14,18 @@ function get_available_sections(){
 	
 }
 
+function store_mixed_array(){
+	
+	if ( false === ( $store_mixed_array = get_transient( 'store_mixed_array' ) ) ) {
+	    
+	     $store_mixed_array = get_store_mixed();
+	     set_transient( 'store_mixed_array', $store_mixed_array );
+	}
+	
+	return $store_mixed_array;
+	
+}
+
 function get_store_mixed(){
  
  	global $extension_control;
@@ -70,6 +82,8 @@ function get_store_mixed(){
 
  			);
  		}
+		
+
  		return $output;
 	}
 	function the_store_callback(){
