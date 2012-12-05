@@ -199,6 +199,16 @@ class EditorInterface {
 				)
 				
 			),
+			'section-options' => array(
+				'name'	=> 'Section Options',
+				'icon'	=> 'icon-paste',
+				'type'	=> 'hidden', 
+				'panel'	=> array(
+					'heading'	=> "Section Options",
+					'opts'		=> "Options"
+				)
+				
+			),
 		);
 		
 		return $data;
@@ -225,6 +235,9 @@ class EditorInterface {
 						
 						if(!isset($tab['type']))
 							$tab['type'] = 'panel'; 
+						
+						if($tab['type'] == 'hidden')
+							continue;
 						
 						$data = '';
 						$suffix = '';
@@ -331,6 +344,7 @@ class EditorInterface {
 	
 	function defaults(){
 		$d = array(
+			'name'		=> '',
 			'hook'		=> '', 
 			'href'		=> '',
 			'filter'	=> '', 
@@ -378,7 +392,7 @@ class EditorInterface {
 					
 					$t = wp_parse_args($t, $this->defaults());
 					
-					if( $tab_key == 'heading' || $t['href'] != '' ) 
+					if( substr($tab_key, 0, 7) == 'heading' || $t['href'] != '' ) 
 						continue;
 						
 					$content = '';
@@ -390,7 +404,8 @@ class EditorInterface {
 					} else {
 						$content = 'content --> ' . rand();
 					}
-				
+			
+					
 						
 					printf(
 						'<div id="%s" class="tab-panel" data-panel="%s" data-type="%s">

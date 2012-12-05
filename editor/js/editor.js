@@ -281,9 +281,9 @@
 				var btn = $(this)
 				,	section = btn.closest(".pl-sortable")
 				,	config	= {
-					sid: section.data('sid')
-					, 	clone: section.data('clone')
-				}
+						sid: section.data('sid')
+						, clone: section.data('clone')
+					}
 			
 				if(btn.hasClass('section-edit')){
 					
@@ -291,7 +291,8 @@
 					
 					$('body').toolbox({
 						action: 'show'
-						, panel: function(){
+						, panel: 'section-options'
+						, info: function(){
 						
 							$.optPanel.render( config )
 						

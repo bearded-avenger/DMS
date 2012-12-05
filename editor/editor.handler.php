@@ -53,7 +53,7 @@ class PageLinesTemplateHandler {
 				
 				$.PLData = {
 					
-					options: <?php echo json_encode($this->dummy_option_config_data(), JSON_FORCE_OBJECT); ?>
+					optConfig: <?php echo json_encode($this->dummy_option_config_data(), JSON_FORCE_OBJECT); ?>
 					
 				}
 
@@ -79,10 +79,8 @@ class PageLinesTemplateHandler {
 
 		$data = array(
 			'masthead' => array(
-				'info'	=> array(
-					'name'	=> 'Masthead', 
-					'icon'	=> '...'
-				),
+				'name'	=> 'Masthead', 
+				'icon'	=> '...',
 				'opts'	=> array(
 					array(
 						'key'	=> 'settingA',

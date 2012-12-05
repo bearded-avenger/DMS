@@ -2,20 +2,21 @@
 	
 	$.optPanel = {
 		
-		title : 'The Option Panel Title!'
-		
-		, engine: function( config ) {
+		engine: function( config ) {
 
 			
 			var sid = config.sid
 			,	clone = config.clone
 			
-			if(!option_config[sid] || option_config[sid].length == 0)
-				return
-				
-			var out = sprintf('<legend>%s</legend>', this.title)
+			this.optConfig = $.PLData.optConfig
 			
-			$.each( option_config[sid].opts , function(index, o) {
+			if(!this.optConfig[sid] || this.optConfig[sid].length == 0){
+				return
+			}
+			
+			var out = ''
+			
+			$.each( this.optConfig[sid].opts , function(index, o) {
 			 	
 				o.value = (page_data[o.key][clone]) ? page_data[o.key][clone] : false
 				
@@ -53,9 +54,14 @@
 		
 		, render: function( config ) {
 			
-			var out = $.optPanel.engine(config)
+			var out = this.engine(config)
 			
-			$('.tab-panel-inner').html(out)
+			$('.panel-section-options legend').html( this.optConfig[config.sid].name )
+			$('.panel-section-options .panel-tab-content').html(out)
+			
+		}
+		
+		, drawPanel: function(){
 			
 		}
 	

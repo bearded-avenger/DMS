@@ -48,7 +48,8 @@
         var that = this
 		,	e = $.Event('show')
 
-        if (this.isShown || e.isDefaultPrevented()) return
+        if (this.isShown || e.isDefaultPrevented()) 
+			return that // chaining
 
         $('body').addClass('toolbox-open')
 
@@ -71,6 +72,8 @@
 		
 		this.closer
 			.fadeIn()
+			
+		return that // chaining
 	}
 
     , hide: function (e) {
@@ -104,6 +107,42 @@
 			.height(that.handleHeight)
 	
       }
+
+	, showPanel: function( key ){
+		
+		if(!key)
+			return
+			
+		var selectedPanel = $('.panel-'+key)
+		, 	allPanels = $('.tabbed-set')
+		
+		if(selectedPanel.hasClass('current-panel'))
+			return
+		
+		$('.btn-toolbox').removeClass('active-tab')
+		
+		allPanels
+			.removeClass('current-panel')
+			.hide()
+			
+		$('.ui-tabs').tabs('destroy')
+			
+		// TODO needs to work w/ multiple tabbing
+		selectedPanel.tabs({
+			activate: function(event, ui){
+				
+				if(ui.newTab.attr('data-filter'))
+					selectedPanel.find('.x-list').isotope({ filter: ui.newTab.attr('data-filter') })
+				
+			}
+		})
+		
+		selectedPanel
+			.addClass('current-panel')
+			.show()
+	
+		
+	}
 
 	, setHeight: function( newHeight ) {
 		
@@ -229,14 +268,14 @@
 			else if ( $.isFunction( options.action ) )
 				options.action.call( this )
 			else if ( options.action == 'show' ) 
-				toolBoxObject.show()
+				toolBoxObject.show().showPanel( options.panel )
 			else
 				toolBoxObject.hide()
 				
 			// Panel Load
 			
-			if ( $.isFunction( options.panel ) )
-				options.panel.call( this )
+			if ( $.isFunction( options.info ) )
+				options.info.call( this )
 	
 		})
 	}
