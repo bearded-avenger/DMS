@@ -16,23 +16,20 @@ class PageLinesTemplateHandler {
 	var $section_list = array();
 	var $area_number = 1;
 
-	function __construct( ) {
-		
-		// 1. Grab Option for Template Config on Page
-		
-		// 2. Deserialize and Treat Array, get in right format
-		
-		// 3. Create An Array of All Section on Page
-		
-		// 4. Parse And Render Section Areas
+	function __construct( EditorInterface $interface, PageLinesPage $pg ) {
+
 
 		global $pl_section_factory; 
 		
 		$this->factory = $pl_section_factory->sections; 
 		
-		$this->editor = new EditorInterface;
+		// Dependancy Injection (^^)
+		$this->editor = $interface;
+		$this->page = $pg;
 		
 		$this->map = $this->dummy_template_config_data();
+
+		
 
 		$this->parse_config();
 		
@@ -44,8 +41,8 @@ class PageLinesTemplateHandler {
 	
 	function json_data(){
 		
-		// in php 
 	
+		
 		?>
 		<script>
 		
@@ -53,18 +50,15 @@ class PageLinesTemplateHandler {
 				
 				$.PLData = {
 					
-					optConfig: <?php echo json_encode($this->dummy_option_config_data(), JSON_FORCE_OBJECT); ?>
-					
+					pageID: '<?php echo $this->page->id;?>'
+					, pageTypeID: '<?php echo $this->page->type_ID;?>'
+					, pageType: '<?php echo $this->page->type;?>'
+					, optConfig: <?php echo json_encode($this->dummy_option_config_data(), JSON_FORCE_OBJECT); ?>
+					, pageData:  <?php echo json_encode($this->dummy_page_content_data(), JSON_FORCE_OBJECT); ?>
 				}
 
 			
 			}(window.jQuery);
-			
-			var option_config = <?php echo json_encode($this->dummy_option_config_data(), JSON_FORCE_OBJECT); ?>
-			
-			var page_data = <?php echo json_encode($this->dummy_page_content_data(), JSON_FORCE_OBJECT); ?>
-		
-			
 			
 		
 		</script>
@@ -119,7 +113,12 @@ class PageLinesTemplateHandler {
 	function dummy_page_content_data(){
 		
 		$d = array(
-			'settingA' 		=> array('value qqq', 'value settingA Clone2'),
+			'settingA' 	=> array(
+					'value qqq', 
+					'value settingA Clone2'
+
+				
+			),
 			'settingB' 		=> array('value BBB', 'value settingB Clone2'),
 			'settingC' 		=> array('value CCC', 'value settingC Clone2'),
 		);

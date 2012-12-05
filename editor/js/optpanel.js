@@ -9,6 +9,7 @@
 			,	clone = config.clone
 			
 			this.optConfig = $.PLData.optConfig
+			this.pageData = $.PLData.pageData
 			
 			if(!this.optConfig[sid] || this.optConfig[sid].length == 0){
 				return
@@ -18,7 +19,7 @@
 			
 			$.each( this.optConfig[sid].opts , function(index, o) {
 			 	
-				o.value = (page_data[o.key][clone]) ? page_data[o.key][clone] : false
+				o.value = (this.pageData[o.key][clone]) ? this.pageData[o.key][clone] : false
 				
 				out += '<div class="opt">'
 			

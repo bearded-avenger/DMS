@@ -14,8 +14,10 @@
 class EditorInterface {
 
 
-	function __construct( ) {
-	//	add_action( 'wp_footer', array( &$this, 'pl_editor_palette' ) );
+	function __construct( PageLinesPage $pg ) {
+		
+		$this->page = $pg;
+
 		add_action( 'wp_footer', array( &$this, 'control_panel' ) );
 		add_action( 'wp_print_styles', array(&$this, 'pl_editor_styles' ), 15 );
 		$this->url = PL_PARENT_URL . '/editor';
@@ -190,7 +192,7 @@ class EditorInterface {
 			),
 			'pl-actions' => array(
 				'name'	=> 'Actions',
-				'icon'	=> 'icon-paste',
+				'icon'	=> 'icon-asterisk',
 				'type'	=> 'dropup', 
 				'panel'	=> array(
 					
@@ -203,9 +205,12 @@ class EditorInterface {
 				'name'	=> 'Section Options',
 				'icon'	=> 'icon-paste',
 				'type'	=> 'hidden', 
+				'flag'	=> 'section-opts',
 				'panel'	=> array(
-					'heading'	=> "Section Options",
-					'opts'		=> "Options"
+					'heading'		=> "Section Options",
+					'optCurrent'	=> array('name'	=> 'Current Page <span class="label">'.$this->page->id.'</span>'),
+					'optPageType'	=> array('name'	=> 'Post Type <span class="label">'.$this->page->type.'</span>'),
+					'optDefault'	=> array('name'	=> 'Sitewide Defaults'),
 				)
 				
 			),
@@ -348,7 +353,8 @@ class EditorInterface {
 			'hook'		=> '', 
 			'href'		=> '',
 			'filter'	=> '', 
-			'type'		=> 'opts'
+			'type'		=> 'opts', 
+			'mode'		=> ''
 		);
 		return $d;
 	}
@@ -363,7 +369,8 @@ class EditorInterface {
 				<?php 
 					foreach($panel as $tab_key => $t){
 						
-						
+						if($tab_key == 'optPageType' && ($this->page->id == $this->page->type_ID))
+							continue;
 						
 						if( substr($tab_key, 0, 7) == 'heading'){
 							printf('<lh>%s</lh>', $t); 
@@ -379,7 +386,11 @@ class EditorInterface {
 							
 							$filter = ($t['filter'] != '') ? sprintf('data-filter="%s"', $t['filter']) : '';
 							
-							printf('<li %s %s><a href="%s">%s</a></li>', $hook, $filter, $href, $t['name']);
+							$class = ''; 
+							
+							
+							
+							printf('<li %s %s><a class="%s" href="%s">%s</a></li>', $hook, $filter, $class, $href, $t['name']);
 						}
 												
 					}
@@ -393,6 +404,9 @@ class EditorInterface {
 					$t = wp_parse_args($t, $this->defaults());
 					
 					if( substr($tab_key, 0, 7) == 'heading' || $t['href'] != '' ) 
+						continue;
+						
+					if($tab_key == 'optPageType' && ($this->page->id == $this->page->type_ID))
 						continue;
 						
 					$content = '';

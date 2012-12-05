@@ -580,7 +580,15 @@
 				display: block;
 			}
 			li{
-				
+				.label{
+					padding: 3px 6px 2px;
+				//	margin-left: 3px;
+					background: rgba(0, 0, 0, 0.2);
+					vertical-align: top;
+					line-height: 20px;
+					font-size: 11px;
+					.border-radius(10px);
+				}
 				a{
 					font-size: 13px;
 					padding: 5px 0px 6px 25px;
@@ -589,11 +597,16 @@
 					border-top: 1px solid transparent;
 					border-bottom: 1px solid transparent;
 					color: #222;
+					text-shadow: 0 1px 0 rgba(255,255,255,.7);
 					&:hover{
 						background: #f7f7f7;
 					}
 					&:active{
 						background:#ddd;
+					}
+					.ltl{
+						color: #8ca6c4;
+						font-size: .8em;
 					}
 				}
 				
@@ -604,7 +617,12 @@
 						border-bottom-color: darken(@btnBorder, 10%);
 						color:#fff; 
 						text-shadow: 0 -1px 0 rgba(0,0,0,.7);
+						.ltl{
+							color: rgba(255,255,255,.7);	
+						}
 				}
+				
+				
 			}
 		}
 		.tab-panel{

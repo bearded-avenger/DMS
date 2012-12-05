@@ -1,5 +1,7 @@
 <?php
 
+
+
 /* 
  * Functions library for editor
  */

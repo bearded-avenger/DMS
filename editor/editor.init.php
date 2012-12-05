@@ -19,12 +19,11 @@ $pagelines_editor = new PageLinesEditor;
 class PageLinesEditor {
 
 	function __construct() {
-		
-		
-		// DISABLE 
-	//	add_filter('show_admin_bar', '__return_false');  
-		
+
 		// TEMPLATE ACTIONS
+		
+		add_action('wp', array(&$this, 'load_libs' ));
+		
 		add_action('wp_print_styles', array(&$this, 'process_styles' ));
 		add_action( 'wp_head', array(&$this, 'process_head' ) );
 		
@@ -34,15 +33,19 @@ class PageLinesEditor {
 		add_action( 'pagelines_footer', array(&$this, 'process_footer' ) );
 		
 		add_action( 'wp_ajax_pl_save_pagebuilder', array(&$this, 'save_configuration_callback' ));
-		
-		$this->path = get_template_directory() . '/editor';
-		$this->url = PL_PARENT_URL . '/editor';
-		$this->images = $this->url . '/images';
-		$this->handler = new PageLinesTemplateHandler();
+
+	
 	}
 	
+	function load_libs(){
+		$this->page = new PageLinesPage;
+		$this->interface = new EditorInterface( $this->page );
+		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page );
+	}
 	
 	function process_styles(){
+
+		
 		pagelines_add_bodyclass('pl-editor');
 		
 		$this->handler->process_styles();
