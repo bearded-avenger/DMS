@@ -2,24 +2,59 @@
 	
 	$.optPanel = {
 		
-		engine: function( config ) {
+		render: function( config ) {
+			
+			var that = this
+			,	opts
+			
+			that.panel = $('.panel-section-options')
+			that.sid = config.sid
+			that.clone = config.clone
+			that.optConfig = $.PLData.optConfig
+			that.pageData = $.PLData.pageData
+			
+			that.setTabData()
+			
+			opts = that.optEngine(config)
+			
+			that.panel.find('legend').html( this.optConfig[config.sid].name )
+			
+			that.panel.find('.panel-tab-content').html(opts)
+			
+		}
+		
+		, setTabData: function(){
+			var that = this
+		
+			$tab = that.panel
+				.find('.tabs-nav li')
+				.attr('data-sid', that.sid)
+				.attr('data-clone', that.clone)
+	
+		
+		}
+		
+		, optEngine: function( config ) {
 
 			
-			var sid = config.sid
+			var that = this
+			, 	sid = config.sid
 			,	clone = config.clone
 			
-			this.optConfig = $.PLData.optConfig
-			this.pageData = $.PLData.pageData
+			that.optConfig = $.PLData.optConfig
+			that.pageData = $.PLData.pageData
 			
-			if(!this.optConfig[sid] || this.optConfig[sid].length == 0){
+			
+			
+			if(!that.optConfig[sid] || that.optConfig[sid].length == 0){
 				return
 			}
 			
 			var out = ''
 			
-			$.each( this.optConfig[sid].opts , function(index, o) {
-			 	
-				o.value = (this.pageData[o.key][clone]) ? this.pageData[o.key][clone] : false
+			$.each( that.optConfig[sid].opts , function(index, o) {
+				
+				o.value = (that.pageData && that.pageData[o.key][clone]) ? that.pageData[o.key][clone] : ''
 				
 				out += '<div class="opt">'
 			
@@ -53,18 +88,7 @@
 			
 		}
 		
-		, render: function( config ) {
-			
-			var out = this.engine(config)
-			
-			$('.panel-section-options legend').html( this.optConfig[config.sid].name )
-			$('.panel-section-options .panel-tab-content').html(out)
-			
-		}
 		
-		, drawPanel: function(){
-			
-		}
 	
 	}
 	

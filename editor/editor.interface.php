@@ -208,9 +208,20 @@ class EditorInterface {
 				'flag'	=> 'section-opts',
 				'panel'	=> array(
 					'heading'		=> "Section Options",
-					'optCurrent'	=> array('name'	=> 'Current Page <span class="label">'.$this->page->id.'</span>'),
-					'optPageType'	=> array('name'	=> 'Post Type <span class="label">'.$this->page->type.'</span>'),
-					'optDefault'	=> array('name'	=> 'Sitewide Defaults'),
+					'optCurrent'	=> array(
+						'name'	=> 'Current Page <span class="label">'.$this->page->id.'</span>',
+						'filter'=> 'current'
+					),
+					'optPageType'	=> array(
+						'name'	=> 'Post Type <span class="label">'.$this->page->type.'</span>',
+						'href'	=> '#optCurrent',
+						'filter'=> 'post-type'
+					),
+					'optDefault'	=> array(
+						'name'	=> 'Sitewide Defaults', 
+						'href'	=> '#optCurrent', 
+						'filter'=> 'site-defaults'
+					),
 				)
 				
 			),
@@ -284,7 +295,7 @@ class EditorInterface {
 			</ul>
 			
 			<ul class="unstyled controls send-right">
-				<li><span class="btn-toolbox"><i class="icon-save"></i> <span class="txt">Save</span></span></li>
+			
 				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish</span></span></li>
 				
 				
@@ -354,7 +365,8 @@ class EditorInterface {
 			'href'		=> '',
 			'filter'	=> '', 
 			'type'		=> 'opts', 
-			'mode'		=> ''
+			'mode'		=> '',
+			'class'		=> ''
 		);
 		return $d;
 	}
@@ -386,11 +398,9 @@ class EditorInterface {
 							
 							$filter = ($t['filter'] != '') ? sprintf('data-filter="%s"', $t['filter']) : '';
 							
-							$class = ''; 
+							$class = ($t['class'] != '') ? $t['class'] : '';
 							
-							
-							
-							printf('<li %s %s><a class="%s" href="%s">%s</a></li>', $hook, $filter, $class, $href, $t['name']);
+							printf('<li class="%s" %s %s><a href="%s">%s</a></li>', $class, $hook, $filter, $href, $t['name']);
 						}
 												
 					}

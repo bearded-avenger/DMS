@@ -116,8 +116,6 @@ class PageLinesTemplateHandler {
 			'settingA' 	=> array(
 					'value qqq', 
 					'value settingA Clone2'
-
-				
 			),
 			'settingB' 		=> array('value BBB', 'value settingB Clone2'),
 			'settingC' 		=> array('value CCC', 'value settingC Clone2'),
