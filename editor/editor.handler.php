@@ -35,6 +35,8 @@ class PageLinesTemplateHandler {
 		
 		$this->setup_processing();
 		
+		$this->get_options_config();
+		
 		add_action( 'pagelines_head_last', array( &$this, 'json_data' ) );
 		
 	}
@@ -53,7 +55,7 @@ class PageLinesTemplateHandler {
 					pageID: '<?php echo $this->page->id;?>'
 					, pageTypeID: '<?php echo $this->page->type_ID;?>'
 					, pageType: '<?php echo $this->page->type;?>'
-					, optConfig: <?php echo json_encode($this->dummy_option_config_data(), JSON_FORCE_OBJECT); ?>
+					, optConfig: <?php echo json_encode($this->get_options_config(), JSON_FORCE_OBJECT); ?>
 					, pageData:  <?php echo json_encode($this->dummy_page_content_data(), JSON_FORCE_OBJECT); ?>
 				}
 
@@ -66,7 +68,109 @@ class PageLinesTemplateHandler {
 		
 	}
 	
+	function get_options_config(){
+		
+		$opts_config = array();
+		
+		
+		// BACKWARDS COMPATIBILITY
+		add_action('override_metatab_register', array(&$this, 'get_opts_from_optionator'), 10, 2);
 
+		foreach($this->section_list as $key => $meta){
+
+			if($this->in_factory( $meta['object'] )) {
+
+				$s = $this->factory[ $meta['object'] ];
+				
+				$opts_config[ $s->id ] = array(
+					'name'	=> $s->name
+				);
+				
+				$opts = $s->section_opts(); 
+				
+				if(!$opts){
+					// backwards comp
+					$s->section_optionator( array() );
+				
+					if(isset( $this->current_option_array ))
+						$opts = $this->process_to_new_option_format( $this->current_option_array ); 
+				}
+				
+				$opts_config[ $s->id ][ 'opts' ] = $opts; 
+					
+			}
+		}
+		
+		remove_action('override_metatab_register', array(&$this, 'get_opts_from_optionator'), 10, 2);
+		
+		return $opts_config;
+	}
+	
+	function process_to_new_option_format( $old_options ){
+		
+		$new_options = array();
+		
+		foreach($old_options as $key => $o){
+			
+			if($o['type'] == 'multi_option' || $o['type'] == 'text_multi'){
+			
+				$sub_options = array();
+				foreach($o['selectvalues'] as $sub_key => $sub_o){
+					$sub_options[ ] = $this->process_old_opt($sub_key, $sub_o, $o); 
+				}
+				$new_options[ ] = array(
+					'type' 	=> 'multi', 
+					'title'	=> $o['title'],
+					'opts'	=> $sub_options
+				);
+			} else {
+				$new_options[ ] = $this->process_old_opt($key, $o);	
+			}
+			
+		}
+		
+		return $new_options;
+	}
+	
+	function process_old_opt( $key, $old, $otop = array()){
+		
+		if(isset($otop['type']) && $otop['type'] == 'text_multi')
+			$old['type'] = 'text'; 
+			
+		$defaults = array(
+            'type' 			=> 'check',
+			'title'			=> '',
+			'inputlabel'	=> '', 
+			'exp'			=> '', 
+			'shortexp'		=> '',
+			'selectvalues'	=> array()
+		);
+		
+		$old = wp_parse_args($old, $defaults);
+		
+		$exp = ($old['exp'] == '' && $old['shortexp'] != '') ? $old['shortexp'] : $old['exp'];
+		
+		if($old['type'] == 'text_small'){
+			$type = 'text'; 
+		} else 
+			$type = $old['type'];
+		
+		$new = array(
+			'key'	=> $key, 
+			'title'	=> $old['title'],
+			'label'	=> $old['inputlabel'], 
+			'type'	=> $type, 
+			'help'	=> $exp, 
+			'opts'	=> $old['selectvalues']
+		); 
+		return $new;
+	}
+		
+	function get_opts_from_optionator($array){
+		
+		$this->current_option_array = $array;
+		
+	}	
 		
 	
 	function dummy_option_config_data(){
@@ -98,7 +202,19 @@ class PageLinesTemplateHandler {
 							'val2'	=> array('name' => 'Value 2'),
 							'val3'	=> array('name' => 'Value 3'),
 						)
-					)
+					), 
+					array(
+						'key'	=> 'settingD',
+						'label'	=> 'Setting Label', 
+						'type'	=> 'checkbox', 
+						'help'	=> 'Help Text goes here!'
+					),
+					array(
+						'key'	=> 'settingE',
+						'label'	=> 'Setting Label', 
+						'type'	=> 'checkbox', 
+						'help'	=> 'Help Text goes here!'
+					),
 				)
 				
 			
@@ -113,12 +229,20 @@ class PageLinesTemplateHandler {
 	function dummy_page_content_data(){
 		
 		$d = array(
-			'settingA' 	=> array(
-					'value qqq', 
-					'value settingA Clone2'
-			),
-			'settingB' 		=> array('value BBB', 'value settingB Clone2'),
-			'settingC' 		=> array('value CCC', 'value settingC Clone2'),
+			'current' => array(
+				'settingA' 	=> array(
+						'value qqq', 
+						'value settingA Clone2'
+				),
+				'settingB' 		=> array('value BBB', 'value settingB Clone2'),
+				'settingC' 		=> array('value CCC', 'value settingC Clone2'),
+			), 
+			'post_type'	=> array(
+				'settingD' 		=> array('value BBB', 'value settingB Clone2'),
+			), 
+			'site_defaults'	=> array(
+				'settingE' 		=> array('value BBB', 'value settingB Clone2'),
+			)
 		);
 		
 		return $d;
@@ -136,21 +260,21 @@ class PageLinesTemplateHandler {
 					'area'	=> 'TemplateAreaID',
 					'content'	=> array(
 						array(
-							'id'	=> 'PLMasthead'
+							'object'	=> 'PLMasthead'
 						), 
 						array(
-							'id'	=> 'PageLinesBoxes'
+							'object'	=> 'PageLinesBoxes'
 						),
 						array(
-							'id'	=> 'PageLinesBoxes',
+							'object'	=> 'PageLinesBoxes',
 							'clone'	=> 1, 
 							'span'	=> 6,
 						),
 						array(
-							'id'	=> 'PageLinesHighlight'
+							'object'	=> 'PageLinesHighlight'
 						),
 						array(
-							'id'	=> 'PLColumn',
+							'object'	=> 'PLColumn',
 							'span' 	=> 8,
 							'content'	=> array( 
 								'PageLinesPostLoop' => array( ), 
@@ -158,7 +282,7 @@ class PageLinesTemplateHandler {
 							)
 						),
 						array(
-							'id'	=> 'PLColumn',
+							'object'	=> 'PLColumn',
 							'clone'	=> 1, 
 							'span' 	=> 4,
 							'content'	=> array( 
@@ -175,10 +299,10 @@ class PageLinesTemplateHandler {
 					'areaID'	=> 'HeaderArea',
 					'content'	=> array(
 						array(
-							'id'	=> 'PageLinesBranding'
+							'object'	=> 'PageLinesBranding'
 						),
 						array(
-							'id'	=> 'PLNavBar'
+							'object'	=> 'PLNavBar'
 						),
 					)
 				)
@@ -190,7 +314,7 @@ class PageLinesTemplateHandler {
 					'areaID'	=> 'FooterArea',
 					'content'	=> array(
 						array(
-							'id'	=> 'SimpleNav'
+							'object'	=> 'SimpleNav'
 						)
 					)
 				)
@@ -207,6 +331,7 @@ class PageLinesTemplateHandler {
 		
 		$defaults = array(
 			'id'		=> $key,
+			'object'	=> $key,
 			'clone'		=> 0,  
 			'content'	=> array(),
 			'span'		=> 12,
@@ -245,8 +370,8 @@ class PageLinesTemplateHandler {
 		
 		foreach($this->section_list as $key => $meta){
 			
-			if( $this->in_factory( $meta['id'] ) ){
-				$this->factory[ $meta['id'] ]->meta = $meta;
+			if( $this->in_factory( $meta['object'] ) ){
+				$this->factory[ $meta['object'] ]->meta = $meta;
 			}else
 				unset($this->section_list[$key]);
 				
@@ -261,9 +386,9 @@ class PageLinesTemplateHandler {
 		*/
 		foreach($this->section_list as $key => $meta){
 
-			if($this->in_factory( $meta['id'] )) {
+			if($this->in_factory( $meta['object'] )) {
 
-				$s = $this->factory[ $meta['id'] ];
+				$s = $this->factory[ $meta['object'] ];
 				
 				$s->meta = $meta;
 				
@@ -284,9 +409,9 @@ class PageLinesTemplateHandler {
 		
 		foreach($this->section_list as $key => $meta){
 		
-			if( $this->in_factory( $meta['id'] ) ){
+			if( $this->in_factory( $meta['object'] ) ){
 
-				$s = $this->factory[ $meta['id'] ];
+				$s = $this->factory[ $meta['object'] ];
 				
 				$s->meta = $meta;
 				
@@ -332,9 +457,9 @@ class PageLinesTemplateHandler {
 	
 	function render_section( $meta ){
 		
-		if( $this->in_factory( $meta['id'] ) ){
+		if( $this->in_factory( $meta['object'] ) ){
 			
-			$s = $this->factory[ $meta['id'] ];
+			$s = $this->factory[ $meta['object'] ];
 
 			$s->meta = $meta;
 
@@ -380,7 +505,7 @@ class PageLinesTemplateHandler {
 		else
 			$sid = $s->id;
 		
-		
+
 		$span = (isset($s->meta['span'])) ? sprintf('span%s', $s->meta['span']) : 'span12';
 		$offset = (isset($s->meta['offset'])) ? sprintf('offset%s', $s->meta['span']) : 'offset0';
 		$clone = $s->meta['clone'];
@@ -389,7 +514,14 @@ class PageLinesTemplateHandler {
 		$class[] = $span;
 		$class[] = $offset;
 		
-		printf('<section id="%s" data-sid="%s" data-clone="%s" class="%s">', $s->id.$clone, $s->id, $clone, implode(" ", $class));
+		printf(
+			'<section id="%s" data-object="%s" data-sid="%s" data-clone="%s" class="%s">', 
+			$s->id.$clone, 
+			$s->class_name,
+			$s->id, 
+			$clone, 
+			implode(" ", $class)
+		);
 
 		pagelines_register_hook('pagelines_outer_'.$s->id, $s->id); // hook
 		pagelines_register_hook('pagelines_inside_top_'.$s->id, $s->id); // hook 

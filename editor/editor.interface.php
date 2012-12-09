@@ -208,18 +208,17 @@ class EditorInterface {
 				'flag'	=> 'section-opts',
 				'panel'	=> array(
 					'heading'		=> "Section Options",
-					'optCurrent'	=> array(
+					'current'	=> array(
 						'name'	=> 'Current Page <span class="label">'.$this->page->id.'</span>',
 						'filter'=> 'current'
 					),
-					'optPageType'	=> array(
+					'post_type'	=> array(
 						'name'	=> 'Post Type <span class="label">'.$this->page->type.'</span>',
-						'href'	=> '#optCurrent',
+					
 						'filter'=> 'post-type'
 					),
-					'optDefault'	=> array(
+					'site_defaults'	=> array(
 						'name'	=> 'Sitewide Defaults', 
-						'href'	=> '#optCurrent', 
 						'filter'=> 'site-defaults'
 					),
 				)

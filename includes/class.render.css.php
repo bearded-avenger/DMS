@@ -59,7 +59,8 @@ class PageLinesRenderCSS {
 			'pager', 
 			'pagination',
 			'progress-bars', 
-			'icons'
+			'icons',
+			'fileupload'
 		);
 		return $files;
 	}

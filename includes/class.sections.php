@@ -428,12 +428,19 @@ class PageLinesSection {
      * Section Optionator
      *
      * Handles section options
-     *
-     * @since   ...
-     *
-     * @param   $settings
+	 * 
      */
 	function section_optionator( $settings ){}
+	
+	
+	/**
+     * Section Opts
+     *
+     * Loads section options simply
+	 * 
+	 * @since b3.0.0
+     */
+	function section_opts(){ return false; }
 	
 
     /**

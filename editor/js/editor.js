@@ -282,6 +282,7 @@
 				,	section = btn.closest(".pl-sortable")
 				,	config	= {
 						sid: section.data('sid')
+						, sobj: section.data('object')
 						, clone: section.data('clone')
 					}
 			
