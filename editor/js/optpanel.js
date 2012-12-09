@@ -63,30 +63,29 @@
 		
 		}
 		
-		, runEngine: function( tabIndex ){
-			
-			
-				var that = this
-				, 	sid = that.sid
-				,	clone = that.clone
-				, 	optionHTML
-				, 	out = ''
+		, runEngine: function( tabIndex ){			
+		
+			var that = this
+			, 	sid = that.sid
+			,	clone = that.clone
+			, 	optionHTML
+			, 	out = ''
 
-				if(!that.optConfig[sid]){
-					return
-				}
+			if(!that.optConfig[sid]){
+				return
+			}
 
-				$.each( that.optConfig[sid].opts , function(index, o) {
+			$.each( that.optConfig[sid].opts , function(index, o) {
+			
 				
-					o.value = that.optValue(tabIndex, o)
-					
-					optionHTML = that.optEngine(tabIndex, o)
-					
-					out += sprintf( '<div class="opt"><div class="opt-name">%s</div><div class="opt-box">%s</div></div>', o.title, optionHTML ) 
+				
+				optionHTML = that.optEngine(tabIndex, o)
+				
+				out += sprintf( '<div class="opt"><div class="opt-name">%s</div><div class="opt-box">%s</div></div>', o.title, optionHTML ) 
 
-				})
+			})
 
-				return sprintf('<div class="opt-area">%s</div>', out)
+			return sprintf('<div class="opt-area">%s</div>', out)
 		}
 		
 		, optValue: function(tabIndex, o){
@@ -105,7 +104,8 @@
 			var that = this
 			, 	oHTML = ''
 
-			console.log(o)
+			o.value = that.optValue( tabIndex, o )
+
 			// Multiple Options
 			if( o.type == 'multi' ){
 				if(o.opts){

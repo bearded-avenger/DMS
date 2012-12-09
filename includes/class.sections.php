@@ -440,7 +440,7 @@ class PageLinesSection {
 	 * 
 	 * @since b3.0.0
      */
-	function section_opts(){ return false; }
+	function section_opts(){ return array(); }
 	
 
     /**

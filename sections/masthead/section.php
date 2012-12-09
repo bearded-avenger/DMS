@@ -59,7 +59,7 @@ class PLMasthead extends PageLinesSection {
 						),
 						'masthead_html_width'   => array(
 							'type' 			=> 'text_small',
-							'inputlabel' 	=> 'Maxium width of splash in px (default is full width)',
+							'inputlabel' 	=> 'Maximum width of splash in px (default is full width)',
 						),
 					),
 					'exp'                   => 'Upload an image to serve as a splash image, or use an embed code for full width video.',			

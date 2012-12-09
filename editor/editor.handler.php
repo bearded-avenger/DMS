@@ -14,6 +14,7 @@
 class PageLinesTemplateHandler {
 
 	var $section_list = array();
+	var $opts_list	= array();
 	var $area_number = 1;
 
 	function __construct( EditorInterface $interface, PageLinesPage $pg ) {
@@ -76,7 +77,7 @@ class PageLinesTemplateHandler {
 		// BACKWARDS COMPATIBILITY
 		add_action('override_metatab_register', array(&$this, 'get_opts_from_optionator'), 10, 2);
 
-		foreach($this->section_list as $key => $meta){
+		foreach($this->section_list_unique as $key => $meta){
 
 			if($this->in_factory( $meta['object'] )) {
 
@@ -86,21 +87,45 @@ class PageLinesTemplateHandler {
 					'name'	=> $s->name
 				);
 				
+				$opts = array();
+				
 				$opts = $s->section_opts(); 
 				
-				if(!$opts){
+				// For backwards compatibility with the older optionator format
+				// It works by using a hook to hijack the 'register_metapanel' function
+				// The hook then sets an attribute of this class to the array of options from the section
+				if(!$opts || empty($opts)){
+					
+					$this->current_option_array = array();
+				
 					// backwards comp
 					$s->section_optionator( array() );
 				
 					if(isset( $this->current_option_array ))
 						$opts = $this->process_to_new_option_format( $this->current_option_array ); 
+						
+					
 				}
 				
 				$opts_config[ $s->id ][ 'opts' ] = $opts; 
-					
+				
+				if(!empty($opts)){
+					foreach($opts as $okey => $o){
+						if($o['type'] == 'multi'){
+							foreach($o['opts'] as $okeysub => $osub){
+								$this->opts_list[] = $osub['key']; 
+							}
+						} else {
+							$this->opts_list[] = $o['key']; 
+						}
+					}
+				}
+				
 			}
+			
+			
 		}
-		
+
 		remove_action('override_metatab_register', array(&$this, 'get_opts_from_optionator'), 10, 2);
 		
 		return $opts_config;
@@ -166,67 +191,17 @@ class PageLinesTemplateHandler {
 		return $new;
 	}
 		
-	function get_opts_from_optionator($array){
+	function get_opts_from_optionator( $array ){
 		
 		$this->current_option_array = $array;
 		
 	}	
 		
 	
-	function dummy_option_config_data(){
-
-		$data = array(
-			'masthead' => array(
-				'name'	=> 'Masthead', 
-				'icon'	=> '...',
-				'opts'	=> array(
-					array(
-						'key'	=> 'settingA',
-						'label'	=> 'Setting Label', 
-						'type'	=> 'text', 
-						'help'	=> 'Help Text goes here!', 
-					),
-					array(
-						'key'	=> 'settingB',
-						'label'	=> 'Setting Label', 
-						'type'	=> 'checkbox', 
-						'help'	=> 'Help Text goes here!'
-					), 
-					array(
-						'key'	=> 'settingC',
-						'label'	=> 'Setting Label', 
-						'type'	=> 'select', 
-						'help'	=> 'Help Text goes here!',
-						'opts'	=> array(
-							'val1'	=> array('name' => 'Value 1'),
-							'val2'	=> array('name' => 'Value 2'),
-							'val3'	=> array('name' => 'Value 3'),
-						)
-					), 
-					array(
-						'key'	=> 'settingD',
-						'label'	=> 'Setting Label', 
-						'type'	=> 'checkbox', 
-						'help'	=> 'Help Text goes here!'
-					),
-					array(
-						'key'	=> 'settingE',
-						'label'	=> 'Setting Label', 
-						'type'	=> 'checkbox', 
-						'help'	=> 'Help Text goes here!'
-					),
-				)
-				
-			
-			)
-			
-		);
-		
-		return $data;
-		
-	}
 		
 	function dummy_page_content_data(){
+		
+	//	foreach($this->opts_list as $key => )
 		
 		$d = array(
 			'current' => array(
@@ -351,12 +326,17 @@ class PageLinesTemplateHandler {
 						foreach($meta['content'] as $subkey => &$sub_meta){
 							$sub_meta = wp_parse_args($sub_meta, $this->meta_defaults($subkey));
 							$this->section_list[  ] = $sub_meta;
+							$this->section_list_unique[$sub_meta['object']] = $sub_meta;
 						}
 						unset($sub_meta); // set by reference
 					
 						$this->section_list[  ] = $meta;
-					}else		
+						$this->section_list_unique[$meta['object']] = $meta;
+					}else{
 						$this->section_list[  ] = $meta;
+						$this->section_list_unique[$meta['object']] = $meta;
+					}
+						
 				}
 				unset($meta); // set by reference
 			}
