@@ -88,12 +88,12 @@
 			return sprintf('<div class="opt-area">%s</div>', out)
 		}
 		
-		, optValue: function(tabIndex, o){
+		, optValue: function(tabIndex, optionKey){
 			var that = this
 			
 			// Set option value
-			if(that.pageData[tabIndex][o.key] && that.pageData[tabIndex][o.key][clone])
-				return that.pageData[tabIndex][o.key][clone]
+			if(that.pageData[tabIndex][optionKey] && that.pageData[tabIndex][optionKey][that.clone])
+				return that.pageData[tabIndex][optionKey][that.clone]
 			else 
 				return ''
 			
@@ -104,7 +104,7 @@
 			var that = this
 			, 	oHTML = ''
 
-			o.value = that.optValue( tabIndex, o )
+			o.value = that.optValue( tabIndex, o.key )
 
 			// Multiple Options
 			if( o.type == 'multi' ){
