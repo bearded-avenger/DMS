@@ -1,3 +1,31 @@
+= 1.3.3 =
+
+* Update Bootstrap core js.
+* Update css/less system to work with wp 3.5 MU sites.
+* Make pledit filterable. 'pagelines_pledit_filter'
+* Clear cache on sections dragged.
+* Attempt to clear super cache and w3 cache files on save.
+* Added some debugging info.
+* Use clearfix() Fixes the 5px blank space bug.
+* Navbar fix on touchscreens.
+* Fix PHP warning if sections plugin is not installed.
+* CPT post-meta options were being ignored.
+* Plus themes bug fixed.
+* Watermark url if box is blank.
+* Add locale to googlemaps shortcode.
+* Noposts section was not selectable in 404 page area.
+* removed polylang check ( uses ICL code anyway ).
+* Fix Pinterest button, props nick + mikey.
+* Fix offset in grids props nick.	
+* Add CPT support to is_pagelines_special() and make filterable, props Evan.
+* Updated plprint() and made it LESS friendly.
+* LESS_FILE_MODE is on by defualt now.
+* Fix LESS validation and \'escape\' bug in customcss box.
+
+= 1.3.2 = 
+
+* Version was bumped, trac was broken.
+
 = 1.3.1 =
 
 * Fix accordian shortcode if %s is in the content, props Evan.
