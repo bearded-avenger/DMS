@@ -12,8 +12,8 @@
 			that.sobj = config.sobj
 			that.sid = config.sid
 			that.clone = config.clone
-			that.optConfig = $.PLData.optConfig
-			that.pageData = $.PLData.pageData
+			that.optConfig = $.pl.config.opts
+			that.data = $.pl.data
 			
 			 
 			that.setTabData()
@@ -32,21 +32,46 @@
 			
 			that.setPanel()
 			
+			that.setBinding()
+			
 			$('.ui-tabs li').on('click.options-tab', $.proxy(that.setPanel, that))
 			
 		}
 		
-		, setPanel: function(){
+		, setBinding: function(){
+			var that = this
+			
+			$('.lstn').on('keypress blur change', function(){
+				
+				var scope = that.activeForm.data('scope')
+				
+				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
 
-			$('.opt-area.isotope').isotope( 'destroy' )
+				
+			//	console.log($.pl.data[scope])
+
+				
+			})
+		}
+		
+		, setPanel: function(){
+			var that = this
+			
+			$('.opt-form.isotope').isotope( 'destroy' )
 			
 			this.panel.find('.tab-panel').each(function(){
 				if($(this).is(":visible")){
 					
-					$(this).find('.opt-area').isotope({
+					that.activeForm = $(this).find('.opt-form')
+				
+					that.optScope = that.activeForm.data('scope')
+					that.optSID = that.activeForm.data('sid')
+					
+					that.activeForm.isotope({
 						itemSelector : '.opt'
 						, layoutMode : 'masonry'
 					})
+					
 				}
 					
 			})
@@ -85,15 +110,15 @@
 
 			})
 
-			return sprintf('<div class="opt-area">%s</div>', out)
+			return sprintf('<form class="form-%1$s-%2$s opt-area opt-form" data-sid="%1$s" data-scope="%2$s">%3$s</form>', sid, tabIndex, out)
 		}
 		
 		, optValue: function(tabIndex, optionKey){
 			var that = this
 			
 			// Set option value
-			if(that.pageData[tabIndex][optionKey] && that.pageData[tabIndex][optionKey][that.clone])
-				return that.pageData[tabIndex][optionKey][that.clone]
+			if(that.data[tabIndex] && that.data[tabIndex][optionKey] && that.data[tabIndex][optionKey][that.clone])
+				return that.data[tabIndex][optionKey][that.clone]
 			else 
 				return ''
 			
@@ -138,14 +163,14 @@
 			else if( o.type == 'text' ){
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<input id="%1$s" type="text" placeholder="" ng-model="%1$s" value="%2$s" />', o.key, o.value )
+				oHTML += sprintf('<input id="%1$s" name="%1$s[%2$s]" type="text" class="lstn" placeholder="" value="%3$s" />', o.key, that.clone, o.value )
 				
 			} 
 			
 			else if( o.type == 'textarea' ){
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<textarea id="%s">%s</textarea>', o.key, o.value )
+				oHTML += sprintf('<textarea id="%s" class="lstn" >%s</textarea>', o.key, o.value )
 				
 			}
 			
@@ -154,7 +179,7 @@
 				
 				var checked = (!o.value || o.value == 'false' || o.value == '') ? '' : 'checked'
 				
-				oHTML +=  sprintf('<label class="checkbox"><input id="%1$s" type="checkbox" %2$s>%3$s</label>', o.key, checked, o.label )
+				oHTML +=  sprintf('<label class="checkbox"><input id="%1$s" class="lstn" type="checkbox" %2$s>%3$s</label>', o.key, checked, o.label )
 				
 			} 
 			

@@ -51,15 +51,20 @@ class PageLinesTemplateHandler {
 		
 			!function ($) {
 				
-				$.PLData = {
-					
-					pageID: '<?php echo $this->page->id;?>'
-					, pageTypeID: '<?php echo $this->page->type_ID;?>'
-					, pageType: '<?php echo $this->page->type;?>'
-					, optConfig: <?php echo json_encode($this->get_options_config(), JSON_FORCE_OBJECT); ?>
-					, pageData:  <?php echo json_encode($this->dummy_page_content_data(), JSON_FORCE_OBJECT); ?>
+				$.pl = {
+					data: {
+						current:  <?php echo json_encode($this->page_content('current'), JSON_FORCE_OBJECT); ?>
+						, post_type:  <?php echo json_encode($this->page_content('post_type'), JSON_FORCE_OBJECT); ?>
+						, site_defaults:  <?php echo json_encode($this->page_content('defaults'), JSON_FORCE_OBJECT); ?>
+					}
+					, config: {
+						pageID: '<?php echo $this->page->id;?>'
+						, pageTypeID: '<?php echo $this->page->type_ID;?>'
+						, pageType: '<?php echo $this->page->type;?>'
+						, opts: <?php echo json_encode($this->get_options_config(), JSON_FORCE_OBJECT); ?>
+					}
 				}
-
+				
 			
 			}(window.jQuery);
 			
@@ -199,26 +204,57 @@ class PageLinesTemplateHandler {
 		
 	
 		
-	function dummy_page_content_data(){
+	function page_content( $scope = 'current' ){
+		$d = array();
 		
-	//	foreach($this->opts_list as $key => )
+		if($scope = 'current'){
+			
+			// ** Backwards Compatible Stuff ** //
+			if(!is_pagelines_special()){
+				foreach($this->opts_list as $key => $opt){
+
+					$val = plmeta( $opt, array('post_id' => $this->page->id) );
+
+					if($val != '')
+						$d[$opt] = array( pl_html($val) );
+				}
+			}
+			
+		} elseif($scope = 'post_type'){
+			
+			
+			// ** Backwards Compatible Stuff **
+			$old_special = get_option('pagelines-special');
+
+			if( isset( $old_special[ $this->page->type_ID ] ) ){
+				foreach($this->opts_list as $key => $opt){
+
+					if(isset($old_special[ $this->page->type_ID ][ $opt ]) && !empty($old_special[ $this->page->type_ID ][ $opt ]) )
+						$d[$opt] = array( pl_html($old_special[ $this->page->type_ID ][ $opt ])); 
+
+				}
+			}
+			
+		} else {
+			
+			// ** Backwards Compatible Stuff **
+			$old_special = get_option('pagelines-special');
 		
-		$d = array(
-			'current' => array(
-				'settingA' 	=> array(
-						'value qqq', 
-						'value settingA Clone2'
-				),
-				'settingB' 		=> array('value BBB', 'value settingB Clone2'),
-				'settingC' 		=> array('value CCC', 'value settingC Clone2'),
-			), 
-			'post_type'	=> array(
-				'settingD' 		=> array('value BBB', 'value settingB Clone2'),
-			), 
-			'site_defaults'	=> array(
-				'settingE' 		=> array('value BBB', 'value settingB Clone2'),
-			)
-		);
+			if( isset( $old_special[ 'default' ] ) ){
+				foreach($this->opts_list as $key => $opt){
+
+					if(isset($old_special[ 'default' ][ $opt ]) && !empty($old_special[ 'default' ][ $opt ]) )
+						$d[$opt] = array( pl_html($old_special[ 'default' ][ $opt ]) ); 
+
+				}
+			}
+			
+		}
+		
+		
+		
+		
+		
 		
 		return $d;
 	}

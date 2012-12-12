@@ -34,11 +34,11 @@ class EditorInterface {
 		// Global AjaxURL variable --> http://www.garyc40.com/2010/03/5-tips-for-using-ajax-in-wordpress/
 		wp_localize_script( 'pagelines-ajax', 'PLAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		
-		wp_enqueue_script( 'js-sprintf', $this->url . '/js/sprintf.js' ); 
-		wp_enqueue_script( 'pl-editor-js', $this->url . '/js/editor.js' ); 
-		wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/toolbox.js', array('pagelines-bootstrap-all')); 
-		wp_enqueue_script( 'pl-optpanel', $this->url . '/js/optpanel.js'); 
-		wp_enqueue_script( 'isotope', $this->url . '/js/isotope.js', array('jquery')); 
+		wp_enqueue_script( 'js-sprintf', $this->url . '/js/utils.sprintf.js' ); 
+		wp_enqueue_script( 'pl-editor-js', $this->url . '/js/pl.editor.js' ); 
+		wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/pl.toolbox.js', array('pagelines-bootstrap-all')); 
+		wp_enqueue_script( 'pl-optpanel', $this->url . '/js/pl.optpanel.js'); 
+		wp_enqueue_script( 'isotope', $this->url . '/js/utils.isotope.js', array('jquery')); 
 
 		wp_enqueue_script( 'jquery-ui-tabs'); 
 		
@@ -60,15 +60,19 @@ class EditorInterface {
 		
 		wp_enqueue_script( 'jquery-new-ui-effect', PL_ADMIN_JS . '/jquery.ui.effect.js', $dep, 1.9, true);	
 		wp_enqueue_script( 'jquery-new-ui-effect-highlight', PL_ADMIN_JS . '/jquery.ui.effect-highlight.js', array('jquery-new-ui-effect'), 1.9, true);
-		wp_enqueue_script( 'jquery-mousewheel', $this->url . '/js/mousewheel.js' ); 
+		wp_enqueue_script( 'jquery-mousewheel', $this->url . '/js/utils.mousewheel.js' ); 
+	
+		wp_enqueue_script( 'form-params', $this->url . '/js/form.params.js' ); 
+		wp_enqueue_script( 'form-store', $this->url . '/js/form.store.js' ); 
+		wp_enqueue_script( 'form-backup', $this->url . '/js/form.sisyphus.js' ); 
 		
-		wp_enqueue_script( 'angular', $this->url . '/angular/angular.min.js' ); 
-		wp_enqueue_script( 'angular-options', $this->url . '/angular/OptionsCtrl.js', array('angular') ); 
-		
+		// wp_enqueue_script( 'angular', $this->url . '/angular/angular.min.js' ); 
+		// 	wp_enqueue_script( 'angular-options', $this->url . '/angular/OptionsCtrl.js', array('angular') ); 
+		// 	
 	}
 
 	function angular_start(){
-		echo ' ng-app';
+		echo ' ng-app="PLApp"';
 	}
 	
 	function region_start( $region, $area_number ){
@@ -302,7 +306,7 @@ class EditorInterface {
 		</div>
 		<div class="toolbox-panel-wrap">
 			<div class="toolbox-panel">
-				<div class="toolbox-content fix" ng-controller="OptionsCtrl">
+				<div class="toolbox-content fix">
 					<div class="toolbox-content-pad option-panel">
 						<?php 
 						foreach($this->toolbar_config() as $key => $tab){
