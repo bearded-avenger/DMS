@@ -88,7 +88,52 @@ function get_store_mixed(){
 
  		return $output;
 	}
-	function the_store_callback(){
+
+function the_store_callback(){
  
-		echo( json_encode(get_store_mixed(), JSON_FORCE_OBJECT) );
-	}
+	echo( json_encode(get_store_mixed(), JSON_FORCE_OBJECT) );
+}
+	
+	
+function editor_get_raw_less( $array = false ) {
+	
+	$pagelines_dynamic_css = new PageLinesCSS;
+
+	$pagelines_dynamic_css->typography();
+
+	$typography = $pagelines_dynamic_css->css;
+
+	unset( $pagelines_dynamic_css->css );
+	global $pagelines_layout;
+	$pagelines_layout = new PageLinesLayout();
+	$pagelines_dynamic_css->layout();
+	$pagelines_dynamic_css->options();
+	$dynamic = $pagelines_dynamic_css->css;
+	
+	
+	$core = PageLinesRenderCSS::load_core_cssfiles( PageLinesRenderCSS::get_core_lessfiles());
+	
+	$pless = new PageLinesLess;
+	
+	$vars = $pless->constants;
+	
+	$bootstrap = $pless->add_bootstrap();
+	
+	$sections = PageLinesRenderCSS::get_all_active_sections();
+	
+	$extra = PageLinesRenderCSS::pagelines_insert_core_less_callback( '' );
+	
+	if( ! $array )
+		return $vars . $bootstrap . $core . $sections . $extra . $typography . $dynamic;
+		
+	return array( 
+		
+		'vars'		=> $vars,
+		'bootstrap'	=> $bootstrap,
+		'core'		=> $core,
+		'sections'	=> $sections,
+		'extra'		=> $extra,
+		'typography'=> $typography,
+		'dynamic'	=> $dynamic
+		);	
+}
