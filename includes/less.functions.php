@@ -11,7 +11,7 @@
 class PageLinesLess {
 	
 	private $lparser = null;
-	private $constants = '';
+	public $constants = '';
 	
 
 	/**
@@ -110,7 +110,7 @@ class PageLinesLess {
 		return $css;	
 	}
 
-	private function add_bootstrap( ) {
+	function add_bootstrap( ) {
 		$less = '';
 		
 		$less .= $this->load_less_file( 'variables' );
