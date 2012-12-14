@@ -380,9 +380,10 @@
 
 // Toolbox/Toolbar
 // --------------------------------------------------
-.pl-toolbox{
+#PageLinesToolbox.pl-toolbox{
 	position: fixed; 
 	bottom: 0;
+	color: #000;
 	background: #fff;
 	width: 100%;
 	z-index: 10000; 
@@ -678,9 +679,47 @@
 					font-size: 11px;
 				}
 			}
+			
 			.x-list .x-item{
 				width: 80px;
 				margin: 5px;
+				float: left;
+				font-size: 11px;
+				line-height: 1.2em;
+				
+				overflow: hidden;
+				box-shadow: 0 1px 4px rgba(0,0,0,.2);
+				
+				img{
+					background:#fff; 
+					max-width: 100%;
+				}
+				.title{
+					font-weight: bold;
+				}
+				&.t-box{
+					.border-radius(10px);
+					border:1px solid #ddd;
+					.buttonBackground(#fafafa, #eee);
+					box-shadow: inset 1px 1px 0 #fff;
+					cursor: pointer;
+					&:hover{
+						.buttonBackground(#f7f7f7, #eaeaea);
+					}
+					&:active{
+						.user-select(none);
+						box-shadow: inset 1px 1px 0 rgba(0,0,0,.2);
+						.buttonBackground(#ddd, #eee);
+					}
+					.t-box-pad{
+						padding: 17px 24px;
+						.img i{
+							font-size: 40px;
+							line-height: 40px;
+							color: #ccc;
+						}
+					}
+				}
 				&.x-item-size-5{
 					width: 120px;
 					margin: 10px;
@@ -689,7 +728,11 @@
 					width: 210px;
 					margin: 10px;
 				}
-				box-shadow: 0 1px 4px rgba(0,0,0,.2);
+				&.x-item-size-15{
+					width: 270px;
+					margin: 10px;
+				}
+				
 				&:hover .x-item-frame{
 					background: #eee;
 					border:1px solid #f7f7f7; 
@@ -703,20 +746,8 @@
 				.x-item-text{
 					padding: 3px 2px 2px;
 				}
-				img{
-
-					background:#fff; 
-
-					max-width: 100%;
-				}
 				
-				float: left;
-				text-align: center; 
-				font-size: 11px;
-				line-height: 1.2em;
-				font-weight: bold;
-				overflow: hidden;
-			//	position: relative;
+				
 			}
 			
 		}

@@ -131,8 +131,17 @@ class EditorInterface {
 				'icon'	=> 'icon-paste',
 				'panel'	=> array(
 					'heading'	=> "Page Templates",
-					'tmp_load'	=> array('name'	=> 'Load Template'),
-					'tmp_save'	=> array('name'	=> 'Save As Template')
+					'tmp_load'	=> array(
+						'name'	=> 'Custom Templates', 
+						'call'	=> array(&$this, 'custom_templates'),
+					),
+					'tmp_theme'	=> array(
+						'name'	=> 'Theme Templates', 
+						'call'	=> array(&$this, 'custom_templates'),
+					),
+					'tmp_save'	=> array(
+						'name'	=> 'Save As Template'
+					)
 				)
 				
 			),
@@ -234,6 +243,55 @@ class EditorInterface {
 		
 	}
 	
+	function custom_templates(){
+		
+		$dummy = array(
+			array(
+				'key'	=> 'key',
+				'name'	=> 'title', 
+				'desc'	=> 'description goes here...', 
+				'map'	=> 'the actual template mapping'
+			),
+			array(
+				'key'	=> 'key',
+				'name'	=> 'title', 
+				'desc'	=> 'description goes here...', 
+				'map'	=> 'the actual template mapping'
+			),
+			array(
+				'key'	=> 'key',
+				'name'	=> 'title', 
+				'desc'	=> 'description goes here...', 
+				'map'	=> 'the actual template mapping'
+			),
+		); 
+		
+		$templates = '';
+		foreach($dummy as $index => $template){
+			
+			$templates .= sprintf(
+							'<div class="x-item t-box x-item-size-15" data-key="%s">
+								<div class="t-box-pad media fix">
+									<div class="img">
+										<i class="icon-copy"></i>
+									</div>
+									<div class="bd">
+										<div class="title">%s</div>
+										<div class="desc">%s</div>
+									</div>
+								</div>
+							</div>', 
+							$template['key'], 
+							$template['name'], 
+							$template['desc']
+						);
+			
+		}
+		
+		printf('<div class="x-list">%s</div>', $templates);
+		
+	}
+	
 	function get_settings_tabs( $panel = 'site' ){
 		
 		$tabs = array();
@@ -258,7 +316,7 @@ class EditorInterface {
 	
 	<div class="pl-toolbox-pusher">
 	</div>
-	<div class="pl-toolbox">
+	<div id="PageLinesToolbox" class="pl-toolbox">
 		<div class="resizer-handle"></div>
 		<div class="toolbox-handle fix">
 			
