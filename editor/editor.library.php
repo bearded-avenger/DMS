@@ -115,8 +115,12 @@ function editor_get_raw_less( $array = false ) {
 	
 	$pless = new PageLinesLess;
 	
-	$vars = $pless->constants;
+	$vars_array = $pless->constants;
 	
+	$vars = '';
+	foreach($vars_array as $key => $value)
+		$vars .= sprintf('@%s:%s;%s', $key, $value, "\n");
+		
 	$bootstrap = $pless->add_bootstrap();
 	
 	$sections = PageLinesRenderCSS::get_all_active_sections();

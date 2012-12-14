@@ -145,7 +145,7 @@ class PageLinesLess {
 		
 	}
 
-	private function add_constants( $pless ) {
+	function add_constants( $pless ) {
 		
 		$prepend = '';
 		
