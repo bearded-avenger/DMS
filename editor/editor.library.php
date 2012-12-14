@@ -141,3 +141,25 @@ function editor_get_raw_less( $array = false ) {
 		'dynamic'	=> $dynamic
 		);	
 }
+add_filter( 'query_vars', 'pagelines_editor_less_var');
+add_action( 'template_redirect', 'pagelines_editor_less_trigger', 15);
+add_action( 'wp_head', 'pagelines_editor_less_styles', 6);
+
+function pagelines_editor_less_styles() {
+	
+	$url = home_url() . '?raw_less=1';
+	echo "\n<link rel='stylesheet' id='editor-less' href='$url' type='text/less' media='all' />\n";
+    
+}
+
+function pagelines_editor_less_var( $vars ) {
+    $vars[] = 'raw_less';
+    return $vars;
+}
+function pagelines_editor_less_trigger() {
+	if( intval( get_query_var( 'raw_less' ) ) ) {
+		header( 'Content-type: text/less' );
+		echo editor_get_raw_less();
+		exit();
+	}			
+}
