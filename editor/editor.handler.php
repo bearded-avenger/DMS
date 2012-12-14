@@ -72,6 +72,8 @@ class PageLinesTemplateHandler {
 			
 		
 		</script>
+		
+		<style id="pl-custom-less" type="text/less"></style>
 		<?php
 		
 	}

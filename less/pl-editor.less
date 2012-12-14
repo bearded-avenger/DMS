@@ -401,7 +401,7 @@
 	.toolbox-handle{
 		
 		@media (max-width: 1200px) {
-			 a .txt{
+			 .btn-toolbox .txt{
 					display: none;
 			}
 		}
@@ -649,6 +649,15 @@
 				background:#fff; 
 				margin: 0 15px 15px 0;
 				width: 370px;
+				&.codetext{
+					width: 100%;
+					textarea{
+						height: 600px;
+					}
+					
+					.codetext-label{float:left}
+					.codetext-help{float: right}
+				}
 				float: left;
 				.opt-name{
 					background:#f7f7f7;
@@ -673,7 +682,7 @@
 				width: 80px;
 				margin: 5px;
 				&.x-item-size-5{
-					width: 100px;
+					width: 120px;
 					margin: 10px;
 				}
 				&.x-item-size-10{
@@ -778,6 +787,15 @@
 
 
 
+.CodeMirror{
+	background: #fafafa;
+	box-shadow: inset 2px 2px 5px #eee;
+	border: 1px solid #cdcdcd;
+
+}
+.CodeMirror-gutter{
+	box-shadow: 1px 0 4px #eee, inset 1px 1px 0 #fff;
+}
 
 
 

@@ -76,22 +76,20 @@
 				
 			$('.ui-tabs').tabs('destroy')
 			
-			if( key == 'pl-settings'){
-				
-				var config = {
-					mode: 'settings'
-					, sid: 'settings'
-					, settings: $.pl.config.settings
-				}
-				$.optPanel.render( config )
-			}
-				
+
 			// TODO needs to work w/ multiple tabbing
 			selectedPanel.tabs({
 				activate: function(event, ui){
 					
 					if(ui.newTab.attr('data-filter'))
 						selectedPanel.find('.x-list').isotope({ filter: ui.newTab.attr('data-filter') })
+					else if (ui.newTab.attr('data-flag') && ui.newTab.attr('data-flag') == 'custom-scripts'){
+						var editor2 = CodeMirror.fromTextArea( $(".custom-scripts").get(0), {
+							'lineNumbers': true
+							,	'mode': 'text/x-less'
+							, 	'lineWrapping': true
+						})
+					}
 					
 				}
 			})
@@ -99,6 +97,33 @@
 			selectedPanel
 				.addClass('current-panel')
 				.show()
+		
+			// Has to be after shown
+			if( key == 'settings'){
+				
+				var config = {
+					mode: 'settings'
+					, sid: 'settings'
+					, settings: $.pl.config.settings
+				}
+				$.optPanel.render( config )
+				
+			} else if (key == 'pl-design'){
+				var editor = CodeMirror.fromTextArea( $(".custom-less").get(0), {
+					'lineNumbers': true
+					,	'mode': 'text/x-less'
+					, 	'lineWrapping': true
+					, 	onKeyEvent: function(instance, e){
+
+						if(e.type == 'keydown' && e.which == 13 && (e.metaKey || e.ctrlKey) ){
+							$('#pl-custom-less').text(instance.getValue())
+						}
+
+					}
+				})
+				
+				
+			}
 		
 			selectedTab.addClass('active-tab')
 			

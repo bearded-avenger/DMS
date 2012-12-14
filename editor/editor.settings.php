@@ -20,6 +20,16 @@ class EditorSettings {
 			'name' 	=> 'Basic Settings', 
 			'opts' 	=> $this->basic()
 		);
+		$this->settings['color_control'] = array(
+			'name' 	=> 'Color Control', 
+			'opts' 	=> $this->social()
+		);
+		
+		$this->settings['typography'] = array(
+			'name' 	=> 'Typography', 
+			'opts' 	=> $this->social()
+		);
+		
 		$this->settings['social_media'] = array(
 			'name' 	=> 'Social Media', 
 			'opts' 	=> $this->social()
@@ -60,7 +70,38 @@ class EditorSettings {
 				'size' 			=> 	'60',
 				'title' 		=> __( 'Mobile Touch Image', 'pagelines' ),	
 				'help'			=> __( 'Enter the full URL location of your Apple Touch Icon which is visible when your users set your site as a <strong>webclip</strong> in Apple Iphone and Touch Products. It is an image approximately 57px by 57px in either .jpg, .gif or .png format.', 'pagelines' )
-			)
+			), 
+			
+			array(
+				'type' 	=> 	'multi',
+				'title' 		=> __( 'Website Watermark', 'pagelines' ),						
+				'help' 		=> __( 'Configure your website watermark (in footer)', 'pagelines' ),
+				'opts'	=> array(
+					array(
+						'key'			=> 'watermark_image',
+						'type' 			=> 'image_upload', 
+						'label' 		=> 'Watermark Image', 
+					), 
+					array(
+						'key'			=> 'watermark_link',
+						'type' 			=> 'text', 
+						'label'			=> 'Watermark Link (Blank for None)', 
+						'default' 		=> 'http://www.pagelines.com'
+					),
+					array(
+						'key'			=> 'watermark_alt',
+						'type' 			=> 'text', 
+						'label' 		=> 'Watermark Link alt text', 
+						'default' 		=> 'Build a website with PageLines' 
+					),
+					array(
+						'key'			=> 'watermark_hide',
+						'type' 			=> 'check', 
+						'label'		 	=> "Hide Watermark"
+					)
+				),
+				
+			),
 		);
 			
 		return $settings;

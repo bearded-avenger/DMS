@@ -30,8 +30,9 @@ class EditorInterface {
 	function pl_editor_styles(){
 		
 		// Global AjaxURL variable --> http://www.garyc40.com/2010/03/5-tips-for-using-ajax-in-wordpress/
-		wp_localize_script( 'pagelines-ajax', 'PLAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+		wp_localize_script( 'codemirror', 'PLAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		
+
 		wp_enqueue_script( 'js-sprintf', $this->url . '/js/utils.sprintf.js' ); 
 		wp_enqueue_script( 'pl-editor-js', $this->url . '/js/pl.editor.js' ); 
 		wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/pl.toolbox.js', array('pagelines-bootstrap-all')); 
@@ -60,12 +61,23 @@ class EditorInterface {
 		wp_enqueue_script( 'jquery-new-ui-effect-highlight', PL_ADMIN_JS . '/jquery.ui.effect-highlight.js', array('jquery-new-ui-effect'), 1.9, true);
 		wp_enqueue_script( 'jquery-mousewheel', $this->url . '/js/utils.mousewheel.js' ); 
 	
-		wp_enqueue_script( 'form-params', $this->url . '/js/form.params.js' ); 
-		wp_enqueue_script( 'form-store', $this->url . '/js/form.store.js' ); 
+		wp_enqueue_script( 'form-params', $this->url . '/js/form.params.js', array('jquery'), '1.0.0', true ); 
+		wp_enqueue_script( 'form-store', $this->url . '/js/form.store.js', array('jquery'), '1.0.0', true ); 
 		
-		// wp_enqueue_script( 'angular', $this->url . '/angular/angular.min.js' ); 
-		// 	wp_enqueue_script( 'angular-options', $this->url . '/angular/OptionsCtrl.js', array('angular') ); 
-		// 	
+		// Prettify
+		wp_enqueue_script( 'codemirror', PL_ADMIN_JS . '/codemirror/codemirror.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_script( 'codemirror-css', PL_ADMIN_JS . '/codemirror/css/css.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_script( 'codemirror-less', PL_ADMIN_JS . '/codemirror/less/less.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_script( 'codemirror-js', PL_ADMIN_JS . '/codemirror/javascript/javascript.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_script( 'codemirror-xml', PL_ADMIN_JS . '/codemirror/xml/xml.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_script( 'codemirror-html', PL_ADMIN_JS . '/codemirror/htmlmixed/htmlmixed.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_style( 'codemirror', PL_ADMIN_JS . '/codemirror/codemirror.css' );
+		
+		// Less
+		wp_enqueue_script( 'lessjs', $this->url . '/js/utils.less.js', array('jquery'), '1.3.1', true ); 
+
+
+
 	}
 
 	function region_start( $region, $area_number ){
@@ -130,12 +142,20 @@ class EditorInterface {
 				'icon'	=> 'icon-magic',
 				'panel'	=> array(
 					'heading'	=> "Site Design",
-					'theme'		=> array('name'	=> 'Theme'),
-					'custom'	=> array('name'	=> 'Custom LESS/CSS'),
-					'advanced'	=> array('name'	=> 'Advanced')
+					
+					'user_less'	=> array(
+						'name'	=> 'Custom LESS/CSS', 
+						'call'	=> array(&$this, 'custom_less'),
+					),
+					'user_scripts'	=> array(
+						'name'	=> 'Custom Scripts', 
+						'call'	=> array(&$this, 'custom_scripts'),
+						'flag'	=> 'custom-scripts'
+					),
+					'theme'		=> array('name'	=> 'Website Theme')
 				)
 			), 
-			'pl-settings' => array(
+			'settings' => array(
 				'name'	=> 'Settings',
 				'icon'	=> 'icon-cog',
 				'panel'	=> $this->get_settings_tabs( 'site' )
@@ -296,7 +316,7 @@ class EditorInterface {
 			
 			<ul class="unstyled controls send-right">
 				<li><span class="btn-toolbox"><i class="icon-picture"></i> <span class="txt">Preview</span></span></li>
-				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish Changes</span></span></li>
+				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Update</span></span></li>
 				
 				
 			</ul>
@@ -366,7 +386,9 @@ class EditorInterface {
 			'filter'	=> '', 
 			'type'		=> 'opts', 
 			'mode'		=> '',
-			'class'		=> ''
+			'class'		=> '', 
+			'call'		=> false,
+			'flag'		=> ''
 		);
 		return $d;
 	}
@@ -398,9 +420,11 @@ class EditorInterface {
 							
 							$filter = ($t['filter'] != '') ? sprintf('data-filter="%s"', $t['filter']) : '';
 							
+							$flag = ($t['flag'] != '') ? sprintf('data-flag="%s"', $t['flag']) : '';
+							
 							$class = ($t['class'] != '') ? $t['class'] : '';
 							
-							printf('<li class="%s" %s %s><a href="%s">%s</a></li>', $class, $hook, $filter, $href, $t['name']);
+							printf('<li class="%s" %s %s %s><a href="%s">%s</a></li>', $class, $hook, $filter, $flag, $href, $t['name']);
 						}
 												
 					}
@@ -421,7 +445,7 @@ class EditorInterface {
 						
 					$content = '';
 						
-					if($t['type'] == 'call'){
+					if(isset($t['call']) && $t['call'] != ''){
 						ob_start(); 
 						call_user_func($t['call']);
 						$content = ob_get_clean();
@@ -448,6 +472,41 @@ class EditorInterface {
 			?>
 		
 		</div>
+		<?php 
+	}
+	
+	function custom_less(){
+		?>
+		<div class="opt codetext">
+			<div class="opt-name">
+				Custom LESS/CSS
+			</div>
+			<div class="opt-box">
+				<div class="codetext-meta fix">
+					<label class="codetext-label">Custom LESS/CSS</label>
+					<span class="codetext-help help-block"><span class="label label-info">Tip</span> Hit [Cmd&#8984;+Return ] or [Ctrl+Return] to Preview Live</span>
+				</div>
+				<textarea class="custom-less" style=""> </textarea>
+			</div>
+		</div>
+		
+		<?php 
+	}
+	
+	function custom_scripts(){
+		?>
+		<div class="opt codetext">
+			<div class="opt-name">
+				Custom Scripts
+			</div>
+			<div class="opt-box">
+				<div class="codetext-meta fix">
+					<label class="codetext-label">Custom Javascript or Header HTML</label>
+				</div>
+				<textarea class="custom-scripts" style=""> </textarea>
+			</div>
+		</div>
+		
 		<?php 
 	}
 	

@@ -3,7 +3,7 @@
 	$.optPanel = {
 		
 		defaults: {
-			mode: 'section'
+			mode: 'section-options'
 			, sid: ''
 			, sobj: ''
 			, clone: 0
@@ -17,7 +17,7 @@
 			
 			that.config = $.extend({}, that.defaults, typeof config == 'object' && config)
 			
-			that.panel = $('.panel-section-options')
+			that.panel = $('.panel-'+that.config.mode)
 			that.sobj = config.sobj
 			that.sid = config.sid
 			that.clone = config.clone
@@ -26,7 +26,7 @@
 					 
 //			that.setTabData()
 			
-			if(that.config.mode == 'section')
+			if(that.config.mode == 'section-options')
 				that.sectionOptionRender()
 			else if (that.config.mode == 'settings')
 				that.settingsRender( that.config.settings )
@@ -102,9 +102,11 @@
 			var that = this
 			
 			$('.opt-form.isotope').isotope( 'destroy' )
-			
-			this.panel.find('.tab-panel').each(function(){	
+		
+			that.panel.find('.tab-panel').each(function(){	
+				console.log($(this).attr('class'))
 				if($(this).is(":visible")){
+					
 					
 					that.activeForm = $(this).find('.opt-form')
 				
