@@ -260,6 +260,7 @@ if ( ploption( 'enable_debug' ) )
  * Editor
  */	
 if(defined('PL_UX_DEV') && PL_UX_DEV){
+	require_once( PL_EDITOR . '/editor.settings.php' );
 	require_once( PL_EDITOR . '/editor.interface.php' );
 	require_once( PL_EDITOR . '/editor.page.php' );
 	require_once( PL_EDITOR . '/editor.handler.php' );

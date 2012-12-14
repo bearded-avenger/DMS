@@ -75,6 +75,16 @@
 				.hide()
 				
 			$('.ui-tabs').tabs('destroy')
+			
+			if( key == 'pl-settings'){
+				
+				var config = {
+					mode: 'settings'
+					, sid: 'settings'
+					, settings: $.pl.config.settings
+				}
+				$.optPanel.render( config )
+			}
 				
 			// TODO needs to work w/ multiple tabbing
 			selectedPanel.tabs({

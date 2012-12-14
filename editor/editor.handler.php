@@ -17,7 +17,7 @@ class PageLinesTemplateHandler {
 	var $opts_list	= array();
 	var $area_number = 1;
 
-	function __construct( EditorInterface $interface, PageLinesPage $pg ) {
+	function __construct( EditorInterface $interface, PageLinesPage $pg, EditorSettings $siteset ) {
 
 
 		global $pl_section_factory; 
@@ -27,6 +27,7 @@ class PageLinesTemplateHandler {
 		// Dependancy Injection (^^)
 		$this->editor = $interface;
 		$this->page = $pg;
+		$this->siteset = $siteset;
 		
 		$this->map = $this->dummy_template_config_data();
 
@@ -62,6 +63,7 @@ class PageLinesTemplateHandler {
 						, pageTypeID: '<?php echo $this->page->type_ID;?>'
 						, pageType: '<?php echo $this->page->type;?>'
 						, opts: <?php echo json_encode($this->get_options_config(), JSON_FORCE_OBJECT); ?>
+						, settings: <?php echo json_encode($this->siteset->get_set('site'), JSON_FORCE_OBJECT); ?>
 					}
 				}
 				
@@ -71,6 +73,10 @@ class PageLinesTemplateHandler {
 		
 		</script>
 		<?php
+		
+	}
+	
+	function get_site_settings(){
 		
 	}
 	
@@ -207,7 +213,7 @@ class PageLinesTemplateHandler {
 	function page_content( $scope = 'current' ){
 		$d = array();
 		
-		if($scope = 'current'){
+		if($scope == 'current'){
 			
 			// ** Backwards Compatible Stuff ** //
 			if(!is_pagelines_special()){
@@ -220,7 +226,7 @@ class PageLinesTemplateHandler {
 				}
 			}
 			
-		} elseif($scope = 'post_type'){
+		} elseif($scope == 'post_type'){
 			
 			
 			// ** Backwards Compatible Stuff **

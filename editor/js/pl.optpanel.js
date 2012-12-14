@@ -2,11 +2,20 @@
 	
 	$.optPanel = {
 		
-		render: function( config ) {
+		defaults: {
+			mode: 'section'
+			, sid: ''
+			, sobj: ''
+			, clone: 0
+			, settings: {}
+		}
+		
+		, render: function( config ) {
 			
 			var that = this
 			,	opts
-			,	cascade = ['current', 'post_type', 'site_defaults']
+			
+			that.config = $.extend({}, that.defaults, typeof config == 'object' && config)
 			
 			that.panel = $('.panel-section-options')
 			that.sobj = config.sobj
@@ -14,27 +23,62 @@
 			that.clone = config.clone
 			that.optConfig = $.pl.config.opts
 			that.data = $.pl.data
+					 
+//			that.setTabData()
 			
-			 
-			that.setTabData()
-			
-			$.each( cascade , function(index, o) {
-					
-				tab = $("[data-panel='"+o+"']")
-			
-				opts = that.runEngine(o, config)
-
-				if(that.optConfig[that.sid] && that.optConfig[that.sid].name)
-					tab.find('legend').html( that.optConfig[that.sid].name )
-
-				tab.find('.panel-tab-content').html( opts )
-			})
+			if(that.config.mode == 'section')
+				that.sectionOptionRender()
+			else if (that.config.mode == 'settings')
+				that.settingsRender( that.config.settings )
 			
 			that.setPanel()
 			
 			that.setBinding()
 			
 			$('.ui-tabs li').on('click.options-tab', $.proxy(that.setPanel, that))
+			
+		}
+		
+		, settingsRender: function( settings ) {
+			var that = this;
+			
+			$.each( settings , function(index, o) {
+					
+				tab = $("[data-panel='"+index+"']")
+			
+				opts = that.runEngine( o.opts, index )
+
+				tab.find('.panel-tab-content').html( opts )
+				
+				
+			})
+		}
+		
+		, sectionOptionRender: function() {
+			
+			var that = this
+			, 	cascade = ['current', 'post_type', 'site_defaults']
+			, 	sid = that.config.sid
+			
+			$.each( cascade , function(index, o) {
+					
+				tab = $("[data-panel='"+o+"']")
+			
+				if(!that.optConfig[sid])
+					return
+				else 
+					opts = that.optConfig[sid].opts
+				
+			
+				opts = that.runEngine( opts, o )
+
+				if(that.optConfig[ sid ] && that.optConfig[ sid ].name)
+					tab.find('legend').html( that.optConfig[ sid ].name )
+
+				tab.find('.panel-tab-content').html( opts )
+				
+				
+			})
 			
 		}
 		
@@ -59,7 +103,7 @@
 			
 			$('.opt-form.isotope').isotope( 'destroy' )
 			
-			this.panel.find('.tab-panel').each(function(){
+			this.panel.find('.tab-panel').each(function(){	
 				if($(this).is(":visible")){
 					
 					that.activeForm = $(this).find('.opt-form')
@@ -88,37 +132,32 @@
 		
 		}
 		
-		, runEngine: function( tabIndex ){			
+		, runEngine: function( opts, tabKey ){			
 		
 			var that = this
-			, 	sid = that.sid
-			,	clone = that.clone
 			, 	optionHTML
-			, 	out = ''
-
-			if(!that.optConfig[sid]){
-				return
-			}
-
-			$.each( that.optConfig[sid].opts , function(index, o) {
+			, 	out = ''			
 			
-				
-				
-				optionHTML = that.optEngine(tabIndex, o)
+			$.each( opts , function(index, o) {
+			
+				optionHTML = that.optEngine( tabKey, o )
 				
 				out += sprintf( '<div class="opt"><div class="opt-name">%s</div><div class="opt-box">%s</div></div>', o.title, optionHTML ) 
 
 			})
+		
+			
+			return sprintf('<form class="form-%1$s-%2$s form-scope-%2$s opt-area opt-form" data-sid="%1$s" data-scope="%2$s">%3$s</form>', that.sid, tabKey, out)
 
-			return sprintf('<form class="form-%1$s-%2$s opt-area opt-form" data-sid="%1$s" data-scope="%2$s">%3$s</form>', sid, tabIndex, out)
+			
 		}
 		
-		, optValue: function(tabIndex, optionKey){
+		, optValue: function( index, key ){
 			var that = this
-			
+		
 			// Set option value
-			if(that.data[tabIndex] && that.data[tabIndex][optionKey] && that.data[tabIndex][optionKey][that.clone])
-				return that.data[tabIndex][optionKey][that.clone]
+			if(that.data[ index ] && that.data[ index ][ key ] && that.data[ index ][ key ][that.clone])
+				return that.data[ index ][ key ][that.clone]
 			else 
 				return ''
 			

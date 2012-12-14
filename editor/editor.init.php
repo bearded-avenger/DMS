@@ -39,8 +39,9 @@ class PageLinesEditor {
 	
 	function load_libs(){
 		$this->page = new PageLinesPage;
-		$this->interface = new EditorInterface( $this->page );
-		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page );
+		$this->siteset = new EditorSettings;
+		$this->interface = new EditorInterface( $this->page, $this->siteset );
+		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset );
 	}
 	
 	function process_styles(){

@@ -14,17 +14,15 @@
 class EditorInterface {
 
 
-	function __construct( PageLinesPage $pg ) {
+	function __construct( PageLinesPage $pg, EditorSettings $siteset ) {
 		
 		$this->page = $pg;
+		$this->siteset = $siteset;
 
 		add_action( 'wp_footer', array( &$this, 'control_panel' ) );
 		add_action( 'wp_print_styles', array(&$this, 'pl_editor_styles' ), 15 );
 		$this->url = PL_PARENT_URL . '/editor';
 		$this->images = $this->url . '/images';
-		
-		// angular
-		add_action( 'the_html_tag', array( &$this, 'angular_start' ) );
 		
 		add_action( 'wp_ajax_the_store_callback', array( &$this, 'the_store_callback' ) );
 	}
@@ -64,17 +62,12 @@ class EditorInterface {
 	
 		wp_enqueue_script( 'form-params', $this->url . '/js/form.params.js' ); 
 		wp_enqueue_script( 'form-store', $this->url . '/js/form.store.js' ); 
-		wp_enqueue_script( 'form-backup', $this->url . '/js/form.sisyphus.js' ); 
 		
 		// wp_enqueue_script( 'angular', $this->url . '/angular/angular.min.js' ); 
 		// 	wp_enqueue_script( 'angular-options', $this->url . '/angular/OptionsCtrl.js', array('angular') ); 
 		// 	
 	}
 
-	function angular_start(){
-		echo ' ng-app="PLApp"';
-	}
-	
 	function region_start( $region, $area_number ){
 		
 		printf( 
@@ -104,12 +97,9 @@ class EditorInterface {
 	function toolbar_config(){
 		
 		$data = array(
-			'drag-drop' => array(
-				'name'	=> 'Page Editing',
-				'icon'	=> 'icon-random'
-			),
+			
 			'add-new' => array(
-				'name'	=> 'Add',
+				'name'	=> 'Add New',
 				'icon'	=> 'icon-plus-sign',
 				'panel'	=> array(
 					'heading'	=> "Add To Page",
@@ -148,13 +138,7 @@ class EditorInterface {
 			'pl-settings' => array(
 				'name'	=> 'Settings',
 				'icon'	=> 'icon-cog',
-				'panel'	=> array(
-					'heading'	=> "Global Settings",
-					'basic'		=> array('name'	=> 'Basic Setup'),
-					'colors'	=> array('name'	=> 'Color Control'),
-					'type'		=> array('name'	=> 'Typography'),
-					'advanced'	=> array('name'	=> 'Advanced')
-				)
+				'panel'	=> $this->get_settings_tabs( 'site' )
 			), 
 			'pl-extend' => array(
 				'name'	=> 'Extend',
@@ -214,16 +198,12 @@ class EditorInterface {
 					'heading'		=> "Section Options",
 					'current'	=> array(
 						'name'	=> 'Current Page <span class="label">'.$this->page->id.'</span>',
-						'filter'=> 'current'
 					),
 					'post_type'	=> array(
 						'name'	=> 'Post Type <span class="label">'.$this->page->type.'</span>',
-					
-						'filter'=> 'post-type'
 					),
 					'site_defaults'	=> array(
-						'name'	=> 'Sitewide Defaults', 
-						'filter'=> 'site-defaults'
+						'name'	=> 'Sitewide Defaults', 		
 					),
 				)
 				
@@ -231,6 +211,23 @@ class EditorInterface {
 		);
 		
 		return $data;
+		
+	}
+	
+	function get_settings_tabs( $panel = 'site' ){
+		
+		$tabs = array();
+		
+		if($panel == 'site'){
+			$tabs['heading'] = 'Global Settings'; 
+		
+			foreach( $this->siteset->get_set('site') as $tabkey => $tab ){
+				$tabs[ $tabkey ] = array('key' => $tabkey, 'name' => $tab['name']);
+			}
+		
+		}
+		
+		return $tabs;
 		
 	}
 	
@@ -298,8 +295,8 @@ class EditorInterface {
 			</ul>
 			
 			<ul class="unstyled controls send-right">
-			
-				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish</span></span></li>
+				<li><span class="btn-toolbox"><i class="icon-picture"></i> <span class="txt">Preview</span></span></li>
+				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish Changes</span></span></li>
 				
 				
 			</ul>
@@ -429,7 +426,7 @@ class EditorInterface {
 						call_user_func($t['call']);
 						$content = ob_get_clean();
 					} else {
-						$content = 'content --> ' . rand();
+						$content = sprintf('<div class="error-panel">There was an issue rendering the panel. (%s)</div>', rand());
 					}
 			
 					
