@@ -22,12 +22,12 @@ class EditorSettings {
 		);
 		$this->settings['color_control'] = array(
 			'name' 	=> 'Color Control', 
-			'opts' 	=> $this->social()
+			'opts' 	=> $this->color()
 		);
 		
 		$this->settings['typography'] = array(
 			'name' 	=> 'Typography', 
-			'opts' 	=> $this->social()
+			'opts' 	=> $this->type()
 		);
 		
 		$this->settings['social_media'] = array(
@@ -110,6 +110,8 @@ class EditorSettings {
 	
 	function social(){
 		
+		
+		
 		$settings = array(
 			array(
 				'key'		=> 'twittername', 
@@ -125,6 +127,86 @@ class EditorSettings {
 				'title' 	=> __( 'Website Hashtag', 'pagelines' ),
 				'help'	 	=> __( 'This hashtag will be used in social media (e.g. Twitter) and elsewhere to create feeds.', 'pagelines' )
 			),
+
+
+		);
+	
+			
+		return $settings;
+		
+	}
+	
+	function type(){
+		
+		$settings = array(
+			array(
+				'key'		=> 'font_primary', 
+				'type' 		=> 'type',
+				'label' 	=> __( 'Primary Site Font', 'pagelines' ),
+				'title' 	=> __( 'Primary Site Font', 'pagelines' ),
+				'help' 		=> __( '', 'pagelines' ), 
+				
+			)
+
+
+		);
+	
+			
+		return $settings;
+		
+	}
+	
+	function color(){
+		
+		$settings = array(
+			array(
+				'key'		=> 'canvas_colors', 
+				'type' 		=> 'multi',
+				'label' 	=> __( 'Page Background Colors', 'pagelines' ),
+				'title' 	=> __( 'Page Background Colors', 'pagelines' ),
+				'help' 		=> __( 'Configure the basic background colors for your site', 'pagelines' ), 
+				'opts'		=> array(
+					array(	
+						'key'			=> 'bodybg',
+						'type'			=> 'color',			
+						'label' 		=> __( 'Body Background', 'pagelines' ),
+					),
+					array(	
+						'key'			=> 'pagebg',
+						'type'			=> 'color',		
+						'label' 		=> __( 'Page Background (Optional)', 'pagelines' ),
+						),
+					array(		
+						'key'			=> 'contentbg',
+						'type'			=> 'color',
+						'label' 		=> __( 'Content Background (Optional)', 'pagelines' ),
+					)
+				)		
+			),
+			array(
+				'key'		=> 'text_colors', 
+				'type' 		=> 'multi',
+				'label' 	=> __( 'Site Text Colors', 'pagelines' ),
+				'title' 	=> __( 'Site Text Colors', 'pagelines' ),
+				'help' 		=> __( 'Configure the basic text colors for your site', 'pagelines' ), 
+				'opts'		=> array(
+					array(	
+						'key'			=> 'bodybg',
+						'type'			=> 'color',			
+						'label' 		=> __( 'Main Text Color', 'pagelines' ),
+					),
+					array(	
+						'key'			=> 'pagebg',
+						'type'			=> 'color',		
+						'label' 		=> __( 'Text Header Color', 'pagelines' ),
+						),
+					array(		
+						'key'			=> 'contentbg',
+						'type'			=> 'color',
+						'label' 		=> __( 'Primary Link Color', 'pagelines' ),
+					)
+				)		
+			)
 
 
 		);

@@ -23,8 +23,6 @@
 			that.clone = config.clone
 			that.optConfig = $.pl.config.opts
 			that.data = $.pl.data
-					 
-//			that.setTabData()
 			
 			if(that.config.mode == 'section-options')
 				that.sectionOptionRender()
@@ -50,6 +48,7 @@
 
 				tab.find('.panel-tab-content').html( opts )
 				
+				that.runScriptEngine( index, o.opts )
 				
 			})
 		}
@@ -90,10 +89,6 @@
 				var scope = that.activeForm.data('scope')
 				
 				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
-
-				
-			//	console.log($.pl.data[scope])
-
 				
 			})
 		}
@@ -104,10 +99,9 @@
 			$('.opt-form.isotope').isotope( 'destroy' )
 		
 			that.panel.find('.tab-panel').each(function(){	
-				console.log($(this).attr('class'))
+	
 				if($(this).is(":visible")){
-					
-					
+						
 					that.activeForm = $(this).find('.opt-form')
 				
 					that.optScope = that.activeForm.data('scope')
@@ -184,6 +178,13 @@
 				
 			}
 			
+			else if( o.type == 'color' ){
+				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
+				oHTML += sprintf('<div class="input-prepend"><span class="btn add-on trigger-color"> <i class="icon-tint"></i> </span><input type="text" id="%1$s" class="color-%1$s" value="%2$s" /></div>', o.key, o.value )
+				
+			}
+			
+		
 			else if( o.type == 'image_upload' ){
 			
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
@@ -240,6 +241,25 @@
 				
 			}
 			
+			else if( o.type == 'type' ){
+				
+				var select_opts = ''
+				
+				if($.pl.config.fonts){
+					console.log($.pl.config.fonts)
+					$.each($.pl.config.fonts, function(skey, s){
+						var google = (s.google) ? ' G' : ''
+						, 	webSafe = (s.web_safe) ? ' *' : ''
+						
+						select_opts += sprintf('<option value="%s">%s%s%s</option>', skey, s.name, google, webSafe)
+					})
+				}
+				
+				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
+				oHTML += sprintf('<select id="%s">%s</select>', o.key, select_opts)
+			}
+		
+			
 			else {
 				oHTML += sprintf('<div class="needed">%s Type Still Needed</div>', o.type)
 			}
@@ -252,6 +272,52 @@
 			return oHTML
 		}
 		
+		, runScriptEngine: function ( tabIndex, opts ) {
+			
+			var that = this
+			$.each(opts, function(index, o){
+				that.scriptEngine(tabIndex, o)
+			})
+		
+		}
+		
+		, scriptEngine: function( tabIndex, o ) {
+		
+			var that = this
+
+				
+			// Multiple Options
+			if( o.type == 'multi' ){
+				if(o.opts){
+					$.each( o.opts , function(index, osub) {
+
+						that.scriptEngine(tabIndex, osub) // recursive
+
+					})
+				}
+
+			}
+
+			else if( o.type == 'color' ){
+			
+				$('.color-'+o.key).colorpicker({
+					onSelect: function(color, inst){
+	
+					}
+				})
+				
+				$('.trigger-color').on('click', function(){
+					$(this)
+						.next()
+						.find('input')
+						.focus()
+				})
+
+			}
+		
+		
+		
+		}
 		
 	
 	}

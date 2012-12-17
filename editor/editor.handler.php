@@ -17,7 +17,7 @@ class PageLinesTemplateHandler {
 	var $opts_list	= array();
 	var $area_number = 1;
 
-	function __construct( EditorInterface $interface, PageLinesPage $pg, EditorSettings $siteset ) {
+	function __construct( EditorInterface $interface, PageLinesPage $pg, EditorSettings $siteset, PageLinesFoundry $foundry ) {
 
 
 		global $pl_section_factory; 
@@ -28,6 +28,7 @@ class PageLinesTemplateHandler {
 		$this->editor = $interface;
 		$this->page = $pg;
 		$this->siteset = $siteset;
+		$this->foundry = $foundry;
 		
 		$this->map = $this->dummy_template_config_data();
 
@@ -64,6 +65,7 @@ class PageLinesTemplateHandler {
 						, pageType: '<?php echo $this->page->type;?>'
 						, opts: <?php echo json_encode($this->get_options_config(), JSON_FORCE_OBJECT); ?>
 						, settings: <?php echo json_encode($this->siteset->get_set('site'), JSON_FORCE_OBJECT); ?>
+						, fonts: <?php echo json_encode($this->foundry->foundry, JSON_FORCE_OBJECT); ?>
 					}
 				}
 				

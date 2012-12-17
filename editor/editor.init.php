@@ -40,8 +40,9 @@ class PageLinesEditor {
 	function load_libs(){
 		$this->page = new PageLinesPage;
 		$this->siteset = new EditorSettings;
+		$this->foundry = new PageLinesFoundry;
 		$this->interface = new EditorInterface( $this->page, $this->siteset );
-		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset );
+		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset, $this->foundry );
 	}
 	
 	function process_styles(){
