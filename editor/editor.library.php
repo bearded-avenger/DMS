@@ -86,7 +86,7 @@ function get_store_mixed(){
  		}
 		
 
- 		return $output;
+ 		return shuffle( $output ); // shuffle is a temporary work around for demo purposes until we get something algorhythmic
 	}
 
 function the_store_callback(){
@@ -141,9 +141,9 @@ function editor_get_raw_less( $array = false ) {
 		'dynamic'	=> $dynamic
 		);	
 }
-add_filter( 'query_vars', 'pagelines_editor_less_var');
-// add_action( 'template_redirect', 'pagelines_editor_less_trigger', 15);
-// add_action( 'wp_head', 'pagelines_editor_less_styles', 6);
+//add_filter( 'query_vars', 'pagelines_editor_less_var');
+//add_action( 'template_redirect', 'pagelines_editor_less_trigger', 15);
+//add_action( 'wp_head', 'pagelines_editor_less_styles', 6);
 
 function pagelines_editor_less_styles() {
 	
