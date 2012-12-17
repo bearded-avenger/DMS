@@ -221,7 +221,7 @@
 			, 	image = element.data('image')
 			, 	imageHTML = sprintf('<div class="banner-frame"><img class="section-thumb" src="%s" /></div>', image )
 			, 	text = sprintf('<h3 class="banner-title">%s</h3>', name )
-			, 	refresh = '<div class="banner-refresh" style="display: none;"><a href="#" class="btn btn-info">Refresh Page To Load <i class="icon-undo"></i></a></div>'
+			, 	refresh = '<div class="banner-refresh" style="display: none;"><a href="#" class="btn btn-info"><i class="icon-undo"></i> Refresh Page To Load</a></div>'
 			, 	theHTML = sprintf('<div class="pl-refresh-banner">%s %s %s</div>', imageHTML, text, refresh)
 			
 			element

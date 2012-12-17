@@ -34,6 +34,11 @@ class EditorSettings {
 			'name' 	=> 'Social Media', 
 			'opts' 	=> $this->social()
 		);	
+		
+		$this->settings['advanced'] = array(
+			'name' 	=> 'Advanced', 
+			'opts' 	=> $this->social()
+		);
 	}
 	
 	function get_set( $panel = 'site' ){
@@ -139,14 +144,29 @@ class EditorSettings {
 	function type(){
 		
 		$settings = array(
+			
+			array(
+				'key'		=> 'font_headers', 
+				'type' 		=> 'type',
+				'label' 	=> __( 'Text Header Font', 'pagelines' ),
+				'title' 	=> __( 'Text Header Font', 'pagelines' ),
+				
+			), 
 			array(
 				'key'		=> 'font_primary', 
 				'type' 		=> 'type',
 				'label' 	=> __( 'Primary Site Font', 'pagelines' ),
 				'title' 	=> __( 'Primary Site Font', 'pagelines' ),
-				'help' 		=> __( '', 'pagelines' ), 
+				
+			),
+			array(
+				'key'		=> 'font_secondary', 
+				'type' 		=> 'type',
+				'label' 	=> __( 'Secondary Site Font', 'pagelines' ),
+				'title' 	=> __( 'Secondary Site Font', 'pagelines' ),
 				
 			)
+			
 
 
 		);

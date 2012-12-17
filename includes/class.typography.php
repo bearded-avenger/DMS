@@ -21,6 +21,18 @@ class PageLinesFoundry {
 
 	}
 	
+	function get_foundry(){
+		
+		foreach($this->foundry as $key => $f){
+			if($f['google']){
+				$gfont = $this->gfont_key($key); 
+				$this->foundry[$key]['gfont'] = $gfont;
+				$this->foundry[$key]['gfont_uri'] = $this->gfont_base_uri . $gfont;
+			}
+		}
+		return $this->foundry;
+	}
+	
 	function set_gfont_protocol() {
 		
 		if ( is_ssl() || has_action( 'pl_force_ssl' ) )

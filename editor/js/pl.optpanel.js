@@ -246,17 +246,20 @@
 				var select_opts = ''
 				
 				if($.pl.config.fonts){
-					console.log($.pl.config.fonts)
 					$.each($.pl.config.fonts, function(skey, s){
 						var google = (s.google) ? ' G' : ''
 						, 	webSafe = (s.web_safe) ? ' *' : ''
+						, 	uri	= (s.google) ? s.gfont_uri : ''
 						
-						select_opts += sprintf('<option value="%s">%s%s%s</option>', skey, s.name, google, webSafe)
+						select_opts += sprintf('<option data-family=\'%s\' data-gfont=\'%s\' value="%s">%s%s%s</option>', s.family, uri, skey, s.name, google, webSafe)
 					})
 				}
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<select id="%s">%s</select>', o.key, select_opts)
+				oHTML += sprintf('<select id="%s" class="font-selector">%s</select>', o.key, select_opts)
+				
+				oHTML += sprintf('<label for="preview-%s">Font Preview</label>', o.key)
+				oHTML += sprintf('<textarea class="type-preview" id="preview-%s" style="">The quick brown fox jumps over the lazy dog.</textarea>', o.key)
 			}
 		
 			
@@ -275,8 +278,48 @@
 		, runScriptEngine: function ( tabIndex, opts ) {
 			
 			var that = this
+			
+			that.onceOffScripts( tabIndex, opts )
+			
 			$.each(opts, function(index, o){
 				that.scriptEngine(tabIndex, o)
+			})
+		
+		}
+		
+		, onceOffScripts: function( tabIndex, o ) {
+		
+			// Color picker buttons
+			$('.trigger-color').on('click', function(){
+				$(this)
+					.next()
+					.find('input')
+					.focus()
+			})
+			
+			// Font previewing
+			$('.font-selector').on('change', function(){
+
+				var	key = $(this).attr('id')
+				,	selectOpt = $(this).find('option:selected')
+				, 	fam = selectOpt.data('family')
+				, 	uri	= selectOpt.data('gfont')
+				, 	ggl	= (uri != '') ? true : false
+				, 	loader = 'loader'+key
+			
+				if(ggl){
+					if( $('#'+loader).length != 0 )
+						$('#'+loader).attr('href', uri)
+					else 
+						$('head').append( sprintf('<link rel="stylesheet" id="%s" href="%s" />', loader, uri) )
+				} else {
+					$('#'+loader).remove()
+				}
+
+				$(this)
+					.next()
+					.next()
+					.css('font-family', fam)
 			})
 		
 		}
@@ -301,17 +344,10 @@
 			else if( o.type == 'color' ){
 			
 				$('.color-'+o.key).colorpicker({
-					onSelect: function(color, inst){
-	
-					}
+					onSelect: function(color, inst){}
 				})
 				
-				$('.trigger-color').on('click', function(){
-					$(this)
-						.next()
-						.find('input')
-						.focus()
-				})
+			
 
 			}
 		
