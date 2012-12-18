@@ -155,7 +155,7 @@ class PageLines_ShortCodes {
 	 	$bookmark = get_bookmark( $id );
 	
 		if( isset( $text ) ) $ltext = $text;
-		else $ltext = $bookmark->link_name;; 
+		else $ltext = $bookmark->link_name;
 
 
 		$pagelink = "<a href=\"".$bookmark->link_url."\" target=\"".$bookmark->link_target."\">".$ltext."</a>";

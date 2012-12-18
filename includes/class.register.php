@@ -242,7 +242,7 @@ class PageLinesRegister {
 					$url = plugins_url( $file );
 					
 					$base_url = sprintf( '%s/sections%s', $url, $folder );
-					$base_dir =  sprintf( '%ssections%s', $dir, $folder );;
+					$base_dir =  sprintf( '%ssections%s', $dir, $folder );
 					
 				}
 				$base_dir = ( isset( $base_dir ) ) ? $base_dir : PL_SECTIONS . $folder;

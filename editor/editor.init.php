@@ -24,7 +24,7 @@ class PageLinesEditor {
 		
 		add_action('wp', array(&$this, 'load_libs' ));
 		
-		add_action('wp_print_styles', array(&$this, 'process_styles' ));
+		add_action('wp_enqueue_scripts', array(&$this, 'process_styles' ));
 		add_action( 'wp_head', array(&$this, 'process_head' ) );
 		
 		// RENDER ACTIONS
@@ -43,12 +43,15 @@ class PageLinesEditor {
 		$this->foundry = new PageLinesFoundry;
 		$this->interface = new EditorInterface( $this->page, $this->siteset );
 		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset, $this->foundry );
+		$this->editor_less = new EditorLess;
 	}
 	
 	function process_styles(){
 
 		
 		pagelines_add_bodyclass('pl-editor');
+		
+		$this->editor_less->enqueue_styles();
 		
 		$this->handler->process_styles();
 	}

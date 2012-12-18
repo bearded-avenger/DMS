@@ -115,7 +115,7 @@ function gallery_filter( $a, $template_name) {
 		return false;
 }
 
-new PageLinesRenderCSS;
+$GLOBALS['render_css'] = new PageLinesRenderCSS;
 
 add_action( 'template_redirect', 'pl_check_integrations' );
 
