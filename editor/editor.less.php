@@ -26,6 +26,7 @@ class EditorLess {
 
 		
 	// these were uses to enqueue the raw files, didnt work.
+	//	$this->enqueue_core_less();
 
 		$this->enqueue_less();
 		$this->create_file();	
@@ -116,6 +117,9 @@ class EditorLess {
 			$less .= pl_file_get_contents( trailingslashit( PL_CORE_LESS ) . $file . '.less' );
 
 		}
+
+		$less .= $this->get_sections();
+
 		$this->write_css_file( $less );
 	}
 
@@ -178,6 +182,45 @@ class EditorLess {
 			return trailingslashit( $folder['baseurl'] ) . 'pagelines'; 	
 	}
 	
+		function get_sections() {
+		
+		$out = '';
+		global $load_sections;
+		$available = $load_sections->pagelines_register_sections( true, true );
+
+		$disabled = get_option( 'pagelines_sections_disabled', array() );
+
+		/*
+		* Filter out disabled sections
+		*/
+		foreach( $disabled as $type => $data )
+			if ( isset( $disabled[$type] ) )
+				foreach( $data as $class => $state )
+					unset( $available[$type][ $class ] );
+
+		/*
+		* We need to reorder the array so sections css is loaded in the right order.
+		* Core, then pagelines-sections, followed by anything else. 
+		*/
+		$sections = array();
+		$sections['parent'] = $available['parent'];
+		unset( $available['parent'] );
+		$sections['child'] = (array) $available['child'];
+		unset( $available['child'] );
+		if ( is_array( $available ) )
+			$sections = array_merge( $sections, $available );
+		foreach( $sections as $t ) {
+			foreach( $t as $key => $data ) {
+				if ( $data['less'] && $data['loadme'] ) {						
+					if ( is_file( $data['base_dir'] . '/style.less' ) )
+						$out .= pl_file_get_contents( $data['base_dir'] . '/style.less' );
+					elseif( is_file( $data['base_dir'] . '/color.less' ))
+						$out .= pl_file_get_contents( $data['base_dir'] . '/color.less' );	
+				}
+			}	
+		}
+		return apply_filters('pagelines_lesscode', $out);
+	}
 /*
 	// experimenting with escaping the less variables...
 	function escape( $value ) {
