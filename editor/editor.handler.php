@@ -67,22 +67,24 @@ class PageLinesTemplateHandler {
 						, settings: <?php echo json_encode($this->siteset->get_set('site'), JSON_FORCE_OBJECT); ?>
 						, fonts: <?php echo json_encode($this->foundry->get_foundry(), JSON_FORCE_OBJECT); ?>
 					}
+					, map: {
+						header: {}
+						, footer: {}
+						, template: {}
+					}
 				}
 				
 			
 			}(window.jQuery);
-			
-		
 		</script>
 		
 		<style id="pl-custom-less" type="text/less"></style>
+		
 		<?php
 		
 	}
 	
-	function get_site_settings(){
-		
-	}
+	function get_site_settings(){ }
 	
 	function get_options_config(){
 		

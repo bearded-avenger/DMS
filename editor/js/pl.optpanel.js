@@ -63,7 +63,7 @@
 					
 				tab = $("[data-panel='"+o+"']")
 			
-				if(!that.optConfig[sid])
+				if( !that.optConfig[sid] )
 					return
 				else 
 					opts = that.optConfig[sid].opts
@@ -347,14 +347,9 @@
 					onSelect: function(color, inst){}
 				})
 				
-			
-
 			}
 		
-		
-		
 		}
-		
 	
 	}
 	

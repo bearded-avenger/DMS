@@ -37,7 +37,7 @@ class EditorSettings {
 		
 		$this->settings['advanced'] = array(
 			'name' 	=> 'Advanced', 
-			'opts' 	=> $this->social()
+			'opts' 	=> $this->advanced()
 		);
 	}
 	
@@ -234,6 +234,34 @@ class EditorSettings {
 			
 		return $settings;
 		
+	}
+	
+	function advanced(){
+		
+		$settings = array(
+			array(
+					'key'		=> 'load_prettify_libs',
+					'type'		=> 'check',
+					'label'		=> __( 'Enable Code Prettify?', 'pagelines' ),
+					'title'		=> __( 'Google Prettify Code', 'pagelines' ),
+					'help'		=> __( "Add a class of 'prettyprint' to code or pre tags, or optionally use the [pl_codebox] shortcode. Wrap the codebox shortcode using [pl_raw] if Wordpress inserts line breaks.", 'pagelines' )
+			),
+			array(
+					'key'		=> 'partner_link',
+					'type'		=> 'text',
+					'label'		=> __( 'Enter Partner Link', 'pagelines' ),
+					'title'		=> __( 'PageLines Affiliate/Partner Link', 'pagelines' ),
+					'help'		=> __( "If you are a <a target='_blank' href='http://www.pagelines.com'>PageLines Partner</a> enter your link here and the footer link will become a partner or affiliate link.", 'pagelines' )
+			),
+			array(
+					'key'		=> 'special_body_class',
+					'type'		=> 'text',
+					'label'		=> __( 'Install Class', 'pagelines' ),
+					'title'		=> __( 'Current Install Class', 'pagelines' ),
+					'help'		=> __( "Use this option to add a class to the &gt;body&lt; element of the website. This can be useful when using the same child theme on several installations or sub domains and can be used to control CSS customizations.", 'pagelines' )
+			)
+		);	
+		return $settings;
 	}
 
 }
