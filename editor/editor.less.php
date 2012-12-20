@@ -6,37 +6,17 @@ class EditorLess {
 		
 	function enqueue_styles() {
 		
-		return; // REMOVE TO ENABLE
-		
-		
-		// need to enqueue a STATIC vars file.
-		// we need to enqueue all available less files.
-		
-		// add constants + imports to head
-		add_action( 'wp_head', array( &$this, 'add_constants' ), 4);
-
 		// remove main compiles-css
 		add_action( 'wp_print_styles', array( &$this, 'dequeue_css' ), 12 );
 
 		// add stylesheet/less to wp_enqueue_styles
-		add_filter( 'style_loader_tag', array( &$this, 'enqueue_less_styles' ), 5, 2);
+		add_filter( 'style_loader_tag', array( &$this, 'fix_less_styletag' ), 5, 2);
 
-
-//		add_action( 'wp_head', array( &$this, 'make_imports' ), 3);
-
-		
-	// these were uses to enqueue the raw files, didnt work.
-	//	$this->enqueue_core_less();
-
-		$this->enqueue_less();
 		$this->create_file();	
+		$this->enqueue_less();
+
 	}
 	
-	function add_constants() {		
-		printf( "<style id='pl-custom-less' type='text/less'>%s</style>\n",
-		$this->get_constants()
-		);
-	}
 	
 	function get_constants() {
 
@@ -59,46 +39,6 @@ class EditorLess {
 	function get_core_less() {
 		
 		$less = array( 'variables', 'mixins', 'colors' );
-	
-
-		return array( 
-
-			'variables',
-			'mixins',
-			'colors',
-			'reset', 
-			'pl-core', 
-			'pl-wordpress',
-			'pl-plugins',
-			'grid',
-			'alerts',
-			'labels-badges',
-			'tooltip-popover',
-			'buttons',
-			'type',
-//			'dropdowns',
-			'accordion',
-			'carousel',
-			'responsive',
-			'navs',
-			'modals',
-			'thumbnails',
-			'component-animations',
-			'utilities',
-			'pl-objects',
-			'pl-tables',
-			'pl-editor',
-			'wells',
-//			'forms',
-			'breadcrumbs', 
-			'close', 
-			'pager', 
-			'pagination',
-//			'progress-bars', 
-			'icons',
-			'fileupload'
-			);
-
 		global $render_css;
 		return array_merge( $less, $render_css->get_core_lessfiles() );
 	}
@@ -129,15 +69,15 @@ class EditorLess {
 		wp_enqueue_style( 'editor-less', $this->get_css_dir( 'url' ) . '/editor.less' );
 	}
 
-	function enqueue_less_styles($tag, $handle) {
+	function fix_less_styletag( $tag, $handle ) {
 	    global $wp_styles;
 	    $match_pattern = '/\.less$/U';
 	    if ( preg_match( $match_pattern, $wp_styles->registered[$handle]->src ) ) {
 	        $handle = $wp_styles->registered[$handle]->handle;
 	        $media = $wp_styles->registered[$handle]->args;
 	        $href = $wp_styles->registered[$handle]->src;
-	        $rel = isset($wp_styles->registered[$handle]->extra['alt']) && $wp_styles->registered[$handle]->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
-	        $title = isset($wp_styles->registered[$handle]->extra['title']) ? "title='" . esc_attr( $wp_styles->registered[$handle]->extra['title'] ) . "'" : '';
+	        $rel = isset( $wp_styles->registered[$handle]->extra['alt'] ) && $wp_styles->registered[$handle]->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
+	        $title = isset( $wp_styles->registered[$handle]->extra['title'] ) ? "title='" . esc_attr( $wp_styles->registered[$handle]->extra['title'] ) . "'" : '';
 
 	        $tag = "<link rel='stylesheet/less' href='$href' type='text/css'>\n";
 	    }
@@ -222,6 +162,13 @@ class EditorLess {
 		return apply_filters('pagelines_lesscode', $out);
 	}
 /*
+
+	function add_constants() {		
+		printf( "<style id='pl-custom-less' type='text/less'>%s</style>\n",
+		$this->get_constants()
+		);
+	}
+
 	// experimenting with escaping the less variables...
 	function escape( $value ) {
 	
