@@ -37,7 +37,7 @@ if(!has_action('override_pagelines_body_output')):
 	</div>
 
 <?php pagelines_register_hook('pagelines_before_footer'); // Hook ?>
-	<footer id="footer" class="footer pl-region">
+	<footer id="footer" class="footer pl-region" data-region="footer">
 		<div class="page-area outline fix">
 		<?php 
 			pagelines_template_area('pagelines_footer', 'footer'); // Hook 
