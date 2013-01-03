@@ -86,6 +86,8 @@ class PageLinesTemplateHandler {
 		
 	}
 	
+
+	
 	function dummy_template_config_data(){
 			$t = array();
 
@@ -94,7 +96,7 @@ class PageLinesTemplateHandler {
 			// --> --> Sections
 
 			$t['template'] = array(
-				1	=> array(
+				array(
 					'area'	=> 'TemplateAreaID',
 					'content'	=> array(
 						array(

@@ -83,6 +83,96 @@ class EditorInterface {
 
 
 	}
+	
+	function dummy_saved_templates(){
+		
+		$t = array(
+			'default' => array(
+				'key'	=> 'default',
+				'name'	=> 'Default Page', 
+				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
+				'map'	=> array(
+					array(
+						'area'	=> 'TemplateAreaID',
+						'content'	=> array(
+							array(
+								'object'	=> 'PLColumn',
+								'span' 	=> 8,
+								'content'	=> array( 
+									'PageLinesPostLoop' => array( ), 
+									'PageLinesComments' 	=> array( ),	
+								)
+							),
+							array(
+								'object'	=> 'PLColumn',
+								'span' 	=> 4,
+								'content'	=> array( 
+									'PrimarySidebar' => array( )
+								)
+							),
+						)
+					)
+				)
+			), 
+			'feature' => array(
+				'key'	=> 'feature',
+				'name'	=> 'Feature Page', 
+				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
+				'map'	=> array(
+					array(
+						'area'	=> 'TemplateAreaID',
+						'content'	=> array(
+							array(
+								'object'	=> 'PLColumn',
+								'span' 	=> 8,
+								'content'	=> array( 
+									'PageLinesPostLoop' => array( ), 
+									'PageLinesComments' 	=> array( ),	
+								)
+							),
+							array(
+								'object'	=> 'PLColumn',
+								'span' 	=> 4,
+								'content'	=> array( 
+									'PrimarySidebar' => array( )
+								)
+							),
+						)
+					)
+				)
+			), 
+			'landing' => array(
+				'key'	=> 'landing',
+				'name'	=> 'Landing Page', 
+				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
+				'map'	=> array(
+					array(
+						'area'	=> 'TemplateAreaID',
+						'content'	=> array(
+							array(
+								'object'	=> 'PLColumn',
+								'span' 	=> 8,
+								'content'	=> array( 
+									'PageLinesPostLoop' => array( ), 
+									'PageLinesComments' 	=> array( ),	
+								)
+							),
+							array(
+								'object'	=> 'PLColumn',
+								'span' 	=> 4,
+								'content'	=> array( 
+									'PrimarySidebar' => array( )
+								)
+							),
+						)
+					)
+				)
+			)
+			
+		);
+		
+		return $t;
+	}
 
 	function region_start( $region, $area_number ){
 		
@@ -249,39 +339,17 @@ class EditorInterface {
 	
 	function custom_templates(){
 		
-		$dummy = array(
-			array(
-				'key'	=> 'key',
-				'name'	=> 'title', 
-				'desc'	=> 'description goes here...', 
-				'map'	=> 'the actual template mapping'
-			),
-			array(
-				'key'	=> 'key',
-				'name'	=> 'title', 
-				'desc'	=> 'description goes here...', 
-				'map'	=> 'the actual template mapping'
-			),
-			array(
-				'key'	=> 'key',
-				'name'	=> 'title', 
-				'desc'	=> 'description goes here...', 
-				'map'	=> 'the actual template mapping'
-			),
-		); 
-		
 		$templates = '';
-		foreach($dummy as $index => $template){
+		foreach($this->dummy_saved_templates() as $index => $template){
 			
 			$templates .= sprintf(
-							'<div class="x-item t-box x-item-size-15" data-key="%s">
-								<div class="t-box-pad media fix">
-									<div class="img">
-										<i class="icon-copy"></i>
-									</div>
-									<div class="bd">
-										<div class="title">%s</div>
-										<div class="desc">%s</div>
+							'<div class="list-item" data-key="%s">
+								<div class="list-item-pad fix">
+									<div class="title">%s</div>
+									<div class="desc">%s</div>
+									<div class="btns">
+										<a class="btn btn-mini btn-primary">Load Template</a>
+										<a class="btn btn-mini">Delete</a>
 									</div>
 								</div>
 							</div>', 
@@ -292,7 +360,7 @@ class EditorInterface {
 			
 		}
 		
-		printf('<div class="x-list">%s</div>', $templates);
+		printf('<div class="y-list">%s</div>', $templates);
 		
 	}
 	
