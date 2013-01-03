@@ -122,6 +122,9 @@
 					}
 				})
 				
+			} else if (key == 'pl-extend' ){
+				
+			//	$.xList.renderList( $('[data-panel="store"]'), $.pl.extend )
 				
 			}
 		
@@ -175,7 +178,24 @@
 	
 	$.xList = {
 		
-		listStart: function( panel, key ){
+		renderList: function( panel, list ){
+			var items = ''
+		
+			// console.log(list)
+			// return
+			$.each( list , function(index, l) {
+			
+				items += sprintf('<div class="x-item %s"><div class="x-item-frame"><img src="%s" /></div></div>', l.class, l.thumb)
+			})
+			
+			output = sprintf('<div class="x-list">%s</div>', items)
+		
+			panel.find('.panel-tab-content').html( output )
+			
+			
+		}
+		
+		, listStart: function( panel, key ){
 		
 			var layout = (key == 'pl-extend') ? 'masonry' : 'fitRows'; 
 			
@@ -419,10 +439,60 @@
         , reloadConfig: function() {
 		
 			$('.pl-sortable-area').each(function () {
-				$.pageBuilder.alignGrid( this );
-			});
+				$.pageBuilder.alignGrid( this )
+			})
+			
+			$.pageBuilder.storeConfig( );
 
         }
+
+		, storeConfig: function() {
+			
+			var map = {}
+			
+			$('.pl-region').each( function(regionIndex, o) {
+				
+				var region = $(this).data('region')
+				, 	areaConfig = []
+				
+				$(this).find('.pl-area').each( function(areaIndex, o2) {
+					
+					var area = $(this)
+					,	areaContent	= []
+					, 	areaSet = {}
+				
+					$(this).find('.pl-section').each( function(sectionIndex, o3) {
+
+						var section = $(this)
+						, 	set = {}
+						
+						set.object = section.data('object')
+						set.clone = section.data('clone')
+						set.sid = section.data('sid')
+						set.span = $.pageBuilder.getColumnSize( section )[ 4 ]
+						set.offset = $.pageBuilder.getOffsetSize( section )[ 3 ]
+						
+						areaContent.push(set)
+
+					})
+					
+					areaSet = {
+						area: ''
+						, content: areaContent
+					}
+				
+					areaConfig.push(areaSet)
+					
+				})
+				
+				map[region] = areaConfig
+				
+			})
+			
+			$.pl.map = map
+			
+		
+		}
 
 		, isAreaEmpty: function(area){
 			var addTo = (area.hasClass('pl-column-sortable')) ? area.parent() : area

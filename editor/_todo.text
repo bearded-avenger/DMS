@@ -1,3 +1,7 @@
+* Serialize order of sections/area and convert to JSON on every move
+	* Store in Header DOM
+* Make icons in store better looking
+
 * Sidebars are going to be deprecated? 
 * AJAX Image Uploaders
 * Color Pickers

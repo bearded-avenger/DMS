@@ -410,7 +410,7 @@ class EditorInterface {
 		$list = '';
 		foreach($sections as $key => $s){
 			$list .= sprintf(
-				'<section class="x-item pl-section pl-sortable span12 sortable-first sortable-last" data-name="%s" data-image="%s"><div class="x-item-frame"><img src="%s" /><div class="x-item-text">%s</div></div></section>', 
+				'<section class="x-item pl-section pl-sortable span12 sortable-first sortable-last" data-name="%s" data-image="%s"><div class="x-item-frame"><img src="%s" /></div><div class="x-item-text">%s</div></section>', 
 				$s->name,
 				$s->screenshot,
 				$s->screenshot, 
@@ -425,6 +425,7 @@ class EditorInterface {
 	function the_store_callback(){
 		
 		$items = '';
+	
 		foreach(store_mixed_array() as $key => $item){
 			$class = array();
 			$class[] = $item['type'];

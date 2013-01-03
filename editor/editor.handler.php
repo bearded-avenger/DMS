@@ -59,6 +59,11 @@ class PageLinesTemplateHandler {
 						, post_type:  <?php echo json_encode($this->page_content('post_type'), JSON_FORCE_OBJECT); ?>
 						, site_defaults:  <?php echo json_encode($this->page_content('defaults'), JSON_FORCE_OBJECT); ?>
 					}
+					, map: {
+						header: {}
+						, footer: {}
+						, template: {}
+					}
 					, config: {
 						pageID: '<?php echo $this->page->id;?>'
 						, pageTypeID: '<?php echo $this->page->type_ID;?>'
@@ -67,11 +72,8 @@ class PageLinesTemplateHandler {
 						, settings: <?php echo json_encode($this->siteset->get_set('site'), JSON_FORCE_OBJECT); ?>
 						, fonts: <?php echo json_encode($this->foundry->get_foundry(), JSON_FORCE_OBJECT); ?>
 					}
-					, map: {
-						header: {}
-						, footer: {}
-						, template: {}
-					}
+					, extend: <?php echo json_encode( store_mixed_array(), JSON_FORCE_OBJECT); ?>
+					
 				}
 				
 			
@@ -82,6 +84,82 @@ class PageLinesTemplateHandler {
 		
 		<?php
 		
+	}
+	
+	function dummy_template_config_data(){
+			$t = array();
+
+			// Regions
+			// --> Areas
+			// --> --> Sections
+
+			$t['template'] = array(
+				1	=> array(
+					'area'	=> 'TemplateAreaID',
+					'content'	=> array(
+						array(
+							'object'	=> 'PLMasthead'
+						), 
+						array(
+							'object'	=> 'PageLinesBoxes'
+						),
+						array(
+							'object'	=> 'PageLinesBoxes',
+							'clone'	=> 1, 
+							'span'	=> 6,
+						),
+						array(
+							'object'	=> 'PageLinesHighlight'
+						),
+						array(
+							'object'	=> 'PLColumn',
+							'span' 	=> 8,
+							'content'	=> array( 
+								'PageLinesPostLoop' => array( ), 
+								'PageLinesComments' 	=> array(),	
+							)
+						),
+						array(
+							'object'	=> 'PLColumn',
+							'clone'	=> 1, 
+							'span' 	=> 4,
+							'content'	=> array( 
+								'PrimarySidebar' => array( )
+							)
+						),
+					)
+				)
+
+			);
+
+			$t['header'] = array(
+				array(
+					'areaID'	=> 'HeaderArea',
+					'content'	=> array(
+						array(
+							'object'	=> 'PageLinesBranding'
+						),
+						array(
+							'object'	=> 'PLNavBar'
+						),
+					)
+				)
+
+			);
+
+			$t['footer'] = array(
+				array(
+					'areaID'	=> 'FooterArea',
+					'content'	=> array(
+						array(
+							'object'	=> 'SimpleNav'
+						)
+					)
+				)
+
+			);
+
+			return $t;
 	}
 	
 	function get_site_settings(){ }
@@ -271,81 +349,7 @@ class PageLinesTemplateHandler {
 		return $d;
 	}
 	
-	function dummy_template_config_data(){
-			$t = array();
 
-			// Regions
-			// --> Areas
-			// --> --> Sections
-
-			$t['template'] = array(
-				1	=> array(
-					'area'	=> 'TemplateAreaID',
-					'content'	=> array(
-						array(
-							'object'	=> 'PLMasthead'
-						), 
-						array(
-							'object'	=> 'PageLinesBoxes'
-						),
-						array(
-							'object'	=> 'PageLinesBoxes',
-							'clone'	=> 1, 
-							'span'	=> 6,
-						),
-						array(
-							'object'	=> 'PageLinesHighlight'
-						),
-						array(
-							'object'	=> 'PLColumn',
-							'span' 	=> 8,
-							'content'	=> array( 
-								'PageLinesPostLoop' => array( ), 
-								'PageLinesComments' 	=> array(),	
-							)
-						),
-						array(
-							'object'	=> 'PLColumn',
-							'clone'	=> 1, 
-							'span' 	=> 4,
-							'content'	=> array( 
-								'PrimarySidebar' => array( )
-							)
-						),
-					)
-				)
-
-			);
-
-			$t['header'] = array(
-				array(
-					'areaID'	=> 'HeaderArea',
-					'content'	=> array(
-						array(
-							'object'	=> 'PageLinesBranding'
-						),
-						array(
-							'object'	=> 'PLNavBar'
-						),
-					)
-				)
-
-			);
-
-			$t['footer'] = array(
-				array(
-					'areaID'	=> 'FooterArea',
-					'content'	=> array(
-						array(
-							'object'	=> 'SimpleNav'
-						)
-					)
-				)
-
-			);
-
-			return $t;
-	}
 	
 
 	function meta_defaults($key){

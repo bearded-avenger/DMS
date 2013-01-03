@@ -2,9 +2,20 @@
 
 class EditorLess {
 	
-	function __construct() {}
+	function __construct( PageLinesLess $pless ) {
+		
+		global $wp_styles;
+		
+		$this->wp_styles = $wp_styles;
+		
+		// Dependancy Injection (^^)
+		$this->pless = $pless;
+		
+	}
 		
 	function enqueue_styles() {
+		
+		return;
 		
 		// remove main compiles-css
 		add_action( 'wp_print_styles', array( &$this, 'dequeue_css' ), 12 );
@@ -70,22 +81,31 @@ class EditorLess {
 	}
 
 	function fix_less_styletag( $tag, $handle ) {
+		
 	    global $wp_styles;
+	
 	    $match_pattern = '/\.less$/U';
+	
 	    if ( preg_match( $match_pattern, $wp_styles->registered[$handle]->src ) ) {
-	        $handle = $wp_styles->registered[$handle]->handle;
-	        $media = $wp_styles->registered[$handle]->args;
-	        $href = $wp_styles->registered[$handle]->src;
-	        $rel = isset( $wp_styles->registered[$handle]->extra['alt'] ) && $wp_styles->registered[$handle]->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
-	        $title = isset( $wp_styles->registered[$handle]->extra['title'] ) ? "title='" . esc_attr( $wp_styles->registered[$handle]->extra['title'] ) . "'" : '';
+		
+			$handle = $wp_styles->registered[$handle];
+		
+	        $handle = $handle->handle;
+	        $media = $handle->args;
+	        $href = $handle->src;
+	        $rel = isset( $handle->extra['alt'] ) && $handle->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
+	        $title = isset( $handle->extra['title'] ) ? "title='" . esc_attr( $handle->extra['title'] ) . "'" : '';
 
 	        $tag = "<link rel='stylesheet/less' href='$href' type='text/css'>\n";
 	    }
+	
 	    return $tag;
 	}
 
 	function write_css_file( $txt ){
 
+		global $wp_filesystem;
+		
 		add_filter('request_filesystem_credentials', '__return_true' );
 
 		$method = '';
@@ -99,20 +119,21 @@ class EditorLess {
 
 		include_once( ABSPATH . 'wp-admin/includes/file.php' );
 
-	if ( is_writable( $folder ) ){
-		$creds = request_filesystem_credentials($url, $method, false, false, null);
-		if ( ! WP_Filesystem($creds) )
-			return false;
-	}
-
-			global $wp_filesystem;
-			if( is_object( $wp_filesystem ) )
-				$wp_filesystem->put_contents( trailingslashit( $folder ) . $file, $txt, FS_CHMOD_FILE);
-			else
+		if ( is_writable( $folder ) ){
+			$creds = request_filesystem_credentials($url, $method, false, false, null);
+			if ( ! WP_Filesystem($creds) )
 				return false;
+		}
+
+		
+		if( is_object( $wp_filesystem ) )
+			$wp_filesystem->put_contents( trailingslashit( $folder ) . $file, $txt, FS_CHMOD_FILE);
+		else
+			return false;
 
 	}
-		function get_css_dir( $type = '' ) {
+	
+	function get_css_dir( $type = '' ) {
 		
 		$folder = wp_upload_dir();
 		
@@ -122,7 +143,7 @@ class EditorLess {
 			return trailingslashit( $folder['baseurl'] ) . 'pagelines'; 	
 	}
 	
-		function get_sections() {
+	function get_sections() {
 		
 		$out = '';
 		global $load_sections;
@@ -133,22 +154,35 @@ class EditorLess {
 		/*
 		* Filter out disabled sections
 		*/
-		foreach( $disabled as $type => $data )
-			if ( isset( $disabled[$type] ) )
-				foreach( $data as $class => $state )
+		foreach( $disabled as $type => $data ){
+			
+			if ( isset( $disabled[$type] ) ){
+				
+				foreach( $data as $class => $state ){
 					unset( $available[$type][ $class ] );
-
+				}
+				
+			}
+			
+		}
+		
 		/*
 		* We need to reorder the array so sections css is loaded in the right order.
 		* Core, then pagelines-sections, followed by anything else. 
 		*/
 		$sections = array();
+		
 		$sections['parent'] = $available['parent'];
+		
 		unset( $available['parent'] );
+		
 		$sections['child'] = (array) $available['child'];
+		
 		unset( $available['child'] );
+		
 		if ( is_array( $available ) )
 			$sections = array_merge( $sections, $available );
+			
 		foreach( $sections as $t ) {
 			foreach( $t as $key => $data ) {
 				if ( $data['less'] && $data['loadme'] ) {						
@@ -159,7 +193,9 @@ class EditorLess {
 				}
 			}	
 		}
+		
 		return apply_filters('pagelines_lesscode', $out);
+		
 	}
 /*
 

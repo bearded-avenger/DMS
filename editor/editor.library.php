@@ -25,7 +25,7 @@ function store_mixed_array(){
 	}
 	
 	return $store_mixed_array;
-	
+//	return get_store_mixed();
 }
 
 function get_store_mixed(){
@@ -33,26 +33,27 @@ function get_store_mixed(){
  	global $extension_control;
 
  	if( ! is_object( $extension_control ) ) {
- 		
-
- 	require_once ( PL_ADMIN . '/class.extend.php' );
-	require_once ( PL_ADMIN . '/class.extend.ui.php' );
-	require_once ( PL_ADMIN . '/class.extend.actions.php' );
-	require_once ( PL_ADMIN . '/class.extend.integrations.php' );
-	require_once ( PL_ADMIN . '/class.extend.themes.php' );
-	require_once ( PL_ADMIN . '/class.extend.plugins.php' );
-	require_once ( PL_ADMIN . '/class.extend.sections.php' );
-	$extension_control = new PagelinesExtensions;
+	 	require_once ( PL_ADMIN . '/class.extend.php' );
+		require_once ( PL_ADMIN . '/class.extend.ui.php' );
+		require_once ( PL_ADMIN . '/class.extend.actions.php' );
+		require_once ( PL_ADMIN . '/class.extend.integrations.php' );
+		require_once ( PL_ADMIN . '/class.extend.themes.php' );
+		require_once ( PL_ADMIN . '/class.extend.plugins.php' );
+		require_once ( PL_ADMIN . '/class.extend.sections.php' );
+		$extension_control = new PagelinesExtensions;
 	}
  	$raw =  $extension_control->get_latest_cached( 'all', 100 );
+
 	if( ! is_object( $raw ) )
 		return null;
+		
  	// $raw holds everything straight from the server as the logged in user.
 
  	// right lets make this uber array...
 
  	$output = array();
-
+	$class = array(); 
+	
  	foreach ( $raw as $key => $data) {
 
 		unset( $tags );
@@ -68,7 +69,11 @@ function get_store_mixed(){
 			$tags[] = 'premium';
 		else
 			$tags[] = 'free';
-
+			
+		$class[] = $data->type;
+		
+		$class[] = ($data->type == 'themes') ? 'x-item-size-10' : 'x-item-size-5';
+		
  		$output[] = array(
 
 				'id'		=> $data->slug,  	// unique id
@@ -80,14 +85,14 @@ function get_store_mixed(){
 				'downloads'	=> $data->count,  			// number of downloads
 				'featured'	=> $data->featured, 			// is it featured?
 				'emphasis'	=> '7', 			// emphasis in teh store, can use this to control size in isotope
-				'tags'		=> implode( ',', $tags)
-
- 			);
- 		}
+				'tags'		=> implode( ',', $tags),
+				'class'		=> implode(' ', $class)
+ 		);
+ 	}
 		
 
- 		return shuffle( $output ); // shuffle is a temporary work around for demo purposes until we get something algorhythmic
-	}
+ 	return $output; //shuffle( $output ); // shuffle is a temporary work around for demo purposes until we get something algorhythmic
+}
 
 function the_store_callback(){
  

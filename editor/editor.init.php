@@ -43,13 +43,16 @@ class PageLinesEditor {
 		$this->foundry = new PageLinesFoundry;
 		$this->interface = new EditorInterface( $this->page, $this->siteset );
 		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset, $this->foundry );
-		$this->editor_less = new EditorLess;
+		
 	}
 	
 	function process_styles(){
 
 		
 		pagelines_add_bodyclass('pl-editor');
+		
+		$pless = new PageLinesLess;
+		$this->editor_less = new EditorLess($pless);
 		
 		$this->editor_less->enqueue_styles();
 		
