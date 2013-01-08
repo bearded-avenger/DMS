@@ -22,11 +22,14 @@
 		
 		startUp: function(){
 			
-			$.pageBuilder.reloadConfig()
+			$.pageBuilder.reloadConfig( 'start' )
 			
 			this.theToolBox = $('body').toolbox()
 			
-			this.onStart()
+			this.stateInit('drag-drop', function() { 
+				$.pageBuilder.showEditingTools() 
+			})
+		
 			
 			this.listener()
 			
@@ -47,13 +50,37 @@
 				var btn = $(this)
 				, 	btnAction = btn.data('action')
 			
-				if( btnAction == 'drag-drop' )
-					that.stateInit(btnAction, function() { $.pageBuilder.show() }, function() { $.pageBuilder.hide() }, true)
+				if( btnAction == 'drag-drop' ){
+					
+					that.stateInit(
+						btnAction
+						, function() { $.pageBuilder.showEditingTools() }
+						, function() { $.pageBuilder.hide() }
+						, true
+					)
 				
-				else if(btn.hasClass('btn-panel'))
+				} else if(btn.hasClass('btn-panel'))
 					that.showPanel(btnAction)
 				
 				
+			})
+			
+			$(".load-template").on("click.loadTemplate", function(e) {
+			
+				e.preventDefault()
+				
+				var key = $(this).closest('.list-item').data('key')
+				, 	confirmText = "<h3>Are you sure?</h3><p>Loading a new template will overwrite the current template configuration.</p>"
+					
+				// modal
+				bootbox.confirm( confirmText, function( result ){
+					console.log(result)
+		
+				})
+				
+				// save persistent
+				
+				// 
 			})
         }
 		
@@ -134,11 +161,6 @@
 			
 			$.xList.listStart(selectedPanel, key)
 			
-		}
-
-		, onStart: function(){
-			
-			this.stateInit('drag-drop', function() { $.pageBuilder.show() })
 		}
 		
 		, stateInit: function( key, call_on_true, call_on_false, toggle ){
@@ -254,17 +276,7 @@
 
 	// Page Drag/Drop Builder
     $.pageBuilder = {
-		// 
-		// onStart: function(){
-		// 
-		// 	var localState = ( localStorage.getItem( 'plDragDrop' ) )
-		// 	,	theState = (localState == 'true') ? true : false
-		// 	
-		// 	if(theState)
-		// 		$.pageBuilder.show()
-		// 	
-		// }
-	
+
 		toggle: function( ){
 			
 			var localState = ( localStorage.getItem( 'drag-drop' ) )
@@ -274,7 +286,7 @@
 				
 				theState = true 
 				
-				$.pageBuilder.show()
+				$.pageBuilder.showEditingTools()
 				
 			} else {
 				
@@ -288,7 +300,7 @@
 				
 		}
 		
-		, show: function() {
+		, showEditingTools: function() {
 			
 			// Graphical Flare
 			$('.pl-sortable').effect('highlight', 1500)
@@ -299,8 +311,6 @@
 		
 			// JS
 			$.pageBuilder.startDroppable()
-			
-			$.pageBuilder.reloadConfig()
 			
 			$.pageBuilder.sectionControls()
 			
@@ -424,20 +434,16 @@
 					
 				}
 				
-				$.pageBuilder.reloadConfig()
+				$.pageBuilder.reloadConfig( 'section-control' )
 				
 			})
 		
 		}
 	
-		, saveConfig: function(){
-
-			$.pageBuilder.reloadConfig()
+		
+        , reloadConfig: function( source ) {
+			console.log(source)
 			
-		}
-		
-        , reloadConfig: function() {
-		
 			$('.pl-sortable-area').each(function () {
 				$.pageBuilder.alignGrid( this )
 			})
@@ -448,7 +454,9 @@
 
 		, storeConfig: function() {
 			
-			var map = {}
+			var that = this
+			,	map = {}
+			
 			
 			$('.pl-region').each( function(regionIndex, o) {
 				
@@ -461,18 +469,13 @@
 					,	areaContent	= []
 					, 	areaSet = {}
 				
-					$(this).find('.pl-section').each( function(sectionIndex, o3) {
+					$(this).find('.pl-section.level1').each( function(sectionIndex, o3) {
 
 						var section = $(this)
-						, 	set = {}
 						
-						set.object = section.data('object')
-						set.clone = section.data('clone')
-						set.sid = section.data('sid')
-						set.span = $.pageBuilder.getColumnSize( section )[ 4 ]
-						set.offset = $.pageBuilder.getOffsetSize( section )[ 3 ]
+						set = that.sectionConfig( section )
 						
-						areaContent.push(set)
+						areaContent.push( set )
 
 					})
 					
@@ -481,7 +484,7 @@
 						, content: areaContent
 					}
 				
-					areaConfig.push(areaSet)
+					areaConfig.push( areaSet )
 					
 				})
 				
@@ -491,7 +494,54 @@
 			
 			$.pl.map = map
 			
+			that.ajaxSaveMap( map )
+			
+			return map
+			
 		
+		}
+		
+		, sectionConfig: function( section ){
+			
+			var that = this
+			,	set = {}
+			
+			set.object = section.data('object')
+			set.clone = section.data('clone')
+			set.sid = section.data('sid')
+			set.span = that.getColumnSize( section )[ 4 ]
+			set.offset = that.getOffsetSize( section )[ 3 ]
+			set.content = []
+			
+			section.find('.pl-section.level2').each( function() {
+			
+				set.content.push( that.sectionConfig( $(this) ) )
+				
+			})
+			
+			return set
+			
+		}
+
+		, ajaxSaveMap: function( map ){
+		
+			var saveData = {
+				action: 'pl_save_map_draft'
+				,	map: map
+				,	page: $.pl.config.pageID
+				, 	special: $.pl.config.isSpecial
+			}
+			
+			$.ajax( {
+				type: 'POST'
+				, url: ajaxurl
+				, data: saveData	
+				, success: function( response ){
+					console.log( response )
+				}
+			})
+		
+			
 		}
 
 		, isAreaEmpty: function(area){
@@ -506,39 +556,44 @@
 
         , alignGrid: function( area ) {
 		
-            var total_width = 0
+            var that = this
+			,	total_width = 0
             ,	width = 0
             ,	next_width = 0
 			,	avail_offset = 0
 			, 	sort_area = $(area)
 			, 	len = sort_area.children(".pl-sortable").length
-	
-  			this.isAreaEmpty( sort_area )
+			
+  			that.isAreaEmpty( sort_area )
 
             sort_area.children(".pl-sortable").each( function ( index ) {
 				
                 var section = $(this)
-				,	col_size = $.pageBuilder.getColumnSize( section )
-				,	off_size = $.pageBuilder.getOffsetSize( section )
+				,	col_size = that.getColumnSize( section )
+				,	off_size = that.getOffsetSize( section )
 				
 				
 				if(sort_area.hasClass('pl-column-sortable')){
 				
-					if(section.hasClass('sortable-1st-level')){
+					if(section.hasClass('level1')){
 						section
-							.removeClass('sortable-1st-level')
+							.removeClass('level1')
 							.removeClass(col_size[0])
 							.removeClass(off_size[0])
-							.addClass('span12 offset0')
+							.addClass('span12 offset0 level2')
 							
-						col_size = this.getColumnSize( section, true )
-						off_size = this.getOffsetSize( section, true )
+						col_size = that.getColumnSize( section, true )
+						off_size = that.getOffsetSize( section, true )
+					} else {
+						section
+							.addClass('level2')
 					}
 					
 				} else {
 					
 					section
-						.addClass("sortable-1st-level")
+						.removeClass("level2")
+						.addClass("level1")
 					
 				}
 				
@@ -591,8 +646,9 @@
 
 		, getOffsetSize: function( column, defaultValue ) {
 			
-			var max = 12
-			,	sizes = $.pageBuilder.getColumnSize( column )
+			var that = this
+			,	max = 12
+			,	sizes = that.getColumnSize( column )
 			,	avail = max - sizes[4]
 			,	data = []
 
@@ -648,7 +704,7 @@
 
 		, startDroppable: function(){
 			
-		
+			var that = this
 			
 		    $('.pl-sortable-area').sortable({
 			
@@ -708,7 +764,7 @@
 		
 		        }
 				, update: function() {
-					$.pageBuilder.reloadConfig()
+					that.reloadConfig( 'update-sortable' )
 				}
 				
 		    })
@@ -718,7 +774,7 @@
 				,	accept: ".pl-section"
 				,	hoverClass: "wpb_ui-state-active"
 				,	drop: function( event, ui ) {
-						jQuery.pageBuilder.reloadConfig();
+		    			that.reloadConfig( 'drop' )
 					}
 			})
 			
@@ -742,7 +798,7 @@
 			    	}
 				,	drop: function( event, ui ) {
 			        	//console.log(jQuery(this));
-			        	jQuery(this).parent().removeClass("wpb_ui-state-active");
+			        	$(this).parent().removeClass("wpb_ui-state-active");
 			        	getElementMarkup(jQuery(this), ui.draggable, "addLastClass");
 			    	}
 			})
@@ -908,47 +964,4 @@
 	
 	
 }(window.jQuery);
-
-
-
-
-
-
-
-
-
-/* Get initial html markup for content element. This function
-   use AJAX to run do_shortcode and then place output code into
-   main content holder
----------------------------------------------------------- */
-function getElementMarkup (target, element, action) {
-
-	var data = {
-		action: 'pl_save_pagebuilder',
-		element: element.attr('id'),
-		data_element: element.attr('data-element'),
-		data_width: element.attr('data-width')
-	};
-
-	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-	jQuery.post(ajaxurl, data, function(response) {
-		//alert('Got this from the server: ' + response);
-		//jQuery(target).append(response);
-
-		//Fire INIT callback if it is defined
-		//jQuery(response).find(".wpb_vc_init_callback").each(function(index) {
-        // target.removeClass('empty_column');
-        // 		jQuery(target).append(response).find(".wpb_vc_init_callback").each(function(index) {
-        // 			var fn = window[jQuery(this).attr("value")];
-        // 			if ( typeof fn === 'function' ) {
-        // 			    fn(jQuery(this).closest('.wpb_content_element').removeClass('empty_column'));
-        // 			}
-        // 		});
-        //         jQuery.wpb_composer.isMainContainerEmpty();
-
-		
-		jQuery.pageBuilder.reloadConfig();
-	});
-
-} // end getElementMarkup()
 

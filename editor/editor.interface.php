@@ -76,6 +76,9 @@ class EditorInterface {
 		// Less
 		wp_enqueue_script( 'lessjs', $this->url . '/js/utils.less.js', array('jquery'), '1.3.1', true ); 
 		
+		// Less
+		wp_enqueue_script( 'bootbox', $this->url . '/js/utils.bootbox.js', array('jquery'), '3.0.0', true );
+		
 		// Colorpicker
 		wp_enqueue_style( 'css3colorpicker', $this->url . '/js/colorpicker/colorpicker.css');
 		wp_enqueue_script( 'css3colorpicker', $this->url . '/js/colorpicker/colorpicker.js', array('jquery'), '1.3.1', true );
@@ -226,7 +229,7 @@ class EditorInterface {
 				'panel'	=> array(
 					'heading'	=> "Page Templates",
 					'tmp_load'	=> array(
-						'name'	=> 'Custom Templates', 
+						'name'	=> 'Your Templates', 
 						'call'	=> array(&$this, 'custom_templates'),
 					),
 					'tmp_theme'	=> array(
@@ -348,8 +351,8 @@ class EditorInterface {
 									<div class="title">%s</div>
 									<div class="desc">%s</div>
 									<div class="btns">
-										<a class="btn btn-mini btn-primary">Load Template</a>
-										<a class="btn btn-mini">Delete</a>
+										<a class="btn btn-mini btn-primary load-template">Load Template</a>
+										<a class="btn btn-mini delete-template">Delete</a>
 									</div>
 								</div>
 							</div>', 
@@ -474,11 +477,17 @@ class EditorInterface {
 	
 	function add_stuff_callback(){
 		$sections = get_available_sections(); 
-	
+	//	plprint($sections);
+		
+		$section_classes = 'pl-section pl-sortable span12 sortable-first sortable-last';
 		$list = '';
 		foreach($sections as $key => $s){
+			
 			$list .= sprintf(
-				'<section class="x-item pl-section pl-sortable span12 sortable-first sortable-last" data-name="%s" data-image="%s"><div class="x-item-frame"><img src="%s" /></div><div class="x-item-text">%s</div></section>', 
+				'<section class="x-item %s" data-object="%s" data-sid="%s" data-name="%s" data-image="%s"><div class="x-item-frame"><img src="%s" /></div><div class="x-item-text">%s</div></section>', 
+				$section_classes,
+				$s->class_name,
+				$s->id,
 				$s->name,
 				$s->screenshot,
 				$s->screenshot, 

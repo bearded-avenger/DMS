@@ -17,7 +17,7 @@ class PageLinesTemplateHandler {
 	var $opts_list	= array();
 	var $area_number = 1;
 
-	function __construct( EditorInterface $interface, PageLinesPage $pg, EditorSettings $siteset, PageLinesFoundry $foundry ) {
+	function __construct( EditorInterface $interface, PageLinesPage $pg, EditorSettings $siteset, PageLinesFoundry $foundry, EditorMap $map) {
 
 
 		global $pl_section_factory; 
@@ -30,11 +30,11 @@ class PageLinesTemplateHandler {
 		$this->siteset = $siteset;
 		$this->foundry = $foundry;
 		
-		$this->map = $this->dummy_template_config_data();
-
-		
+		$this->map = $map->get_map();
 
 		$this->parse_config();
+		
+//		plprint($this->map);
 		
 		$this->setup_processing();
 		
@@ -68,6 +68,7 @@ class PageLinesTemplateHandler {
 						pageID: '<?php echo $this->page->id;?>'
 						, pageTypeID: '<?php echo $this->page->type_ID;?>'
 						, pageType: '<?php echo $this->page->type;?>'
+						, isSpecial: '<?php echo $this->page->is_special();?>'
 						, opts: <?php echo json_encode($this->get_options_config(), JSON_FORCE_OBJECT); ?>
 						, settings: <?php echo json_encode($this->siteset->get_set('site'), JSON_FORCE_OBJECT); ?>
 						, fonts: <?php echo json_encode($this->foundry->get_foundry(), JSON_FORCE_OBJECT); ?>
@@ -84,84 +85,6 @@ class PageLinesTemplateHandler {
 		
 		<?php
 		
-	}
-	
-
-	
-	function dummy_template_config_data(){
-			$t = array();
-
-			// Regions
-			// --> Areas
-			// --> --> Sections
-
-			$t['template'] = array(
-				array(
-					'area'	=> 'TemplateAreaID',
-					'content'	=> array(
-						array(
-							'object'	=> 'PLMasthead'
-						), 
-						array(
-							'object'	=> 'PageLinesBoxes'
-						),
-						array(
-							'object'	=> 'PageLinesBoxes',
-							'clone'	=> 1, 
-							'span'	=> 6,
-						),
-						array(
-							'object'	=> 'PageLinesHighlight'
-						),
-						array(
-							'object'	=> 'PLColumn',
-							'span' 	=> 8,
-							'content'	=> array( 
-								'PageLinesPostLoop' => array( ), 
-								'PageLinesComments' 	=> array(),	
-							)
-						),
-						array(
-							'object'	=> 'PLColumn',
-							'clone'	=> 1, 
-							'span' 	=> 4,
-							'content'	=> array( 
-								'PrimarySidebar' => array( )
-							)
-						),
-					)
-				)
-
-			);
-
-			$t['header'] = array(
-				array(
-					'areaID'	=> 'HeaderArea',
-					'content'	=> array(
-						array(
-							'object'	=> 'PageLinesBranding'
-						),
-						array(
-							'object'	=> 'PLNavBar'
-						),
-					)
-				)
-
-			);
-
-			$t['footer'] = array(
-				array(
-					'areaID'	=> 'FooterArea',
-					'content'	=> array(
-						array(
-							'object'	=> 'SimpleNav'
-						)
-					)
-				)
-
-			);
-
-			return $t;
 	}
 	
 	function get_site_settings(){ }
@@ -361,6 +284,7 @@ class PageLinesTemplateHandler {
 		$defaults = array(
 			'id'		=> $key,
 			'object'	=> $key,
+			'offset'	=> 0,
 			'clone'		=> 0,  
 			'content'	=> array(),
 			'span'		=> 12,
@@ -541,7 +465,7 @@ class PageLinesTemplateHandler {
 		
 
 		$span = (isset($s->meta['span'])) ? sprintf('span%s', $s->meta['span']) : 'span12';
-		$offset = (isset($s->meta['offset'])) ? sprintf('offset%s', $s->meta['span']) : 'offset0';
+		$offset = (isset($s->meta['offset'])) ? sprintf('offset%s', $s->meta['offset']) : 'offset0';
 		$clone = $s->meta['clone'];
 		
 		$class[] = sprintf("pl-section fix section-%s", $sid);
