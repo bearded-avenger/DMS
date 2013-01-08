@@ -5,12 +5,6 @@
 	// --> Initialize 
 	$(document).ready(function() {
 
-		$('.pl-inner').addClass('editor-row')
-		
-		$('.pl-area .pl-content .pl-inner').addClass('pl-sortable-area')
-
-		$('.outline').addClass('pl-area-container')
-
 		$('.pl-sortable-area .pl-section').addClass('pl-sortable')
 
 		$.pageTools.startUp()
@@ -264,7 +258,7 @@
 			, 	image = element.data('image')
 			, 	imageHTML = sprintf('<div class="banner-frame"><img class="section-thumb" src="%s" /></div>', image )
 			, 	text = sprintf('<h3 class="banner-title">%s</h3>', name )
-			, 	refresh = '<div class="banner-refresh" style="display: none;"><a href="#" class="btn btn-info"><i class="icon-undo"></i> Refresh Page To Load</a></div>'
+			, 	refresh = '<div class="banner-refresh" style="display: none;"><a href="javascript:history.go(0)" class="btn btn-info"><i class="icon-undo"></i> Refresh Page To Load</a></div>'
 			, 	theHTML = sprintf('<div class="pl-refresh-banner">%s %s %s</div>', imageHTML, text, refresh)
 			
 			element
@@ -304,7 +298,7 @@
 		, showEditingTools: function() {
 			
 			// Graphical Flare
-			$('.pl-sortable').effect('highlight', 1500)
+			$('.pl-section').effect('highlight', 1500)
 			$('[data-action="drag-drop"]').addClass('active')
 			
 			// Enable CSS
@@ -709,7 +703,7 @@
 			
 		    $('.pl-sortable-area').sortable({
 			
-		        items: 	".pl-section"
+		        items: 	".pl-sortable"
 				,	placeholder: "pl-placeholder"
 				,	connectWith: ".pl-sortable-area"
 				,	forcePlaceholderSize: true
@@ -718,6 +712,7 @@
 				,	scrollSensitivity: 200
 				,	scrollSpeed: 40
 		        ,	cursor: "move"
+				,	cursorAt: { top: 10, left: 10 }
 				,	distance: 0.5
 				,	delay: 100
 				
@@ -725,9 +720,6 @@
 					$('body')
 						.addClass('pl-dragging')
 						.toolbox('hide')
-					
-					$('.pl-section')
-						.effect('highlight', '#ff0000', 1000)
 					
 					if(ui.item.hasClass('x-item'))
 						$.xList.switchOnAdd(ui.item)

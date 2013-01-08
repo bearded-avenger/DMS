@@ -191,7 +191,11 @@ jQuery(window).load(function() {
 			
 			global $post_ID;
 			
-			$oset = array('post_id' => $post_ID, 'clone_id' => $settings['clone_id'], 'type' => $settings['type']);
+			$oset = array(
+				'post_id' => $post_ID, 
+				'clone_id' => $settings['clone_id'], 
+				'type' => $settings['type']
+			);
 			
 			$slides = (ploption('quick_slides', $oset)) ? ploption('quick_slides', $oset) : $this->default_limit;
 			

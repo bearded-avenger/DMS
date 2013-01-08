@@ -112,11 +112,14 @@ class PageLinesSection {
 	
 		$this->screenshot = $this->settings['screenshot'] = ( is_file( sprintf( '%s/thumb.png', $this->base_dir ) ) ) ? sprintf( '%s/thumb.png', $this->base_url ) : PL_ADMIN_IMAGES . '/thumb-default.png';
 
+
 		$this->optionator_default = array(
 			'clone_id'	=> 1,
 			'active'	=> true, 
-			'mode'		=> null
+			'mode'		=> null, 
+			'type'		=> ''
 		);
+		
 		load_plugin_textdomain($this->id, false, sprintf( 'pagelines-sections/%s/lang', $this->id ) );
 		
 

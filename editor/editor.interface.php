@@ -190,15 +190,25 @@ class EditorInterface {
 	function area_start($a){
 		
 		printf( 
-			'<div class="pl-area area-tag" data-area-number="%s">%s<div class="pl-content"><div class="pl-inner">', 
+			'<div class="pl-area area-tag" data-area-number="%s">%s<div class="pl-content"><div class="pl-inner pl-sortable-area editor-row">%s', 
 			$a['area_number'], 
-			$this->area_controls($a)
+			$this->area_controls($a),
+			$this->area_sortable_buffer()
 		); 
 		
 	}
 	
+	/* 
+	 * Used to allow for dropping at top of area, gets around floated element problems
+	 */ 
+	function area_sortable_buffer(){
+		
+		return sprintf('<div class="pl-sortable pl-sortable-buffer span12 offset0"></div>');
+		
+	}
+	
 	function area_end(){
-		echo '</div></div></div>';
+		printf('%s</div></div></div>', $this->area_sortable_buffer());
 	}
 	
 
@@ -352,13 +362,15 @@ class EditorInterface {
 									<div class="desc">%s</div>
 									<div class="btns">
 										<a class="btn btn-mini btn-primary load-template">Load Template</a>
+										<a class="btn btn-mini load-template">Make "%s" Default</a>
 										<a class="btn btn-mini delete-template">Delete</a>
 									</div>
 								</div>
 							</div>', 
 							$template['key'], 
 							$template['name'], 
-							$template['desc']
+							$template['desc'],
+							$this->page->type
 						);
 			
 		}
@@ -448,8 +460,7 @@ class EditorInterface {
 			</ul>
 			
 			<ul class="unstyled controls send-right">
-				<li><span class="btn-toolbox"><i class="icon-picture"></i> <span class="txt">Preview</span></span></li>
-				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Update</span></span></li>
+				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish</span></span></li>
 				
 				
 			</ul>
