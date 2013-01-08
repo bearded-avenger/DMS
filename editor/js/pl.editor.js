@@ -51,13 +51,14 @@
 				, 	btnAction = btn.data('action')
 			
 				if( btnAction == 'drag-drop' ){
+					$.pageBuilder.showEditingTools()
 					
-					that.stateInit(
-						btnAction
-						, function() { $.pageBuilder.showEditingTools() }
-						, function() { $.pageBuilder.hide() }
-						, true
-					)
+					// that.stateInit(
+					// 					btnAction
+					// 					, function() { $.pageBuilder.showEditingTools() }
+					// 					, function() { $.pageBuilder.hide() }
+					// 					, true
+					// 				)
 				
 				} else if(btn.hasClass('btn-panel'))
 					that.showPanel(btnAction)
