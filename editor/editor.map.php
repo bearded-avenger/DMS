@@ -49,9 +49,9 @@ class EditorMap {
 	// Get local map for page
 	function get_local_template(){
 
-		if( $this->page->is_special() )
+		if( $this->page->is_special() ){
 			$template = $this->get_special_template( $this->page->id ); 
-		else 
+		}else 
 			$template = $this->get_regular_template( $this->page->id ); 
 			
 		return $template;
@@ -74,10 +74,11 @@ class EditorMap {
 	}
 	
 	function get_special_template( $id ){
-		
-		if( isset($this->global_map[ $id ]) )
-			return $this->global_map[ $id ]; 
-		else 
+	
+		if( isset($this->global_map_option[ $id ]) ){
+			
+			return $this->global_map_option[ $id ]; 
+		}else 
 			return $this->default_template(); 
 		
 	}

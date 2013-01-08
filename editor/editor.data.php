@@ -24,17 +24,14 @@ function save_map_draft(){
 	
 		$global_map[ $page ] = $template_region_map;
 		
-		$action = get_option( $option_slug );
-		
 	} else {
 		
 		update_post_meta( $page, $option_slug, $template_region_map );
-		$action = get_post_meta( $page, $option_slug, true);
+	
 	}
 
 	update_option( $option_slug, $global_map );
 
-//	print_r( get_post_meta( $page, $option_slug, true) );
 	echo true;
 	die(); // don't forget this, always returns 0 w/o
 	
