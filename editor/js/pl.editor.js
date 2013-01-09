@@ -712,7 +712,7 @@
 				,	scrollSensitivity: 200
 				,	scrollSpeed: 40
 		        ,	cursor: "move"
-				,	cursorAt: { top: 10, left: 10 }
+			//	,	cursorAt: { bottom: 0, left: 0 }
 				,	distance: 0.5
 				,	delay: 100
 				

@@ -460,7 +460,7 @@ class EditorInterface {
 			</ul>
 			
 			<ul class="unstyled controls send-right">
-				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish</span></span></li>
+				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish Changes</span></span></li>
 				
 				
 			</ul>
