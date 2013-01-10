@@ -55,7 +55,7 @@ class PageLinesEditor {
 		
 		
 		$this->page = new PageLinesPage;
-		$this->map = new EditorMap( $this->page );
+		$this->map = new EditorMap;
 		$this->siteset = new EditorSettings;
 		$this->foundry = new PageLinesFoundry;
 		$this->interface = new EditorInterface( $this->page, $this->siteset );
@@ -89,16 +89,9 @@ class PageLinesEditor {
 	function process_footer(){
 		$this->handler->process_region('footer');
 	}
-	
-
 
 	function save_configuration_callback(){
 		echo 'worked!';
 	}
-
-	
-
-
-	
-		
+			
 }

@@ -723,6 +723,9 @@
 					
 					if(ui.item.hasClass('x-item'))
 						$.xList.switchOnAdd(ui.item)
+						
+					// allows us to change sizes when dragging starts, while keeping good dragging
+					$( this ).sortable( "refreshPositions" ) 
 					
 				} 
 				, stop: function(event, ui){

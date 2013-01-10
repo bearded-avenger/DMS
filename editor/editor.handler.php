@@ -30,7 +30,7 @@ class PageLinesTemplateHandler {
 		$this->siteset = $siteset;
 		$this->foundry = $foundry;
 		
-		$this->map = $map->get_map();
+		$this->map = $map->get_map( $this->page );
 
 		$this->parse_config();
 		

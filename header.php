@@ -44,9 +44,9 @@ if(has_action('override_pagelines_body_output')):
 	do_action('override_pagelines_body_output');
 
 else:  ?>
-<div id="site" class="<?php echo pagelines_layout_mode();?>">
+<div id="site" class="site-wrap <?php echo pagelines_layout_mode();?>">
 <?php pagelines_register_hook('pagelines_before_page'); // Hook ?>
-	<div id="page" class="thepage">
+	<div id="page" class="thepage page-wrap">
 		<?php pagelines_register_hook('pagelines_page'); // Hook ?>
 		<div class="page-canvas">
 			<?php pagelines_register_hook('pagelines_before_header');?>
@@ -57,7 +57,7 @@ else:  ?>
 			</header>
 			<?php pagelines_register_hook('pagelines_before_main'); // Hook ?>
 			<div id="page-main" class="pl-region" data-region="template">
-				<div id="dynamic-content" class="outline pl-area-container">	
+				<div id="dynamic-content" class="outline template-region-wrap pl-area-container">	
 <?php 
 				pagelines_special_content_wrap_top();
 

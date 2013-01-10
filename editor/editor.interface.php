@@ -320,8 +320,8 @@ class EditorInterface {
 				'type'	=> 'dropup', 
 				'panel'	=> array(
 					
-					'template'	=> array('name'	=> 'Select Template'),
-					'revert'	=> array('name'	=> 'Revert to saved')
+					'template'	=> array('name'	=> 'Preview Page'),
+					'revert'	=> array('name'	=> 'Revert Changes')
 				)
 				
 			),
@@ -459,9 +459,19 @@ class EditorInterface {
 				
 			</ul>
 			
+			
 			<ul class="unstyled controls send-right">
-				<li><span class="btn-toolbox"><i class="icon-check"></i> <span class="txt">Publish Changes</span></span></li>
-				
+				<li class="dropup">
+					<span class="btn-toolbox btn-state " data-toggle="dropdown">
+						<span class="update-state">&nbsp;</span>
+					</span>
+					<ul class="dropdown-menu pull-right">
+						<li><a href="">Red &rarr; Unpublished Page Changes</a></li>
+						<li><a href="">Orange &rarr; Unpublished Site Changes</a></li>
+						<li><a href="">Green &rarr; No Unpublished Changes</a></li>
+					</ul>
+				</li>
+				<li><span class="btn-toolbox btn-publish"><i class="icon-save"></i> <span class="txt">Update <span class="update-state">&nbsp;</span></span></li>
 				
 			</ul>
 		</div>
@@ -697,62 +707,7 @@ class EditorInterface {
 		</div>
 		<?php
 		
-	}
-	
-	function pl_editor_palette(){
-
-		?>
-
-		<div id="PageLinesGadget" class="pl-gadget">	
-			<div class="pl-gadget-menu">
-				<a class="gadget-item" href="#editModal" onClick="drawModal('Page Builder');">
-					<span class="gadget-icon">
-						<img src="<?php echo $this->images.'/icon-builder.png'; ?>" />
-					</span>
-					<span class="gadget-text">
-						Drag &amp; Drop
-					</span>
-				</a>
-				<a class="gadget-item" href="#editModal" onClick="jQuery.gadget.loadModeless();">
-					<span class="gadget-icon">
-						<img src="<?php echo $this->images.'/icon-builder.png'; ?>" />
-					</span>
-					<span class="gadget-text">
-						Settings
-					</span>
-				</a>
-				<a class="gadget-item" href="#editModal" onClick="jQuery.gadget.loadModeless();">
-					<span class="gadget-icon">
-						<img src="<?php echo $this->images.'/icon-builder.png'; ?>" />
-					</span>
-					<span class="gadget-text">
-						Colors
-					</span>
-				</a>
-				<a class="gadget-item" href="#editModal" onClick="jQuery.gadget.loadModeless();">
-					<span class="gadget-icon">
-						<img src="<?php echo $this->images.'/icon-builder.png'; ?>" />
-					</span>
-					<span class="gadget-text">
-						Typography
-					</span>
-				</a>
-				<a class="gadget-item" href="#editModal" onClick="jQuery.gadget.loadModeless();">
-					<span class="gadget-icon">
-						<img src="<?php echo $this->images.'/icon-builder.png'; ?>" />
-					</span>
-					<span class="gadget-text">
-						Layout Width
-					</span>
-				</a>
-			</div>
-		</div>
-		
-		
-		<?php 
-	
-	}
-	
+	}	
 
 
 }
