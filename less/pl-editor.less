@@ -560,6 +560,7 @@
 			
 		
 		}
+		
 		.btn-state span,
 		.update-state{
 			line-height: 26px;
@@ -569,17 +570,45 @@
 			width: 14px;
 			height: 14px;
 			display: inline-block;
-			box-shadow: 0 1px 0 #fff, inset 0 0 2px rgba(0,0,0,.4);
+			box-shadow: inset 0 0 2px rgba(0,0,0,.4);
 			vertical-align: middle;
 			margin: -3px 0 0 0;
 			&.state-draft-global{
-				background: rgba(255, 201, 0, .6);
+				background: rgba(22, 134, 243, .5);
 			}
 			&.state-draft-local{
+				
 				background: rgba(255, 0, 5, .4);
+			}
+			&.state-draft-local-global{
+				background: rgba(139, 22, 243, .4);
 			}
 			
 		}
+		.btn-state span {
+			box-shadow: 0 1px 0 #fff, inset 0 0 2px rgba(0,0,0,.4);
+		}
+		
+		.state-list{
+			li a{ cursor: pointer; }
+			.li-state-clean,
+			.li-state-local-global,
+			.li-state-local,
+			.li-state-global{
+				display: none;
+			}
+		}
+		
+		.state-list.clean .li-state-clean{ display: block; }
+		.state-list.local .li-state-local{ display: block; }
+		.state-list.global .li-state-global{ display: block; }
+		.state-list.local-global {
+			.li-state-local-global, 
+			.li-state-local,
+			.li-state-global { 
+				display: block; 		
+			}
+		} 
 		
 	}
 	.toolbox-panel-wrap{

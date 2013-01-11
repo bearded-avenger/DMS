@@ -465,13 +465,18 @@ class EditorInterface {
 			<ul class="unstyled controls send-right">
 				
 				<li class="dropup">
+					<?php
+						$state = $this->draft->get_state( $this->page->id );
+					
+					?>
 					<span class="btn-toolbox btn-state " data-toggle="dropdown">
-						<span id="update-state" class="state-draft-<?php echo $this->draft->get_state( $this->page->id );?>">&nbsp;</span>
+						<span id="update-state" class="state-draft-<?php echo $state;?>">&nbsp;</span>
 					</span>
-					<ul class="dropdown-menu pull-right">
-						<li><a href=""><span class="update-state state-draft-local">&nbsp;</span>&nbsp; Unpublished Current Page Changes</a></li>
-						<li><a href=""><span class="update-state state-draft-global">&nbsp;</span>&nbsp; Unpublished Global Site Changes</a></li>
-						<li><a href=""><span class="update-state state-draft-clean">&nbsp;</span>&nbsp; No Unpublished Changes</a></li>
+					<ul class="dropdown-menu pull-right state-list <?php echo $state;?>">
+						<li class="li-state-local-global"><a class="btn-revert" data-revert="all"><span class="update-state state-draft-local-global">&nbsp;</span>&nbsp; Revert All Unpublished Changes</a></li>
+						<li class="li-state-local"><a class="btn-revert" data-revert="local"><span class="update-state state-draft-local">&nbsp;</span>&nbsp; Revert Unpublished Local Changes</a></li>
+						<li class="li-state-global"><a class="btn-revert" data-revert="global"><span class="update-state state-draft-global">&nbsp;</span>&nbsp; Revert Unpublished Global Changes</a></li>
+						<li class="li-state-clean disabled"><a class="txt"><span class="update-state state-draft-clean">&nbsp;</span>&nbsp; No Unpublished Changes</a></li>
 					</ul>
 				</li>
 				<li><span class="btn-toolbox btn-publish"><i class="icon-check"></i> <span class="txt">Publish Changes</span></li>

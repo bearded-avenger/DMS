@@ -23,18 +23,44 @@ class EditorDraft{
 		
 		
 	}
+	
+	function revert( $data, EditorMap $map ){
+		$revert = $data['revert'];
+		$pageID = $data['page'];
+	
+		if( $revert == 'local' || $revert == 'all')
+			$this->revert_local($pageID, $map);
+			
+		if( $revert == 'global' || $revert == 'all')
+			$this->revert_global($map);
+		
+		
+	}
+	
+	function revert_local( $pageID, $map ){
+		$map->revert_local( $pageID );
+		pl_meta_update( $pageID, $this->slug, false );
+	}
+	
+	function revert_global( $map ){
+		$map->revert_global( );
+		pl_opt_update( $this->slug, false );
+	}
 
 	function get_state( $pageID ){
 		
+		$state = array();
 		
 		if( pl_meta( $pageID, $this->slug ) )
-			$state = 'local';
-		elseif( pl_opt( $this->slug ) )
-			$state = 'global';
-		else
-			$state = 'clean';
-			
-		return $state;
+			$state[] = 'local';
+		
+		if( pl_opt( $this->slug ) )
+			$state[] = 'global';
+	
+		if(empty($state))
+			return 'clean';
+		else 
+			return join('-', $state);
 		
 	}
 	
