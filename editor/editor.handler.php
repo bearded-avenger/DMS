@@ -34,8 +34,6 @@ class PageLinesTemplateHandler {
 
 		$this->parse_config();
 		
-//		plprint($this->map);
-		
 		$this->setup_processing();
 		
 		$this->get_options_config();
@@ -66,8 +64,8 @@ class PageLinesTemplateHandler {
 					}
 					, config: {
 						pageID: '<?php echo $this->page->id;?>'
-						, pageTypeID: '<?php echo $this->page->type_ID;?>'
-						, pageType: '<?php echo $this->page->type;?>'
+						, pageTypeID: '<?php echo $this->page->type;?>'
+						, pageTypeName: '<?php echo $this->page->type_name;?>'
 						, isSpecial: '<?php echo $this->page->is_special();?>'
 						, opts: <?php echo json_encode($this->get_options_config(), JSON_FORCE_OBJECT); ?>
 						, settings: <?php echo json_encode($this->siteset->get_set('site'), JSON_FORCE_OBJECT); ?>
@@ -241,11 +239,11 @@ class PageLinesTemplateHandler {
 			// ** Backwards Compatible Stuff **
 			$old_special = get_option('pagelines-special');
 
-			if( isset( $old_special[ $this->page->type_ID ] ) ){
+			if( isset( $old_special[ $this->page->type ] ) ){
 				foreach($this->opts_list as $key => $opt){
 
-					if(isset($old_special[ $this->page->type_ID ][ $opt ]) && !empty($old_special[ $this->page->type_ID ][ $opt ]) )
-						$d[$opt] = array( pl_html($old_special[ $this->page->type_ID ][ $opt ])); 
+					if(isset($old_special[ $this->page->type ][ $opt ]) && !empty($old_special[ $this->page->type ][ $opt ]) )
+						$d[$opt] = array( pl_html($old_special[ $this->page->type ][ $opt ])); 
 
 				}
 			}

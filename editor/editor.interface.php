@@ -14,9 +14,10 @@
 class EditorInterface {
 
 
-	function __construct( PageLinesPage $pg, EditorSettings $siteset ) {
+	function __construct( PageLinesPage $pg, EditorSettings $siteset, EditorDraft $draft ) {
 		
 		$this->page = $pg;
+		$this->draft = $draft;
 		$this->siteset = $siteset;
 
 		add_action( 'wp_footer', array( &$this, 'control_panel' ) );
@@ -336,7 +337,7 @@ class EditorInterface {
 						'name'	=> 'Current Page <span class="label">'.$this->page->id.'</span>',
 					),
 					'post_type'	=> array(
-						'name'	=> 'Post Type <span class="label">'.$this->page->type.'</span>',
+						'name'	=> 'Post Type <span class="label">'.$this->page->type_name.'</span>',
 					),
 					'site_defaults'	=> array(
 						'name'	=> 'Sitewide Defaults', 		
@@ -370,7 +371,7 @@ class EditorInterface {
 							$template['key'], 
 							$template['name'], 
 							$template['desc'],
-							$this->page->type
+							$this->page->type_name
 						);
 			
 		}
@@ -458,21 +459,26 @@ class EditorInterface {
 				?>
 				
 			</ul>
+		
 			
 			
 			<ul class="unstyled controls send-right">
+				
 				<li class="dropup">
 					<span class="btn-toolbox btn-state " data-toggle="dropdown">
-						<span class="update-state">&nbsp;</span>
+						<span id="update-state" class="state-draft-<?php echo $this->draft->get_state( $this->page->id );?>">&nbsp;</span>
 					</span>
 					<ul class="dropdown-menu pull-right">
-						<li><a href="">Red &rarr; Unpublished Page Changes</a></li>
-						<li><a href="">Orange &rarr; Unpublished Site Changes</a></li>
-						<li><a href="">Green &rarr; No Unpublished Changes</a></li>
+						<li><a href=""><span class="update-state state-draft-local">&nbsp;</span>&nbsp; Unpublished Current Page Changes</a></li>
+						<li><a href=""><span class="update-state state-draft-global">&nbsp;</span>&nbsp; Unpublished Global Site Changes</a></li>
+						<li><a href=""><span class="update-state state-draft-clean">&nbsp;</span>&nbsp; No Unpublished Changes</a></li>
 					</ul>
 				</li>
-				<li><span class="btn-toolbox btn-publish"><i class="icon-save"></i> <span class="txt">Update <span class="update-state">&nbsp;</span></span></li>
+				<li><span class="btn-toolbox btn-publish"><i class="icon-check"></i> <span class="txt">Publish Changes</span></li>
 				
+			</ul>
+			<ul class="unstyled controls not-btn send-right">
+				<li><span class="btn-toolbox btn-saving not-btn"><i class="icon-save"></i> <span class="txt">Saving Draft</span></li>
 			</ul>
 		</div>
 		<div class="toolbox-panel-wrap">
@@ -564,7 +570,7 @@ class EditorInterface {
 				<?php 
 					foreach($panel as $tab_key => $t){
 						
-						if($tab_key == 'optPageType' && ($this->page->id == $this->page->type_ID))
+						if($tab_key == 'optPageType' && ($this->page->id == $this->page->type))
 							continue;
 						
 						if( substr($tab_key, 0, 7) == 'heading'){
@@ -601,7 +607,7 @@ class EditorInterface {
 					if( substr($tab_key, 0, 7) == 'heading' || $t['href'] != '' ) 
 						continue;
 						
-					if($tab_key == 'optPageType' && ($this->page->id == $this->page->type_ID))
+					if($tab_key == 'optPageType' && ($this->page->id == $this->page->type))
 						continue;
 						
 					$content = '';

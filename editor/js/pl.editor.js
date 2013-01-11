@@ -17,7 +17,7 @@
 		startUp: function(){
 			
 			$.pageBuilder.reloadConfig( 'start' )
-			
+
 			this.theToolBox = $('body').toolbox()
 			
 			this.stateInit('drag-drop', function() { 
@@ -25,13 +25,13 @@
 			})
 		
 			
-			this.listener()
+			this.bindUIActions()
 			
 			
 			
 		}
 		
-		, listener: function() {
+		, bindUIActions: function() {
 		
 			that = this
 			
@@ -46,17 +46,32 @@
 			
 				if( btnAction == 'drag-drop' ){
 					$.pageBuilder.showEditingTools()
-					
-					// that.stateInit(
-					// 					btnAction
-					// 					, function() { $.pageBuilder.showEditingTools() }
-					// 					, function() { $.pageBuilder.hide() }
-					// 					, true
-					// 				)
 				
-				} else if(btn.hasClass('btn-panel'))
+				} else if( btn.hasClass('btn-panel') )
 					that.showPanel(btnAction)
 				
+				
+			})
+			
+			$('.btn-publish').on('click.toolboxPublish', function(){
+				
+					var theData = {
+						action: 'pl_publish_changes'
+						,	page: $.pl.config.pageID
+					}
+
+					$.ajax( {
+						type: 'POST'
+						, url: ajaxurl
+						, data: theData	
+						, beforeSend: function(){
+							$('.btn-saving').addClass('active')
+						}
+						, success: function( response ){
+							$('.btn-saving').removeClass('active')
+							$('.btn-state span').removeClass().addClass('state-draft-'+response)
+						}
+					})
 				
 			})
 			
@@ -434,17 +449,20 @@
 			})
 		
 		}
+
 	
 		
         , reloadConfig: function( source ) {
+	
 			console.log(source)
 			
 			$('.pl-sortable-area').each(function () {
 				$.pageBuilder.alignGrid( this )
 			})
 			
-			$.pageBuilder.storeConfig( );
-
+			if( source !== 'start' )
+				$.pageBuilder.storeConfig( );
+			
         }
 
 		, storeConfig: function() {
@@ -531,8 +549,13 @@
 				type: 'POST'
 				, url: ajaxurl
 				, data: saveData	
+				, beforeSend: function(){
+					$('.btn-saving').addClass('active')
+				}
 				, success: function( response ){
+					$('.btn-saving').removeClass('active')
 					console.log( response )
+					$('.btn-state span').removeClass().addClass('state-draft-'+response)
 				}
 			})
 		
@@ -769,9 +792,6 @@
 				greedy: true
 				,	accept: ".pl-section"
 				,	hoverClass: "wpb_ui-state-active"
-				,	drop: function( event, ui ) {
-		    			that.reloadConfig( 'drop' )
-					}
 			})
 			
 
