@@ -20,9 +20,8 @@
 
 			this.theToolBox = $('body').toolbox()
 			
-			this.stateInit('drag-drop', function() { 
-				$.pageBuilder.showEditingTools() 
-			})
+			
+			$.pageBuilder.showEditingTools() 
 		
 			
 			this.bindUIActions()

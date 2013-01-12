@@ -14,11 +14,12 @@
 class EditorInterface {
 
 
-	function __construct( PageLinesPage $pg, EditorSettings $siteset, EditorDraft $draft ) {
+	function __construct( PageLinesPage $pg, EditorSettings $siteset, EditorDraft $draft, EditorTemplates $templates ) {
 		
 		$this->page = $pg;
 		$this->draft = $draft;
 		$this->siteset = $siteset;
+		$this->templates = $templates;
 
 		add_action( 'wp_footer', array( &$this, 'control_panel' ) );
 		add_action( 'wp_print_styles', array(&$this, 'pl_editor_styles' ), 15 );
@@ -88,95 +89,7 @@ class EditorInterface {
 
 	}
 	
-	function dummy_saved_templates(){
-		
-		$t = array(
-			'default' => array(
-				'key'	=> 'default',
-				'name'	=> 'Default Page', 
-				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
-				'map'	=> array(
-					array(
-						'area'	=> 'TemplateAreaID',
-						'content'	=> array(
-							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 8,
-								'content'	=> array( 
-									'PageLinesPostLoop' => array( ), 
-									'PageLinesComments' 	=> array( ),	
-								)
-							),
-							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 4,
-								'content'	=> array( 
-									'PrimarySidebar' => array( )
-								)
-							),
-						)
-					)
-				)
-			), 
-			'feature' => array(
-				'key'	=> 'feature',
-				'name'	=> 'Feature Page', 
-				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
-				'map'	=> array(
-					array(
-						'area'	=> 'TemplateAreaID',
-						'content'	=> array(
-							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 8,
-								'content'	=> array( 
-									'PageLinesPostLoop' => array( ), 
-									'PageLinesComments' 	=> array( ),	
-								)
-							),
-							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 4,
-								'content'	=> array( 
-									'PrimarySidebar' => array( )
-								)
-							),
-						)
-					)
-				)
-			), 
-			'landing' => array(
-				'key'	=> 'landing',
-				'name'	=> 'Landing Page', 
-				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
-				'map'	=> array(
-					array(
-						'area'	=> 'TemplateAreaID',
-						'content'	=> array(
-							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 8,
-								'content'	=> array( 
-									'PageLinesPostLoop' => array( ), 
-									'PageLinesComments' 	=> array( ),	
-								)
-							),
-							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 4,
-								'content'	=> array( 
-									'PrimarySidebar' => array( )
-								)
-							),
-						)
-					)
-				)
-			)
-			
-		);
-		
-		return $t;
-	}
+
 
 	function region_start( $region, $area_number ){
 		
@@ -354,7 +267,7 @@ class EditorInterface {
 	function custom_templates(){
 		
 		$templates = '';
-		foreach($this->dummy_saved_templates() as $index => $template){
+		foreach($this->templates->dummy_saved_templates() as $index => $template){
 			
 			$templates .= sprintf(
 							'<div class="list-item" data-key="%s">
