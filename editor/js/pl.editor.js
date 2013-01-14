@@ -20,14 +20,10 @@
 
 			this.theToolBox = $('body').toolbox()
 			
-			
 			$.pageBuilder.showEditingTools() 
-		
 			
 			this.bindUIActions()
-			
-			
-			
+				
 		}
 		
 		, bindUIActions: function() {
@@ -103,8 +99,11 @@
 									$('.btn-saving').removeClass('active')
 									$('.state-list').removeClass('clean global local local-global').addClass(response)
 									$('.btn-state span').removeClass().addClass('state-draft-'+response)
-
-									location.reload();
+									
+									var reloadText = '<div class="spn"><div class="spn-txt">Reloading Page</div><div class="progress progress-striped active"><div class="bar" style="width: 100%"></div></div></div>'
+									
+									bootbox.dialog( reloadText, [], {animate: false, classes: 'bootbox-reloading'})
+									location.reload()
 								}
 							})
 							
@@ -123,10 +122,37 @@
 				
 				var key = $(this).closest('.list-item').data('key')
 				, 	confirmText = "<h3>Are you sure?</h3><p>Loading a new template will overwrite the current template configuration.</p>"
+				,	theData = {
+						action: 'pl_load_template'
+						,	key: key
+						,	page: $.pl.config.pageID
+					}
 					
 				// modal
 				bootbox.confirm( confirmText, function( result ){
-					console.log(result)
+					if(result == true){
+					
+						$.ajax( {
+							type: 'POST'
+							, url: ajaxurl
+							, data: theData	
+							, beforeSend: function(){
+								$('.btn-saving').addClass('active')
+							}
+							, success: function( response ){
+								console.log(response)
+								$('.btn-saving').removeClass('active')
+								$('.state-list').removeClass('clean global local local-global').addClass(response)
+								$('.btn-state span').removeClass().addClass('state-draft-'+response)
+								
+								var reloadText = '<div class="spn"><div class="spn-txt">Reloading Page</div><div class="progress progress-striped active"><div class="bar" style="width: 100%"></div></div></div>'
+								
+								bootbox.dialog( reloadText, [], {animate: false, classes: 'bootbox-reloading'})
+								location.reload()
+							}
+						})
+					
+					}
 		
 				})
 				

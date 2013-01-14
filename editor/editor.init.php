@@ -61,7 +61,7 @@ class PageLinesEditor {
 		$plpg = $this->page = new PageLinesPage;
 		$this->draft = new EditorDraft( $this->page );
 		$this->map = new EditorMap( $this->draft );
-		$this->templates = new EditorTemplates();
+		$this->templates = new EditorTemplates( $this->page );
 		$this->siteset = new EditorSettings;
 		$this->foundry = new PageLinesFoundry;
 		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates );
