@@ -1,3 +1,13 @@
+
+= 1.3.4 =
+
+* Better posix checks and add filter render_css_posix_ to overide.
+* Use wp_enqueue_scripts no wp_print_styles.
+* Add pagelines_css_upload_dir filter for css.
+* Various LESS file fixes.
+* Load shims js and googlefonts using // so page respects ssl/non-ssl.
+* Remove supersize loader image. 
+
 = 1.3.3 =
 
 * Update Bootstrap core js.
