@@ -61,10 +61,10 @@
 			margin-bottom: 20px;
 			background: @pl-base;
 			outline: 1px dashed #35eafd;
-			.pl-column-sortable section:last-of-type{
+			.pl-sortable-column section:last-of-type{
 				margin-bottom: 0;
 			}
-			&.empty-area .pl-column-sortable{
+			&.empty-area .pl-sortable-column{
 				min-height: 70px;
 				.pl-column-forcer{
 					display: block;
@@ -168,12 +168,13 @@
 	}
 
 	&.pl-dragging{
-		.pl-sortable-area{
+		.pl-sortable-area, 
+		.pl-sortable-column{
 			min-height: 25px;
 			.transition(.5s);
-			.pl-sortable-area{
-				padding-top: 0px;
-			}
+		}
+		.pl-sortable-column{
+			padding-top: 0px;
 		}
 		.section-plcolumn{
 			background: @pl-base;
@@ -217,8 +218,11 @@
 			display: none;
 		}
 	}
-	.pl-sortable-area.empty-area{
-		min-height: 35px;
+	.pl-sortable-area,
+	.pl-sortable-column{
+		.empty-area{
+			min-height: 35px;
+		}
 	}
 
 

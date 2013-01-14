@@ -524,13 +524,103 @@
 	
 			console.log(source)
 			
-			$('.pl-sortable-area').each(function () {
+			$('.editor-row').each(function () {
 				$.pageBuilder.alignGrid( this )
 			})
 			
 			if( source !== 'start' )
 				$.pageBuilder.storeConfig( );
 			
+        }
+
+		, alignGrid: function( area ) {
+		
+            var that = this
+			,	total_width = 0
+            ,	width = 0
+            ,	next_width = 0
+			,	avail_offset = 0
+			, 	sort_area = $(area)
+			, 	len = sort_area.children(".pl-sortable").length
+			
+  			that.isAreaEmpty( sort_area )
+
+            sort_area.children(".pl-sortable:not(.pl-sortable-buffer)").each( function ( index ) {
+				
+                var section = $(this)
+				,	col_size = that.getColumnSize( section )
+				,	off_size = that.getOffsetSize( section )
+				
+				
+				if(sort_area.hasClass('pl-sortable-column')){
+				
+					if(section.hasClass('level1')){
+						section
+							.removeClass('level1')
+							.removeClass(col_size[0])
+							.removeClass(off_size[0])
+							.addClass('span12 offset0 level2')
+							
+						col_size = that.getColumnSize( section, true )
+						off_size = that.getOffsetSize( section, true )
+					} else {
+						section
+							.addClass('level2')
+					}
+					
+				} else {
+					
+					section
+						.removeClass("level2")
+						.addClass("level1")
+					
+				}
+				
+				// First/last spacing
+				section
+					.removeClass("sortable-first sortable-last")
+					
+				if ( index == 0 )
+					section.addClass("sortable-first")
+				else if ( index === len - 1 ) 
+					section.addClass("sortable-last")
+					
+				
+				// Deal with width and offset
+				width = col_size[4] + off_size[3]
+				
+				total_width += width
+				
+				avail_offset = 12 - col_size[4];
+			
+				if( avail_offset == 0 )
+					section.addClass('cant-offset')
+				else 
+					section.removeClass('cant-offset')
+			
+				if(width > 12){
+					avail_offset = 12 - col_size[4]; 
+					section.removeClass( off_size[0] ).addClass( 'offset'+avail_offset )
+					off_size = $.pageBuilder.getOffsetSize( section )
+				}
+
+               	// Set Numbers
+				section.find(".section-size:first").html( col_size[3] )
+				section.find(".offset-size:first").html( off_size[3] )
+				
+				if (total_width > 12 || section.hasClass('force-start-row')) {
+					
+                    section
+						.addClass('sortable-first')
+                    	.prev('.pl-sortable')
+						.addClass("sortable-last")
+						
+                    total_width = width
+
+                } 
+
+            })
+
         }
 
 		, storeConfig: function() {
@@ -633,7 +723,7 @@
 		}
 
 		, isAreaEmpty: function(area){
-			var addTo = (area.hasClass('pl-column-sortable')) ? area.parent() : area
+			var addTo = (area.hasClass('pl-sortable-column')) ? area.parent() : area
 			
 			if(!area.children(".pl-sortable").not('.ui-sortable-helper').length)
 			    addTo.addClass('empty-area')
@@ -641,96 +731,6 @@
 			    addTo.removeClass('empty-area')
 			
 		}
-
-        , alignGrid: function( area ) {
-		
-            var that = this
-			,	total_width = 0
-            ,	width = 0
-            ,	next_width = 0
-			,	avail_offset = 0
-			, 	sort_area = $(area)
-			, 	len = sort_area.children(".pl-sortable").length
-			
-  			that.isAreaEmpty( sort_area )
-
-            sort_area.children(".pl-sortable").each( function ( index ) {
-				
-                var section = $(this)
-				,	col_size = that.getColumnSize( section )
-				,	off_size = that.getOffsetSize( section )
-				
-				
-				if(sort_area.hasClass('pl-column-sortable')){
-				
-					if(section.hasClass('level1')){
-						section
-							.removeClass('level1')
-							.removeClass(col_size[0])
-							.removeClass(off_size[0])
-							.addClass('span12 offset0 level2')
-							
-						col_size = that.getColumnSize( section, true )
-						off_size = that.getOffsetSize( section, true )
-					} else {
-						section
-							.addClass('level2')
-					}
-					
-				} else {
-					
-					section
-						.removeClass("level2")
-						.addClass("level1")
-					
-				}
-				
-				// First/last spacing
-				section
-					.removeClass("sortable-first sortable-last")
-					
-				if ( index == 0 )
-					section.addClass("sortable-first")
-				else if ( index === len - 1 ) 
-					section.addClass("sortable-last")
-					
-				
-				// Deal with width and offset
-				width = col_size[4] + off_size[3]
-				
-				total_width += width
-				
-				avail_offset = 12 - col_size[4];
-			
-				if( avail_offset == 0 )
-					section.addClass('cant-offset')
-				else 
-					section.removeClass('cant-offset')
-			
-				if(width > 12){
-					avail_offset = 12 - col_size[4]; 
-					section.removeClass( off_size[0] ).addClass( 'offset'+avail_offset )
-					off_size = $.pageBuilder.getOffsetSize( section )
-				}
-
-               	// Set Numbers
-				section.find(".section-size:first").html( col_size[3] )
-				section.find(".offset-size:first").html( off_size[3] )
-				
-				if (total_width > 12 || section.hasClass('force-start-row')) {
-					
-                    section
-						.addClass('sortable-first')
-                    	.prev('.pl-sortable')
-						.addClass("sortable-last")
-						
-                    total_width = width
-
-                } 
-
-            })
-
-        } 
 
 		, getOffsetSize: function( column, defaultValue ) {
 			
@@ -793,101 +793,82 @@
 		, startDroppable: function(){
 			
 			var that = this
+			,	sortableArgs = {}
+			, 	sortableArgsColumn = {}
 			
-		    $('.pl-sortable-area').sortable({
-			
-		        items: 	".pl-sortable"
-				,	placeholder: "pl-placeholder"
+			sortableArgs = {
+			       	items: 	".pl-sortable"
 				,	connectWith: ".pl-sortable-area"
+				,	placeholder: "pl-placeholder"
 				,	forcePlaceholderSize: true
 		        ,	tolerance: "pointer"		// basis for calculating where to drop
 				,	helper: 	"clone" 		// needed or positioning issues ensue
-				,	scrollSensitivity: 200
+				,	scrollSensitivity: 50
 				,	scrollSpeed: 40
 		        ,	cursor: "move"
-			//	,	cursorAt: { bottom: 0, left: 0 }
 				,	distance: 0.5
 				,	delay: 100
-				
+
 				, start: function(event, ui){
 					$('body')
 						.addClass('pl-dragging')
 						.toolbox('hide')
-					
+
 					if(ui.item.hasClass('x-item'))
 						$.xList.switchOnAdd(ui.item)
-						
+
 					// allows us to change sizes when dragging starts, while keeping good dragging
 					$( this ).sortable( "refreshPositions" ) 
 					
+					// Prevents double nesting columns and other recursion bugs. 
+					// Remove all drag and drop elements and disable sortable areas within columns if 
+					// the user is dragging a column
+					if( ui.item.hasClass('section-plcolumn') ){
+						
+						$( '.section-plcolumn .pl-sortable-column' ).removeClass('pl-sortable-area')
+						$( '.section-plcolumn .pl-section' ).removeClass('pl-sortable')
+						
+						$( this ).sortable( 'refresh' )
+						
+					}
+				
+
 				} 
 				, stop: function(event, ui){
-				
+
 					$('body')
 						.removeClass('pl-dragging')
-					
+
+					// when new sections are added
 					ui.item.find('.banner-refresh').fadeIn('slow')
 					
+					if( ui.item.hasClass('section-plcolumn') ){
+						
+						$( '.section-plcolumn .pl-sortable-column' ).addClass('pl-sortable-area')
+						$( '.section-plcolumn .pl-section' ).addClass('pl-sortable')
+						
+						$( this ).sortable( 'refresh' )
+						
+					}
+
 				}
-				
+
 				, over: function(event, ui) {
-					
+
 		           $( "#droppable" ).droppable( "disable" )
-		
+
 					ui.placeholder.css({
 						maxWidth: ui.placeholder.parent().width()
 					})
-		           
-		 			ui.placeholder.removeClass('hidden-placeholder')
-		
-		            if( ui.item.hasClass('section-plcolumn') && ui.placeholder.parent().parent().hasClass('section-plcolumn')) {
-		                ui.placeholder.addClass('hidden-placeholder')
-		            }
 
-		        }
-				, beforeStop: function(event, ui) {
-					
-		            if( ui.item.hasClass('section-plcolumn') && ui.placeholder.parent().parent().hasClass('section-plcolumn') ) {
-		                return false
-		            }
-		
 		        }
 				, update: function() {
 					that.reloadConfig( 'update-sortable' )
 				}
-				
-		    })
-		
-			$('.pl-sortable-area').droppable({
-				greedy: true
-				,	accept: ".pl-section"
-				,	hoverClass: "wpb_ui-state-active"
-			})
+			}
 			
-
-			$('.pl-column-sortable').droppable({
-			    greedy: true
-			    ,	accept: function( dropable_el ) {
-				
-			        if ( dropable_el.hasClass('dropable_el') && jQuery(this).hasClass('ui-droppable') && dropable_el.hasClass('not_dropable_in_third_level_nav') )
-			            return false;
-			        else if ( dropable_el.hasClass('dropable_el') == true )
-			            return true;
-			
-			    }
-			    ,	hoverClass: "wpb_ui-state-active"
-			    ,	over: function( event, ui ) {
-			        	jQuery(this).parent().addClass("wpb_ui-state-active");
-			    	}
-				,	out: function( event, ui ) {
-			        	jQuery(this).parent().removeClass("wpb_ui-state-active");
-			    	}
-				,	drop: function( event, ui ) {
-			        	//console.log(jQuery(this));
-			        	$(this).parent().removeClass("wpb_ui-state-active");
-			        	getElementMarkup(jQuery(this), ui.draggable, "addLastClass");
-			    	}
-			})
+		    $( '.pl-sortable-area' ).sortable( sortableArgs ) 
+	
 		
 		}
 		

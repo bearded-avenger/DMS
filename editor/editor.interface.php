@@ -58,7 +58,6 @@ class EditorInterface {
 	//	http://bugs.jqueryui.com/ticket/8810
 		wp_enqueue_script( 'jquery-new-ui-sortable', PL_ADMIN_JS . '/jquery.ui.sortable.js', $dep, 1.9, true);
 		
-		
 		wp_enqueue_script( 'jquery-new-ui-effect', PL_ADMIN_JS . '/jquery.ui.effect.js', $dep, 1.9, true);	
 		wp_enqueue_script( 'jquery-new-ui-effect-highlight', PL_ADMIN_JS . '/jquery.ui.effect-highlight.js', array('jquery-new-ui-effect'), 1.9, true);
 		wp_enqueue_script( 'jquery-mousewheel', $this->url . '/js/utils.mousewheel.js' ); 
@@ -105,7 +104,7 @@ class EditorInterface {
 	function area_start($a){
 		
 		printf( 
-			'<div class="pl-area area-tag" data-area-number="%s">%s<div class="pl-content"><div class="pl-inner pl-sortable-area editor-row">%s', 
+			'<div class="pl-area area-tag" data-area-number="%s">%s<div class="pl-content"><div class="pl-inner area-region pl-sortable-area editor-row">%s', 
 			$a['area_number'], 
 			$this->area_controls($a),
 			$this->area_sortable_buffer()

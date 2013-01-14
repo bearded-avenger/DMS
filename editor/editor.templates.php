@@ -122,19 +122,11 @@ class EditorTemplates {
 						'area'	=> 'TemplateAreaID',
 						'content'	=> array(
 							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 9,
-								'content'	=> array( 
-									'PageLinesPostLoop' => array( ), 
-									'PageLinesComments' 	=> array( ),	
-								)
+								'object'	=> 'PageLinesFeatures',
 							),
 							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 3,
-								'content'	=> array( 
-									'PrimarySidebar' => array( )
-								)
+								'object'	=> 'PageLinesBoxes',
+								
 							),
 						)
 					)
