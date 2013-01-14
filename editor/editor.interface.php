@@ -80,6 +80,7 @@ class EditorInterface {
 		
 		// Less
 		wp_enqueue_script( 'bootbox', $this->url . '/js/utils.bootbox.js', array('jquery'), '3.0.0', true );
+	
 		
 		// Colorpicker
 		wp_enqueue_style( 'css3colorpicker', $this->url . '/js/colorpicker/colorpicker.css');
@@ -154,14 +155,11 @@ class EditorInterface {
 					'heading'	=> "Page Templates",
 					'tmp_load'	=> array(
 						'name'	=> 'Your Templates', 
-						'call'	=> array(&$this, 'custom_templates'),
-					),
-					'tmp_theme'	=> array(
-						'name'	=> 'Theme Templates', 
-						'call'	=> array(&$this, 'custom_templates'),
+						'call'	=> array(&$this->templates, 'user_templates'),
 					),
 					'tmp_save'	=> array(
-						'name'	=> 'Save As Template'
+						'name'	=> 'Save New Template',
+						'call'	=> array(&$this->templates, 'save_templates'),
 					)
 				)
 				
@@ -264,34 +262,7 @@ class EditorInterface {
 		
 	}
 	
-	function custom_templates(){
-		
-		$templates = '';
-		foreach($this->templates->dummy_saved_templates() as $index => $template){
-			
-			$templates .= sprintf(
-							'<div class="list-item" data-key="%s">
-								<div class="list-item-pad fix">
-									<div class="title">%s</div>
-									<div class="desc">%s</div>
-									<div class="btns">
-										<a class="btn btn-mini btn-primary load-template">Load Template</a>
-										<a class="btn btn-mini load-template">Make "%s" Default</a>
-										<a class="btn btn-mini delete-template">Delete</a>
-									</div>
-								</div>
-							</div>', 
-							$template['key'], 
-							$template['name'], 
-							$template['desc'],
-							$this->page->type_name
-						);
-			
-		}
-		
-		printf('<div class="y-list">%s</div>', $templates);
-		
-	}
+
 	
 	function get_settings_tabs( $panel = 'site' ){
 		

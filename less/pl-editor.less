@@ -738,6 +738,14 @@
 				background:#fff; 
 				margin: 0 15px 15px 0;
 				width: 370px;
+				float: left;
+				&.standard-form{
+					float: none;
+					width: auto;
+					max-width: 600px;
+					border: none;
+				}
+				
 				&.codetext{
 					width: 100%;
 					textarea{
@@ -747,7 +755,10 @@
 					.codetext-label{float:left}
 					.codetext-help{float: right}
 				}
-				float: left;
+				label{
+					font-size: 11px;
+					font-weight: bold;
+				}
 				.opt-name{
 					background:#f7f7f7;
 					box-shadow: inset 1px 1px 0 #fff;
@@ -758,10 +769,7 @@
 				}
 				.opt-box{
 					padding: 15px;
-					label{
-						font-size: 11px;
-						font-weight: bold;
-					}
+					
 				}
 				.help-block{
 					font-size: 11px;
@@ -870,7 +878,25 @@
 	}
 	
 
+	
 
+}
+.bootbox{
+	text-align: center;
+	.spn{
+		.spn-txt{
+			font-size: 18px;
+			margin: 9px 0;
+			font-weight: bold;
+		}		
+	
+	}
+	.modal-footer{
+		padding: 7px;
+	}
+	p:last-child{
+		margin-bottom: 0;
+	}
 }
 
 .isotope-item {

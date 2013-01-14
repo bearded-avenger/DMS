@@ -1,7 +1,7 @@
 <?php
 
 
-function pl_opt( $key, $default = false ){
+function pl_opt( $key, $default = false, $parse = false ){
 	
 	$val = get_option($key); 
 	
@@ -9,7 +9,7 @@ function pl_opt( $key, $default = false ){
 		
 		$val = $default;
 
-	} elseif( is_array($val) && is_array($default)) {
+	} elseif( $parse && is_array($val) && is_array($default)) {
 		
 		$val = wp_parse_args( $val, $default );
 		

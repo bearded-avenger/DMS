@@ -40,3 +40,18 @@ function pl_revert_changes (){
 	die(); // don't forget this, always returns 0 w/o
 	
 }
+
+add_action( 'wp_ajax_pl_load_template', 'pl_load_template' );
+function pl_load_template (){
+
+	$tpl = new EditorTemplates;
+	$map = new EditorMap( new EditorDraft );
+	
+	$new_tpl_map = $tpl->get_map_from_template_key( $_POST['key'] );
+	
+	$map->set_new_local_template( $_POST['page'], $new_tpl_map );
+			
+	echo true;
+	die(); // don't forget this, always returns 0 w/o
+	
+}
