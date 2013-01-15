@@ -13,25 +13,35 @@ class EditorTemplates {
 	
 		global $plpg;
 	
+		if(!$plpg->is_special()){
+			$post_type_default = sprintf(
+				'<a class="btn btn-mini set-default-template" data-type="%s">Make "%s" Default</a>', 
+				$plpg->type, 
+				$plpg->type_name
+			);
+		} else
+			$post_type_default = '';
+	
 		$templates = '';
 		foreach( $this->get_user_templates() as $index => $template){
-			
+		
 			$templates .= sprintf(
-							'<div class="list-item" data-key="%s">
+							'<div class="list-item template_key_%s" data-key="%s">
 								<div class="list-item-pad fix">
 									<div class="title">%s</div>
 									<div class="desc">%s</div>
 									<div class="btns">
 										<a class="btn btn-mini btn-primary load-template">Load Template</a>
-										<a class="btn btn-mini load-template">Make "%s" Default</a>
+										%s
 										<a class="btn btn-mini delete-template">Delete</a>
 									</div>
 								</div>
 							</div>', 
-							$template['key'], 
+							$index,
+							$index,
 							$template['name'], 
 							$template['desc'],
-							$plpg->type_name
+							$post_type_default
 						);
 			
 		}
@@ -44,15 +54,15 @@ class EditorTemplates {
 		
 		?>
 		
-		<form class="opt standard-form">
+		<form class="opt standard-form form-save-template">
 			<fieldset>
 				<span class="help-block">Fill out this form and the current template configuration will be saved for use throughout your site.</span>
-				<label>Template Name</label>
-				<input type="text">
+				<label for="template-name">Template Name (required)</label>
+				<input type="text" id="template-name" name="template-name" required />
 				
-				<label>Template Description</label>
-				<textarea rows="4"></textarea>
-				<button type="submit" class="btn">Save Template</button>
+				<label for="template-desc">Template Description (required)</label>
+				<textarea rows="4" id="template-desc" name="template-desc" required ></textarea>
+				<button type="submit" class="btn btn-primary btn-save-template">Save New Template</button>
 			</fieldset>
 		</form>
 		
@@ -78,19 +88,40 @@ class EditorTemplates {
 		else
 			return false;
 	}
+	
+	function create_template( $name, $desc, $map ){
+		
+		$templates = $this->get_user_templates();
+		
+		$templates[] = array(
+			'name'	=> $name,
+			'desc'	=> $desc, 
+			'map'	=> $map
+		);
+		
+		pl_opt_update( $this->template_slug, $templates );
+		
+	}
+	
+	function delete_template( $key ){
+		
+		$templates = $this->get_user_templates();
+		
+		unset( $templates[$key] );
+		
+		pl_opt_update( $this->template_slug, $templates );
+		
+	}
 
 	function default_templates(){
 		
 		$t = array();
 		
-		
-		
 		$t[	'default'] = array(
-				'key'	=> 'default',
 				'name'	=> 'Default Page', 
 				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
 				'map'	=> array(
-					array(
+					'template' => array(
 						'area'	=> 'TemplateAreaID',
 						'content'	=> array(
 							array(
@@ -114,27 +145,18 @@ class EditorTemplates {
 		); 
 		
 		 $t['feature'] = array(
-				'key'	=> 'feature',
 				'name'	=> 'Feature Page', 
 				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
 				'map'	=> array(
-					array(
+					'template' => array(
 						'area'	=> 'TemplateAreaID',
 						'content'	=> array(
 							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 9,
-								'content'	=> array( 
-									'PageLinesPostLoop' => array( ), 
-									'PageLinesComments' 	=> array( ),	
-								)
+								'object'	=> 'PageLinesFeatures',
 							),
 							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 3,
-								'content'	=> array( 
-									'PrimarySidebar' => array( )
-								)
+								'object'	=> 'PageLinesBoxes',
+								
 							),
 						)
 					)
@@ -142,11 +164,10 @@ class EditorTemplates {
 			); 
 		
 		$t['landing'] = array(
-				'key'	=> 'landing',
 				'name'	=> 'Landing Page', 
 				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
 				'map'	=> array(
-					array(
+					'template' => array(
 						'area'	=> 'TemplateAreaID',
 						'content'	=> array(
 							array(

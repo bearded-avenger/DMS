@@ -156,11 +156,88 @@
 		
 				})
 				
-				// save persistent
-				
-				// 
 			})
+			
+			$(".delete-template").on("click.deleteTemplate", function(e) {
+			
+				e.preventDefault()
+				
+				var key = $(this).closest('.list-item').data('key')
+				, 	confirmText = "<h3>Are you sure?</h3><p>This will delete this template configuration.</p>"
+				,	theData = {
+							action: 'pl_template_action'
+						,	mode: 'delete_template'
+						,	key: key
+						,	page: $.pl.config.pageID
+					}
+					
+				// modal
+				bootbox.confirm( confirmText, function( result ){
+					if(result == true){
+					
+						$.ajax( {
+							type: 'POST'
+							, url: ajaxurl
+							, data: theData	
+							, beforeSend: function(){
+								$( '.template_key_'+key ).fadeOut(300, function() { 
+									$(this).remove()
+								})
+							}
+						})
+					
+					}
+		
+				})
+				
+			})
+			
+			
+			$(".form-save-template").on("submit.saveTemplate", function(e) {
+			
+				e.preventDefault()
+				
+				var form = $(this).formParams()
+				,	theData = {
+							action: 'pl_template_action'
+						, 	mode: 'save_template'
+						, 	map: $.pageBuilder.getCurrentMap()
+						,	page: $.pl.config.pageID
+					}
+				,	theData = $.extend({}, theData, form)
+
+				$.ajax( {
+					type: 'POST'
+					, url: ajaxurl
+					, data: theData	
+					, beforeSend: function(){
+						
+						bootbox.dialog( that.dialogText('Saving Template'), [], {animate: false})
+					}
+					, success: function( response ){
+						bootbox.dialog( that.dialogText('Success! Reloading Page'), [], {animate: false})
+						location.reload()
+					
+					}
+				})
+			
+				
+			})
+			
+			
+			
+			
+			
+			
         }
+
+		, dialogText: function( text ){
+			
+			return '<div class="spn"><div class="spn-txt">'+text+'</div><div class="progress progress-striped active"><div class="bar" style="width: 100%"></div></div></div>'
+				
+
+			
+		}
 		
 		, showPanel: function( key ){
 		
@@ -524,7 +601,7 @@
 	
 			console.log(source)
 			
-			$('.pl-sortable-area').each(function () {
+			$('.editor-row').each(function () {
 				$.pageBuilder.alignGrid( this )
 			})
 			
@@ -533,116 +610,7 @@
 			
         }
 
-		, storeConfig: function() {
-			
-			var that = this
-			,	map = {}
-			
-			
-			$('.pl-region').each( function(regionIndex, o) {
-				
-				var region = $(this).data('region')
-				, 	areaConfig = []
-				
-				$(this).find('.pl-area').each( function(areaIndex, o2) {
-					
-					var area = $(this)
-					,	areaContent	= []
-					, 	areaSet = {}
-				
-					$(this).find('.pl-section.level1').each( function(sectionIndex, o3) {
-
-						var section = $(this)
-						
-						set = that.sectionConfig( section )
-						
-						areaContent.push( set )
-
-					})
-					
-					areaSet = {
-						area: ''
-						, content: areaContent
-					}
-				
-					areaConfig.push( areaSet )
-					
-				})
-				
-				map[region] = areaConfig
-				
-			})
-			
-			$.pl.map = map
-			
-			that.ajaxSaveMap( map )
-			
-			return map
-			
-		
-		}
-		
-		, sectionConfig: function( section ){
-			
-			var that = this
-			,	set = {}
-			
-			set.object = section.data('object')
-			set.clone = section.data('clone')
-			set.sid = section.data('sid')
-			set.span = that.getColumnSize( section )[ 4 ]
-			set.offset = that.getOffsetSize( section )[ 3 ]
-			set.content = []
-			
-			section.find('.pl-section.level2').each( function() {
-			
-				set.content.push( that.sectionConfig( $(this) ) )
-				
-			})
-			
-			return set
-			
-		}
-
-		, ajaxSaveMap: function( map ){
-		
-			var saveData = {
-				action: 'pl_save_map_draft'
-				,	map: map
-				,	page: $.pl.config.pageID
-				, 	special: $.pl.config.isSpecial
-			}
-			
-			$.ajax( {
-				type: 'POST'
-				, url: ajaxurl
-				, data: saveData	
-				, beforeSend: function(){
-					$('.btn-saving').addClass('active')
-				}
-				, success: function( response ){
-					$('.btn-saving').removeClass('active')
-					console.log( response )
-					
-					$('.state-list').removeClass('clean global local local-global').addClass(response)
-					$('.btn-state span').removeClass().addClass('state-draft-'+response)
-				}
-			})
-		
-			
-		}
-
-		, isAreaEmpty: function(area){
-			var addTo = (area.hasClass('pl-column-sortable')) ? area.parent() : area
-			
-			if(!area.children(".pl-sortable").not('.ui-sortable-helper').length)
-			    addTo.addClass('empty-area')
-			else 
-			    addTo.removeClass('empty-area')
-			
-		}
-
-        , alignGrid: function( area ) {
+		, alignGrid: function( area ) {
 		
             var that = this
 			,	total_width = 0
@@ -654,14 +622,14 @@
 			
   			that.isAreaEmpty( sort_area )
 
-            sort_area.children(".pl-sortable").each( function ( index ) {
+            sort_area.children(".pl-sortable:not(.pl-sortable-buffer)").each( function ( index ) {
 				
                 var section = $(this)
 				,	col_size = that.getColumnSize( section )
 				,	off_size = that.getOffsetSize( section )
 				
 				
-				if(sort_area.hasClass('pl-column-sortable')){
+				if(sort_area.hasClass('pl-sortable-column')){
 				
 					if(section.hasClass('level1')){
 						section
@@ -730,7 +698,123 @@
 
             })
 
-        } 
+        }
+
+		, getCurrentMap: function() {
+			
+			var that = this
+			,	map = {}
+
+
+			$('.pl-region').each( function(regionIndex, o) {
+
+				var region = $(this).data('region')
+				, 	areaConfig = []
+
+				$(this).find('.pl-area').each( function(areaIndex, o2) {
+
+					var area = $(this)
+					,	areaContent	= []
+					, 	areaSet = {}
+
+					$(this).find('.pl-section.level1').each( function(sectionIndex, o3) {
+
+						var section = $(this)
+
+						set = that.sectionConfig( section )
+
+						areaContent.push( set )
+
+					})
+
+					areaSet = {
+						area: ''
+						, content: areaContent
+					}
+
+					areaConfig.push( areaSet )
+
+				})
+
+				map[region] = areaConfig
+
+			})
+			
+			return map
+			
+		}
+
+		, storeConfig: function() {
+			
+			var that = this
+			,	map = that.getCurrentMap()
+			
+			$.pl.map = map
+			
+			that.ajaxSaveMap( map )
+			
+			return map
+			
+		
+		}
+		
+		, sectionConfig: function( section ){
+			
+			var that = this
+			,	set = {}
+			
+			set.object = section.data('object')
+			set.clone = section.data('clone')
+			set.sid = section.data('sid')
+			set.span = that.getColumnSize( section )[ 4 ]
+			set.offset = that.getOffsetSize( section )[ 3 ]
+			set.content = []
+			
+			section.find('.pl-section.level2').each( function() {
+			
+				set.content.push( that.sectionConfig( $(this) ) )
+				
+			})
+			
+			return set
+			
+		}
+
+		, ajaxSaveMap: function( map ){
+		
+			var saveData = {
+				action: 'pl_save_map_draft'
+				,	map: map
+				,	page: $.pl.config.pageID
+				, 	special: $.pl.config.isSpecial
+			}
+			
+			$.ajax( {
+				type: 'POST'
+				, url: ajaxurl
+				, data: saveData	
+				, beforeSend: function(){
+					$('.btn-saving').addClass('active')
+				}
+				, success: function( response ){
+					$('.btn-saving').removeClass('active')
+					$('.state-list').removeClass('clean global local local-global').addClass(response)
+					$('.btn-state span').removeClass().addClass('state-draft-'+response)
+				}
+			})
+		
+			
+		}
+
+		, isAreaEmpty: function(area){
+			var addTo = (area.hasClass('pl-sortable-column')) ? area.parent() : area
+			
+			if(!area.children(".pl-sortable").not('.ui-sortable-helper').length)
+			    addTo.addClass('empty-area')
+			else 
+			    addTo.removeClass('empty-area')
+			
+		}
 
 		, getOffsetSize: function( column, defaultValue ) {
 			
@@ -793,101 +877,82 @@
 		, startDroppable: function(){
 			
 			var that = this
+			,	sortableArgs = {}
+			, 	sortableArgsColumn = {}
 			
-		    $('.pl-sortable-area').sortable({
-			
-		        items: 	".pl-sortable"
-				,	placeholder: "pl-placeholder"
+			sortableArgs = {
+			       	items: 	".pl-sortable"
 				,	connectWith: ".pl-sortable-area"
+				,	placeholder: "pl-placeholder"
 				,	forcePlaceholderSize: true
 		        ,	tolerance: "pointer"		// basis for calculating where to drop
 				,	helper: 	"clone" 		// needed or positioning issues ensue
-				,	scrollSensitivity: 200
+				,	scrollSensitivity: 50
 				,	scrollSpeed: 40
 		        ,	cursor: "move"
-			//	,	cursorAt: { bottom: 0, left: 0 }
-				,	distance: 0.5
+				,	distance: 3
 				,	delay: 100
-				
+
 				, start: function(event, ui){
 					$('body')
 						.addClass('pl-dragging')
 						.toolbox('hide')
-					
+
 					if(ui.item.hasClass('x-item'))
 						$.xList.switchOnAdd(ui.item)
-						
+
 					// allows us to change sizes when dragging starts, while keeping good dragging
 					$( this ).sortable( "refreshPositions" ) 
 					
+					// Prevents double nesting columns and other recursion bugs. 
+					// Remove all drag and drop elements and disable sortable areas within columns if 
+					// the user is dragging a column
+					if( ui.item.hasClass('section-plcolumn') ){
+						
+						$( '.section-plcolumn .pl-sortable-column' ).removeClass('pl-sortable-area')
+						$( '.section-plcolumn .pl-section' ).removeClass('pl-sortable')
+						
+						$( this ).sortable( 'refresh' )
+						
+					}
+				
+
 				} 
 				, stop: function(event, ui){
-				
+
 					$('body')
 						.removeClass('pl-dragging')
-					
+
+					// when new sections are added
 					ui.item.find('.banner-refresh').fadeIn('slow')
 					
+					if( ui.item.hasClass('section-plcolumn') ){
+						
+						$( '.section-plcolumn .pl-sortable-column' ).addClass('pl-sortable-area')
+						$( '.section-plcolumn .pl-section' ).addClass('pl-sortable')
+						
+						$( this ).sortable( 'refresh' )
+						
+					}
+
 				}
-				
+
 				, over: function(event, ui) {
-					
+
 		           $( "#droppable" ).droppable( "disable" )
-		
+
 					ui.placeholder.css({
 						maxWidth: ui.placeholder.parent().width()
 					})
-		           
-		 			ui.placeholder.removeClass('hidden-placeholder')
-		
-		            if( ui.item.hasClass('section-plcolumn') && ui.placeholder.parent().parent().hasClass('section-plcolumn')) {
-		                ui.placeholder.addClass('hidden-placeholder')
-		            }
 
-		        }
-				, beforeStop: function(event, ui) {
-					
-		            if( ui.item.hasClass('section-plcolumn') && ui.placeholder.parent().parent().hasClass('section-plcolumn') ) {
-		                return false
-		            }
-		
 		        }
 				, update: function() {
 					that.reloadConfig( 'update-sortable' )
 				}
-				
-		    })
-		
-			$('.pl-sortable-area').droppable({
-				greedy: true
-				,	accept: ".pl-section"
-				,	hoverClass: "wpb_ui-state-active"
-			})
+			}
 			
-
-			$('.pl-column-sortable').droppable({
-			    greedy: true
-			    ,	accept: function( dropable_el ) {
-				
-			        if ( dropable_el.hasClass('dropable_el') && jQuery(this).hasClass('ui-droppable') && dropable_el.hasClass('not_dropable_in_third_level_nav') )
-			            return false;
-			        else if ( dropable_el.hasClass('dropable_el') == true )
-			            return true;
-			
-			    }
-			    ,	hoverClass: "wpb_ui-state-active"
-			    ,	over: function( event, ui ) {
-			        	jQuery(this).parent().addClass("wpb_ui-state-active");
-			    	}
-				,	out: function( event, ui ) {
-			        	jQuery(this).parent().removeClass("wpb_ui-state-active");
-			    	}
-				,	drop: function( event, ui ) {
-			        	//console.log(jQuery(this));
-			        	$(this).parent().removeClass("wpb_ui-state-active");
-			        	getElementMarkup(jQuery(this), ui.draggable, "addLastClass");
-			    	}
-			})
+		    $( '.pl-sortable-area' ).sortable( sortableArgs ) 
+	
 		
 		}
 		
@@ -901,9 +966,6 @@
 			var	widthSel = $('.pl-content')
 			
 			$('body').addClass('width-resize')
-	
-			
-
 
 			widthSel.resizable({ 
 				handles: "e, w",

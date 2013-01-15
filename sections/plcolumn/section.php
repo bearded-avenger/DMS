@@ -10,7 +10,7 @@ class PLColumn extends PageLinesSection {
 	function section_template() { 
 
 		?>
-		<div class="pl-column-sortable pl-sortable-area editor-row">
+		<div class="pl-sortable-column pl-sortable-area editor-row">
 			
 			<?php
 			
