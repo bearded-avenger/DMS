@@ -158,6 +158,40 @@
 				
 			})
 			
+			$(".delete-template").on("click.deleteTemplate", function(e) {
+			
+				e.preventDefault()
+				
+				var key = $(this).closest('.list-item').data('key')
+				, 	confirmText = "<h3>Are you sure?</h3><p>This will delete this template configuration.</p>"
+				,	theData = {
+							action: 'pl_template_action'
+						,	mode: 'delete_template'
+						,	key: key
+						,	page: $.pl.config.pageID
+					}
+					
+				// modal
+				bootbox.confirm( confirmText, function( result ){
+					if(result == true){
+					
+						$.ajax( {
+							type: 'POST'
+							, url: ajaxurl
+							, data: theData	
+							, beforeSend: function(){
+								$( '.template_key_'+key ).fadeOut(300, function() { 
+									$(this).remove()
+								})
+							}
+						})
+					
+					}
+		
+				})
+				
+			})
+			
 			
 			$(".form-save-template").on("submit.saveTemplate", function(e) {
 			
@@ -165,8 +199,10 @@
 				
 				var form = $(this).formParams()
 				,	theData = {
-						action: 'pl_save_template'
-						, map: $.pageBuilder.getCurrentMap()
+							action: 'pl_template_action'
+						, 	mode: 'save_template'
+						, 	map: $.pageBuilder.getCurrentMap()
+						,	page: $.pl.config.pageID
 					}
 				,	theData = $.extend({}, theData, form)
 
@@ -187,6 +223,8 @@
 			
 				
 			})
+			
+			
 			
 			
 			

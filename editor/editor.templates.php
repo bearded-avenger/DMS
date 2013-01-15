@@ -17,17 +17,18 @@ class EditorTemplates {
 		foreach( $this->get_user_templates() as $index => $template){
 			
 			$templates .= sprintf(
-							'<div class="list-item" data-key="%s">
+							'<div class="list-item template_key_%s" data-key="%s">
 								<div class="list-item-pad fix">
 									<div class="title">%s</div>
 									<div class="desc">%s</div>
 									<div class="btns">
-										<a class="btn btn-mini btn-primary load-template">Load Template</a>
+										<a class="btn btn-mini btn-primary load-template">Load This Template</a>
 										<a class="btn btn-mini load-template">Make "%s" Default</a>
 										<a class="btn btn-mini delete-template">Delete</a>
 									</div>
 								</div>
 							</div>', 
+							$index,
 							$index, 
 							$template['name'], 
 							$template['desc'],
@@ -79,7 +80,7 @@ class EditorTemplates {
 			return false;
 	}
 	
-	function add_new_template( $name, $desc, $map ){
+	function create_template( $name, $desc, $map ){
 		
 		$templates = $this->get_user_templates();
 		
@@ -88,6 +89,16 @@ class EditorTemplates {
 			'desc'	=> $desc, 
 			'map'	=> $map
 		);
+		
+		pl_opt_update( $this->template_slug, $templates );
+		
+	}
+	
+	function delete_template( $key ){
+		
+		$templates = $this->get_user_templates();
+		
+		unset( $templates[$key] );
 		
 		pl_opt_update( $this->template_slug, $templates );
 		

@@ -57,17 +57,30 @@ function pl_load_template (){
 }
 
 
-add_action( 'wp_ajax_pl_save_template', 'pl_save_template' );
-function pl_save_template (){
+add_action( 'wp_ajax_pl_template_action', 'pl_template_action' );
+function pl_template_action (){
+
+	$mode = (isset($_POST['mode'])) ? $_POST['mode'] : 'default';
 
 	$tpl = new EditorTemplates;
 
-	$template_map = $_POST['map']['template'];
-	
-	$name = (isset($_POST['template-name'])) ? $_POST['template-name'] : 'Template (No Name)'; 
-	$desc = (isset($_POST['template-desc'])) ? $_POST['template-desc'] : 'No description.'; 
-	
-	$tpl->add_new_template($name, $desc, $template_map);
+
+	if($mode == 'save_template'){
+		
+		$template_map = $_POST['map']['template'];
+
+		$name = (isset($_POST['template-name'])) ? $_POST['template-name'] : 'Template (No Name)'; 
+		$desc = (isset($_POST['template-desc'])) ? $_POST['template-desc'] : 'No description.'; 
+
+		$tpl->create_template($name, $desc, $template_map);
+		
+	} elseif( $mode == 'delete_template' ){
+		
+		$key = ( isset($_POST['key']) ) ? $_POST['key'] : false;
+		
+		$tpl->delete_template( $key );
+		
+	}
 	
 	echo true;
 	die(); // don't forget this, always returns 0 w/o
