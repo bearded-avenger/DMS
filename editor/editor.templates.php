@@ -13,26 +13,35 @@ class EditorTemplates {
 	
 		global $plpg;
 	
+		if(!$plpg->is_special()){
+			$post_type_default = sprintf(
+				'<a class="btn btn-mini set-default-template" data-type="%s">Make "%s" Default</a>', 
+				$plpg->type, 
+				$plpg->type_name
+			);
+		} else
+			$post_type_default = '';
+	
 		$templates = '';
 		foreach( $this->get_user_templates() as $index => $template){
-			
+		
 			$templates .= sprintf(
 							'<div class="list-item template_key_%s" data-key="%s">
 								<div class="list-item-pad fix">
 									<div class="title">%s</div>
 									<div class="desc">%s</div>
 									<div class="btns">
-										<a class="btn btn-mini btn-primary load-template">Load This Template</a>
-										<a class="btn btn-mini load-template">Make "%s" Default</a>
+										<a class="btn btn-mini btn-primary load-template">Load Template</a>
+										%s
 										<a class="btn btn-mini delete-template">Delete</a>
 									</div>
 								</div>
 							</div>', 
 							$index,
-							$index, 
+							$index,
 							$template['name'], 
 							$template['desc'],
-							$plpg->type_name
+							$post_type_default
 						);
 			
 		}
