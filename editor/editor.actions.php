@@ -55,3 +55,21 @@ function pl_load_template (){
 	die(); // don't forget this, always returns 0 w/o
 	
 }
+
+
+add_action( 'wp_ajax_pl_save_template', 'pl_save_template' );
+function pl_save_template (){
+
+	$tpl = new EditorTemplates;
+
+	$template_map = $_POST['map']['template'];
+	
+	$name = (isset($_POST['template-name'])) ? $_POST['template-name'] : 'Template (No Name)'; 
+	$desc = (isset($_POST['template-desc'])) ? $_POST['template-desc'] : 'No description.'; 
+	
+	$tpl->add_new_template($name, $desc, $template_map);
+	
+	echo true;
+	die(); // don't forget this, always returns 0 w/o
+	
+}

@@ -156,11 +156,50 @@
 		
 				})
 				
-				// save persistent
-				
-				// 
 			})
+			
+			
+			$(".form-save-template").on("submit.saveTemplate", function(e) {
+			
+				e.preventDefault()
+				
+				var form = $(this).formParams()
+				,	theData = {
+						action: 'pl_save_template'
+						, map: $.pageBuilder.getCurrentMap()
+					}
+				,	theData = $.extend({}, theData, form)
+
+				$.ajax( {
+					type: 'POST'
+					, url: ajaxurl
+					, data: theData	
+					, beforeSend: function(){
+						
+						bootbox.dialog( that.dialogText('Saving Template'), [], {animate: false})
+					}
+					, success: function( response ){
+						bootbox.dialog( that.dialogText('Success! Reloading Page'), [], {animate: false})
+						location.reload()
+					
+					}
+				})
+			
+				
+			})
+			
+			
+			
+			
         }
+
+		, dialogText: function( text ){
+			
+			return '<div class="spn"><div class="spn-txt">'+text+'</div><div class="progress progress-striped active"><div class="bar" style="width: 100%"></div></div></div>'
+				
+
+			
+		}
 		
 		, showPanel: function( key ){
 		
@@ -623,45 +662,54 @@
 
         }
 
-		, storeConfig: function() {
+		, getCurrentMap: function() {
 			
 			var that = this
 			,	map = {}
-			
-			
+
+
 			$('.pl-region').each( function(regionIndex, o) {
-				
+
 				var region = $(this).data('region')
 				, 	areaConfig = []
-				
+
 				$(this).find('.pl-area').each( function(areaIndex, o2) {
-					
+
 					var area = $(this)
 					,	areaContent	= []
 					, 	areaSet = {}
-				
+
 					$(this).find('.pl-section.level1').each( function(sectionIndex, o3) {
 
 						var section = $(this)
-						
+
 						set = that.sectionConfig( section )
-						
+
 						areaContent.push( set )
 
 					})
-					
+
 					areaSet = {
 						area: ''
 						, content: areaContent
 					}
-				
+
 					areaConfig.push( areaSet )
-					
+
 				})
-				
+
 				map[region] = areaConfig
-				
+
 			})
+			
+			return map
+			
+		}
+
+		, storeConfig: function() {
+			
+			var that = this
+			,	map = that.getCurrentMap()
 			
 			$.pl.map = map
 			
@@ -712,8 +760,6 @@
 				}
 				, success: function( response ){
 					$('.btn-saving').removeClass('active')
-					console.log( response )
-					
 					$('.state-list').removeClass('clean global local local-global').addClass(response)
 					$('.btn-state span').removeClass().addClass('state-draft-'+response)
 				}
@@ -882,9 +928,6 @@
 			var	widthSel = $('.pl-content')
 			
 			$('body').addClass('width-resize')
-	
-			
-
 
 			widthSel.resizable({ 
 				handles: "e, w",
