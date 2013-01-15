@@ -890,7 +890,7 @@
 				,	scrollSensitivity: 50
 				,	scrollSpeed: 40
 		        ,	cursor: "move"
-				,	distance: 0.5
+				,	distance: 3
 				,	delay: 100
 
 				, start: function(event, ui){

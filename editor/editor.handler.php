@@ -293,7 +293,15 @@ class PageLinesTemplateHandler {
 	
 	function parse_config(){
 		foreach($this->map as $group => &$g){
+			
+			if( !isset($g) || !is_array($g) )
+				continue;
+			
 			foreach($g as $area => &$a){
+				
+				if( !isset($a['content']) || !is_array($a['content']) )
+					continue;
+				
 				foreach($a['content'] as $key => &$meta){
 				
 					$meta = wp_parse_args($meta, $this->meta_defaults($key));
@@ -400,12 +408,16 @@ class PageLinesTemplateHandler {
 			
 			$this->editor->area_start($a);
 			
-			foreach($a['content'] as $key => $meta){
+			if( isset($a['content']) ){
 				
-				$this->render_section( $meta );
+				foreach($a['content'] as $key => $meta){
+
+					$this->render_section( $meta );
+
+				}
 				
 			}
-			
+
 			$this->editor->area_end($a);
 			
 		}
