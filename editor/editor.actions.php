@@ -64,7 +64,6 @@ function pl_template_action (){
 
 	$tpl = new EditorTemplates;
 
-
 	if($mode == 'save_template'){
 		
 		$template_map = $_POST['map']['template'];
@@ -80,6 +79,15 @@ function pl_template_action (){
 		
 		$tpl->delete_template( $key );
 		
+	}	elseif( $mode == 'type_default' ){
+		
+		$page_type = new PageLinesPageType( $_POST['type'] );
+
+		$key = $_POST['key'];
+
+		$page_type->set_type_field( 'template-default', $key );
+
+
 	}
 	
 	echo true;

@@ -50,6 +50,7 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.settings.php' );
 		require_once( PL_EDITOR . '/editor.interface.php' );
 		require_once( PL_EDITOR . '/editor.page.php' );
+		require_once( PL_EDITOR . '/editor.pagetype.php' );
 		require_once( PL_EDITOR . '/editor.handler.php' );
 		require_once( PL_EDITOR . '/editor.less.php' );
 		require_once( PL_EDITOR . '/editor.library.php' );

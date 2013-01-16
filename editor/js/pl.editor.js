@@ -221,13 +221,43 @@
 					}
 				})
 			
-				
 			})
+		
+			$(".set-default-template").on("click.defaultTemplate", function(e) {
 			
+				e.preventDefault()
+				
+				var that = this
+				,	key = $(this).closest('.list-item').data('key')
+				,	theType = $.pl.config.pageTypeName
+				,	theData = {
+							action: 'pl_template_action'
+						, 	mode: 'type_default'
+						, 	key: key
+						,	type: $.pl.config.pageTypeID
+						,	page: $.pl.config.pageID
+					}
+
+				$.ajax( {
+					type: 'POST'
+					, url: ajaxurl
+					, data: theData	
+					, beforeSend: function(){
+
+						$('.btn-saving').addClass('active')
+					}
+					, success: function( response ){
+						console.log(response)
+						$(that)
+							.removeClass('set-default-template')
+							.addClass('btn-success')
+							.html('Active ('+theType +') default')
+							
+						$('.btn-saving').removeClass('active')
+					}
+				})
 			
-			
-			
-			
+			})
 			
         }
 
@@ -977,15 +1007,17 @@
 					$('body').removeClass('width-resizing')
 				}
 				, resize: function(event, ui) { 
-
+			
 					var resizeWidth = ui.size.width
 					,	resizeOrigWidth = ui.originalSize.width
 					,	resizeNewWidth = resizeOrigWidth + ((resizeWidth - resizeOrigWidth) * 2)
 
+					resizeNewWidth = (resizeNewWidth < 480) ? 480 : resizeNewWidth;
+						
 					widthSel
 						.css('left', 'auto')
 						.css('height', 'auto')
-						.width(resizeNewWidth)
+						.width( resizeNewWidth )
 
 				}
 			})

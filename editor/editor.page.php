@@ -10,17 +10,19 @@ class PageLinesPage {
 
 	var $special_base = 70000000;
 	var $opt_special_lookup = 'pl-special-lookup';
+	var $opt_type_info = 'pl-type-info';
 
-	function __construct( ) {
+	function __construct(  ) {
+		
+		$this->id = $this->id();
 		
 		$this->type = $this->type();
 		
-		$this->type_name = ucwords( str_replace('_', ' ', $this->type()) ); 
-		
-		$this->id = $this->id();
+		$this->type_name = ucwords( str_replace('_', ' ', $this->type()) ); 	
+
 
 	}
-
+	
 	function id(){
 		global $post;
 		
@@ -43,7 +45,7 @@ class PageLinesPage {
 
 	function special_index_lookup(){
 		
-		$lookup_array = get_option( $this->opt_special_lookup );
+		$lookup_array = pl_opt( $this->opt_special_lookup );
 		
 		if( !$lookup_array ){
 			
@@ -59,7 +61,7 @@ class PageLinesPage {
 				'404_page'
 			);
 			
-			update_option( $this->opt_special_lookup, $lookup_array );
+			pl_opt_update( $this->opt_special_lookup, $lookup_array );
 		}
 		
 		$index = array_search( $this->type(), $lookup_array );
@@ -70,7 +72,7 @@ class PageLinesPage {
 			
 			$index = array_search( $this->type(), $lookup_array );
 			
-			update_option( $this->opt_special_lookup, $lookup_array );
+			pl_opt_update( $this->opt_special_lookup, $lookup_array );
 			
 		}
 		

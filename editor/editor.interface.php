@@ -366,7 +366,7 @@ class EditorInterface {
 				
 			</ul>
 			<ul class="unstyled controls not-btn send-right">
-				<li><span class="btn-toolbox btn-saving not-btn"><i class="icon-save"></i> <span class="txt">Saving Draft</span></li>
+				<li><span class="btn-toolbox btn-saving not-btn"><i class="icon-save"></i> <span class="txt">Saving</span></li>
 			</ul>
 		</div>
 		<div class="toolbox-panel-wrap">

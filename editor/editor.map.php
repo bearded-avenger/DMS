@@ -26,7 +26,6 @@ class EditorMap {
 		$map_global = pl_opt( $this->map_option_slug, $this->map_default, true ); 
 		$map_local = pl_meta( $page->id, $this->map_option_slug, $this->map_default );
 		
-	
 		$map['header'] = $this->get_header( $map_global[ $this->draft->mode ] ); 
 		$map['footer'] = $this->get_footer( $map_global[ $this->draft->mode ] ); 
 		$map['template'] = $this->get_template( $map_local[ $this->draft->mode ] ); 

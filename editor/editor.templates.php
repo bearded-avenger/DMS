@@ -3,6 +3,7 @@
 class EditorTemplates {
 	
 	var $template_slug = 'pl-user-templates';
+	var $pt_defaults_slug = 'pl-default-templates';
 	
 	
 	function __construct( ){
@@ -12,18 +13,32 @@ class EditorTemplates {
 	function user_templates(){
 	
 		global $plpg;
-	
-		if(!$plpg->is_special()){
-			$post_type_default = sprintf(
-				'<a class="btn btn-mini set-default-template" data-type="%s">Make "%s" Default</a>', 
-				$plpg->type, 
-				$plpg->type_name
-			);
-		} else
-			$post_type_default = '';
+		$pagetype = new PageLinesPageType( $plpg->type );
+		$default_template = $pagetype->get_type_field( 'template-default' );
+		
 	
 		$templates = '';
 		foreach( $this->get_user_templates() as $index => $template){
+		
+			if(!$plpg->is_special()){
+
+				if($index == $default_template){
+					$class = 'btn-success';
+					$text = 'Current';
+				} else {
+					$class = 'set-default-template';
+					$text = 'Make';
+				}
+
+				$post_type_default = sprintf(
+					'<a class="btn btn-mini %s" data-type="%s">%s (%s) Default</a>', 
+					$class,
+					$plpg->type, 
+					$text,
+					$plpg->type_name
+				);
+			} else
+				$post_type_default = '';
 		
 			$templates .= sprintf(
 							'<div class="list-item template_key_%s" data-key="%s">
@@ -87,6 +102,16 @@ class EditorTemplates {
 			return $templates[ $key ]['map'];
 		else
 			return false;
+	}
+	
+	function set_post_type_default( $post_type, $index){
+		
+		$post_type_defaults = pl_opt( $this->pt_defaults_slug, array() );
+		
+		$post_type_defaults[ $post_type ] = $index;
+		
+		pl_opt_update( $this->pt_defaults_slug, $post_type_defaults );
+		
 	}
 	
 	function create_template( $name, $desc, $map ){

@@ -437,11 +437,10 @@
 		padding: 0 1%; 
 		
 		.user-select(none);
-		i, 
-		i:before{
+		i{
+			margin-top: -4px;
+			font-size: 1.4em;
 			vertical-align: middle;
-			font-size: 18px;
-			width: 20px;
 		}
 		 
 		ul.controls{
@@ -485,12 +484,12 @@
 				}
 			}
 			> li > .btn-toolbox{
-				
+				vertical-align: middle;
 				display: block;
 				color: #444;
 				padding: 0 15px;
 				font-size: 11px;
-				line-height: 26px;
+				line-height: 28px;
 				cursor: pointer;
 				border-left: 1px solid #fff; 
 				border-right: 1px solid #AAA;
@@ -504,6 +503,7 @@
 					#gradient > .vertical(#eee, #ddd);
 				}
 				&.btn-saving{
+					color: @linkcolor;
 					border-left: 1px solid transparent;
 					border-right: 1px solid transparent;
 					padding: 0 4px;
