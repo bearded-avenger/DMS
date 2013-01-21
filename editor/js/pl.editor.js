@@ -263,7 +263,11 @@
 
 		, dialogText: function( text ){
 			
-			return '<div class="spn"><div class="spn-txt">'+text+'</div><div class="progress progress-striped active"><div class="bar" style="width: 100%"></div></div></div>'
+			var bar = '<div class="progress progress-striped active"><div class="bar" style="width: 100%"></div></div>'
+			,	icon = '<i class="icon-spin icon-refresh spin-fast"></i>'
+			, 	theHTML = sprintf('<div class="spn"><div class="spn-txt">%s %s</div></div>',bar, text)
+		
+			return theHTML
 				
 
 			
@@ -448,7 +452,6 @@
 			, 	image = element.data('image')
 			, 	imageHTML = sprintf('<div class="pl-touchable banner-frame"><div class="pl-vignette pl-touchable-vignette"><img class="section-thumb" src="%s" /></div></div>', image )
 			, 	text = sprintf('<div class="banner-title">%s</div>', name )
-			, 	refresh = '<div class="banner-refresh" style="display: none;"><a href="javascript:history.go(0)" class="btn btn-info"><i class="icon-undo"></i> Refresh Page To Load</a></div>'
 			, 	theHTML = sprintf('<div class="pl-refresh-banner">%s %s</div>', imageHTML, text)
 			
 			element
@@ -456,6 +459,11 @@
 				.addClass('pl-section')
 				.html(theHTML)
 				
+			
+				
+		}
+		, switchOnStop: function( element ){
+			$.pageBuilder.storeConfig(true)
 		}
 		
 	}
@@ -775,14 +783,15 @@
 			
 		}
 
-		, storeConfig: function() {
+		, storeConfig: function( interrupt ) {
 			
 			var that = this
+			, 	interrupt = interrupt || false
 			,	map = that.getCurrentMap()
 			
 			$.pl.map = map
 			
-			that.ajaxSaveMap( map )
+			that.ajaxSaveMap( map, interrupt )
 			
 			return map
 			
@@ -811,9 +820,11 @@
 			
 		}
 
-		, ajaxSaveMap: function( map ){
+		, ajaxSaveMap: function( map, interrupt ){
 		
-			var saveData = {
+			var that = this
+			, 	interrupt = interrupt || false
+			,	saveData = {
 				action: 'pl_save_map_draft'
 				,	map: map
 				,	page: $.pl.config.pageID
@@ -826,8 +837,17 @@
 				, data: saveData	
 				, beforeSend: function(){
 					$('.btn-saving').addClass('active')
+					
+					if( interrupt )
+						bootbox.dialog( $.pageTools.dialogText('Saving Template'), [], {animate: false})
 				}
 				, success: function( response ){
+					
+					if( interrupt ){
+						bootbox.dialog( $.pageTools.dialogText('Success! Reloading Page'), [], {animate: false})
+						location.reload()
+					}
+					
 					$('.btn-saving').removeClass('active')
 					$('.state-list').removeClass('clean global local local-global').addClass(response)
 					$('.btn-state span').removeClass().addClass('state-draft-'+response)
@@ -965,6 +985,9 @@
 						$( this ).sortable( 'refresh' )
 						
 					}
+					
+					if(ui.item.hasClass('x-item'))
+						$.xList.switchOnStop(ui.item)
 
 				}
 
