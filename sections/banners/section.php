@@ -8,6 +8,7 @@
 	Workswith: templates, main, header, morefoot
 	Edition: pro
 	Cloning: true 
+	Filter: format
 */
 
 /**

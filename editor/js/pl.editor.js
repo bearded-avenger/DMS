@@ -297,9 +297,9 @@
 			selectedPanel.tabs({
 				activate: function(event, ui){
 					
-					if(ui.newTab.attr('data-filter'))
+					if(ui.newTab.attr('data-filter')){
 						selectedPanel.find('.x-list').isotope({ filter: ui.newTab.attr('data-filter') })
-					else if (ui.newTab.attr('data-flag') && ui.newTab.attr('data-flag') == 'custom-scripts'){
+					} else if (ui.newTab.attr('data-flag') && ui.newTab.attr('data-flag') == 'custom-scripts'){
 						var editor2 = CodeMirror.fromTextArea( $(".custom-scripts").get(0), {
 							'lineNumbers': true
 							,	'mode': 'text/x-less'
@@ -338,11 +338,7 @@
 					}
 				})
 				
-			} else if (key == 'pl-extend' ){
-				
-			//	$.xList.renderList( $('[data-panel="store"]'), $.pl.extend )
-				
-			}
+			} 
 		
 			selectedTab.addClass('active-tab')
 			

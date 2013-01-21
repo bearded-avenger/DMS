@@ -181,7 +181,8 @@ class PageLinesRegister {
 			'tax'			=> 'tax',
 			'persistant'	=> 'Persistant',
 			'format'		=> 'Format',
-			'classes'		=> 'Classes'
+			'classes'		=> 'Classes',
+			'filter'		=> 'Filter'
 			);
 			
 		$sections = array();
@@ -298,7 +299,8 @@ class PageLinesRegister {
 					'loadme'		=> $load,
 					'price'			=> $price,
 					'purchased'		=> $purchased,
-					'uid'			=> $uid
+					'uid'			=> $uid,
+					'filter'		=> $headers['filter']
 				);	
 			}
 		}

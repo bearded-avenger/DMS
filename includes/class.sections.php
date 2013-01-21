@@ -44,7 +44,8 @@ class PageLinesSection {
 				'tax_id'			=> '',
 				'format'			=> 'textured',
 				'classes'			=> '',
-				'less'				=> false
+				'less'				=> false,
+				'filter'			=> 'standard'
 			);
 
 		$this->settings = wp_parse_args( $settings, $defaults );
@@ -97,6 +98,7 @@ class PageLinesSection {
 		$this->name = $this->settings['name'] = $this->sinfo['name'];
 		$this->description = $this->settings['description'] = $this->sinfo['description'];
 
+		$this->settings['filter'] = ( !empty( $this->sinfo['filter'] ) ) ? $this->sinfo['filter'] : $this->settings['filter'];
 		$this->settings['cloning'] = ( !empty( $this->sinfo['cloning'] ) ) ? $this->sinfo['cloning'] : $this->settings['cloning'];
 		$this->settings['workswith'] = ( !empty( $this->sinfo['workswith'] ) ) ? $this->sinfo['workswith'] : $this->settings['workswith'];
 		$this->settings['version'] = ( !empty( $this->sinfo['edition'] ) ) ? $this->sinfo['edition'] : $this->settings['version'];

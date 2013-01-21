@@ -7,6 +7,7 @@
 	Class Name: PageLinesBrandNav
 	Depends: PageLinesNav
 	Workswith: header
+	Filter: standard
 */
 
 /**

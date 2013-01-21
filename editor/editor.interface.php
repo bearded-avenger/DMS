@@ -137,30 +137,46 @@ class EditorInterface {
 				'panel'	=> array(
 					'heading'	=> "<i class='icon-random'></i> Drag to Add",
 					'add_section'	=> array(
-						'name'	=> 'All Sections', 
+						'name'	=> 'Add Sections', 
 						'type'	=> 'call',
-						'call'	=> array(&$this, 'add_new_callback')
+						'call'	=> array(&$this, 'add_new_callback'),
+						'filter'=> '*'
 					), 
 					'heading2'	=> "<i class='icon-filter'></i> Filters",
-					'wordpress'		=> array(
+					'standard'		=> array(
 						'name'	=> 'Standard', 
-						'href'	=> '#standard', 
+						'href'	=> '#add_section', 
 						'filter'=> '.standard'
+					),
+					'components'		=> array(
+						'name'	=> 'Components', 
+						'href'	=> '#add_section', 
+						'filter'=> '.component'
+					),
+					'formats'		=> array(
+						'name'	=> 'Post Formats', 
+						'href'	=> '#add_section', 
+						'filter'=> '.format'
 					),
 					'galleries'		=> array(
 						'name'	=> 'Galleries', 
-						'href'	=> '#galleries', 
+						'href'	=> '#add_section', 
 						'filter'=> '.gallery'
 					),
 					'features'		=> array(
-						'name'	=> 'Features/Sliders', 
-						'href'	=> '#feature', 
+						'name'	=> 'Features', 
+						'href'	=> '#add_section', 
 						'filter'=> '.feature'
 					),
 					'layouts'		=> array(
 						'name'	=> 'Layouts', 
-						'href'	=> '#layout', 
+						'href'	=> '#add_section', 
 						'filter'=> '.layout'
+					),
+					'misc'		=> array(
+						'name'	=> 'Miscellaneous', 
+						'href'	=> '#add_section', 
+						'filter'=> '.misc'
 					),
 				)
 			),
@@ -243,17 +259,17 @@ class EditorInterface {
 					'search'	=> array('name'	=> 'Search'),
 				)
 			),
-			'pl-actions' => array(
-				'name'	=> 'Actions',
-				'icon'	=> 'icon-asterisk',
-				'type'	=> 'dropup', 
-				'panel'	=> array(
-					
-					'template'	=> array('name'	=> 'Preview Page'),
-					'revert'	=> array('name'	=> 'Revert Changes')
-				)
-				
-			),
+			// 'pl-actions' => array(
+			// 				'name'	=> 'Actions',
+			// 				'icon'	=> 'icon-asterisk',
+			// 				'type'	=> 'dropup', 
+			// 				'panel'	=> array(
+			// 					
+			// 					'template'	=> array('name'	=> 'Preview Page'),
+			// 					'revert'	=> array('name'	=> 'Revert Changes')
+			// 				)
+			// 				
+			// 			),
 			'section-options' => array(
 				'name'	=> 'Section Options',
 				'icon'	=> 'icon-paste',
@@ -410,14 +426,14 @@ class EditorInterface {
 	
 	function add_new_callback(){
 		$sections = get_available_sections(); 
-	//	plprint($sections);
+		//plprint($sections);
 		
 		$section_classes = 'pl-sortable span12 sortable-first sortable-last';
 		$list = '';
 		foreach($sections as $key => $s){
 			
 			$list .= sprintf(
-				'<section class="x-item %s" data-object="%s" data-sid="%s" data-name="%s" data-image="%s"	>
+				'<section class="x-item %s %s" data-object="%s" data-sid="%s" data-name="%s" data-image="%s"	>
 					<div class="x-item-frame">
 						<div class="pl-vignette" style="">
 							<img src="%s" style="opacity: 1;"/>
@@ -428,6 +444,7 @@ class EditorInterface {
 					</div>
 				</section>', 
 				$section_classes,
+				$s->settings['filter'],
 				$s->class_name,
 				$s->id,
 				$s->name,

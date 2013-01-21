@@ -197,8 +197,8 @@
 				
 				var newY = e.pageY
 				,	newHeight = Math.max(0, startHeight + startY - newY)
-		
-				if(newY > 30 && newHeight > 50){
+			
+				if(e.pageY > 30 && newHeight > 50){
 					obj.setHeight(newHeight)
 				}
 			})
