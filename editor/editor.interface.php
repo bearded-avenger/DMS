@@ -135,15 +135,33 @@ class EditorInterface {
 				'name'	=> 'Add New',
 				'icon'	=> 'icon-plus-sign',
 				'panel'	=> array(
-					'heading'	=> "Add To Page",
+					'heading'	=> "<i class='icon-random'></i> Drag to Add",
 					'add_section'	=> array(
-						'name'	=> 'Available Sections', 
+						'name'	=> 'All Sections', 
 						'type'	=> 'call',
-						'call'	=> array(&$this, 'add_stuff_callback')
+						'call'	=> array(&$this, 'add_new_callback')
 					), 
-					'add_layout'	=> array(
-						'name'	=> 'Layouts'
-					)
+					'heading2'	=> "<i class='icon-filter'></i> Filters",
+					'wordpress'		=> array(
+						'name'	=> 'WordPress', 
+						'href'	=> '#wordpress', 
+						'filter'=> '.wordpress'
+					),
+					'galleries'		=> array(
+						'name'	=> 'Galleries', 
+						'href'	=> '#galleries', 
+						'filter'=> '.gallery'
+					),
+					'features'		=> array(
+						'name'	=> 'Features/Sliders', 
+						'href'	=> '#feature', 
+						'filter'=> '.feature'
+					),
+					'layouts'		=> array(
+						'name'	=> 'Layouts', 
+						'href'	=> '#layout', 
+						'filter'=> '.layout'
+					),
 				)
 			),
 			
@@ -390,16 +408,25 @@ class EditorInterface {
 	<?php 
 	}
 	
-	function add_stuff_callback(){
+	function add_new_callback(){
 		$sections = get_available_sections(); 
 	//	plprint($sections);
 		
-		$section_classes = 'pl-section pl-sortable span12 sortable-first sortable-last';
+		$section_classes = 'pl-sortable span12 sortable-first sortable-last';
 		$list = '';
 		foreach($sections as $key => $s){
 			
 			$list .= sprintf(
-				'<section class="x-item %s" data-object="%s" data-sid="%s" data-name="%s" data-image="%s"><div class="x-item-frame"><img src="%s" /></div><div class="x-item-text">%s</div></section>', 
+				'<section class="x-item %s" data-object="%s" data-sid="%s" data-name="%s" data-image="%s"	>
+					<div class="x-item-frame">
+						<div class="pl-vignette" style="">
+							<img src="%s" style="opacity: 1;"/>
+						</div>
+					</div>
+					<div class="x-item-text">
+						%s
+					</div>
+				</section>', 
 				$section_classes,
 				$s->class_name,
 				$s->id,

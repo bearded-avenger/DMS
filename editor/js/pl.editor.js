@@ -446,13 +446,14 @@
 			
 			var name = element.data('name')
 			, 	image = element.data('image')
-			, 	imageHTML = sprintf('<div class="banner-frame"><img class="section-thumb" src="%s" /></div>', image )
-			, 	text = sprintf('<h3 class="banner-title">%s</h3>', name )
+			, 	imageHTML = sprintf('<div class="pl-touchable banner-frame"><div class="pl-vignette pl-touchable-vignette"><img class="section-thumb" src="%s" /></div></div>', image )
+			, 	text = sprintf('<div class="banner-title">%s</div>', name )
 			, 	refresh = '<div class="banner-refresh" style="display: none;"><a href="javascript:history.go(0)" class="btn btn-info"><i class="icon-undo"></i> Refresh Page To Load</a></div>'
-			, 	theHTML = sprintf('<div class="pl-refresh-banner">%s %s %s</div>', imageHTML, text, refresh)
+			, 	theHTML = sprintf('<div class="pl-refresh-banner">%s %s</div>', imageHTML, text)
 			
 			element
 				.removeAttr("style")
+				.addClass('pl-section')
 				.html(theHTML)
 				
 		}
@@ -982,7 +983,7 @@
 			}
 			
 		    $( '.pl-sortable-area' ).sortable( sortableArgs ) 
-	
+			$( ".x-item" ).draggable();
 		
 		}
 		
