@@ -425,18 +425,18 @@
 			list = this
 		
 			panel.find( '.x-item' ).draggable({
-				revert: "invalid"
-				, appendTo: "body"
-				, helper: "clone"
-				, cursor: "move" 
-				, connectToSortable: ".pl-sortable-area"
-				, start: function(event, ui){
+					appendTo: "body"
+				, 	helper: "clone"
+				, 	cursor: "move" 
+				, 	connectToSortable: ".pl-sortable-area"
+				,	zIndex: 10000
+				, 	start: function(event, ui){
 				
-					list.switchOnAdd(ui.helper)
-					ui.helper
-						.css('max-width', '300px')
-						.css('height', 'auto')
-				}
+						list.switchOnAdd(ui.helper)
+						ui.helper
+							.css('max-width', '300px')
+							.css('height', 'auto')
+					}
 			})
 		
 			
@@ -454,15 +454,21 @@
 			, 	text = sprintf('<div class="banner-title">%s</div>', name )
 			, 	theHTML = sprintf('<div class="pl-refresh-banner">%s %s</div>', imageHTML, text)
 			
+			
 			element
 				.removeAttr("style")
-				.addClass('pl-section')
 				.html(theHTML)
 				
-			
+			if(!element.hasClass('ui-draggable-dragging'))
+				element.hide()
 				
 		}
 		, switchOnStop: function( element ){
+			element.addClass('pl-section')
+			
+			if(!element.hasClass('ui-draggable-dragging'))
+				element.show()
+			
 			$.pageBuilder.storeConfig(true)
 		}
 		

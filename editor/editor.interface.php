@@ -143,9 +143,9 @@ class EditorInterface {
 					), 
 					'heading2'	=> "<i class='icon-filter'></i> Filters",
 					'wordpress'		=> array(
-						'name'	=> 'WordPress', 
-						'href'	=> '#wordpress', 
-						'filter'=> '.wordpress'
+						'name'	=> 'Standard', 
+						'href'	=> '#standard', 
+						'filter'=> '.standard'
 					),
 					'galleries'		=> array(
 						'name'	=> 'Galleries', 
@@ -614,10 +614,10 @@ class EditorInterface {
 				<a title="Section Decrease Width" href="#" class="s-control s-control-icon section-decrease"><i class="icon-caret-left"></i></a>
 				<span title="Width" class="s-control section-size"></span>
 				<a title="Section Increase Width" href="#" class="s-control s-control-icon section-increase"><i class="icon-caret-right"></i></a>
-				<a title="Reduce Offset" href="#" class="s-control s-control-icon section-offset-reduce"><i class="icon-step-backward"></i></a>
+				<a title="Reduce Offset" href="#" class="s-control s-control-icon section-offset-reduce"><i class="icon-angle-left"></i></a>
 				<span title="Offset Size" class="s-control offset-size"></span>
-				<a title="Increase Offset" href="#" class="s-control s-control-icon section-offset-increase"><i class="icon-step-forward"></i></a>
-				<a title="Force New Row" href="#" class="s-control s-control-icon section-start-row"><i class="icon-fast-backward"></i></a>
+				<a title="Increase Offset" href="#" class="s-control s-control-icon section-offset-increase"><i class="icon-angle-right"></i></a>
+				<a title="Force New Row" href="#" class="s-control s-control-icon section-start-row"><i class="icon-double-angle-left"></i></a>
 			</div>
 			<div class="controls-right">
 				<a title="Edit Section" href="#" class="s-control s-control-icon section-edit"><i class="icon-pencil"></i></a>
