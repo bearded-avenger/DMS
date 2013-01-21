@@ -3112,7 +3112,7 @@ font-weight: bold;
 	#tabs .admin_checkbox {
 		display: block;
 		float: left;
-		margin: 2px 12px 0 0px;
+		margin: 0;
 	}
 	#tabs .regular-text, #plpanel .regular-text, .metatext-big, .metatext-reg{width: 90%;}
 	#tabs .tiny-text, #plpanel .tiny-text, .metatext-small{width: 100px;}
