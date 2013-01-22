@@ -286,6 +286,7 @@ class PageLinesTemplateHandler {
 			'clone'		=> 0,  
 			'content'	=> array(),
 			'span'		=> 12,
+			'newrow'	=> 'false'
 		);
 		
 		return $defaults;
@@ -474,13 +475,15 @@ class PageLinesTemplateHandler {
 			$sid = $s->id;
 		
 
-		$span = (isset($s->meta['span'])) ? sprintf('span%s', $s->meta['span']) : 'span12';
+		$span 	= (isset($s->meta['span'])) ? sprintf('span%s', $s->meta['span']) : 'span12';
 		$offset = (isset($s->meta['offset'])) ? sprintf('offset%s', $s->meta['offset']) : 'offset0';
-		$clone = $s->meta['clone'];
+		$newrow = ( $s->meta['newrow'] == 'true' ) ? 'force-start-row' : '';
+		$clone 	= $s->meta['clone'];
 		
 		$class[] = sprintf("pl-section fix section-%s", $sid);
 		$class[] = $span;
 		$class[] = $offset;
+		$class[] = $newrow;
 		
 		printf(
 			'<section id="%s" data-object="%s" data-sid="%s" data-clone="%s" class="%s">', 

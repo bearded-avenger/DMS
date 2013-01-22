@@ -438,28 +438,70 @@ class EditorInterface {
 	
 	function layout_sections(){
 		
-		$layouts = array();
+		$defaults = array(
+			'id'			=> '',
+			'name'			=> 'No Name', 
+			'filter'		=> 'layout',
+			'screenshot'	=>  PL_ADMIN_IMAGES . '/thumb-default.png',
+			'class_name'	=> '',
+			'map'			=> ''
+			
+		);
 		
-		$split = new stdClass();
-		$split->id = 'pl_split_col';
-		$split->name = '2 Columns - Split';
-		$split->filter = 'layout';
-		$split->screenshot =  PL_ADMIN_IMAGES . '/thumb-default.png';
-		$split->class_name = '';
-		$split->map = array(
-						array(
-							'object'	=> 'PLColumn',
-							'span' 	=> 6,
-							'content'	=> array( )
-						),
-						array(
-							'object'	=> 'PLColumn',
-							'span' 	=> 6,
-							'content'	=> array()
-						),
-					);
+		$the_layouts = array(
+			array(
+				'id'			=> 'pl_split_column',
+				'name'			=> '2 Columns - Split', 
+				'filter'		=> 'layout',
+				'screenshot'	=>  PL_ADMIN_IMAGES . '/thumb-default.png',
+				'map'			=> array(
+									array(
+										'object'	=> 'PLColumn',
+										'span' 		=> 6, 
+										'newrow'	=> true
+									),
+									array(
+										'object'	=> 'PLColumn',
+										'span' 	=> 6
+									),
+								)
+			),
+			array(
+				'id'			=> 'pl_3_column',
+				'name'			=> '3 Columns', 
+				'filter'		=> 'layout',
+				'screenshot'	=>  PL_ADMIN_IMAGES . '/thumb-default.png',
+				'map'			=> array(
+									array(
+										'object'	=> 'PLColumn',
+										'span' 		=> 4,
+										'newrow'	=> true
+									),
+									array(
+										'object'	=> 'PLColumn',
+										'span' 	=> 4
+									),
+									array(
+										'object'	=> 'PLColumn',
+										'span' 	=> 4
+									),
+								)
+			)
+		);
 		
-		$layouts['split-col'] = $split;
+		foreach($the_layouts as $index => $l){
+			$l = wp_parse_args($l, $defaults);
+			
+			$obj = new stdClass();
+			$obj->id = $l['id'];
+			$obj->name = $l['name'];
+			$obj->filter = $l['filter'];
+			$obj->screenshot = $l['screenshot'];
+			$obj->class_name = $l['class_name']; 
+			$obj->map = $l['map'];
+			
+			$layouts[ $l['id'] ] = $obj;
+		}
 		
 		return $layouts;
 	}

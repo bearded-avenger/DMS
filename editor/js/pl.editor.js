@@ -814,11 +814,12 @@
 			var that = this
 			,	set = {}
 
-			set.object = section.data('object')
-			set.clone = section.data('clone')
-			set.sid = section.data('sid')
-			set.span = that.getColumnSize( section )[ 4 ]
-			set.offset = that.getOffsetSize( section )[ 3 ]
+			set.object 	= section.data('object')
+			set.clone 	= section.data('clone')
+			set.sid 	= section.data('sid')
+			set.span 	= that.getColumnSize( section )[ 4 ]
+			set.offset 	= that.getOffsetSize( section )[ 3 ]
+			set.newrow 	= (section.hasClass('force-start-row')) ? 'true' : 'false'
 			set.content = []
 			
 			
