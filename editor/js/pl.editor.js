@@ -779,7 +779,8 @@
 
 						var section = $(this)
 						
-						if( section.data('template') != undefined){
+						if( section.data('template') != undefined && section.data('template') != "" ){
+			
 							set = section.data('template')
 							$.merge( areaContent, set )
 							
