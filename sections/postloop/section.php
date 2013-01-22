@@ -7,7 +7,7 @@
 	Class Name: PageLinesPostLoop	
 	Workswith: main
 	Failswith: 404_page
-	Filter: standard
+	Filter: component
 */
 
 /**

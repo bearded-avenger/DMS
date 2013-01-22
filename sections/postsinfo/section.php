@@ -6,6 +6,7 @@
 	Description: Shows information about posts being viewed (e.g. "Currently Viewing Archives from...")
 	Class Name: PageLinesPostsInfo
 	Workswith: main
+	Filter: component
 */
 
 /**

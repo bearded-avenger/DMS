@@ -138,16 +138,12 @@ class EditorInterface {
 					'heading'	=> "<i class='icon-random'></i> Drag to Add",
 					'add_section'	=> array(
 						'name'	=> 'Add Sections', 
+						'clip'	=> 'Drag on to page to add',
 						'type'	=> 'call',
 						'call'	=> array(&$this, 'add_new_callback'),
 						'filter'=> '*'
 					), 
 					'heading2'	=> "<i class='icon-filter'></i> Filters",
-					'standard'		=> array(
-						'name'	=> 'Standard/WP', 
-						'href'	=> '#add_section', 
-						'filter'=> '.standard'
-					),
 					'components'		=> array(
 						'name'	=> 'Components', 
 						'href'	=> '#add_section', 
@@ -440,33 +436,74 @@ class EditorInterface {
 	<?php 
 	}
 	
+	function layout_sections(){
+		
+		$layouts = array();
+		
+		$split = new stdClass();
+		$split->id = 'pl_split_col';
+		$split->name = '2 Columns - Split';
+		$split->filter = 'layout';
+		$split->screenshot =  PL_ADMIN_IMAGES . '/thumb-default.png';
+		$split->class_name = '';
+		$split->map = array(
+						array(
+							'object'	=> 'PLColumn',
+							'span' 	=> 6,
+							'content'	=> array( )
+						),
+						array(
+							'object'	=> 'PLColumn',
+							'span' 	=> 6,
+							'content'	=> array()
+						),
+					);
+		
+		$layouts['split-col'] = $split;
+		
+		return $layouts;
+	}
+	
 	function add_new_callback(){
 		$sections = get_available_sections(); 
-		//plprint($sections);
 		
+		$sections = array_merge($sections, $this->layout_sections());
+			
 		$section_classes = 'pl-sortable span12 sortable-first sortable-last';
 		$list = '';
 		foreach($sections as $key => $s){
 			
 			$img = sprintf('<img src="%s" style=""/>', $s->screenshot); 
 			
+			if($s->map != ''){
+				$map = json_encode( $s->map );
+				$special_class = 'section-plcolumn';
+			} else {
+				$map = '';
+				$special_class = '';
+			}
+				
+			
+			
 			$list .= sprintf(
-				'<section class="x-item %s %s" data-object="%s" data-sid="%s" data-name="%s" data-image="%s"	>
-					<div class="x-item-frame">
-						<div class="pl-vignette" style="">
+				"<section class='x-item %s %s %s' data-object='%s' data-sid='%s' data-name='%s' data-image='%s' data-template='%s'>
+					<div class='x-item-frame'>
+						<div class='pl-vignette'>
 							%s
 						</div>
 					</div>
-					<div class="x-item-text">
+					<div class='x-item-text'>
 						%s
 					</div>
-				</section>', 
+				</section>", 
 				$section_classes,
-				$s->settings['filter'],
+				$special_class,
+				$s->filter,
 				$s->class_name,
 				$s->id,
 				$s->name,
 				$s->screenshot,
+				$map,
 				$img, 
 				$s->name
 			);
@@ -571,12 +608,13 @@ class EditorInterface {
 						$content = sprintf('<div class="error-panel">There was an issue rendering the panel. (%s)</div>', rand());
 					}
 			
+					$clip = ( isset($t['clip']) ) ? sprintf('<span class="clip-desc">%s</span>', $t['clip']) : '';
 					
 						
 					printf(
 						'<div id="%s" class="tab-panel" data-panel="%s" data-type="%s">
 							<div class="tab-panel-inner">
-								<legend>%s</legend>
+								<legend>%s %s</legend>
 								<div class="panel-tab-content">%s</div>
 							</div>
 						</div>',
@@ -584,6 +622,7 @@ class EditorInterface {
 						$tab_key,  
 						$t['type'],
 						$t['name'], 
+						$clip,
 						$content
 					);
 				}

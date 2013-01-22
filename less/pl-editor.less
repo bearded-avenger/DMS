@@ -193,7 +193,8 @@
 			display: block;
 		}
 		&:hover, 
-		&.ui-sortable-helper { 
+		&.ui-sortable-helper,
+		.section-plcolumn { 
 			.pl-section-controls{
 				display: none !important;
 			}
@@ -206,6 +207,7 @@
 		max-height: 400px; 
 		display: inline;
 		float: left;
+		clear: none;
 		position: relative;
 		margin: 0 0 1em 0;
 		padding: 0;
@@ -732,6 +734,12 @@
 					line-height: 30px; 
 					font-weight:bold;
 					margin-bottom: 10px;
+					.clip-desc{
+						font-weight: normal;
+						font-size: 11px;
+						margin-left: 7px;
+						color:#CCC;
+					}
 				}
 				
 			}

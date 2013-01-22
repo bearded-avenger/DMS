@@ -7,7 +7,7 @@
 	Class Name: PageLinesPostAuthor	
 	Workswith: main-single, author
 	Failswith: archive, category, posts, tags, search, 404_page
-	Filter: standard
+	Filter: component
 */
 
 /**

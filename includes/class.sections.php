@@ -30,7 +30,7 @@ class PageLinesSection {
          * Assign default values for the section
          * @var $defaults string
          */
-		$defaults = array(
+		$this->defaults = array(
 				'markup'			=> null, // needs to be null for overriding
 				'workswith'		 	=> array('content'),
 				'description' 		=> null, 
@@ -41,6 +41,7 @@ class PageLinesSection {
 				'posttype'			=> '',
 				'failswith'			=> array(), 
 				'cloning'			=> false,
+				'map'				=> '',
 				'tax_id'			=> '',
 				'format'			=> 'textured',
 				'classes'			=> '',
@@ -48,7 +49,7 @@ class PageLinesSection {
 				'filter'			=> 'misc'
 			);
 
-		$this->settings = wp_parse_args( $settings, $defaults );
+		$this->settings = wp_parse_args( $settings, $this->defaults );
 		
 		$this->hook_get_view();
 		
@@ -57,8 +58,7 @@ class PageLinesSection {
 		$this->class_name = get_class($this);
 	
 		$this->set_section_info();
-		
-//		$this->section_init();
+
 		
 	}
 
@@ -97,8 +97,8 @@ class PageLinesSection {
 		
 		$this->name = $this->settings['name'] = $this->sinfo['name'];
 		$this->description = $this->settings['description'] = $this->sinfo['description'];
-
-		$this->settings['filter'] = ( !empty( $this->sinfo['filter'] ) ) ? $this->sinfo['filter'] : $this->settings['filter'];
+		$this->map = "";
+		$this->filter = $this->settings['filter'] = ( !empty( $this->sinfo['filter'] ) ) ? $this->sinfo['filter'] : $this->settings['filter'];
 		$this->settings['cloning'] = ( !empty( $this->sinfo['cloning'] ) ) ? $this->sinfo['cloning'] : $this->settings['cloning'];
 		$this->settings['workswith'] = ( !empty( $this->sinfo['workswith'] ) ) ? $this->sinfo['workswith'] : $this->settings['workswith'];
 		$this->settings['version'] = ( !empty( $this->sinfo['edition'] ) ) ? $this->sinfo['edition'] : $this->settings['version'];
@@ -119,7 +119,6 @@ class PageLinesSection {
 			$this->screenshot = $this->settings['screenshot'] = PL_ADMIN_IMAGES . '/thumb-default.png';
 			$this->thmb = false;
 		}
-
 
 		$this->optionator_default = array(
 			'clone_id'	=> 1,

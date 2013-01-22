@@ -432,6 +432,8 @@
 						ui.helper
 							.css('max-width', '300px')
 							.css('height', 'auto')
+							
+					
 					}
 			})
 		
@@ -740,7 +742,22 @@
             })
 
         }
-
+		
+		, storeConfig: function( interrupt ) {
+			
+			var that = this
+			, 	interrupt = interrupt || false
+			,	map = that.getCurrentMap()
+			
+			$.pl.map = map
+			
+			that.ajaxSaveMap( map, interrupt )
+			
+			return map
+			
+		
+		}
+		
 		, getCurrentMap: function() {
 			
 			var that = this
@@ -761,16 +778,22 @@
 					$(this).find('.pl-section.level1').each( function(sectionIndex, o3) {
 
 						var section = $(this)
-
-						set = that.sectionConfig( section )
-
-						areaContent.push( set )
+						
+						if( section.data('template') != undefined){
+							set = section.data('template')
+							$.merge( areaContent, set )
+							
+						} else {
+							set = that.sectionConfig( section )
+							areaContent.push( set )
+						
+						}
 
 					})
 
 					areaSet = {
-						area: ''
-						, content: areaContent
+							area: ''
+						,	content: areaContent
 					}
 
 					areaConfig.push( areaSet )
@@ -784,27 +807,12 @@
 			return map
 			
 		}
-
-		, storeConfig: function( interrupt ) {
-			
-			var that = this
-			, 	interrupt = interrupt || false
-			,	map = that.getCurrentMap()
-			
-			$.pl.map = map
-			
-			that.ajaxSaveMap( map, interrupt )
-			
-			return map
-			
-		
-		}
 		
 		, sectionConfig: function( section ){
 			
 			var that = this
 			,	set = {}
-			
+
 			set.object = section.data('object')
 			set.clone = section.data('clone')
 			set.sid = section.data('sid')
@@ -812,7 +820,9 @@
 			set.offset = that.getOffsetSize( section )[ 3 ]
 			set.content = []
 			
-			section.find('.pl-section.level2').each( function() {
+			
+			// Recursion
+			section.find( '.pl-section.level2' ).each( function() {
 			
 				set.content.push( that.sectionConfig( $(this) ) )
 				
@@ -961,11 +971,11 @@
 					// Remove all drag and drop elements and disable sortable areas within columns if 
 					// the user is dragging a column
 					if( ui.item.hasClass('section-plcolumn') ){
-						
-						$( '.section-plcolumn .pl-sortable-column' ).removeClass('pl-sortable-area')
+				
+						$( '.section-plcolumn .pl-sortable-column' ).removeClass('pl-sortable-area ui-sortable')
 						$( '.section-plcolumn .pl-section' ).removeClass('pl-sortable')
 						
-						$( this ).sortable( 'refresh' )
+						$( '.ui-sortable' ).sortable( 'refresh' )
 						
 					}
 				
@@ -981,10 +991,10 @@
 					
 					if( ui.item.hasClass('section-plcolumn') ){
 						
-						$( '.section-plcolumn .pl-sortable-column' ).addClass('pl-sortable-area')
+						$( '.section-plcolumn .pl-sortable-column' ).addClass('pl-sortable-area ui-sortable')
 						$( '.section-plcolumn .pl-section' ).addClass('pl-sortable')
 						
-						$( this ).sortable( 'refresh' )
+						$( '.ui-sortable' ).sortable( 'refresh' )
 						
 					}
 					
@@ -1007,8 +1017,18 @@
 				}
 			}
 			
+			$( '.section-plcolumn' ).on('mousedown', function(e){
+				$('.section-plcolumn .pl-sortable-area').sortable( "disable" )
+				$( '.section-plcolumn .pl-section' ).removeClass('pl-sortable')
+			}).on('mouseup', function(e){
+				$('.section-plcolumn .pl-sortable-area').sortable( "enable" )
+				$( '.section-plcolumn .pl-section' ).addClass('pl-sortable')
+			})
+			
 		    $( '.pl-sortable-area' ).sortable( sortableArgs ) 
 			$( ".x-item" ).draggable();
+			
+			
 		
 		}
 		
