@@ -144,7 +144,7 @@ class EditorInterface {
 					), 
 					'heading2'	=> "<i class='icon-filter'></i> Filters",
 					'standard'		=> array(
-						'name'	=> 'Standard', 
+						'name'	=> 'Standard/WP', 
 						'href'	=> '#add_section', 
 						'filter'=> '.standard'
 					),
@@ -152,6 +152,11 @@ class EditorInterface {
 						'name'	=> 'Components', 
 						'href'	=> '#add_section', 
 						'filter'=> '.component'
+					),
+					'layouts'		=> array(
+						'name'	=> 'Layouts', 
+						'href'	=> '#add_section', 
+						'filter'=> '.layout'
 					),
 					'formats'		=> array(
 						'name'	=> 'Post Formats', 
@@ -163,15 +168,26 @@ class EditorInterface {
 						'href'	=> '#add_section', 
 						'filter'=> '.gallery'
 					),
+					'navigation'	=> array(
+						'name'	=> 'Navigation', 
+						'href'	=> '#add_section', 
+						'filter'=> '.nav'
+					),
 					'features'		=> array(
 						'name'	=> 'Features', 
 						'href'	=> '#add_section', 
 						'filter'=> '.feature'
 					),
-					'layouts'		=> array(
-						'name'	=> 'Layouts', 
+					
+					'social'	=> array(
+						'name'	=> 'Social', 
 						'href'	=> '#add_section', 
-						'filter'=> '.layout'
+						'filter'=> '.social'
+					),
+					'widgets'	=> array(
+						'name'	=> 'Widgetized', 
+						'href'	=> '#add_section', 
+						'filter'=> '.widgetized'
 					),
 					'misc'		=> array(
 						'name'	=> 'Miscellaneous', 
@@ -432,11 +448,13 @@ class EditorInterface {
 		$list = '';
 		foreach($sections as $key => $s){
 			
+			$img = sprintf('<img src="%s" style=""/>', $s->screenshot); 
+			
 			$list .= sprintf(
 				'<section class="x-item %s %s" data-object="%s" data-sid="%s" data-name="%s" data-image="%s"	>
 					<div class="x-item-frame">
 						<div class="pl-vignette" style="">
-							<img src="%s" style="opacity: 1;"/>
+							%s
 						</div>
 					</div>
 					<div class="x-item-text">
@@ -449,7 +467,7 @@ class EditorInterface {
 				$s->id,
 				$s->name,
 				$s->screenshot,
-				$s->screenshot, 
+				$img, 
 				$s->name
 			);
 		}
@@ -496,41 +514,42 @@ class EditorInterface {
 
 		?>
 		<div class="<?php echo 'panel-'.$key;?> tabbed-set" data-key="<?php echo $key;?>">
-
-			<ul class="tabs-nav unstyled">
+			<div class="tabs-wrap">
+				<ul class="tabs-nav unstyled">
 				
-				<?php 
-					foreach($panel as $tab_key => $t){
+					<?php 
+						foreach($panel as $tab_key => $t){
 						
-						if($tab_key == 'optPageType' && ($this->page->id == $this->page->type))
-							continue;
+							if($tab_key == 'optPageType' && ($this->page->id == $this->page->type))
+								continue;
 						
-						if( substr($tab_key, 0, 7) == 'heading'){
-							printf('<lh>%s</lh>', $t); 
+							if( substr($tab_key, 0, 7) == 'heading'){
+								printf('<lh>%s</lh>', $t); 
 							
-						} else {
+							} else {
 				
 
-							$t = wp_parse_args($t, $this->defaults());
+								$t = wp_parse_args($t, $this->defaults());
 							
-							$href = ($t['href'] != '') ? $t['href'] : '#'.$tab_key;
+								$href = ($t['href'] != '') ? $t['href'] : '#'.$tab_key;
 							
-							$hook = ($t['hook'] != '') ? sprintf('data-hook="%s"', $t['hook']) : '';
+								$hook = ($t['hook'] != '') ? sprintf('data-hook="%s"', $t['hook']) : '';
 							
-							$filter = ($t['filter'] != '') ? sprintf('data-filter="%s"', $t['filter']) : '';
+								$filter = ($t['filter'] != '') ? sprintf('data-filter="%s"', $t['filter']) : '';
 							
-							$flag = ($t['flag'] != '') ? sprintf('data-flag="%s"', $t['flag']) : '';
+								$flag = ($t['flag'] != '') ? sprintf('data-flag="%s"', $t['flag']) : '';
 							
-							$class = ($t['class'] != '') ? $t['class'] : '';
+								$class = ($t['class'] != '') ? $t['class'] : '';
 							
-							printf('<li class="%s" %s %s %s><a href="%s">%s</a></li>', $class, $hook, $filter, $flag, $href, $t['name']);
-						}
+								printf('<li class="%s" %s %s %s><a href="%s">%s</a></li>', $class, $hook, $filter, $flag, $href, $t['name']);
+							}
 												
-					}
+						}
 					
-				?>
-
-			</ul>
+					?>
+				
+				</ul>
+			</div>
 			<?php 
 				foreach($panel as $tab_key => $t){ 
 					

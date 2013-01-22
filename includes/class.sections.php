@@ -45,7 +45,7 @@ class PageLinesSection {
 				'format'			=> 'textured',
 				'classes'			=> '',
 				'less'				=> false,
-				'filter'			=> 'standard'
+				'filter'			=> 'misc'
 			);
 
 		$this->settings = wp_parse_args( $settings, $defaults );
@@ -112,7 +112,13 @@ class PageLinesSection {
 
 		$this->icon = $this->settings['icon'] = ( is_file( sprintf( '%s/icon.png', $this->base_dir ) ) ) ? sprintf( '%s/icon.png', $this->base_url ) : PL_ADMIN_ICONS . '/leaf.png';
 	
-		$this->screenshot = $this->settings['screenshot'] = ( is_file( sprintf( '%s/thumb.png', $this->base_dir ) ) ) ? sprintf( '%s/thumb.png', $this->base_url ) : PL_ADMIN_IMAGES . '/thumb-default.png';
+		if( is_file( sprintf( '%s/thumb.png', $this->base_dir ) ) ){
+			$this->screenshot = $this->settings['screenshot'] = sprintf( '%s/thumb.png', $this->base_url );
+			$this->thmb = $this->screenshot;
+		} else {
+			$this->screenshot = $this->settings['screenshot'] = PL_ADMIN_IMAGES . '/thumb-default.png';
+			$this->thmb = false;
+		}
 
 
 		$this->optionator_default = array(
