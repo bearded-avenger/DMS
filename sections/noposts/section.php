@@ -6,6 +6,7 @@
 	Description: Shown when no posts or 404 is returned
 	Class Name: PageLinesNoPosts
 	Workswith: 404_page
+	Filter: misc
 */
 
 /**

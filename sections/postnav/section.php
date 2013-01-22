@@ -8,6 +8,7 @@
 	Workswith: main-single
 	Cloning: true
 	Failswith: pagelines_special_pages()
+	Filter: standard
 */
 
 /**

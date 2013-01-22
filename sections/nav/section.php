@@ -7,6 +7,7 @@
 	Class Name: PageLinesNav
 	Workswith: header
 	Cloning: false
+	Filter: nav
 */
 
 /**

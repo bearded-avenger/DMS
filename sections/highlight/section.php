@@ -8,6 +8,7 @@
 	Workswith: templates, main, header, morefoot, sidebar1, sidebar2, sidebar_wrap
 	Edition: pro
 	Cloning: true
+	Filter: component
 */
 
 /**

@@ -9,6 +9,7 @@
 	Cloning: true
 	Edition: pro
 	Tax: feature-sets
+	Filter: feature
 */
 
 /**

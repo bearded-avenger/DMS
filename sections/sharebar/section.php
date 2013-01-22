@@ -8,6 +8,7 @@
 	Workswith: main
 	Failswith: pagelines_special_pages() 
 	Cloning: true
+	Filter: social
 */
 
 /**

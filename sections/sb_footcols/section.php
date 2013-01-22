@@ -7,6 +7,7 @@
 	Class Name: PageLinesFootCols
 	Workswith: morefoot, footer
 	Persistant: true
+	Filter: deprecated
 */
 
 /**

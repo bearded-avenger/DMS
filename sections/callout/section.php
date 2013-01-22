@@ -7,6 +7,7 @@
 	Class Name: PageLinesCallout
 	Cloning: true
 	Workswith: templates, main, header, morefoot
+	Filter: component
 */
 
 /**

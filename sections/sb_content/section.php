@@ -7,6 +7,7 @@
 	Class Name: ContentSidebar	
 	Workswith: main-default, main-posts, main-single, main-404
 	Persistant: true
+	Filter: widgetized
 */
 
 /**

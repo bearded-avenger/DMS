@@ -6,6 +6,7 @@
 	Description: Creates footer navigation.
 	Class Name: SimpleNav
 	Workswith: footer
+	Filter: nav
 */
 
 /**

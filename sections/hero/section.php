@@ -7,6 +7,7 @@
 	Class Name: PLheroUnit	
 	Workswith: templates, main, header, morefoot, content
 	Cloning: true
+	Filter: component
 */
 
 /*

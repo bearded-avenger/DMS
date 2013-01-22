@@ -6,6 +6,7 @@
 	Description: A responsive full width splash and text area. Great for getting big ideas across quickly.
 	Class Name: PLMasthead	
 	Workswith: templates, main, header, morefoot
+	Filter: component
 */
 
 /**

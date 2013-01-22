@@ -8,6 +8,7 @@
 	Workswith: templates
 	Cloning: false
 	Failswith: pagelines_special_pages()
+	Filter: nav
 */
 
 /**

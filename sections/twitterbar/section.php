@@ -7,6 +7,7 @@
 	Class Name: PageLinesTwitterBar
 	Workswith: morefoot, footer
 	Edition: Pro
+	Filter: social
 */
 
 /**

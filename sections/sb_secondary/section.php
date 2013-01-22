@@ -8,6 +8,7 @@
 	Workswith: sidebar1, sidebar2, sidebar_wrap
 	Persistant: true
 	Edition: pro
+	Filter: widgetized
 */
 
 /**

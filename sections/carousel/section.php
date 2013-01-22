@@ -8,6 +8,7 @@
 	Cloning: true
 	Workswith: content, header, footer
 	Edition: pro
+	Filter: gallery
 */
 
 /**

@@ -8,6 +8,7 @@
 	Workswith: header
 	Compatibility: 2.2
 	Cloning: false
+	Filter: nav
 */
 
 /**

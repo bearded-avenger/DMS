@@ -1,7 +1,8 @@
 <?php
 /*
 	Section: Column
-	Class Name: PLColumn	
+	Class Name: PLColumn
+	Filter: layout	
 */
 
 class PLColumn extends PageLinesSection {

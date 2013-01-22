@@ -8,6 +8,7 @@
 	Workswith: morefoot, footer
 	Edition: pro
 	Persistant: true
+	Filter: deprecated
 */
 
 /**

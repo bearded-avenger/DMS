@@ -7,6 +7,7 @@
 	Class Name: PageLinesContent
 	Workswith: templates
 	Cloning: false
+	Filter: deprecated
 */
 
 /**

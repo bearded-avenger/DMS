@@ -7,6 +7,7 @@
 	Class Name: TertiarySidebar
 	Workswith: sidebar1, sidebar2, sidebar_wrap
 	Persistant: true
+	Filter: widgetized
 */
 
 /**
