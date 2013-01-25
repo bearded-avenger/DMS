@@ -18,6 +18,8 @@ class PageLinesPage {
 		
 		$this->type = $this->type();
 		
+		$this->typeid = $this->special_id();
+		
 		$this->type_name = ucwords( str_replace('_', ' ', $this->type()) ); 	
 
 

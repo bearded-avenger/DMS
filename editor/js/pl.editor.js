@@ -22,6 +22,8 @@
 			
 			$.pageBuilder.showEditingTools() 
 			
+			$.plAJAX.init() 
+			
 			this.bindUIActions()
 				
 		}
@@ -48,73 +50,7 @@
 				
 			})
 			
-			$('.btn-publish').on('click.toolboxPublish', function(){
-				
-					var theData = {
-						action: 'pl_publish_changes'
-						,	page: $.pl.config.pageID
-					}
-
-					$.ajax( {
-						type: 'POST'
-						, url: ajaxurl
-						, data: theData	
-						, beforeSend: function(){
-							$('.btn-saving').addClass('active')
-						}
-						, success: function( response ){
-							$('.btn-saving').removeClass('active')
-							$('.state-list').removeClass('clean global local local-global').addClass(response)
-							$('.btn-state span').removeClass().addClass('state-draft-'+response)
-						}
-					})
-				
-			})
 			
-			$('.btn-revert').on('click.revertbutton', function(e){
-					e.preventDefault()
-				
-					var revert = $(this).data('revert')
-					,	theData = {
-						action: 'pl_revert_changes'
-						,	revert: revert
-						,	page: $.pl.config.pageID
-					}
-					, 	confirmText = "<h3>Are you sure?</h3><p>This will revert <strong>"+revert+"</strong> changes to your last published configuration.</p>"
-					
-					$('body').toolbox('hide')
-					
-					bootbox.confirm( confirmText, function( result ){
-						if(result == true){
-							
-							$.ajax( {
-								type: 'POST'
-								, url: ajaxurl
-								, data: theData	
-								, beforeSend: function(){
-									$('.btn-saving').addClass('active')
-								}
-								, success: function( response ){
-									console.log(response)
-									$('.btn-saving').removeClass('active')
-									$('.state-list').removeClass('clean global local local-global').addClass(response)
-									$('.btn-state span').removeClass().addClass('state-draft-'+response)
-									
-									var reloadText = '<div class="spn"><div class="spn-txt">Reloading Page</div><div class="progress progress-striped active"><div class="bar" style="width: 100%"></div></div></div>'
-									
-									bootbox.dialog( reloadText, [], {animate: false, classes: 'bootbox-reloading'})
-									location.reload()
-								}
-							})
-							
-						}
-
-					})
-				
-				
-					
-				
-			})
 			
 			$(".load-template").on("click.loadTemplate", function(e) {
 			

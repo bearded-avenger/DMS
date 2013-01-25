@@ -32,15 +32,19 @@ class EditorInterface {
 	function pl_editor_styles(){
 		
 		// Global AjaxURL variable --> http://www.garyc40.com/2010/03/5-tips-for-using-ajax-in-wordpress/
-		wp_localize_script( 'codemirror', 'PLAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+		wp_localize_script( 'global-ajax-url', 'PLAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		
-
+		// PageLines Custom
 		wp_enqueue_script( 'js-sprintf', $this->url . '/js/utils.sprintf.js' ); 
 		wp_enqueue_script( 'pl-editor-js', $this->url . '/js/pl.editor.js' ); 
 		wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/pl.toolbox.js', array('pagelines-bootstrap-all')); 
 		wp_enqueue_script( 'pl-optpanel', $this->url . '/js/pl.optpanel.js'); 
+		wp_enqueue_script( 'pl-ajax', $this->url . '/js/pl.ajax.js'); 
+		
+		// Isotope
 		wp_enqueue_script( 'isotope', $this->url . '/js/utils.isotope.js', array('jquery')); 
 
+		// Jquery UI
 		wp_enqueue_script( 'jquery-ui-tabs'); 
 		
 		$dep = array('jquery-ui-core','jquery-ui-widget', 'jquery-ui-mouse');	
@@ -62,6 +66,7 @@ class EditorInterface {
 		wp_enqueue_script( 'jquery-new-ui-effect-highlight', PL_ADMIN_JS . '/jquery.ui.effect-highlight.js', array('jquery-new-ui-effect'), 1.9, true);
 		wp_enqueue_script( 'jquery-mousewheel', $this->url . '/js/utils.mousewheel.js' ); 
 	
+		// Forms handling
 		wp_enqueue_script( 'form-params', $this->url . '/js/form.params.js', array('jquery'), '1.0.0', true ); 
 		wp_enqueue_script( 'form-store', $this->url . '/js/form.store.js', array('jquery'), '1.0.0', true ); 
 		
@@ -84,6 +89,9 @@ class EditorInterface {
 		// Colorpicker
 		wp_enqueue_style( 'css3colorpicker', $this->url . '/js/colorpicker/colorpicker.css');
 		wp_enqueue_script( 'css3colorpicker', $this->url . '/js/colorpicker/colorpicker.js', array('jquery'), '1.3.1', true );
+		
+		// Image Uploader
+		wp_enqueue_script( 'fineupload', $this->url . '/js/fineuploader/jquery.fineuploader-3.2.min.js');
 
 
 
@@ -209,6 +217,22 @@ class EditorInterface {
 				)
 				
 			),
+			'theme' => array(
+				'name'	=> 'Theme',
+				'icon'	=> 'icon-picture',
+				'panel'	=> array(
+					'heading'	=> "Select Theme",
+					'tmp_load'	=> array(
+						'name'	=> 'Your Templates', 
+						'call'	=> array(&$this->templates, 'user_templates'),
+					),
+					'tmp_save'	=> array(
+						'name'	=> 'Save New Template',
+						'call'	=> array(&$this->templates, 'save_templates'),
+					)
+				)
+				
+			),
 			
 			'pl-design' => array(
 				'name'	=> 'Design',
@@ -233,6 +257,19 @@ class EditorInterface {
 				'icon'	=> 'icon-cog',
 				'panel'	=> $this->get_settings_tabs( 'site' )
 			), 
+			'live' => array(
+				'name'	=> 'Live',
+				'icon'	=> 'icon-comments',
+				
+				'panel'	=> array(
+					'heading'	=> "<i class='icon-comments'></i> Live Support",
+					'support_chat'	=> array(
+						'name'	=> 'PageLines Live Chat', 
+						'type'	=> 'call',
+						'call'	=> array(&$this, 'live_callback'),
+					),
+				)
+			),
 			'pl-extend' => array(
 				'name'	=> 'Extend',
 				'icon'	=> 'icon-download',
@@ -289,13 +326,13 @@ class EditorInterface {
 				'flag'	=> 'section-opts',
 				'panel'	=> array(
 					'heading'		=> "Section Options",
-					'current'	=> array(
+					'local'	=> array(
 						'name'	=> 'Current Page <span class="label">'.$this->page->id.'</span>',
 					),
-					'post_type'	=> array(
+					'type'	=> array(
 						'name'	=> 'Post Type <span class="label">'.$this->page->type_name.'</span>',
 					),
-					'site_defaults'	=> array(
+					'global'	=> array(
 						'name'	=> 'Sitewide Defaults', 		
 					),
 				)
@@ -408,7 +445,8 @@ class EditorInterface {
 						<li class="li-state-clean disabled"><a class="txt"><span class="update-state state-draft-clean">&nbsp;</span>&nbsp; No Unpublished Changes</a></li>
 					</ul>
 				</li>
-				<li><span class="btn-toolbox btn-publish"><i class="icon-check"></i> <span class="txt">Publish Changes</span></li>
+				<li><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-edit"></i> <span class="txt">Save <span class="spamp">&amp;</span> Preview</span></li>
+				<li><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-check"></i> <span class="txt">Publish Changes</span></li>
 				
 			</ul>
 			<ul class="unstyled controls not-btn send-right">
@@ -573,6 +611,10 @@ class EditorInterface {
 		
 		printf('<div class="x-list">%s</div>', $items);
 	}	
+	
+	function live_callback(){
+		printf('<div class="live-wrap"><iframe class="live_chat_iframe" src="http://pagelines.campfirenow.com/6cd04"></iframe></div>');
+	}
 	
 	function defaults(){
 		$d = array(

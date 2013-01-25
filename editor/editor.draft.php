@@ -15,6 +15,20 @@ class EditorDraft{
 			
 	}
 
+	function save_draft( $data ){
+		
+		// update global option [draft]
+		
+		// update type option [draft]
+		
+		// update local option [draft]
+		
+		// update map [draft]
+		
+		// check and set draft states
+		
+	}
+
 	function publish( $data, EditorMap $map ){
 		
 		$this->reset_state( $data['page'] );

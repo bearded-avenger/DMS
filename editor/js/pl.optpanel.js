@@ -18,9 +18,9 @@
 			that.config = $.extend({}, that.defaults, typeof config == 'object' && config)
 			
 			that.panel = $('.panel-'+that.config.mode)
-			that.sobj = config.sobj
-			that.sid = config.sid
-			that.clone = config.clone
+			that.sobj = that.config.sobj
+			that.sid = that.config.sid
+			that.clone = that.config.clone
 			that.optConfig = $.pl.config.opts
 			that.data = $.pl.data
 			
@@ -56,7 +56,7 @@
 		, sectionOptionRender: function() {
 			
 			var that = this
-			, 	cascade = ['current', 'post_type', 'site_defaults']
+			, 	cascade = ['local', 'type', 'global']
 			, 	sid = that.config.sid
 			
 			$.each( cascade , function(index, o) {
@@ -86,10 +86,12 @@
 			
 			$('.lstn').on('keypress blur change', function(){
 				
-				var scope = that.activeForm.data('scope')
+				var scope = (that.config.mode == 'section-options') ? that.activeForm.data('scope') : 'global'
 				
 				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
 				
+				console.log('scope: '+scope)
+				console.log($.pl.data[scope])
 			})
 		}
 		
@@ -148,14 +150,23 @@
 			
 		}
 		
-		, optValue: function( index, key ){
+		, optValue: function( scope, key ){
 			var that = this
+			, 	pageData = $.pl.data
+		
+			// global settings are always related to 'global'
+			if (that.config.mode == 'settings')
+				scope = 'global'
 		
 			// Set option value
-			if(that.data[ index ] && that.data[ index ][ key ] && that.data[ index ][ key ][that.clone])
-				return that.data[ index ][ key ][that.clone]
+			if( pageData[ scope ] && pageData[ scope ][ key ] && pageData[ scope ][ key ][that.clone])
+				return pageData[ scope ][ key ][that.clone]
 			else 
 				return ''
+			
+		}
+		
+		, optName: function( index, key ){
 			
 		}
 		
@@ -165,7 +176,8 @@
 			, 	oHTML = ''
 
 			o.value = that.optValue( tabIndex, o.key )
-
+			o.name = sprintf('%s[%s]', o.key, that.clone)
+				
 			// Multiple Options
 			if( o.type == 'multi' ){
 				if(o.opts){
@@ -180,24 +192,24 @@
 			
 			else if( o.type == 'color' ){
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<div class="input-prepend"><span class="btn add-on trigger-color"> <i class="icon-tint"></i> </span><input type="text" id="%1$s" class="color-%1$s" value="%2$s" /></div>', o.key, o.value )
+				oHTML += sprintf('<div class="input-prepend"><span class="btn add-on trigger-color"> <i class="icon-tint"></i> </span><input type="text" id="%1$s" name="%3$s" class="color-%1$s" value="%2$s" /></div>', o.key, o.value, o.name )
 				
 			}
 			
 		
 			else if( o.type == 'image_upload' ){
 			
-				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
 				
-				thumb = '<div class="fileupload-new thumbnail"><img src="http://www.placehold.it/50x50/EFEFEF/AAAAAA" /></div>';
-				
-				upload = '<div class="fileupload-preview fileupload-exists thumbnail"></div>';
-				
-				simg = '<span class="btn btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" /></span>'
-				
-			  	remove = '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>'
+			  	var remove = '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>'
+				,	thm = (o.value != '') ? sprintf('<img src="%s" />', o.value) : ''
 			
-				oHTML += sprintf('<div class="fileupload fileupload-new" data-provides="fileupload">%s %s %s %s</div>', thumb, upload, simg, remove)
+				oHTML += sprintf('<div class="upload-thumb-%s upload-thumb">%s</div>', o.key, thm);
+			
+				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
+			
+				oHTML += sprintf('<input id="%1$s" name="%2$s" type="text" class="lstn text-input" placeholder="" value="%3$s" />', o.key, o.name, o.value )
+		
+				oHTML += sprintf('<div id="upload-%1$s" class="fineupload upload-%1$s fileupload-new" data-provides="fileupload"></div>', o.key)
 			
 			}
 
@@ -205,14 +217,14 @@
 			else if( o.type == 'text' ){
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<input id="%1$s" name="%1$s[%2$s]" type="text" class="lstn" placeholder="" value="%3$s" />', o.key, that.clone, o.value )
+				oHTML += sprintf('<input id="%1$s" name="%2$s" type="text" class="lstn" placeholder="" value="%3$s" />', o.key, o.name, o.value )
 				
 			} 
 			
 			else if( o.type == 'textarea' ){
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<textarea id="%s" class="lstn" >%s</textarea>', o.key, o.value )
+				oHTML += sprintf('<textarea id="%s" name="%s" class="lstn" >%s</textarea>', o.key, o.name, o.value )
 				
 			}
 			
@@ -221,7 +233,7 @@
 				
 				var checked = (!o.value || o.value == 'false' || o.value == '') ? '' : 'checked'
 				
-				oHTML +=  sprintf('<label class="checkbox"><input id="%1$s" class="lstn" type="checkbox" %2$s>%3$s</label>', o.key, checked, o.label )
+				oHTML +=  sprintf('<label class="checkbox"><input id="%s" name="%s" class="lstn" type="checkbox" %s>%s</label>', o.key, o.name, checked, o.label )
 				
 			} 
 			
@@ -256,7 +268,7 @@
 				}
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<select id="%s" class="font-selector">%s</select>', o.key, select_opts)
+				oHTML += sprintf('<select id="%s" name="%s" class="font-selector lstn">%s</select>', o.key, o.name, select_opts)
 				
 				oHTML += sprintf('<label for="preview-%s">Font Preview</label>', o.key)
 				oHTML += sprintf('<textarea class="type-preview" id="preview-%s" style="">The quick brown fox jumps over the lazy dog.</textarea>', o.key)
@@ -345,6 +357,47 @@
 			
 				$('.color-'+o.key).colorpicker({
 					onSelect: function(color, inst){}
+				})
+				
+			}
+			
+			else if( o.type == 'image_upload' ){
+		
+				$('.fineupload.upload-'+o.key).fineUploader({
+					request: {
+						endpoint: ajaxurl
+						, 	params: {
+								action: 'pl_up_image'
+								,	scope: 'global'
+							}
+					}
+					
+					,	multiple: false
+					,	validation: {
+							allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
+							sizeLimit: 204800 // 200 kB = 200 * 1024 bytes
+						}
+					,	text: {
+							uploadButton: '<i class="icon-upload"></i> Upload Image'
+						}
+					// , 	debug: true
+					,	template: '<div class="qq-uploader span12">' +
+					                      '<pre class="qq-upload-drop-area span12"><span>{dragZoneText}</span></pre>' +
+					                      '<div class="qq-upload-button btn btn-primary" style="width: auto;">{uploadButtonText}</div>' +
+					                      '<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="icon-spinner icon-spin spin-fast"></span></span>' +
+					                      '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;"></ul>' +
+					                    '</div>'
+
+				}).on('complete', function(event, id, fileName, response) {
+					
+					var optBox = $(this).closest('.opt-box')
+					
+						if (response.success) {
+							
+							optBox.find('.upload-thumb').html( sprintf('<img src="%s" />', response.url ))
+							optBox.find('.text-input').val(response.url)
+							optBox.closest('.isotope').isotope( 'reLayout' )
+						}
 				})
 				
 			}

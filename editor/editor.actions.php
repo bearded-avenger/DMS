@@ -15,15 +15,28 @@ function save_map_draft(){
 	
 }
 
-add_action( 'wp_ajax_pl_publish_changes', 'pl_publish_changes' );
-function pl_publish_changes(){
+add_action( 'wp_ajax_pl_save_page', 'pl_save_page' );
+function pl_save_page(){
+
+	$mode = (isset($_POST['mode'])) ? $_POST['mode'] : 'draft';
 
 	$draft = new EditorDraft;
 	$map = new EditorMap( $draft );
-	
-	$draft->publish( $_POST, $map );
 
-	echo $draft->get_state( $_POST['page'] );
+	if( $mode == 'draft' ){
+		
+		$draft->save_draft( $_POST, $map );
+		
+	} elseif ( $mode == 'publish' ) {
+		
+		
+		$draft->publish( $_POST, $map );
+		
+	}
+
+
+	echo $draft->get_state( $_POST['page'] );	
+	
 	die(); // don't forget this, always returns 0 w/o
 	
 }
@@ -91,6 +104,63 @@ function pl_template_action (){
 	}
 	
 	echo true;
+	die(); // don't forget this, always returns 0 w/o
+	
+}
+
+add_action( 'wp_ajax_pl_up_image', 'pl_up_image' );
+function pl_up_image (){
+
+	global $wpdb;
+	
+	$files_base = $_FILES[ 'qqfile' ]; 
+	
+	$arr_file_type = wp_check_filetype( basename( $files_base['name'] ));
+		
+	$uploaded_file_type = $arr_file_type['type'];
+		
+	// Set an array containing a list of acceptable formats
+	$allowed_file_types = array( 'image/jpg','image/jpeg','image/gif','image/png', 'image/x-icon');
+		
+	if( in_array( $uploaded_file_type, $allowed_file_types ) ) {
+	
+		$files_base['name'] = preg_replace( '/[^a-zA-Z0-9._\-]/', '', $files_base['name'] ); 
+		
+		$override['test_form'] = false;
+		$override['action'] = 'wp_handle_upload';    
+		
+		$uploaded_file = wp_handle_upload( $files_base, $override );
+		
+	//	$upload_tracking[] = $button_id;
+		
+		// ( if applicable-Update option here)
+	
+		$name = 'PageLines- ' . addslashes( $files_base['name'] );
+	
+		$attachment = array(
+						'post_mime_type'	=> $uploaded_file_type,
+						'post_title'		=> $name,
+						'post_content'		=> '',
+						'post_status'		=> 'inherit'
+					);
+	
+		$attach_id = wp_insert_attachment( $attachment, $uploaded_file['file'] );
+		$attach_data = wp_generate_attachment_metadata( $attach_id, $uploaded_file['file'] );
+		wp_update_attachment_metadata( $attach_id,  $attach_data );
+		
+	} else
+		$uploaded_file['error'] = __( 'Unsupported file type!', 'pagelines' );
+	
+	if( !empty( $uploaded_file['error'] ) )
+		echo sprintf( __('Upload Error: %s', 'pagelines' ) , $uploaded_file['error'] );
+	else{
+		echo json_encode(array('url' => $uploaded_file['url'], 'success' => TRUE));
+		
+	}
+		
+		
+	
+	
 	die(); // don't forget this, always returns 0 w/o
 	
 }

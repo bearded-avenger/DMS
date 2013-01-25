@@ -53,17 +53,21 @@ class PageLinesTemplateHandler {
 				
 				$.pl = {
 					data: {
-						current:  <?php echo json_encode($this->page_content('current'), JSON_FORCE_OBJECT); ?>
-						, post_type:  <?php echo json_encode($this->page_content('post_type'), JSON_FORCE_OBJECT); ?>
-						, site_defaults:  <?php echo json_encode($this->page_content('defaults'), JSON_FORCE_OBJECT); ?>
+						local:  <?php echo json_encode($this->current_page_data('local'), JSON_FORCE_OBJECT); ?>
+						, type:  <?php echo json_encode($this->current_page_data('type'), JSON_FORCE_OBJECT); ?>
+						, global:  <?php echo json_encode($this->current_page_data('global'), JSON_FORCE_OBJECT); ?>
 					}
 					, map: {
 						header: {}
 						, footer: {}
 						, template: {}
 					}
+					, flags: {
+						refreshOnSave: false
+					}
 					, config: {
 						pageID: '<?php echo $this->page->id;?>'
+						, typeID: '<?php echo $this->page->typeid;?>'
 						, pageTypeID: '<?php echo $this->page->type;?>'
 						, pageTypeName: '<?php echo $this->page->type_name;?>'
 						, isSpecial: '<?php echo $this->page->is_special();?>'
@@ -217,10 +221,10 @@ class PageLinesTemplateHandler {
 		
 	
 		
-	function page_content( $scope = 'current' ){
+	function current_page_data( $scope = 'local' ){
 		$d = array();
 		
-		if($scope == 'current'){
+		if($scope == 'local'){
 			
 			// ** Backwards Compatible Stuff ** //
 			if(!is_pagelines_special()){
@@ -233,7 +237,7 @@ class PageLinesTemplateHandler {
 				}
 			}
 			
-		} elseif($scope == 'post_type'){
+		} elseif($scope == 'type'){
 			
 			
 			// ** Backwards Compatible Stuff **
