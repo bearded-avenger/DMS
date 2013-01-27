@@ -44,6 +44,7 @@
 						$('.btn-saving').addClass('active')
 					}
 					, success: function( response ){
+						console.log(response)
 						$('.btn-saving').removeClass('active')
 						$('.state-list').removeClass('clean global local local-global').addClass(response)
 						$('.btn-state span').removeClass().addClass('state-draft-'+response)

@@ -17,7 +17,7 @@ class PageLinesTemplateHandler {
 	var $opts_list	= array();
 	var $area_number = 1;
 
-	function __construct( EditorInterface $interface, PageLinesPage $pg, EditorSettings $siteset, PageLinesFoundry $foundry, EditorMap $map) {
+	function __construct( EditorInterface $interface, PageLinesPage $pg, EditorSettings $siteset, PageLinesFoundry $foundry, EditorMap $map, EditorDraft $draft) {
 
 
 		global $pl_section_factory; 
@@ -29,6 +29,7 @@ class PageLinesTemplateHandler {
 		$this->page = $pg;
 		$this->siteset = $siteset;
 		$this->foundry = $foundry;
+		$this->draft = $draft;
 		
 		$this->map = $map->get_map( $this->page );
 
@@ -254,14 +255,16 @@ class PageLinesTemplateHandler {
 			
 		} else {
 			
+			$d = pl_opt_global( $this->draft->mode );
+			
 			// ** Backwards Compatible Stuff **
 			$old_special = get_option('pagelines-special');
 		
 			if( isset( $old_special[ 'default' ] ) ){
 				foreach($this->opts_list as $key => $opt){
 
-					if(isset($old_special[ 'default' ][ $opt ]) && !empty($old_special[ 'default' ][ $opt ]) )
-						$d[$opt] = array( pl_html($old_special[ 'default' ][ $opt ]) ); 
+					if(!isset($d[ $opt ]) && isset($old_special[ 'default' ][ $opt ]) && !empty($old_special[ 'default' ][ $opt ]) )
+						$d[ $opt ] = array( pl_html($old_special[ 'default' ][ $opt ]) ); 
 
 				}
 			}

@@ -15,9 +15,11 @@ class EditorDraft{
 			
 	}
 
-	function save_draft( $data ){
+	function save_draft( $data, $map ){
 		
+		print_r($data);
 		// update global option [draft]
+		pl_opt_update_global($data['pageData']['global'], 'draft');
 		
 		// update type option [draft]
 		

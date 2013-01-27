@@ -211,17 +211,17 @@ class EditorSettings {
 				'help' 		=> __( 'Configure the basic text colors for your site', 'pagelines' ), 
 				'opts'		=> array(
 					array(	
-						'key'			=> 'bodybg',
+						'key'			=> 'text_primary',
 						'type'			=> 'color',			
 						'label' 		=> __( 'Main Text Color', 'pagelines' ),
 					),
 					array(	
-						'key'			=> 'pagebg',
+						'key'			=> 'headercolor',
 						'type'			=> 'color',		
 						'label' 		=> __( 'Text Header Color', 'pagelines' ),
 						),
 					array(		
-						'key'			=> 'contentbg',
+						'key'			=> 'linkcolor',
 						'type'			=> 'color',
 						'label' 		=> __( 'Primary Link Color', 'pagelines' ),
 					)

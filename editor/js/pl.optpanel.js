@@ -84,14 +84,15 @@
 		, setBinding: function(){
 			var that = this
 			
-			$('.lstn').on('keypress blur change', function(){
+			$('.lstn').on('keypress blur change', function( e ){
 				
 				var scope = (that.config.mode == 'section-options') ? that.activeForm.data('scope') : 'global'
 				
 				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
 				
 				console.log('scope: '+scope)
-				console.log($.pl.data[scope])
+				console.log(e)
+				console.log($.pl.data)
 			})
 		}
 		
@@ -191,8 +192,10 @@
 			}
 			
 			else if( o.type == 'color' ){
+				
+				var prepend = '<span class="btn add-on trigger-color"> <i class="icon-tint"></i> </span>';
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<div class="input-prepend"><span class="btn add-on trigger-color"> <i class="icon-tint"></i> </span><input type="text" id="%1$s" name="%3$s" class="color-%1$s" value="%2$s" /></div>', o.key, o.value, o.name )
+				oHTML += sprintf('<div class="input-prepend">%4$s<input type="text" id="%1$s" name="%3$s" class="lstn color-%1$s" value="%2$s" /></div>', o.key, o.value, o.name, prepend )
 				
 			}
 			
@@ -262,8 +265,9 @@
 						var google = (s.google) ? ' G' : ''
 						, 	webSafe = (s.web_safe) ? ' *' : ''
 						, 	uri	= (s.google) ? s.gfont_uri : ''
+						,	selected = (o.value == skey) ? 'selected' : ''
 						
-						select_opts += sprintf('<option data-family=\'%s\' data-gfont=\'%s\' value="%s">%s%s%s</option>', s.family, uri, skey, s.name, google, webSafe)
+						select_opts += sprintf('<option data-family=\'%s\' data-gfont=\'%s\' value="%s" %s >%s%s%s</option>', s.family, uri, skey, selected, s.name, google, webSafe)
 					})
 				}
 				
@@ -355,8 +359,12 @@
 
 			else if( o.type == 'color' ){
 			
-				$('.color-'+o.key).colorpicker({
-					onSelect: function(color, inst){}
+				$( '.color-'+o.key ).colorpicker({
+					onClose: function(color, inst){
+						console.log( 'hello' )
+						console.log( inst )
+						$(this).change() // fire to set page data
+					}
 				})
 				
 			}
@@ -395,7 +403,7 @@
 						if (response.success) {
 							
 							optBox.find('.upload-thumb').html( sprintf('<img src="%s" />', response.url ))
-							optBox.find('.text-input').val(response.url)
+							optBox.find('.text-input').val(response.url).change()
 							optBox.closest('.isotope').isotope( 'reLayout' )
 						}
 				})

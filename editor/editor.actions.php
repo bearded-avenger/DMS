@@ -22,10 +22,13 @@ function pl_save_page(){
 
 	$draft = new EditorDraft;
 	$map = new EditorMap( $draft );
+	
+	$data = $_POST; 
+	$data['map_object'] = $map;
 
 	if( $mode == 'draft' ){
 		
-		$draft->save_draft( $_POST, $map );
+		$draft->save_draft( $data );
 		
 	} elseif ( $mode == 'publish' ) {
 		

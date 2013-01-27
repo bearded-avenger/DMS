@@ -249,7 +249,6 @@ class EditorInterface {
 						'call'	=> array(&$this, 'custom_scripts'),
 						'flag'	=> 'custom-scripts'
 					),
-					'theme'		=> array('name'	=> 'Website Theme')
 				)
 			), 
 			'settings' => array(
@@ -595,7 +594,7 @@ class EditorInterface {
 	
 	function the_store_callback(){
 		
-		$items = '';
+		$list = '';
 	
 		foreach(store_mixed_array() as $key => $item){
 			$class = array();
@@ -605,11 +604,29 @@ class EditorInterface {
 			
 			$classes = implode(' ', $class);
 			
-			$items .= sprintf('<div class="x-item %s"><div class="x-item-frame"><img src="%s" /></div></div>', $classes, $item['thumb']);
+		
+
+			$img = sprintf('<img src="%s" style=""/>', $item['thumb']); 
+
+			$list .= sprintf(
+				"<section class='x-item %s' >
+					<div class='x-item-frame'>
+						<div class='pl-vignette'>
+							%s
+						</div>
+					</div>
+					<div class='x-item-text'>
+						%s
+					</div>
+				</section>", 
+				$classes,
+				$img,
+				$item['name']
+			);
 
 		}
 		
-		printf('<div class="x-list">%s</div>', $items);
+		printf('<div class="x-list">%s</div>', $list);
 	}	
 	
 	function live_callback(){

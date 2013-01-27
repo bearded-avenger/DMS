@@ -66,7 +66,7 @@ class PageLinesEditor {
 		$this->siteset = new EditorSettings;
 		$this->foundry = new PageLinesFoundry;
 		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates );
-		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset, $this->foundry, $this->map );
+		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset, $this->foundry, $this->map, $this->draft );
 		
 	}
 	

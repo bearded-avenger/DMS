@@ -1,6 +1,9 @@
 <?php
 
 
+define('PL_GLOBAL_SETTINGS', 'pl-global-settings'); 
+
+
 function pl_opt( $key, $default = false, $parse = false ){
 	
 	$val = get_option($key); 
@@ -22,6 +25,28 @@ function pl_opt( $key, $default = false, $parse = false ){
 function pl_opt_update( $key, $value ){
 	
 	update_option($key, $value);
+	
+}
+
+function pl_opt_global( $mode = 'draft' ){
+	$default = array( 'draft' => array(), 'live' => array() );
+	
+	$option_set = pl_opt(PL_GLOBAL_SETTINGS, $default); 
+	
+	return $option_set[ $mode ]; 
+}
+
+function pl_opt_update_global( $set, $mode = 'draft'){
+	
+	$default = array( 'draft' => array(), 'live' => array() );
+	
+	$option_set = pl_opt(PL_GLOBAL_SETTINGS, $default); 
+	
+	if($mode == 'draft'){
+		$option_set['draft'] = wp_parse_args($set, $option_set['draft']); 
+	}
+	
+	pl_opt_update( PL_GLOBAL_SETTINGS, $option_set ); 
 	
 }
 
