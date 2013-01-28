@@ -92,6 +92,9 @@ class EditorInterface {
 		
 		// Image Uploader
 		wp_enqueue_script( 'fineupload', $this->url . '/js/fineuploader/jquery.fineuploader-3.2.min.js');
+		
+		// Images Loaded
+		wp_enqueue_script( 'imagesloaded', $this->url . '/js/utils.imagesloaded.js');
 
 
 
@@ -445,7 +448,7 @@ class EditorInterface {
 					</ul>
 				</li>
 				<li><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-edit"></i> <span class="txt">Save <span class="spamp">&amp;</span> Preview</span></li>
-				<li><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-check"></i> <span class="txt">Publish Changes</span></li>
+				<li><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-check"></i> <span class="txt">Publish All Changes</span></li>
 				
 			</ul>
 			<ul class="unstyled controls not-btn send-right">

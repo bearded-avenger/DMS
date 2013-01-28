@@ -254,10 +254,11 @@
 			if( key == 'settings'){
 				
 				var config = {
-					mode: 'settings'
-					, sid: 'settings'
-					, settings: $.pl.config.settings
-				}
+						mode: 'settings'
+						, sid: 'settings'
+						, settings: $.pl.config.settings
+					}
+				
 				$.optPanel.render( config )
 				
 			} else if (key == 'pl-design'){

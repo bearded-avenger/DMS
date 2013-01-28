@@ -227,19 +227,22 @@ class PageLinesTemplateHandler {
 		
 		if($scope == 'local'){
 			
+			$d = pl_settings( $this->draft->mode, $this->page->id );
+			
 			// ** Backwards Compatible Stuff ** //
 			if(!is_pagelines_special()){
 				foreach($this->opts_list as $key => $opt){
 
 					$val = plmeta( $opt, array('post_id' => $this->page->id) );
 
-					if($val != '')
+					if( !isset($d[ $opt ]) && $val != '')
 						$d[$opt] = array( pl_html($val) );
 				}
 			}
 			
 		} elseif($scope == 'type'){
 			
+			$d = pl_settings( $this->draft->mode, $this->page->typeid );
 			
 			// ** Backwards Compatible Stuff **
 			$old_special = get_option('pagelines-special');
@@ -247,7 +250,7 @@ class PageLinesTemplateHandler {
 			if( isset( $old_special[ $this->page->type ] ) ){
 				foreach($this->opts_list as $key => $opt){
 
-					if(isset($old_special[ $this->page->type ][ $opt ]) && !empty($old_special[ $this->page->type ][ $opt ]) )
+					if( !isset($d[ $opt ]) && isset($old_special[ $this->page->type ][ $opt ]) && !empty($old_special[ $this->page->type ][ $opt ]) )
 						$d[$opt] = array( pl_html($old_special[ $this->page->type ][ $opt ])); 
 
 				}
@@ -255,7 +258,7 @@ class PageLinesTemplateHandler {
 			
 		} else {
 			
-			$d = pl_opt_global( $this->draft->mode );
+			$d = pl_settings( $this->draft->mode );
 			
 			// ** Backwards Compatible Stuff **
 			$old_special = get_option('pagelines-special');

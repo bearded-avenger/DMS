@@ -15,15 +15,22 @@ class EditorDraft{
 			
 	}
 
-	function save_draft( $data, $map ){
+	function save_draft( $data ){
 		
 		print_r($data);
 		// update global option [draft]
-		pl_opt_update_global($data['pageData']['global'], 'draft');
-		
 		// update type option [draft]
-		
 		// update local option [draft]
+		
+		if( isset($data['pageData']['global']) )
+			pl_settings_update( $data['pageData']['global'], 'draft');
+		
+		if( isset($data['pageData']['type']) )
+			pl_settings_update( $data['pageData']['type'], 'draft', $data['typeID'] );
+		
+		if( isset($data['pageData']['local']) && $data['pageID'] != $data['typeID'])
+			pl_settings_update( $data['pageData']['local'], 'draft', $data['pageID'] );
+		
 		
 		// update map [draft]
 		
@@ -33,9 +40,9 @@ class EditorDraft{
 
 	function publish( $data, EditorMap $map ){
 		
-		$this->reset_state( $data['page'] );
+		$this->reset_state( $data['pageID'] );
 		
-		$map->publish_map( $data['page'] );
+		$map->publish_map( $data['pageID'] );
 		
 		
 	}

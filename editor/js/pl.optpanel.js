@@ -59,23 +59,23 @@
 			, 	cascade = ['local', 'type', 'global']
 			, 	sid = that.config.sid
 			
+			if( that.optConfig[sid] )
+				opt_array = that.optConfig[sid].opts
+			else 
+				return
+				
 			$.each( cascade , function(index, o) {
 					
 				tab = $("[data-panel='"+o+"']")
-			
-				if( !that.optConfig[sid] )
-					return
-				else 
-					opts = that.optConfig[sid].opts
-				
-			
-				opts = that.runEngine( opts, o )
+
+				opts = that.runEngine( opt_array, o )
 
 				if(that.optConfig[ sid ] && that.optConfig[ sid ].name)
 					tab.find('legend').html( that.optConfig[ sid ].name )
 
 				tab.find('.panel-tab-content').html( opts )
 				
+				that.runScriptEngine( index, opt_array )
 				
 			})
 			
@@ -110,9 +110,11 @@
 					that.optScope = that.activeForm.data('scope')
 					that.optSID = that.activeForm.data('sid')
 					
-					that.activeForm.isotope({
-						itemSelector : '.opt'
-						, layoutMode : 'masonry'
+					that.activeForm.imagesLoaded( function(){
+						that.activeForm.isotope({
+							itemSelector : '.opt'
+							, layoutMode : 'masonry'
+						})
 					})
 					
 				}

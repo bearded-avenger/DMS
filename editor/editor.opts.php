@@ -1,7 +1,7 @@
 <?php
 
 
-define('PL_GLOBAL_SETTINGS', 'pl-global-settings'); 
+define('PL_SETTINGS', 'pl-settings'); 
 
 
 function pl_opt( $key, $default = false, $parse = false ){
@@ -28,27 +28,7 @@ function pl_opt_update( $key, $value ){
 	
 }
 
-function pl_opt_global( $mode = 'draft' ){
-	$default = array( 'draft' => array(), 'live' => array() );
-	
-	$option_set = pl_opt(PL_GLOBAL_SETTINGS, $default); 
-	
-	return $option_set[ $mode ]; 
-}
 
-function pl_opt_update_global( $set, $mode = 'draft'){
-	
-	$default = array( 'draft' => array(), 'live' => array() );
-	
-	$option_set = pl_opt(PL_GLOBAL_SETTINGS, $default); 
-	
-	if($mode == 'draft'){
-		$option_set['draft'] = wp_parse_args($set, $option_set['draft']); 
-	}
-	
-	pl_opt_update( PL_GLOBAL_SETTINGS, $option_set ); 
-	
-}
 
 function pl_meta($id, $key, $default = false){
 
@@ -72,6 +52,83 @@ function pl_meta($id, $key, $default = false){
 function pl_meta_update($id, $key, $value){
 
 	update_post_meta($id, $key, $value);
+	
+}
+
+
+/*
+ *
+ * Local Option	
+ *
+ */
+function pl_settings( $mode = 'draft', $metaID = false ){
+
+	$default = array( 'draft' => array(), 'live' => array() );
+	
+	if( $metaID ){
+		
+		$set = pl_meta( $metaID, PL_SETTINGS, $default );
+	
+	} else {
+
+		$set = pl_opt(PL_SETTINGS, $default); 
+		
+	}
+	
+	$settings = ( isset($set[ $mode ]) ) ? $set[ $mode ] : $default;
+	
+	return $settings;
+	
+}
+
+function pl_settings_update( $settings, $mode = 'draft', $metaID = false ){
+	
+	$default = array( 'draft' => array(), 'live' => array() );
+	
+	
+	$set = pl_settings( $mode, $metaID );
+	
+	$setmode = ( isset($set[ $mode ]) ) ? $set[ $mode ] : array();
+	
+	$set[ $mode ] = wp_parse_args( $settings, $setmode ); 
+
+	if( $metaID )
+		pl_meta_update( $metaID, PL_SETTINGS, $set );
+	else
+		pl_opt_update( PL_SETTINGS, $set );
+	
+}
+
+/*
+ *
+ * Type Option	
+ *
+ */
+
+/*
+ *
+ * Global Option	
+ *
+ */
+function pl_opt_global( $mode = 'draft' ){
+	$default = array( 'draft' => array(), 'live' => array() );
+	
+	$option_set = pl_opt(PL_SETTINGS, $default); 
+	
+	return $option_set[ $mode ]; 
+}
+
+function pl_opt_update_global( $set, $mode = 'draft'){
+	
+	$default = array( 'draft' => array(), 'live' => array() );
+	
+	$option_set = pl_opt(PL_SETTINGS, $default); 
+	
+	if($mode == 'draft'){
+		$option_set['draft'] = wp_parse_args($set, $option_set['draft']); 
+	}
+	
+	pl_opt_update( PL_SETTINGS, $option_set ); 
 	
 }
 

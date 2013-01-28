@@ -31,7 +31,7 @@
 				,	theData = {
 							action: 'pl_save_page'
 						,	mode: mode
-						,	page: $.pl.config.pageID
+						,	pageID: $.pl.config.pageID
 						,	typeID: $.pl.config.typeID
 						,	pageData: $.pl.data
 					}

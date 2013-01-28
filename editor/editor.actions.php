@@ -38,7 +38,7 @@ function pl_save_page(){
 	}
 
 
-	echo $draft->get_state( $_POST['page'] );	
+	echo $draft->get_state( $_POST['pageID'] );	
 	
 	die(); // don't forget this, always returns 0 w/o
 	
