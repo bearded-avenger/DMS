@@ -9,7 +9,7 @@ function save_map_draft(){
 	
 	$map->save_map_draft( $_POST );  
 	
-	echo $draft->get_state( $_POST['page'] );
+	echo $draft->get_state( $_POST );
 	
 	die(); // don't forget this, always returns 0 w/o
 	
@@ -37,8 +37,8 @@ function pl_save_page(){
 		
 	}
 
-
-	echo $draft->get_state( $_POST['pageID'] );	
+	//echo json_encode( array( 'state' => $draft->get_state( $data )) );
+	echo $draft->get_state( $data );	
 	
 	die(); // don't forget this, always returns 0 w/o
 	
@@ -52,7 +52,7 @@ function pl_revert_changes (){
 		
 	$draft->revert( $_POST, $map );
 	
-	echo $draft->get_state( $_POST['page'] );
+	echo $draft->get_state( $_POST );
 	die(); // don't forget this, always returns 0 w/o
 	
 }

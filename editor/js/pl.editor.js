@@ -688,7 +688,7 @@
 			
 			$.pl.map = map
 			
-			that.ajaxSaveMap( map, interrupt )
+			$.plAJAX.ajaxSaveMap( map, interrupt )
 			
 			return map
 			
@@ -771,43 +771,7 @@
 			
 		}
 
-		, ajaxSaveMap: function( map, interrupt ){
-		
-			var that = this
-			, 	interrupt = interrupt || false
-			,	saveData = {
-				action: 'pl_save_map_draft'
-				,	map: map
-				,	page: $.pl.config.pageID
-				, 	special: $.pl.config.isSpecial
-			}
-			
-			$.ajax( {
-				type: 'POST'
-				, url: ajaxurl
-				, data: saveData	
-				, beforeSend: function(){
-					$('.btn-saving').addClass('active')
-					
-					if( interrupt )
-						bootbox.dialog( $.pageTools.dialogText('Saving Template'), [], {animate: false})
-				}
-				, success: function( response ){
-					
-					if( interrupt ){
-						bootbox.dialog( $.pageTools.dialogText('Success! Reloading Page'), [], {animate: false})
-						location.reload()
-					}
-					
-					$('.btn-saving').removeClass('active')
-					$('.state-list').removeClass('clean global local local-global').addClass(response)
-					$('.btn-state span').removeClass().addClass('state-draft-'+response)
-				}
-			})
-		
-			
-		}
-
+	
 		, isAreaEmpty: function(area){
 			var addTo = (area.hasClass('pl-sortable-column')) ? area.parent() : area
 			

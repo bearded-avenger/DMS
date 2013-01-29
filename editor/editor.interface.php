@@ -447,8 +447,8 @@ class EditorInterface {
 						<li class="li-state-clean disabled"><a class="txt"><span class="update-state state-draft-clean">&nbsp;</span>&nbsp; No Unpublished Changes</a></li>
 					</ul>
 				</li>
-				<li><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-edit"></i> <span class="txt">Save <span class="spamp">&amp;</span> Preview</span></li>
-				<li><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-check"></i> <span class="txt">Publish All Changes</span></li>
+				<li><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-edit"></i> <span class="txt">Save Draft</span></li>
+				<li><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-check"></i> <span class="txt">Publish Changes</span></li>
 				
 			</ul>
 			<ul class="unstyled controls not-btn send-right">

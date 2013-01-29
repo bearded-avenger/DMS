@@ -88,15 +88,16 @@ function pl_settings_update( $settings, $mode = 'draft', $metaID = false ){
 	
 	$set = pl_settings( $mode, $metaID );
 	
-	$setmode = ( isset($set[ $mode ]) ) ? $set[ $mode ] : array();
-	
-	$set[ $mode ] = wp_parse_args( $settings, $setmode ); 
+	$set = wp_parse_args($set, $default);
+
+	$set[ $mode ] = wp_parse_args( $settings, $set[ $mode ] ); 
 
 	if( $metaID )
 		pl_meta_update( $metaID, PL_SETTINGS, $set );
 	else
 		pl_opt_update( PL_SETTINGS, $set );
 	
+	return $set;
 }
 
 /*

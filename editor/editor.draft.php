@@ -17,25 +17,46 @@ class EditorDraft{
 
 	function save_draft( $data ){
 		
-		print_r($data);
+		//print_r($data);
 		// update global option [draft]
 		// update type option [draft]
 		// update local option [draft]
 		
-		if( isset($data['pageData']['global']) )
-			pl_settings_update( $data['pageData']['global'], 'draft');
+		if( isset($data['pageData']['global']) ){
+			
+			$set = pl_settings_update( $data['pageData']['global'], 'draft');
+			$this->set_state( $set['draft'], $set['live'] );
+			
+		}
 		
-		if( isset($data['pageData']['type']) )
+		if( isset($data['pageData']['type']) ){
+			
 			pl_settings_update( $data['pageData']['type'], 'draft', $data['typeID'] );
+			$this->set_state( $set['draft'], $set['live'], $data['typeID'] );
+			
+		}
 		
-		if( isset($data['pageData']['local']) && $data['pageID'] != $data['typeID'])
+		if( isset($data['pageData']['local']) && $data['pageID'] != $data['typeID']){
+			
 			pl_settings_update( $data['pageData']['local'], 'draft', $data['pageID'] );
+			$this->set_state( $set['draft'], $set['live'], $data['pageID'] );
+			
+		}
+		
+	
 		
 		
-		// update map [draft]
+	}
+
+	function set_state( $draft_state, $live_state, $metaID = false ){
 		
-		// check and set draft states
+		$modified = ( $live_state != $draft_state ) ? true : false;
 		
+		if( $metaID )
+			pl_meta_update( $metaID, $this->slug, $modified  );
+		else 
+			pl_opt_update( $this->slug, $modified );
+			
 	}
 
 	function publish( $data, EditorMap $map ){
@@ -70,16 +91,23 @@ class EditorDraft{
 		pl_opt_update( $this->slug, false );
 	}
 
-	function get_state( $pageID ){
+	
+
+	function get_state( $data ){
 		
 		$state = array();
+		$pageID = $data['pageID']; 
+		$typeID = $data['typeID'];
 		
 		if( pl_meta( $pageID, $this->slug ) )
 			$state[] = 'local';
 		
+		if( pl_meta( $typeID, $this->slug ) )
+			$state[] = 'type';
+		
 		if( pl_opt( $this->slug ) )
 			$state[] = 'global';
-	
+			
 		if(empty($state))
 			return 'clean';
 		else 

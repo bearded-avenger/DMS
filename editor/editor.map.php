@@ -172,8 +172,8 @@ class EditorMap {
 	}
 	
 	function save_map_draft( $data ){
-		
-		$pageID = (int) $data['page'];
+		//print_r($data);
+		$pageID = (int) $data['pageID'];
 		$map = (array) $data['map'];
 	
 		// global

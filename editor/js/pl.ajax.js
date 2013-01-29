@@ -30,10 +30,12 @@
 				,	refresh = $.pl.flags.refreshOnSave
 				,	theData = {
 							action: 'pl_save_page'
+						,	map: $.pl.map
 						,	mode: mode
 						,	pageID: $.pl.config.pageID
 						,	typeID: $.pl.config.typeID
 						,	pageData: $.pl.data
+						
 					}
 
 				$.ajax( {
@@ -61,7 +63,8 @@
 					,	theData = {
 						action: 'pl_revert_changes'
 						,	revert: revert
-						,	page: $.pl.config.pageID
+						,	pageID: $.pl.config.pageID
+						,	typeID: $.pl.config.typeID
 					}
 					, 	confirmText = "<h3>Are you sure?</h3><p>This will revert <strong>"+revert+"</strong> changes to your last published configuration.</p>"
 					
@@ -101,8 +104,41 @@
 			
 		}
 		
-		, uploadImage: function( config ) {
+		, ajaxSaveMap: function( map, interrupt ){
+		
+			var that = this
+			, 	interrupt = interrupt || false
+			,	saveData = {
+				action: 'pl_save_map_draft'
+				,	map: $.pl.map
+				,	pageID: $.pl.config.pageID
+				,	typeID: $.pl.config.typeID
+				, 	special: $.pl.config.isSpecial
+			}
 			
+			$.ajax( {
+				type: 'POST'
+				, url: ajaxurl
+				, data: saveData	
+				, beforeSend: function(){
+					$('.btn-saving').addClass('active')
+					
+					if( interrupt )
+						bootbox.dialog( $.pageTools.dialogText('Saving Template'), [], {animate: false})
+				}
+				, success: function( response ){
+					
+					if( interrupt ){
+						bootbox.dialog( $.pageTools.dialogText('Success! Reloading Page'), [], {animate: false})
+						location.reload()
+					}
+					
+					$('.btn-saving').removeClass('active')
+					$('.state-list').removeClass('clean global local local-global').addClass(response)
+					$('.btn-state span').removeClass().addClass('state-draft-'+response)
+				}
+			})
+		
 			
 		}
 		
