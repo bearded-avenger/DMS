@@ -7,9 +7,12 @@ function save_map_draft(){
 	$draft = new EditorDraft;
 	$map = new EditorMap( $draft );
 	
-	$map->save_map_draft( $_POST );  
+	$data = $_POST; 
+	$data['map_object'] = $map;
 	
-	echo $draft->get_state( $_POST );
+	$map->save_map_draft( $data );  
+	
+	echo $draft->get_state( $data );
 	
 	die(); // don't forget this, always returns 0 w/o
 	
@@ -33,7 +36,11 @@ function pl_save_page(){
 	} elseif ( $mode == 'publish' ) {
 		
 		
-		$draft->publish( $_POST, $map );
+		$draft->publish( $data, $map );
+		
+	} elseif ( $mode == 'revert' ){
+		
+		$draft->revert( $data, $map );
 		
 	}
 
@@ -44,18 +51,6 @@ function pl_save_page(){
 	
 }
 
-add_action( 'wp_ajax_pl_revert_changes', 'pl_revert_changes' );
-function pl_revert_changes (){
-
-	$draft = new EditorDraft;
-	$map = new EditorMap( $draft );
-		
-	$draft->revert( $_POST, $map );
-	
-	echo $draft->get_state( $_POST );
-	die(); // don't forget this, always returns 0 w/o
-	
-}
 
 add_action( 'wp_ajax_pl_load_template', 'pl_load_template' );
 function pl_load_template (){

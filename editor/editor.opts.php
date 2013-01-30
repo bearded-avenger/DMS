@@ -81,23 +81,69 @@ function pl_settings( $mode = 'draft', $metaID = false ){
 	
 }
 
-function pl_settings_update( $settings, $mode = 'draft', $metaID = false ){
+function pl_settings_update( $new_settings, $mode = 'draft', $metaID = false ){
 	
 	$default = array( 'draft' => array(), 'live' => array() );
 	
 	
-	$set = pl_settings( $mode, $metaID );
+	if( $metaID )
+		$settings = pl_meta( $metaID, PL_SETTINGS );
+	else 
+		$settings = pl_opt(PL_SETTINGS);
 	
-	$set = wp_parse_args($set, $default);
+	$settings = wp_parse_args($settings, $default);
 
-	$set[ $mode ] = wp_parse_args( $settings, $set[ $mode ] ); 
+	$settings[ $mode ] = wp_parse_args( $new_settings, $settings[ $mode ] ); 
 
+	if( $metaID )
+		pl_meta_update( $metaID, PL_SETTINGS, $settings );
+	else
+		pl_opt_update( PL_SETTINGS, $settings );
+	
+	return $settings;
+}
+
+function pl_revert_settings( $metaID = false ){
+	
+	if( $metaID ){
+		$set = pl_meta( $metaID, PL_SETTINGS, $default );
+		
+	} else {
+		$set = pl_opt(PL_SETTINGS, $default); 
+	}
+	
+	$set['draft'] = $set['live']; 
+	
 	if( $metaID )
 		pl_meta_update( $metaID, PL_SETTINGS, $set );
 	else
 		pl_opt_update( PL_SETTINGS, $set );
 	
-	return $set;
+}
+
+function pl_publish_settings( $pageID, $typeID ){
+	
+	$settings = array(); 
+	
+	$settings['local'] = pl_meta( $pageID, PL_SETTINGS );
+	$settings['type'] = pl_meta( $typeID, PL_SETTINGS );
+	$settings['global'] = pl_opt( PL_SETTINGS  );
+	
+	
+	foreach($settings as $scope => $set){
+		
+		$set = wp_parse_args($set, array('live'=> array(), 'draft' => array()));
+		
+		$set['live'] = $set['draft'];
+		
+		$settings[ $scope ] = $set;
+			
+	}
+	
+	pl_meta_update( $pageID, PL_SETTINGS, $settings['local'] );
+	pl_meta_update( $typeID, PL_SETTINGS, $settings['type'] );
+	pl_opt_update( PL_SETTINGS, $settings['global'] );
+	
 }
 
 /*

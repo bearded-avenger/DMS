@@ -14,12 +14,13 @@
 class EditorInterface {
 
 
-	function __construct( PageLinesPage $pg, EditorSettings $siteset, EditorDraft $draft, EditorTemplates $templates ) {
+	function __construct( PageLinesPage $pg, EditorSettings $siteset, EditorDraft $draft, EditorTemplates $templates, EditorMap $map ) {
 		
 		$this->page = $pg;
 		$this->draft = $draft;
 		$this->siteset = $siteset;
 		$this->templates = $templates;
+		$this->map = $map;
 
 		add_action( 'wp_footer', array( &$this, 'control_panel' ) );
 		add_action( 'wp_print_styles', array(&$this, 'pl_editor_styles' ), 15 );
@@ -40,6 +41,7 @@ class EditorInterface {
 		wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/pl.toolbox.js', array('pagelines-bootstrap-all')); 
 		wp_enqueue_script( 'pl-optpanel', $this->url . '/js/pl.optpanel.js'); 
 		wp_enqueue_script( 'pl-ajax', $this->url . '/js/pl.ajax.js'); 
+		wp_enqueue_script( 'pl-library', $this->url . '/js/pl.library.js'); 
 		
 		// Isotope
 		wp_enqueue_script( 'isotope', $this->url . '/js/utils.isotope.js', array('jquery')); 
@@ -326,18 +328,7 @@ class EditorInterface {
 				'icon'	=> 'icon-paste',
 				'type'	=> 'hidden', 
 				'flag'	=> 'section-opts',
-				'panel'	=> array(
-					'heading'		=> "Section Options",
-					'local'	=> array(
-						'name'	=> 'Current Page <span class="label">'.$this->page->id.'</span>',
-					),
-					'type'	=> array(
-						'name'	=> 'Post Type <span class="label">'.$this->page->type_name.'</span>',
-					),
-					'global'	=> array(
-						'name'	=> 'Sitewide Defaults', 		
-					),
-				)
+				'panel'	=> $this->section_options_panel()
 				
 			),
 		);
@@ -346,6 +337,23 @@ class EditorInterface {
 		
 	}
 	
+	function section_options_panel(){
+		
+		$current_page = ($this->page->is_special()) ? $this->page->type_name : $page->id;
+		
+		$tabs = array(); 
+		$tabs['heading'] = "Section Options"; 
+		
+		$tabs['local'] = array( 'name'	=> 'Current Page <span class="label">'.$current_page.'</span>' ); 
+		
+		if(!$this->page->is_special())
+			$tabs['type'] = array( 'name'	=> 'Post Type <span class="label">'.$this->page->type_name.'</span>' ); 
+			
+		$tabs['global'] = array( 'name'	=> 'Sitewide Defaults' );
+		
+		return $tabs;
+		
+	}
 
 	
 	function get_settings_tabs( $panel = 'site' ){
@@ -434,17 +442,19 @@ class EditorInterface {
 				
 				<li class="dropup">
 					<?php
-						$state = $this->draft->get_state( $this->page->id );
+						$state = $this->draft->get_state( array('pageID' => $this->page->id, 'typeID' => $this->page->typeid, 'map_object' => $this->map ) );
 					
 					?>
 					<span class="btn-toolbox btn-state " data-toggle="dropdown">
-						<span id="update-state" class="state-draft-<?php echo $state;?>">&nbsp;</span>
+						<span id="update-state" class="state-draft <?php echo $state;?>">&nbsp;</span>
 					</span>
 					<ul class="dropdown-menu pull-right state-list <?php echo $state;?>">
-						<li class="li-state-local-global"><a class="btn-revert" data-revert="all"><span class="update-state state-draft-local-global">&nbsp;</span>&nbsp; Revert All Unpublished Changes</a></li>
-						<li class="li-state-local"><a class="btn-revert" data-revert="local"><span class="update-state state-draft-local">&nbsp;</span>&nbsp; Revert Unpublished Local Changes</a></li>
-						<li class="li-state-global"><a class="btn-revert" data-revert="global"><span class="update-state state-draft-global">&nbsp;</span>&nbsp; Revert Unpublished Global Changes</a></li>
-						<li class="li-state-clean disabled"><a class="txt"><span class="update-state state-draft-clean">&nbsp;</span>&nbsp; No Unpublished Changes</a></li>
+						<li class="li-state-multi"><a class="btn-revert" data-revert="all"><span class="update-state state-draft multi">&nbsp;</span>&nbsp; Revert All Unpublished Changes</a></li>
+						<li class="li-state-global"><a class="btn-revert" data-revert="global"><span class="update-state state-draft global">&nbsp;</span>&nbsp; Revert Unpublished Global Changes</a></li>
+						
+						<li class="li-state-type"><a class="btn-revert" data-revert="type"><span class="update-state state-draft type">&nbsp;</span>&nbsp; Revert Unpublished Post Type Changes</a></li>
+						<li class="li-state-local"><a class="btn-revert" data-revert="local"><span class="update-state state-draft local">&nbsp;</span>&nbsp; Revert Unpublished Local Changes</a></li>
+						<li class="li-state-clean disabled"><a class="txt"><span class="update-state state-draft clean">&nbsp;</span>&nbsp; No Unpublished Changes</a></li>
 					</ul>
 				</li>
 				<li><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-edit"></i> <span class="txt">Save Draft</span></li>

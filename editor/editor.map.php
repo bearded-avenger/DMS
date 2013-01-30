@@ -23,14 +23,23 @@ class EditorMap {
 	
 	function get_map( PageLinesPage $page ){
 	
-		$map_global = pl_opt( $this->map_option_slug, $this->map_default, true ); 
-		$map_local = pl_meta( $page->id, $this->map_option_slug, $this->map_default );
+		$map_global = $this->map_global( ); 
+		$map_local = $this->map_local( $page->id );
 		
 		$map['header'] = $this->get_header( $map_global[ $this->draft->mode ] ); 
 		$map['footer'] = $this->get_footer( $map_global[ $this->draft->mode ] ); 
 		$map['template'] = $this->get_template( $map_local[ $this->draft->mode ] ); 
 		
 		return $map;
+		
+	}
+	
+	function map_global(){
+		return pl_opt( $this->map_option_slug, $this->map_default, true ); 
+	}
+	
+	function map_local( $pageID ){
+		return pl_meta( $pageID, $this->map_option_slug, $this->map_default );
 	}
 	
 	function get_header( $map ){

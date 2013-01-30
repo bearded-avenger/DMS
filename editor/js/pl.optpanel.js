@@ -178,7 +178,7 @@
 			var that = this
 			, 	oHTML = ''
 
-			o.value = that.optValue( tabIndex, o.key )
+			o.value = pl_html_input( that.optValue( tabIndex, o.key ) ) 
 			o.name = sprintf('%s[%s]', o.key, that.clone)
 				
 			// Multiple Options

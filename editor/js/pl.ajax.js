@@ -48,8 +48,8 @@
 					, success: function( response ){
 						console.log(response)
 						$('.btn-saving').removeClass('active')
-						$('.state-list').removeClass('clean global local local-global').addClass(response)
-						$('.btn-state span').removeClass().addClass('state-draft-'+response)
+						$('.state-list').removeClass('clean global local type multi').addClass(response)
+						$('.btn-state span').removeClass().addClass('state-draft '+response)
 					}
 				})
 				
@@ -61,7 +61,8 @@
 				
 					var revert = $(this).data('revert')
 					,	theData = {
-						action: 'pl_revert_changes'
+							action: 'pl_save_page'
+						,	mode: 'revert'
 						,	revert: revert
 						,	pageID: $.pl.config.pageID
 						,	typeID: $.pl.config.typeID
@@ -83,8 +84,8 @@
 								, success: function( response ){
 								
 									$('.btn-saving').removeClass('active')
-									$('.state-list').removeClass('clean global local local-global').addClass(response)
-									$('.btn-state span').removeClass().addClass('state-draft-'+response)
+									$('.state-list').removeClass('clean global local type multi').addClass(response)
+									$('.btn-state span').removeClass().addClass('state-draft '+response)
 									
 									var reloadText = '<div class="spn"><div class="spn-txt">Reloading Page</div><div class="progress progress-striped active"><div class="bar" style="width: 100%"></div></div></div>'
 									
@@ -135,7 +136,7 @@
 					
 					$('.btn-saving').removeClass('active')
 					$('.state-list').removeClass('clean global local local-global').addClass(response)
-					$('.btn-state span').removeClass().addClass('state-draft-'+response)
+					$('.btn-state span').removeClass().addClass('state-draft '+response)
 				}
 			})
 		

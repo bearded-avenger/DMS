@@ -17,33 +17,16 @@ class EditorDraft{
 
 	function save_draft( $data ){
 		
-		//print_r($data);
-		// update global option [draft]
-		// update type option [draft]
-		// update local option [draft]
 		
-		if( isset($data['pageData']['global']) ){
-			
-			$set = pl_settings_update( $data['pageData']['global'], 'draft');
-			$this->set_state( $set['draft'], $set['live'] );
-			
-		}
-		
-		if( isset($data['pageData']['type']) ){
-			
-			pl_settings_update( $data['pageData']['type'], 'draft', $data['typeID'] );
-			$this->set_state( $set['draft'], $set['live'], $data['typeID'] );
-			
-		}
-		
-		if( isset($data['pageData']['local']) && $data['pageID'] != $data['typeID']){
-			
-			pl_settings_update( $data['pageData']['local'], 'draft', $data['pageID'] );
-			$this->set_state( $set['draft'], $set['live'], $data['pageID'] );
-			
-		}
-		
+		if( isset($data['pageData']['global']) )
+			pl_settings_update( $data['pageData']['global'], 'draft');
 	
+		if( isset($data['pageData']['local']) )
+			pl_settings_update( $data['pageData']['local'], 'draft', $data['pageID'] );
+		
+		if( isset($data['pageData']['type']) && $data['pageID'] != $data['typeID'])
+			pl_settings_update( $data['pageData']['type'], 'draft', $data['typeID'] );
+		
 		
 		
 	}
@@ -51,6 +34,9 @@ class EditorDraft{
 	function set_state( $draft_state, $live_state, $metaID = false ){
 		
 		$modified = ( $live_state != $draft_state ) ? true : false;
+		
+		if($modified)
+			echo $metaID;
 		
 		if( $metaID )
 			pl_meta_update( $metaID, $this->slug, $modified  );
@@ -61,19 +47,26 @@ class EditorDraft{
 
 	function publish( $data, EditorMap $map ){
 		
-		$this->reset_state( $data['pageID'] );
+		$pageID = $data['pageID']; 
+		$typeID = $data['typeID']; 
+		
+		pl_publish_settings($pageID, $typeID);
 		
 		$map->publish_map( $data['pageID'] );
 		
-		
+		$this->reset_state( $data['pageID'] );
 	}
 	
 	function revert( $data, EditorMap $map ){
 		$revert = $data['revert'];
-		$pageID = $data['page'];
+		$pageID = $data['pageID'];
+		$typeID = $data['typeID'];
 	
 		if( $revert == 'local' || $revert == 'all')
 			$this->revert_local($pageID, $map);
+			
+		if( $revert == 'type' || $revert == 'all')
+			$this->revert_type($typeID, $map);
 			
 		if( $revert == 'global' || $revert == 'all')
 			$this->revert_global($map);
@@ -83,11 +76,18 @@ class EditorDraft{
 	
 	function revert_local( $pageID, $map ){
 		$map->revert_local( $pageID );
+		pl_revert_settings( $pageID );
 		pl_meta_update( $pageID, $this->slug, false );
+	}
+	
+	function revert_type( $typeID ){
+		pl_revert_settings( $typeID );
+		pl_meta_update( $typeID, $this->slug, false );
 	}
 	
 	function revert_global( $map ){
 		$map->revert_global( );
+		pl_revert_settings( );
 		pl_opt_update( $this->slug, false );
 	}
 
@@ -96,22 +96,40 @@ class EditorDraft{
 	function get_state( $data ){
 		
 		$state = array();
+		$settings = array();
 		$pageID = $data['pageID']; 
 		$typeID = $data['typeID'];
+		$default = array('live'=> array(), 'draft' => array());
 		
-		if( pl_meta( $pageID, $this->slug ) )
-			$state[] = 'local';
 		
-		if( pl_meta( $typeID, $this->slug ) )
-			$state[] = 'type';
+		// Local
+		$settings['local'] = pl_meta( $pageID, PL_SETTINGS );
 		
-		if( pl_opt( $this->slug ) )
-			$state[] = 'global';
+		if($typeID != $pageID)
+			$settings['type'] = pl_meta( $typeID, PL_SETTINGS );
+			
+		$settings['global'] = pl_opt( PL_SETTINGS );
+		$settings['map-local'] = $data['map_object']->map_local( $pageID );
+		$settings['map-global'] = $data['map_object']->map_global();
+		
+		foreach( $settings as $scope => $set ){
+			
+			$set = wp_parse_args($set, $default);
+			
+			if( $set['draft'] != $set['live'] )
+				$state[] = $scope;
+			
+		}
+		
+	
+			
+		if( count( $state ) > 1 )
+			$state[] = 'multi';
 			
 		if(empty($state))
 			return 'clean';
 		else 
-			return join('-', $state);
+			return join(' ', $state);
 		
 	}
 	
