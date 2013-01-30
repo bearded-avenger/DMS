@@ -519,7 +519,12 @@
 					}
 				}
 				
-				
+				&.btn-publish{
+					
+					
+					border-left: 1px solid #fff; 
+					border-right: 1px solid #AAA;
+				}
 				&:hover{
 					
 					.buttonBackground(#eee, #ccc);
@@ -593,6 +598,9 @@
 			&.state-draft.multi{
 				background: rgba(139, 22, 243, .4);
 			}
+			&.state-draft.unsaved{
+				background: rgba(0, 0, 0, .9);
+			}
 			
 		}
 		.btn-state span {
@@ -605,7 +613,8 @@
 			.li-state-multi,
 			.li-state-local,
 			.li-state-global,
-			.li-state-type{
+			.li-state-type,
+			.li-state-unsaved{
 				display: none;
 			}
 		}
@@ -615,6 +624,7 @@
 		.state-list.global .li-state-global{ display: block; }
 		.state-list.type .li-state-type{ display: block; }
 		.state-list.multi .li-state-multi{ display: block; }
+		.state-list.unsaved .li-state-unsaved{ display: block; }
 		
 		
 	}

@@ -91,8 +91,10 @@
 				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
 				
 				console.log('scope: '+scope)
-				console.log(e)
-				console.log($.pl.data)
+		
+				
+				if(e.type == 'change')
+					$.plAJAX.saveData( 'draft' )
 			})
 		}
 		
@@ -406,7 +408,10 @@
 							
 							optBox.find('.upload-thumb').html( sprintf('<img src="%s" />', response.url ))
 							optBox.find('.text-input').val(response.url).change()
-							optBox.closest('.isotope').isotope( 'reLayout' )
+							optBox.imagesLoaded( function(){
+								optBox.closest('.isotope').isotope( 'reLayout' )
+							})
+							
 						}
 				})
 				

@@ -1,22 +1,6 @@
 <?php 
 
 
-add_action( 'wp_ajax_pl_save_map_draft', 'save_map_draft' );
-function save_map_draft(){
-	
-	$draft = new EditorDraft;
-	$map = new EditorMap( $draft );
-	
-	$data = $_POST; 
-	$data['map_object'] = $map;
-	
-	$map->save_map_draft( $data );  
-	
-	echo $draft->get_state( $data );
-	
-	die(); // don't forget this, always returns 0 w/o
-	
-}
 
 add_action( 'wp_ajax_pl_save_page', 'pl_save_page' );
 function pl_save_page(){
@@ -41,6 +25,10 @@ function pl_save_page(){
 	} elseif ( $mode == 'revert' ){
 		
 		$draft->revert( $data, $map );
+		
+	} elseif ( $mode == 'map' ){
+		
+		$map->save_map_draft( $data );  
 		
 	}
 

@@ -17,17 +17,14 @@ class EditorDraft{
 
 	function save_draft( $data ){
 		
-		
 		if( isset($data['pageData']['global']) )
-			pl_settings_update( $data['pageData']['global'], 'draft');
+			pl_settings_update( stripslashes_deep( $data['pageData']['global'] ), 'draft');
 	
 		if( isset($data['pageData']['local']) )
 			pl_settings_update( $data['pageData']['local'], 'draft', $data['pageID'] );
 		
 		if( isset($data['pageData']['type']) && $data['pageID'] != $data['typeID'])
 			pl_settings_update( $data['pageData']['type'], 'draft', $data['typeID'] );
-		
-		
 		
 	}
 
@@ -116,12 +113,18 @@ class EditorDraft{
 			
 			$set = wp_parse_args($set, $default);
 			
-			if( $set['draft'] != $set['live'] )
-				$state[] = $scope;
+			$scope = str_replace('map-', '', $scope);
+			
+			if( $set['draft'] != $set['live'] ){
+				$state[$scope] = $scope;
+			//	print_r( array_diff($set['draft'], $set['live']) );
+			}
+				
+			
 			
 		}
 		
-	
+	//	print_r($state);
 			
 		if( count( $state ) > 1 )
 			$state[] = 'multi';

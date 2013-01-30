@@ -20,6 +20,35 @@
 			
 		}
 		
+		, saveData: function( mode ){
+			
+			var	refresh = $.pl.flags.refreshOnSave
+			,	theData = {
+						action: 'pl_save_page'
+					,	map: $.pl.map
+					,	mode: mode
+					,	pageID: $.pl.config.pageID
+					,	typeID: $.pl.config.typeID
+					,	pageData: $.pl.data
+				}
+
+			$.ajax( {
+				type: 'POST'
+				, url: ajaxurl
+				, data: theData	
+				, beforeSend: function(){
+					$('.btn-saving').addClass('active')
+				}
+				, success: function( response ){
+					console.log(response)
+					$('.btn-saving').removeClass('active')
+					$('.state-list').removeClass('clean global local type multi').addClass(response)
+					$('.btn-state span').removeClass().addClass('state-draft '+response)
+				}
+			})
+			
+		}
+		
 		, bindUIActions: function(){
 			
 			
@@ -27,31 +56,9 @@
 				
 				var btn = $(this)
 				,	mode = (btn.data('mode')) ? btn.data('mode') : ''
-				,	refresh = $.pl.flags.refreshOnSave
-				,	theData = {
-							action: 'pl_save_page'
-						,	map: $.pl.map
-						,	mode: mode
-						,	pageID: $.pl.config.pageID
-						,	typeID: $.pl.config.typeID
-						,	pageData: $.pl.data
-						
-					}
-
-				$.ajax( {
-					type: 'POST'
-					, url: ajaxurl
-					, data: theData	
-					, beforeSend: function(){
-						$('.btn-saving').addClass('active')
-					}
-					, success: function( response ){
-						console.log(response)
-						$('.btn-saving').removeClass('active')
-						$('.state-list').removeClass('clean global local type multi').addClass(response)
-						$('.btn-state span').removeClass().addClass('state-draft '+response)
-					}
-				})
+				
+				$.plAJAX.saveData( mode )
+				
 				
 			})
 			
@@ -110,12 +117,13 @@
 			var that = this
 			, 	interrupt = interrupt || false
 			,	saveData = {
-				action: 'pl_save_map_draft'
-				,	map: $.pl.map
-				,	pageID: $.pl.config.pageID
-				,	typeID: $.pl.config.typeID
-				, 	special: $.pl.config.isSpecial
-			}
+						action: 'pl_save_page'
+					, 	mode: 'map'
+					,	map: $.pl.map
+					,	pageID: $.pl.config.pageID
+					,	typeID: $.pl.config.typeID
+					, 	special: $.pl.config.isSpecial
+				}
 			
 			$.ajax( {
 				type: 'POST'
@@ -134,8 +142,10 @@
 						location.reload()
 					}
 					
+					console.log(response)
+					
 					$('.btn-saving').removeClass('active')
-					$('.state-list').removeClass('clean global local local-global').addClass(response)
+					$('.state-list').removeClass('clean global local type multi map-local map-global').addClass(response)
 					$('.btn-state span').removeClass().addClass('state-draft '+response)
 				}
 			})
