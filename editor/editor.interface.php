@@ -458,7 +458,7 @@ class EditorInterface {
 					</ul>
 				</li>
 				<li><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-edit"></i> <span class="txt">Preview</span></li>
-				<li><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-check"></i> <span class="txt">Publish Changes</span></li>
+				<li><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-check"></i> <span class="txt">Publish</span></li>
 				
 			</ul>
 			<ul class="unstyled controls not-btn send-right">

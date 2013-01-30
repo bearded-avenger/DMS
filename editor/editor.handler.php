@@ -64,7 +64,9 @@ class PageLinesTemplateHandler {
 						, template: {}
 					}
 					, flags: {
-						refreshOnSave: false
+							refreshOnSave: false
+						,	savingDialog: 'Saving'
+						,	refreshingDialog: 'Success! Reloading page'
 					}
 					, config: {
 						pageID: '<?php echo $this->page->id;?>'

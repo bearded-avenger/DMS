@@ -22,7 +22,10 @@
 		
 		, saveData: function( mode ){
 			
-			var	refresh = $.pl.flags.refreshOnSave
+			var	that = this
+			,	refresh = $.pl.flags.refreshOnSave
+			,	savingDialog = $.pl.flags.savingDialog
+			,	refreshingDialog = $.pl.flags.refreshingDialog
 			,	theData = {
 						action: 'pl_save_page'
 					,	map: $.pl.map
@@ -38,12 +41,21 @@
 				, data: theData	
 				, beforeSend: function(){
 					$('.btn-saving').addClass('active')
+					
+					if(refresh)
+						bootbox.dialog( that.dialogText( savingDialog ), [], {animate: false})
 				}
 				, success: function( response ){
 					console.log(response)
 					$('.btn-saving').removeClass('active')
 					$('.state-list').removeClass('clean global local type multi').addClass(response)
 					$('.btn-state span').removeClass().addClass('state-draft '+response)
+					
+					if(refresh){
+						bootbox.dialog( that.dialogText( refreshingDialog ), [], {animate: false})
+						location.reload()
+					}
+					
 				}
 			})
 			
@@ -56,6 +68,17 @@
 				
 				var btn = $(this)
 				,	mode = (btn.data('mode')) ? btn.data('mode') : ''
+				
+				$.pl.flags.refreshOnSave = true;
+				
+				if(mode == 'draft'){
+					$.pl.flags.savingDialog = 'Saving Draft';
+					$.pl.flags.refreshingDialog = 'Draft saved. Refreshing page.';
+				} else if (mode == 'publish'){
+					$.pl.flags.savingDialog = 'Publishing draft';
+					$.pl.flags.refreshingDialog = 'Published. Refreshing page.';	
+				}
+					
 				
 				$.plAJAX.saveData( mode )
 				
@@ -153,7 +176,17 @@
 			
 		}
 		
-	
+		
+		, dialogText: function( text ){
+			
+			var bar = '<div class="progress progress-striped active"><div class="bar" style="width: 100%"></div></div>'
+			,	icon = '<i class="icon-spin icon-refresh spin-fast"></i>&nbsp;'
+			, 	theHTML = sprintf('<div class="spn"><div class="spn-txt">%s %s</div></div>',icon, text)
+		
+			return theHTML
+			
+			
+		}
 	}
 	
 	
