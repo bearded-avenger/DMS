@@ -796,6 +796,7 @@ class EditorInterface {
 	}
 	
 	function section_controls($sid, $s){ 
+	
 		$clone_desc = ($s->meta['clone'] != 0) ? sprintf(" <i class='icon-copy'></i> %s", $s->meta['clone']) : '';
 		?>
 		<div id="<?php echo $sid;?>_control" class="pl-section-controls fix" >

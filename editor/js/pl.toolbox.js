@@ -29,6 +29,8 @@
 		this.scrollPanel()
 		
 		this.closer.on('click.toolbox.toggler', $.proxy(this.hide, this))
+		
+	
 	
 	}
 
@@ -50,7 +52,8 @@
 			return that // chaining
 
         $('body').addClass('toolbox-open')
-
+		
+	
         this.isShown = true
         this.keyboard() 
 
@@ -203,12 +206,28 @@
 				}
 			})
 			
+		
+			
 		})
 		
 		$(document).mouseup(function(event) {
 			$(document).off('mousemove.resizehandle')
 			obj.resizer.removeClass('resizing')
 			$('body').removeClass('disable-select')
+		})
+		
+		$(window).resize(function() {
+			var fromTop = $('.pl-toolbox').position().top
+			, 	startHeight = obj.$panel.outerHeight()
+			, 	minHeight = 40
+			
+			if( fromTop < minHeight ){
+				var adjust = startHeight - (minHeight - fromTop)
+				
+				if(adjust > minHeight)
+					obj.setHeight(adjust)
+			}
+			
 		})
 		
 	}
