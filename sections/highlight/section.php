@@ -94,12 +94,13 @@ class PageLinesHighlight extends PageLinesSection {
 	*/
 	function section_template( $clone_id ) { 
 
-		$h_head = ploption('_highlight_head', $this->tset);
-		$h_subhead = ploption('_highlight_subhead', $this->tset);
-		$h_splash = ploption('_highlight_splash', $this->tset);
-		$h_splash_position = ploption('_highlight_splash_position', $this->oset);
+		$h_head = $this->opt('_highlight_head', $this->tset);
+
+		$h_subhead = $this->opt('_highlight_subhead', $this->tset);
+		$h_splash = $this->opt('_highlight_splash', $this->tset);
+		$h_splash_position = $this->opt('_highlight_splash_position', $this->oset);
 		
-		$frame_class = (ploption('_highlight_image_frame', $this->oset)) ? 'pl-imageframe' : '';
+		$frame_class = ($this->opt('_highlight_image_frame', $this->oset)) ? 'pl-imageframe' : '';
 	
 	if($h_head || $h_subhead || $h_splash){?>
 		<div class="highlight-area">

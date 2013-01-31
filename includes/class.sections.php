@@ -132,6 +132,22 @@ class PageLinesSection {
 
 	}
 
+	function opt( $key, $args = array() ){
+		
+		if( 
+			property_exists($this, 'meta') 
+			&& isset($this->meta[ 'set' ])
+			&& isset($this->meta[ 'set' ][ $key ])
+			&& isset($this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ] )
+		)
+			$val = $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ]; 
+		else
+			$val = ploption( $key, $args); // LEGACY
+	 
+		return ($val == '') ? false : $val;
+		
+	}
+
 	function format_classes( $classes ) {
 		
 		$classes = str_replace( ',', ' ', str_replace( ' ', '', $classes ) );
