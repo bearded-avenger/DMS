@@ -525,6 +525,7 @@
 					
 					cloned
 						.attr('data-clone', i)
+						.data('clone', i)
 						.insertAfter(section)
 						.hide()
 						.fadeIn()
@@ -763,6 +764,7 @@
 
 			set.object 	= section.data('object')
 			set.clone 	= section.data('clone')
+		
 			set.sid 	= section.data('sid')
 			set.span 	= that.getColumnSize( section )[ 4 ]
 			set.offset 	= that.getOffsetSize( section )[ 3 ]

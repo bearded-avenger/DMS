@@ -91,7 +91,7 @@
 				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
 				
 				console.log('scope: '+scope)
-		
+				console.log($.pl.data[scope])
 				
 				if(e.type == 'change')
 					$.plAJAX.saveData( 'draft' )
@@ -250,13 +250,16 @@
 				var select_opts = ''
 				
 				if(o.opts){
+					
 					$.each(o.opts, function(key, s){
-						select_opts += sprintf('<option value="%s">%s</option>', key, s.name)
+						var selected = (o.value == key) ? 'selected' : ''
+						select_opts += sprintf('<option value="%s" %s >%s</option>', key, selected, s.name)
+						
 					})
 				}
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<select id="">%s</select>', o.key, select_opts)
+				oHTML += sprintf('<select id="%s" name="%s" class="lstn">%s</select>', o.key, o.name, select_opts)
 				
 			}
 			

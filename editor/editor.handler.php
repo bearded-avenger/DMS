@@ -36,10 +36,13 @@ class PageLinesTemplateHandler {
 
 		$this->parse_config();
 		
-		$this->setup_processing();
-		
 		$this->opts_config = $this->get_options_config();
-		plprint($this->opts_config);
+		
+		$this->setup_processing();
+//		plprint($this->section_list, 'section list');
+//		plprint($this->optset, 'opts set');
+		
+	//	plprint($this->opts_config, 'Option Config');
 		add_action( 'pagelines_head_last', array( &$this, 'json_data' ) );
 		
 	}
@@ -93,6 +96,106 @@ class PageLinesTemplateHandler {
 		
 	}
 	
+	function meta_defaults($key){
+		
+		$p = splice_section_slug($key);
+		
+		$defaults = array(
+			'id'		=> $key,
+			'object'	=> $key,
+			'offset'	=> 0,
+			'clone'		=> 0,  
+			'content'	=> array(),
+			'span'		=> 12,
+			'newrow'	=> 'false',
+			'set'		=> $this->optset->set
+		);
+		
+		return $defaults;
+	}
+	
+	function parse_config(){
+		foreach($this->map as $group => &$g){
+			
+			if( !isset($g) || !is_array($g) )
+				continue;
+			
+			foreach($g as $area => &$a){
+				
+				if( !isset($a['content']) || !is_array($a['content']) )
+					continue;
+				
+				foreach($a['content'] as $key => &$meta){
+				
+					$meta = wp_parse_args($meta, $this->meta_defaults($key));
+					
+					if(!empty($meta['content'])){
+						foreach($meta['content'] as $subkey => &$sub_meta){
+							$sub_meta = wp_parse_args($sub_meta, $this->meta_defaults($subkey));
+							$this->section_list[  ] = $sub_meta;
+							$this->section_list_unique[$sub_meta['object']] = $sub_meta;
+						}
+						unset($sub_meta); // set by reference
+					
+						$this->section_list[  ] = $meta;
+						$this->section_list_unique[ $meta['object'] ] = $meta;
+					} else {
+						$this->section_list[  ] = $meta;
+						$this->section_list_unique[ $meta['object'] ] = $meta;
+					}
+						
+				}
+				unset($meta); // set by reference
+			}
+			unset($a); // set by reference
+		}
+	}
+	
+	function setup_processing(){
+		
+		global $pl_section_factory;
+		
+		foreach($this->section_list as $key => &$meta){
+			
+		//	$meta['set'] = $this->load_section_settings( $meta );
+			
+			if( $this->in_factory( $meta['object'] ) ){
+				$this->factory[ $meta['object'] ]->meta = $meta;
+				
+			}else
+				unset($this->section_list[$key]);
+				
+		}
+		unset($meta);
+		
+				
+	}
+	
+	function load_section_settings( $meta ){
+		
+		$settings = array(); 
+		
+		$sid = $meta['sid']; 
+		$clone = $meta['clone'];
+		
+		foreach( $this->opts_config[ $sid ]['opts'] as $index => $o ){
+			
+			if( $o['type'] == 'multi' ){
+				
+				foreach( $o['opts'] as $sub_index => $sub_o ){
+					$settings[ $sub_o['key'] ] = (  isset($sub_o['val'][$clone]) ) ? $sub_o['val'][$clone] : '';
+				}
+				
+			} else {
+				$settings[ $o['key'] ] = (  isset($o['val'][$clone]) ) ? $o['val'][$clone] : '';
+			}
+			
+		}
+		
+		
+		return $settings;
+	}
+	
 
 	function get_options_config(){
 		
@@ -131,7 +234,7 @@ class PageLinesTemplateHandler {
 						
 					
 				}
-				
+				plprint($opts);
 				$opts_config[ $s->id ][ 'opts' ] = $opts; 
 			
 				// deals with legacy special stuff
@@ -316,76 +419,13 @@ class PageLinesTemplateHandler {
 
 	
 
-	function meta_defaults($key){
-		
-		$p = splice_section_slug($key);
-		
-		$defaults = array(
-			'id'		=> $key,
-			'object'	=> $key,
-			'offset'	=> 0,
-			'clone'		=> 0,  
-			'content'	=> array(),
-			'span'		=> 12,
-			'newrow'	=> 'false'
-		);
-		
-		return $defaults;
-	}
+
 	
-	function parse_config(){
-		foreach($this->map as $group => &$g){
-			
-			if( !isset($g) || !is_array($g) )
-				continue;
-			
-			foreach($g as $area => &$a){
-				
-				if( !isset($a['content']) || !is_array($a['content']) )
-					continue;
-				
-				foreach($a['content'] as $key => &$meta){
-				
-					$meta = wp_parse_args($meta, $this->meta_defaults($key));
-					
-					if(!empty($meta['content'])){
-						foreach($meta['content'] as $subkey => &$sub_meta){
-							$sub_meta = wp_parse_args($sub_meta, $this->meta_defaults($subkey));
-							$this->section_list[  ] = $sub_meta;
-							$this->section_list_unique[$sub_meta['object']] = $sub_meta;
-						}
-						unset($sub_meta); // set by reference
-					
-						$this->section_list[  ] = $meta;
-						$this->section_list_unique[ $meta['object'] ] = $meta;
-					} else {
-						$this->section_list[  ] = $meta;
-						$this->section_list_unique[ $meta['object'] ] = $meta;
-					}
-						
-				}
-				unset($meta); // set by reference
-			}
-			unset($a); // set by reference
-		}
-	}
-	
-	function setup_processing(){
-		
-		global $pl_section_factory;
-		
-		foreach($this->section_list as $key => $meta){
-			
-			if( $this->in_factory( $meta['object'] ) ){
-				$this->factory[ $meta['object'] ]->meta = $meta;
-			}else
-				unset($this->section_list[$key]);
-				
-		}
-				
-	}
+
 	
 	function process_styles(){
+		
+		
 		
 		/*
 			TODO add !has_action('override_pagelines_css_output')
@@ -412,6 +452,7 @@ class PageLinesTemplateHandler {
 	}
 	
 	function process_head(){
+		
 		
 		foreach($this->section_list as $key => $meta){
 		

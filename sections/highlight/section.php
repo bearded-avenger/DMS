@@ -22,6 +22,63 @@ class PageLinesHighlight extends PageLinesSection {
 	var $tabID = 'highlight_meta';
 	
 
+	function section_opts(){
+		$opts = array(
+			array(
+				'type' 			=> 'select',
+				'title' 		=> 'Select Format',
+				'key'			=> '_highlight_splash_position',
+				'label' 		=> 'Highlight Format',
+				'opts'=> array(
+					'top'			=> array( 'name' => 'Image on top of text' ),
+					'bottom'	 	=> array( 'name' => 'Image on bottom of text' ), 
+					'notext'	 	=> array( 'name' => 'No text, just the image' )
+				),
+			),
+			'hl_text' => array(
+				'type' 			=> 'multi',
+				'title' 		=> 'Highlight Text',
+				'opts'	=> array(
+					array(
+						'key'			=> '_highlight_head',
+						'version' 		=> 'pro',
+						'type' 			=> 'text',
+						'size'			=> 'big',		
+						'label' 		=> 'Highlight Header Text (Optional)',
+					),
+					array(
+						'key'			=> '_highlight_subhead',
+						'version' 		=> 'pro',
+						'type' 			=> 'text',
+						'size'			=> 'big',		
+						'label' 		=> 'Highlight Subheader Text (Optional)',
+					)
+
+				)
+			),
+			'hl_image' => array(
+				'type' 			=> 'multi',
+				'title' 		=> 'Highlight Image and Format',
+				'opts'	=> array(
+
+					 array(
+						'key'			=> '_highlight_splash',
+						'type' 			=> 'image_upload',	
+						'label'			=> 'Upload Splash Image'
+					),
+					array(
+						'key'				=> '_highlight_image_frame',
+						'type' 				=> 'check',		
+						'label' 			=> 'Add frame to image?'
+					),
+				)
+			)
+				
+		);
+		
+		return $opts;
+		
+	}
 	/**
 	*
 	* @TODO document
