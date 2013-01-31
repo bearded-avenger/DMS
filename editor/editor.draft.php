@@ -49,7 +49,7 @@ class EditorDraft{
 		
 		pl_publish_settings($pageID, $typeID);
 		
-		$map->publish_map( $data['pageID'] );
+		$data['map_object']->publish_map( $data['pageID'] );
 		
 		$this->reset_state( $data['pageID'] );
 	}

@@ -58,15 +58,18 @@ class PageLinesEditor {
 	
 	function load_libs(){
 		global $plpg; 
+		global $pldraft;
 		
 		$plpg = $this->page = new PageLinesPage;
-		$this->draft = new EditorDraft( $this->page );
+		$pldraft = $this->draft = new EditorDraft( $this->page );
+		$this->opts = new PageLinesOpts( $this->page, $this->draft );
+		
 		$this->map = new EditorMap( $this->draft );
 		$this->templates = new EditorTemplates( $this->page );
 		$this->siteset = new EditorSettings;
 		$this->foundry = new PageLinesFoundry;
 		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates, $this->map );
-		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset, $this->foundry, $this->map, $this->draft );
+		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset, $this->foundry, $this->map, $this->draft, $this->opts );
 		
 	}
 	

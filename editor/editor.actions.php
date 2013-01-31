@@ -19,7 +19,7 @@ function pl_save_page(){
 		
 	} elseif ( $mode == 'publish' ) {
 		
-		
+		$draft->save_draft( $data );
 		$draft->publish( $data, $map );
 		
 	} elseif ( $mode == 'revert' ){

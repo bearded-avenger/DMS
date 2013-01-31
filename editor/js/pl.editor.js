@@ -514,7 +514,17 @@
 				
 					var cloned = section.clone( true )
 
+					jQuery( '.section-'+config.sid ).each( function(){
+						
+					})
+					
+					var i = 0
+					while ( jQuery( '.section-'+config.sid+'[data-clone="'+i+'"]' ).length != 0) {
+					    i++
+					}
+					
 					cloned
+						.attr('data-clone', i)
 						.insertAfter(section)
 						.hide()
 						.fadeIn()

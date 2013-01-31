@@ -181,7 +181,7 @@
 			
 			var bar = '<div class="progress progress-striped active"><div class="bar" style="width: 100%"></div></div>'
 			,	icon = '<i class="icon-spin icon-refresh spin-fast"></i>&nbsp;'
-			, 	theHTML = sprintf('<div class="spn"><div class="spn-txt">%s %s</div></div>',icon, text)
+			, 	theHTML = sprintf('<div class="spn"><div class="spn-txt">%s %s</div></div>', icon, text)
 		
 			return theHTML
 			

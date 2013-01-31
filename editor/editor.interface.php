@@ -339,7 +339,7 @@ class EditorInterface {
 	
 	function section_options_panel(){
 		
-		$current_page = ($this->page->is_special()) ? $this->page->type_name : $page->id;
+		$current_page = ($this->page->is_special()) ? $this->page->type_name : $this->page->id;
 		
 		$tabs = array(); 
 		$tabs['heading'] = "Section Options"; 

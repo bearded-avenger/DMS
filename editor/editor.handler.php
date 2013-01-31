@@ -17,7 +17,7 @@ class PageLinesTemplateHandler {
 	var $opts_list	= array();
 	var $area_number = 1;
 
-	function __construct( EditorInterface $interface, PageLinesPage $pg, EditorSettings $siteset, PageLinesFoundry $foundry, EditorMap $map, EditorDraft $draft) {
+	function __construct( EditorInterface $interface, PageLinesPage $pg, EditorSettings $siteset, PageLinesFoundry $foundry, EditorMap $map, EditorDraft $draft, PageLinesOpts $opts) {
 
 
 		global $pl_section_factory; 
@@ -30,6 +30,7 @@ class PageLinesTemplateHandler {
 		$this->siteset = $siteset;
 		$this->foundry = $foundry;
 		$this->draft = $draft;
+		$this->optset = $opts;
 		
 		$this->map = $map->get_map( $this->page );
 
@@ -37,8 +38,8 @@ class PageLinesTemplateHandler {
 		
 		$this->setup_processing();
 		
-		$this->get_options_config();
-		
+		$this->opts_config = $this->get_options_config();
+		plprint($this->opts_config);
 		add_action( 'pagelines_head_last', array( &$this, 'json_data' ) );
 		
 	}
@@ -92,8 +93,7 @@ class PageLinesTemplateHandler {
 		
 	}
 	
-	function get_site_settings(){ }
-	
+
 	function get_options_config(){
 		
 		$opts_config = array();
@@ -101,7 +101,7 @@ class PageLinesTemplateHandler {
 		
 		// BACKWARDS COMPATIBILITY
 		add_action('override_metatab_register', array(&$this, 'get_opts_from_optionator'), 10, 2);
-
+	
 		foreach($this->section_list_unique as $key => $meta){
 
 			if($this->in_factory( $meta['object'] )) {
@@ -133,7 +133,8 @@ class PageLinesTemplateHandler {
 				}
 				
 				$opts_config[ $s->id ][ 'opts' ] = $opts; 
-				
+			
+				// deals with legacy special stuff
 				if(!empty($opts)){
 					foreach($opts as $okey => $o){
 						if($o['type'] == 'multi'){
@@ -153,7 +154,35 @@ class PageLinesTemplateHandler {
 
 		remove_action('override_metatab_register', array(&$this, 'get_opts_from_optionator'), 10, 2);
 		
+		
+		foreach($opts_config as $item => &$i){
+			$i['opts'] = $this->opts_add_values( $i['opts'] );
+		}
+		unset($i);
+		
+		
 		return $opts_config;
+	}
+	
+	
+	
+	function opts_add_values( $opts ){
+		
+		
+		foreach($opts as $index => &$o){
+			
+			if($o['type'] == 'multi'){
+				$o['opts'] = $this->opts_add_values( $o['opts'] );
+			} else {
+				
+				$o['val'] = ( isset($this->optset->set[ $o['key'] ]) ) ? $this->optset->set[ $o['key'] ] : array();
+				
+			}
+				
+		}
+		unset($o); 
+		
+		return $opts;
 	}
 	
 	function process_to_new_option_format( $old_options ){
@@ -318,7 +347,7 @@ class PageLinesTemplateHandler {
 				foreach($a['content'] as $key => &$meta){
 				
 					$meta = wp_parse_args($meta, $this->meta_defaults($key));
-				
+					
 					if(!empty($meta['content'])){
 						foreach($meta['content'] as $subkey => &$sub_meta){
 							$sub_meta = wp_parse_args($sub_meta, $this->meta_defaults($subkey));
@@ -328,10 +357,10 @@ class PageLinesTemplateHandler {
 						unset($sub_meta); // set by reference
 					
 						$this->section_list[  ] = $meta;
-						$this->section_list_unique[$meta['object']] = $meta;
-					}else{
+						$this->section_list_unique[ $meta['object'] ] = $meta;
+					} else {
 						$this->section_list[  ] = $meta;
-						$this->section_list_unique[$meta['object']] = $meta;
+						$this->section_list_unique[ $meta['object'] ] = $meta;
 					}
 						
 				}

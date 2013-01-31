@@ -3,6 +3,145 @@
 
 define('PL_SETTINGS', 'pl-settings'); 
 
+/**
+ * 
+ *
+ *  PageLines Settings
+ *
+ *
+ */
+class PageLinesOpts {
+
+	var $pl_settings = 'pl-settings';
+	var $default = array( 'draft' => array(), 'live' => array() );
+
+	function __construct( PageLinesPage $page, EditorDraft $draft ){
+		
+		$this->page = $page; 
+		$this->draft = $draft;
+		
+		$this->local = $this->local_settings();
+		$this->type = $this->type_settings();
+		$this->global = $this->global_settings();
+		$this->set = $this->page_settings();
+		//plprint($this->set);
+	}
+	
+	function page_settings(){
+		
+		$set = $this->parse_settings( $this->parse_settings($this->local, $this->type), $this->global);
+		
+		return $set;
+		
+		
+	}
+	
+	function parse_settings( $top, $bottom ){
+		$top = wp_parse_args($top, $bottom); 
+		
+		foreach($top as $key => &$set){
+			
+			if( is_array($set) ){
+				foreach($set as $clone => &$value){
+			
+					if( (!isset($value) || $value == '') && isset($bottom[$key][$clone]) )
+						$value = $bottom[$key][$clone];
+			
+				}
+			}
+			
+		}
+		unset($set); 
+		unset($value); 
+		
+		return $top;
+	}
+	
+	function setting( $key ){
+		
+		if( isset( $this->local[$key] ) )
+			return $this->local[$key];
+		
+		elseif( isset( $this->type[$key] ) )
+			return $this->type[$key];
+			
+		elseif( isset( $this->global[$key] ) )
+			return $this->global[$key];
+			
+		else
+			return false;
+		
+	}
+	
+	function local_settings(){
+		
+		$set = $this->meta( $this->page->id, $this->pl_settings );
+		
+		return $this->get_by_mode($set); 
+		
+	}
+	
+	function type_settings(){
+		
+		$set = $this->meta( $this->page->typeid, $this->pl_settings );
+		
+		return $this->get_by_mode($set); 
+		
+	}
+	
+	function global_settings(){
+		
+		$set = $this->opt( $this->pl_settings );
+		
+		return $this->get_by_mode($set); 
+		
+	}
+	
+	function get_by_mode( $set ){
+		
+		$set = wp_parse_args( $set, $this->default );
+		
+		return $set[ $this->draft->mode ]; 
+	}
+	
+	function meta($id, $key, $default = false){
+
+		$val = get_post_meta($id, $key, true);
+
+		if( !$val ){
+
+			$val = $default;
+
+		} elseif( is_array($val) && is_array($default)) {
+
+			$val = wp_parse_args( $val, $default );
+
+		}
+
+		return $val;
+
+	}
+	
+	function opt( $key, $default = false, $parse = false ){
+		
+		$val = get_option($key); 
+
+		if( !$val ){
+
+			$val = $default;
+
+		} elseif( $parse && is_array($val) && is_array($default)) {
+
+			$val = wp_parse_args( $val, $default );
+
+		}
+
+		return $val;
+		
+	}
+
+}
+
 
 function pl_opt( $key, $default = false, $parse = false ){
 	
@@ -55,6 +194,72 @@ function pl_meta_update($id, $key, $value){
 	
 }
 
+
+function pl_setting( $key ){
+	
+	// is page set
+	
+	$plpg->page->id; 
+	
+	// is type set 
+	$plpg->page->typeid;
+	
+	// is global default
+	
+	// else return default
+	
+	
+	global $pldrft;
+	
+	$mode = $pldrft->mode;
+	
+	$set = pl_meta( $plpg->page->id, PL_SETTINGS );
+	$set = pl_meta( $plpg->page->id, PL_SETTINGS );
+	$set = pl_meta( $plpg->page->id, PL_SETTINGS );
+	
+	if( isset( $set[$mode] ) && isset( $set[$mode][$key] ) )
+		return $set[$mode][$key]; 
+	
+	
+	
+	
+	$set = pl_opt( PL_SETTINGS ); 
+	
+	$settings = ( isset($set[ $mode ]) ) ? $set[ $mode ] : array();
+	
+	
+	
+	return ( isset( $settings[ $key ] ) ) ? $settings[ $key ] : false;
+	
+	
+}
+
+function pl_meta_setting( $key, $metaID ){
+	
+	global $pldrft;
+	
+	$mode = $pldrft->mode;
+	
+	$set = pl_meta( $metaID, PL_SETTINGS );
+	
+	$settings = ( isset($set[ $mode ]) ) ? $set[ $mode ] : array();
+	
+	return ( isset( $settings[ $key ] ) ) ? $settings[ $key ] : false;
+	
+}
+
+function pl_global_setting( $key ){
+	
+	global $pldrft;
+	
+	$mode = $pldrft->mode;
+	
+	$set = pl_opt( PL_SETTINGS ); 
+	
+	$settings = ( isset($set[ $mode ]) ) ? $set[ $mode ] : array();
+	
+	return ( isset( $settings[ $key ] ) ) ? $settings[ $key ] : false;
+}
 
 /*
  *
