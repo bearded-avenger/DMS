@@ -69,7 +69,6 @@
 				var btn = $(this)
 				,	mode = (btn.data('mode')) ? btn.data('mode') : ''
 				
-				$.pl.flags.refreshOnSave = true;
 				
 				if(mode == 'draft'){
 					$.pl.flags.savingDialog = 'Saving Draft';

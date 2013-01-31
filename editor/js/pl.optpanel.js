@@ -92,11 +92,17 @@
 				
 				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
 				
+				
+				
 				console.log('scope: '+scope)
 				console.log($.pl.data[scope])
 				
-				if(e.type == 'change')
+				if(e.type == 'change'){
+					$.pl.flags.refreshOnSave = true;
 					$.plAJAX.saveData( 'draft' )
+					$('.li-draft').show().effect('highlight', 2000)
+				}
+					
 			})
 		}
 		

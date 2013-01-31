@@ -457,8 +457,8 @@ class EditorInterface {
 						<li class="li-state-clean disabled"><a class="txt"><span class="update-state state-draft clean">&nbsp;</span>&nbsp; No Unpublished Changes</a></li>
 					</ul>
 				</li>
-				<li><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-edit"></i> <span class="txt">Preview</span></li>
-				<li><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-check"></i> <span class="txt">Publish</span></li>
+				<li class="li-draft"><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-edit"></i> <span class="txt">Preview</span></li>
+				<li class="li-publish"><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-check"></i> <span class="txt">Publish</span></li>
 				
 			</ul>
 			<ul class="unstyled controls not-btn send-right">
@@ -796,7 +796,7 @@ class EditorInterface {
 	}
 	
 	function section_controls($sid, $s){ 
-	
+		
 		$clone_desc = ($s->meta['clone'] != 0) ? sprintf(" <i class='icon-copy'></i> %s", $s->meta['clone']) : '';
 		?>
 		<div id="<?php echo $sid;?>_control" class="pl-section-controls fix" >
