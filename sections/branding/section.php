@@ -17,6 +17,53 @@
  */
 class PageLinesBranding extends PageLinesSection {
 
+	function section_opts(){
+		$opts = array(
+			
+			'social_links' => array(
+				'type' 			=> 'multi',
+				'title' 		=> 'Social Links',
+				'opts'	=> array(
+					array(
+						'key'			=> 'twitterlink',
+						'type' 			=> 'text',
+						'size'			=> 'big',		
+						'label' 		=> 'Twitter URL',
+					),
+					array(
+						'key'			=> 'facebooklink',
+						'type' 			=> 'text',
+						'size'			=> 'big',		
+						'label' 		=> 'Facebook URL',
+					),
+					array(
+						'key'			=> 'linkedinlink',
+						'type' 			=> 'text',
+						'size'			=> 'big',		
+						'label' 		=> 'LinkedIn URL',
+					),
+					array(
+						'key'			=> 'youtubelink',
+						'type' 			=> 'text',
+						'size'			=> 'big',		
+						'label' 		=> 'Youtube URL',
+					),
+					array(
+						'key'			=> 'gpluslink',
+						'type' 			=> 'text',
+						'size'			=> 'big',		
+						'label' 		=> 'Google Plus URL',
+					)
+
+				)
+			)
+				
+		);
+		
+		return $opts;
+		
+	}
+
 	/**
 	* Section template.
 	*/
@@ -36,20 +83,20 @@ class PageLinesBranding extends PageLinesSection {
 						printf('<a target="_blank" href="%s" class="rsslink"><img src="%s" alt="RSS"/></a>', apply_filters( 'pagelines_branding_rssurl', get_bloginfo('rss2_url') ), $this->base_url.'/rss.png' );
 					
 					if(VPRO) {
-						if(ploption('twitterlink'))
-							printf('<a target="_blank" href="%s" class="twitterlink"><img src="%s" alt="Twitter"/></a>', ploption('twitterlink'), $this->base_url.'/twitter.png');
+						if($this->opt('twitterlink'))
+							printf('<a target="_blank" href="%s" class="twitterlink"><img src="%s" alt="Twitter"/></a>', $this->opt('twitterlink'), $this->base_url.'/twitter.png');
 					
-						if(ploption('facebooklink'))
-							printf('<a target="_blank" href="%s" class="facebooklink"><img src="%s" alt="Facebook"/></a>', ploption('facebooklink'), $this->base_url.'/facebook.png');
+						if($this->opt('facebooklink'))
+							printf('<a target="_blank" href="%s" class="facebooklink"><img src="%s" alt="Facebook"/></a>', $this->opt('facebooklink'), $this->base_url.'/facebook.png');
 						
-						if(ploption('linkedinlink'))
-							printf('<a target="_blank" href="%s" class="linkedinlink"><img src="%s" alt="LinkedIn"/></a>', ploption('linkedinlink'), $this->base_url.'/linkedin.png');
+						if($this->opt('linkedinlink'))
+							printf('<a target="_blank" href="%s" class="linkedinlink"><img src="%s" alt="LinkedIn"/></a>', $this->opt('linkedinlink'), $this->base_url.'/linkedin.png');
 						
-						if(ploption('youtubelink'))
-							printf('<a target="_blank" href="%s" class="youtubelink"><img src="%s" alt="Youtube"/></a>', ploption('youtubelink'), $this->base_url.'/youtube.png');
+						if($this->opt('youtubelink'))
+							printf('<a target="_blank" href="%s" class="youtubelink"><img src="%s" alt="Youtube"/></a>', $this->opt('youtubelink'), $this->base_url.'/youtube.png');
 						
-						if(ploption('gpluslink'))
-							printf('<a target="_blank" href="%s" class="gpluslink"><img src="%s" alt="Google+"/></a>', ploption('gpluslink'), $this->base_url.'/google.png');
+						if($this->opt('gpluslink'))
+							printf('<a target="_blank" href="%s" class="gpluslink"><img src="%s" alt="Google+"/></a>', $this->opt('gpluslink'), $this->base_url.'/google.png');
 						
 						pagelines_register_hook( 'pagelines_branding_icons_end', 'branding' ); // Hook 
 				
