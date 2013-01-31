@@ -58,6 +58,8 @@
 			var that = this
 			, 	cascade = ['local', 'type', 'global']
 			, 	sid = that.config.sid
+			, 	clone_text = (that.config.clone != 0) ? sprintf('<i class="icon-copy"></i> Clone %s', that.config.clone) : sprintf('<i class="icon-file"></i> Original')
+			, 	clone_desc = sprintf(' <span class="clip-desc"> &rarr; %s</span>', clone_text)
 			
 			if( that.optConfig[sid] )
 				opt_array = that.optConfig[sid].opts
@@ -71,7 +73,7 @@
 				opts = that.runEngine( opt_array, o )
 
 				if(that.optConfig[ sid ] && that.optConfig[ sid ].name)
-					tab.find('legend').html( that.optConfig[ sid ].name )
+					tab.find('legend').html( that.optConfig[ sid ].name + clone_desc)
 
 				tab.find('.panel-tab-content').html( opts )
 				

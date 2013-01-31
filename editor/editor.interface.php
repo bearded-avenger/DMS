@@ -796,7 +796,7 @@ class EditorInterface {
 	}
 	
 	function section_controls($sid, $s){ 
-		
+		$clone_desc = ($s->meta['clone'] != 0) ? sprintf(" <i class='icon-copy'></i> %s", $s->meta['clone']) : '';
 		?>
 		<div id="<?php echo $sid;?>_control" class="pl-section-controls fix" >
 			<div class="controls-left">
@@ -813,7 +813,7 @@ class EditorInterface {
 				<a title="Clone Section" href="#" class="s-control s-control-icon section-clone"><i class="icon-copy"></i></a>
 				<a title="Delete Section" href="#" class="s-control s-control-icon section-delete"><i class="icon-remove"></i></a>
 			</div>
-			<div class="controls-title"><?php echo $s->name;?></div>
+			<div class="controls-title"><?php echo $s->name;?> <span class="title-desc"><?php echo $clone_desc;?></span></div>
 		</div>
 		<?php
 		

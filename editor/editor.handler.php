@@ -234,7 +234,7 @@ class PageLinesTemplateHandler {
 						
 					
 				}
-				plprint($opts);
+				
 				$opts_config[ $s->id ][ 'opts' ] = $opts; 
 			
 				// deals with legacy special stuff

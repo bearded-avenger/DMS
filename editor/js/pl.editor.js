@@ -514,9 +514,6 @@
 				
 					var cloned = section.clone( true )
 
-					jQuery( '.section-'+config.sid ).each( function(){
-						
-					})
 					
 					var i = 0
 					while ( jQuery( '.section-'+config.sid+'[data-clone="'+i+'"]' ).length != 0) {
@@ -529,6 +526,8 @@
 						.insertAfter(section)
 						.hide()
 						.fadeIn()
+
+					cloned.first('.section-controls').find('.title-desc').html(sprintf(" <i class='icon-copy'></i> %s", i))
 
 					// TODO make cloning work
 				
