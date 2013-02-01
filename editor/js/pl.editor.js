@@ -217,6 +217,8 @@
 			
 			$('body').toolbox('show')
 			
+			store.set('toolboxPanel', key)
+			
 			if(selectedPanel.hasClass('current-panel'))
 				return
 			
@@ -343,9 +345,11 @@
 		
 			var layout = (key == 'pl-extend') ? 'masonry' : 'fitRows'; 
 			
-			panel.find('.x-list').isotope({
-				itemSelector : '.x-item'
-				, layoutMode : layout
+			panel.imagesLoaded( function(){
+				panel.find('.x-list').isotope({
+					itemSelector : '.x-item'
+					, layoutMode : layout
+				})
 			})
 			
 			if(key == 'add-new')

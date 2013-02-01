@@ -31,7 +31,7 @@
 		this.closer.on('click.toolbox.toggler', $.proxy(this.hide, this))
 		
 	
-	
+		
 	}
 
   ToolBox.prototype = {
@@ -55,6 +55,8 @@
 		
 	
         this.isShown = true
+		store.set('toolboxShown', true)
+		
         this.keyboard() 
 
 		that.setHeight()
@@ -86,7 +88,7 @@
         //if (!this.isShown || e.isDefaultPrevented()) return
 
         this.isShown = false
-			
+		store.set('toolboxShown', false)
         $('body')
 			.removeClass('toolbox-open')
 		
@@ -111,36 +113,41 @@
 
 	, showPanel: function( key ){
 		
-		if(!key)
-			return
-			
-		var selectedPanel = $('.panel-'+key)
-		, 	allPanels = $('.tabbed-set')
-		
-		if(selectedPanel.hasClass('current-panel'))
-			return
-		
-		$('.btn-toolbox').removeClass('active-tab')
-		
-		allPanels
-			.removeClass('current-panel')
-			.hide()
-			
-		$('.ui-tabs').tabs('destroy')
-			
-		// TODO needs to work w/ multiple tabbing
-		selectedPanel.tabs({
-			activate: function(event, ui){
-				
-				if(ui.newTab.attr('data-filter'))
-					selectedPanel.find('.x-list').isotope({ filter: ui.newTab.attr('data-filter') })
-				
-			}
-		})
-		
-		selectedPanel
-			.addClass('current-panel')
-			.show()
+		$.pageTools.showPanel(key)
+		// 
+		// 	if(!key)
+		// 		return
+		// 		
+		// 	var selectedPanel = $('.panel-'+key)
+		// 	, 	allPanels = $('.tabbed-set')
+		// 	
+		// 
+		// //	store.set('toolboxPanel', key)
+		// 	
+		// 	if(selectedPanel.hasClass('current-panel'))
+		// 		return
+		// 	
+		// 	$('.btn-toolbox').removeClass('active-tab')
+		// 	
+		// 	allPanels
+		// 		.removeClass('current-panel')
+		// 		.hide()
+		// 		
+		// 	$('.ui-tabs').tabs('destroy')
+		// 		
+		// 	// TODO needs to work w/ multiple tabbing
+		// 	selectedPanel.tabs({
+		// 		activate: function(event, ui){
+		// 			
+		// 			if(ui.newTab.attr('data-filter'))
+		// 				selectedPanel.find('.x-list').isotope({ filter: ui.newTab.attr('data-filter') })
+		// 			
+		// 		}
+		// 	})
+		// 	
+		// 	selectedPanel
+		// 		.addClass('current-panel')
+		// 		.show()
 	
 		
 	}
@@ -286,8 +293,12 @@
 				options.action.call( this )
 			else if ( options.action == 'show' ) 
 				toolBoxObject.show().showPanel( options.panel )
+			else if ( this.isShown = store.get('toolboxShown') )
+				toolBoxObject.show().showPanel( store.get('toolboxPanel') )
 			else
 				toolBoxObject.hide()
+				
+
 				
 			// Panel Load
 			
