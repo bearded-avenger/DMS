@@ -20,10 +20,10 @@
 			
 		}
 		
-		, saveData: function( mode ){
+		, saveData: function( mode, refresh ){
 			
 			var	that = this
-			,	refresh = $.pl.flags.refreshOnSave
+			, 	refresh = refresh || false
 			,	savingDialog = $.pl.flags.savingDialog
 			,	refreshingDialog = $.pl.flags.refreshingDialog
 			,	theData = {
@@ -46,7 +46,7 @@
 						bootbox.dialog( that.dialogText( savingDialog ), [], {animate: false})
 				}
 				, success: function( response ){
-					console.log(response)
+				
 					$('.btn-saving').removeClass('active')
 					$('.state-list').removeClass('clean global local type multi').addClass(response)
 					$('.btn-state span').removeClass().addClass('state-draft '+response)
@@ -79,7 +79,7 @@
 				}
 					
 				
-				$.plAJAX.saveData( mode )
+				$.plAJAX.saveData( mode, $.pl.flags.refreshOnSave )
 				
 				
 			})
