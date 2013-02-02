@@ -10,13 +10,18 @@
 			, settings: {}
 		}
 		
+		
+		
 		, render: function( config ) {
 			
 			var that = this
 			,	opts
+			, 	config = config || store.get('lastSectionConfig')
 			
 			that.config = $.extend({}, that.defaults, typeof config == 'object' && config)
 			
+			store.set('lastSectionConfig', config)
+
 			that.panel = $('.panel-'+that.config.mode)
 			that.sobj = that.config.sobj
 			that.sid = that.config.sid
@@ -90,12 +95,26 @@
 				
 				var scope = (that.config.mode == 'section-options') ? that.activeForm.data('scope') : 'global'
 				
-				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
+				if($(this).hasClass('checkbox-input')){
+					
+					var checkToggle = $(this).prev()
+					
+					if ($(this).is(':checked')) 
+					    checkToggle.val('true')
+					else
+					    checkToggle.val('false')
+					
+				}
 				
+				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
+			
 				
 				
 				console.log('scope: '+scope)
-				console.log($.pl.data[scope])
+				console.log(that.activeForm.formParams())
+				
+				
+				//console.log($.pl.data[scope])
 				
 				if(e.type == 'change'){
 					$.pl.flags.refreshOnSave = true;
@@ -173,13 +192,19 @@
 		
 			// Set option value
 			if( pageData[ scope ] && pageData[ scope ][ key ] && pageData[ scope ][ key ][that.clone])
-				return pageData[ scope ][ key ][that.clone]
+				return pl_html_input( pageData[ scope ][ key ][that.clone] )
 			else 
 				return ''
 			
 		}
 		
-		, optName: function( index, key ){
+		, optName: function( scope, key, type ){
+			
+			if(o.type == 'check'){
+				
+			} else {
+				return sprintf('%s[%s]', key, that.clone)
+			}
 			
 		}
 		
@@ -188,8 +213,11 @@
 			var that = this
 			, 	oHTML = ''
 
-			o.value = pl_html_input( that.optValue( tabIndex, o.key ) ) 
+			o.label = o.label || o.title
+			o.value =  that.optValue( tabIndex, o.key ) 
+			
 			o.name = sprintf('%s[%s]', o.key, that.clone)
+			
 				
 			// Multiple Options
 			if( o.type == 'multi' ){
@@ -245,10 +273,20 @@
 			
 			// Checkbox Options
 			else if ( o.type == 'check' ) {
-				
+			
 				var checked = (!o.value || o.value == 'false' || o.value == '') ? '' : 'checked'
+				,	toggleValue = (checked == 'checked') ? 'true' : 'false'
+				,	aux = sprintf('<input name="%s" class="checkbox-toggle" type="hidden" value="%s" />', o.name, toggleValue ) 
+				, 	keyFlip = o.key +'-flip'
+				,	valFlip =  that.optValue( tabIndex, keyFlip) 
+				, 	checkedFlip = (!valFlip || valFlip == 'false' || valFlip == '') ? '' : 'checked'
+				,	toggleValueFlip = (checkedFlip == 'checked') ? 'true' : 'false'
+				, 	nameFlip = sprintf('%s[%s]', keyFlip, that.clone)
+				,	labelFlip = (o.fliplabel) ? o.fliplabel : '( <i class="icon-retweet"></i> reverse ) ' + o.label
+				,	auxFlip = sprintf('<input name="%s" class="checkbox-toggle" type="hidden" value="%s" />', nameFlip, toggleValueFlip ) 
 				
-				oHTML +=  sprintf('<label class="checkbox"><input id="%s" name="%s" class="lstn" type="checkbox" %s>%s</label>', o.key, o.name, checked, o.label )
+				oHTML +=  sprintf('<label class="checkbox">%s<input id="%s" class="checkbox-input lstn" type="checkbox" %s>%s</label>', aux, o.key, checked, o.label )
+				oHTML +=  sprintf('<label class="checkbox">%s<input id="%s" class="checkbox-input lstn" type="checkbox" %s>%s</label>', auxFlip, keyFlip , checkedFlip, labelFlip )
 				
 			} 
 			

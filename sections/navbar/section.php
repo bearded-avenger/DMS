@@ -33,6 +33,12 @@ class PLNavBar extends PageLinesSection {
 			<![endif]-->		
 		<?php
 	}
+	
+	function section_opts(){
+		
+		
+		
+	}
 
 	function section_persistent(){
 	

@@ -277,7 +277,19 @@
 					}
 				})
 				
-			} 
+			} else if (key == 'section-options'){
+				
+				$('body').toolbox({
+					action: 'show'
+					, panel: 'section-options'
+					, info: function(){
+					
+						$.optPanel.render( config )
+					
+					}
+				})
+				
+			}
 		
 			selectedTab.addClass('active-tab')
 			

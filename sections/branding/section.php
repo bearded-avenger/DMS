@@ -20,7 +20,19 @@ class PageLinesBranding extends PageLinesSection {
 	function section_opts(){
 		$opts = array(
 			
-			'social_links' => array(
+			array(
+				'type' 			=> 'image_upload',
+				'title' 		=> 'Site Image',
+				'key'			=> 'branding_logo'
+			),
+			array(
+				'type' 			=> 'check',
+				'title' 		=> 'Show RSS',
+				'key'			=> 'rsslink',
+				'label'			=> 'Show RSS Link?'
+			),
+			
+			array(
 				'type' 			=> 'multi',
 				'title' 		=> 'Social Links',
 				'opts'	=> array(
@@ -79,7 +91,7 @@ class PageLinesBranding extends PageLinesSection {
 					
 					pagelines_register_hook( 'pagelines_branding_icons_start', 'branding' ); // Hook 
 			
-					if(ploption('rsslink'))
+					if($this->opt('rsslink'))
 						printf('<a target="_blank" href="%s" class="rsslink"><img src="%s" alt="RSS"/></a>', apply_filters( 'pagelines_branding_rssurl', get_bloginfo('rss2_url') ), $this->base_url.'/rss.png' );
 					
 					if(VPRO) {
