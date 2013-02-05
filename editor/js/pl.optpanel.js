@@ -10,7 +10,7 @@
 			, settings: {}
 		}
 		
-		
+		, cascade: ['local', 'type', 'global']
 		
 		, render: function( config ) {
 			
@@ -43,7 +43,7 @@
 		}
 		
 		, settingsRender: function( settings ) {
-			var that = this;
+			var that = this
 			
 			$.each( settings , function(index, o) {
 					
@@ -88,6 +88,41 @@
 			
 		}
 		
+		, checkboxDisplay: function( checkgroup ){
+			
+			var	globalSet = ( $('.scope-global.checkgroup-'+checkgroup).find('.check-standard .checkbox-input').is(':checked') ) ? true : false
+			,	typeSet = ( $('.scope-type.checkgroup-'+checkgroup).find('.check-standard .checkbox-input').is(':checked') ) ? true : false
+			,	typeFlipSet = ( $('.scope-type.checkgroup-'+checkgroup).find('.check-flip .checkbox-input').is(':checked') ) ? true : false
+			
+			$.each( this.cascade , function(index, currentScope) {
+				
+				var showFlip = false
+				
+				if( currentScope != 'global' && globalSet )
+					showFlip = true
+					
+				if( currentScope == 'local' && typeSet )
+					showFlip = true
+
+		
+				if( showFlip && currentScope == 'local' && typeFlipSet && !typeSet)
+					showFlip = false
+					
+				var theSelector = sprintf('.scope-%s.checkgroup-%s ', currentScope, checkgroup)	
+					
+				if(showFlip){
+					$( theSelector + '.check-flip').show()
+					$( theSelector + '.check-standard').hide()
+				} else {
+					$( theSelector + '.check-flip').hide()
+					$( theSelector + '.check-standard').show()
+				}
+					
+					
+			})
+			
+		}
+		
 		, setBinding: function(){
 			var that = this
 			
@@ -98,11 +133,16 @@
 				if($(this).hasClass('checkbox-input')){
 					
 					var checkToggle = $(this).prev()
+					,	checkGroup = $(this).closest('.checkbox-group').data('checkgroup')
 					
 					if ($(this).is(':checked')) 
-					    checkToggle.val('true')
+					    checkToggle.val(1)
 					else
-					    checkToggle.val('false')
+					    checkToggle.val(0)
+					
+					
+					
+					that.checkboxDisplay( checkGroup )
 					
 				}
 				
@@ -212,6 +252,7 @@
 
 			var that = this
 			, 	oHTML = ''
+			, 	scope = tabIndex
 
 			o.label = o.label || o.title
 			o.value =  that.optValue( tabIndex, o.key ) 
@@ -274,19 +315,26 @@
 			// Checkbox Options
 			else if ( o.type == 'check' ) {
 			
-				var checked = (!o.value || o.value == 'false' || o.value == '') ? '' : 'checked'
+				var checked = (!o.value || o.value == 0 || o.value == '') ? '' : 'checked'
 				,	toggleValue = (checked == 'checked') ? 'true' : 'false'
 				,	aux = sprintf('<input name="%s" class="checkbox-toggle" type="hidden" value="%s" />', o.name, toggleValue ) 
 				, 	keyFlip = o.key +'-flip'
 				,	valFlip =  that.optValue( tabIndex, keyFlip) 
-				, 	checkedFlip = (!valFlip || valFlip == 'false' || valFlip == '') ? '' : 'checked'
+				, 	checkedFlip = (!valFlip || valFlip == 0 || valFlip == '') ? '' : 'checked'
 				,	toggleValueFlip = (checkedFlip == 'checked') ? 'true' : 'false'
 				, 	nameFlip = sprintf('%s[%s]', keyFlip, that.clone)
-				,	labelFlip = (o.fliplabel) ? o.fliplabel : '( <i class="icon-retweet"></i> reverse ) ' + o.label
+				,	labelFlip = (o.fliplabel) ? o.fliplabel : '( <i class="icon-undo"></i> reverse ) ' + o.label
 				,	auxFlip = sprintf('<input name="%s" class="checkbox-toggle" type="hidden" value="%s" />', nameFlip, toggleValueFlip ) 
+				, 	showFlip = false
+				, 	globalVal = (that.optValue( 'global', o.key ) == 1) ? true : false 
+				, 	typeVal = (that.optValue( 'type', o.key ) == 1) ? true : false 
+				, 	typeFlipVal = (that.optValue( 'type', keyFlip ) == 1) ? true : false 
+			
 				
-				oHTML +=  sprintf('<label class="checkbox">%s<input id="%s" class="checkbox-input lstn" type="checkbox" %s>%s</label>', aux, o.key, checked, o.label )
-				oHTML +=  sprintf('<label class="checkbox">%s<input id="%s" class="checkbox-input lstn" type="checkbox" %s>%s</label>', auxFlip, keyFlip , checkedFlip, labelFlip )
+				var stdCheck =  sprintf('<label class="checkbox check-standard" >%s<input id="%s" class="checkbox-input lstn" type="checkbox" %s>%s</label>', aux, o.key, checked, o.label )
+				,	flipCheck =  sprintf('<label class="checkbox check-flip" >%s<input id="%s" class="checkbox-input lstn" type="checkbox" %s>%s</label>', auxFlip, keyFlip , checkedFlip, labelFlip )
+				
+				oHTML +=  sprintf('<div class="checkbox-group scope-%s checkgroup-%s" data-checkgroup="%s">%s %s</div>', scope, o.key, o.key, stdCheck, flipCheck )
 				
 			} 
 			
@@ -419,6 +467,12 @@
 						$(this).change() // fire to set page data
 					}
 				})
+				
+			}
+			
+			else if( o.type == 'check' ){
+			
+				that.checkboxDisplay( o.key )
 				
 			}
 			
