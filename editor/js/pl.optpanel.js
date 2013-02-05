@@ -101,11 +101,10 @@
 				if( currentScope != 'global' && globalSet )
 					showFlip = true
 					
-				if( currentScope == 'local' && typeSet )
+				if( !showFlip && currentScope == 'local' && typeSet )
 					showFlip = true
 
-		
-				if( showFlip && currentScope == 'local' && typeFlipSet && !typeSet)
+				if( currentScope == 'local' && showFlip && typeFlipSet && globalSet )
 					showFlip = false
 					
 				var theSelector = sprintf('.scope-%s.checkgroup-%s ', currentScope, checkgroup)	
@@ -139,7 +138,6 @@
 					    checkToggle.val(1)
 					else
 					    checkToggle.val(0)
-					
 					
 					
 					that.checkboxDisplay( checkGroup )
@@ -316,12 +314,12 @@
 			else if ( o.type == 'check' ) {
 			
 				var checked = (!o.value || o.value == 0 || o.value == '') ? '' : 'checked'
-				,	toggleValue = (checked == 'checked') ? 'true' : 'false'
+				,	toggleValue = (checked == 'checked') ? 1 : 0
 				,	aux = sprintf('<input name="%s" class="checkbox-toggle" type="hidden" value="%s" />', o.name, toggleValue ) 
 				, 	keyFlip = o.key +'-flip'
 				,	valFlip =  that.optValue( tabIndex, keyFlip) 
 				, 	checkedFlip = (!valFlip || valFlip == 0 || valFlip == '') ? '' : 'checked'
-				,	toggleValueFlip = (checkedFlip == 'checked') ? 'true' : 'false'
+				,	toggleValueFlip = (checkedFlip == 'checked') ? 1 : 0
 				, 	nameFlip = sprintf('%s[%s]', keyFlip, that.clone)
 				,	labelFlip = (o.fliplabel) ? o.fliplabel : '( <i class="icon-undo"></i> reverse ) ' + o.label
 				,	auxFlip = sprintf('<input name="%s" class="checkbox-toggle" type="hidden" value="%s" />', nameFlip, toggleValueFlip ) 
