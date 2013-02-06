@@ -76,7 +76,7 @@
 								$('.btn-saving').addClass('active')
 							}
 							, success: function( response ){
-								console.log(response)
+							
 								$('.btn-saving').removeClass('active')
 								$('.state-list').removeClass('clean global local local-global').addClass(response)
 								$('.btn-state span').removeClass().addClass('state-draft '+response)
@@ -183,7 +183,7 @@
 						$('.btn-saving').addClass('active')
 					}
 					, success: function( response ){
-						console.log(response)
+						
 						$(that)
 							.removeClass('set-default-template')
 							.addClass('btn-success')
@@ -500,6 +500,7 @@
 						sid: section.data('sid')
 						, sobj: section.data('object')
 						, clone: section.data('clone')
+						, settingData: ($.pl.config.isSpecial) ? $.pl.data.type : $.pl.data.local
 					}
 			
 				if(btn.hasClass('section-edit')){
@@ -529,7 +530,9 @@
 				} else if (btn.hasClass('section-clone')){
 				
 					var cloned = section.clone( true )
-
+					,	clonedSet = $.pl.config.opts[config.sid].opts || {}
+					, 	mode = ($.pl.config.isSpecial) ? 'type' : 'local'
+				
 					
 					var i = 0
 					while ( jQuery( '.section-'+config.sid+'[data-clone="'+i+'"]' ).length != 0) {
@@ -543,10 +546,32 @@
 						.hide()
 						.fadeIn()
 
+					// add clone icon
 					cloned.first('.section-controls').find('.title-desc').html(sprintf(" <i class='icon-copy'></i> %s", i))
-
-					// TODO make cloning work
+					
 				
+					// set cloned item settings to new clone local settings
+						$.each(clonedSet, function(index, opt){
+							if( opt.type == 'multi'){
+								$.each( opt.opts, function(index2, opt2){
+								
+									if( plisset( $.pl.data.local[opt2.key]) ){
+										$.pl.data.local[opt2.key][i] = $.pl.data.local[opt2.key][config.clone]
+									}
+									
+								})
+							} else {
+								
+								if( plisset($.pl.data.local[opt.key]) ){
+									$.pl.data.local[opt.key][i] = $.pl.data.local[opt.key][config.clone]
+								}
+								
+							}
+						})
+					
+					// save settings data
+					$.plAJAX.saveData( 'draft' )
+					
 				} else if (btn.hasClass('column-popup')){
 					
 					// Pop to top level

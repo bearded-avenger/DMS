@@ -146,10 +146,10 @@
 				
 				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
 			
-				
-				
-				console.log('scope: '+scope)
-				console.log(that.activeForm.formParams())
+								// 
+								// 
+								// console.log('scope: '+scope)
+								// console.log(that.activeForm.formParams())
 				
 				
 				//console.log($.pl.data[scope])
@@ -227,7 +227,7 @@
 			// global settings are always related to 'global'
 			if (that.config.mode == 'settings')
 				scope = 'global'
-		
+			
 			// Set option value
 			if( pageData[ scope ] && pageData[ scope ][ key ] && pageData[ scope ][ key ][that.clone])
 				return pl_html_input( pageData[ scope ][ key ][that.clone] )
@@ -460,8 +460,7 @@
 			
 				$( '.color-'+o.key ).colorpicker({
 					onClose: function(color, inst){
-						console.log( 'hello' )
-						console.log( inst )
+						
 						$(this).change() // fire to set page data
 					}
 				})

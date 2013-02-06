@@ -57,21 +57,11 @@ class PageLinesOpts {
 					// flipping checkboxes
 					if( isset($parsed_args[$flipkey]) && isset($parsed_args[$flipkey][$clone]) && isset($bottom[$key][$clone]) ){
 									
-						$set_null = false;
-						
-
-						$val = $parsed_args[$key][$clone];
 						$flip_val = $parsed_args[$flipkey][$clone];
 						$bottom_val = $bottom[$key][$clone];
-						$flip_val_bottom = $bottom[$flipkey][$clone];
 
-						if( 
-							$flip_val && $bottom_val
-						){
+						if( $flip_val && $bottom_val )
 							$value = '';
-
-						}
-				
 					
 					}
 					

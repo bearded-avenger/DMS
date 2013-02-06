@@ -164,7 +164,6 @@
 						location.reload()
 					}
 					
-					console.log(response)
 					
 					$('.btn-saving').removeClass('active')
 					$('.state-list').removeClass('clean global local type multi map-local map-global').addClass(response)

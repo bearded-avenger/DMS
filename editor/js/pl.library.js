@@ -26,6 +26,13 @@ function pl_htmlEntities(str) {
 }
 
 
+function plisset(variable){
+	if(typeof(variable) != "undefined" && variable !== null)
+		return true
+	else 
+		return false
+}
+
 
 /* Add Progress callback to ajax calls
  * ============================================= */
