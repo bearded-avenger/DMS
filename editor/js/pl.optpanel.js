@@ -154,11 +154,15 @@
 				
 				//console.log($.pl.data[scope])
 				
-				if(e.type == 'change'){
-					$.pl.flags.refreshOnSave = true;
+				$.pl.flags.refreshOnSave = true;
+				$('.li-draft').show()
+				
+				if(e.type == 'change' || e.type == 'blur'){
 					$.plAJAX.saveData( 'draft' )
-					$('.li-draft').show().effect('highlight', 2000)
+				
 				}
+					
+
 					
 			})
 		}
