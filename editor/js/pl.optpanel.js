@@ -214,7 +214,7 @@
 			
 				optionHTML = that.optEngine( tabKey, o )
 				
-				out += sprintf( '<div class="opt"><div class="opt-name">%s</div><div class="opt-box">%s</div></div>', o.title, optionHTML ) 
+				out += sprintf( '<div class="opt opt-%s"><div class="opt-name">%s</div><div class="opt-box">%s</div></div>', o.key, o.title, optionHTML ) 
 
 			})
 		
@@ -359,7 +359,7 @@
 				
 			}
 			
-			else if( o.type == 'type' ){
+			else if( o.type == 'type' || o.type == 'fonts' ){
 				
 				var select_opts = ''
 				
@@ -375,7 +375,7 @@
 				}
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<select id="%s" name="%s" class="font-selector lstn">%s</select>', o.key, o.name, select_opts)
+				oHTML += sprintf('<select id="%s" name="%s" class="font-selector lstn"><option>&mdash; Select Font &mdash;</option>%s</select>', o.key, o.name, select_opts)
 				
 				oHTML += sprintf('<label for="preview-%s">Font Preview</label>', o.key)
 				oHTML += sprintf('<textarea class="type-preview" id="preview-%s" style="">The quick brown fox jumps over the lazy dog.</textarea>', o.key)
@@ -407,7 +407,8 @@
 		}
 		
 		, onceOffScripts: function( tabIndex, o ) {
-		
+			var that = this
+			
 			// Color picker buttons
 			$('.trigger-color').on('click', function(){
 				$(this)
@@ -419,28 +420,33 @@
 			// Font previewing
 			$('.font-selector').on('change', function(){
 
-				var	key = $(this).attr('id')
-				,	selectOpt = $(this).find('option:selected')
-				, 	fam = selectOpt.data('family')
-				, 	uri	= selectOpt.data('gfont')
-				, 	ggl	= (uri != '') ? true : false
-				, 	loader = 'loader'+key
-			
-				if(ggl){
-					if( $('#'+loader).length != 0 )
-						$('#'+loader).attr('href', uri)
-					else 
-						$('head').append( sprintf('<link rel="stylesheet" id="%s" href="%s" />', loader, uri) )
-				} else {
-					$('#'+loader).remove()
-				}
-
-				$(this)
-					.next()
-					.next()
-					.css('font-family', fam)
+				that.loadFontPreview( $(this) )
+				
 			})
 		
+		}
+		
+		, loadFontPreview: function( selector ) {
+			var	key = selector.attr('id')
+			,	selectOpt = selector.find('option:selected')
+			, 	fam = selectOpt.data('family')
+			, 	uri	= selectOpt.data('gfont')
+			, 	ggl	= (uri != '') ? true : false
+			, 	loader = 'loader'+key
+		
+			if(ggl){
+				if( $('#'+loader).length != 0 )
+					$('#'+loader).attr('href', uri)
+				else 
+					$('head').append( sprintf('<link rel="stylesheet" id="%s" href="%s" />', loader, uri) )
+			} else {
+				$('#'+loader).remove()
+			}
+
+			selector
+				.next()
+				.next()
+				.css('font-family', fam)
 		}
 		
 		, scriptEngine: function( tabIndex, o ) {
@@ -474,6 +480,13 @@
 			else if( o.type == 'check' ){
 			
 				that.checkboxDisplay( o.key )
+				
+			}
+			
+			else if(  o.type == 'type' ||  o.type == 'fonts' ){
+				
+			
+				that.loadFontPreview( $( sprintf('.opt-%s .font-selector', o.key) ) )
 				
 			}
 			
