@@ -42,6 +42,7 @@ class EditorInterface {
 		wp_enqueue_script( 'pl-optpanel', $this->url . '/js/pl.optpanel.js'); 
 		wp_enqueue_script( 'pl-ajax', $this->url . '/js/pl.ajax.js'); 
 		wp_enqueue_script( 'pl-library', $this->url . '/js/pl.library.js'); 
+		wp_enqueue_script( 'pl-layout', $this->url . '/js/pl.layout.js'); 
 		
 		// Isotope
 		wp_enqueue_script( 'isotope', $this->url . '/js/utils.isotope.js', array('jquery')); 
@@ -462,7 +463,10 @@ class EditorInterface {
 				
 			</ul>
 			<ul class="unstyled controls not-btn send-right">
-				<li><span class="btn-toolbox btn-saving not-btn"><i class="icon-save"></i> <span class="txt">Saving</span></li>
+				<li class="btn-saving"><span class="btn-toolbox not-btn"><i class="icon-save"></i> <span class="txt">Saving</span></li>
+				<li class="btn-layout-resize"><span class="btn-toolbox  not-btn">
+					<i class="icon-fullscreen"></i> <span class="txt">Width: <span class="resize-px"></span> / <span class="resize-percent"></span></span>
+				</li>
 			</ul>
 		</div>
 		<div class="toolbox-panel-wrap">
