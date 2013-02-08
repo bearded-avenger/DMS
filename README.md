@@ -1,4 +1,5 @@
 framework
 =========
 
-PageLines Frameworkmaster:stable/release Free:wporg version 
+[ ] Andrew reads the docs.
+[x] Simon read the docs.
