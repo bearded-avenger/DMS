@@ -8,6 +8,7 @@ $.widthResize = {
 		
 		$('body').addClass('width-resize')
 
+
 		widthSel.resizable({ 
 			handles: "e, w",
 			minWidth: 400,
@@ -30,8 +31,8 @@ $.widthResize = {
 				var resizeWidth = ui.size.width
 				,	resizeOrigWidth = ui.originalSize.width
 				,	resizeNewWidth = resizeOrigWidth + ((resizeWidth - resizeOrigWidth) * 2)
-				,	windowWidth = $(window).width()
 				, 	windowResizerAdjust = windowWidth - 10
+				,	windowWidth = $(window).width()
 
 				resizeNewWidth = (resizeNewWidth < 480) ? 480 : resizeNewWidth
 				resizeNewWidth = ( resizeNewWidth  >= windowResizerAdjust ) ? windowResizerAdjust : resizeNewWidth
@@ -42,17 +43,18 @@ $.widthResize = {
 				widthSel
 					.css('left', 'auto')
 					.css('height', 'auto')
-					.width( resizeNewWidth )
+					.width( 'auto' )
+					.attr('data-width', resizeNewWidth)
+					.data('width', resizeNewWidth)
+					.css('max-width', resizeNewWidth)
 
-				$.pl.data.global.layout_pixel = resizeNewWidth
-
-				$.pl.data.global.layout_percent = percentWidth
+				// always set options w/ arrays
+				$.pl.data.global.content_width_px = [resizeNewWidth+'px']
+				$.pl.data.global.content_width_percent = [percentWidth+'%']
 				
 				$('.resize-px').html(resizeNewWidth+'px')
 				$('.resize-percent').html(percentWidth+'%')
-				
-				console.log(resizeNewWidth +' -- %' +percentWidth)
-
+		
 			}
 		})
 		

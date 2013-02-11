@@ -108,6 +108,12 @@ class PageLinesOpts {
 		
 	}
 	
+	function get_setting( $key, $args = array() ){
+		
+		return ( isset( $this->global[ $key ][0] ) ) ? $this->global[ $key ][0] : false; 
+			
+	}
+	
 	function global_settings(){
 		
 		$set = $this->opt( $this->pl_settings );
@@ -161,7 +167,21 @@ class PageLinesOpts {
 
 }
 
+function pl_setting( $key, $scope = 'global' ){
+	global $plopts;
+	
+	return $plopts->get_setting( $key, $scope ); 
+}
 
+
+
+
+
+////////////////////////////////////////////////////////////////////
+// 
+// TODO rewrite all this to use the ^^ above classes methods... 
+//
+////////////////////////////////////////////////////////////////////
 function pl_opt( $key, $default = false, $parse = false ){
 	
 	$val = get_option($key); 
@@ -214,44 +234,7 @@ function pl_meta_update($id, $key, $value){
 }
 
 
-function pl_setting( $key ){
-	
-	// is page set
-	
-	$plpg->page->id; 
-	
-	// is type set 
-	$plpg->page->typeid;
-	
-	// is global default
-	
-	// else return default
-	
-	
-	global $pldrft;
-	
-	$mode = $pldrft->mode;
-	
-	$set = pl_meta( $plpg->page->id, PL_SETTINGS );
-	$set = pl_meta( $plpg->page->id, PL_SETTINGS );
-	$set = pl_meta( $plpg->page->id, PL_SETTINGS );
-	
-	if( isset( $set[$mode] ) && isset( $set[$mode][$key] ) )
-		return $set[$mode][$key]; 
-	
-	
-	
-	
-	$set = pl_opt( PL_SETTINGS ); 
-	
-	$settings = ( isset($set[ $mode ]) ) ? $set[ $mode ] : array();
-	
-	
-	
-	return ( isset( $settings[ $key ] ) ) ? $settings[ $key ] : false;
-	
-	
-}
+
 
 function pl_meta_setting( $key, $metaID ){
 	
