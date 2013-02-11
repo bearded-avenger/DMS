@@ -1,3 +1,13 @@
+= 1.3.6 =
+
+* Enable HTML in popovers.
+* Better googlefont url detection.
+* Better RTL detection.
+* Remove a LOT of whitespaces!
+* Fix square corners on hover dropdowns.
+* Fixed navbar, added title/alt.
+* Add GUID to attachments, should fix remote post problems.
+
 = 1.3.5 =
 
 * Dropdown fixes.
