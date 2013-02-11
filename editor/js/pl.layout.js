@@ -2,12 +2,21 @@
 
 $.widthResize = {
 	
-	startUp: function(){
+	checkWindowEdges: function( widthSel ){
+	
+		if(widthSel.width() >= ($(window).width() - 10))
+			$('body').addClass('width-resize-edge')
+		else 
+			$('body').removeClass('width-resize-edge')
+	}
+	
+	, startUp: function(){
 		
 		var	widthSel = $('.pl-content')
 		
 		$('body').addClass('width-resize')
 
+		$.widthResize.checkWindowEdges(widthSel)
 
 		widthSel.resizable({ 
 			handles: "e, w",
@@ -31,29 +40,32 @@ $.widthResize = {
 				var resizeWidth = ui.size.width
 				,	resizeOrigWidth = ui.originalSize.width
 				,	resizeNewWidth = resizeOrigWidth + ((resizeWidth - resizeOrigWidth) * 2)
-				, 	windowResizerAdjust = windowWidth - 10
 				,	windowWidth = $(window).width()
+				, 	layoutMode = $.pl.flags.layoutMode
+				
 
 				resizeNewWidth = (resizeNewWidth < 480) ? 480 : resizeNewWidth
-				resizeNewWidth = ( resizeNewWidth  >= windowResizerAdjust ) ? windowResizerAdjust : resizeNewWidth
+				resizeNewWidth = ( resizeNewWidth  >= windowWidth ) ? windowWidth : resizeNewWidth
 					
-				var percentWidth = Math.round( ( resizeNewWidth / windowResizerAdjust ) * 100 )		
-					
+				var percentWidth = Math.round( ( resizeNewWidth / windowWidth ) * 100 ) + '%'
+				,	pixelWidth = resizeNewWidth+'px'
+				,	theSetWidth = (layoutMode == 'percent') ? percentWidth : pixelWidth
+				
 	
 				widthSel
 					.css('left', 'auto')
 					.css('height', 'auto')
 					.width( 'auto' )
-					.attr('data-width', resizeNewWidth)
-					.data('width', resizeNewWidth)
-					.css('max-width', resizeNewWidth)
+					.css('max-width', theSetWidth)
+					
+				$.widthResize.checkWindowEdges(widthSel)
 
 				// always set options w/ arrays
-				$.pl.data.global.content_width_px = [resizeNewWidth+'px']
-				$.pl.data.global.content_width_percent = [percentWidth+'%']
+				$.pl.data.global.content_width_px = [pixelWidth]
+				$.pl.data.global.content_width_percent = [percentWidth]
 				
-				$('.resize-px').html(resizeNewWidth+'px')
-				$('.resize-percent').html(percentWidth+'%')
+				$('.resize-px').html(pixelWidth)
+				$('.resize-percent').html(percentWidth)
 		
 			}
 		})

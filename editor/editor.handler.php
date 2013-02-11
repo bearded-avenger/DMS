@@ -17,7 +17,16 @@ class PageLinesTemplateHandler {
 	var $opts_list	= array();
 	var $area_number = 1;
 
-	function __construct( EditorInterface $interface, PageLinesPage $pg, EditorSettings $siteset, PageLinesFoundry $foundry, EditorMap $map, EditorDraft $draft, PageLinesOpts $opts) {
+	function __construct( 
+		EditorInterface $interface, 
+		PageLinesPage $pg, 
+		EditorSettings $siteset, 
+		PageLinesFoundry $foundry, 
+		EditorMap $map, 
+		EditorDraft $draft, 
+		PageLinesOpts $opts,
+		EditorLayout $layout
+	) {
 
 
 		global $pl_section_factory; 
@@ -31,6 +40,7 @@ class PageLinesTemplateHandler {
 		$this->foundry = $foundry;
 		$this->draft = $draft;
 		$this->optset = $opts;
+		$this->layout = $layout;
 		
 		$this->map = $map->get_map( $this->page );
 
@@ -39,10 +49,7 @@ class PageLinesTemplateHandler {
 		$this->opts_config = $this->get_options_config();
 		
 		$this->setup_processing();
-//		plprint($this->section_list, 'section list');
-//		plprint($this->optset, 'opts set');
 		
-	//	plprint($this->opts_config, 'Option Config');
 		add_action( 'pagelines_head_last', array( &$this, 'json_data' ) );
 		
 	}
@@ -71,6 +78,7 @@ class PageLinesTemplateHandler {
 							refreshOnSave: false
 						,	savingDialog: 'Saving'
 						,	refreshingDialog: 'Success! Reloading page'
+						,	layoutMode: '<?php echo $this->layout->get_layout_mode();?>'
 					}
 					, config: {
 						pageID: '<?php echo $this->page->id;?>'

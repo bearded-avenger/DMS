@@ -14,7 +14,10 @@ class EditorLayout {
 		
 		// if pixel mode assign pixel option
 		
-		$value = (pl_setting( 'content_width_px' )) ? pl_setting( 'content_width_px' ) : '980px'; 
+		if( pl_setting( 'layout_mode' ) == 'percent' )
+			$value = (pl_setting( 'content_width_percent' )) ? pl_setting( 'content_width_percent' ) : '80%'; 
+		else 
+			$value = (pl_setting( 'content_width_px' )) ? pl_setting( 'content_width_px' ) : '980px'; 
 		
 		// if percent mode assign percent option
 		
@@ -24,6 +27,13 @@ class EditorLayout {
 		
 	}
 	
+	function get_layout_mode(){
+		
+		$value = (pl_setting( 'layout_mode' )) ? pl_setting( 'layout_mode' ) : 'pixel';
+		
+		return $value; 
+		
+	}
 	
 	
 }

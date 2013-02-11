@@ -365,7 +365,12 @@ class EditorInterface {
 			$tabs['heading'] = 'Global Settings'; 
 		
 			foreach( $this->siteset->get_set('site') as $tabkey => $tab ){
-				$tabs[ $tabkey ] = array('key' => $tabkey, 'name' => $tab['name']);
+				
+				$tabs[ $tabkey ] = array(
+					'key' 	=> $tabkey, 
+					'name' 	=> $tab['name'], 
+					'icon'	=> isset($tab['icon']) ? $tab['icon'] : ''
+				);
 			}
 		
 		}
@@ -653,6 +658,7 @@ class EditorInterface {
 	function defaults(){
 		$d = array(
 			'name'		=> '',
+			'icon'		=> '',
 			'hook'		=> '', 
 			'href'		=> '',
 			'filter'	=> '', 
@@ -695,8 +701,11 @@ class EditorInterface {
 								$flag = ($t['flag'] != '') ? sprintf('data-flag="%s"', $t['flag']) : '';
 							
 								$class = ($t['class'] != '') ? $t['class'] : '';
+								
+								$icon = ($t['icon'] != '') ? sprintf('<i class="%s"></i> ', $t['icon']) : '';
+								
 							
-								printf('<li class="%s" %s %s %s><a href="%s">%s</a></li>', $class, $hook, $filter, $flag, $href, $t['name']);
+								printf('<li class="%s" %s %s %s><a href="%s">%s%s</a></li>', $class, $hook, $filter, $flag, $href, $icon, $t['name']);
 							}
 												
 						}

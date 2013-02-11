@@ -378,7 +378,7 @@
 	}
 	
 
-
+	
 	
 	.ui-resizable-e{
 		cursor: e-resize;
@@ -396,6 +396,22 @@
 		left: -6px;
 		top: 0;
 		height: 100%;	
+	}
+	
+	&.width-resize-edge{
+		.ui-resizable-e{
+			
+			border-left: 1px dashed @editorBorder;
+		
+			right: 0;	
+		}
+		.ui-resizable-w{
+		
+			border-right: 1px dashed @editorBorder;
+		
+			left: 0;
+		
+		}
 	}
 	
 	.footer .pl-content{
