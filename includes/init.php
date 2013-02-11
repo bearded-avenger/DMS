@@ -262,6 +262,8 @@ if ( ploption( 'enable_debug' ) )
 if( defined('PL_UX_DEV') && PL_UX_DEV )
 	require_once( PL_EDITOR . '/editor.init.php' );
 
+// always load
+require_once( PL_EDITOR . '/editor.functions.php' );
 
 /**
  * Run the pagelines_init Hook

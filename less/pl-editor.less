@@ -12,7 +12,7 @@
 	
 	.pl-content{
 		position: relative;
-		width: 980px;
+		max-width: @plContentWidth;
 		margin: 0 auto;
 	}
 	.section-plcolumn{
@@ -378,7 +378,7 @@
 	}
 	
 
-
+	
 	
 	.ui-resizable-e{
 		cursor: e-resize;
@@ -396,6 +396,22 @@
 		left: -6px;
 		top: 0;
 		height: 100%;	
+	}
+	
+	&.width-resize-edge{
+		.ui-resizable-e{
+			
+			border-left: 1px dashed @editorBorder;
+		
+			right: 0;	
+		}
+		.ui-resizable-w{
+		
+			border-right: 1px dashed @editorBorder;
+		
+			left: 0;
+		
+		}
 	}
 	
 	.footer .pl-content{
@@ -434,7 +450,7 @@
 					display: none;
 			}
 		}
-		
+		overflow: hidden;
 		text-align: left;
 		.buttonBackground(#eee, #ddd);
 		box-shadow: inset 1px 1px 0 rgba(255,255,255,.8), 0 1px 3px rgba(0,0,0,.2);
@@ -463,6 +479,35 @@
 			&.not-btn{
 				border-left: 1px solid transparent;
 				border-right: 1px solid transparent;
+				overflow: hidden;
+			
+				width: 150px;
+				height: 28px;
+				> li {
+					&.btn-saving,
+					&.btn-layout-resize{
+						right: 0;
+						top: -30px;
+						opacity: 0;
+						position: absolute;
+						.transition( ~"top .2s, opacity .3s" );
+						&.active{
+							top: 0;
+							opacity: 1;
+						}
+						> .btn-toolbox{
+							color: @linkcolor;
+							border-left: 1px solid transparent;
+							border-right: 1px solid transparent;
+							padding: 0 4px;
+							overflow: hidden;
+							
+							
+						}	
+						
+					}
+				}
+				
 			}
 		
 			&.send-right{
@@ -512,18 +557,7 @@
 					height: 28px;
 					#gradient > .vertical(#eee, #ddd);
 				}
-				&.btn-saving{
-					color: @linkcolor;
-					border-left: 1px solid transparent;
-					border-right: 1px solid transparent;
-					padding: 0 4px;
-					opacity: 0;
-					.transition( all .2s );
-					&.active{
-						
-						opacity: .6;
-					}
-				}
+				
 				
 				
 				&.btn-publish{
@@ -824,7 +858,7 @@
 				}
 				.type-preview{
 					text-align: center;
-					padding: 15px 15px 0;
+					padding: 5px;
 					font-size: 1.2em;
 				}
 			}

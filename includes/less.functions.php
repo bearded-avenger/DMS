@@ -56,6 +56,7 @@ class PageLinesLess {
 			'pl-sidebar-width'		=> pl_sidebar_width() . 'px',
 			'pl-secondary-width'	=> pl_secondary_sidebar_width() . 'px'
 		);	
+		
 		if(is_array($less_vars))
 			$constants = array_merge($less_vars, $constants);
 			

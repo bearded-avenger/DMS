@@ -44,6 +44,7 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.opts.php' );
 		require_once( PL_EDITOR . '/editor.actions.php' );
 		require_once( PL_EDITOR . '/editor.draft.php' );
+		require_once( PL_EDITOR . '/editor.layout.php' );
 		require_once( PL_EDITOR . '/editor.map.php' );
 		require_once( PL_EDITOR . '/editor.templates.php' );
 		require_once( PL_EDITOR . '/editor.data.php' );
@@ -59,17 +60,20 @@ class PageLinesEditor {
 	function load_libs(){
 		global $plpg; 
 		global $pldraft;
+		global $plopts;
 		
 		$plpg = $this->page = new PageLinesPage;
 		$pldraft = $this->draft = new EditorDraft( $this->page );
-		$this->opts = new PageLinesOpts( $this->page, $this->draft );
+		$plopts = $this->opts = new PageLinesOpts( $this->page, $this->draft );
 		
+		$this->layout = new EditorLayout();
 		$this->map = new EditorMap( $this->draft );
 		$this->templates = new EditorTemplates( $this->page );
 		$this->siteset = new EditorSettings;
 		$this->foundry = new PageLinesFoundry;
 		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates, $this->map );
-		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset, $this->foundry, $this->map, $this->draft, $this->opts );
+		
+		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset, $this->foundry, $this->map, $this->draft, $this->opts, $this->layout );
 		
 	}
 	

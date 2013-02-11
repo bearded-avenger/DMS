@@ -846,66 +846,6 @@
 		
     }
 
-	$.widthResize = {
-		
-		startUp: function(){
-			
-			var	widthSel = $('.pl-content')
-			
-			$('body').addClass('width-resize')
-
-			widthSel.resizable({ 
-				handles: "e, w",
-				minWidth: 400,
-				start: function(event, ui){
-					$('body').addClass('width-resizing')
-				}
-				, stop: function(event, ui){
-					$('body').removeClass('width-resizing')
-				}
-				, resize: function(event, ui) { 
-			
-					var resizeWidth = ui.size.width
-					,	resizeOrigWidth = ui.originalSize.width
-					,	resizeNewWidth = resizeOrigWidth + ((resizeWidth - resizeOrigWidth) * 2)
-
-					resizeNewWidth = (resizeNewWidth < 480) ? 480 : resizeNewWidth;
-						
-					widthSel
-						.css('left', 'auto')
-						.css('height', 'auto')
-						.width( resizeNewWidth )
-
-				}
-			})
-			
-			$('.ui-resizable-handle')
-				.effect('highlight', 2500 )
-				.hover(
-					function () {
-						$('body').addClass("resize-hover")
-					}
-					, function () {
-						$('body').removeClass("resize-hover")
-					}
-				)
-			
-		}
-		, shutDown: function(){
-			
-			var	widthSel = $('.pl-content')
-			
-			$('body').removeClass('width-resize')
-			
-			$(".ui-resizable-handle").unbind('mouseenter mouseleave')
-			
-			widthSel.resizable( "destroy" )
-			
-			
-			
-		}
-	}
-
 	
 	$.areaControl = {
 	

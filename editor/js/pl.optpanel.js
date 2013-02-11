@@ -254,7 +254,7 @@
 
 			var that = this
 			, 	oHTML = ''
-			, 	scope = tabIndex
+			, 	scope = (that.config.mode == 'settings') ? 'global' : tabIndex
 
 			o.label = o.label || o.title
 			o.value =  that.optValue( tabIndex, o.key ) 
@@ -334,7 +334,8 @@
 			
 				
 				var stdCheck =  sprintf('<label class="checkbox check-standard" >%s<input id="%s" class="checkbox-input lstn" type="checkbox" %s>%s</label>', aux, o.key, checked, o.label )
-				,	flipCheck =  sprintf('<label class="checkbox check-flip" >%s<input id="%s" class="checkbox-input lstn" type="checkbox" %s>%s</label>', auxFlip, keyFlip , checkedFlip, labelFlip )
+				,	flipCheck =  (scope != 'global') ? sprintf('<label class="checkbox check-flip" >%s<input id="%s" class="checkbox-input lstn" type="checkbox" %s>%s</label>', auxFlip, keyFlip , checkedFlip, labelFlip ) : ''
+				
 				
 				oHTML +=  sprintf('<div class="checkbox-group scope-%s checkgroup-%s" data-checkgroup="%s">%s %s</div>', scope, o.key, o.key, stdCheck, flipCheck )
 				

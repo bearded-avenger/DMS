@@ -58,7 +58,6 @@ class PageLinesSection {
 		$this->class_name = get_class($this);
 	
 		$this->set_section_info();
-
 		
 	}
 
@@ -131,8 +130,26 @@ class PageLinesSection {
 		
 
 	}
+	
+	function prefix( $clone_id = false ){
+		
+		if( class_exists('PageLinesTemplateHandler') )
+			$prefix = sprintf('.section-%s[data-clone="%s"]', $this->id, $this->meta[ 'clone' ]);
+		elseif( $clone_id && $clone_id != '')
+			$prefix = sprintf('.section-%s.clone_%s', $this->id, $clone_id);
+		else 
+			$prefix = '';
+			
+		return $prefix;
+	}
 
 	function opt( $key, $args = array() ){
+		
+		$d = array(
+			'default'	=> false
+		);
+		
+		$a = wp_parse_args($args, $d);
 		
 		if( 
 			property_exists($this, 'meta') 
@@ -141,8 +158,10 @@ class PageLinesSection {
 			&& isset($this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ] )
 		)
 			$val = $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ]; 
-		else
+		elseif(ploption( $key, $args))
 			$val = ploption( $key, $args); // LEGACY
+		else
+			$val = $a['default'];
 	 
 		return ($val == '') ? false : $val;
 		

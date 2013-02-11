@@ -17,26 +17,37 @@ class EditorSettings {
 
 	function __construct(){
 		$this->settings['basic_settings'] = array(
-			'name' 	=> 'Basic Settings', 
+			'name' 	=> 'Site Images', 
+			'icon'	=> 'icon-picture',
 			'opts' 	=> $this->basic()
+		);
+		
+		$this->settings['layout'] = array(
+			'name' 	=> 'Layout Handling', 
+			'icon' 	=> 'icon-fullscreen', 
+			'opts' 	=> $this->layout()
 		);
 		$this->settings['color_control'] = array(
 			'name' 	=> 'Color Control', 
+			'icon'	=> 'icon-tint',
 			'opts' 	=> $this->color()
 		);
 		
 		$this->settings['typography'] = array(
 			'name' 	=> 'Typography', 
+			'icon'	=> 'icon-font',
 			'opts' 	=> $this->type()
 		);
 		
 		$this->settings['social_media'] = array(
 			'name' 	=> 'Social Media', 
+			'icon'	=> 'icon-comments',
 			'opts' 	=> $this->social()
 		);	
 		
 		$this->settings['advanced'] = array(
 			'name' 	=> 'Advanced', 
+			'icon'	=> 'icon-wrench',
 			'opts' 	=> $this->advanced()
 		);
 	}
@@ -108,6 +119,39 @@ class EditorSettings {
 				
 			),
 		);
+			
+		return $settings;
+		
+	}
+	
+	function layout(){
+		
+		
+		
+		$settings = array(
+			array(
+				'key'		=> 'disable_responsive',
+				'type' 		=> 'check',
+				'label' 	=> __( 'Disable Responsive Layout?', 'pagelines' ),
+				'title' 	=> __( 'Disable Responsive Layout', 'pagelines' ),
+				'help'	 	=> __( 'Check this option if you want to disable responsive/mobile layout on your website', 'pagelines' )
+			),
+			array(
+				'key'		=> 'layout_mode',
+				'type' 		=> 'select',
+				'label' 	=> __( 'Select Layout Mode', 'pagelines' ),
+				'title' 	=> __( 'Layout Mode', 'pagelines' ),
+				'opts' 		=> array(
+					'pixel' 	=> array('name' => 'Pixel Width Based Layout'),
+					'percent' 	=> array('name' => 'Percentage Width Based Layout')
+				),
+				
+				'help'	 	=> __( '', 'pagelines' )
+			),
+
+
+		);
+	
 			
 		return $settings;
 		
