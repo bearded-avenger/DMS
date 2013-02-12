@@ -144,7 +144,12 @@ class EditorInterface {
 	function toolbar_config(){
 		
 		$data = array(
-			
+			'pl-toggle' => array(
+				'name'	=> '',
+				'icon'	=> 'icon-off',
+				'type'	=> 'btn'
+				
+			),
 			'add-new' => array(
 				'name'	=> 'Add New',
 				'icon'	=> 'icon-plus-sign',
@@ -313,17 +318,17 @@ class EditorInterface {
 					'search'	=> array('name'	=> 'Search'),
 				)
 			),
-			// 'pl-actions' => array(
-			// 				'name'	=> 'Actions',
-			// 				'icon'	=> 'icon-asterisk',
-			// 				'type'	=> 'dropup', 
-			// 				'panel'	=> array(
-			// 					
-			// 					'template'	=> array('name'	=> 'Preview Page'),
-			// 					'revert'	=> array('name'	=> 'Revert Changes')
-			// 				)
-			// 				
-			// 			),
+			'pl-actions' => array(
+				'name'	=> '',
+				'icon'	=> '',
+				'type'	=> 'dropup', 
+				'panel'	=> array(
+					
+					'reset_global'	=> array('name'	=> 'Reset All Global Settings to Default'),
+					'reset_local'	=> array('name'	=> 'Reset Current Page Settings to Default')
+				)
+				
+			),
 			'section-options' => array(
 				'name'	=> 'Section Options',
 				'icon'	=> 'icon-paste',
@@ -406,13 +411,14 @@ class EditorInterface {
 						$data = '';
 						$suffix = '';
 						$content = '';
-						$li_class = '';	
+						$li_class = array();
+						$li_class[] = 'type-'.$tab['type'];	
 						
 						if($tab['type'] == 'dropup'){
 							
 							$data = 'data-toggle="dropdown"';
-							$suffix = ' <span class="crt icon-caret-right"></span>';
-							$li_class = 'dropup';	
+							$suffix = ' <i class="uxi icon-caret-right"></i>';
+							$li_class[] = 'dropup';	
 							$menu = ''; 
 							
 							foreach($tab['panel'] as $key => $i){
@@ -421,18 +427,21 @@ class EditorInterface {
 							$content = sprintf('<ul class="dropdown-menu">%s</ul>', $menu);
 						} 
 						
-					
+						$li_classes = join(' ', $li_class);
 						  
 						$classes = ($tab['type'] == 'panel') ? 'btn-panel' : '';
 						
+						$name = (isset($tab['name'])) ? sprintf('<span class="txt">%s</span>', $tab['name']) : '';
+						$icon = (isset($tab['icon'])) ? sprintf('<i class="uxi %s"></i> ', $tab['icon']) : '';
+						
 						printf(
-							'<li class="%s"><span class="btn-toolbox %s" data-action="%s" %s><i class="uxi %s"></i> <span class="txt">%s %s</span></span>%s</li>', 
-							$li_class,
+							'<li class="%s"><span class="btn-toolbox %s" data-action="%s" %s>%s%s%s</span>%s</li>', 
+							$li_classes,
 							$classes,
 							$key, 
 							$data, 
-							$tab['icon'], 
-							$tab['name'], 
+							$icon, 
+							$name, 
 							$suffix, 
 							$content
 						);

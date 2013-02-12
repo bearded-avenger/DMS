@@ -450,7 +450,7 @@
 					display: none;
 			}
 		}
-		overflow: hidden;
+		
 		text-align: left;
 		.buttonBackground(#eee, #ddd);
 		box-shadow: inset 1px 1px 0 rgba(255,255,255,.8), 0 1px 3px rgba(0,0,0,.2);
@@ -542,73 +542,82 @@
 			> li.li-draft{
 				display: none;
 			}
-			> li > .btn-toolbox{
-				vertical-align: middle;
-				display: block;
-				color: #444;
-				padding: 0 15px;
-				font-size: 11px;
-				line-height: 28px;
-				cursor: pointer;
-				border-left: 1px solid #fff; 
-				border-right: 1px solid #AAA;
-				&.btn-state{
-					padding: 0 10px;
-					height: 28px;
-					#gradient > .vertical(#eee, #ddd);
-				}
-				
-				
-				
-				&.btn-publish{
-					
-					
-					border-left: 1px solid #fff; 
-					border-right: 1px solid #AAA;
-				}
-				&:hover{
-					
-					.buttonBackground(#eee, #ccc);
-					border-left: 1px solid #fff; 
-					border-right: 1px solid #AAA;
-				}
-				&:active{
-				
-					.buttonBackground(#bbb, #ddd);
-				}
-				&.active-tab{
-					
-					.buttonBackground(#e1e1e1, #bbb);
-					border-left: 1px solid #fff; 
-					border-right: 1px solid #AAA;
-					i{
-						color: #0f63cc;
+			> li {
+				&.type-btn,
+				&.type-dropup {
+					> .btn-toolbox{
+						padding: 0 8px;
 					}
 				}
-
-				&.active-toggle {
-					.buttonBackground(#fff, #eee);
-					i{
-						color: #0f63cc;
-
+				
+				> .btn-toolbox{
+					vertical-align: middle;
+					display: block;
+					color: #444;
+					padding: 0 15px;
+					font-size: 11px;
+					line-height: 28px;
+					cursor: pointer;
+					border-left: 1px solid #fff; 
+					border-right: 1px solid #AAA;
+					&.btn-state{
+						padding: 0 10px;
+						height: 28px;
+						#gradient > .vertical(#eee, #ddd);
 					}
-				}
-				&.btn-closer{
-					color: #999; 
-					border-left: 1px solid transparent;
-					border-right: 1px solid transparent;
-					position: absolute; 
-					left: -27px;
-					padding: 0 2px;
+
+
+
+					&.btn-publish{
+
+
+						border-left: 1px solid #fff; 
+						border-right: 1px solid #AAA;
+					}
 					&:hover{
-						color:#08c;
+
+						.buttonBackground(#eee, #ccc);
+						border-left: 1px solid #fff; 
+						border-right: 1px solid #AAA;
 					}
 					&:active{
-						color: #444;
+
+						.buttonBackground(#bbb, #ddd);
 					}
+					&.active-tab{
+
+						.buttonBackground(#e1e1e1, #bbb);
+						border-left: 1px solid #fff; 
+						border-right: 1px solid #AAA;
+						i{
+							color: #0f63cc;
+						}
+					}
+
+					&.active-toggle {
+						.buttonBackground(#fff, #eee);
+						i{
+							color: #0f63cc;
+
+						}
+					}
+					&.btn-closer{
+						color: #999; 
+						border-left: 1px solid transparent;
+						border-right: 1px solid transparent;
+						position: absolute; 
+						left: -27px;
+						padding: 0 2px;
+						&:hover{
+							color:#08c;
+						}
+						&:active{
+							color: #444;
+						}
+					}
+
+
 				}
-				
-			
 			}
 		
 			

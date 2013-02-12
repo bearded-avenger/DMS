@@ -379,7 +379,8 @@
 					if (answer) {
 			            
 						section.remove();
-			            section.addClass('empty-column');
+			            section.addClass('empty-column')
+						store.remove('toolboxShown')
 						
 					}
 					

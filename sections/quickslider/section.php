@@ -29,19 +29,19 @@ class PageLinesQuickSlider extends PageLinesSection {
 	
 	function section_head($clone_id){
 		
-		$animation = (ploption('quick_transition', $this->oset) == 'slide_v' || ploption('quick_transition', $this->oset) == 'slide_h') ? 'slide' : 'fade';
-		$transfer = (ploption('quick_transition', $this->oset) == 'slide_v') ? 'vertical' : 'horizontal';
+		$animation = ($this->opt('quick_transition', $this->oset) == 'slide_v' || $this->opt('quick_transition', $this->oset) == 'slide_h') ? 'slide' : 'fade';
+		$transfer = ($this->opt('quick_transition', $this->oset) == 'slide_v') ? 'vertical' : 'horizontal';
 		
-		$slideshow = (ploption('quick_slideshow', $this->oset)) ? 'true' : 'false';
+		$slideshow = ($this->opt('quick_slideshow', $this->oset)) ? 'true' : 'false';
 		
 		$clone_class = 'pl-clone'.$clone_id;
 		
-		$control_nav = (!ploption('quick_nav', $this->oset) || ploption('quick_nav', $this->oset) == 'both' || ploption('quick_nav', $this->oset) == 'control_only') ? 'true' : 'false';
-		$direction_nav = (!ploption('quick_nav', $this->oset) || ploption('quick_nav', $this->oset) == 'both' || ploption('quick_nav', $this->oset) == 'arrow_only') ? 'true' : 'false';
+		$control_nav = (!$this->opt('quick_nav', $this->oset) || $this->opt('quick_nav', $this->oset) == 'both' || $this->opt('quick_nav', $this->oset) == 'control_only') ? 'true' : 'false';
+		$direction_nav = (!$this->opt('quick_nav', $this->oset) || $this->opt('quick_nav', $this->oset) == 'both' || $this->opt('quick_nav', $this->oset) == 'arrow_only') ? 'true' : 'false';
 		?>
 <script>
 jQuery(window).load(function() {
-	var theSlider = jQuery('.flexslider.<?php echo $clone_class;?>');
+	var theSlider = jQuery('<?php echo $this->prefix();?> .flexslider');
 	theSlider.flexslider({ 
 		controlsContainer: '.fs-nav-container',
 		animation: '<?php echo $animation;?>', 
@@ -59,7 +59,7 @@ jQuery(window).load(function() {
 	*/
    function section_template( $clone_id ) { 
 	
-	$control_nav = (!ploption('quick_nav', $this->oset) || ploption('quick_nav', $this->oset) == 'both' || ploption('quick_nav', $this->oset) == 'control_only') ? 'true' : 'false';
+	$control_nav = (!$this->opt('quick_nav', $this->oset) || $this->opt('quick_nav', $this->oset) == 'both' || $this->opt('quick_nav', $this->oset) == 'control_only') ? 'true' : 'false';
 	
 	$nav_class = ($control_nav) ? 'control-nav' : 'no-control-nav';
 	?>
@@ -70,18 +70,18 @@ jQuery(window).load(function() {
 			
 			<?php
 			
-			$slides = (ploption('quick_slides', $this->oset)) ? ploption('quick_slides', $this->oset) : $this->default_limit;
+			$slides = ($this->opt('quick_slides', $this->oset)) ? $this->opt('quick_slides', $this->oset) : $this->default_limit;
 			
 			$output = '';
 			for($i = 1; $i <= $slides; $i++){
 			
-				if(ploption('quick_image_'.$i, $this->oset)){
+				if($this->opt('quick_image_'.$i, $this->oset)){
 					
-					$the_text = ploption('quick_text_'.$i, $this->tset);
+					$the_text = $this->opt('quick_text_'.$i, $this->tset);
 
-					$img_alt = ploption('quick_img_alt_'.$i,$this->tset);
+					$img_alt = $this->opt('quick_img_alt_'.$i,$this->tset);
 					
-					$tlocation = ploption('quick_text_location_'.$i, $this->oset);
+					$tlocation = $this->opt('quick_text_location_'.$i, $this->oset);
 					
 					if($tlocation == 'right_top')
 						$caption_style = 'right:0; bottom: auto; top:0;';	
@@ -95,9 +95,9 @@ jQuery(window).load(function() {
 							
 					$text = ($the_text) ? sprintf('<p class="flex-caption" style="%s">%s</p>', $caption_style, $the_text) : '';
 					
-					$img = sprintf('<img src="%s" alt="%s"/>', ploption( 'quick_image_'.$i, $this->tset ),$img_alt );
+					$img = sprintf('<img src="%s" alt="%s"/>', $this->opt( 'quick_image_'.$i, $this->tset ),$img_alt );
 					
-					$slide = (ploption('quick_link_'.$i, $this->oset)) ? sprintf('<a href="%s">%s</a>', ploption('quick_link_'.$i, $this->oset), $img ) : $img;						
+					$slide = ($this->opt('quick_link_'.$i, $this->oset)) ? sprintf('<a href="%s">%s</a>', $this->opt('quick_link_'.$i, $this->oset), $img ) : $img;						
 					$output .= sprintf('<li>%s %s</li>',$slide, $text);
 				}
 			}
@@ -198,7 +198,7 @@ jQuery(window).load(function() {
 				'type' => $settings['type']
 			);
 			
-			$slides = (ploption('quick_slides', $oset)) ? ploption('quick_slides', $oset) : $this->default_limit;
+			$slides = ($this->opt('quick_slides', $oset)) ? $this->opt('quick_slides', $oset) : $this->default_limit;
 			
 			for($i = 1; $i <= $slides; $i++){
 				

@@ -342,9 +342,23 @@
 			} 
 			
 			// Select Options
-			else if ( o.type == 'select' ){
+			else if ( o.type == 'select' || o.type == 'count_select'){
 				
 				var select_opts = ''
+				
+				if(o.type == 'count_select'){
+					
+					var cnt_start = (o.count_start) ? o.count_start : 0
+					,	cnt_num = (o.count_number) ? o.count_number : 10
+					
+					console.log(o)
+					
+					o.opts = {}
+					for(i = cnt_start; i <= cnt_num; i++)
+						o.opts[i] = {name: i}
+					
+				
+				}
 				
 				if(o.opts){
 					

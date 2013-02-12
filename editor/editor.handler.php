@@ -286,6 +286,24 @@ class PageLinesTemplateHandler {
 				$o['opts'] = $this->opts_add_values( $o['opts'] );
 			} else {
 				
+				if($o['type'] == 'select_taxonomy'){
+					
+					$terms_array = get_terms( $o['taxonomy_id']); 
+					
+					if($o['taxonomy_id'] == 'category')
+						$o['opts'][ '' ] = array('name' => '*Show All*');
+
+					foreach($terms_array as $term){
+						if(is_object($term))
+							$o['opts'][ $term->slug ] = array('name' => $term->name);
+					}
+						
+					
+					$o['type'] = 'select'; 
+					
+				}
+				
+				// Add the value
 				$o['val'] = ( isset($this->optset->set[ $o['key'] ]) ) ? $this->optset->set[ $o['key'] ] : array();
 				
 			}
@@ -333,7 +351,10 @@ class PageLinesTemplateHandler {
 			'inputlabel'	=> '', 
 			'exp'			=> '', 
 			'shortexp'		=> '',
-			'selectvalues'	=> array()
+			'count_start'	=> 0,
+			'count_number'	=> '',
+			'selectvalues'	=> array(),
+			'taxonomy_id'	=> ''
 		);
 		
 		$old = wp_parse_args($old, $defaults);
@@ -346,13 +367,22 @@ class PageLinesTemplateHandler {
 			$type = $old['type'];
 		
 		$new = array(
-			'key'	=> $key, 
-			'title'	=> $old['title'],
-			'label'	=> $old['inputlabel'], 
-			'type'	=> $type, 
-			'help'	=> $exp, 
-			'opts'	=> $old['selectvalues']
+			'key'			=> $key, 
+			'title'			=> $old['title'],
+			'label'			=> $old['inputlabel'], 
+			'type'			=> $type, 
+			'help'			=> $exp, 
+			'opts'			=> $old['selectvalues']
 		); 
+		
+		if($old['type'] == 'count_select'){
+			$new['count_start'] = $old['count_start'];
+			$new['count_number'] = $old['count_number'];
+		}
+		
+		if($old['taxonomy_id'] != '')
+			$new['taxonomy_id'] = $old['taxonomy_id'];
+		
 		return $new;
 	}
 		

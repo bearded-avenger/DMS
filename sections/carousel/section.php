@@ -36,20 +36,20 @@ class PageLinesCarousel extends PageLinesSection {
 		*/
 		function section_head( $clone_id = null ) {   
 
-			$carousel_class = ( isset( $clone_id ) && $clone_id != 1 ) ? 'crsl' . $clone_id : 'crsl';
 
-			$num_items = ( ploption('carousel_display_items', $this->oset) ) ? ploption('carousel_display_items', $this->oset) : 9;
-			$scroll_items = ( ploption('carousel_scroll_items', $this->oset) ) ? ploption('carousel_scroll_items', $this->oset) : 6;
-			$anim_speed = ( ploption('carousel_animation_speed', $this->oset) ) ? ploption('carousel_animation_speed', $this->oset) : 800;
-			$callback = ( 0 != ploption('carousel_scroll_time', $this->oset) ) ? ',initCallback: mycarousel_initCallback' : '';			
-			$auto = ( 0 != ploption('carousel_scroll_time', $this->oset) ) ? round( ploption('carousel_scroll_time', $this->oset) ) / 1000 : 0;
+			$num_items = ( $this->opt('carousel_display_items', $this->oset) ) ? $this->opt('carousel_display_items', $this->oset) : 9;
+			$scroll_items = ( $this->opt('carousel_scroll_items', $this->oset) ) ? $this->opt('carousel_scroll_items', $this->oset) : 6;
+			$anim_speed = ( $this->opt('carousel_animation_speed', $this->oset) ) ? $this->opt('carousel_animation_speed', $this->oset) : 800;
+			$callback = ( 0 != $this->opt('carousel_scroll_time', $this->oset) ) ? ',initCallback: mycarousel_initCallback' : '';			
+			$auto = ( 0 != $this->opt('carousel_scroll_time', $this->oset) ) ? round( $this->opt('carousel_scroll_time', $this->oset) ) / 1000 : 0;
 			
 			
 			$carousel_args = sprintf('wrap: "circular", visible: %s, easing: "%s", scroll: %s, animation: %s, auto: %s %s', $num_items, 'swing', $scroll_items, $anim_speed, $auto, $callback);
 			?>
-	<script type="text/javascript">
+			
+	<script>
 	/* <![CDATA[ */
-	<?php if ( 0 != ploption('carousel_scroll_time', $this->oset) ) : ?>
+	<?php if ( 0 != $this->opt('carousel_scroll_time', $this->oset) ) : ?>
 
 	/**
 	*
@@ -75,17 +75,24 @@ class PageLinesCarousel extends PageLinesSection {
 	    });
 	};
 <?php endif; ?>
-		jQuery(document).ready(function () {
-			<?php printf('jQuery(".%s").show().jcarousel({%s});', $carousel_class, $carousel_args); ?>
-			jQuery(".jcarousel-prev, .jcarousel-next").disableTextSelect().hover(function(){ 
-				jQuery(this).fadeTo('fast', 1); },
-				function(){ jQuery(this).fadeTo('fast', 0.5);}
-			);
+jQuery(document).ready(function () {
+	jQuery( '<?php echo $this->prefix();?> .thecarousel').show()
+		.jcarousel({<?php echo $carousel_args;?> })
+	
+	jQuery(".jcarousel-prev, .jcarousel-next").disableTextSelect().hover(
+		function(){ 
+			jQuery(this).fadeTo('fast', 1)
+		}
+		, function(){ 
+			jQuery(this).fadeTo('fast', 0.5)
+		}
+	)
 			
 		
-		});
-	/* ]]> */
-	</script>
+});
+/* ]]> */
+</script>
+	
 	<?php }
 	
 
@@ -168,15 +175,15 @@ class PageLinesCarousel extends PageLinesSection {
 	
    function section_template( $clone_id ) { 
 		
-		$carousel_class = (isset($clone_id) && $clone_id != 1) ? 'crsl'.$clone_id : 'crsl';
+	
 	
 		// Set Up Variables
-		$carouselitems = (ploption('carousel_items', $this->oset)) ? ploption('carousel_items', $this->oset) : 30;
-		$carousel_post_id = (ploption('carousel_post_id', $this->oset)) ? ploption('carousel_post_id', $this->oset) : null;
-		$carousel_image_width = (ploption('carousel_image_width', $this->oset)) ? ploption('carousel_image_width', $this->oset) : 64;
-		$carousel_image_height = (ploption('carousel_image_height', $this->oset)) ? ploption('carousel_image_height', $this->oset) : 64;
-		$cmode = (ploption('carousel_mode', $this->oset)) ? ploption('carousel_mode', $this->oset): null;
-		$ngen_id = (ploption('carousel_ngen_gallery', $this->oset)) ? ploption('carousel_ngen_gallery', $this->oset) : 1;
+		$carouselitems = ($this->opt('carousel_items', $this->oset)) ? $this->opt('carousel_items', $this->oset) : 30;
+		$carousel_post_id = ($this->opt('carousel_post_id', $this->oset)) ? $this->opt('carousel_post_id', $this->oset) : null;
+		$carousel_image_width = ($this->opt('carousel_image_width', $this->oset)) ? $this->opt('carousel_image_width', $this->oset) : 64;
+		$carousel_image_height = ($this->opt('carousel_image_height', $this->oset)) ? $this->opt('carousel_image_height', $this->oset) : 64;
+		$cmode = ($this->opt('carousel_mode', $this->oset)) ? $this->opt('carousel_mode', $this->oset): null;
+		$ngen_id = ($this->opt('carousel_ngen_gallery', $this->oset)) ? $this->opt('carousel_ngen_gallery', $this->oset) : 1;
 		
 		
 	if( ($cmode == 'flickr' && !function_exists('get_flickrRSS')) || ($cmode == 'ngen_gallery' && !function_exists('nggDisplayRandomImages')) ){
@@ -185,7 +192,7 @@ class PageLinesCarousel extends PageLinesSection {
 	
 	} else {
 	?>		
-	<div class="<?php echo $carousel_class;?> thecarousel">
+	<div class="thecarousel">
 		<ul id="mycarousel" class="mycarousel">
 			<?php 
 			
