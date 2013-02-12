@@ -29,6 +29,8 @@
 			that.optConfig = $.pl.config.opts
 			that.data = $.pl.data
 			
+
+			
 			if(that.config.mode == 'section-options')
 				that.sectionOptionRender()
 			else if (that.config.mode == 'settings')
@@ -66,10 +68,18 @@
 			, 	clone_text = (that.config.clone != 0) ? sprintf('<i class="icon-copy"></i> Clone %s', that.config.clone) : sprintf('<i class="icon-file"></i> Original')
 			, 	clone_desc = sprintf(' <span class="clip-desc"> &rarr; %s</span>', clone_text)
 			
-			if( that.optConfig[sid] )
+			if( that.optConfig[sid] && !$.isEmptyObject( that.optConfig[sid].opts ) )
 				opt_array = that.optConfig[sid].opts
-			else 
-				return
+			else{
+				opt_array = [{
+					help: "There are no options for this section."
+					, key: "no-opts"
+					, label: "No Options"
+					, title: "No Options"
+					, type: "help"
+				
+				}]
+			} 
 				
 			$.each( cascade , function(index, o) {
 					
@@ -351,8 +361,6 @@
 					var cnt_start = (o.count_start) ? o.count_start : 0
 					,	cnt_num = (o.count_number) ? o.count_number : 10
 					
-					console.log(o)
-					
 					o.opts = {}
 					for(i = cnt_start; i <= cnt_num; i++)
 						o.opts[i] = {name: i}
@@ -396,8 +404,9 @@
 				oHTML += sprintf('<textarea class="type-preview" id="preview-%s" style="">The quick brown fox jumps over the lazy dog.</textarea>', o.key)
 			}
 		
+			else if( o.type == 'help' ){
 			
-			else {
+			} else {
 				oHTML += sprintf('<div class="needed">%s Type Still Needed</div>', o.type)
 			}
 			
