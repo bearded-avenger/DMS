@@ -44,10 +44,18 @@ class PageLinesCarousel extends PageLinesSection {
 			$auto = ( 0 != $this->opt('carousel_scroll_time', $this->oset) ) ? round( $this->opt('carousel_scroll_time', $this->oset) ) / 1000 : 0;
 			
 			
-			$carousel_args = sprintf('wrap: "circular", visible: %s, easing: "%s", scroll: %s, animation: %s, auto: %s %s', $num_items, 'swing', $scroll_items, $anim_speed, $auto, $callback);
+			$carousel_args = sprintf(
+				'wrap: "circular", visible: %s,  easing: "%s", scroll: %s, animation: %s, auto: %s, itemFallbackDimension: 64, %s', 
+				$num_items, 
+				'swing', 
+				$scroll_items, 
+				$anim_speed, 
+				$auto, 
+				$callback
+			);
 			?>
 			
-	<script>
+	<script >
 	/* <![CDATA[ */
 	<?php if ( 0 != $this->opt('carousel_scroll_time', $this->oset) ) : ?>
 
@@ -76,18 +84,10 @@ class PageLinesCarousel extends PageLinesSection {
 	};
 <?php endif; ?>
 jQuery(document).ready(function () {
-	jQuery( '<?php echo $this->prefix();?> .thecarousel').show()
-		.jcarousel({<?php echo $carousel_args;?> })
-	
-	jQuery(".jcarousel-prev, .jcarousel-next").disableTextSelect().hover(
-		function(){ 
-			jQuery(this).fadeTo('fast', 1)
-		}
-		, function(){ 
-			jQuery(this).fadeTo('fast', 0.5)
-		}
-	)
-			
+	 jQuery( '<?php echo $this->prefix();?> .thecarousel')
+	 		.show()
+	 		.jcarousel({<?php echo $carousel_args;?> })
+
 		
 });
 /* ]]> */
@@ -96,82 +96,7 @@ jQuery(document).ready(function () {
 	<?php }
 	
 
-	/**
-	*
-	* @TODO document
-	*
-	*/
-	function section_optionator( $settings ){
-		$settings = wp_parse_args($settings, $this->optionator_default);
-		
-			$metatab_array = array(
-					'carousel_numbers' => array(
-							'type' 		=> 'text_multi',
-							'inputsize'	=> 'small',
-							'selectvalues'=> array(
-								'carousel_items'			=> array('inputlabel'=>__( 'Total Carousel Items', 'pagelines' ) ),
-								'carousel_display_items'	=> array('inputlabel'=>__( 'Displayed Carousel Items', 'pagelines' ) , 'default' => 7),
-								'carousel_scroll_items'		=> array('inputlabel'=>__( 'Scrolled Carousel Items', 'pagelines' ) , 'default' => 4),
-								'carousel_animation_speed'	=> array('inputlabel'=>__( 'Transition Speed (milliseconds)', 'pagelines' ) , 'default' => 800),
-								'carousel_scroll_time'		=> array('inputlabel'=>__( 'Autoscroll Speed (milliseconds)', 'pagelines' ) , 'default' => 0),
-							),
-							'title' 	=> __( 'Carousel Display and Scroll', 'pagelines' ),
-							'shortexp' 	=> __( 'The total numbers for total, shown and scrolled images', 'pagelines' ),
-							'exp' 		=> __( 'Use this option to control the number of carousel items, the total shown, and the number scrolled at one time.', 'pagelines' )
-					),
-					'carousel_mode' => array(
-						'version' => 'pro',
-						'type' => 'select',
-						'default'	=> 'posts',
-						'selectvalues'=> array(
-							'posts' 		=> array( 'name' => __( 'Post Thumbnails (posts)', 'pagelines' ) ),							
-							'flickr'		=> array( 'name' => __( 'Flickr', 'pagelines' ) ),
-							'ngen_gallery' 	=> array( 'name' => __( 'NextGen Gallery', 'pagelines' ) ), 
-							'hook'			=> array( 'name' => __( 'Hook: pagelines_carousel_list', 'pagelines' ) )
-						),					
-						'title' 	=> __( 'Carousel Image/Link Mode (Carousel Page Template)', 'pagelines' ),
-						'shortexp' 	=> __( 'Select the mode that the carousel should use for its thumbnails.', 'pagelines' ),
-						'exp'		=> __( '<strong> Post Thumbnails (default)</strong> - Uses links and thumbnails from posts <br/><strong>Flickr</strong> - Uses thumbs from FlickrRSS plugin.<br/><strong>NextGen Gallery</strong> - Uses an image gallery from the NextGen Gallery Plugin', 'pagelines' )
-					),
-					'carousel_image_dimensions' => array(
-							'type' 		=> 'text_multi',
-							'inputsize'	=> 'small',
-							'selectvalues'=> array(
-								'carousel_image_width'		=> array('inputlabel'=>__( 'Max Image Width (in pixels)', 'pagelines' ), 'default'	=> 64),
-								'carousel_image_height'		=> array('inputlabel'=>__( 'Max Image Height (in pixels)', 'pagelines' ), 'default' => 64),
-							),
-							'title' 	=> __( 'Carousel Image Dimensions (Posts Mode Only)', 'pagelines' ),
-							'shortexp' 	=> __( 'Control the dimensions of the carousel images', 'pagelines' ),
-							'exp' 		=> __( 'Use this option to control the max height and width of the images in the carousel. You may have to use this option in conjunction with the scroll items option.<br/><br/> For the FlickrRSS and NextGen Gallery modes, image sizes are set by Flickr thumb sizes and the NextGen Gallery plugin respectively.', 'pagelines' )
-					),
-					'carousel_post_id' => array(
-						'default'		=> '', 
-						'type' 			=> 'select_taxonomy',
-						'taxonomy_id'	=> 'category',		
-						'title'			=> __( 'Posts Mode - Select Post Category', 'pagelines' ), 
-						'shortexp'		=> __( 'The category slug to pull posts from', 'pagelines' ),
-						'inputlabel' 	=> __( 'Select Category for Carousel', 'pagelines' ),
-						'exp' 			=> __( 'Posts Mode - Select the default category for carousel post images.  If not set, the carousel will get the most recent posts.', 'pagelines' )
-					),
-					'carousel_ngen_gallery' => array(
-						'version' => 'pro',
-						'type' => 'text',					
-						'title' => __( 'NextGen Gallery ID For Carousel (Carousel Page Template / NextGen Mode)', 'pagelines' ),
-						'shortexp' => __( 'Enter the ID of the NextGen Image gallery for the carousel.', 'pagelines' ), 
-						'exp'		=> __( '<strong>Note:</strong>The NextGen Gallery and carousel template must be selected.', 'pagelines' )
-					)					
-				);
-			
-			$metatab_settings = array(
-					'id' 		=> 'carousel_meta',
-					'name'	 	=> 'Carousel',
-					'icon' 		=> $this->icon,
-					'clone_id'	=> $settings['clone_id'], 
-					'active'	=> $settings['active']
-				);
-			
-			register_metatab($metatab_settings, $metatab_array);
-	}
+
 	
    function section_template( $clone_id ) { 
 		
@@ -192,8 +117,9 @@ jQuery(document).ready(function () {
 	
 	} else {
 	?>		
+
 	<div class="thecarousel">
-		<ul id="mycarousel" class="mycarousel">
+		<ul>
 			<?php 
 			
 			if(function_exists('nggDisplayRandomImages')  && $cmode == 'ngen_gallery'){
@@ -293,5 +219,83 @@ jQuery(document).ready(function () {
 		$out = sprintf('<li class="list-item fix">%s</li>', $link);
 		
 		return $out;
+	}
+	
+	/**
+	*
+	* @TODO document
+	*
+	*/
+	function section_optionator( $settings ){
+		$settings = wp_parse_args($settings, $this->optionator_default);
+		
+			$metatab_array = array(
+					'carousel_numbers' => array(
+							'type' 		=> 'text_multi',
+							'inputsize'	=> 'small',
+							'selectvalues'=> array(
+								'carousel_items'			=> array('inputlabel'=>__( 'Total Carousel Items', 'pagelines' ) ),
+								'carousel_display_items'	=> array('inputlabel'=>__( 'Displayed Carousel Items', 'pagelines' ) , 'default' => 7),
+								'carousel_scroll_items'		=> array('inputlabel'=>__( 'Scrolled Carousel Items', 'pagelines' ) , 'default' => 4),
+								'carousel_animation_speed'	=> array('inputlabel'=>__( 'Transition Speed (milliseconds)', 'pagelines' ) , 'default' => 800),
+								'carousel_scroll_time'		=> array('inputlabel'=>__( 'Autoscroll Speed (milliseconds)', 'pagelines' ) , 'default' => 0),
+							),
+							'title' 	=> __( 'Carousel Display and Scroll', 'pagelines' ),
+							'shortexp' 	=> __( 'The total numbers for total, shown and scrolled images', 'pagelines' ),
+							'exp' 		=> __( 'Use this option to control the number of carousel items, the total shown, and the number scrolled at one time.', 'pagelines' )
+					),
+					'carousel_mode' => array(
+						'version' => 'pro',
+						'type' => 'select',
+						'default'	=> 'posts',
+						'selectvalues'=> array(
+							'posts' 		=> array( 'name' => __( 'Post Thumbnails (posts)', 'pagelines' ) ),							
+							'flickr'		=> array( 'name' => __( 'Flickr', 'pagelines' ) ),
+							'ngen_gallery' 	=> array( 'name' => __( 'NextGen Gallery', 'pagelines' ) ), 
+							'hook'			=> array( 'name' => __( 'Hook: pagelines_carousel_list', 'pagelines' ) )
+						),					
+						'title' 	=> __( 'Carousel Image/Link Mode (Carousel Page Template)', 'pagelines' ),
+						'shortexp' 	=> __( 'Select the mode that the carousel should use for its thumbnails.', 'pagelines' ),
+						'exp'		=> __( '<strong> Post Thumbs (default)</strong> - Uses post links and thumbnails<br/><strong>Flickr</strong> - Uses thumbs from FlickrRSS plugin.<br/><strong>NextGen Gallery</strong> - Uses an image gallery from the NextGen Gallery Plugin', 'pagelines' )
+					),
+					'carousel_image_dimensions' => array(
+							'type' 		=> 'text_multi',
+							'inputsize'	=> 'small',
+							'selectvalues'=> array(
+								'carousel_image_width'		=> array('inputlabel'=>__( 'Max Image Width (in pixels)', 'pagelines' ), 'default'	=> 64),
+								'carousel_image_height'		=> array('inputlabel'=>__( 'Max Image Height (in pixels)', 'pagelines' ), 'default' => 64),
+							),
+							'title' 	=> __( 'Carousel Image Dimensions (Posts Mode Only)', 'pagelines' ),
+							'shortexp' 	=> __( 'Control the dimensions of the carousel images', 'pagelines' ),
+							'exp' 		=> __( 'Use this option to control the max height and width of the images in the carousel. You may have to use this option in conjunction with the scroll items option.<br/><br/> For the FlickrRSS and NextGen Gallery modes, image sizes are set by Flickr thumb sizes and the NextGen Gallery plugin respectively.', 'pagelines' )
+					),
+					'carousel_post_id' => array(
+						'default'		=> '', 
+						'type' 			=> 'select_taxonomy',
+						'taxonomy_id'	=> 'category',		
+						'title'			=> __( 'Posts Mode - Select Post Category', 'pagelines' ), 
+						'shortexp'		=> __( 'The category slug to pull posts from', 'pagelines' ),
+						'inputlabel' 	=> __( 'Select Category for Carousel', 'pagelines' ),
+						'exp' 			=> __( 'Posts Mode - Select the default category for carousel post images.  If not set, the carousel will get the most recent posts.', 'pagelines' )
+					),
+					'carousel_ngen_gallery' => array(
+						'version' 	=> 'pro',
+						'type' 		=> 'text',					
+						'title' 	=> __( 'NextGen Gallery ID (NextGen Mode Selected)', 'pagelines' ),
+						'label'		=> __( 'Add NextGen Gallery ID', 'pagelines' ),
+						'shortexp' 	=> __( 'Enter the ID of the NextGen Image gallery for the carousel.', 'pagelines' ), 
+						'exp'		=> __( '<strong>Note:</strong>The NextGen Gallery and carousel template must be selected.', 'pagelines' )
+					)					
+				);
+			
+			$metatab_settings = array(
+					'id' 		=> 'carousel_meta',
+					'name'	 	=> 'Carousel',
+					'icon' 		=> $this->icon,
+					'clone_id'	=> $settings['clone_id'], 
+					'active'	=> $settings['active']
+				);
+			
+			register_metatab($metatab_settings, $metatab_array);
 	}
 }
