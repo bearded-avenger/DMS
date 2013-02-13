@@ -300,12 +300,12 @@
 					$('.btn-saving').addClass('active')
 					
 					if( interrupt )
-						bootbox.dialog( $.pageTools.dialogText('Saving Template'), [], {animate: false})
+						bootbox.dialog( that.dialogText('Saving Template'), [], {animate: false})
 				}
 				, success: function( response ){
 					
 					if( interrupt ){
-						bootbox.dialog( $.pageTools.dialogText('Success! Reloading Page'), [], {animate: false})
+						bootbox.dialog( that.dialogText('Success! Reloading Page'), [], {animate: false})
 						location.reload()
 					}
 					
