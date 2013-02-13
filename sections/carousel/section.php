@@ -45,7 +45,7 @@ class PageLinesCarousel extends PageLinesSection {
 			
 			
 			$carousel_args = sprintf(
-				'wrap: "circular", visible: %s,  easing: "%s", scroll: %s, animation: %s, auto: %s, itemFallbackDimension: 64, %s', 
+				'wrap: "circular", visible: %s,  easing: "%s", scroll: %s, animation: %s, auto: %s, itemFallbackDimension: 64 %s', 
 				$num_items, 
 				'swing', 
 				$scroll_items, 
