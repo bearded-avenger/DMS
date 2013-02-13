@@ -273,6 +273,8 @@
 		, switchOnStop: function( element ){
 			element.addClass('pl-section')
 			
+			$.pageBuilder.handleCloneData( element )
+			
 			if(!element.hasClass('ui-draggable-dragging'))
 				element.show()
 			
@@ -344,6 +346,55 @@
 			
 		}
 		
+		, handleCloneData: function( cloned ){
+			
+			var config	= {
+					sid: cloned.data('sid')
+					, sobj: cloned.data('object')
+					, clone: cloned.data('clone')
+					, settingData: ($.pl.config.isSpecial) ? $.pl.data.type : $.pl.data.local
+				}
+			,	clonedSet = ($.pl.config.opts[config.sid] && $.pl.config.opts[config.sid].opts) || {}
+			, 	mode = ($.pl.config.isSpecial) ? 'type' : 'local'
+
+
+			var i = 0
+			while ( $( '.section-'+config.sid+'[data-clone="'+i+'"]' ).length != 0) {
+			    i++
+			}
+
+			cloned
+				.attr('data-clone', i)
+				.data('clone', i)
+
+			// add clone icon
+			cloned.first('.section-controls').find('.title-desc').html(sprintf(" <i class='icon-copy'></i> %s", i))
+
+			console.log(config.clone)
+			// set cloned item settings to new clone local settings
+			$.each(clonedSet, function(index, opt){
+				if( opt.type == 'multi'){
+					$.each( opt.opts, function(index2, opt2){
+
+						if( plisset( $.pl.data.local[opt2.key]) ){
+							$.pl.data.local[opt2.key][i] = $.pl.data.local[opt2.key][config.clone]
+						}
+
+					})
+				} else {
+
+					if( plisset($.pl.data.local[opt.key]) ){
+						$.pl.data.local[opt.key][i] = $.pl.data.local[opt.key][config.clone]
+					}
+
+				}
+			})
+
+			// save settings data
+			$.plAJAX.saveData( 'draft' )
+		
+		}
+		
 		, sectionControls: function() {
 			
 			$('.s-control').on('click.sectionControls', function(e){
@@ -386,48 +437,15 @@
 					
 				} else if (btn.hasClass('section-clone')){
 				
-					var cloned = section.clone( true )
-					,	clonedSet = $.pl.config.opts[config.sid].opts || {}
-					, 	mode = ($.pl.config.isSpecial) ? 'type' : 'local'
-				
-					
-					var i = 0
-					while ( jQuery( '.section-'+config.sid+'[data-clone="'+i+'"]' ).length != 0) {
-					    i++
-					}
+					var	cloned = section.clone( true )
 					
 					cloned
-						.attr('data-clone', i)
-						.data('clone', i)
 						.insertAfter(section)
 						.hide()
 						.fadeIn()
-
-					// add clone icon
-					cloned.first('.section-controls').find('.title-desc').html(sprintf(" <i class='icon-copy'></i> %s", i))
+						
+					$.pageBuilder.handleCloneData( cloned )
 					
-				
-					// set cloned item settings to new clone local settings
-						$.each(clonedSet, function(index, opt){
-							if( opt.type == 'multi'){
-								$.each( opt.opts, function(index2, opt2){
-								
-									if( plisset( $.pl.data.local[opt2.key]) ){
-										$.pl.data.local[opt2.key][i] = $.pl.data.local[opt2.key][config.clone]
-									}
-									
-								})
-							} else {
-								
-								if( plisset($.pl.data.local[opt.key]) ){
-									$.pl.data.local[opt.key][i] = $.pl.data.local[opt.key][config.clone]
-								}
-								
-							}
-						})
-					
-					// save settings data
-					$.plAJAX.saveData( 'draft' )
 					
 				} else if (btn.hasClass('column-popup')){
 					

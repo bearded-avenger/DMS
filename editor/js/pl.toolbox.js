@@ -23,6 +23,7 @@
 		
 		this.resizer = $('.resizer-handle')
 		this.closer = $('.btn-closer')
+		this.offBtn = $('.btn-pl-toggle')
 		this.handleHeight = 30
 
 		this.resizePanel()
@@ -73,8 +74,13 @@
 		this.resizer
 			.show()
 		
+		this.offBtn
+			.hide()
+		
 		this.closer
 			.fadeIn()
+			
+		
 			
 		return that // chaining
 	}
@@ -105,6 +111,9 @@
 		
 		this.closer
 			.hide()
+			
+		this.offBtn
+			.fadeIn()
 		
 		that.$pusher
 			.height(that.handleHeight)

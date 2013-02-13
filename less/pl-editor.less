@@ -174,12 +174,13 @@
 
 	}
 
+	.pl-sortable-area, 
+	.pl-sortable-column{
+		min-height: 25px;
+		.transition(.5s);
+	}
 	&.pl-dragging{
-		.pl-sortable-area, 
-		.pl-sortable-column{
-			min-height: 25px;
-			.transition(.5s);
-		}
+		
 		.pl-sortable-column{
 			padding-top: 0px;
 		}
@@ -288,13 +289,32 @@
 		border-top: 1px dashed #35eafd;
 
 		.pl-area-controls{
+			.transition(all 0.15s ease-in-out);
 			display: block;
 			z-index: 1000;
 			position: absolute; 
-			left: 7px; 
-			top: 4px;
+			left: 0; 
+			top: 0;
 			text-align: left;
 			width: 50px;
+			margin-left: -40px;
+			#gradient > .vertical(rgba(182, 242, 253, .4), rgba(125, 233, 253, .4));
+			&:hover{
+				margin-left: 0;
+			}
+			&::after{
+				content: '';
+				display: block;
+				width: 60px;
+				height: 110%;
+				position: absolute;
+				top: -5%;
+				right: -60px;
+				z-index: -100;
+			}
+			
+			line-height: 1em;
+			font-size: 9px;
 			.area-move-btn{
 				color: @editorText;
 				text-shadow: 0 1px 0 rgba(255,255,255,.4);
@@ -304,7 +324,7 @@
 				width: 12px;
 				height: 14px;
 				font-weight: bold;
-				#gradient > .vertical(rgba(182, 242, 253, .4), rgba(125, 233, 253, .4));
+				
 				
 				&:hover{
 					#gradient > .vertical(rgba(182, 242, 253, .7), rgba(125, 233, 253, .7));
@@ -431,7 +451,7 @@
 	font-size: 13px;
 	width: 100%;
 	z-index: 10000; 
-	min-width: 600px;
+	min-width: 750px;
 	.resizer-handle{
 		position: absolute; 
 		height: 4px; 
@@ -445,7 +465,7 @@
 	}
 	.toolbox-handle{
 		
-		@media (max-width: 1200px) {
+		@media (max-width: 1080px) {
 			 .btn-toolbox .txt{
 					display: none;
 			}
@@ -461,7 +481,7 @@
 		height: 28px;
 		line-height: 28px;
 		font-size: 13px;
-		padding: 0 1%; 
+		padding: 0 20px 0 24px; 
 		
 		.user-select(none);
 		i{
@@ -601,13 +621,14 @@
 
 						}
 					}
-					&.btn-closer{
+					&.btn-closer,
+					&.btn-pl-toggle{
 						color: #999; 
 						border-left: 1px solid transparent;
 						border-right: 1px solid transparent;
 						position: absolute; 
-						left: -27px;
-						padding: 0 2px;
+						left: -36px;
+						padding: 0 7px;
 						&:hover{
 							color:#08c;
 						}

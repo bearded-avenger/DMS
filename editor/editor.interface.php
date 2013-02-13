@@ -429,7 +429,11 @@ class EditorInterface {
 						
 						$li_classes = join(' ', $li_class);
 						  
-						$classes = ($tab['type'] == 'panel') ? 'btn-panel' : '';
+						$class = array();
+						$class[] = ($tab['type'] == 'panel') ? 'btn-panel' : '';
+						$class[] = 'btn-'.$key;
+						
+						$classes = join(' ', $class);
 						
 						$name = (isset($tab['name'])) ? sprintf('<span class="txt">%s</span>', $tab['name']) : '';
 						$icon = (isset($tab['icon'])) ? sprintf('<i class="uxi %s"></i> ', $tab['icon']) : '';
@@ -596,7 +600,7 @@ class EditorInterface {
 			
 			
 			$list .= sprintf(
-				"<section class='x-item %s %s %s' data-object='%s' data-sid='%s' data-name='%s' data-image='%s' data-template='%s'>
+				"<section class='x-item %s %s %s' data-object='%s' data-sid='%s' data-name='%s' data-image='%s' data-template='%s' data-clone='0'>
 					<div class='x-item-frame'>
 						<div class='pl-vignette'>
 							%s
@@ -809,8 +813,7 @@ class EditorInterface {
 		?>
 
 		<div class="pl-area-controls">
-			<a class="area-move-btn btn-area-up"><i class="icon-caret-up"></i></a>
-			<a class="area-move-btn btn-area-down"><i class="icon-caret-down"></i></a>
+			<a class="area-move-btn btn-area-up"><i class="icon-caret-up"></i></a><a class="area-move-btn btn-area-down"><i class="icon-caret-down"></i></a>
 		</div>
 		<?php
 		
