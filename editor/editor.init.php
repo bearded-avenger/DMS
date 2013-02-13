@@ -10,7 +10,7 @@
 // return;
 
 // Make sure user can handle this.
-if (!current_user_can('edit_themes') || !defined('PL_UX_DEV') || !PL_UX_DEV)
+if (!defined('PL_UX_DEV') || !PL_UX_DEV)
 	return;
 
 

@@ -217,7 +217,7 @@
 				var newY = e.pageY
 				,	newHeight = Math.max(0, startHeight + startY - newY)
 			
-				if(e.pageY > 30 && newHeight > 50){
+				if(e.pageY > 50 && newHeight > 50){
 					obj.setHeight(newHeight)
 				}
 			})
@@ -235,7 +235,7 @@
 		$(window).resize(function() {
 			var fromTop = $('.pl-toolbox').position().top
 			, 	startHeight = obj.$panel.outerHeight()
-			, 	minHeight = 40
+			, 	minHeight = 80
 			
 			if( fromTop < minHeight ){
 				var adjust = startHeight - (minHeight - fromTop)

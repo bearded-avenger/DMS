@@ -3,6 +3,18 @@
 
 define('PL_SETTINGS', 'pl-settings'); 
 
+function pl_setting( $key, $args = array() ){
+	global $plopts;
+	
+	if(!is_object($plopts)){
+		$plpg = new PageLinesPage;
+		$pldraft = new EditorDraft( $plpg );
+		$plopts = new PageLinesOpts( $plpg, $pldraft );
+	}
+		
+	return $plopts->get_setting( $key, $args ); 
+}
+
 /**
  * 
  *
@@ -167,11 +179,7 @@ class PageLinesOpts {
 
 }
 
-function pl_setting( $key, $scope = 'global' ){
-	global $plopts;
-	
-	return $plopts->get_setting( $key, $scope ); 
-}
+
 
 
 

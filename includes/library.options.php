@@ -40,7 +40,10 @@ function ploption( $key, $args = array() ){
 	if ( has_filter( "ploption_{$key}" ) )
 		return apply_filters( "ploption_{$key}", $key, $o );
 	
-	if(is_pagelines_special($o) && plspecial($key, $o))
+	if( class_exists('PageLinesTemplateHandler') && pl_setting($key, $o))
+		return pagelines_magic_parse( pl_setting($key, $o), $o );
+	
+	elseif(is_pagelines_special($o) && plspecial($key, $o))
 		return pagelines_magic_parse( plspecial($key, $o), $o );
 
 	elseif( isset( $o['post_id'] ) && plmeta( $key, $args ) )
