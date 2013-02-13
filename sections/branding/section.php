@@ -84,7 +84,7 @@ class PageLinesBranding extends PageLinesSection {
 			printf('<div class="branding_wrap fix">');
 			
 				pagelines_main_logo(); 
-			
+				
 				pagelines_register_hook( 'pagelines_before_branding_icons', 'branding' ); // Hook 
 					
 				printf('<div class="icons" style="bottom: %spx; right: %spx;">', intval(pagelines_option('icon_pos_bottom')), pagelines_option('icon_pos_right'));

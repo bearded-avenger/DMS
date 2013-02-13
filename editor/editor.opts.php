@@ -41,18 +41,33 @@ class PageLinesOpts {
 	
 	function page_settings(){
 		
-		$set = $this->parse_settings( $this->local, $this->parse_settings($this->type, $this->global));
-//		plprint($set);
+		$set = $this->parse_settings( $this->local, $this->parse_settings($this->type, $this->global), 'local-type');
+	//	plprint($this->global);
 		return $set;
 		
 		
 	}
 	
-	function parse_settings( $top, $bottom ){
+	function parse_settings( $top, $bottom, $mode = 'type-global' ){
 	
 		
-		$parsed_args = wp_parse_args($top, $bottom); // make sure all args are there.. 
-		
+		// Parse Args Deep
+		foreach($bottom as $key => $set){
+			
+			if( !isset($top[$key]) )
+				$top[$key] = $set;
+				
+			elseif(is_array($set)){
+				foreach($set as $clone => $value){
+					if( !isset($top[$key][$clone]) )
+						$top[$key][$clone] = $value;
+				}
+			}
+			
+		}
+	
+		$parsed_args = $top;
+	
 		foreach($parsed_args as $key => &$set){
 			
 			if( is_array($set) ){
@@ -68,15 +83,20 @@ class PageLinesOpts {
 						
 					// flipping checkboxes
 					if( isset($parsed_args[$flipkey]) && isset($parsed_args[$flipkey][$clone]) && isset($bottom[$key][$clone]) ){
+						
+						
 									
 						$flip_val = $parsed_args[$flipkey][$clone];
 						$bottom_val = $bottom[$key][$clone];
 
-						if( $flip_val && $bottom_val )
+						if( $flip_val && $bottom_val ){
 							$value = '';
+						}
+						
 					
 					}
 					
+						
 	
 				}
 			}
