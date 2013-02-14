@@ -115,18 +115,18 @@ class PageLinesCallout extends PageLinesSection {
 	*/
  	function section_template() {
 
-		$call_title = ploption( 'pagelines_callout_header', $this->tset );
-		$call_sub = ploption( 'pagelines_callout_subheader', $this->tset );
-		$call_img = ploption( 'pagelines_callout_image', $this->oset );
-		$call_link = ploption( 'pagelines_callout_button_link', $this->tset );
-		$call_btext = ploption( 'pagelines_callout_button_text', $this->tset );
-		$call_btheme = ploption( 'pagelines_callout_button_theme', $this->tset );
-		$target = ( ploption( 'pagelines_callout_button_target', $this->oset ) ) ? 'target="_blank"' : '';
-		$call_action_text = (ploption('pagelines_callout_action_text', $this->oset)) ? ploption('pagelines_callout_action_text', $this->oset) : __('Start Here', 'pagelines');
+		$call_title = $this->opt( 'pagelines_callout_header', $this->tset );
+		$call_sub = $this->opt( 'pagelines_callout_subheader', $this->tset );
+		$call_img = $this->opt( 'pagelines_callout_image', $this->oset );
+		$call_link = $this->opt( 'pagelines_callout_button_link', $this->tset );
+		$call_btext = $this->opt( 'pagelines_callout_button_text', $this->tset );
+		$call_btheme = $this->opt( 'pagelines_callout_button_theme', $this->tset );
+		$target = ( $this->opt( 'pagelines_callout_button_target', $this->oset ) ) ? 'target="_blank"' : '';
+		$call_action_text = ($this->opt('pagelines_callout_action_text', $this->oset)) ? $this->opt('pagelines_callout_action_text', $this->oset) : __('Start Here', 'pagelines');
 
 		$styling_class = ($call_sub) ? 'with-callsub' : '';
 		
-		$alignment = ploption('pagelines_callout_align', $this->oset);
+		$alignment = $this->opt('pagelines_callout_align', $this->oset);
 
 		$call_align = ($alignment == 'left') ? '' : 'rtimg';	
 
