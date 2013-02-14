@@ -18,52 +18,127 @@
  * @author PageLines
  */
 class PageLinesCarousel extends PageLinesSection {
-	
+
+	function section_opts() {
+		$opts = array(
+
+			array(
+				'title'			=> 'Carousel Settings',
+				'type'			=>	'multi',
+				'opts'			=> array(
+
+			array(
+				'key'			=> 'carousel_items',
+				'type'			=> 'text',
+				'label'			=> 'Total Carousel Items' ),
+
+			array(
+				'key'			=> 'carousel_display_items',
+				'type'			=> 'text',
+				'label'			=> 'Displayed Carousel Items',
+				'default'		=> 7 ),
+
+			array(
+				'key'			=> 'carousel_scroll_items',
+				'type'			=> 'text',
+				'label'			=> 'Scrolled Carousel Items',
+				'default'		=> 4 ),
+
+			array(
+				'key'			=> 'carousel_animation_speed',
+				'type'			=> 'text',
+				'label'			=> 'Transition Speed (milliseconds)',
+				'default'		=> 800 ),
+
+			array(
+				'key'			=> 'carousel_scroll_time',
+				'type'			=> 'text',
+				'label'			=> 'Autoscroll Speed (milliseconds)',
+				'default'		=> 0 )
+					)
+				),
+
+			array(
+				'title'			=> 'Carousel Options',
+				'type'			=> 'multi',
+				'opts'			=> array(
+
+			array(
+				'key'			=> 'carousel_mode',
+				'type'			=> 'select',
+				'title'			=> 'Carousel Image/Link Mode',
+				'opts'			=> array(
+
+				'posts'			=> array( 'name' => 'Post Thumbnails (posts)' ),
+				'flickr'		=> array( 'name' => 'Flickr' ),
+				'ngen_gallery'	=> array( 'name' => 'NextGen Gallery' ),
+				'hook'			=> array( 'name' => 'Hook: pagelines_carousel_list' )
+						)
+				),
+
+			array(
+				'key'			=> 'carousel_image_width',
+				'type'			=> 'text',
+				'label'			=> 'Max Image Width (in pixels)' ),
+
+			array(
+				'key'			=> 'carousel_image_height',
+				'type'			=> 'text',
+				'label'			=> 'Max Image Height (in pixels)' ),
+
+			array(
+				'key'			=> 'carousel_post_id',
+				'type'			=> 'select_taxonomy',
+				'label'			=> 'Posts Mode - Select Post Category',
+				'taxonomy_id'	=> 'category' ),
+
+			array(
+				'key'			=> 'carousel_ngen_gallery',
+				'type'			=> 'text',
+				'label'			=> 'NextGen Gallery ID (NextGen Mode Selected)' )
+				)
+			)
+		);
+		return $opts;
+	}
 
 	/**
 	* Load js
 	*/
-	function section_styles(){
-		wp_enqueue_script( 'jcarousel', $this->base_url.'/jcarousel.js', array( 'jquery'), null, true);
+	function section_styles() {
+		wp_enqueue_script( 'jcarousel', $this->base_url . '/jcarousel.js', array( 'jquery' ), null, true );
 	}
-	
-	
-
-		/**
-		*
-		* @TODO document
-		*
-		*/
-		function section_head( $clone_id = null ) {   
 
 
-			$num_items = ( $this->opt('carousel_display_items', $this->oset) ) ? $this->opt('carousel_display_items', $this->oset) : 9;
-			$scroll_items = ( $this->opt('carousel_scroll_items', $this->oset) ) ? $this->opt('carousel_scroll_items', $this->oset) : 6;
-			$anim_speed = ( $this->opt('carousel_animation_speed', $this->oset) ) ? $this->opt('carousel_animation_speed', $this->oset) : 800;
-			$callback = ( 0 != $this->opt('carousel_scroll_time', $this->oset) ) ? ',initCallback: mycarousel_initCallback' : '';			
-			$auto = ( 0 != $this->opt('carousel_scroll_time', $this->oset) ) ? round( $this->opt('carousel_scroll_time', $this->oset) ) / 1000 : 0;
-			
-			
-			$carousel_args = sprintf(
-				'wrap: "circular", visible: %s,  easing: "%s", scroll: %s, animation: %s, auto: %s, itemFallbackDimension: 64 %s', 
-				$num_items, 
-				'swing', 
-				$scroll_items, 
-				$anim_speed, 
-				$auto, 
-				$callback
-			);
-			?>
-			
-	<script >
-	/* <![CDATA[ */
-	<?php if ( 0 != $this->opt('carousel_scroll_time', $this->oset) ) : ?>
 
 	/**
 	*
 	* @TODO document
 	*
 	*/
+	function section_head( $clone_id = null ) {
+
+		$num_items		= ( $this->opt( 'carousel_display_items', $this->oset ) ) ? $this->opt( 'carousel_display_items', $this->oset ) : 9;
+		$scroll_items 	= ( $this->opt( 'carousel_scroll_items', $this->oset ) ) ? $this->opt( 'carousel_scroll_items', $this->oset ) : 6;
+		$anim_speed 	= ( $this->opt( 'carousel_animation_speed', $this->oset ) ) ? $this->opt( 'carousel_animation_speed', $this->oset ) : 800;
+		$callback 		= ( 0 != $this->opt( 'carousel_scroll_time', $this->oset ) ) ? ',initCallback: mycarousel_initCallback' : '';
+		$auto 			= ( 0 != $this->opt( 'carousel_scroll_time', $this->oset ) ) ? round( $this->opt( 'carousel_scroll_time', $this->oset ) ) / 1000 : 0;
+
+		$carousel_args 	= sprintf(
+			'wrap: "circular", visible: %s,  easing: "%s", scroll: %s, animation: %s, auto: %s, itemFallbackDimension: 64 %s',
+			$num_items,
+			'swing',
+			$scroll_items,
+			$anim_speed,
+			$auto,
+			$callback
+		);
+	?>
+
+	<script >
+	/* <![CDATA[ */
+	<?php if ( 0 != $this->opt('carousel_scroll_time', $this->oset) ) : ?>
+
 	function mycarousel_initCallback(carousel)
 	{
 	    // Disable autoscrolling if the user clicks the prev or next button.
@@ -88,103 +163,98 @@ jQuery(document).ready(function () {
 	 		.show()
 	 		.jcarousel({<?php echo $carousel_args;?> })
 
-		
+
 });
 /* ]]> */
 </script>
-	
-	<?php }
-	
+<?php
 
+	}
 
-	
-   function section_template( $clone_id ) { 
-		
-	
-	
+   function section_template( $clone_id ) {
+
 		// Set Up Variables
-		$carouselitems = ($this->opt('carousel_items', $this->oset)) ? $this->opt('carousel_items', $this->oset) : 30;
-		$carousel_post_id = ($this->opt('carousel_post_id', $this->oset)) ? $this->opt('carousel_post_id', $this->oset) : null;
-		$carousel_image_width = ($this->opt('carousel_image_width', $this->oset)) ? $this->opt('carousel_image_width', $this->oset) : 64;
-		$carousel_image_height = ($this->opt('carousel_image_height', $this->oset)) ? $this->opt('carousel_image_height', $this->oset) : 64;
-		$cmode = ($this->opt('carousel_mode', $this->oset)) ? $this->opt('carousel_mode', $this->oset): null;
-		$ngen_id = ($this->opt('carousel_ngen_gallery', $this->oset)) ? $this->opt('carousel_ngen_gallery', $this->oset) : 1;
-		
-		
-	if( ($cmode == 'flickr' && !function_exists('get_flickrRSS')) || ($cmode == 'ngen_gallery' && !function_exists('nggDisplayRandomImages')) ){
-	
-		echo setup_section_notify($this, __("The <strong>plugin</strong> for the selected carousel mode needs to be activated (FlickrRSS or NextGen Gallery).", 'pagelines'), admin_url().'plugins.php', 'Setup Plugin');
-	
-	} else {
-	?>		
+		$carouselitems 			= ( $this->opt('carousel_items', $this->oset) ) ? $this->opt( 'carousel_items', $this->oset ) : 30;
+		$carousel_post_id 		= ( $this->opt('carousel_post_id', $this->oset) ) ? $this->opt( 'carousel_post_id', $this->oset ) : null;
+		$carousel_image_width 	= ( $this->opt('carousel_image_width', $this->oset) ) ? $this->opt( 'carousel_image_width', $this->oset ) : 64;
+		$carousel_image_height 	= ( $this->opt('carousel_image_height', $this->oset) ) ? $this->opt( 'carousel_image_height', $this->oset ) : 64;
+		$cmode 					= ( $this->opt('carousel_mode', $this->oset) ) ? $this->opt( 'carousel_mode', $this->oset ) : null;
+		$ngen_id 				= ( $this->opt('carousel_ngen_gallery', $this->oset) ) ? $this->opt( 'carousel_ngen_gallery', $this->oset ) : 1;
+
+		if( ( $cmode == 'flickr' && ! function_exists( 'get_flickrRSS' ) ) || ( $cmode == 'ngen_gallery' && ! function_exists( 'nggDisplayRandomImages' ) ) ){
+
+			echo setup_section_notify( $this, __( "The <strong>plugin</strong> for the selected carousel mode needs to be activated (FlickrRSS or NextGen Gallery).", 'pagelines' ), admin_url() . 'plugins.php', 'Setup Plugin' );
+
+		} else {
+	?>
 
 	<div class="thecarousel">
 		<ul>
-			<?php 
-			
-			if(function_exists('nggDisplayRandomImages')  && $cmode == 'ngen_gallery'){
-		
-				echo do_shortcode('[nggallery id='.$ngen_id.' template=plcarousel]');
-				
-			}elseif(function_exists('get_flickrRSS') && $cmode == 'flickr'){
-			
-				if(!function_exists('get_and_delete_option')):  // fixes instantiation within the function in the plugin :/
+			<?php
+
+			if( function_exists( 'nggDisplayRandomImages' )  && $cmode == 'ngen_gallery' ) {
+
+				echo do_shortcode( '[nggallery id=' . $ngen_id . ' template=plcarousel]' );
+
+			} elseif( function_exists( 'get_flickrRSS' ) && $cmode == 'flickr' ) {
+
+				if( ! function_exists( 'get_and_delete_option' ) ) :  // fixes instantiation within the function in the plugin :/
 					get_flickrRSS( array(
-						'num_items' => $carouselitems, 
-						'html' => '<li><a href="%flickr_page%" title="%title%"><img src="%image_square%" alt="%title%"/><span class="list-title">%title%</span></a></li>'	
+						'num_items' => $carouselitems,
+						'html' => '<li><a href="%flickr_page%" title="%title%"><img src="%image_square%" alt="%title%"/><span class="list-title">%title%</span></a></li>'
 					));
 				endif;
-			
-			}elseif($cmode == 'hook')
-				pagelines_register_hook('pagelines_carousel_list');
-				
+
+			}elseif( $cmode == 'hook' )
+				pagelines_register_hook( 'pagelines_carousel_list' );
+
 			else{
-			
-				$carousel_post_query = 'numberposts='.$carouselitems;
-				
-				if($carousel_post_id) 
-					$carousel_post_query .= '&category_name='.$carousel_post_id;
-				
-				$recentposts = get_posts($carousel_post_query);
-				
-				foreach($recentposts as $cid => $c){
-				
+
+				$carousel_post_query = 'numberposts=' . $carouselitems;
+
+				if( $carousel_post_id )
+					$carousel_post_query .= '&category_name=' . $carousel_post_id;
+
+				$recentposts = get_posts( $carousel_post_query );
+
+				foreach( $recentposts as $cid => $c ) {
+
 					$a = array();
-				
-					if(has_post_thumbnail($c->ID)){
+
+					if( has_post_thumbnail( $c->ID ) ) {
 						$img_data = wp_get_attachment_image_src( get_post_thumbnail_id( $c->ID ));
-					
-						$a['img'] = ($img_data[0] != '') ? $img_data[0] : $this->base_url.'/post-blank.jpg';
-					
-						$a['width'] = $img_data[1];
-						$a['height'] = $img_data[2];
-						
+
+						$a['img'] = ( $img_data[0] != '' ) ? $img_data[0] : $this->base_url . '/post-blank.jpg';
+
+						$a['width'] 	= $img_data[1];
+						$a['height'] 	= $img_data[2];
+
 					} else {
-						$a['img'] = $this->base_url.'/post-blank.jpg';
-						$a['width'] = 100;
-						$a['height'] = 100;
+						$a['img'] 		= $this->base_url . '/post-blank.jpg';
+						$a['width'] 	= 100;
+						$a['height']	= 100;
 					}
-						
+
 					$args = array(
 						'title'			=> $c->post_title,
-						'link'			=> get_permalink($c->ID), 
-						'img'			=> $a['img'], 
+						'link'			=> get_permalink( $c->ID ),
+						'img'			=> $a['img'],
 						'maxheight'		=> $carousel_image_height,
-						'maxwidth'		=> $carousel_image_width, 
-						'height'		=> $a['height'], 
+						'maxwidth'		=> $carousel_image_width,
+						'height'		=> $a['height'],
 						'width'			=> $a['width']
 					);
-					
-					
-					
-					echo $this->carousel_item($args);
+
+
+
+					echo $this->carousel_item( $args );
 				}
-				
+
 			} ?>
 		</ul>
 	</div>
-		
-<?php  
+
+<?php
 
 		}
 	}
@@ -192,110 +262,32 @@ jQuery(document).ready(function () {
 
 	/**
 	*
-	* @TODO document
+	* Image markup.
 	*
 	*/
 	function carousel_item( $args ){
-		
+
 		$d = array(
-			'title'			=> '', 
-			'link'			=> '', 
-			'height'		=> '100', 
+			'title'			=> '',
+			'link'			=> '',
+			'height'		=> '100',
 			'width'			=> '100',
 			'maxheight'		=> '100',
 			'maxwidth'		=> '100',
-			'img'			=> '', 
+			'img'			=> '',
 			'class'			=> '',
 		);
-		
+
 		$a = wp_parse_args($args, $d);
-		
+
 		$img_style = sprintf('style="max-height: %spx; max-width: %spx;"', $a['maxheight'], $a['maxwidth']);
-		
+
 		$img = sprintf('<img src="%s" width="%s" height="%s" %s />', $a['img'], $a['width'], $a['height'], $img_style);
 
 		$link = sprintf('<a class="carousel_image_link" href="%s">%s<span class="list-title">%s</span></a>', $a['link'], $img, $a['title']);
-		
+
 		$out = sprintf('<li class="list-item fix">%s</li>', $link);
-		
+
 		return $out;
-	}
-	
-	/**
-	*
-	* @TODO document
-	*
-	*/
-	function section_optionator( $settings ){
-		$settings = wp_parse_args($settings, $this->optionator_default);
-		
-			$metatab_array = array(
-					'carousel_numbers' => array(
-							'type' 		=> 'text_multi',
-							'inputsize'	=> 'small',
-							'selectvalues'=> array(
-								'carousel_items'			=> array('inputlabel'=>__( 'Total Carousel Items', 'pagelines' ) ),
-								'carousel_display_items'	=> array('inputlabel'=>__( 'Displayed Carousel Items', 'pagelines' ) , 'default' => 7),
-								'carousel_scroll_items'		=> array('inputlabel'=>__( 'Scrolled Carousel Items', 'pagelines' ) , 'default' => 4),
-								'carousel_animation_speed'	=> array('inputlabel'=>__( 'Transition Speed (milliseconds)', 'pagelines' ) , 'default' => 800),
-								'carousel_scroll_time'		=> array('inputlabel'=>__( 'Autoscroll Speed (milliseconds)', 'pagelines' ) , 'default' => 0),
-							),
-							'title' 	=> __( 'Carousel Display and Scroll', 'pagelines' ),
-							'shortexp' 	=> __( 'The total numbers for total, shown and scrolled images', 'pagelines' ),
-							'exp' 		=> __( 'Use this option to control the number of carousel items, the total shown, and the number scrolled at one time.', 'pagelines' )
-					),
-					'carousel_mode' => array(
-						'version' => 'pro',
-						'type' => 'select',
-						'default'	=> 'posts',
-						'selectvalues'=> array(
-							'posts' 		=> array( 'name' => __( 'Post Thumbnails (posts)', 'pagelines' ) ),							
-							'flickr'		=> array( 'name' => __( 'Flickr', 'pagelines' ) ),
-							'ngen_gallery' 	=> array( 'name' => __( 'NextGen Gallery', 'pagelines' ) ), 
-							'hook'			=> array( 'name' => __( 'Hook: pagelines_carousel_list', 'pagelines' ) )
-						),					
-						'title' 	=> __( 'Carousel Image/Link Mode (Carousel Page Template)', 'pagelines' ),
-						'shortexp' 	=> __( 'Select the mode that the carousel should use for its thumbnails.', 'pagelines' ),
-						'exp'		=> __( '<strong> Post Thumbs (default)</strong> - Uses post links and thumbnails<br/><strong>Flickr</strong> - Uses thumbs from FlickrRSS plugin.<br/><strong>NextGen Gallery</strong> - Uses an image gallery from the NextGen Gallery Plugin', 'pagelines' )
-					),
-					'carousel_image_dimensions' => array(
-							'type' 		=> 'text_multi',
-							'inputsize'	=> 'small',
-							'selectvalues'=> array(
-								'carousel_image_width'		=> array('inputlabel'=>__( 'Max Image Width (in pixels)', 'pagelines' ), 'default'	=> 64),
-								'carousel_image_height'		=> array('inputlabel'=>__( 'Max Image Height (in pixels)', 'pagelines' ), 'default' => 64),
-							),
-							'title' 	=> __( 'Carousel Image Dimensions (Posts Mode Only)', 'pagelines' ),
-							'shortexp' 	=> __( 'Control the dimensions of the carousel images', 'pagelines' ),
-							'exp' 		=> __( 'Use this option to control the max height and width of the images in the carousel. You may have to use this option in conjunction with the scroll items option.<br/><br/> For the FlickrRSS and NextGen Gallery modes, image sizes are set by Flickr thumb sizes and the NextGen Gallery plugin respectively.', 'pagelines' )
-					),
-					'carousel_post_id' => array(
-						'default'		=> '', 
-						'type' 			=> 'select_taxonomy',
-						'taxonomy_id'	=> 'category',		
-						'title'			=> __( 'Posts Mode - Select Post Category', 'pagelines' ), 
-						'shortexp'		=> __( 'The category slug to pull posts from', 'pagelines' ),
-						'inputlabel' 	=> __( 'Select Category for Carousel', 'pagelines' ),
-						'exp' 			=> __( 'Posts Mode - Select the default category for carousel post images.  If not set, the carousel will get the most recent posts.', 'pagelines' )
-					),
-					'carousel_ngen_gallery' => array(
-						'version' 	=> 'pro',
-						'type' 		=> 'text',					
-						'title' 	=> __( 'NextGen Gallery ID (NextGen Mode Selected)', 'pagelines' ),
-						'label'		=> __( 'Add NextGen Gallery ID', 'pagelines' ),
-						'shortexp' 	=> __( 'Enter the ID of the NextGen Image gallery for the carousel.', 'pagelines' ), 
-						'exp'		=> __( '<strong>Note:</strong>The NextGen Gallery and carousel template must be selected.', 'pagelines' )
-					)					
-				);
-			
-			$metatab_settings = array(
-					'id' 		=> 'carousel_meta',
-					'name'	 	=> 'Carousel',
-					'icon' 		=> $this->icon,
-					'clone_id'	=> $settings['clone_id'], 
-					'active'	=> $settings['active']
-				);
-			
-			register_metatab($metatab_settings, $metatab_array);
 	}
 }
