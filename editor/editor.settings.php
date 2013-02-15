@@ -188,31 +188,103 @@ class EditorSettings {
 	function type(){
 		
 		$settings = array(
-			
 			array(
-				'key'		=> 'font_headers', 
-				'type' 		=> 'type',
-				'label' 	=> __( 'Text Header Font', 'pagelines' ),
-				'title' 	=> __( 'Text Header Font', 'pagelines' ),
-				
-			), 
-			array(
-				'key'		=> 'font_primary', 
-				'type' 		=> 'type',
-				'label' 	=> __( 'Primary Site Font', 'pagelines' ),
-				'title' 	=> __( 'Primary Site Font', 'pagelines' ),
+				'type' 	=> 	'multi',
+				'title' 		=> __( 'Header Element Typography', 'pagelines' ),						
+				'help' 		=> __( 'Configure the typography for the text headers across your site. The base font size is a reference for &lt;H6&gt; that all text headers will use as a basis.', 'pagelines' ),
+				'opts'	=> array(
+					array(
+						'key'			=> 'font_headers',
+						'type' 			=> 'type', 
+						'label' 		=> 'Header Font', 
+						'default'	=> 'helvetica'
+					), 
+					array(
+						'key'			=> 'font_headers_weight',
+						'type' 			=> 'select', 
+						'label'			=> 'Font Weight', 
+						'opts'			=> array(
+							'normal'	=> array('name' => 'Normal'),
+							'bold'		=> array('name' => 'Bold (not supported for all fonts)')
+						),
+						'default' 		=> 'bold'
+					),
+					array(
+						'key'			=> 'font_headers_size',
+						'type' 			=> 'count_select', 
+						'label'			=> 'Header Base Size', 
+						'count_start'	=> 10, 
+						'count_number'	=> 30,
+						'default' 		=> 14
+					)
+				),
 				
 			),
 			array(
-				'key'		=> 'font_secondary', 
-				'type' 		=> 'type',
-				'label' 	=> __( 'Secondary Site Font', 'pagelines' ),
-				'title' 	=> __( 'Secondary Site Font', 'pagelines' ),
+				'type' 	=> 	'multi',
+				'title' 		=> __( 'Primary Text Typography', 'pagelines' ),						
+				'help' 		=> __( 'Configure the typography for the text headers across your site. The base font size is a reference that will be scaled and used throughout the site.', 'pagelines' ),
+				'opts'	=> array(
+					array(
+						'key'			=> 'font_primary',
+						'type' 			=> 'type', 
+						'label' 		=> 'Header Font', 
+						'default'	=> 'helvetica'
+					), 
+					array(
+						'key'			=> 'font_primary_weight',
+						'type' 			=> 'select', 
+						'label'			=> 'Font Weight', 
+						'opts'			=> array(
+							'normal'	=> array('name' => 'Normal'),
+							'bold'		=> array('name' => 'Bold (not supported for all fonts)')
+						),
+						'default' 		=> 'bold'
+					),
+					array(
+						'key'			=> 'font_primary_size',
+						'type' 			=> 'count_select', 
+						'label'			=> 'Header Base Size', 
+						'count_start'	=> 10, 
+						'count_number'	=> 30,
+						'default' 		=> 14
+					)
+				),
 				
-			)
+			),
+			array(
+				'type' 	=> 	'multi',
+				'title' 		=> __( 'Primary Text Typography', 'pagelines' ),						
+				'help' 		=> __( 'Configure the typography for secondary text throughout your site. This font may be used in sub headers, or other various elements to add contrast.', 'pagelines' ),
+				'opts'	=> array(
+					array(
+						'key'			=> 'font_secondary',
+						'type' 			=> 'type', 
+						'label' 		=> 'Header Font', 
+						'default'	=> 'helvetica'
+					), 
+					array(
+						'key'			=> 'font_secondary_weight',
+						'type' 			=> 'select', 
+						'label'			=> 'Font Weight', 
+						'opts'			=> array(
+							'normal'	=> array('name' => 'Normal'),
+							'bold'		=> array('name' => 'Bold (not supported for all fonts)')
+						),
+						'default' 		=> 'bold'
+					),
+					array(
+						'key'			=> 'font_secondary_size',
+						'type' 			=> 'count_select', 
+						'label'			=> 'Header Base Size', 
+						'count_start'	=> 10, 
+						'count_number'	=> 30,
+						'default' 		=> 14
+					)
+				),
+				
+			),
 			
-
-
 		);
 	
 			

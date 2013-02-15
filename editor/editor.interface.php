@@ -431,7 +431,7 @@ class EditorInterface {
 							$menu = '';
 
 							foreach($tab['panel'] as $key => $i){
-								$menu .= sprintf('<li><a href="">%s</a></li>', $i['name']);
+								$menu .= sprintf('<li><a class="btn-action" data-action="%s">%s</a></li>', $key, $i['name']);
 							}
 							$content = sprintf('<ul class="dropdown-menu">%s</ul>', $menu);
 						}

@@ -50,19 +50,26 @@
 				
 			})
 			
+			$(".btn-action").on("click.actionButton", function(e) {
+				
+				e.preventDefault()
+				
+				var btn = $(this)
+				, 	btnAction = btn.data('action')
+				
+				that.handleActions(btnAction)
+				
+				
+			})
+			
 		
         }
 
-		, dialogText: function( text ){
+		, handleActions: function( key ){
 			
-			var bar = '<div class="progress progress-striped active"><div class="bar" style="width: 100%"></div></div>'
-			,	icon = '<i class="icon-spin icon-refresh spin-fast"></i>'
-			, 	theHTML = sprintf('<div class="spn"><div class="spn-txt">%s %s</div></div>',bar, text)
-		
-			return theHTML
-				
-
 			
+			if( key == 'reset_global' || key == 'reset_local')
+				$.plAJAX.resetOptions( key )
 		}
 		
 		, showPanel: function( key ){
