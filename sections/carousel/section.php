@@ -12,7 +12,7 @@
 */
 
 /**
- * Carousel Section
+ * Carousel Section 
  *
  * @package PageLines Framework
  * @author PageLines
@@ -24,7 +24,7 @@ class PageLinesCarousel extends PageLinesSection {
 
 			array(
 				'title'			=> 'Carousel Settings',
-				'type'			=>	'multi',
+				'type'			=> 'multi',
 				'opts'			=> array(
 
 			array(
