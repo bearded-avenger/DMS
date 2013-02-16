@@ -19,41 +19,61 @@ class EditorSettings {
 		$this->settings['basic_settings'] = array(
 			'name' 	=> 'Site Images', 
 			'icon'	=> 'icon-picture',
+			'pos'	=> 1,
 			'opts' 	=> $this->basic()
 		);
 		
 		$this->settings['layout'] = array(
 			'name' 	=> 'Layout Handling', 
 			'icon' 	=> 'icon-fullscreen', 
+			'pos'	=> 2,
 			'opts' 	=> $this->layout()
 		);
 		$this->settings['color_control'] = array(
 			'name' 	=> 'Color Control', 
 			'icon'	=> 'icon-tint',
+			'pos'	=> 3,
 			'opts' 	=> $this->color()
 		);
 		
-		$this->settings['typography'] = array(
-			'name' 	=> 'Typography', 
-			'icon'	=> 'icon-font',
-			'opts' 	=> $this->type()
-		);
+	
 		
 		$this->settings['social_media'] = array(
 			'name' 	=> 'Social Media', 
 			'icon'	=> 'icon-comments',
+			'pos'	=> 5,
 			'opts' 	=> $this->social()
 		);	
 		
 		$this->settings['advanced'] = array(
 			'name' 	=> 'Advanced', 
 			'icon'	=> 'icon-wrench',
+			'pos'	=> 50,
 			'opts' 	=> $this->advanced()
 		);
 	}
 	
 	function get_set( $panel = 'site' ){
-		return $this->settings;
+		
+		$settings =  apply_filters('pl_settings_array', $this->settings);
+		
+		$default = array(
+			'icon'	=> 'icon-edit',
+			'pos'	=> 100
+		);
+		
+		foreach($settings as $key => &$info){
+			$info = wp_parse_args( $info, $default ); 
+		}
+		unset($info);
+				
+		usort($settings, array(&$this, "cmp_by_position") );
+
+		return $settings;
+	}
+	
+	function cmp_by_position($a, $b) {
+	  return $a["pos"] - $b["pos"];
 	}
 	
 	function basic(){
@@ -185,112 +205,7 @@ class EditorSettings {
 		
 	}
 	
-	function type(){
-		
-		$settings = array(
-			array(
-				'type' 	=> 	'multi',
-				'title' 		=> __( 'Header Element Typography', 'pagelines' ),						
-				'help' 		=> __( 'Configure the typography for the text headers across your site. The base font size is a reference for &lt;H6&gt; that all text headers will use as a basis.', 'pagelines' ),
-				'opts'	=> array(
-					array(
-						'key'			=> 'font_headers',
-						'type' 			=> 'type', 
-						'label' 		=> 'Header Font', 
-						'default'	=> 'helvetica'
-					), 
-					array(
-						'key'			=> 'font_headers_weight',
-						'type' 			=> 'select', 
-						'label'			=> 'Font Weight', 
-						'opts'			=> array(
-							'normal'	=> array('name' => 'Normal'),
-							'bold'		=> array('name' => 'Bold (not supported for all fonts)')
-						),
-						'default' 		=> 'bold'
-					),
-					array(
-						'key'			=> 'font_headers_size',
-						'type' 			=> 'count_select', 
-						'label'			=> 'Header Base Size', 
-						'count_start'	=> 10, 
-						'count_number'	=> 30,
-						'default' 		=> 14
-					)
-				),
-				
-			),
-			array(
-				'type' 	=> 	'multi',
-				'title' 		=> __( 'Primary Text Typography', 'pagelines' ),						
-				'help' 		=> __( 'Configure the typography for the text headers across your site. The base font size is a reference that will be scaled and used throughout the site.', 'pagelines' ),
-				'opts'	=> array(
-					array(
-						'key'			=> 'font_primary',
-						'type' 			=> 'type', 
-						'label' 		=> 'Header Font', 
-						'default'	=> 'helvetica'
-					), 
-					array(
-						'key'			=> 'font_primary_weight',
-						'type' 			=> 'select', 
-						'label'			=> 'Font Weight', 
-						'opts'			=> array(
-							'normal'	=> array('name' => 'Normal'),
-							'bold'		=> array('name' => 'Bold (not supported for all fonts)')
-						),
-						'default' 		=> 'bold'
-					),
-					array(
-						'key'			=> 'font_primary_size',
-						'type' 			=> 'count_select', 
-						'label'			=> 'Header Base Size', 
-						'count_start'	=> 10, 
-						'count_number'	=> 30,
-						'default' 		=> 14
-					)
-				),
-				
-			),
-			array(
-				'type' 	=> 	'multi',
-				'title' 		=> __( 'Primary Text Typography', 'pagelines' ),						
-				'help' 		=> __( 'Configure the typography for secondary text throughout your site. This font may be used in sub headers, or other various elements to add contrast.', 'pagelines' ),
-				'opts'	=> array(
-					array(
-						'key'			=> 'font_secondary',
-						'type' 			=> 'type', 
-						'label' 		=> 'Header Font', 
-						'default'	=> 'helvetica'
-					), 
-					array(
-						'key'			=> 'font_secondary_weight',
-						'type' 			=> 'select', 
-						'label'			=> 'Font Weight', 
-						'opts'			=> array(
-							'normal'	=> array('name' => 'Normal'),
-							'bold'		=> array('name' => 'Bold (not supported for all fonts)')
-						),
-						'default' 		=> 'bold'
-					),
-					array(
-						'key'			=> 'font_secondary_size',
-						'type' 			=> 'count_select', 
-						'label'			=> 'Header Base Size', 
-						'count_start'	=> 10, 
-						'count_number'	=> 30,
-						'default' 		=> 14
-					)
-				),
-				
-			),
-			
-		);
 	
-			
-		return $settings;
-		
-	}
 	
 	function color(){
 		
@@ -381,3 +296,12 @@ class EditorSettings {
 	}
 
 }
+
+function pl_add_settings_panel( $args ){
+	
+}
+
+
+
+
+

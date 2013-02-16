@@ -41,6 +41,11 @@
 	display: none;
 }
 
+.btn-region
+, .pl-section-controls{
+	font-family: @defaultFont;
+}
+
 .drag-drop-editing{
 	
 	.pl-section{
@@ -112,6 +117,7 @@
 			color: #fff;
 			font-weight: bold;
 			font-size: 10px;
+			line-height: 21px;
 			.box-sizing(border-box);
 			&:hover{
 				cursor: move;
@@ -449,9 +455,13 @@
 	color: #000;
 	background: #fff;
 	font-size: 13px;
+	line-height: 21px;
 	width: 100%;
 	z-index: 10000; 
 	min-width: 750px;
+	font-family: @defaultFont;
+	font-weight: normal;
+	select, textarea, input{font-size: 14px;}
 	.resizer-handle{
 		position: absolute; 
 		height: 4px; 

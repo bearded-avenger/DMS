@@ -142,7 +142,9 @@ class PageLinesOpts {
 	
 	function get_setting( $key, $args = array() ){
 		
-		return ( isset( $this->global[ $key ][0] ) ) ? $this->global[ $key ][0] : false; 
+		$not_set = (isset($args['default'])) ? $args['default'] : false;
+		
+		return ( isset( $this->global[ $key ][0] ) ) ? $this->global[ $key ][0] : $not_set; 
 			
 	}
 	

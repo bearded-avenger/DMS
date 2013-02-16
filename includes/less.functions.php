@@ -75,20 +75,34 @@ class PageLinesLess {
     public function type_vars( ){
 		
 		global $disabled_settings;
-		$alt = false;
-		if ( is_array( $disabled_settings ) )
-			if( !empty( $disabled_settings['typography'] ) )
-				$alt = true;
+
+		$alt = ( is_array( $disabled_settings ) && !empty( $disabled_settings['typography'] ) ) ? true : false;
+		
+		$default_font = '"Helvetica", Arial, serif';
+		
+		$vars = array(); 
+		
+		if(pl_has_editor() )
+			$vars['plBaseFont'] = array(); 
+		
 		
 		$vars = array(
-			'plBaseFont'		=> ($alt) ? '"Helvetica" Arial, serif' : pl_type_el('type_primary', 'stack'), 
+			'plBaseFont'		=> pl_type_el('type_primary', 'stack'), 
 			'plBaseWeight'		=> pl_type_el('type_primary', 'weight'), 
-			'plAltFont'			=> ($alt) ? '"Helvetica" Arial, serif' : pl_type_el('type_secondary', 'stack'), 
+			'plAltFont'			=> pl_type_el('type_secondary', 'stack'), 
 			'plAltWeight'		=> pl_type_el('type_secondary', 'weight'), 
-			'plHeaderFont'		=> ($alt) ? '"Helvetica" Arial, serif' : pl_type_el('type_headers', 'stack'), 
+			'plHeaderFont'		=> pl_type_el('type_headers', 'stack'), 
 			'plHeaderWeight'	=> pl_type_el('type_headers', 'weight'),
 		);
+		
+		if($alt){
+			$vars['plBaseFont']  = $default_font;
+			$vars['plAltFont']  = $default_font;
+			$vars['plHeaderFont']  = $default_font;
+		}
+		
 		return $vars;
+		
 	}
 	
 	public function raw_less( $lesscode, $type = 'core' ) {		

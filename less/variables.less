@@ -32,8 +32,10 @@
 
 // Typography
 // -------------------------
-@baseFontSize:          14px;
-@baseLineHeight:        21px;
+@baseFontSize:          @plFontSize;
+@baseLineHeight:        @plFontSize * 1.5;
+
+@defaultFont:        	"Helvetica Neue", "Helvetica", Arial, serif;
 
 @baseFontFamily:        @plBaseFont;
 @baseFontWeight:        @plBaseWeight;
@@ -65,7 +67,7 @@
 // Buttons
 // -------------------------
 @buttonFontSize:        14px;
-@buttonFontFamily:      "Helvetica", Arial, serif;
+@buttonFontFamily:      @defaultFont;
 
 @headingsColor:         inherit; // empty to use BS default, @textColor
 

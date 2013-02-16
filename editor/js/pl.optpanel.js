@@ -265,6 +265,8 @@
 			var that = this
 			, 	oHTML = ''
 			, 	scope = (that.config.mode == 'settings') ? 'global' : tabIndex
+			
+			o.classes = o.classes || ''
 
 			o.label = o.label || o.title
 			o.value =  that.optValue( tabIndex, o.key ) 
@@ -313,14 +315,14 @@
 			else if( o.type == 'text' ){
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<input id="%1$s" name="%2$s" type="text" class="lstn" placeholder="" value="%3$s" />', o.key, o.name, o.value )
+				oHTML += sprintf('<input id="%1$s" name="%2$s" type="text" class="%4$s lstn" placeholder="" value="%3$s" />', o.key, o.name, o.value, o.classes)
 				
 			} 
 			
 			else if( o.type == 'textarea' ){
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<textarea id="%s" name="%s" class="lstn" >%s</textarea>', o.key, o.name, o.value )
+				oHTML += sprintf('<textarea id="%s" name="%s" class="%s lstn" >%s</textarea>', o.key, o.name, o.classes, o.value )
 				
 			}
 			
@@ -352,33 +354,38 @@
 			} 
 			
 			// Select Options
-			else if ( o.type == 'select' || o.type == 'count_select'){
+			else if ( o.type == 'select' || o.type == 'count_select' || o.type == 'select_same'){
 				
-				var select_opts = ''
+				var select_opts = '<option value="" >&mdash; Select &mdash;</option>'
 				
 				if(o.type == 'count_select'){
 					
 					var cnt_start = (o.count_start) ? o.count_start : 0
 					,	cnt_num = (o.count_number) ? o.count_number : 10
+					,	suffix = (o.suffix) ? o.suffix : ''
 					
 					o.opts = {}
 					for(i = cnt_start; i <= cnt_num; i++)
-						o.opts[i] = {name: i}
+						o.opts[i] = {name: i+suffix}
 					
 				
-				}
+				} 
 				
 				if(o.opts){
 					
 					$.each(o.opts, function(key, s){
-						var selected = (o.value == key) ? 'selected' : ''
-						select_opts += sprintf('<option value="%s" %s >%s</option>', key, selected, s.name)
+						
+						var optValue = (o.type == 'select_same') ? s : key
+						,	optName = (o.type == 'select_same') ? s : s.name
+						,	selected = (o.value == optValue) ? 'selected' : ''
+						
+						select_opts += sprintf('<option value="%s" %s >%s</option>', optValue, selected, optName)
 						
 					})
 				}
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<select id="%s" name="%s" class="lstn">%s</select>', o.key, o.name, select_opts)
+				oHTML += sprintf('<select id="%s" name="%s" class="%s lstn">%s</select>', o.key, o.name, o.classes, select_opts)
 				
 			}
 			
@@ -442,21 +449,25 @@
 			})
 			
 			// Font previewing
-			$('.font-selector').on('change', function(){
+			$('.font-selector, .font-weight').on('change', function(){
 
-				that.loadFontPreview( $(this) )
+				var selector = $(this).closest('.opt').find('.font-selector')
+				that.loadFontPreview( selector )
 				
 			})
 		
 		}
 		
 		, loadFontPreview: function( selector ) {
+			
 			var	key = selector.attr('id')
 			,	selectOpt = selector.find('option:selected')
 			, 	fam = selectOpt.data('family')
 			, 	uri	= selectOpt.data('gfont')
 			, 	ggl	= (uri != '') ? true : false
 			, 	loader = 'loader'+key
+			, 	weight = selector.closest('.opt').find('.font-weight').val()
+			, 	weight = (weight) ? weight : 'normal'
 		
 			if(ggl){
 				if( $('#'+loader).length != 0 )
@@ -471,6 +482,7 @@
 				.next()
 				.next()
 				.css('font-family', fam)
+				.css('font-weight', weight)
 		}
 		
 		, scriptEngine: function( tabIndex, o ) {
@@ -510,7 +522,7 @@
 			else if(  o.type == 'type' ||  o.type == 'fonts' ){
 				
 			
-				that.loadFontPreview( $( sprintf('.opt-%s .font-selector', o.key) ) )
+				that.loadFontPreview( $( sprintf('#%s.font-selector', o.key) ) )
 				
 			}
 			

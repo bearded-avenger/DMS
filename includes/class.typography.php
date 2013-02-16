@@ -7,7 +7,7 @@
  */
 class PageLinesFoundry {
 	
-	var $gfont_base_uri = 'fonts.googleapis.com/css?v2&family=';
+	var $gfont_base_uri = 'http://fonts.googleapis.com/css?family=';
 	var $foundry;
 	
 	/**
@@ -486,18 +486,45 @@ class PageLinesFoundry {
 		return apply_filters('pagelines_foundry', $thefoundry);
 	}
 	
+	function needs_import( $font_id ){
+		return ( isset($this->foundry[$font_id]) && $this->foundry[$font_id]['google'] ) ? true : false;
+	}
+	
 	/**
 	 * Creates the import URL for google fonts
 	 *
 	 */
-	function google_import($gfonts) {
+	function google_import( $gfonts ) {
 		
-		foreach(array_unique($gfonts) as $id)
-			$family[] = urlencode($this->foundry[$id]['name']) . (is_array($this->foundry[$id]['google']) ? ':' . implode(',', $this->foundry[$id]['google']) : '');
+		if( is_array($gfonts) && !empty($gfonts) ){
+			
+			foreach( array_unique($gfonts) as $id ){
+
+				if( $this->foundry[$id]['google'] ){
+					
+					$faces = ( is_array($this->foundry[$id]['google']) ) ? sprintf( ':%s', implode(',', $this->foundry[$id]['google']) ) : ''; 
+					
+					$family[] = urlencode( $this->foundry[$id]['name'] ) . $faces;
+				}
+
+
+			}
+		}
+		
+			
+		if(is_array($family) && !empty($family)){
+			
 			$this->gfont_key = implode('|', $family);
+
 			$this->gfont_uri = $this->gfont_base_uri . $this->gfont_key;
+
 			$this->gfont_import = sprintf('@import url(%s);%s', $this->gfont_uri, "\n");
-		return $this->gfont_import;
+
+			return $this->gfont_import;
+			
+		} else
+			return false;
+		
 	}
 	
 
@@ -722,12 +749,14 @@ function load_custom_font($font, $selectors){
 		
 		$foundry = new PageLinesFoundry;
 		
-		if ( ! isset($foundry->foundry[$font]) )
+		if ( !isset($foundry->foundry[$font]) )
 			return '';
 		
 		$rule = sprintf('%s{font-family: %s;}', $selectors, $foundry->foundry[$font]['family']);
 		
-		return sprintf('<style type="text/css">%s%s</style>', $foundry->get_the_import($font), $rule);
+		$import = ($foundry->foundry[$font]['google']) ? $foundry->get_the_import($font) : '';
+		
+		return sprintf('<style type="text/css">%s%s</style>', $import, $rule);
 		
 	}else 
 		return '';
