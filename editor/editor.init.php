@@ -51,6 +51,7 @@ class PageLinesEditor {
 		
 		require_once( PL_EDITOR . '/editor.settings.php' );
 		require_once( PL_EDITOR . '/editor.typography.php' );
+		require_once( PL_EDITOR . '/editor.color.php' );
 			
 		require_once( PL_EDITOR . '/editor.interface.php' );
 		require_once( PL_EDITOR . '/editor.page.php' );
@@ -75,6 +76,7 @@ class PageLinesEditor {
 		$this->siteset = new EditorSettings;
 		$this->foundry = new PageLinesFoundry;
 		$this->typography = new EditorTypography( $this->foundry );
+		$this->color = new EditorColor;
 		
 		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates, $this->map );
 		

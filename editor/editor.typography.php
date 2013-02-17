@@ -10,12 +10,12 @@ class EditorTypography{
 		
 		$this->foundry = $foundry;
 		
- 		add_filter('pl_settings_array', array(&$this, 'add_type_settings'));
-		add_filter('pless_vars', array(&$this, 'global_type_vars'));
+ 		add_filter('pl_settings_array', array(&$this, 'add_settings'));
+		add_filter('pless_vars', array(&$this, 'add_less_vars'));
 		add_action('wp_head', array(&$this, 'add_google_imports'));
 	}
 	
-	function global_type_vars( $vars ){
+	function add_less_vars( $vars ){
 		
 		$vars['plFontSize'] = sprintf( '%spx', pl_setting('base_font_size', array('default' => '14')) ); 
 	
@@ -44,19 +44,19 @@ class EditorTypography{
 		printf('<style id="master_font_import" type="text/css">%2$s%1$s</style>%2$s', $import, "\n");
 	}
 	
-	function add_type_settings( $settings ){
+	function add_settings( $settings ){
 		
 		$settings['typography'] = array(
 				'name' 	=> 'Typography', 
 				'icon'	=> 'icon-font',
 				'pos'	=> 3,
-				'opts' 	=> $this->type_options()
+				'opts' 	=> $this->options()
 		);
 		
 		return $settings;
 	}
 	
-	function type_options(){
+	function options(){
 		
 		$settings = array(
 			array(

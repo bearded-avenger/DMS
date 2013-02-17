@@ -495,7 +495,7 @@ class PageLinesFoundry {
 	 *
 	 */
 	function google_import( $gfonts ) {
-		
+		$family = array();
 		if( is_array($gfonts) && !empty($gfonts) ){
 			
 			foreach( array_unique($gfonts) as $id ){
