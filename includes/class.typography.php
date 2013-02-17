@@ -500,7 +500,7 @@ class PageLinesFoundry {
 			
 			foreach( array_unique($gfonts) as $id ){
 
-				if( $this->foundry[$id]['google'] ){
+				if( isset($this->foundry[$id]) && $this->foundry[$id]['google'] ){
 					
 					$faces = ( is_array($this->foundry[$id]['google']) ) ? sprintf( ':%s', implode(',', $this->foundry[$id]['google']) ) : ''; 
 					
