@@ -27,7 +27,7 @@ class EditorInterface {
 		if ( current_user_can('edit_themes') ){
 			add_action( 'wp_footer', array( &$this, 'control_panel' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_scripts' ) );
-			add_action( 'wp_enqueue_styles', array(&$this, 'pl_editor_styles' ) );
+			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_styles' ) );
 			add_action( 'wp_ajax_the_store_callback', array( &$this, 'the_store_callback' ) );
 		}
 
