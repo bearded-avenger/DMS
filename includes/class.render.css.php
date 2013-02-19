@@ -29,9 +29,18 @@ class PageLinesRenderCSS {
 	 */
 	function get_core_lessfiles(){
 		
-		$files = array(
-			'reset', 
-			'pl-core', 
+		$files[] = 'reset'; 
+		
+		if(pl_has_editor()){
+			$files[] = 'pl-structure';
+			$files[] = 'pl-editor';
+		} else {
+			$files[] = 'pl-core';
+			$files[] = 'deprecated';
+		}
+		
+		
+		$bootstrap = array(
 			'pl-wordpress',
 			'pl-plugins',
 			'grid',
@@ -39,7 +48,7 @@ class PageLinesRenderCSS {
 			'labels-badges',
 			'tooltip-popover',
 			'buttons',
-			'type',
+			'typography',
 			'dropdowns',
 			'accordion',
 			'carousel',
@@ -50,7 +59,6 @@ class PageLinesRenderCSS {
 			'utilities',
 			'pl-objects',
 			'pl-tables',
-			'pl-editor',
 			'wells',
 			'forms',
 			'breadcrumbs', 
@@ -59,10 +67,9 @@ class PageLinesRenderCSS {
 			'pagination',
 			'progress-bars', 
 			'icons',
-			'fileupload',
 			'responsive'
 		);
-		return $files;
+		return array_merge($files, $bootstrap);
 	}
 
 	/**

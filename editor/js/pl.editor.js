@@ -319,7 +319,6 @@
 		, showEditingTools: function() {
 			
 			// Graphical Flare
-			$('.pl-section').effect('highlight', 1500)
 			$('[data-action="drag-drop"]').addClass('active')
 			
 			// Enable CSS

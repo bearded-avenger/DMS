@@ -1,0 +1,73 @@
+/*
+ * PAGELINES STRUCTURE AND RESPONSIVE
+ ***********************************/
+body { 
+	position:relative; 
+	zoom:1;
+	background: @baseColor;
+}	
+
+
+
+/*
+ * PAGELINES LEAF
+ ***********************************/
+#cred { 
+	text-align: center;
+	padding: 15px; 
+	a.plimage { 
+		text-align: center;
+	}
+}
+
+/* 
+ * RESPONSIVE: GLOBAL
+ ****************************************/
+body{
+	
+	// Images
+	.pl-content img {
+		max-width: 100%; 
+		height: auto; 
+		width: auto\9; /* ie8 */
+	}
+	.ie8 img {
+		width: auto;
+		height: auto;
+	}
+	
+	// Media 
+	.hentry{
+		iframe, 
+		video, 
+		object{
+			max-width: 100%;
+		}
+	}
+	
+}
+
+/* 
+ * RESPONSIVE: TABLET
+ ****************************************/
+@media screen and ( max-width:@resPortraitTablet ){
+	
+	.responsive{
+	
+	}
+
+}
+
+/* 
+ * RESPONSIVE: PHONE
+ ****************************************/\
+@media screen and ( max-width : @resPhoneLandscape ) { 
+
+	.responsive{
+	
+	}
+
+}
+
+
+

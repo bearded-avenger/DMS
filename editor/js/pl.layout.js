@@ -71,7 +71,6 @@ $.widthResize = {
 		})
 		
 		$('.ui-resizable-handle')
-			.effect('highlight', 2500 )
 			.hover(
 				function () {
 					$('body').addClass("resize-hover")

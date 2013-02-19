@@ -1,6 +1,78 @@
 @contrast: darken( @pl-base, @invert-dark  );
-
 @contrast2: lighten( @contrast, 2 );
+
+// Main Nav
+// ---------
+
+// Only in Nav
+.navigation_wrap{
+	position: relative;
+	.main_nav_container{
+		width: 100%;
+		float: left;
+		margin-right: -230px;
+	}
+	
+	.main_nav {			
+		margin-right: 230px;
+		text-align: left;
+		margin-top: 0px;
+		z-index:28;  /* Fancybox Uses 30 */
+		position:relative;
+		height: 31px;
+	}
+}
+
+// Both Nav and Brandnav
+.main_nav{
+	font-size: 86%; 
+	ul{
+		list-style: none;
+		display: block;
+		margin: 0;
+		padding: 0px;
+		float: left;
+		li{
+			position:relative;
+			margin: 0;
+			padding: 0px;
+			float: left;
+			text-align: right;
+			a{	
+				line-height: 1em;
+				padding: 10px 15px;
+				text-decoration: none;
+				display: block;
+				border: 1px solid transparent;
+				border-bottom:none;	
+			}
+		}
+		ul {
+			display: none;
+			ul li {
+				text-align: left;
+			}
+		}
+	}
+}
+/* No search adjustment */
+.main_nav_container.nosearch, 
+.nosearch .main_nav{ 
+	margin-right: 0; 
+}
+
+// Superfish Drop Down
+.sf-menu{
+	li{
+		&:hover ul,
+		&.sfHover ul{
+			top: 33px;
+		}
+		ul li:last-child{
+			border-bottom: none
+		}
+	}
+}
 
 .main-nav .current-menu-ancestor a,
 .main-nav li.current-menu-ancestor ul a,
@@ -57,3 +129,50 @@ ul.sf-menu ul li{
 	}
 	
 }
+
+@media screen and (max-width:600px) { 
+	
+	.responsive{
+		.navigation_wrap{
+			text-align: center;
+			.main_nav, .main_nav_container{
+				margin-right: 0;
+			}
+			.searchform {
+				display: inline-block;
+				position: relative;
+				float: none;
+				margin-top: 10px;
+			}
+		}
+
+	}
+}
+	
+@media screen and ( max-width : @resPhoneLandscape ) { 
+
+	
+	.responsive{
+		#page {
+			.main_nav .main-nav, 
+			.section-brandnav .brandnav-nav{
+				margin-top: 10px; 
+				width: 100%; 
+				float: none;
+			}
+			.main_nav{
+				ul li{
+					text-align: left;
+					width: 50%;
+					ul, ul li{ width: 100%; }
+				}
+			}
+			
+		}
+		.navigation_wrap .searchfield{
+			display:inline-block;
+			float: none;
+		}
+	}	
+}
+

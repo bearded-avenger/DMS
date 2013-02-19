@@ -9,24 +9,30 @@
 @textColorSubtle: 		fadeout(@textColor, 40%);
 @textColorLight: 		fadeout(@textColor, 70%);
 
-// Links
+// Text Headers Color
 // -------------------------
-@linkColor:             #08c;
+@headerColor:			@pl-header;
+@headerHover:			fadeout(@headerColor, 30%);;
+
+// Link Color
+// -------------------------
+@linkColor:             @pl-link;
 @linkColorHover:        darken(@linkColor, 15%);
 
 // Base Color Variables
 // -------------------------
 // Ordered from returning light value to dark
 
-@baseLighter: 			lighten(@pl-base, 5%);
-@baseLighterMore: 		lighten(@pl-base, 10%);
-@baseLighterMost: 		lighten(@pl-base, 15%);
-@baseContrastSlight: 	lighten(@pl-base, @invert-light*.4);
-  @baseDarker: 			darken(@pl-base, 5%); // Same as @dark-base
-  @dark-base:           darken( @pl-base, @invert-dark  ); // Same as @baseDarker
-@baseDarkerMore: 		darken(@pl-base, 8%);
-  @light-base:          lighten( @pl-base, @invert-light  );  // Same as @baseContrast
-  @baseContrast: 	    lighten(@pl-base, @invert-light); // Same as @light-base
+@baseColor: 			@pl-base;
+@baseLighter: 			lighten(@baseColor, 5%);
+@baseLighterMore: 		lighten(@baseColor, 10%);
+@baseLighterMost: 		lighten(@baseColor, 15%);
+@baseContrastSlight: 	lighten(@baseColor, @invert-light*.4);
+  @baseDarker: 			darken(@baseColor, 5%); // Same as @dark-base
+  @dark-base:           darken( @baseColor, @invert-dark  ); // Same as @baseDarker
+@baseDarkerMore: 		darken(@baseColor, 8%);
+  @light-base:          lighten( @baseColor, @invert-light  );  // Same as @baseContrast
+  @baseContrast: 	    lighten(@baseColor, @invert-light); // Same as @light-base
 @baseContrastDark: 		darken(@baseContrast, @invert-dark);
 @baseContrastMore: 		lighten(@baseContrast, @invert-light);
 @baseContrastDarkMore: 	darken(@baseContrastDark, @invert-dark);
@@ -58,7 +64,7 @@
 @btnBackgroundHighlight:            darken(@white, 10%);
 @btnBorder:                         darken(@white, 20%);
 
-@btnPrimaryBackground:              @linkColor;
+@btnPrimaryBackground:              #0093FF;
 @btnPrimaryBackgroundHighlight:     spin(@btnPrimaryBackground, 15%);
 
 @btnInfoBackground:                 #5bc0de;

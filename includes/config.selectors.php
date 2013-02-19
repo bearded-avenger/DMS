@@ -57,91 +57,22 @@ class PageLinesCSSGroups{
 		
 		$s = array();
 
-		/**
-		 * Layout Width Control
-		 */
-		// $s['page_width'] = 'body.fixed_width #page, body.fixed_width #footer, body.canvas .page-canvas'; 
-		// $s['content_width'] = '#site .content, .wcontent, #footer .content';
+		if(!pl_has_editor()){
+			
+			$s['bodybg'] = 'body, body.fixed_width';
+			$s['pagebg'] = 'body #page .page-canvas';
+			$s['contentbg'] = '.canvas .page-canvas, .thepage .content, .sf-menu li, #primary-nav ul.sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active, .commentlist ul.children .even';
+			$s['cascade'] = '.commentlist ul.children .even';
+			$s['page_background_image'] = '.full_width #page .page-canvas, body.fixed_width';
 
-		/**
-		 * Main Page Element Colors
-		 */
-		$s['bodybg'] = 'body, body.fixed_width';
-
-		$s['pagebg'] = 'body #page .page-canvas';
-
-		$s['contentbg'] = '.canvas .page-canvas, .thepage .content, .sf-menu li, #primary-nav ul.sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active, .commentlist ul.children .even';
+			$s['type_headers'] = '.thead, h1, h2, h3, h4, h5, h6, .site-title';
+			$s['type_primary'] = 'body, .font1, .font-primary, .commentlist';
+			$s['type_secondary'] = '.font-sub, ul.main-nav, #secondnav, .metabar, .post-nav, .subtext, .subhead, .widget-title, .reply a, .editpage, #page .wp-pagenavi, .post-edit-link, #wp-calendar caption, #wp-calendar thead th, .soapbox-links a, .fancybox, .standard-form .admin-links, .pagelines-blink, .ftitle small';
+			$s['type_inputs'] = 'input[type="text"], input[type="password"], textarea, #dsq-content textarea';
+			
+		}
 		
-		$s['cascade'] = '.commentlist ul.children .even';
-
-		$s['page_background_image'] = '.full_width #page .page-canvas, body.fixed_width';
-
-		/**
-		 * Box & Element Colors
-		 */
-		$s['box_color_primary'] = '';
-
-		$s['box_color_secondary'] = '';
-
-		$s['box_color_tertiary'] = '';
-
-		$s['box_color_lighter'] = '';
-
-		/**
-		 * Border Colors
-		 */
-		$s['border_layout'] = '';
-		$s['border_layout_darker'] = '';
-		$s['border_layout_lighter'] = '';
-		
-		$s['border_primary'] = '';
-		$s['border_primary_darker'] = '';
-		$s['border_primary_lighter'] = '';
-
-		$s['border_secondary'] = '';
-
-		$s['border_tertiary'] = '';
-
-		$s['border_primary_shadow'] = '';
-
-		$s['border_primary_highlight'] = '';
-
-		/**
-		 * Text Colors
-		 */
-		$s['headercolor'] = '';
-
-		$s['text_primary'] = '';
-
-		$s['text_secondary'] = '';
-
-		$s['text_tertiary'] = '.tc3, .t3';
-
-		$s['text_box'] = '';
-
-		$s['text_box_secondary'] = '';
-
-		$s['linkcolor'] = '';
-
-		$s['linkcolor_hover'] = '';
-
-		$s['footer_text'] = '';
-		$s['footer_highlight'] = '';
-
-		/**
-		 * Text Shadows & Effects 
-		 */
-		$s['text_shadow_color']	= '';
-		$s['footer_text_shadow_color'] = '';
-
-		/**
-		 * Typography 
-		 */
-
-		$s['type_headers'] = '';
-		$s['type_primary'] = '';
-		$s['type_secondary'] = '';
-		$s['type_inputs'] = '';
+			
 		
 		return $s;
 		

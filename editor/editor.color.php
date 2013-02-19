@@ -3,8 +3,9 @@
 
 class EditorColor{
 	
-	var $default_bg = '#FFFFFF';
+	var $default_base = '#FFFFFF';
 	var $default_text = '#000000';
+	var $default_link = '#225E9B';
 	
 	function __construct( ){
 		
@@ -15,15 +16,32 @@ class EditorColor{
 	
 	function add_less_vars( $vars ){
 		
+		$base = $this->colors[] = pl_setting('bodybg');
+		$text = $this->colors[] = pl_setting('text_primary');
+		$link = $this->colors[] = pl_setting('linkcolor');
+		$hdrs = $this->colors[] = pl_setting('headercolor');
+		
+		$vars['pl-base']		= $this->hash( $base );
+		$vars['pl-text']		= $this->hash( $text );
+		$vars['pl-link']		= $this->hash( $link );
+		$vars['pl-header']		= $this->hash( $hdrs );
+		
 		return $vars;
 	}
 	
+	function hash( $color ){
+		
+		$clean = str_replace('#', '', $color);
+
+		return sprintf('#%s', $clean);
+		
+	}
 
 	
 	function add_settings( $settings ){
 		
 		$settings['color_control'] = array(
-			'name' 	=> 'Color Control', 
+			'name' 	=> 'Color <span class="spamp">&amp;</span> Style', 
 			'icon'	=> 'icon-tint',
 			'pos'	=> 3,
 			'opts' 	=> $this->options()
@@ -38,25 +56,15 @@ class EditorColor{
 			array(
 				'key'		=> 'canvas_colors', 
 				'type' 		=> 'multi',
-				'label' 	=> __( 'Page Background Colors', 'pagelines' ),
-				'title' 	=> __( 'Page Background Colors', 'pagelines' ),
-				'help' 		=> __( 'Configure the basic background colors for your site', 'pagelines' ), 
+				'title' 	=> __( 'Website Base Color', 'pagelines' ),
+				'help' 		=> __( 'The "base" color is used as your background and as a basis for calculating contrast values in elements (like hover effects, etc.. ) Use it as your default background color and refine using custom CSS/LESS or a theme.' ), 
 				'opts'		=> array(
 					array(	
 						'key'			=> 'bodybg',
 						'type'			=> 'color',			
-						'label' 		=> __( 'Body Background', 'pagelines' ),
+						'label' 		=> __( 'Base Color', 'pagelines' ),
+						'default'		=> $this->default_base
 					),
-					array(	
-						'key'			=> 'pagebg',
-						'type'			=> 'color',		
-						'label' 		=> __( 'Page Background (Optional)', 'pagelines' ),
-						),
-					array(		
-						'key'			=> 'contentbg',
-						'type'			=> 'color',
-						'label' 		=> __( 'Content Background (Optional)', 'pagelines' ),
-					)
 				)		
 			),
 			array(
@@ -70,16 +78,20 @@ class EditorColor{
 						'key'			=> 'text_primary',
 						'type'			=> 'color',			
 						'label' 		=> __( 'Main Text Color', 'pagelines' ),
+						'default'		=> $this->default_text
+						
 					),
 					array(	
 						'key'			=> 'headercolor',
 						'type'			=> 'color',		
-						'label' 		=> __( 'Text Header Color', 'pagelines' ),
+						'label' 		=> __( 'Text Headers Color', 'pagelines' ),
+						'default'		=> $this->default_text
 						),
 					array(		
 						'key'			=> 'linkcolor',
 						'type'			=> 'color',
-						'label' 		=> __( 'Primary Link Color', 'pagelines' ),
+						'label' 		=> __( 'Link Color', 'pagelines' ),
+						'default'		=> $this->default_link
 					)
 				)		
 			)

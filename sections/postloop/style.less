@@ -1,0 +1,176 @@
+.hentry {
+	clear: both;
+	margin: 0 0 1.8em;
+	.hentry-pad{
+		padding: 0 0 25px;
+	}
+	.entry-title{ 
+		margin:0; 
+	}
+	
+}
+
+.entry_content img { 
+	max-width: 100%;
+}
+
+.fpost .post-excerpt {
+	font-size: 1.03em; 
+	line-height: 1.55em;
+}
+	
+.tags {
+	font-size: 86%;
+	color: @textColorAlt;
+	.note{
+		.noteText();
+	}
+}	
+	
+.pledit{
+	opacity: .7;
+	&:hover{
+		opacity: 1;
+	}
+}
+
+// Belongs under postloop 
+
+// Hentry format/sizing needs to be moved to be conextual
+// Henry is going to represent all long form text styling
+
+.post-meta .c_img, 
+.hentry .c_img{ 
+	display: block;  
+	border: 1px solid transparent; 
+	padding: 4px; 
+	max-width: 98%;
+	line-height:1em; 
+}
+
+
+	
+
+
+/* 
+ * Thumbs and other images 
+ ***********************************/
+.post-meta .c_img{ 
+	background: @light-base; 
+	border: 1px solid lighten(@light-base, 4); 
+	box-shadow: 0 1px 2px rgba(0,0,0, .4);
+	img{
+		box-shadow: 0 1px 2px lighten(@light-base, 8);
+	}
+}
+
+	
+/* @ Posts */
+.fpost{
+	.post-excerpt .post-thumb.img {
+		margin-right: 13px
+	}
+	.post-thumb.img { 
+		margin-right: 20px;
+	}
+	.textcontent { 
+		margin: 20px 10px 0 0; 
+	}
+	.media .img img{
+		max-width: 100%; 
+		height: auto; 
+		margin: 0 auto;
+	}
+	.post-title h2 a:hover{	
+		text-decoration: underline;
+	}
+	.post-excerpt { 
+		margin: .6em 0; 
+	}
+	&.post .entry{
+		margin-bottom: 1em;
+		padding: 1em 0;
+	}
+}
+			
+.full_img {
+	margin-bottom: .8em;
+}
+
+
+.post-meta { 
+	margin-bottom: 1.71em; 
+	&.post-nocontent{
+		margin-bottom: 0;
+	}
+	.post-title-section{
+		padding-bottom: 6px;
+	}
+	.metabar{ 
+		font-size: 80%;
+		line-height: 1.6em; 
+		em{
+			font-style: normal;
+			color: @textColorAlt;
+			a{
+				color: @textColorAlt;
+			}
+			a:hover{
+				text-decoration: none;
+				color: @pl-text;
+			}
+		}
+	}
+}
+
+// Clips - Only used in blog listing
+// ------------------------------------
+.clip_box{
+	margin: 0 0 1.8em;
+	border-color: @dark-base;
+}
+.clip{
+	width:47%;
+	clear: none;
+	float: left;
+	.hentry{ 
+		margin: 0;
+	}
+	&.clip-right{
+		float: right; 	
+	}
+	.post-meta .c_img { 
+		padding: 2px;
+	}
+	.clip-header { 
+		padding: 4px 0 4px 0;
+		display: table-cell;
+		width: 10000px;
+	}
+	.clip-thumb{
+		a{
+			float:left;
+			margin-right: 10px;
+		}
+		img{
+			padding: 2px;
+			display:block;
+			margin:0 0 0.4em;	
+		}
+	}
+	.post-excerpt{
+		font-size: 90%;
+		line-height: 1.6em;
+		margin-bottom:1.5em;
+		margin-top:.5em;
+		.post-thumb.img {
+			margin-right: 10px
+		}
+	} 
+	
+	.entry-title, 
+	.metabar{
+		padding: 0;
+	}
+}
+

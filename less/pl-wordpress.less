@@ -2,6 +2,43 @@
 // WordPress Specific and Recommended Styles
 // ----------------------------------------------------------------------
 
+/* @ Post Navigation */
+.post-nav, 
+.current_posts_info {
+	clear: both;
+	padding:5px 10px;
+	position: relative;
+	background-color: @dark-base;
+	a{
+		text-decoration: none;
+		color: @textColorSubtle;
+		&:hover{
+			color: @textColor;
+			
+		}
+	}
+	.previous a {
+		float: left;
+		padding-left: 24px;
+		background: url(@{plRoot}/images/post-previous@2x.png) no-repeat left center;
+
+	}
+	.next a {
+		float: right;
+		padding-right: 24px;
+		text-align: right;
+		background: url(@{plRoot}/images/post-next@2x.png) no-repeat right center;
+	}
+	.previous, .next{
+		a{
+			line-height: 16px;
+			display: block;
+			background-size: 16px 16px;
+		}
+	}
+	
+}
+
 /* @ Widgets Default Formatting */
 .wp-caption {
 	text-align: center;
