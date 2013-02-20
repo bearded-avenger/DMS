@@ -17,22 +17,21 @@ class EditorTypography{
 	
 	function add_less_vars( $vars ){
 		
-		$vars['plFontSize'] = sprintf( '%spx', pl_setting('base_font_size', array('default' => '14')) ); 
+		$vars['plFontSize'] = (pl_setting('base_font_size')) ? sprintf( '%spx', pl_setting('base_font_size' ) ) : '14px'; 
 	
 		// Base Font
-		$primary = $this->import_fonts[] = pl_setting('font_primary');
+		$primary = $this->import_fonts[] = (pl_setting('font_primary')) ? pl_setting('font_primary') : $this->default_font;
+		$alt = $this->import_fonts[] = (pl_setting('font_secondary')) ? pl_setting('font_secondary') : $this->default_font;
+		$hdr = $this->import_fonts[] = (pl_setting('font_headers')) ? pl_setting('font_headers') : $this->default_font;
+	
 		$vars['plBaseFont'] = $this->foundry->get_stack( $primary ); 
-		$vars['plBaseWeight'] = pl_setting('font_primary_weight', array('default' => 'normal')); 
+		$vars['plAltFont'] = $this->foundry->get_stack( $alt ); 
+		$vars['plHeaderFont'] = $this->foundry->get_stack( $hdr ); 
+	
 		
-		// Alt Font
-		$alt = $this->import_fonts[] = pl_setting('font_secondary');
-		$vars['plAltFont'] = $this->foundry->get_stack( pl_setting('font_secondary') ); 
-		$vars['plAltWeight'] = pl_setting('font_secondary_weight', array('default' => 'normal')); 
-
-		// Headers Font
-		$alt = $this->import_fonts[] = pl_setting('font_headers');
-		$vars['plHeaderFont'] = $this->foundry->get_stack( pl_setting('font_headers') ); 
-		$vars['plHeaderWeight'] = pl_setting('font_headers_weight', array('default' => 'bold')); 
+		$vars['plBaseWeight'] = ( pl_setting('font_primary_weight') ) ? pl_setting('font_primary_weight') : 'normal'; 
+		$vars['plAltWeight'] = ( pl_setting('font_secondary_weight') ) ? pl_setting('font_secondary_weight') : 'normal'; 
+		$vars['plHeaderWeight'] = ( pl_setting('font_headers_weight') ) ? pl_setting('font_headers_weight') : 'bold'; 
 		
 		return $vars;
 	}
