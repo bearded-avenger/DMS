@@ -156,6 +156,7 @@ class PageLinesSection {
 			&& isset($this->meta[ 'set' ])
 			&& isset($this->meta[ 'set' ][ $key ])
 			&& isset($this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ] )
+			&& $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ] != ''
 		)
 			$val = $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ]; 
 		elseif(ploption( $key, $args))
@@ -429,6 +430,11 @@ class PageLinesSection {
 		$this->classes	= ( $this->classes ) ? sprintf( ' %s', ltrim( $this->classes ) )  : '';		
 	}
 	
+	/**
+     * Scripts to be loaded inline after page load
+     *
+     */
+	function section_on_ready(){}
 
     /**
      * Section Admin

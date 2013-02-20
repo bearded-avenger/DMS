@@ -310,6 +310,8 @@ function pagelines_head_common(){
 	
 	add_action( 'wp_head', 'pagelines_meta_tags', 9 );
 	
+	add_action( 'wp_head', 'pl_scripts_on_ready', 10 );
+	
 	// Headerscripts option > custom code
 	if ( ploption( 'headerscripts' ) && ploption( 'headerscripts' ) != default_headerscript() )
 		add_action( 'wp_head', create_function( '',  'print_pagelines_option("headerscripts");' ), 25 );
@@ -323,10 +325,23 @@ function load_prettify(){
 	wp_enqueue_script( 'prettify', PL_JS . '/prettify/prettify.js' );
 	wp_enqueue_style( 'prettify', PL_JS . '/prettify/prettify.css' );
 	add_action( 'wp_head', create_function( '',  'echo pl_js_wrap("prettyPrint()");' ), 14 );
-	
 
 }
 
+function pl_scripts_on_ready(){
+	
+echo pl_source_comment("On Ready"); ?>
+<script> /* <![CDATA[ */
+!function ($) {
+jQuery(document).ready(function() {
+<?php pagelines_register_hook('pl_scripts_on_ready'); // Hook ?>
+})
+}(window.jQuery);
+/* ]]> */
+</script>
+
+<?php 
+}
 
 function pagelines_meta_tags(){
 	

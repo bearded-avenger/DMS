@@ -39,11 +39,18 @@
 	outline: none;
 	font-family: @defaultFont;
 	font-weight: normal;
-  &.fade {
-    .transition(e('opacity .3s linear, top .3s ease-out'));
-    top: -25%;
-  }
-  &.fade.in { top: 10%; }
+	color:#777;
+	&.fade {
+		.transition(e('opacity .3s linear, top .3s ease-out'));
+		top: -25%;
+	}
+	&.fade.in { top: 10%; }
+
+	h1, h2, h3, h4, h5, h6{
+		font-weight: bold;
+		color:#000;
+		font-family: @defaultFont;
+	}
 }
 .modal-header {
   padding: 9px 15px;
@@ -52,6 +59,7 @@
   .close { margin-top: 2px; }
   // Heading
   h3 {
+
     margin: 0;
     line-height: 30px;
   }
@@ -62,7 +70,7 @@
   position: relative;
   overflow-y: auto;
   max-height: 400px;
-  padding: 15px;
+  padding: @baseLineHeight;
 }
 // Remove bottom margin if need be
 .modal-form {
