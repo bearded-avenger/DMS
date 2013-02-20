@@ -89,8 +89,8 @@ class PageLinesTemplateHandler {
 						, opts: <?php echo json_encode($this->get_options_config(), JSON_FORCE_OBJECT); ?>
 						, settings: <?php echo json_encode($this->siteset->get_set('site'), JSON_FORCE_OBJECT); ?>
 						, fonts: <?php echo json_encode($this->foundry->get_foundry(), JSON_FORCE_OBJECT); ?>
+						, extend: <?php echo json_encode( store_mixed_array(), JSON_FORCE_OBJECT); ?>
 					}
-					, extend: <?php echo json_encode( store_mixed_array(), JSON_FORCE_OBJECT); ?>
 					
 				}
 				

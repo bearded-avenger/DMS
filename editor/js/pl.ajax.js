@@ -40,9 +40,7 @@
 				}
 				, success: function( response ){
 				
-					$('.btn-saving').removeClass('active')
-					$('.state-list').removeClass('clean global local type multi').addClass(response)
-					$('.btn-state span').removeClass().addClass('state-draft '+response)
+					that.ajaxSuccess(response)
 					
 					if(refresh){
 						bootbox.dialog( that.dialogText( refreshingDialog ), [], {animate: false})
@@ -52,6 +50,51 @@
 				}
 			})
 			
+		}
+		
+		, resetOptions: function( mode ){
+			
+			var that = this
+			,	theData = {
+					action: 'pl_save_page'
+					, 	mode: mode
+					,	page: $.pl.config.pageID
+					,	pageID: $.pl.config.pageID
+					,	typeID: $.pl.config.typeID
+				}
+				
+			if(mode == 'reset_global')
+				confirmText = "<h3>Are you sure?</h3><p>This will reset <strong>global site options</strong> to their defaults.<br/>Once reset, these changes will still need to be published to your live site.</p>"
+			else if(mode == 'reset_local')	
+				confirmText = "<h3>Are you sure?</h3><p>This will reset <strong>local page options</strong> to their defaults. <br/>Once reset, these changes will still need to be published to your live site.</p>"
+			else 
+				return
+				
+
+			// modal
+			bootbox.confirm( confirmText, function( result ){
+				if(result == true){
+
+					$.ajax( {
+						type: 'POST'
+						, url: ajaxurl
+						, data: theData	
+						, beforeSend: function(){
+							$('.btn-saving').addClass('active')
+						}
+						, success: function( response ){
+							
+							that.ajaxSuccess(response)
+							
+							bootbox.dialog( that.dialogText('Options reset. Reloading page.'), [], {animate: false})
+							
+							location.reload()
+						}
+					})
+
+				}
+
+			})
 		}
 		
 		, bindUIActions: function(){
@@ -264,48 +307,7 @@
 			
 		}
 		
-		, resetOptions: function( mode ){
-			
-			var that = this
-			,	theData = {
-					action: 'pl_save_page'
-					, 	mode: mode
-					,	page: $.pl.config.pageID
-				}
-				
-			if(mode == 'reset_global')
-				confirmText = "<h3>Are you sure?</h3><p>This will reset <strong>global site options</strong> to their defaults.<br/>Once reset, these changes will still need to be published to your live site.</p>"
-			else if(mode == 'reset_local')	
-				confirmText = "<h3>Are you sure?</h3><p>This will reset <strong>local page options</strong> to their defaults. <br/>Once reset, these changes will still need to be published to your live site.</p>"
-			else 
-				return
-				
-
-			// modal
-			bootbox.confirm( confirmText, function( result ){
-				if(result == true){
-
-					$.ajax( {
-						type: 'POST'
-						, url: ajaxurl
-						, data: theData	
-						, beforeSend: function(){
-							$('.btn-saving').addClass('active')
-						}
-						, success: function( response ){
-							
-							that.ajaxSuccess(response)
-							
-							bootbox.dialog( that.dialogText('Options reset. Reloading page.'), [], {animate: false})
-							
-							location.reload()
-						}
-					})
-
-				}
-
-			})
-		} 
+		
 		
 		, ajaxSaveMap: function( map, interrupt ){
 		

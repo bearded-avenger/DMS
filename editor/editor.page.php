@@ -12,17 +12,39 @@ class PageLinesPage {
 	var $opt_special_lookup = 'pl-special-lookup';
 	var $opt_type_info = 'pl-type-info';
 
-	function __construct(  ) {
+	function __construct( $args = array() ) {
 		
-		$this->id = $this->id();
+		$args = wp_parse_args($args, $this->defaults());
 		
-		$this->type = $this->type();
+		$mode = $args['mode'];
 		
-		$this->typeid = $this->special_id();
-		
-		$this->type_name = ucwords( str_replace('_', ' ', $this->type()) ); 	
+		if( $mode == 'ajax' ){
+			
+			$this->id = $args['pageID'];
 
+			$this->typeid = $args['typeID'];
+			
+		} else {
+		
+			$this->id = $this->id();
 
+			$this->type = $this->type();
+
+			$this->typeid = $this->special_id();
+
+			$this->type_name = ucwords( str_replace('_', ' ', $this->type()) ); 	
+			
+		}
+
+	}
+	
+	function defaults(){
+		$d = array(
+			'mode'		=> 'standard',
+			'pageID'	=> '', 
+			'typeID'	=> ''
+		); 
+		return $d;
 	}
 	
 	function id(){

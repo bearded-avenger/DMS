@@ -92,20 +92,28 @@
 				.hide()
 				
 			$('.ui-tabs').tabs('destroy')
-			
-
-			// TODO needs to work w/ multiple tabbing
+		
 			selectedPanel.tabs({
 				activate: function(event, ui){
 					
-					if(ui.newTab.attr('data-filter')){
+					var theTab = ui.newTab
+					, 	tabAction = theTab.attr('data-tab-action') || ''
+					,	tabPanel = $("[data-panel='"+tabAction+"']")
+					,	tabFlag = theTab.attr('data-flag') || ''
+					, 	tabFilter = theTab.attr('data-filter') || ''
+					
+					if(tabFilter != ''){
+						
 						selectedPanel.find('.x-list').isotope({ filter: ui.newTab.attr('data-filter') })
-					} else if (ui.newTab.attr('data-flag') && ui.newTab.attr('data-flag') == 'custom-scripts'){
+						
+					} else if (tabFlag == 'custom-scripts'){
+						
 						var editor2 = CodeMirror.fromTextArea( $(".custom-scripts").get(0), {
 							'lineNumbers': true
 							,	'mode': 'text/x-less'
 							, 	'lineWrapping': true
 						})
+						
 					}
 					
 				}
@@ -126,7 +134,18 @@
 				
 				$.optPanel.render( config )
 				
-			} else if (key == 'pl-design'){
+			}
+			else if( key == 'live'){
+				
+				var liveFrame = '<div class="live-wrap"><iframe class="live_chat_iframe" src="http://pagelines.campfirenow.com/6cd04"></iframe></div>'
+
+				selectedPanel
+					.find('.panel-tab-content')
+					.html(liveFrame)
+				
+			}
+			
+			 else if (key == 'pl-design'){
 				var editor = CodeMirror.fromTextArea( $(".custom-less").get(0), {
 					'lineNumbers': true
 					,	'mode': 'text/x-less'
@@ -144,7 +163,7 @@
 				
 				$('body').toolbox({
 					action: 'show'
-					, panel: 'section-options'
+					, panel: key
 					, info: function(){
 					
 						$.optPanel.render( config )
@@ -152,6 +171,17 @@
 					}
 				})
 				
+			} else if (key == 'pl-extend'){
+				
+				$('body').toolbox({
+					action: 'show'
+					, panel: key
+					, info: function(){
+					
+						$.plExtend.drawStore()
+					
+					}
+				})
 			}
 		
 			selectedTab.addClass('active-tab')
@@ -218,7 +248,8 @@
 		
 		, listStart: function( panel, key ){
 		
-			var layout = (key == 'pl-extend') ? 'masonry' : 'fitRows'; 
+			var that = this
+			,	layout = (key == 'pl-extend') ? 'masonry' : 'fitRows'; 
 			
 			panel.imagesLoaded( function(){
 				panel.find('.x-list').isotope({

@@ -41,7 +41,7 @@ class PageLinesEditor {
 	}
 	
 	function load_files(){
-		require_once( PL_EDITOR . '/editor.opts.php' );
+		require_once( PL_EDITOR . '/editor.settings.php' );
 		require_once( PL_EDITOR . '/editor.actions.php' );
 		require_once( PL_EDITOR . '/editor.draft.php' );
 		require_once( PL_EDITOR . '/editor.layout.php' );
@@ -49,7 +49,8 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.templates.php' );
 		require_once( PL_EDITOR . '/editor.data.php' );
 		
-		require_once( PL_EDITOR . '/editor.settings.php' );
+		
+		require_once( PL_EDITOR . '/editor.settings.config.php' );
 		require_once( PL_EDITOR . '/editor.typography.php' );
 		require_once( PL_EDITOR . '/editor.color.php' );
 			

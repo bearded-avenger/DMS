@@ -53,6 +53,7 @@ class EditorInterface {
 		wp_enqueue_script( 'pl-ajax', $this->url . '/js/pl.ajax.js', array( 'jquery' ), PL_CORE_VERSION );
 		wp_enqueue_script( 'pl-library', $this->url . '/js/pl.library.js', array( 'jquery' ), PL_CORE_VERSION );
 		wp_enqueue_script( 'pl-layout', $this->url . '/js/pl.layout.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_script( 'pl-extend', $this->url . '/js/pl.extend.js', array( 'jquery' ), PL_CORE_VERSION );
 
 		// Isotope
 		wp_enqueue_script( 'isotope', $this->url . '/js/utils.isotope.js', array('jquery'));
@@ -284,8 +285,7 @@ class EditorInterface {
 					'heading'	=> "<i class='icon-comments'></i> Live Support",
 					'support_chat'	=> array(
 						'name'	=> 'PageLines Live Chat',
-						'type'	=> 'call',
-						'call'	=> array(&$this, 'live_callback'),
+						
 					),
 				)
 			),
@@ -296,9 +296,6 @@ class EditorInterface {
 					'heading'	=> "Extend PageLines",
 					'store'		=> array(
 						'name'	=> 'PageLines Store',
-						'type'	=> 'call',
-						'call'	=> array(&$this, 'the_store_callback'),
-						'hook'	=> 'the_store_callback',
 						'filter'=> '*'
 					),
 					'heading2'	=> "Filters",
@@ -333,7 +330,7 @@ class EditorInterface {
 				'type'	=> 'dropup',
 				'panel'	=> array(
 
-					'reset_global'	=> array('name'	=> 'Reset All Global Settings to Default'),
+					'reset_global'	=> array('name'	=> 'Reset Global Settings to Default'),
 					'reset_local'	=> array('name'	=> 'Reset Current Page Settings to Default')
 				)
 
@@ -490,8 +487,8 @@ class EditorInterface {
 
 			</ul>
 			<ul class="unstyled controls not-btn send-right">
-				<li class="btn-saving"><span class="btn-toolbox not-btn"><i class="icon-save"></i> <span class="txt">Saving</span></li>
-				<li class="btn-layout-resize"><span class="btn-toolbox  not-btn">
+				<li class="switch-btn btn-saving"><span class="btn-toolbox not-btn"><i class="icon-save"></i> <span class="txt">Saving</span></li>
+				<li class="switch-btn btn-layout-resize"><span class="btn-toolbox  not-btn">
 					<i class="icon-fullscreen"></i> <span class="txt">Width: <span class="resize-px"></span> / <span class="resize-percent"></span></span>
 				</li>
 			</ul>
@@ -727,7 +724,7 @@ class EditorInterface {
 								$icon = ($t['icon'] != '') ? sprintf('<i class="%s"></i> ', $t['icon']) : '';
 
 
-								printf('<li class="%s" %s %s %s><a href="%s">%s%s</a></li>', $class, $hook, $filter, $flag, $href, $icon, $t['name']);
+								printf('<li class="%s" data-tab-action="%s" %s %s %s><a href="%s">%s%s</a></li>', $class, $tab_key, $hook, $filter, $flag, $href, $icon, $t['name']);
 							}
 
 						}

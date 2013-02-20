@@ -5,13 +5,20 @@
 add_action( 'wp_ajax_pl_save_page', 'pl_save_page' );
 function pl_save_page(){
 
-	$mode = (isset($_POST['mode'])) ? $_POST['mode'] : 'draft';
+	$data = $_POST; 
+	
+	$mode = (isset($data['mode'])) ? $data['mode'] : 'draft';
+
+
 
 	$draft = new EditorDraft;
-	$map = new EditorMap( $draft );
+	$map = $data['map_object'] = new EditorMap( $draft );
 	
-	$data = $_POST; 
-	$data['map_object'] = $map;
+	$plpg = new PageLinesPage( array('mode' => 'ajax', 'pageID' => $data['pageID'], 'typeID' => $data['typeID']) );
+	
+	$settings = new PageLinesOpts( $plpg, $draft );
+	
+	
 
 	if( $mode == 'draft' ){
 		
@@ -30,9 +37,16 @@ function pl_save_page(){
 		
 		$map->save_map_draft( $data );  
 		
+	} elseif ($mode == 'reset_global'){
+		
+		$settings->reset_global();
+		
+	} elseif( $mode == 'reset_local' ){
+		
+		$settings->reset_local( $data['pageID'] );
+		
 	}
-
-	//echo json_encode( array( 'state' => $draft->get_state( $data )) );
+	
 	echo $draft->get_state( $data );	
 	
 	die(); // don't forget this, always returns 0 w/o
