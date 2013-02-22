@@ -46,7 +46,7 @@ class EditorSettings {
 		);
 	}
 	
-	function get_set( $panel = 'site' ){
+	function get_set( ){
 		
 		$settings =  apply_filters('pl_settings_array', $this->settings);
 		
@@ -75,11 +75,12 @@ class EditorSettings {
 		
 			array(
 				'key'			=> 'pagelines_favicon',
-				'label'			=> 'Upload Favicon (16px by 16px)',
+				'label'			=> 'Upload Favicon (32px by 32px)',
 				'type' 			=> 	'image_upload',
 				'size' 			=> 	'16',
 				'title' 		=> 	__( 'Favicon Image', 'pagelines' ),						
-				'help' 			=> 	__( 'Enter the full URL location of your custom <strong>favicon</strong> which is visible in browser favorites and tabs.<br/> <strong>Must be .png or .ico file - 32px by 32px</strong>.', 'pagelines' )
+				'help' 			=> 	__( 'Enter the full URL location of your custom <strong>favicon</strong> which is visible in browser favorites and tabs.<br/> <strong>Must be .png or .ico file - 32px by 32px</strong>.', 'pagelines' ),
+				'default'		=> PL_EDITOR_URL . '/images/default-favicon.png'
 			),		
 			
 			
@@ -87,29 +88,34 @@ class EditorSettings {
 				'key'			=> 'pl_login_image',
 				'type' 			=> 	'image_upload',
 				'label'			=> 'Upload Icon (80px Height)',
-				'size' 			=> 	'60',
-				'title' 		=> __( 'Login Page Image', 'pagelines' ),						
+				'size' 			=> 	'80',
+				'title' 		=> __( 'Login Page Image', 'pagelines' ),
+				'default'		=> PL_EDITOR_URL . '/images/default-login-image.png',						
 				'help'			=> __( 'This image will be used on the login page to your admin. Use an image that is approximately <strong>80px</strong> in height.', 'pagelines' )
 			),
 			
 			array(
 				'key'			=> 'pagelines_touchicon',
-				'label'			=> 'Upload Icon (57px by 57px)',
+				'label'			=> 'Upload Icon (144px by 144px)',
 				'type' 			=> 	'image_upload',
-				'size' 			=> 	'60',
+				'size' 			=> 	'72',
 				'title' 		=> __( 'Mobile Touch Image', 'pagelines' ),	
+				'default'		=> PL_EDITOR_URL . '/images/default-touch-icon.png',
 				'help'			=> __( 'Enter the full URL location of your Apple Touch Icon which is visible when your users set your site as a <strong>webclip</strong> in Apple Iphone and Touch Products. It is an image approximately 57px by 57px in either .jpg, .gif or .png format.', 'pagelines' )
 			), 
 			
 			array(
 				'type' 	=> 	'multi',
 				'title' 		=> __( 'Website Watermark', 'pagelines' ),						
-				'help' 		=> __( 'Configure your website watermark (in footer)', 'pagelines' ),
+				'help' 		=> __( 'The website watermark is a small version of your logo for your footer. Recommended width/height is 90px.', 'pagelines' ),
+				
 				'opts'	=> array(
 					array(
 						'key'			=> 'watermark_image',
 						'type' 			=> 'image_upload', 
 						'label' 		=> 'Watermark Image', 
+						'default'		=> PL_EDITOR_URL . '/images/default-watermark.png',
+						'size'			=> '44'
 					), 
 					array(
 						'key'			=> 'watermark_link',
@@ -158,7 +164,7 @@ class EditorSettings {
 					'pixel' 	=> array('name' => 'Pixel Width Based Layout'),
 					'percent' 	=> array('name' => 'Percentage Width Based Layout')
 				),
-				
+				'default'	=> 'pixel',
 				'help'	 	=> __( '', 'pagelines' )
 			),
 
@@ -230,10 +236,6 @@ class EditorSettings {
 		return $settings;
 	}
 
-}
-
-function pl_add_settings_panel( $args ){
-	
 }
 
 

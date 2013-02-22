@@ -175,9 +175,58 @@ class PageLinesOpts {
 	function global_settings(){
 		
 		$set = $this->opt( $this->pl_settings );
+
+		// Have to move this to an action because ploption calls pl_setting before all settings are loaded
+		if( !$set || empty($set['draft']) || empty($set['live']) )
+			add_action('pl_after_settings_load', array(&$this, 'set_default_settings')); 
 		
 		return $this->get_by_mode($set); 
 		
+	}
+	
+	function set_default_settings(){
+		
+		$set = $this->opt( $this->pl_settings );
+		
+		$settings_defaults = $this->get_default_settings();
+		
+		if( !$set )
+			$set = $this->default;
+		
+		if(empty($set['draft']))
+			$set['draft'] = $settings_defaults;
+		
+		if(empty($set['live']))
+			$set['live'] = $settings_defaults;
+		
+		$this->opt_update( $this->pl_settings, $set);
+		
+	}
+		
+	
+	function get_default_settings(){
+		$settings_object = new EditorSettings;
+		
+		$settings = $settings_object->get_set();
+		
+		
+		$defaults = array();
+		foreach($settings as $tab => $tab_settings){
+			foreach($tab_settings['opts'] as $index => $opt){
+				if($opt['type'] == 'multi'){
+					foreach($opt['opts'] as $subi => $sub_opt){
+						if(isset($sub_opt['default'])){
+							$defaults[ $sub_opt['key'] ] = array( $sub_opt['default'] );
+						}
+					}
+				}
+				if(isset($opt['default'])){
+					$defaults[ $opt['key'] ] = array( $opt['default'] );
+				}
+			}
+		}
+		
+		return $defaults;
 	}
 	
 	function get_by_mode( $set ){

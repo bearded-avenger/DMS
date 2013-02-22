@@ -69,15 +69,23 @@ class PageLinesEditor {
 		
 		$plpg = $this->page = new PageLinesPage;
 		$pldraft = $this->draft = new EditorDraft( $this->page );
-		$plopts = $this->opts = new PageLinesOpts( $this->page, $this->draft );
 		
 		$this->layout = new EditorLayout();
 		$this->map = new EditorMap( $this->draft );
 		$this->templates = new EditorTemplates( $this->page );
-		$this->siteset = new EditorSettings;
+		
+		// Must come before settings 
 		$this->foundry = new PageLinesFoundry;
 		$this->typography = new EditorTypography( $this->foundry );
 		$this->color = new EditorColor;
+		$this->siteset = new EditorSettings;
+		
+		pagelines_register_hook('pl_after_settings_load'); // hook
+		
+		
+		
+		$plopts = $this->opts = new PageLinesOpts( $this->page, $this->draft );
+		
 		
 		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates, $this->map );
 		

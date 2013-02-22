@@ -296,10 +296,11 @@
 			
 		
 			else if( o.type == 'image_upload' ){
-			
+				console.log(o)
 				
-			  	var remove = '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>'
-				,	thm = (o.value != '') ? sprintf('<img src="%s" />', o.value) : ''
+			  	var size = o.size+'px' || '100%' 
+				,	remove = '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>'
+				,	thm = (o.value != '') ? sprintf('<div class="img-wrap"><img src="%s" style="max-width: %s" /></div>', o.value, size) : ''
 			
 				oHTML += sprintf('<div class="upload-thumb-%s upload-thumb">%s</div>', o.key, thm);
 			
