@@ -296,17 +296,17 @@
 			
 		
 			else if( o.type == 'image_upload' ){
-				console.log(o)
 				
 			  	var size = o.size+'px' || '100%' 
+				,	sizeMode = o.sizemode || 'width'
 				,	remove = '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>'
-				,	thm = (o.value != '') ? sprintf('<div class="img-wrap"><img src="%s" style="max-width: %s" /></div>', o.value, size) : ''
+				,	thm = (o.value != '') ? sprintf('<div class="img-wrap"><img src="%s" style="max-%s: %s" /></div>', o.value, sizeMode, size) : ''
 			
 				oHTML += sprintf('<div class="upload-thumb-%s upload-thumb">%s</div>', o.key, thm);
 			
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
 			
-				oHTML += sprintf('<input id="%1$s" name="%2$s" type="text" class="lstn text-input" placeholder="" value="%3$s" />', o.key, o.name, o.value )
+				oHTML += sprintf('<input id="%1$s" name="%2$s" type="text" class="lstn text-input upload-input" placeholder="" value="%3$s" />', o.key, o.name, o.value )
 		
 				oHTML += sprintf('<div id="upload-%1$s" class="fineupload upload-%1$s fileupload-new" data-provides="fileupload"></div>', o.key)
 			
@@ -439,6 +439,7 @@
 		}
 		
 		, onceOffScripts: function( tabIndex, o ) {
+			
 			var that = this
 			
 			// Color picker buttons
@@ -455,6 +456,24 @@
 				var selector = $(this).closest('.opt').find('.font-selector')
 				that.loadFontPreview( selector )
 				
+			})
+		
+			// Image Uploader
+			$('.upload-input').on('change', function(){
+				var val = $(this).val()
+				,	closestOpt = $(this).closest('.opt')
+				
+				if(val){
+					closestOpt.find('.rmv-upload').fadeIn()
+				} else {
+				//	closestOpt.find('.upload-thumb').fadeOut()
+					closestOpt.find('.rmv-upload').fadeOut()
+				}
+				
+			})
+			$('.rmv-upload').on('click', function(){
+				$(this).closest('.opt').find('.upload-input').val('')
+				$(this).closest('.opt').find('.upload-thumb').fadeOut()
 			})
 		
 		}
@@ -528,7 +547,7 @@
 			}
 			
 			else if( o.type == 'image_upload' ){
-		
+				var val = o.valu
 				$('.fineupload.upload-'+o.key).fineUploader({
 					request: {
 						endpoint: ajaxurl
@@ -549,7 +568,7 @@
 					// , 	debug: true
 					,	template: '<div class="qq-uploader span12">' +
 					                      '<pre class="qq-upload-drop-area span12"><span>{dragZoneText}</span></pre>' +
-					                      '<div class="qq-upload-button btn btn-primary" style="width: auto;">{uploadButtonText}</div>' +
+					                      '<div class="qq-upload-button btn btn-primary" style="width: auto;">{uploadButtonText}</div> <div class="btn rmv-upload"><i class="icon-remove"></i></div>' +
 					                      '<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="icon-spinner icon-spin spin-fast"></span></span>' +
 					                      '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;"></ul>' +
 					                    '</div>'
@@ -560,7 +579,7 @@
 					
 						if (response.success) {
 							
-							optBox.find('.upload-thumb').html( sprintf('<img src="%s" />', response.url ))
+							optBox.find('.upload-thumb').fadeIn().html( sprintf('<div class="img-wrap"><img src="%s" /></div>', response.url ))
 							optBox.find('.text-input').val(response.url).change()
 							optBox.imagesLoaded( function(){
 								optBox.closest('.isotope').isotope( 'reLayout' )

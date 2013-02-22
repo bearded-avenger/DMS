@@ -87,8 +87,9 @@ class EditorSettings {
 			array(
 				'key'			=> 'pl_login_image',
 				'type' 			=> 	'image_upload',
-				'label'			=> 'Upload Icon (80px Height)',
+				'label'			=> 'Upload Login Image (160px Height)',
 				'size' 			=> 	'80',
+				'sizemode'		=> 'height',
 				'title' 		=> __( 'Login Page Image', 'pagelines' ),
 				'default'		=> PL_EDITOR_URL . '/images/default-login-image.png',						
 				'help'			=> __( 'This image will be used on the login page to your admin. Use an image that is approximately <strong>80px</strong> in height.', 'pagelines' )
@@ -96,7 +97,7 @@ class EditorSettings {
 			
 			array(
 				'key'			=> 'pagelines_touchicon',
-				'label'			=> 'Upload Icon (144px by 144px)',
+				'label'			=> 'Upload Touch Image (144px by 144px)',
 				'type' 			=> 	'image_upload',
 				'size' 			=> 	'72',
 				'title' 		=> __( 'Mobile Touch Image', 'pagelines' ),	
