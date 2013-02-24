@@ -70,6 +70,9 @@
 			
 			if( key == 'reset_global' || key == 'reset_local')
 				$.plAJAX.resetOptions( key )
+				
+			if( key == 'pl-toggle' )
+				$.plAJAX.toggleEditor( key )
 		}
 		
 		, showPanel: function( key ){
@@ -122,6 +125,7 @@
 			selectedPanel
 				.addClass('current-panel')
 				.show()
+		
 		
 			// Has to be after shown
 			if( key == 'settings'){

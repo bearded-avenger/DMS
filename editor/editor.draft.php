@@ -7,10 +7,16 @@ class EditorDraft{
 	
 	function __construct( ){
 		
-		if( current_user_can('edit_themes') )
+		$current_user = wp_get_current_user();
+		$state = get_user_meta($current_user->ID, 'pl_editor_state', true);
+		
+		if( current_user_can('edit_themes') && $state != 'off')
 			$this->mode = 'draft';
-		else 
+		else {
+			echo 'hi~';
 			$this->mode = 'live';
+		}
+			
 			
 			
 	}

@@ -327,6 +327,13 @@
 				
 			}
 			
+			else if( o.type == 'action_button' ){
+				
+				oHTML += sprintf('<a href="#" data-action="%s" class="btn btn-action %s" >%s</a>', o.key, o.classes, o.label )
+				
+			}
+			
+			
 			// Checkbox Options
 			else if ( o.type == 'check' ) {
 			

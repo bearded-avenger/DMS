@@ -81,7 +81,8 @@ class PageLinesTemplateHandler {
 						,	layoutMode: '<?php echo $this->layout->get_layout_mode();?>'
 					}
 					, config: {
-						pageID: '<?php echo $this->page->id;?>'
+						userID: '<?php echo $this->get_user_id();?>'
+						, pageID: '<?php echo $this->page->id;?>'
 						, typeID: '<?php echo $this->page->typeid;?>'
 						, pageTypeID: '<?php echo $this->page->type;?>'
 						, pageTypeName: '<?php echo $this->page->type_name;?>'
@@ -120,6 +121,11 @@ class PageLinesTemplateHandler {
 		);
 		
 		return $defaults;
+	}
+	
+	function get_user_id(){
+		$current_user = wp_get_current_user();
+		return $current_user->ID;
 	}
 	
 	function parse_config(){

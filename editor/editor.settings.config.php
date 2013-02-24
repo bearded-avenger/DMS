@@ -44,6 +44,13 @@ class EditorSettings {
 			'pos'	=> 50,
 			'opts' 	=> $this->advanced()
 		);
+		
+		$this->settings['resets'] = array(
+			'name' 	=> 'Resets', 
+			'icon'	=> 'icon-undo',
+			'pos'	=> 55,
+			'opts' 	=> $this->resets()
+		);
 	}
 	
 	function get_set( ){
@@ -233,6 +240,29 @@ class EditorSettings {
 					'title'		=> __( 'Current Install Class', 'pagelines' ),
 					'help'		=> __( "Use this option to add a class to the &gt;body&lt; element of the website. This can be useful when using the same child theme on several installations or sub domains and can be used to control CSS customizations.", 'pagelines' )
 			)
+		);	
+		return $settings;
+	}
+	
+	function resets(){
+		
+		$settings = array(
+			array(
+					'key'		=> 'reset_global',
+					'type'		=> 'action_button',
+					'classes'	=> 'btn-important',
+					'label'		=> __( 'Reset Global Settings', 'pagelines' ),
+					'title'		=> __( 'Reset Global Site Settings', 'pagelines' ),
+					'help'		=> __( "", 'pagelines' )
+			),
+			array(
+					'key'		=> 'reset_local',
+					'type'		=> 'action_button',
+					'classes'	=> 'btn-important',
+					'label'		=> __( 'Reset Current Page Settings', 'pagelines' ),
+					'title'		=> __( 'Reset Current Page Settings', 'pagelines' ),
+					'help'		=> __( "", 'pagelines' )
+			),
 		);	
 		return $settings;
 	}

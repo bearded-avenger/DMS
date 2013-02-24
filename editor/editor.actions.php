@@ -2,6 +2,24 @@
 
 
 
+add_action('wp_ajax_pl_editor_mode', 'pl_editor_mode'); 
+function pl_editor_mode(){
+	
+	$data = $_POST; 
+	$key = 'pl_editor_state'; 
+	$user_id = $data['userID']; 
+	
+	$current_state = get_user_meta($user_id, $key, true); 
+	
+	$new_state = ($current_state == 'on') ? 'off' : 'on'; 
+	
+	update_user_meta( $user_id, $key, $new_state ); 
+	
+	echo $new_state; 
+	
+	die();
+}
+
 add_action( 'wp_ajax_pl_save_page', 'pl_save_page' );
 function pl_save_page(){
 

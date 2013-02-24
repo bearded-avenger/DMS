@@ -64,12 +64,14 @@
 				}
 				
 			if(mode == 'reset_global')
-				confirmText = "<h3>Are you sure?</h3><p>This will reset <strong>global site options</strong> to their defaults.<br/>Once reset, these changes will still need to be published to your live site.</p>"
+				var resetWhat = "global site options"
 			else if(mode == 'reset_local')	
-				confirmText = "<h3>Are you sure?</h3><p>This will reset <strong>local page options</strong> to their defaults. <br/>Once reset, these changes will still need to be published to your live site.</p>"
+				var resetWhat = "local page options"
 			else 
 				return
 				
+			confirmText = sprintf("<h3>Are you sure?</h3><p>This will reset <strong>%s</strong> to their defaults. <br/>(Once reset, these changes will still need to be published to your live site.)</p>", resetWhat)
+
 
 			// modal
 			bootbox.confirm( confirmText, function( result ){
@@ -95,6 +97,37 @@
 				}
 
 			})
+		}
+		
+		, toggleEditor: function(){
+			
+			var that = this
+			,	theData = {
+					action: 'pl_editor_mode'
+					,	userID: $.pl.config.userID
+				}
+			
+			confirmText = sprintf("<h3>Turn Off PageLines Editor?</h3><p>(Note: Draft mode is disabled when editor is off.)</p>")
+			bootbox.confirm( confirmText, function( result ){
+				if(result == true){
+					$.ajax( {
+						type: 'POST'
+						, url: ajaxurl
+						, data: theData	
+						, beforeSend: function(){
+							bootbox.dialog( that.dialogText('Deactivating...'), [], {animate: false})
+						}
+						, success: function( response ){
+							
+							
+							bootbox.dialog( that.dialogText('Editor deactivated! Reloading page.'), [], {animate: false})
+							
+							location.reload()
+						}
+					})
+				}
+			})
+			
 		}
 		
 		, bindUIActions: function(){

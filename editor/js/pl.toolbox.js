@@ -20,6 +20,7 @@
 		this.$panel = this.$element.find('.toolbox-panel').on('click', function(e){e.stopPropagation()})
 		
 		this.$pusher =  $('.pl-toolbox-pusher')
+		this.$tabnav =  $('.tabs-nav')
 		
 		this.resizer = $('.resizer-handle')
 		this.closer = $('.btn-closer')
@@ -123,40 +124,6 @@
 	, showPanel: function( key ){
 		
 		$.pageTools.showPanel(key)
-		// 
-		// 	if(!key)
-		// 		return
-		// 		
-		// 	var selectedPanel = $('.panel-'+key)
-		// 	, 	allPanels = $('.tabbed-set')
-		// 	
-		// 
-		// //	store.set('toolboxPanel', key)
-		// 	
-		// 	if(selectedPanel.hasClass('current-panel'))
-		// 		return
-		// 	
-		// 	$('.btn-toolbox').removeClass('active-tab')
-		// 	
-		// 	allPanels
-		// 		.removeClass('current-panel')
-		// 		.hide()
-		// 		
-		// 	$('.ui-tabs').tabs('destroy')
-		// 		
-		// 	// TODO needs to work w/ multiple tabbing
-		// 	selectedPanel.tabs({
-		// 		activate: function(event, ui){
-		// 			
-		// 			if(ui.newTab.attr('data-filter'))
-		// 				selectedPanel.find('.x-list').isotope({ filter: ui.newTab.attr('data-filter') })
-		// 			
-		// 		}
-		// 	})
-		// 	
-		// 	selectedPanel
-		// 		.addClass('current-panel')
-		// 		.show()
 	
 		
 	}
@@ -172,6 +139,7 @@
 		
 			obj.$panel.height( newHeight )
 			obj.$pusher.height( newHeight + handleHeight )
+			obj.$tabnav.css('max-height', newHeight)
 			
 			localStorage.setItem('toolboxHeight', newHeight)
 			
@@ -181,6 +149,7 @@
 				
 				obj.$panel.height( originalHeight )
 				obj.$pusher.height( originalHeight + handleHeight)
+				obj.$tabnav.css('max-height', originalHeight)
 				
 				localStorage.setItem('toolboxHeight', originalHeight)
 				
@@ -188,7 +157,7 @@
 				
 				obj.$panel.height( savedHeight )
 				obj.$pusher.height( savedHeight + handleHeight)
-				
+				obj.$tabnav.css('max-height', savedHeight)
 				localStorage.setItem('toolboxHeight', savedHeight)
 			}
 			
@@ -251,14 +220,35 @@
 		
 		var obj = this;
 		
-		obj.$panel.bind('mousewheel', function(e, d) {
-				
-			var	height = obj.$panel.height()
-			,	scrollHeight = obj.$panel[0].scrollHeight
+		obj.$panel.find('.tabs-nav').hover(
+			function () {
+				$(this).addClass("hover");
+			},
+			function () {
+				$(this).removeClass("hover");
+			}
+		)
 		
-	    	if((this.scrollTop === (scrollHeight - height) && d < 0) || (this.scrollTop === 0 && d > 0)) {
+		obj.$panel.bind('mousewheel', function(e, d) {
+			
+			if($(this).find('.tabs-nav').hasClass('hover')){
+				var	nav = $('.current-panel .tabs-nav')
+				,	height = nav.height()
+				,	scrollHeight = nav[0].scrollHeight
+				,	fromTop = nav.scrollTop()
+				
+				
+			} else {
+				var	height = obj.$panel.height()
+				,	scrollHeight = obj.$panel[0].scrollHeight
+				,	fromTop = this.scrollTop
+
+			}
+	//		console.log(height + '-'+scrollHeight+ '-'+fromTop)
+			if((fromTop === (scrollHeight - height) && d < 0) || (fromTop === 0 && d > 0)) {
 				e.preventDefault()
 	    	}
+			
 		})
 		
 	}

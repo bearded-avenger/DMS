@@ -155,7 +155,7 @@ class EditorInterface {
 
 		$data = array(
 			'pl-toggle' => array(
-				'name'	=> '',
+				'name'	=> '&nbsp;',
 				'icon'	=> 'icon-off',
 				'type'	=> 'btn'
 
@@ -428,7 +428,7 @@ class EditorInterface {
 							$menu = '';
 
 							foreach($tab['panel'] as $key => $i){
-								$menu .= sprintf('<li><a class="btn-action" data-action="%s">%s</a></li>', $key, $i['name']);
+								$menu .= sprintf('<li><a href="#" class="btn-action" data-action="%s">%s</a></li>', $key, $i['name']);
 							}
 							$content = sprintf('<ul class="dropdown-menu">%s</ul>', $menu);
 						}
@@ -436,7 +436,10 @@ class EditorInterface {
 						$li_classes = join(' ', $li_class);
 
 						$class = array();
+						
 						$class[] = ($tab['type'] == 'panel') ? 'btn-panel' : '';
+						$class[] = ($tab['type'] == 'btn') ? 'btn-action' : '';
+
 						$class[] = 'btn-'.$key;
 
 						$classes = join(' ', $class);
