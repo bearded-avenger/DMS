@@ -35,10 +35,10 @@ class PageLinesRenderCSS {
 			$files[] = 'pl-structure';
 			$files[] = 'pl-editor';
 		} else {
+			
 			$files[] = 'pl-core';
 			$files[] = 'deprecated';
 		}
-		
 		
 		$bootstrap = array(
 			'pl-wordpress',
@@ -69,6 +69,7 @@ class PageLinesRenderCSS {
 			'icons',
 			'responsive'
 		);
+		
 		return array_merge($files, $bootstrap);
 	}
 

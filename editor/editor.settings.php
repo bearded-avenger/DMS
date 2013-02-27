@@ -24,7 +24,7 @@ function pl_setting( $key, $args = array() ){
  */
 class PageLinesOpts {
 
-	var $pl_settings = 'pl-settings';
+	var $pl_settings = PL_SETTINGS;
 	var $default = array( 'draft' => array(), 'live' => array() );
 
 	function __construct( PageLinesPage $page, EditorDraft $draft ){

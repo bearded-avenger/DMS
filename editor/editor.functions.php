@@ -6,15 +6,7 @@
 
 function pl_has_editor(){
 	
-	return (class_exists('PageLinesEditor')) ? true : false;
-	
-}
-
-
-function pl_editor_content_width(){
-	
-	
-	
+	return (class_exists('PageLinesTemplateHandler')) ? true : false;
 	
 }
 

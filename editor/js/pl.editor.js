@@ -66,13 +66,25 @@
         }
 
 		, handleActions: function( key ){
-			
+			var that = this
 			
 			if( key == 'reset_global' || key == 'reset_local')
 				$.plAJAX.resetOptions( key )
 				
 			if( key == 'pl-toggle' )
 				$.plAJAX.toggleEditor( key )
+				
+			if( key == 'toggle_grid' )
+				that.toggleGrid()
+				
+		}
+		
+		, toggleGrid: function(){
+			
+			if($('body').hasClass('drag-drop-editing')){
+				$('body').removeClass('drag-drop-editing width-resize')
+			} else 
+				$('body').addClass('drag-drop-editing width-resize')
 		}
 		
 		, showPanel: function( key ){

@@ -7,7 +7,8 @@
  *
  */
 
-// return;
+
+//return;
 
 // Make sure user can handle this.
 if (!defined('PL_UX_DEV') || !PL_UX_DEV)

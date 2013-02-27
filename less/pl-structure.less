@@ -14,17 +14,21 @@ body {
 body .pl-area .pl-section{
 	margin-bottom: 0;
 	.pl-section-pad{
-		padding: 7px;
+		padding: 7px 0;
 	}
 	.pl-section > .pl-section-pad{
+		padding: 7px;
 		margin-bottom: @baseLineHeight;
 	}
-	&.section-plcolumn > .pl-section-pad{
-		padding: 0;
+	&.section-plcolumn {
+		> .pl-section-pad{
+			padding: 0;
+		}
+		section:last-of-type{
+			margin-bottom: 0;
+		}
 	}
 }
-
-
 
 /*
  * PAGELINES LEAF
