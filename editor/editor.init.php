@@ -82,10 +82,7 @@ class PageLinesEditor {
 		
 		pagelines_register_hook('pl_after_settings_load'); // hook
 		
-		
-		
 		$plopts = $this->opts = new PageLinesOpts( $this->page, $this->draft );
-		
 		
 		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates, $this->map );
 		

@@ -259,6 +259,12 @@
 				panel.find('.x-list').isotope({
 					itemSelector : '.x-item'
 					, layoutMode : layout
+					, sortBy: 'number'
+					, getSortData : {
+						number : function ( $elem ) {
+							return $elem.data('number');
+						}
+					}
 				})
 			})
 			
@@ -417,14 +423,14 @@
 				if( opt.type == 'multi'){
 					$.each( opt.opts, function(index2, opt2){
 
-						if( plisset( $.pl.data.local[opt2.key]) ){
+						if( plIsset( $.pl.data.local[opt2.key]) ){
 							$.pl.data.local[opt2.key][i] = $.pl.data.local[opt2.key][config.clone]
 						}
 
 					})
 				} else {
 
-					if( plisset($.pl.data.local[opt.key]) ){
+					if( plIsset($.pl.data.local[opt.key]) ){
 						$.pl.data.local[opt.key][i] = $.pl.data.local[opt.key][config.clone]
 					}
 

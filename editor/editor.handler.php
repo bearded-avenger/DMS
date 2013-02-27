@@ -16,6 +16,8 @@ class PageLinesTemplateHandler {
 	var $section_list = array();
 	var $opts_list	= array();
 	var $area_number = 1;
+	var $row_width = array();
+	var $section_count = 0;
 
 	function __construct( 
 		EditorInterface $interface, 
@@ -50,7 +52,8 @@ class PageLinesTemplateHandler {
 		
 		$this->setup_processing();
 		
-		add_action( 'pagelines_head_last', array( &$this, 'json_data' ) );
+		if( $this->draft->show_editor() )
+			add_action( 'pagelines_head_last', array( &$this, 'json_data' ) );
 		
 	}
 	
@@ -535,11 +538,15 @@ class PageLinesTemplateHandler {
 			
 			$this->editor->area_start($a);
 			
-			if( isset($a['content']) ){
+			if( isset($a['content']) && !empty($a['content'])){
+				
+				$section_count = 0;
+				$sections_total = count($a['content']); 
 				
 				foreach($a['content'] as $key => $meta){
-
-					$this->render_section( $meta );
+					
+					$section_count++;
+					$this->render_section( $meta, $section_count, $sections_total );
 
 				}
 				
@@ -550,7 +557,7 @@ class PageLinesTemplateHandler {
 		}
 	}
 	
-	function render_section( $meta ){
+	function render_section( $meta, $count, $total, $level = 1 ){
 		
 		if( $this->in_factory( $meta['object'] ) ){
 			
@@ -566,19 +573,24 @@ class PageLinesTemplateHandler {
 
 			$output =  ob_get_clean(); // Load in buffer, so we can check if empty
 		
-			if(isset($output) && $output != ''){
-				
-				echo pl_source_comment($s->name . ' | Section Template', 2); // Add Comment 
+		
+			$render = (!isset($output) || $output == '') ? false : true;
+			
+			$this->grid_row_start( $s, $count, $total, $render, $level );
+			
+			if( $render ){
 				
 				$this->before_section( $s );
-
-				$this->editor->section_controls($meta['id'], $s);
 
 				echo $output;
 
 				$this->after_section( $s );
 				
 			}
+			
+			$this->grid_row_stop( $s, $count, $total, $render, $level );
+			
+	
 		
 			wp_reset_postdata(); // Reset $post data
 			wp_reset_query(); // Reset wp_query
@@ -587,7 +599,55 @@ class PageLinesTemplateHandler {
 		
 	}
 	
+	function grid_row_start( $s, $count, $total, $render = true, $level = 1 ){
+	
+		if( $this->draft->show_editor() )
+			return;
+	
+		if( !isset($this->row_width[ $level ]) ){
+			$this->row_width[ $level ] = 0;
+		}
+			
+		
+		if( $count == 1 ){
+		
+			$this->row_width[ $level ] = 0;
+			printf('<div class="row grid-row">');
+		}
+		
+		if( $render ){
+			
+			$section_width = $s->meta['span'] + $s->meta['offset']; 
+			
+			$this->row_width[ $level ] +=  $section_width;
+			
+
+			if( $this->row_width[ $level ] > 12 || $s->meta['newrow'] == 'true' ){
+					
+				$this->row_width[ $level ] = $section_width;
+				
+				printf('</div>%s<div class="row grid-row">', "\n\n");
+			}
+			
+		}	
+	
+		
+	}
+	
+	function grid_row_stop( $s, $count, $total, $render, $level = 1 ){
+		
+		if($this->draft->show_editor())
+			return;
+			
+		if( $count == $total ){
+			$this->row_width[ $level ] = 0;
+			printf('</div>');
+		}	
+	}
+	
 	function before_section( $s ){
+		
+		echo pl_source_comment($s->name . ' | Section Template', 2); // Add Comment 	
 			
 		pagelines_register_hook('pagelines_before_'.$s->id, $s->id); // hook
 		
@@ -606,18 +666,19 @@ class PageLinesTemplateHandler {
 		$newrow = ( $s->meta['newrow'] == 'true' ) ? 'force-start-row' : '';
 		$clone 	= $s->meta['clone'];
 		
-		$class[] = sprintf("pl-section fix section-%s", $sid);
+		$class[] = sprintf("pl-section section-%s", $sid);
 		$class[] = $span;
 		$class[] = $offset;
 		$class[] = $newrow;
 		
 		printf(
-			'<section id="%s" data-object="%s" data-sid="%s" data-clone="%s" class="%s">', 
+			'<section id="%s" data-object="%s" data-sid="%s" data-clone="%s" class="%s">%s<div class="pl-section-pad fix">', 
 			$s->id.$clone, 
 			$s->class_name,
 			$s->id, 
 			$clone, 
-			implode(" ", $class)
+			implode(" ", $class), 
+			$this->editor->section_controls( $s )
 		);
 
 		pagelines_register_hook('pagelines_outer_'.$s->id, $s->id); // hook
@@ -629,7 +690,7 @@ class PageLinesTemplateHandler {
 		
 		pagelines_register_hook('pagelines_inside_bottom_'.$s->id, $s->id);
 	 	
-		printf('</section>');
+		printf('</div></section>');
 
 		pagelines_register_hook('pagelines_after_'.$s->id, $s->id);
 	}
@@ -656,6 +717,7 @@ class PageLinesTemplateHandler {
 	
 }
 
+
 /**
  * For use inside of sections
  */
@@ -665,8 +727,11 @@ function render_nested_sections( $sections ){
 
 	if( !empty( $sections ) ){
 
+		$section_count = 0;
+		$sections_total = count($sections);
+
 		foreach( $sections as $key => $meta )
-			$pagelines_editor->handler->render_section( $meta );
+			$pagelines_editor->handler->render_section( $meta, ++$section_count, $sections_total, 2);
 
 	}
 

@@ -24,11 +24,18 @@ class EditorInterface {
 
 
 
-		if ( current_user_can('edit_themes') ){
-			add_action( 'wp_footer', array( &$this, 'control_panel' ) );
+		if ( $this->draft->show_editor() ){
+			
+			add_action( 'wp_footer', array( &$this, 'pagelines_toolbox' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_scripts' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_styles' ) );
 			add_action( 'wp_ajax_the_store_callback', array( &$this, 'the_store_callback' ) );
+			
+		} elseif(current_user_can('edit_themes')) {
+			
+			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_live_scripts' ) );
+			add_action( 'wp_footer', array( &$this, 'pagelines_editor_activate' ) );
+			
 		}
 
 		$this->url = PL_PARENT_URL . '/editor';
@@ -36,6 +43,11 @@ class EditorInterface {
 
 
 	}
+	
+	function pl_live_scripts(){
+		wp_enqueue_script( 'pl-utility-js', $this->url . '/js/pl.live.js', array( 'jquery' ), PL_CORE_VERSION, true );
+	}
+
 
 	function pl_editor_styles() {
 
@@ -141,8 +153,7 @@ class EditorInterface {
 	 */
 	function area_sortable_buffer(){
 
-		return sprintf('<div class="pl-sortable pl-sortable-buffer span12 offset0"></div>');
-
+		return ($this->draft->show_editor()) ? sprintf('<div class="pl-sortable pl-sortable-buffer span12 offset0"></div>') : '';
 	}
 
 	function area_end(){
@@ -155,7 +166,6 @@ class EditorInterface {
 
 		$data = array(
 			'pl-toggle' => array(
-				'name'	=> '&nbsp;',
 				'icon'	=> 'icon-off',
 				'type'	=> 'btn'
 
@@ -244,11 +254,11 @@ class EditorInterface {
 				'panel'	=> array(
 					'heading'	=> "Select Theme",
 					'tmp_load'	=> array(
-						'name'	=> 'Your Templates',
-						'call'	=> array(&$this->templates, 'user_templates'),
+						'name'	=> '<i class="icon-picture"></i> Available Themes',
+						'call'	=> array(&$this, 'themes_dashboard'),
 					),
 					'tmp_save'	=> array(
-						'name'	=> 'Save New Template',
+						'name'	=> '<i class="icon-download"></i> Get More Themes',
 						'call'	=> array(&$this->templates, 'save_templates'),
 					)
 				)
@@ -330,8 +340,7 @@ class EditorInterface {
 				'type'	=> 'dropup',
 				'panel'	=> array(
 
-					'reset_global'	=> array('name'	=> 'Reset Global Settings to Default'),
-					'reset_local'	=> array('name'	=> 'Reset Current Page Settings to Default')
+					'toggle_grid'	=> array('name'	=> '<i class="icon-table"></i> Toggle Editor Grid'),
 				)
 
 			),
@@ -390,7 +399,14 @@ class EditorInterface {
 
 	}
 
-	function control_panel(){
+	function pagelines_editor_activate(){
+		?>
+			<div class="toolbox-activate"><i class="icon-off"></i> <span class="txt">Activate PageLines Editor</span></span></div>
+			
+		<?php 
+	}
+
+	function pagelines_toolbox(){
 
 
 	?>
@@ -506,7 +522,7 @@ class EditorInterface {
 							if(isset($tab['panel']) && !empty($tab['panel']))
 								$this->panel($key, $tab['panel']);
 							else
-								printf('<div class="panel-%s tabbed-set error-panel">There was an issue rendering the panel.</div>', $key);
+								printf('<div class="panel-%s tabbed-set error-panel"><i class="icon-spinner icon-spin"></i></div>', $key);
 						}
 							 ?>
 					</div>
@@ -634,6 +650,64 @@ class EditorInterface {
 
 		printf('<div class="x-list">%s</div>', $list);
 
+	}
+
+	function themes_dashboard(){
+		$themes = wp_get_themes(  );
+		
+		$active_theme = wp_get_theme();
+		
+		$list = '';
+		$count = 1;
+		if(is_array($themes)){
+			
+			foreach($themes as $theme => $t){
+				$class = array();
+				
+				if($t->get_template() != 'pagelines')
+					continue;
+				
+				if($active_theme->stylesheet == $t->get_stylesheet()){
+					$class[] = 'active-theme';
+					$active = ' <span class="badge badge-info"><i class="icon-ok"></i> Active</span>';
+					$number = 0;
+				}else {
+					$active = '';
+					$number = $count++;
+				}
+					
+					
+				$classes = implode(' ', $class);
+					
+				$img = sprintf('<img src="%s" style=""/>', $t->get_screenshot( ) );
+
+				$the_item = sprintf(
+					"<section class='x-item x-item-larger %s' data-number='%s'>
+						<div class='x-item-frame'>
+							<div class='pl-vignette'>
+								%s
+							</div>
+						</div>
+						<div class='x-item-text'>
+							%s
+							%s
+						</div>
+					</section>",
+					$classes,
+					$number,
+					$img, 
+					$t->name,
+					$active
+				);
+				
+				$list .= $the_item;
+				
+			}
+			
+		}
+		
+		
+		printf('<div class="x-list">%s</div>', $list);
 	}
 
 	function the_store_callback(){
@@ -829,9 +903,14 @@ class EditorInterface {
 		return ob_get_clean();
 	}
 
-	function section_controls($sid, $s){
-
+	function section_controls( $s ){
+		
+		if(!$this->draft->show_editor())
+			return;
+			
 		$clone_desc = ($s->meta['clone'] != 0) ? sprintf(" <i class='icon-copy'></i> %s", $s->meta['clone']) : '';
+		$sid = $s->id;
+		ob_start(); 
 		?>
 		<div id="<?php echo $sid;?>_control" class="pl-section-controls fix" >
 			<div class="controls-left">
@@ -851,6 +930,8 @@ class EditorInterface {
 			<div class="controls-title"><?php echo $s->name;?> <span class="title-desc"><?php echo $clone_desc;?></span></div>
 		</div>
 		<?php
+		
+		return ob_get_clean();
 
 	}
 

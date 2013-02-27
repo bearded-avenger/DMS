@@ -7,18 +7,40 @@ class EditorDraft{
 	
 	function __construct( ){
 		
+		//$this->mode = 'draft';
+		
+		$this->mode = $this->editor_mode();
+			
+			
+	}
+	
+	function editor_mode(){
 		$current_user = wp_get_current_user();
-		$state = get_user_meta($current_user->ID, 'pl_editor_state', true);
+		
+		if(isset($_GET['editor_state']) && $_GET['editor_state'] != ''){
+			
+			$state = ($_GET['editor_state'] == 'on') ? 'on' : 'off';
+			
+			update_user_meta($current_user->ID, 'pl_editor_state', $state);
+			
+		} else {
+			
+			$state = get_user_meta($current_user->ID, 'pl_editor_state', true);
+		}
+		
 		
 		if( current_user_can('edit_themes') && $state != 'off')
-			$this->mode = 'draft';
+			return 'draft';
 		else {
-			echo 'hi~';
-			$this->mode = 'live';
+			return 'live';
 		}
-			
-			
-			
+	}
+	
+	function show_editor(){
+		if(current_user_can('edit_themes') && $this->mode == 'draft')
+			return true; 
+		else 
+			return false;
 	}
 
 	function save_draft( $data ){

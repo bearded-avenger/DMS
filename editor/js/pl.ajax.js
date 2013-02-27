@@ -122,7 +122,7 @@
 							
 							bootbox.dialog( that.dialogText('Editor deactivated! Reloading page.'), [], {animate: false})
 							
-							location.reload()
+							window.location = window.location.href.split("?")[0];
 						}
 					})
 				}

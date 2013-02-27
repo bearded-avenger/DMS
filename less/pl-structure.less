@@ -7,6 +7,25 @@ body {
 	background: @bodyBackground;
 }	
 
+
+/*
+ * SECTION STRUCTURE
+ ***********************************/
+body .pl-area .pl-section{
+	margin-bottom: 0;
+	.pl-section-pad{
+		padding: 7px;
+	}
+	.pl-section > .pl-section-pad{
+		margin-bottom: @baseLineHeight;
+	}
+	&.section-plcolumn > .pl-section-pad{
+		padding: 0;
+	}
+}
+
+
+
 /*
  * PAGELINES LEAF
  ***********************************/

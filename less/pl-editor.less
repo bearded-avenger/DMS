@@ -14,6 +14,7 @@
 		position: relative;
 		max-width: @plContentWidth;
 		margin: 0 auto;
+	
 	}
 	.section-plcolumn{
 		margin-bottom: 0;
@@ -41,8 +42,8 @@
 	display: none;
 }
 
-.btn-region
-, .pl-section-controls{
+.btn-region, 
+.pl-section-controls{
 	font-family: @defaultFont;
 }
 
@@ -63,6 +64,7 @@
 		
 		
 		&.section-plcolumn{
+			&:hover{background: transparent;}
 			margin-bottom: 20px;
 			outline: 1px dashed #35eafd;
 			.pl-sortable-column section:last-of-type{
@@ -82,7 +84,10 @@
 			}
 			> .pl-section-controls:first-child{
 				top: -20px;
-				#gradient > .vertical(rgba(182, 242, 253, .5), rgba(125, 233, 253, .5));
+				#gradient > .vertical(rgba(182, 242, 253, .4), rgba(125, 233, 253, .4));
+				&:hover{
+					#gradient > .vertical(rgba(182, 242, 253, .6), rgba(125, 233, 253, .6));
+				}
 				box-shadow: inset 1px 1px 0 rgba(255,255,255,.5); 
 				outline: 1px dashed  @editorBorder;
 				color: @editorText;
@@ -448,6 +453,35 @@
 
 // Toolbox/Toolbar
 // --------------------------------------------------
+.toolbox-activate{
+	position: fixed; 
+	display: block;
+	bottom: 0;
+	left: 15px;
+	padding: 0px 18px;
+	font-weight: bold;
+	line-height: 25px;
+	font-size: 11px;
+	.buttonBackground(#eee, #ddd);
+	box-shadow: inset 1px 1px 0 rgba(255,255,255,.8), 0 1px 3px rgba(0,0,0,.2);
+	border: 1px solid #999;
+	border-bottom: none; 
+	cursor: pointer;
+	text-shadow: 0 1px 0 #fff; 
+	&:hover{
+		.buttonBackground(#e1e1e1, #ccc);
+		border-color:#999;
+	}
+	&:active{
+		box-shadow: inset 1px 1px 0 rgba(0,0,0,.1);
+		.buttonBackground(#bbb, #ddd);
+		border-color:#999;
+	}
+	i{ 
+		color: #0083e8;
+	}
+	.txt{margin-left: 5px;}
+}
 #PageLinesToolbox.pl-toolbox{
 	position: fixed; 
 	bottom: 0;
@@ -493,11 +527,7 @@
 		padding: 0 20px 0 24px; 
 		
 		.user-select(none);
-		i{
-			margin-top: -4px;
-			font-size: 1.4em;
-			vertical-align: middle;
-		}
+		
 		 
 		ul.controls{
 			float: left;
@@ -588,6 +618,12 @@
 					cursor: pointer;
 					border-left: 1px solid #fff; 
 					border-right: 1px solid #AAA;
+					
+					> i{
+						margin-top: -4px;
+						font-size: 1.4em;
+						vertical-align: middle;
+					}
 					&.btn-state{
 						padding: 0 10px;
 						height: 28px;
@@ -938,11 +974,17 @@
 			
 			.x-list .x-item{
 				width: 120px;
-				margin: 5px 10px 5px 5px;
+				margin: 5px 15px 5px 5px;
 				float: left;
 				font-size: 11px;
 				line-height: 1.2em;
-				
+				&.corner-stamp{
+					float: left; 
+					width: 300px;
+				}
+				&.x-item-larger{
+					width: 200px;
+				}
 				.x-item-frame{
 					.border-radius(10px);
 					box-shadow: 0 1px 4px rgba(0,0,0,.6);
