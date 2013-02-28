@@ -21,7 +21,7 @@ class PLMasthead extends PageLinesSection {
 
     function section_head() {
 
-    	if(ploption('pagelines_masthead_html',$this->oset)) { ?>
+    	if($this->opt('pagelines_masthead_html',$this->oset)) { ?>
 	    		<script>
 	    		  jQuery(document).ready(function(){
 				    jQuery(".video-splash").fitVids();
@@ -31,7 +31,7 @@ class PLMasthead extends PageLinesSection {
     }
 
      function section_scripts() {
-     	if(ploption('pagelines_masthead_html',$this->oset))
+     	if($this->opt('pagelines_masthead_html',$this->oset))
     	wp_enqueue_script('fitvid',$this->base_url.'/jquery.fitvids.js',array('jquery'));
     }
 	
@@ -177,14 +177,14 @@ class PLMasthead extends PageLinesSection {
 	* Section template.
 	*/
    function section_template( $clone_id ) { 
-   		$mast_title = ploption('pagelines_masthead_title', $this->oset);
-   		$mast_img = ploption('pagelines_masthead_img', $this->oset);
-		$mast_imgalt = ploption('pagelines_masthead_imgalt', $this->oset);
-		$mast_tag = ploption('pagelines_masthead_tagline', $this->oset);
-		$mast_menu = (ploption('masthead_menu', $this->oset)) ? ploption('masthead_menu', $this->oset) : null;
-		$masthead_meta = ploption('masthead_meta', $this->oset);
+   		$mast_title = $this->opt('pagelines_masthead_title', $this->oset);
+   		$mast_img = $this->opt('pagelines_masthead_img', $this->oset);
+		$mast_imgalt = $this->opt('pagelines_masthead_imgalt', $this->oset);
+		$mast_tag = $this->opt('pagelines_masthead_tagline', $this->oset);
+		$mast_menu = ($this->opt('masthead_menu', $this->oset)) ? $this->opt('masthead_menu', $this->oset) : null;
+		$masthead_meta = $this->opt('masthead_meta', $this->oset);
 
-		$masthtmlwidth = (ploption('masthead_html_width',$this->oset)) ? ploption('masthead_html_width',$this->oset).'px' : '';
+		$masthtmlwidth = ($this->opt('masthead_html_width',$this->oset)) ? $this->opt('masthead_html_width',$this->oset).'px' : '';
 		
 		
 		// A Responsive, Drag &amp; Drop Platform for Beautiful Websites
@@ -197,7 +197,7 @@ class PLMasthead extends PageLinesSection {
 	  	<?php
 
 	  		$theimg = sprintf('<img class="masthead-img" src="%s" alt="%s"/>',$mast_img, $mast_imgalt);
-	  		$masthtml = ploption('pagelines_masthead_html',$this->oset);
+	  		$masthtml = $this->opt('pagelines_masthead_html',$this->oset);
 
 	  		if($mast_img)
 	  			printf('<div class="splash" style="max-width:%s;margin:0 auto;">%s</div>',$masthtmlwidth,$theimg);
@@ -222,12 +222,12 @@ class PLMasthead extends PageLinesSection {
 
 	    <?php
 			for ($i = 1; $i <= 2; $i++){
-				$butt_link = ploption('masthead_button_link_'.$i, $this->oset); // Flag
+				$butt_link = $this->opt('masthead_button_link_'.$i, $this->oset); // Flag
 				
-				$butt_text = (ploption('masthead_button_text_'.$i, $this->oset)) ? ploption('masthead_button_text_'.$i, $this->oset) : __('Start Here', 'pagelines');
+				$butt_text = ($this->opt('masthead_button_text_'.$i, $this->oset)) ? $this->opt('masthead_button_text_'.$i, $this->oset) : __('Start Here', 'pagelines');
 				
-				$target = ( ploption( 'masthead_button_target_'.$i, $this->oset ) ) ? 'target="_blank"' : '';
-				$btheme = ( ploption( 'masthead_button_theme_'.$i, $this->oset ) ) ? ploption( 'masthead_button_theme_'.$i, $this->oset ) : 'primary';
+				$target = ( $this->opt( 'masthead_button_target_'.$i, $this->oset ) ) ? 'target="_blank"' : '';
+				$btheme = ( $this->opt( 'masthead_button_theme_'.$i, $this->oset ) ) ? $this->opt( 'masthead_button_theme_'.$i, $this->oset ) : 'primary';
 
 				if($butt_link)
 					printf('<a %s class="btn btn-%s btn-large" href="%s">%s</a> ', $target, $btheme, $butt_link, $butt_text);

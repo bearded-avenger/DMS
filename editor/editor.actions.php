@@ -43,7 +43,7 @@ function pl_save_page(){
 		$draft->save_draft( $data );
 		
 	} elseif ( $mode == 'publish' ) {
-		
+			
 		$draft->save_draft( $data );
 		$draft->publish( $data, $map );
 		
