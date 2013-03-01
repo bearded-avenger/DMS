@@ -407,7 +407,11 @@ class PageLinesRenderCSS {
 		if ( ! $is_apache )
 			return true;
 	}
-
+	function check_draft() {
+		global $pldraft;
+		$draft = $pldraft->mode;
+		return( 'draft' == $draft ) ? true : false;
+	}
 	/**
 	 * 
 	 *  Get compiled/cached CSS
@@ -417,7 +421,7 @@ class PageLinesRenderCSS {
 	 */
 	function get_compiled_core() {
 		
-		if ( is_array(  $a = get_transient( 'pagelines_core_css' ) ) ) {
+		if ( ! $this->check_draft() && is_array( $a = get_transient( 'pagelines_core_css' ) ) ) {
 			return $a;
 		} else {
 			
@@ -459,7 +463,7 @@ class PageLinesRenderCSS {
 	 */
 	function get_compiled_sections() {
 		
-		if ( is_array(  $a = get_transient( 'pagelines_sections_css' ) ) ) {
+		if ( ! $this->check_draft() && is_array( $a = get_transient( 'pagelines_sections_css' ) ) ) {
 			return $a;
 		} else {
 			
@@ -496,7 +500,7 @@ class PageLinesRenderCSS {
 	 */
 	function get_compiled_custom() {
 		
-		if ( is_array(  $a = get_transient( 'pagelines_custom_css' ) ) ) {
+		if ( ! $this->check_draft() && is_array(  $a = get_transient( 'pagelines_custom_css' ) ) ) {
 			return $a;
 		} else {
 			
