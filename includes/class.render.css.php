@@ -175,6 +175,8 @@ class PageLinesRenderCSS {
 	
 	function write_css_file( $txt ){
 
+		
+
 		add_filter('request_filesystem_credentials', '__return_true' );
 
 		$method = '';
@@ -188,11 +190,11 @@ class PageLinesRenderCSS {
 
 		include_once( ABSPATH . 'wp-admin/includes/file.php' );
 
-	if ( is_writable( $folder ) ){
-		$creds = request_filesystem_credentials($url, $method, false, false, null);
-		if ( ! WP_Filesystem($creds) )
-			return false;
-	}
+		if ( is_writable( $folder ) ){
+			$creds = request_filesystem_credentials($url, $method, false, false, null);
+			if ( ! WP_Filesystem($creds) )
+				return false;
+		}
 
 			global $wp_filesystem;
 			if( is_object( $wp_filesystem ) )
