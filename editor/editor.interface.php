@@ -630,7 +630,7 @@ class EditorInterface {
 
 
 			$list .= sprintf(
-				"<section class='x-item %s %s %s' data-object='%s' data-sid='%s' data-name='%s' data-image='%s' data-content='%s' data-template='%s' data-clone='0' >
+				"<section class='x-add-new x-item %s %s %s' data-object='%s' data-sid='%s' data-name='%s' data-image='%s' data-content='%s' data-template='%s' data-clone='0' data-placement='top' >
 					<div class='x-item-frame'>
 						<div class='pl-vignette'>
 							%s
@@ -735,7 +735,7 @@ class EditorInterface {
 			$img = sprintf('<img src="%s" style=""/>', $item['thumb']);
 
 			$list .= sprintf(
-				"<section class='x-item %s' data-store-id='%s' data-content='%s' >
+				"<section class='x-storefront x-item %s' data-store-id='%s' data-content='%s' data-placement='top' >
 					<div class='x-item-frame'>
 						<div class='pl-vignette'>
 							%s
@@ -747,7 +747,7 @@ class EditorInterface {
 				</section>",
 				$classes,
 				$item['id'],
-				sprintf('<img src="%s" />', $item['thumb']),
+				sprintf('<img src="%s" />', $item['splash']),
 				$img,
 				$item['name']
 			);

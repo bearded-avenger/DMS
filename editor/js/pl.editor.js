@@ -109,19 +109,25 @@
 			$('.ui-tabs').tabs('destroy')
 		
 			selectedPanel.tabs({
-				activate: function(event, ui){
+				create: function(event, ui){
+					
+					selectedPanel.find('.tabs-nav li').on('click.panelTab', function(){
+						var theIsotope = selectedPanel.find('.isotope')
+						,	removeItems = $('.x-remove')
+						
+						if( $(this).data('filter') )
+							theIsotope.isotope({ filter: $(this).data('filter') }).isotope('remove', removeItems).removeClass('storefront-mode')
+						
+					})
+				}
+				, activate: function(event, ui){
 					
 					var theTab = ui.newTab
 					, 	tabAction = theTab.attr('data-tab-action') || ''
 					,	tabPanel = $("[data-panel='"+tabAction+"']")
 					,	tabFlag = theTab.attr('data-flag') || ''
-					, 	tabFilter = theTab.attr('data-filter') || ''
 					
-					if(tabFilter != ''){
-						
-						selectedPanel.find('.x-list').isotope({ filter: ui.newTab.attr('data-filter') })
-						
-					} else if (tabFlag == 'custom-scripts'){
+					if (tabFlag == 'custom-scripts'){
 						
 						var editor2 = CodeMirror.fromTextArea( $(".custom-scripts").get(0), {
 							'lineNumbers': true
@@ -287,26 +293,46 @@
 			if(key == 'add-new')
 				this.makeDraggable(panel)
 				
-			if(key == 'pl-extend')
+			else if(key == 'pl-extend')
 				this.storeActions(panel)
+				
+			
 				
 		}
 
 		, storeActions: function(){
-			$('.x-item').on('click', function(){
+			$('.x-storefront').on('click.storeFrontItem', function(){
 				
-				var filterClass = $(this).data('store-id')
-				, 	splash	= sprintf('<div class="storefront-frame">%s</div>', $(this).data('content'))
-				,	btnBuy	= sprintf('<a href="#" class="btn btn-primary"><i class="icon-ok"></i> Purchase</a>')
-				,	btnOverview	= sprintf('<a href="#" class="btn"><i class="icon-folder-open"></i> Overview</a>')
-				,	btnDemo	= sprintf('<a href="#" class="btn"><i class="icon-desktop"></i> Demo</a>')
-				,	btnClose = sprintf('<div class="x-item x-close %s"><a href="#" class="btn btn-close"><i class="icon-remove"></i></a></div>', filterClass)
-				,	desc	= 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum, ipsum sit amet feugiat ullamcorper, est ante tempus nisi, sed rhoncus nulla eros sed magna. '
-				,	storeFront = $( sprintf('<div class="storefront x-item %s"><div class="storefront-pad">%s <div class="storefront-info">%s</div><div class="storefront-btns">%s %s %s</div></div></div>%s', filterClass, splash, desc, btnBuy, btnOverview, btnDemo, btnClose) )
+				var theIsotope = $(this).closest('.isotope')
+				,	filterClass = $(this).data('store-id')
 				
-				$(this).closest('.isotope').isotope('insert', storeFront).isotope({filter: '.'+filterClass})
+				if(!theIsotope.hasClass('storefront-mode')){
+					
+					var splash	= sprintf('<div class="storefront-frame">%s</div>', $(this).data('content'))
+					,	btnBuy	= sprintf('<a href="#" class="btn btn-primary"><i class="icon-ok"></i> Purchase</a>')
+					,	btnOverview	= sprintf('<a href="#" class="btn"><i class="icon-folder-open"></i> Overview</a>')
+					,	btnDemo	= sprintf('<a href="#" class="btn"><i class="icon-desktop"></i> Demo</a>')
+					,	btnClose = sprintf('<div class="x-item x-close x-remove %s"><a href="#" class="btn btn-close"><i class="icon-remove"></i></a></div>', filterClass)
+					,	desc	= 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum, ipsum sit amet feugiat ullamcorper, est ante tempus nisi, sed rhoncus nulla eros sed magna. '
+					,	storeFront = $( sprintf('<div class="storefront x-remove x-item %s"><div class="storefront-pad">%s <div class="storefront-info">%s</div><div class="storefront-btns">%s %s %s</div></div></div>%s', filterClass, splash, desc, btnBuy, btnOverview, btnDemo, btnClose) )
+
+					theIsotope.isotope('insert', storeFront).isotope({filter: '.'+filterClass}).addClass('storefront-mode')
+					
+				}
 				
+				$('.btn-close').on('click.closeStoreFront ', function(e){
+					e.preventDefault
+					
+					var theIsotope = $(this).closest('.isotope')
+					,	removeItems = $('.x-remove')
+
+					theIsotope.isotope({ filter: '*' }).isotope('remove', removeItems).removeClass('storefront-mode')
+
+
+				})
 			})
+			
+		
 			
 		
 		}
