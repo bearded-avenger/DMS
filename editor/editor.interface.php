@@ -302,11 +302,14 @@ class EditorInterface {
 			'pl-extend' => array(
 				'name'	=> 'Extend',
 				'icon'	=> 'icon-download',
+				
 				'panel'	=> array(
 					'heading'	=> "Extend PageLines",
 					'store'		=> array(
 						'name'	=> 'PageLines Store',
-						'filter'=> '*'
+						'filter'=> '*', 
+						'type'	=> 'call',
+						'call'	=> array(&$this, 'the_store_callback'),
 					),
 					'heading2'	=> "Filters",
 					'plus'		=> array(
@@ -717,10 +720,11 @@ class EditorInterface {
 	function the_store_callback(){
 
 		$list = '';
-
+		
 		foreach(store_mixed_array() as $key => $item){
 			$class = array();
 			$class[] = $item['type'];
+			$class[] = $item['id'];
 
 			$class[] = ($item['type'] == 'themes') ? 'x-item-size-10' : 'x-item-size-5';
 
@@ -731,7 +735,7 @@ class EditorInterface {
 			$img = sprintf('<img src="%s" style=""/>', $item['thumb']);
 
 			$list .= sprintf(
-				"<section class='x-item %s' >
+				"<section class='x-item %s' data-store-id='%s' data-content='%s' >
 					<div class='x-item-frame'>
 						<div class='pl-vignette'>
 							%s
@@ -742,6 +746,8 @@ class EditorInterface {
 					</div>
 				</section>",
 				$classes,
+				$item['id'],
+				sprintf('<img src="%s" />', $item['thumb']),
 				$img,
 				$item['name']
 			);

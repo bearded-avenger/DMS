@@ -187,18 +187,20 @@
 					}
 				})
 				
-			} else if (key == 'pl-extend'){
-				
-				$('body').toolbox({
-					action: 'show'
-					, panel: key
-					, info: function(){
-					
-						$.plExtend.drawStore()
-					
-					}
-				})
-			}
+			} 
+			
+			// else if (key == 'pl-extend'){
+			// 				
+			// 				$('body').toolbox({
+			// 					action: 'show'
+			// 					, panel: key
+			// 					, info: function(){
+			// 					
+			// 						$.plExtend.drawStore()
+			// 					
+			// 					}
+			// 				})
+			// 			}
 		
 			selectedTab.addClass('active-tab')
 			
@@ -285,8 +287,30 @@
 			if(key == 'add-new')
 				this.makeDraggable(panel)
 				
+			if(key == 'pl-extend')
+				this.storeActions(panel)
+				
 		}
+
+		, storeActions: function(){
+			$('.x-item').on('click', function(){
+				
+				var filterClass = $(this).data('store-id')
+				, 	splash	= sprintf('<div class="storefront-frame">%s</div>', $(this).data('content'))
+				,	btnBuy	= sprintf('<a href="#" class="btn btn-primary"><i class="icon-ok"></i> Purchase</a>')
+				,	btnOverview	= sprintf('<a href="#" class="btn"><i class="icon-folder-open"></i> Overview</a>')
+				,	btnDemo	= sprintf('<a href="#" class="btn"><i class="icon-desktop"></i> Demo</a>')
+				,	btnClose = sprintf('<div class="x-item x-close %s"><a href="#" class="btn btn-close"><i class="icon-remove"></i></a></div>', filterClass)
+				,	desc	= 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum, ipsum sit amet feugiat ullamcorper, est ante tempus nisi, sed rhoncus nulla eros sed magna. '
+				,	storeFront = $( sprintf('<div class="storefront x-item %s"><div class="storefront-pad">%s <div class="storefront-info">%s</div><div class="storefront-btns">%s %s %s</div></div></div>%s', filterClass, splash, desc, btnBuy, btnOverview, btnDemo, btnClose) )
+				
+				$(this).closest('.isotope').isotope('insert', storeFront).isotope({filter: '.'+filterClass})
+				
+			})
+			
 		
+		}
+
 		, listPopOverStart: function(){
 			$('.x-item').popover({
 				template: '<div class="popover x-item-popover"><div class="arrow"></div><div class="popover-content"></div></div>'
@@ -297,6 +321,7 @@
 			})
 		
 		}
+		
 		, listPopOverStop: function(){
 			$('.x-item').popover('destroy')
 			
