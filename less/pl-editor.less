@@ -492,7 +492,16 @@
 	min-width: 750px;
 	font-family: @defaultFont;
 	font-weight: normal;
-	select, textarea, input{font-size: 14px;}
+	select, textarea, input{
+		font-size: 14px;
+		line-height: 1.5em;
+	}
+	.type-textarea{
+		font-size: 12px;
+		line-height: 1.5em;
+		min-height: 9em;
+		padding: .7em;
+	}
 	.resizer-handle{
 		position: absolute; 
 		height: 4px; 
@@ -878,8 +887,11 @@
 				border: 1px solid #ddd;
 				background:#fff; 
 				margin: 0 15px 15px 0;
-				width: 300px;
 				float: left;
+				width: 300px;
+				&.opt-span-2{
+					width: 615px;
+				}
 				&.opt-disabled{
 					opacity: .7;
 				}

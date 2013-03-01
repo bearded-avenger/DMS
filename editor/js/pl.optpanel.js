@@ -228,26 +228,11 @@
 			
 			$.each( opts , function(index, o) {
 			
-				var specialCase = o.case || false
-				,	specialClass = ''
+				var specialClass = ''
 				, 	number = index
 				
-				if( specialCase ){
-					if(specialCase == 'pages' && $.pl.config.isSpecial == '1'){
-						o.type = 'disabled'
-						specialClass = 'opt-disabled'
-						var title = sprintf('<strong>Option unavailable on "%s"</strong><br/>', $.pl.config.pageTypeName)
-						o.help = title+'This option is not available on "special" pages where meta information is unsupported (<em>e.g. blog, category, archive, 404 page, etc..</em>)'
-						number = 100
-					}
-					else if(specialCase == 'special' && $.pl.config.isSpecial != '1'){
-						o.type = 'disabled'
-						specialClass = 'opt-disabled'
-						var title = sprintf('<strong>Option unavailable on pages/posts</strong><br/>')
-						o.help = title+'This option is only available on post listing pages (e.g. blog, category, archive, etc..)'
-						number = 100
-					}
-				}
+				if(o.span)
+					specialClass += 'opt-span-'+o.span
 			
 				optionHTML = that.optEngine( tabKey, o )
 				
@@ -354,7 +339,7 @@
 			else if( o.type == 'textarea' ){
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<textarea id="%s" name="%s" class="%s lstn" >%s</textarea>', o.key, o.name, o.classes, o.value )
+				oHTML += sprintf('<textarea id="%s" name="%s" class="%s type-textarea lstn" >%s</textarea>', o.key, o.name, o.classes, o.value )
 				
 			}
 			

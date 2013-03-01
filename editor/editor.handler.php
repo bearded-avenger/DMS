@@ -387,7 +387,8 @@ class PageLinesTemplateHandler {
 			'count_start'	=> 0,
 			'count_number'	=> '',
 			'selectvalues'	=> array(),
-			'taxonomy_id'	=> ''
+			'taxonomy_id'	=> '',
+			'span'			=> 1
 		);
 		
 		$old = wp_parse_args($old, $defaults);
@@ -405,7 +406,8 @@ class PageLinesTemplateHandler {
 			'label'			=> $old['inputlabel'], 
 			'type'			=> $type, 
 			'help'			=> $exp, 
-			'opts'			=> $old['selectvalues']
+			'opts'			=> $old['selectvalues'],
+			'span'			=> $old['span']
 		); 
 		
 		if($old['type'] == 'count_select'){
