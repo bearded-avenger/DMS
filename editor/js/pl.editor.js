@@ -280,9 +280,27 @@
 				})
 			})
 			
+			this.listPopOverStart()
+			
 			if(key == 'add-new')
 				this.makeDraggable(panel)
 				
+		}
+		
+		, listPopOverStart: function(){
+			$('.x-item').popover({
+				template: '<div class="popover x-item-popover"><div class="arrow"></div><div class="popover-content"></div></div>'
+				, trigger: 'hover'
+				, html: true
+				, container: $('.pl-toolbox')
+				, placement: 'top'
+			})
+		
+		}
+		, listPopOverStop: function(){
+			$('.x-item').popover('destroy')
+			
+		
 		}
 		
 		, makeDraggable: function(panel){
@@ -310,6 +328,8 @@
 		}
 		, listStop: function(){
 		 	$('.x-list.isotope').isotope( 'destroy' )
+		
+			this.listPopOverStop()
 		}
 		
 		, switchOnAdd: function( element ){
@@ -915,7 +935,8 @@
 			})
 			
 		    $( '.pl-sortable-area' ).sortable( sortableArgs ) 
-			$( ".x-item" ).draggable();
+		
+		//	$( ".x-item" ).draggable()
 			
 			
 		

@@ -1002,9 +1002,8 @@
 				float: left;
 				font-size: 11px;
 				line-height: 1.2em;
-				&.corner-stamp{
-					float: left; 
-					width: 300px;
+				&.ui-draggable .x-item-frame:hover{
+					cursor: move;
 				}
 				&.x-item-larger{
 					width: 200px;
@@ -1014,11 +1013,17 @@
 					box-shadow: 0 1px 4px rgba(0,0,0,.6);
 					overflow: hidden;
 					&:hover{
-						cursor: move;
+						cursor: pointer;
 						box-shadow: 0 1px 6px rgba(0,0,0,.6);
 						.pl-vignette:after{
 							#gradient > .vertical(rgba(255,255,255,.1), rgba(0,0,0,.3));
-
+						}
+					}
+					&:active{
+						
+						box-shadow: none;
+						.pl-vignette:after{
+							#gradient > .vertical(rgba(0,0,0,.2), rgba(0,0,0,.1));
 						}
 					}
 					.pl-vignette{.border-radius( 10px ); overflow: hidden;}
@@ -1078,6 +1083,8 @@
 				}
 				
 			}
+			
+			
 			.pl-vignette{
 				width: 100%;
 			}
@@ -1116,7 +1123,22 @@
 	}
 
 
-	
+	.x-item-popover{
+		width: auto;
+		background: rgba(0,0,0,.5);
+		border: none;
+		.popover-content{
+			padding: 5px;
+		}
+		img{
+			display: block;
+			max-height: 130px;
+		}
+		.arrow{
+			border-top-color: rgba(0,0,0,.2);
+		    
+		}
+	}
 
 }
 .bootbox{

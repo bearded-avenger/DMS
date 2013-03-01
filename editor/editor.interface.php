@@ -540,6 +540,7 @@ class EditorInterface {
 			'name'			=> 'No Name',
 			'filter'		=> 'layout',
 			'screenshot'	=>  PL_ADMIN_IMAGES . '/thumb-default.png',
+			'splash'		=> PL_ADMIN_IMAGES . '/thumb-default.png',
 			'class_name'	=> '',
 			'map'			=> ''
 
@@ -594,6 +595,7 @@ class EditorInterface {
 			$obj->name = $l['name'];
 			$obj->filter = $l['filter'];
 			$obj->screenshot = $l['screenshot'];
+			$obj->splash = $l['splash'];
 			$obj->class_name = $l['class_name'];
 			$obj->map = $l['map'];
 
@@ -625,7 +627,7 @@ class EditorInterface {
 
 
 			$list .= sprintf(
-				"<section class='x-item %s %s %s' data-object='%s' data-sid='%s' data-name='%s' data-image='%s' data-template='%s' data-clone='0'>
+				"<section class='x-item %s %s %s' data-object='%s' data-sid='%s' data-name='%s' data-image='%s' data-content='%s' data-template='%s' data-clone='0' >
 					<div class='x-item-frame'>
 						<div class='pl-vignette'>
 							%s
@@ -642,10 +644,12 @@ class EditorInterface {
 				$s->id,
 				$s->name,
 				$s->screenshot,
+				sprintf('<img src="%s" />', $s->splash),
 				$map,
 				$img,
 				$s->name
 			);
+			
 		}
 
 		printf('<div class="x-list">%s</div>', $list);
@@ -828,7 +832,7 @@ class EditorInterface {
 						call_user_func($t['call']);
 						$content = ob_get_clean();
 					} else {
-						$content = sprintf('<div class="error-panel">There was an issue rendering the panel. (%s)</div>', rand());
+						$content = sprintf('<div class="error-panel"><i class="icon-refresh icon-spin"></i> Loading Panel</div>', rand());
 					}
 
 					$clip = ( isset($t['clip']) ) ? sprintf('<span class="clip-desc">%s</span>', $t['clip']) : '';

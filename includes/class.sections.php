@@ -120,6 +120,12 @@ class PageLinesSection {
 			$this->screenshot = $this->settings['screenshot'] = PL_ADMIN_IMAGES . '/thumb-default.png';
 			$this->thmb = false;
 		}
+		
+		if( is_file( sprintf( '%s/splash.png', $this->base_dir ) ) ){
+			$this->splash = $this->settings['splash'] = sprintf( '%s/splash.png', $this->base_url );
+		} else {
+			$this->splash = $this->settings['splash'] = PL_ADMIN_IMAGES . '/thumb-default.png';
+		}
 
 		$this->optionator_default = array(
 			'clone_id'	=> 1,
