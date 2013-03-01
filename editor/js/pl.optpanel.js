@@ -195,6 +195,12 @@
 						that.activeForm.isotope({
 							itemSelector : '.opt'
 							, layoutMode : 'masonry'
+							, sortBy: 'number'
+							, getSortData : {
+								number : function ( $elem ) {
+									return $elem.data('number');
+								}
+							}
 						})
 					})
 					
@@ -222,9 +228,30 @@
 			
 			$.each( opts , function(index, o) {
 			
+				var specialCase = o.case || false
+				,	specialClass = ''
+				, 	number = index
+				
+				if( specialCase ){
+					if(specialCase == 'pages' && $.pl.config.isSpecial == '1'){
+						o.type = 'disabled'
+						specialClass = 'opt-disabled'
+						var title = sprintf('<strong>Option unavailable on "%s"</strong><br/>', $.pl.config.pageTypeName)
+						o.help = title+'This option is not available on "special" pages where meta information is unsupported (<em>e.g. blog, category, archive, 404 page, etc..</em>)'
+						number = 100
+					}
+					else if(specialCase == 'special' && $.pl.config.isSpecial != '1'){
+						o.type = 'disabled'
+						specialClass = 'opt-disabled'
+						var title = sprintf('<strong>Option unavailable on pages/posts</strong><br/>')
+						o.help = title+'This option is only available on post listing pages (e.g. blog, category, archive, etc..)'
+						number = 100
+					}
+				}
+			
 				optionHTML = that.optEngine( tabKey, o )
 				
-				out += sprintf( '<div class="opt opt-%s"><div class="opt-name">%s</div><div class="opt-box">%s</div></div>', o.key, o.title, optionHTML ) 
+				out += sprintf( '<div class="opt opt-%s %s" data-number="%s"><div class="opt-name">%s</div><div class="opt-box">%s</div></div>', o.key, specialClass, number, o.title, optionHTML ) 
 
 			})
 		
@@ -265,6 +292,7 @@
 			var that = this
 			, 	oHTML = ''
 			, 	scope = (that.config.mode == 'settings') ? 'global' : tabIndex
+		
 			
 			o.classes = o.classes || ''
 
@@ -273,8 +301,9 @@
 			
 			o.name = sprintf('%s[%s]', o.key, that.clone)
 			
-				
-			// Multiple Options
+			
+		
+			
 			if( o.type == 'multi' ){
 				if(o.opts){
 					$.each( o.opts , function(index, osub) {
@@ -285,6 +314,8 @@
 				}
 				
 			}
+			
+			else if( o.type == 'disabled' ){ }
 			
 			else if( o.type == 'color' ){
 				
@@ -297,7 +328,7 @@
 		
 			else if( o.type == 'image_upload' ){
 				
-			  	var size = o.size+'px' || '100%' 
+			  	var size = o.imgsize+'px' || '100%' 
 				,	sizeMode = o.sizemode || 'width'
 				,	remove = '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>'
 				,	thm = (o.value != '') ? sprintf('<div class="img-wrap"><img src="%s" style="max-%s: %s" /></div>', o.value, sizeMode, size) : ''
@@ -330,6 +361,13 @@
 			else if( o.type == 'action_button' ){
 				
 				oHTML += sprintf('<a href="#" data-action="%s" class="btn btn-action %s" >%s</a>', o.key, o.classes, o.label )
+				
+			}
+			
+			else if( o.type == 'edit_post' ){
+				var editLink = $.pl.config.editPostLink
+				
+				oHTML += sprintf('<a href="%s" class="btn %s" >%s</a>', editLink, o.classes, o.label )
 				
 			}
 			
@@ -427,7 +465,11 @@
 			
 			// Add help block
 			if ( o.help )
-				oHTML += sprintf('<span class="help-block">%s</span>', o.help)
+				oHTML += sprintf('<div class="help-block">%s</div>', o.help)
+				
+			// Add help block
+			if ( o.ref )
+				oHTML += sprintf('<div class="opt-ref"><a href="#" class="btn btn-info btn-mini btn-ref"><i class="icon-info-sign"></i> More Info</a><div class="help-block">%s</div></div>', o.ref)
 			
 
 			return oHTML
@@ -483,6 +525,22 @@
 				$(this).closest('.opt').find('.upload-thumb').fadeOut()
 			})
 		
+			// Reference Help Toggle 
+			$('.btn-ref').on('click.ref', function(){
+				var closestRef = $(this).closest('.opt-ref')
+				,	closestHelp = closestRef.find('.help-block')
+				
+				if(closestRef.hasClass('ref-open')){
+					closestRef.removeClass('ref-open')
+					closestHelp.hide()
+				} else {
+					closestRef.addClass('ref-open')
+					closestHelp.show()
+				}
+				
+				closestRef.closest('.isotope').isotope( 'reLayout' )
+				
+			})
 		}
 		
 		, loadFontPreview: function( selector ) {

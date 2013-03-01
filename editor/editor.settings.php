@@ -12,7 +12,10 @@ function pl_setting( $key, $args = array() ){
 		$plopts = new PageLinesOpts( $plpg, $pldraft );
 	}
 		
-	return $plopts->get_setting( $key, $args ); 
+	$setting = $plopts->get_setting( $key, $args ); 
+	
+	return $setting;
+		
 }
 
 /**
@@ -36,7 +39,7 @@ class PageLinesOpts {
 		$this->type = $this->type_settings();
 		$this->global = $this->global_settings();
 		$this->set = $this->page_settings();
-		//plprint($this->set);
+
 	}
 	
 	
@@ -168,7 +171,7 @@ class PageLinesOpts {
 		
 		$not_set = (isset($args['default'])) ? $args['default'] : false;
 		
-		return ( isset( $this->global[ $key ][0] ) ) ? $this->global[ $key ][0] : $not_set; 
+		return ( isset( $this->set[ $key ][0] ) ) ? $this->set[ $key ][0] : $not_set; 
 			
 	}
 	

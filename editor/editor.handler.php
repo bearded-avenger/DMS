@@ -89,6 +89,7 @@ class PageLinesTemplateHandler {
 						, typeID: '<?php echo $this->page->typeid;?>'
 						, pageTypeID: '<?php echo $this->page->type;?>'
 						, pageTypeName: '<?php echo $this->page->type_name;?>'
+						, editPostLink: '<?php echo $this->edit_post_link();?>'
 						, isSpecial: '<?php echo $this->page->is_special();?>'
 						, opts: <?php echo json_encode($this->get_options_config(), JSON_FORCE_OBJECT); ?>
 						, settings: <?php echo json_encode($this->siteset->get_set('site'), JSON_FORCE_OBJECT); ?>
@@ -106,6 +107,15 @@ class PageLinesTemplateHandler {
 		
 		<?php
 		
+	}
+	
+	function edit_post_link(){
+		if($this->page->is_special())
+			$url = admin_url( 'edit.php' );
+		else 
+			$url = get_edit_post_link( $this->page->id );
+			
+		return $url;
 	}
 	
 	function meta_defaults($key){
@@ -234,7 +244,21 @@ class PageLinesTemplateHandler {
 				
 				$opts = array();
 				
+				// Grab the options
 				$opts = $s->section_opts(); 
+				
+				
+				// Deal with special case flags... 
+				if(is_array($opts)){
+					foreach($opts as $index => $opt){
+						if(isset($opt['case'])){
+							// Special Page Only Option (e.g. used in post loop)
+							if($opt['case'] == 'special' && !$this->page->is_special())
+								unset($opts[$index]);
+						}
+					}
+				}
+				
 				
 				// For backwards compatibility with the older optionator format
 				// It works by using a hook to hijack the 'register_metapanel' function

@@ -880,6 +880,9 @@
 				margin: 0 15px 15px 0;
 				width: 300px;
 				float: left;
+				&.opt-disabled{
+					opacity: .7;
+				}
 				&.standard-form{
 					float: none;
 					width: auto;
@@ -898,6 +901,7 @@
 				}
 				label{
 					font-size: 11px;
+					line-height: 20px;
 					font-weight: bold;
 				}
 				.opt-name{
@@ -932,11 +936,21 @@
 				.help-block{
 					font-size: 11px;
 					line-height: 1.45em;
-					margin: 1em 0 .5em 0;
+					margin: 1em 0;
 					color: #000;
-					background:#f7f7f7; 
-					padding: 8px;
-					border: 1px solid #eee; 
+					background: #f7f7f7; 
+					text-shadow: 0 1px 0 #fff; 
+					padding: 7px;
+					ul, ol{
+						padding-left: 16px;
+					}
+				}
+				.opt-ref{
+					margin-bottom: 1em; 
+					.help-block{
+						
+						display: none;
+					}
 				}
 				.type-preview{
 					text-align: center;

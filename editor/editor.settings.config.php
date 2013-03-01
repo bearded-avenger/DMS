@@ -84,7 +84,7 @@ class EditorSettings {
 				'key'			=> 'pagelines_favicon',
 				'label'			=> 'Upload Favicon (32px by 32px)',
 				'type' 			=> 	'image_upload',
-				'size' 			=> 	'16',
+				'imgsize' 			=> 	'16',
 				'title' 		=> 	__( 'Favicon Image', 'pagelines' ),						
 				'help' 			=> 	__( 'Enter the full URL location of your custom <strong>favicon</strong> which is visible in browser favorites and tabs.<br/> <strong>Must be .png or .ico file - 32px by 32px</strong>.', 'pagelines' ),
 				'default'		=> PL_EDITOR_URL . '/images/default-favicon.png'
@@ -95,7 +95,7 @@ class EditorSettings {
 				'key'			=> 'pl_login_image',
 				'type' 			=> 	'image_upload',
 				'label'			=> 'Upload Login Image (160px Height)',
-				'size' 			=> 	'80',
+				'imgsize' 			=> 	'80',
 				'sizemode'		=> 'height',
 				'title' 		=> __( 'Login Page Image', 'pagelines' ),
 				'default'		=> PL_EDITOR_URL . '/images/default-login-image.png',						
@@ -106,7 +106,7 @@ class EditorSettings {
 				'key'			=> 'pagelines_touchicon',
 				'label'			=> 'Upload Touch Image (144px by 144px)',
 				'type' 			=> 	'image_upload',
-				'size' 			=> 	'72',
+				'imgsize' 			=> 	'72',
 				'title' 		=> __( 'Mobile Touch Image', 'pagelines' ),	
 				'default'		=> PL_EDITOR_URL . '/images/default-touch-icon.png',
 				'help'			=> __( 'Enter the full URL location of your Apple Touch Icon which is visible when your users set your site as a <strong>webclip</strong> in Apple Iphone and Touch Products. It is an image approximately 57px by 57px in either .jpg, .gif or .png format.', 'pagelines' )
@@ -123,7 +123,7 @@ class EditorSettings {
 						'type' 			=> 'image_upload', 
 						'label' 		=> 'Watermark Image', 
 						'default'		=> PL_EDITOR_URL . '/images/default-watermark.png',
-						'size'			=> '44'
+						'imgsize'			=> '44'
 					), 
 					array(
 						'key'			=> 'watermark_link',

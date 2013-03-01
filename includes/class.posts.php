@@ -11,11 +11,13 @@ class PageLinesPosts {
 	var $tabs = array();	
 	
 	/** PHP5 constructor */
-	function __construct( ) {
+	function __construct( PageLinesPostLoop $section ) {
 	
 		global $pagelines_layout; 
 		global $post;
 		global $wp_query;
+		
+		$this->section = $section;
 		
 		$this->count = 1;  // Used to get the number of the post as we loop through them.
 		$this->clipcount = 2; // The number of clips in a row
@@ -203,7 +205,7 @@ class PageLinesPosts {
 		
 		if( $this->pagelines_show_content( $id ) ){
 				
-			$excerpt_mode = ploption( 'excerpt_mode_full' );	
+			$excerpt_mode = $this->section->opt( 'excerpt_mode_full' );	
 				
 				
 			if( ( $excerpt_mode == 'left-excerpt' || $excerpt_mode == 'right-excerpt' ) && is_single() && $this->pagelines_show_thumb( $id ) )
@@ -303,7 +305,7 @@ class PageLinesPosts {
 			
 			$id = get_the_ID();
 			
-			$excerpt_mode = ( $format == 'clip' ) ? ploption( 'excerpt_mode_clip' ) : ploption( 'excerpt_mode_full' );
+			$excerpt_mode = ( $format == 'clip' ) ? $this->section->opt( 'excerpt_mode_clip' ) : $this->section->opt( 'excerpt_mode_full' );
 			$thumb = ( $this->pagelines_show_thumb( $id ) ) ? $this->post_thumbnail_markup( $excerpt_mode, $format ) : '';
 			
 			$excerpt_thumb = ( $thumb && ( $excerpt_mode == 'left-excerpt' || $excerpt_mode == 'right-excerpt' ) ) ? '' : $thumb;
@@ -444,14 +446,14 @@ class PageLinesPosts {
 
 		if( $format == 'clip'){
 			
-			$metabar = ( pagelines_option( 'metabar_clip' ) ) 
-				? $before . pagelines_option( 'metabar_clip' ) . $after
+			$metabar = ( $this->section->opt( 'metabar_clip' ) ) 
+				? $before . $this->section->opt( 'metabar_clip' ) . $after
 				: sprintf( '%s%s [post_date] %s [post_author_posts_link] [post_edit]%s', $before, __('On','pagelines'), __('By','pagelines'), $after );
 
 		} else {
 
-			$metabar = ( pagelines_option( 'metabar_standard' ) ) 
-				? $before . pagelines_option( 'metabar_standard' ) . $after
+			$metabar = ( $this->section->opt( 'metabar_standard' ) ) 
+				? $before . $this->section->opt( 'metabar_standard' ) . $after
 				: sprintf( '%s%s [post_author_posts_link] %s [post_date] &middot; [post_comments] &middot; %s [post_categories] [post_edit]%s', $before, __('By','pagelines'), __('On','pagelines'), __('In','pagelines'), $after);
 
 		}
@@ -537,30 +539,52 @@ class PageLinesPosts {
 
 		 if( function_exists('the_post_thumbnail') && has_post_thumbnail($post) ){
 
-			// For Hook Parsing
-			if( is_admin() || ! get_option(PAGELINES_SETTINGS) ) return true;
+			if( pl_has_editor() ){
+				if($this->section->opt('hide_thumb'))
+					return false;
+				else
+					return true;
+			} else{
+		
+				if( $location == 'clip' && ploption('thumb_clip') ) return true;
 
-			if( $location == 'clip' && ploption('thumb_clip') ) return true;
+				if( !isset($location) ){
 
-			if( !isset($location) ){
-				// Thumb Page
-				if( is_single() && ploption('thumb_single') ) return true;
+					if( pl_has_editor() ){
+						if($this->section->opt('hide_thumb'))
+							return false;
+						else
+							return true;
+					} else{
 
-				// Blog Page
-				elseif( is_home() && ploption('thumb_blog') ) return true;
+						// Thumb Page
+						if( is_single() && ploption('thumb_single') ) return true;
 
-				// Search Page
-				elseif( is_search() && ploption('thumb_search') ) return true;
+						// Blog Page
+						elseif( is_home() && ploption('thumb_blog') ) return true;
 
-				// Category Page
-				elseif( is_category() && ! is_date() && ploption('thumb_category') ) return true;
+						// Search Page
+						elseif( is_search() && ploption('thumb_search') ) return true;
 
-				// Archive Page
-				elseif( ! is_category() && is_archive() && ploption('thumb_archive') ) return true;
+						// Category Page
+						elseif( is_category() && ! is_date() && ploption('thumb_category') ) return true;
 
-				else return false;
-			} else return false;
-		} else return false;
+						// Archive Page
+						elseif( ! is_category() && is_archive() && ploption('thumb_archive') ) return true;
+
+						else return false;
+
+					}
+			
+		
+				} else 
+					return false;
+	
+				
+			}
+				
+		} else 
+			return false;
 
 	}
 	
@@ -575,27 +599,39 @@ class PageLinesPosts {
 			if( is_page() )
 				return false;
 
-			// Thumb Page
-			if( is_single() && ploption('excerpt_single') ) 
-				return true;
-
-			// Blog Page
-			elseif( is_home() && ploption('excerpt_blog') ) 
-				return true;
-
-			// Search Page
-			elseif( is_search() && ploption('excerpt_search') ) 
-				return true;
-
-			// Category Page
-			elseif( is_category() && ! is_date() && ploption('excerpt_category') )
-				return true;
+			if( pl_has_editor() ){
 				
-			// Archive Page
-			elseif( ! is_category() && is_archive() && ploption('excerpt_archive') ) 
-				return true;
-			else 
-				return false;
+				if( $this->section->opt('hide_excerpt'))
+					return false;
+				else 
+					return true;
+				
+			} else {
+				
+				// Thumb Page
+				if( is_single() && ploption('excerpt_single') ) 
+					return true;
+
+				// Blog Page
+				elseif( is_home() && ploption('excerpt_blog') ) 
+					return true;
+
+				// Search Page
+				elseif( is_search() && ploption('excerpt_search') ) 
+					return true;
+
+				// Category Page
+				elseif( is_category() && ! is_date() && ploption('excerpt_category') )
+					return true;
+				
+				// Archive Page
+				elseif( ! is_category() && is_archive() && ploption('excerpt_archive') ) 
+					return true;
+				
+				else 
+					return false;
+				
+			}
 	}
 
 
@@ -613,6 +649,9 @@ class PageLinesPosts {
 			if( is_page() || is_single() ) 
 				return true;
 
+			elseif(pl_has_editor() && $this->section->opt('show_content'))
+				return true;
+				
 			// Blog Page
 			elseif( is_home() && ploption('content_blog') ) 
 				return true;
@@ -638,16 +677,16 @@ class PageLinesPosts {
 		Show clip or full width post
 	*/
 	function pagelines_show_clip($count, $paged){
-
+	
 		if(!VPRO) 
 			return false;
 		
 		$archives = apply_filters( 'pagelines_full_width_archives', false );
 		
-		if( ( is_home() || $archives ) && ploption('blog_layout_mode') == 'magazine' && $count <= ploption('full_column_posts') && $paged == 0)
+		if( ( is_home() || $archives ) && $this->section->opt('blog_layout_mode') == 'magazine' && $count <= $this->section->opt('full_column_posts') && $paged == 0)
 			return false;
 
-		elseif(ploption('blog_layout_mode') != 'magazine') 
+		elseif($this->section->opt('blog_layout_mode') != 'magazine') 
 			return false;
 
 		elseif(is_page() || is_single()) 

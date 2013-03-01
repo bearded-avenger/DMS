@@ -18,6 +18,8 @@ class PageLinesSection {
 	var $builder;  	// Show in section builder
 	var $format;	// <section> format.
 	var $classes;	// <section> classes.
+	
+	var $meta;
 
     /**
      * PHP5 constructor
@@ -133,7 +135,7 @@ class PageLinesSection {
 	
 	function prefix( $clone_id = false ){
 		
-		if( class_exists('PageLinesTemplateHandler') )
+		if( pl_has_editor() && isset($this->meta[ 'clone' ]) )
 			$prefix = sprintf('.section-%s[data-clone="%s"]', $this->id, $this->meta[ 'clone' ]);
 		elseif( $clone_id && $clone_id != '')
 			$prefix = sprintf('.section-%s.clone_%s', $this->id, $clone_id);

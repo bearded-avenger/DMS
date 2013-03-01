@@ -3,12 +3,12 @@
 	$(document).ready(function() {
 
 		$('.toolbox-activate').on('click.toolBoxActivate', function(){
-			var url = window.location.href
+			var url = window.location.href.split("?")[0]
 			,	param = 'editor_state=on'
 			
-			url += (url.indexOf('?') > -1) ? '&'+param : '?'+param;
+			url += '?'+param;
 			
-			window.location.href = url;
+			window.location = url;
 		})
 
 	})
