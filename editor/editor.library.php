@@ -73,7 +73,7 @@ function get_store_mixed(){
 		$class[] = $data->type;
 		
 		$class[] = ($data->type == 'themes') ? 'x-item-size-10' : 'x-item-size-5';
-		
+
  		$output[] = array(
 
 				'id'		=> $data->slug,  	// unique id
