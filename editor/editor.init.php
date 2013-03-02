@@ -57,7 +57,6 @@ class PageLinesEditor {
 			
 		require_once( PL_EDITOR . '/editor.interface.php' );
 		require_once( PL_EDITOR . '/editor.page.php' );
-		require_once( PL_EDITOR . '/editor.pagetype.php' );
 		require_once( PL_EDITOR . '/editor.handler.php' );
 		require_once( PL_EDITOR . '/editor.less.php' );
 		require_once( PL_EDITOR . '/editor.library.php' );
@@ -72,8 +71,9 @@ class PageLinesEditor {
 		$pldraft = $this->draft = new EditorDraft( $this->page );
 		
 		$this->layout = new EditorLayout();
-		$this->map = new EditorMap( $this->draft );
+		
 		$this->templates = new EditorTemplates( $this->page );
+		$this->map = new EditorMap( $this->templates, $this->draft);
 		
 		// Must come before settings 
 		$this->foundry = new PageLinesFoundry;

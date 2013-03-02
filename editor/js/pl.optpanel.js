@@ -575,7 +575,10 @@
 			else if( o.type == 'color' ){
 			
 				$( '.color-'+o.key ).colorpicker({
-					onClose: function(color, inst){
+					beforeShow: function(input, inst){
+					
+					}
+					, onClose: function(color, inst){
 						
 						$(this).change() // fire to set page data
 					}

@@ -3,39 +3,47 @@
 class EditorTemplates {
 	
 	var $template_slug = 'pl-user-templates';
-	var $pt_defaults_slug = 'pl-default-templates';
+	var $default_template_slug = 'pl-default-tpl';
 	
 	
 	function __construct( ){
-
+		$this->data = new PageLinesData; 
+		
+		global $plpg;
+		
+		if($plpg && $plpg != ''){
+			$this->page = $plpg;
+			$this->default_tpl = $this->data->meta( $plpg->typeid, $this->default_template_slug );
+		}
+		
 	}
+	
+	
 	
 	function user_templates(){
 	
-		global $plpg;
-		$pagetype = new PageLinesPageType( $plpg->type );
-		$default_template = $pagetype->get_type_field( 'template-default' );
 		
-	
 		$templates = '';
 		foreach( $this->get_user_templates() as $index => $template){
 		
-			if(!$plpg->is_special()){
+			if(!$this->page->is_special()){
 
-				if($index == $default_template){
+				if($index === $this->default_tpl){
 					$class = 'btn-success';
-					$text = 'Current';
+					$text = 'Active';
 				} else {
-					$class = 'set-default-template';
-					$text = 'Make';
+					$class = 'set-default-tpl';
+					$text = 'Set as';
 				}
 
 				$post_type_default = sprintf(
-					'<a class="btn btn-mini %s" data-type="%s">%s (%s) Default</a>', 
+					'<a class="btn btn-mini %s btn-tpl-default" data-type="%s" data-field="%s" data-posttype="%s">%s "%s" Default</a>', 
 					$class,
-					$plpg->type, 
+					$this->page->type, 
+					$this->default_template_slug,
+					$this->page->type_name,
 					$text,
-					$plpg->type_name
+					$this->page->type_name
 				);
 			} else
 				$post_type_default = '';
@@ -88,7 +96,7 @@ class EditorTemplates {
 	function get_user_templates(){
 		
 		// get option
-		$templates = pl_opt( $this->template_slug, $this->default_templates() );
+		$templates = pl_opt( $this->template_slug, $this->default_user_templates() );
 		
 		return $templates;
 		
@@ -104,15 +112,6 @@ class EditorTemplates {
 			return false;
 	}
 	
-	function set_post_type_default( $post_type, $index){
-		
-		$post_type_defaults = pl_opt( $this->pt_defaults_slug, array() );
-		
-		$post_type_defaults[ $post_type ] = $index;
-		
-		pl_opt_update( $this->pt_defaults_slug, $post_type_defaults );
-		
-	}
 	
 	function create_template( $name, $desc, $map ){
 		
@@ -137,8 +136,77 @@ class EditorTemplates {
 		pl_opt_update( $this->template_slug, $templates );
 		
 	}
+	
+	function default_template(){
+		
+		$d = $this->get_map_from_template_key( $this->default_tpl );
+		
+		if(!$d || $d == ''){
+			$d = array(
+				array(
+					'area'	=> 'TemplateAreaID',
+					'content'	=> array(
+						array(
+							'object'	=> 'PLColumn',
+							'span' 	=> 8,
+							'content'	=> array( 
+								'PageLinesPostLoop' => array( ), 
+								'PageLinesComments' => array(),	
+							)
+						),
+						array(
+							'object'	=> 'PLColumn',
+							'span' 	=> 4,
+							'content'	=> array( 
+								'PrimarySidebar' => array( )
+							)
+						),
+					)
+				)
 
-	function default_templates(){
+			);
+		}
+		
+		
+		return $d;
+	}
+	
+	function default_header(){
+		$d = array(
+			array(
+				'areaID'	=> 'HeaderArea',
+				'content'	=> array(
+					array(
+						'object'	=> 'PageLinesBranding'
+					),
+					array(
+						'object'	=> 'PLNavBar'
+					),
+				)
+			)
+
+		);
+		
+		return $d;
+	}
+	
+	function default_footer(){
+		$d = array(
+			array(
+				'areaID'	=> 'FooterArea',
+				'content'	=> array(
+					array(
+						'object'	=> 'SimpleNav'
+					)
+				)
+			)
+
+		);
+		
+		return $d;
+	}
+
+	function default_user_templates(){
 		
 		$t = array();
 		

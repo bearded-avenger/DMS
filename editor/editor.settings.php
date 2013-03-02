@@ -25,7 +25,7 @@ function pl_setting( $key, $args = array() ){
  *
  *
  */
-class PageLinesOpts {
+class PageLinesOpts extends PageLinesData {
 
 	var $pl_settings = PL_SETTINGS;
 	var $default = array( 'draft' => array(), 'live' => array() );
@@ -239,6 +239,19 @@ class PageLinesOpts {
 		return $set[ $this->draft->mode ]; 
 	}
 	
+
+	
+
+}
+
+
+/*
+ * This class contains all methods for interacting with WordPress' data system
+ * It has no dependancy so it can be used as a substitute for WordPress native functions
+ * The options system inherits from it.
+ */ 
+class PageLinesData {
+	
 	function meta($id, $key, $default = false){
 
 		$val = get_post_meta($id, $key, true);
@@ -288,12 +301,7 @@ class PageLinesOpts {
 
 	}
 	
-
 }
-
-
-
-
 
 
 

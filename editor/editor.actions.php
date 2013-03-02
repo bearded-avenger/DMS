@@ -91,37 +91,37 @@ function pl_load_template (){
 add_action( 'wp_ajax_pl_template_action', 'pl_template_action' );
 function pl_template_action (){
 
-	$mode = (isset($_POST['mode'])) ? $_POST['mode'] : 'default';
+	$data = $_POST; 
+	$mode = (isset($data['mode'])) ? $data['mode'] : 'default';
+	
 
 	$tpl = new EditorTemplates;
 
-	if($mode == 'save_template'){
+	if( $mode == 'save_template' ){
 		
-		$template_map = $_POST['map']['template'];
+		$template_map = $data['map']['template'];
 
-		$name = (isset($_POST['template-name'])) ? $_POST['template-name'] : 'Template (No Name)'; 
-		$desc = (isset($_POST['template-desc'])) ? $_POST['template-desc'] : 'No description.'; 
+		$name = (isset($data['template-name'])) ? $data['template-name'] : 'Template (No Name)'; 
+		$desc = (isset($data['template-desc'])) ? $data['template-desc'] : 'No description.'; 
 
 		$tpl->create_template($name, $desc, $template_map);
 		
 	} elseif( $mode == 'delete_template' ){
 		
-		$key = ( isset($_POST['key']) ) ? $_POST['key'] : false;
+		$key = ( isset($data['key']) ) ? $data['key'] : false;
 		
 		$tpl->delete_template( $key );
 		
-	}	elseif( $mode == 'type_default' ){
-		
-		$page_type = new PageLinesPageType( $_POST['type'] );
+	} elseif( $mode == 'type_default' ){
 
-		$key = $_POST['key'];
 
-		$page_type->set_type_field( 'template-default', $key );
+		$storage = new PageLinesData;
 
+		$storage->meta_update($data['typeID'], $data['field'], $data['key']); 
 
 	}
-	
 	echo true;
+	
 	die(); // don't forget this, always returns 0 w/o
 	
 }

@@ -302,18 +302,20 @@
 
 				})
 
-				$(".set-default-template").on("click.defaultTemplate", function(e) {
+				$(".set-default-tpl").on("click.defaultTemplate", function(e) {
 
 					e.preventDefault()
 
-					var key = $(this).closest('.list-item').data('key')
-					,	theType = $.pl.config.pageTypeName
+					var that = this
+					, 	theTemplate = $(this).closest('.list-item').data('key')
+					,	theType = $(this).data('posttype')
 					,	theData = {
 								action: 'pl_template_action'
 							, 	mode: 'type_default'
-							, 	key: key
-							,	type: $.pl.config.pageTypeID
-							,	page: $.pl.config.pageID
+							, 	field: $(this).data('field')
+							, 	key: theTemplate
+							,	pageID: $.pl.config.pageID
+							,	typeID: $.pl.config.typeID
 						}
 
 					$.ajax( {
@@ -325,11 +327,17 @@
 							$('.btn-saving').addClass('active')
 						}
 						, success: function( response ){
-
+							
 							$(that)
-								.removeClass('set-default-template')
+								.closest('.y-list')
+								.find('.btn-tpl-default')
+								.removeClass('btn-success')
+								.html('Set as "'+theType+'" default')
+								
+							$(that)
+								.removeClass('set-default-tpl')
 								.addClass('btn-success')
-								.html('Active ('+theType +') default')
+								.html('Active "'+theType+'" default')
 
 							$('.btn-saving').removeClass('active')
 						}

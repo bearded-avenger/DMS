@@ -15,8 +15,9 @@ class EditorMap {
 		'draft'	=> array()
 	);
 	
-	function __construct( EditorDraft $draft ){
+	function __construct( EditorTemplates $tpl, EditorDraft $draft ){
 	
+		$this->tpl = $tpl;
 		$this->draft = $draft;
 
 	}
@@ -47,7 +48,7 @@ class EditorMap {
 		if( $map && isset($map['header']))
 			return $map['header']; 
 		else 
-			return $this->default_header();
+			return $this->tpl->default_header();
 			
 	}
 	
@@ -56,7 +57,7 @@ class EditorMap {
 		if( $map && isset($map['footer']))
 			return $map['footer']; 
 		else 
-			return $this->default_footer();
+			return $this->tpl->default_footer();
 	}
 	
 	function get_template( $map ){
@@ -64,72 +65,11 @@ class EditorMap {
 		if( $map && isset($map['template']) ){
 			return $map['template']; 
 		} else 
-			return $this->default_template(); 
+			return $this->tpl->default_template(); 
 		
 	}
 	
-	function default_template(){
-		$d = array(
-			array(
-				'area'	=> 'TemplateAreaID',
-				'content'	=> array(
-					array(
-						'object'	=> 'PLColumn',
-						'span' 	=> 8,
-						'content'	=> array( 
-							'PageLinesPostLoop' => array( ), 
-							'PageLinesComments' => array(),	
-						)
-					),
-					array(
-						'object'	=> 'PLColumn',
-						'span' 	=> 4,
-						'content'	=> array( 
-							'PrimarySidebar' => array( )
-						)
-					),
-				)
-			)
 
-		);
-		
-		return $d;
-	}
-	
-	function default_header(){
-		$d = array(
-			array(
-				'areaID'	=> 'HeaderArea',
-				'content'	=> array(
-					array(
-						'object'	=> 'PageLinesBranding'
-					),
-					array(
-						'object'	=> 'PLNavBar'
-					),
-				)
-			)
-
-		);
-		
-		return $d;
-	}
-	
-	function default_footer(){
-		$d = array(
-			array(
-				'areaID'	=> 'FooterArea',
-				'content'	=> array(
-					array(
-						'object'	=> 'SimpleNav'
-					)
-				)
-			)
-
-		);
-		
-		return $d;
-	}
 	
 	
 	function publish_map( $pageID ){
