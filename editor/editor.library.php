@@ -79,8 +79,8 @@ function get_store_mixed(){
 				'id'		=> $data->slug,  	// unique id
 				'name'		=> $data->name,  	// title of extension
 				'type'		=> $data->type, 		// type (section, plugin, theme)
-				'thumb'		=> sprintf( 'http://api.pagelines.com/files/%s/img/%s-thumb.png', $data->type, $data->slug ),  // thumb
-				'splash'	=> sprintf( 'http://api.pagelines.com/files/%s/img/%s-splash.png', $data->type, $data->slug ),  // splash
+				'thumb'		=> $data->thumb,  // thumb
+				'splash'	=> $data->splash,  // splash
 				'overview'	=> sprintf( 'http://www.pagelines.com/store/%s/%s', $data->type, $data->slug ),	// link to overview
 				'rating'	=> 3.5,  			// rating on the store
 				'downloads'	=> $data->count,  			// number of downloads
