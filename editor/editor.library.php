@@ -24,12 +24,12 @@ function store_mixed_array(){
 	     set_transient( 'store_mixed_array', $store_mixed_array );
 	}
 	
-	return $store_mixed_array;
-//	return get_store_mixed();
+	return (is_array($store_mixed_array)) ? $store_mixed_array : array();
+
 }
 
 function get_store_mixed(){
- 
+ 	return;
  	global $extension_control;
 
  	if( ! is_object( $extension_control ) ) {
@@ -53,7 +53,7 @@ function get_store_mixed(){
 
  	$output = array();
 	$class = array(); 
-	
+	var_dump($raw);
  	foreach ( $raw as $key => $data) {
 
 		unset( $tags );

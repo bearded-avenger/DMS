@@ -69,7 +69,7 @@ class EditorSettings {
 				
 		usort($settings, array(&$this, "cmp_by_position") );
 
-		return $settings;
+		return apply_filters('pl_sorted_settings_array', $settings);
 	}
 	
 	function cmp_by_position($a, $b) {

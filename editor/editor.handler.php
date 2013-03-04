@@ -89,12 +89,16 @@ class PageLinesTemplateHandler {
 						, typeID: '<?php echo $this->page->typeid;?>'
 						, pageTypeID: '<?php echo $this->page->type;?>'
 						, pageTypeName: '<?php echo $this->page->type_name;?>'
-						, editPostLink: '<?php echo $this->edit_post_link();?>'
 						, isSpecial: '<?php echo $this->page->is_special();?>'
 						, opts: <?php echo json_encode($this->get_options_config(), JSON_FORCE_OBJECT); ?>
 						, settings: <?php echo json_encode($this->siteset->get_set('site'), JSON_FORCE_OBJECT); ?>
 						, fonts: <?php echo json_encode($this->foundry->get_foundry(), JSON_FORCE_OBJECT); ?>
-						, extend: <?php echo json_encode( store_mixed_array(), JSON_FORCE_OBJECT); ?>
+						, menus: <?php echo json_encode( $this->get_wp_menus(), JSON_FORCE_OBJECT); ?>
+						, urls: {
+							editPost: '<?php echo $this->edit_post_link(); ?>'
+							, menus: '<?php echo admin_url( "nav-menus.php" );?>'
+							, widgets: '<?php echo $this->edit_post_link();?>'
+						}
 					}
 					
 				}
@@ -116,6 +120,11 @@ class PageLinesTemplateHandler {
 			$url = get_edit_post_link( $this->page->id );
 			
 		return $url;
+	}
+	
+	function get_wp_menus(){
+		$menus = wp_get_nav_menus( array('orderby' => 'name') );
+		return $menus;
 	}
 	
 	function meta_defaults($key){
@@ -276,20 +285,31 @@ class PageLinesTemplateHandler {
 					
 				}
 				
-				$opts_config[ $s->id ][ 'opts' ] = $opts; 
+				
 			
 				// deals with legacy special stuff
 				if(!empty($opts)){
-					foreach($opts as $okey => $o){
+					foreach($opts as $okey => &$o){
 						if($o['type'] == 'multi'){
-							foreach($o['opts'] as $okeysub => $osub){
+							foreach($o['opts'] as $okeysub => &$osub){
+								if(!isset($osub['key']))
+									$osub['key'] = $okeysub;
+									
 								$this->opts_list[] = $osub['key']; 
 							}
+							unset($osub); // set by reference
 						} else {
+							
+							if(!isset($o['key']))
+								$o['key'] = $okey;
+								
 							$this->opts_list[] = $o['key']; 
 						}
 					}
+					unset($o); // set by reference
 				}
+				
+				$opts_config[ $s->id ][ 'opts' ] = $opts; 
 				
 			}
 			

@@ -29,11 +29,12 @@ function pl_save_page(){
 
 
 
-	$draft = new EditorDraft;
-	$map = $data['map_object'] = new EditorMap( $draft );
+
 	
 	$plpg = new PageLinesPage( array('mode' => 'ajax', 'pageID' => $data['pageID'], 'typeID' => $data['typeID']) );
-	
+	$draft = new EditorDraft;
+	$tpl = new EditorTemplates;
+	$map = $data['map_object'] = new EditorMap( $tpl, $draft );
 	$settings = new PageLinesOpts( $plpg, $draft );
 	
 	

@@ -343,6 +343,26 @@
 				
 			}
 			
+			else if( o.type == 'select_menu' ){
+			
+				var select_opts = ''
+				,	menus = $.pl.config.menus
+				,	configure = $.pl.config.urls.menus
+
+				if($.pl.config.menus){
+					$.each($.pl.config.menus, function(skey, s){
+						var selected = (o.value == s.term_id) ? 'selected' : ''
+
+						select_opts += sprintf('<option value="%s" %s >%s</option>', s.term_id, selected, s.name)
+					})
+				}
+
+				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
+				oHTML += sprintf('<select id="%s" name="%s" class="font-selector lstn"><option>&mdash; Select Menu &mdash;</option>%s</select>', o.key, o.name, select_opts)
+
+				oHTML += sprintf('<a href="%s" class="btn btn-mini" ><i class="icon-edit"></i> %s</a>', configure, 'Configure Menus' )
+			}
+			
 			else if( o.type == 'action_button' ){
 				
 				oHTML += sprintf('<a href="#" data-action="%s" class="btn btn-action %s" >%s</a>', o.key, o.classes, o.label )
@@ -350,7 +370,7 @@
 			}
 			
 			else if( o.type == 'edit_post' ){
-				var editLink = $.pl.config.editPostLink
+				var editLink = $.pl.config.urls.editPost
 				
 				oHTML += sprintf('<a href="%s" class="btn %s" >%s</a>', editLink, o.classes, o.label )
 				
