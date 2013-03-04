@@ -62,6 +62,7 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.less.php' );
 		require_once( PL_EDITOR . '/editor.library.php' );
 		require_once( PL_EDITOR . '/editor.less.compile.php' );
+		require_once( PL_EDITOR . '/editor.api.php' );
 
 	}
 
@@ -70,10 +71,12 @@ class PageLinesEditor {
 		global $pldraft;
 		global $plopts;
 		global $editorless;
+		global $storeapi;
 
 		$plpg = $this->page = new PageLinesPage;
 		$pldraft = $this->draft = new EditorDraft( $this->page );
 		$editorless = $this->editorless = new EditorLessHandler;
+		$storeapi = $this->storeapi = new EditorStoreFront;
 
 		$this->layout = new EditorLayout();
 		

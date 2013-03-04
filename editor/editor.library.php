@@ -1,20 +1,8 @@
 <?php
 
+// TODO we need this?
 
-
-
-function store_mixed_array(){
-	
-	if ( false === ( $store_mixed_array = get_transient( 'store_mixed_array' ) ) ) {
-	    
-	     $store_mixed_array = get_store_mixed();
-	     set_transient( 'store_mixed_array', $store_mixed_array );
-	}
-	
-	return (is_array($store_mixed_array)) ? $store_mixed_array : array();
-
-}
-
+/*
 function get_store_mixed(){
  	return;
  	global $extension_control;
@@ -156,3 +144,4 @@ function pagelines_editor_less_trigger() {
 		exit();
 	}			
 }
+*/

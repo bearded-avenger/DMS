@@ -25,17 +25,17 @@ class EditorInterface {
 
 
 		if ( $this->draft->show_editor() ){
-			
+
 			add_action( 'wp_footer', array( &$this, 'pagelines_toolbox' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_scripts' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_styles' ) );
 			add_action( 'wp_ajax_the_store_callback', array( &$this, 'the_store_callback' ) );
-			
+
 		} elseif(current_user_can('edit_themes')) {
-			
+
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_live_scripts' ) );
 			add_action( 'wp_footer', array( &$this, 'pagelines_editor_activate' ) );
-			
+
 		}
 
 		$this->url = PL_PARENT_URL . '/editor';
@@ -43,7 +43,7 @@ class EditorInterface {
 
 
 	}
-	
+
 	function pl_live_scripts(){
 		wp_enqueue_script( 'pl-utility-js', $this->url . '/js/pl.live.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
@@ -295,19 +295,19 @@ class EditorInterface {
 					'heading'	=> "<i class='icon-comments'></i> Live Support",
 					'support_chat'	=> array(
 						'name'	=> 'PageLines Live Chat',
-						
+
 					),
 				)
 			),
 			'pl-extend' => array(
 				'name'	=> 'Extend',
 				'icon'	=> 'icon-download',
-				
+
 				'panel'	=> array(
 					'heading'	=> "Extend PageLines",
 					'store'		=> array(
 						'name'	=> 'PageLines Store',
-						'filter'=> '*', 
+						'filter'=> '*',
 						'type'	=> 'call',
 						'call'	=> array(&$this, 'the_store_callback'),
 					),
@@ -405,8 +405,8 @@ class EditorInterface {
 	function pagelines_editor_activate(){
 		?>
 			<div class="toolbox-activate"><i class="icon-off"></i> <span class="txt">Activate PageLines Editor</span></span></div>
-			
-		<?php 
+
+		<?php
 	}
 
 	function pagelines_toolbox(){
@@ -455,7 +455,7 @@ class EditorInterface {
 						$li_classes = join(' ', $li_class);
 
 						$class = array();
-						
+
 						$class[] = ($tab['type'] == 'panel') ? 'btn-panel' : '';
 						$class[] = ($tab['type'] == 'btn') ? 'btn-action' : '';
 
@@ -536,7 +536,7 @@ class EditorInterface {
 	<?php
 	}
 
-	
+
 
 	function add_new_callback(){
 		$sections = $this->extensions->get_available_sections();
@@ -561,7 +561,7 @@ class EditorInterface {
 				'id'			=> $s->id,
 				'class_array' 	=> array('x-add-new', $section_classes, $special_class, $s->filter),
 				'data_array'	=> array(
-					'object' 	=> $s->class_name, 
+					'object' 	=> $s->class_name,
 					'sid'		=> $s->id,
 					'name'		=> $s->name,
 					'image'		=> $s->screenshot,
@@ -572,39 +572,39 @@ class EditorInterface {
 				'splash'		=> $s->splash,
 				'name'			=> $s->name
 			);
-			
+
 			$list .= $this->get_x_list_item( $args );
 
-	
-			
+
+
 		}
 
 		printf('<div class="x-list x-sections">%s</div>', $list);
 
 	}
-	
+
 	function get_x_list_item( $args ){
 		$d = array(
 			'id'			=> '',
 			'class_array' 	=> array(),
 			'data_array'	=> array(),
 			'thumb'			=> '',
-			'splash'		=> '', 
+			'splash'		=> '',
 			'name'			=> 'No Name'
 		);
 		$args = wp_parse_args($args, $d);
-		
+
 		$classes = join(' ', $args['class_array']);
-		
+
 		$popover_content = sprintf('<img src="%s" />', $args['splash']);
-		
+
 		$img = sprintf('<img src="%s" />', $args['thumb']);
-		
+
 		$datas = '';
 		foreach($args['data_array'] as $field => $val){
-			$datas .= sprintf("data-%s='%s' ", $field, $val); 
+			$datas .= sprintf("data-%s='%s' ", $field, $val);
 		}
-		
+
 		$list_item = sprintf(
 			"<section class='x-item x-extension %s %s'  %s data-content='%s' data-extend-id='%s'>
 				<div class='x-item-frame'>
@@ -617,33 +617,33 @@ class EditorInterface {
 				</div>
 			</section>",
 			$args['id'],
-			$classes, 
-			$datas, 
+			$classes,
+			$datas,
 			$popover_content,
 			$args['id'],
-			$img, 
+			$img,
 			$args['name']
 		);
-		
+
 		return $list_item;
-		
+
 	}
 
 	function themes_dashboard(){
 		$themes = wp_get_themes();
-		
+
 		$active_theme = wp_get_theme();
-		
+
 		$list = '';
 		$count = 1;
 		if(is_array($themes)){
-			
+
 			foreach($themes as $theme => $t){
 				$class = array();
-				
+
 				if($t->get_template() != 'pagelines')
 					continue;
-				
+
 				if($active_theme->stylesheet == $t->get_stylesheet()){
 					$class[] = 'active-theme';
 					$active = ' <span class="badge badge-info"><i class="icon-ok"></i> Active</span>';
@@ -652,9 +652,9 @@ class EditorInterface {
 					$active = '';
 					$number = $count++;
 				}
-				
+
 				$class[] = 'x-item-larger';
-					
+
 				$args = array(
 					'id'			=> $theme,
 					'class_array' 	=> $class,
@@ -667,37 +667,42 @@ class EditorInterface {
 				);
 
 				$list .= $this->get_x_list_item( $args );
-				
+
 
 			}
-			
+
 		}
-		
-		
+
+
 		printf('<div class="x-list x-themes">%s</div>', $list);
 	}
 
 	function the_store_callback(){
 
 		$list = '';
-		
-		foreach(store_mixed_array() as $key => $item){
+		global $storeapi;
+
+		foreach( $storeapi->get() as $key => $item){
+
+		if( ! isset( $item['type'] ) )
+			continue;
+
 			$class = array();
 			$class[] = $item['type'];
-			$class[] = $item['id'];
+			$class[] = $item['slug'];
 
 			$class[] = ($item['type'] == 'themes') ? 'x-item-size-10' : 'x-item-size-5';
 
 			$class[] = 'x-storefront';
 
 			$img = sprintf('<img src="%s" style=""/>', $item['thumb']);
-			
-				
+
+
 			$args = array(
-				'id'			=> $item['id'],
+				'id'			=> $item['slug'],
 				'class_array' 	=> $class,
 				'data_array'	=> array(
-						'store-id' 	=> $item['id']
+						'store-id' 	=> $item['slug']
 				),
 				'thumb'			=> $item['thumb'],
 				'splash'		=> $item['splash'],
@@ -869,13 +874,13 @@ class EditorInterface {
 	}
 
 	function section_controls( $s ){
-		
+
 		if(!$this->draft->show_editor())
 			return;
-			
+
 		$clone_desc = ($s->meta['clone'] != 0) ? sprintf(" <i class='icon-copy'></i> %s", $s->meta['clone']) : '';
 		$sid = $s->id;
-		ob_start(); 
+		ob_start();
 		?>
 		<div id="<?php echo $sid;?>_control" class="pl-section-controls fix" >
 			<div class="controls-left">
@@ -895,7 +900,7 @@ class EditorInterface {
 			<div class="controls-title"><?php echo $s->name;?> <span class="title-desc"><?php echo $clone_desc;?></span></div>
 		</div>
 		<?php
-		
+
 		return ob_get_clean();
 
 	}
