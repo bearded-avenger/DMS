@@ -310,6 +310,7 @@
 		}
 
 		, extensionActions: function(){
+	
 			var that = this
 			$('.x-extension').on('click.extensionItem', function(){
 				var theIsotope = $(this).parent()
@@ -322,8 +323,8 @@
 					var splash	= sprintf('<div class="x-pane-frame"><img src="%s" /></div>', ext.splash)
 					,	btnClose = sprintf('<div class="x-item x-close x-remove %s"><a href="#" class="btn btn-close"><i class="icon-remove"></i></a></div>', theID)
 					,	btns = sprintf('<div class="x-pane-btns">%s</div>', that.loadButtons())
-					,	desc = sprintf('<div class="x-pane-info">%s</div>', ext.desc)
-					,	extPane = $( sprintf('<div class="x-pane x-remove x-item %s"><div class="x-pane-pad">%s %s %s</div></div>%s', theID, splash, desc, btns, btnClose) )
+					,	desc = sprintf('<div class="x-pane-info"><h4>Description</h4>%s</div>', ext.desc)
+					,	extPane = $( sprintf('<div class="x-pane x-remove x-item %s"><div class="x-pane-pad">%s %s %s</div></div>%s', theID, splash, btns, desc, btnClose) )
 
 					if(theIsotope.hasClass('x-sections')){
 						var prep = sprintf('<span class="x-remove badge badge-info %s"><i class="icon-arrow-up"></i> Drag This</span>', theID)
@@ -389,6 +390,7 @@
 				, 	cursor: "move" 
 				, 	connectToSortable: ".pl-sortable-area"
 				,	zIndex: 10000
+				,	distance: 20
 				, 	start: function(event, ui){
 				
 						list.switchOnAdd(ui.helper)
@@ -404,6 +406,7 @@
 		}
 		, listStop: function(){
 		 	$('.x-list.isotope')
+				.removeClass('x-pane-mode')
 				.isotope({ filter: '*' })
 				.isotope('remove', $('.x-remove'))
 				.isotope( 'destroy' )
