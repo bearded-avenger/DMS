@@ -293,46 +293,71 @@
 			if(key == 'add-new')
 				this.makeDraggable(panel)
 				
-			else if(key == 'pl-extend')
-				this.storeActions(panel)
+			
+			this.extensionActions()
 				
 			
 				
 		}
+		
+		, loadButtons: function(){
+			var buttons = ''
+			buttons += sprintf('<a href="#" class="btn btn-primary"><i class="icon-ok"></i> Purchase</a> ')
+			buttons += sprintf('<a href="#" class="btn"><i class="icon-folder-open"></i> Overview</a> ')
+			buttons += sprintf('<a href="#" class="btn"><i class="icon-desktop"></i> Demo</a> ')
+			
+			return buttons
+		}
 
-		, storeActions: function(){
-			$('.x-storefront').on('click.storeFrontItem', function(){
-				
-				var theIsotope = $(this).closest('.isotope')
-				,	filterClass = $(this).data('store-id')
-				
-				if(!theIsotope.hasClass('storefront-mode')){
-					
-					var splash	= sprintf('<div class="storefront-frame">%s</div>', $(this).data('content'))
-					,	btnBuy	= sprintf('<a href="#" class="btn btn-primary"><i class="icon-ok"></i> Purchase</a>')
-					,	btnOverview	= sprintf('<a href="#" class="btn"><i class="icon-folder-open"></i> Overview</a>')
-					,	btnDemo	= sprintf('<a href="#" class="btn"><i class="icon-desktop"></i> Demo</a>')
-					,	btnClose = sprintf('<div class="x-item x-close x-remove %s"><a href="#" class="btn btn-close"><i class="icon-remove"></i></a></div>', filterClass)
-					,	desc	= 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum, ipsum sit amet feugiat ullamcorper, est ante tempus nisi, sed rhoncus nulla eros sed magna. '
-					,	storeFront = $( sprintf('<div class="storefront x-remove x-item %s"><div class="storefront-pad">%s <div class="storefront-info">%s</div><div class="storefront-btns">%s %s %s</div></div></div>%s', filterClass, splash, desc, btnBuy, btnOverview, btnDemo, btnClose) )
+		, extensionActions: function(){
+			var that = this
+			$('.x-extension').on('click.extensionItem', function(){
+				var theIsotope = $(this).parent()
+				,	theID = $(this).data('extend-id')
+				,	filterClass = '.'+theID
+				,	ext = $.pl.config.extensions[theID] || false
 
-					theIsotope.isotope('insert', storeFront).isotope({filter: '.'+filterClass}).addClass('storefront-mode')
+				if(!theIsotope.hasClass('x-pane-mode') && ext){
 					
-				}
+					var splash	= sprintf('<div class="x-pane-frame"><img src="%s" /></div>', ext.splash)
+					,	btnClose = sprintf('<div class="x-item x-close x-remove %s"><a href="#" class="btn btn-close"><i class="icon-remove"></i></a></div>', theID)
+					,	btns = sprintf('<div class="x-pane-btns">%s</div>', that.loadButtons())
+					,	desc = sprintf('<div class="x-pane-info">%s</div>', ext.desc)
+					,	extPane = $( sprintf('<div class="x-pane x-remove x-item %s"><div class="x-pane-pad">%s %s %s</div></div>%s', theID, splash, desc, btns, btnClose) )
+
+					if(theIsotope.hasClass('x-sections')){
+						var prep = sprintf('<span class="x-remove badge badge-info %s"><i class="icon-arrow-up"></i> Drag This</span>', theID)
+						
+						theIsotope.find('.pl-sortable').append(prep)
+					}
+						
 				
-				$('.btn-close').on('click.closeStoreFront ', function(e){
+					theIsotope
+						.isotope('insert', extPane)
+						.isotope({filter: filterClass})
+						.addClass('x-pane-mode')
+				} 
+				
+				$('.x-close').on('click.extensionItem ', function(e){
+		
 					e.preventDefault
-					
-					var theIsotope = $(this).closest('.isotope')
+
+					var theIsotope = $(this).parent()
 					,	removeItems = $('.x-remove')
 
-					theIsotope.isotope({ filter: '*' }).isotope('remove', removeItems).removeClass('storefront-mode')
+					theIsotope
+						.isotope({ filter: '*' })
+						.isotope('remove', removeItems)
+						.removeClass('x-pane-mode')
 
 
 				})
+				
+				
 			})
 			
-		
+			
+	
 			
 		
 		}
@@ -378,7 +403,10 @@
 			
 		}
 		, listStop: function(){
-		 	$('.x-list.isotope').isotope( 'destroy' )
+		 	$('.x-list.isotope')
+				.isotope({ filter: '*' })
+				.isotope('remove', $('.x-remove'))
+				.isotope( 'destroy' )
 		
 			this.listPopOverStop()
 		}

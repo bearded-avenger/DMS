@@ -14,14 +14,14 @@
 class EditorInterface {
 
 
-	function __construct( PageLinesPage $pg, EditorSettings $siteset, EditorDraft $draft, EditorTemplates $templates, EditorMap $map ) {
+	function __construct( PageLinesPage $pg, EditorSettings $siteset, EditorDraft $draft, EditorTemplates $templates, EditorMap $map, EditorExtensions $extensions ) {
 
 		$this->page = $pg;
 		$this->draft = $draft;
 		$this->siteset = $siteset;
 		$this->templates = $templates;
 		$this->map = $map;
-
+		$this->extensions = $extensions;
 
 
 		if ( $this->draft->show_editor() ){
@@ -536,82 +536,11 @@ class EditorInterface {
 	<?php
 	}
 
-	function layout_sections(){
-
-		$defaults = array(
-			'id'			=> '',
-			'name'			=> 'No Name',
-			'filter'		=> 'layout',
-			'screenshot'	=>  PL_ADMIN_IMAGES . '/thumb-default.png',
-			'splash'		=> PL_ADMIN_IMAGES . '/thumb-default.png',
-			'class_name'	=> '',
-			'map'			=> ''
-
-		);
-
-		$the_layouts = array(
-			array(
-				'id'			=> 'pl_split_column',
-				'name'			=> '2 Columns - Split',
-				'filter'		=> 'layout',
-				'screenshot'	=>  PL_ADMIN_IMAGES . '/thumb-default.png',
-				'map'			=> array(
-									array(
-										'object'	=> 'PLColumn',
-										'span' 		=> 6,
-										'newrow'	=> true
-									),
-									array(
-										'object'	=> 'PLColumn',
-										'span' 	=> 6
-									),
-								)
-			),
-			array(
-				'id'			=> 'pl_3_column',
-				'name'			=> '3 Columns',
-				'filter'		=> 'layout',
-				'screenshot'	=>  PL_ADMIN_IMAGES . '/thumb-default.png',
-				'map'			=> array(
-									array(
-										'object'	=> 'PLColumn',
-										'span' 		=> 4,
-										'newrow'	=> true
-									),
-									array(
-										'object'	=> 'PLColumn',
-										'span' 	=> 4
-									),
-									array(
-										'object'	=> 'PLColumn',
-										'span' 	=> 4
-									),
-								)
-			)
-		);
-
-		foreach($the_layouts as $index => $l){
-			$l = wp_parse_args($l, $defaults);
-
-			$obj = new stdClass();
-			$obj->id = $l['id'];
-			$obj->name = $l['name'];
-			$obj->filter = $l['filter'];
-			$obj->screenshot = $l['screenshot'];
-			$obj->splash = $l['splash'];
-			$obj->class_name = $l['class_name'];
-			$obj->map = $l['map'];
-
-			$layouts[ $l['id'] ] = $obj;
-		}
-
-		return $layouts;
-	}
+	
 
 	function add_new_callback(){
-		$sections = get_available_sections();
+		$sections = $this->extensions->get_available_sections();
 
-		$sections = array_merge($sections, $this->layout_sections());
 
 		$section_classes = 'pl-sortable span12 sortable-first sortable-last';
 		$list = '';
@@ -629,14 +558,15 @@ class EditorInterface {
 
 
 			$args = array(
+				'id'			=> $s->id,
 				'class_array' 	=> array('x-add-new', $section_classes, $special_class, $s->filter),
 				'data_array'	=> array(
-						'object' 	=> $s->class_name, 
-						'sid'		=> $s->id,
-						'name'		=> $s->name,
-						'image'		=> $s->screenshot,
-						'template'	=> $map,
-						'clone'		=> '0'
+					'object' 	=> $s->class_name, 
+					'sid'		=> $s->id,
+					'name'		=> $s->name,
+					'image'		=> $s->screenshot,
+					'template'	=> $map,
+					'clone'		=> '0'
 				),
 				'thumb'			=> $s->screenshot,
 				'splash'		=> $s->splash,
@@ -649,12 +579,13 @@ class EditorInterface {
 			
 		}
 
-		printf('<div class="x-list">%s</div>', $list);
+		printf('<div class="x-list x-sections">%s</div>', $list);
 
 	}
 	
 	function get_x_list_item( $args ){
 		$d = array(
+			'id'			=> '',
 			'class_array' 	=> array(),
 			'data_array'	=> array(),
 			'thumb'			=> '',
@@ -675,7 +606,7 @@ class EditorInterface {
 		}
 		
 		$list_item = sprintf(
-			"<section class='x-item %s'  %s data-content='%s'>
+			"<section class='x-item x-extension %s %s'  %s data-content='%s' data-extend-id='%s'>
 				<div class='x-item-frame'>
 					<div class='pl-vignette'>
 						%s
@@ -685,9 +616,11 @@ class EditorInterface {
 					%s
 				</div>
 			</section>",
+			$args['id'],
 			$classes, 
 			$datas, 
 			$popover_content,
+			$args['id'],
 			$img, 
 			$args['name']
 		);
@@ -697,7 +630,7 @@ class EditorInterface {
 	}
 
 	function themes_dashboard(){
-		$themes = wp_get_themes(  );
+		$themes = wp_get_themes();
 		
 		$active_theme = wp_get_theme();
 		
@@ -723,6 +656,7 @@ class EditorInterface {
 				$class[] = 'x-item-larger';
 					
 				$args = array(
+					'id'			=> $theme,
 					'class_array' 	=> $class,
 					'data_array'	=> array(
 							'number' 	=> $number
@@ -740,7 +674,7 @@ class EditorInterface {
 		}
 		
 		
-		printf('<div class="x-list">%s</div>', $list);
+		printf('<div class="x-list x-themes">%s</div>', $list);
 	}
 
 	function the_store_callback(){
@@ -760,6 +694,7 @@ class EditorInterface {
 			
 				
 			$args = array(
+				'id'			=> $item['id'],
 				'class_array' 	=> $class,
 				'data_array'	=> array(
 						'store-id' 	=> $item['id']
@@ -774,7 +709,7 @@ class EditorInterface {
 
 		}
 
-		printf('<div class="x-list">%s</div>', $list);
+		printf('<div class="x-list x-store">%s</div>', $list);
 	}
 
 	function live_callback(){

@@ -27,7 +27,8 @@ class PageLinesTemplateHandler {
 		EditorMap $map, 
 		EditorDraft $draft, 
 		PageLinesOpts $opts,
-		EditorLayout $layout
+		EditorLayout $layout,
+		EditorExtensions $extensions
 	) {
 
 
@@ -43,6 +44,7 @@ class PageLinesTemplateHandler {
 		$this->draft = $draft;
 		$this->optset = $opts;
 		$this->layout = $layout;
+		$this->extensions = $extensions;
 		
 		$this->map = $map->get_map( $this->page );
 
@@ -94,6 +96,7 @@ class PageLinesTemplateHandler {
 						, settings: <?php echo json_encode($this->siteset->get_set('site'), JSON_FORCE_OBJECT); ?>
 						, fonts: <?php echo json_encode($this->foundry->get_foundry(), JSON_FORCE_OBJECT); ?>
 						, menus: <?php echo json_encode( $this->get_wp_menus(), JSON_FORCE_OBJECT); ?>
+						, extensions: <?php echo json_encode( $this->extensions->get_list(), JSON_FORCE_OBJECT); ?>
 						, urls: {
 							editPost: '<?php echo $this->edit_post_link(); ?>'
 							, menus: '<?php echo admin_url( "nav-menus.php" );?>'
@@ -113,6 +116,7 @@ class PageLinesTemplateHandler {
 		
 	}
 	
+
 	function edit_post_link(){
 		if($this->page->is_special())
 			$url = admin_url( 'edit.php' );
