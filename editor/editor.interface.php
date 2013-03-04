@@ -628,35 +628,72 @@ class EditorInterface {
 			}
 
 
-
-			$list .= sprintf(
-				"<section class='x-add-new x-item %s %s %s' data-object='%s' data-sid='%s' data-name='%s' data-image='%s' data-content='%s' data-template='%s' data-clone='0' data-placement='top' >
-					<div class='x-item-frame'>
-						<div class='pl-vignette'>
-							%s
-						</div>
-					</div>
-					<div class='x-item-text'>
-						%s
-					</div>
-				</section>",
-				$section_classes,
-				$special_class,
-				$s->filter,
-				$s->class_name,
-				$s->id,
-				$s->name,
-				$s->screenshot,
-				sprintf('<img src="%s" />', $s->splash),
-				$map,
-				$img,
-				$s->name
+			$args = array(
+				'class_array' 	=> array('x-add-new', $section_classes, $special_class, $s->filter),
+				'data_array'	=> array(
+						'object' 	=> $s->class_name, 
+						'sid'		=> $s->id,
+						'name'		=> $s->name,
+						'image'		=> $s->screenshot,
+						'template'	=> $map,
+						'clone'		=> '0'
+				),
+				'thumb'			=> $s->screenshot,
+				'splash'		=> $s->splash,
+				'name'			=> $s->name
 			);
+			
+			$list .= $this->get_x_list_item( $args );
+
+	
 			
 		}
 
 		printf('<div class="x-list">%s</div>', $list);
 
+	}
+	
+	function get_x_list_item( $args ){
+		$d = array(
+			'class_array' 	=> array(),
+			'data_array'	=> array(),
+			'thumb'			=> '',
+			'splash'		=> '', 
+			'name'			=> 'No Name'
+		);
+		$args = wp_parse_args($args, $d);
+		
+		$classes = join(' ', $args['class_array']);
+		
+		$popover_content = sprintf('<img src="%s" />', $args['splash']);
+		
+		$img = sprintf('<img src="%s" />', $args['thumb']);
+		
+		$datas = '';
+		foreach($args['data_array'] as $field => $val){
+			$datas .= sprintf("data-%s='%s' ", $field, $val); 
+		}
+		
+		$list_item = sprintf(
+			"<section class='x-item %s'  %s data-content='%s'>
+				<div class='x-item-frame'>
+					<div class='pl-vignette'>
+						%s
+					</div>
+				</div>
+				<div class='x-item-text'>
+					%s
+				</div>
+			</section>",
+			$classes, 
+			$datas, 
+			$popover_content,
+			$img, 
+			$args['name']
+		);
+		
+		return $list_item;
+		
 	}
 
 	function themes_dashboard(){
@@ -682,33 +719,22 @@ class EditorInterface {
 					$active = '';
 					$number = $count++;
 				}
+				
+				$class[] = 'x-item-larger';
 					
-					
-				$classes = implode(' ', $class);
-					
-				$img = sprintf('<img src="%s" style=""/>', $t->get_screenshot( ) );
-
-				$the_item = sprintf(
-					"<section class='x-item x-item-larger %s' data-number='%s'>
-						<div class='x-item-frame'>
-							<div class='pl-vignette'>
-								%s
-							</div>
-						</div>
-						<div class='x-item-text'>
-							%s
-							%s
-						</div>
-					</section>",
-					$classes,
-					$number,
-					$img, 
-					$t->name,
-					$active
+				$args = array(
+					'class_array' 	=> $class,
+					'data_array'	=> array(
+							'number' 	=> $number
+					),
+					'thumb'			=> $t->get_screenshot( ),
+					'splash'		=> $t->get_screenshot( ),
+					'name'			=> $t->name . $active
 				);
+
+				$list .= $this->get_x_list_item( $args );
 				
-				$list .= $the_item;
-				
+
 			}
 			
 		}
@@ -728,29 +754,23 @@ class EditorInterface {
 
 			$class[] = ($item['type'] == 'themes') ? 'x-item-size-10' : 'x-item-size-5';
 
-			$classes = implode(' ', $class);
-
-
+			$class[] = 'x-storefront';
 
 			$img = sprintf('<img src="%s" style=""/>', $item['thumb']);
-
-			$list .= sprintf(
-				"<section class='x-storefront x-item %s' data-store-id='%s' data-content='%s' data-placement='top' >
-					<div class='x-item-frame'>
-						<div class='pl-vignette'>
-							%s
-						</div>
-					</div>
-					<div class='x-item-text'>
-						%s
-					</div>
-				</section>",
-				$classes,
-				$item['id'],
-				sprintf('<img src="%s" />', $item['splash']),
-				$img,
-				$item['name']
+			
+				
+			$args = array(
+				'class_array' 	=> $class,
+				'data_array'	=> array(
+						'store-id' 	=> $item['id']
+				),
+				'thumb'			=> $item['thumb'],
+				'splash'		=> $item['splash'],
+				'name'			=> $item['name']
 			);
+
+			$list .= $this->get_x_list_item( $args );
+
 
 		}
 

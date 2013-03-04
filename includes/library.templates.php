@@ -649,6 +649,20 @@ function pagelines_pagination() {
 <?php endif;
 }
 
+function pl_nav_fallback($class = '', $limit = 8){
+
+	$pages = wp_list_pages('echo=0&title_li=&sort_column=menu_order&depth=2');
+
+	$pages_arr = explode("\n", $pages);
+
+	$pages_out = '';
+	for($i=0; $i < $limit; $i++){
+		$pages_out .= $pages_arr[$i];
+	}
+	
+	printf('<ul class="%s">%s</ul>', $class, $pages_out);
+}
+
 /**
  * 
  *  Fallback for navigation, if it isn't set up
@@ -658,6 +672,8 @@ function pagelines_pagination() {
  *  @since 1.1.0
  *
  */
+
+// DEPRECATED for pl_nav_fallback
 function pagelines_nav_fallback() {
 	global $post; ?>
 	

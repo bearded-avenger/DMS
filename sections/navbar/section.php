@@ -308,7 +308,7 @@ class PLNavBar extends PageLinesSection {
 						) 
 					);
 					} else {
-						$this->nav_fallback( $align_class );
+						pl_nav_fallback( 'navline pldrop '.$align_class );
 					}
 	?>
 				</div>
@@ -317,12 +317,7 @@ class PLNavBar extends PageLinesSection {
 		</div>
 	</div>
 <?php }
-	function nav_fallback( $align_class ) {
 
-		printf( '<ul id="menu-main" class="font-sub navline pldrop %s">', $align_class );
-		wp_list_pages( 'title_li=&sort_column=menu_order&depth=2' );
-		echo '</ul>';
-	}
 	
 	function old_options(){
 			$options = array(

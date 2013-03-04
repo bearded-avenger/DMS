@@ -15,9 +15,11 @@ body.navbar_fixed {
 /*  Basic formatting
  ************************************************************/
 .section-navbar {
-	z-index: @zindexFixedNavbar;
+	z-index: @zindexFixedNavbar - 1;
 	margin: 0 auto;
 	width: 100%;
+	font-family: @altFontFamily;
+	font-weight: @altFontWeight; 
 	.content-pad,
 	.pl-section-pad{
 		padding-top: 5px;
@@ -29,6 +31,7 @@ body.navbar_fixed {
 	
 	&.fixed-top{
 		position: fixed;
+		z-index: @zindexFixedNavbar;
 	}
 }
 // Dont nest, needs to be minimum specificity
