@@ -315,7 +315,12 @@ class EditorInterface {
 					'plus'		=> array(
 						'name'	=> 'Free with Plus',
 						'href'	=> '#store',
-						'filter'=> '.plugins'
+						'filter'=> '.plus'
+					),
+					'featured'		=> array(
+						'name'	=> 'Featured',
+						'href'	=> '#store',
+						'filter'=> '.featured'
 					),
 					'sections'		=> array(
 						'name'	=> 'Sections',
@@ -689,6 +694,11 @@ class EditorInterface {
 			$class = array();
 			$class[] = $item['type'];
 			$class[] = $item['slug'];
+
+			if ( 'true' == $item['featured'] )
+				$class[] = 'featured';
+			if ( 'true' == $item['plus_product'] )
+				$class[] = 'plus';
 
 			$class[] = ($item['type'] == 'themes') ? 'x-item-size-10' : 'x-item-size-5';
 
