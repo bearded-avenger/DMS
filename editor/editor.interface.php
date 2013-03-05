@@ -579,7 +579,7 @@ class EditorInterface {
 
 		}
 
-		printf('<div class="x-list x-sections">%s</div>', $list);
+		printf('<div class="x-list x-sections" data-panel="x-sections">%s</div>', $list);
 
 	}
 
@@ -674,7 +674,7 @@ class EditorInterface {
 		}
 
 
-		printf('<div class="x-list x-themes">%s</div>', $list);
+		printf('<div class="x-list x-themes" data-panel="x-themes">%s</div>', $list);
 	}
 
 	function the_store_callback(){
@@ -714,7 +714,7 @@ class EditorInterface {
 
 		}
 
-		printf('<div class="x-list x-store">%s</div>', $list);
+		printf('<div class="x-list x-store" data-panel="x-store">%s</div>', $list);
 	}
 
 	function live_callback(){
