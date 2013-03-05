@@ -300,11 +300,20 @@
 				
 		}
 		
-		, loadButtons: function(){
+		, loadButtons: function( panel ){
 			var buttons = ''
-			buttons += sprintf('<a href="#" class="btn btn-primary"><i class="icon-ok"></i> Purchase</a> ')
-			buttons += sprintf('<a href="#" class="btn"><i class="icon-folder-open"></i> Overview</a> ')
-			buttons += sprintf('<a href="#" class="btn"><i class="icon-desktop"></i> Demo</a> ')
+			
+			if(panel == 'x-store'){
+				buttons += sprintf('<a href="#" class="btn btn-primary"><i class="icon-ok"></i> Purchase</a> ')
+				buttons += sprintf('<a href="#" class="btn"><i class="icon-folder-open"></i> Overview</a> ')
+				buttons += sprintf('<a href="#" class="btn"><i class="icon-desktop"></i> Demo</a> ')
+			} else if ( panel == 'x-themes' ){
+				buttons += sprintf('<a href="#" class="btn btn-primary"><i class="icon-bolt"></i> Activate</a> ')
+				buttons += sprintf('<a href="#" class="btn"><i class="icon-eye-open"></i> Preview</a> ')
+			} else if ( panel == 'x-sections' ){
+				buttons += sprintf('<a href="#" class="btn btn-small disabled"><i class="icon-random"></i> Drag Thumb to Page</a> ')
+			}
+			
 			
 			return buttons
 		}
@@ -317,16 +326,17 @@
 				,	theID = $(this).data('extend-id')
 				,	filterClass = '.'+theID
 				,	ext = $.pl.config.extensions[theID] || false
+				,	panel = theIsotope.data('panel') || false
 
 				if(!theIsotope.hasClass('x-pane-mode') && ext){
 					
 					var splash	= sprintf('<div class="x-pane-frame"><img src="%s" /></div>', ext.splash)
 					,	btnClose = sprintf('<div class="x-item x-close x-remove %s"><a href="#" class="btn btn-close"><i class="icon-remove"></i></a></div>', theID)
-					,	btns = sprintf('<div class="x-pane-btns">%s</div>', that.loadButtons())
+					,	btns = sprintf('<div class="x-pane-btns">%s</div>', that.loadButtons( panel ))
 					,	desc = sprintf('<div class="x-pane-info"><h4>Description</h4>%s</div>', ext.desc)
 					,	extPane = $( sprintf('<div class="x-pane x-remove x-item %s"><div class="x-pane-pad">%s %s %s</div></div>%s', theID, splash, btns, desc, btnClose) )
 
-					if(theIsotope.hasClass('x-sections')){
+					if( panel == 'x-sections' ){
 						var prep = sprintf('<span class="x-remove badge badge-info %s"><i class="icon-arrow-up"></i> Drag This</span>', theID)
 						
 						theIsotope.find('.pl-sortable').append(prep)
