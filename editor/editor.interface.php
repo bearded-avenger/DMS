@@ -680,9 +680,8 @@ class EditorInterface {
 	function the_store_callback(){
 
 		$list = '';
-		global $storeapi;
-
-		foreach( $storeapi->get() as $key => $item){
+		global $mixed_array;
+		foreach( $mixed_array as $key => $item){
 
 		if( ! isset( $item['type'] ) )
 			continue;
