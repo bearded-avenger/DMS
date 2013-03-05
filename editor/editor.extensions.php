@@ -1,21 +1,21 @@
-<?php 
+<?php
 
 
 
 
 
 class EditorExtensions {
-	
+
 	var $ext = array();
-	
+
 	function get_list(){
-		$this->get_themes(); 
-		$this->get_sections(); 
+		$this->get_themes();
+		$this->get_sections();
 		$this->get_store();
-		
+
 		return $this->ext;
 	}
-	
+
 	function get_themes(){
 		// Themes
 		$themes = wp_get_themes();
@@ -34,19 +34,13 @@ class EditorExtensions {
 					'desc'		=> $t->description,
 					'thumb'		=> $t->get_screenshot( ),
 					'splash'	=> $t->get_screenshot( ),
-					'purchase'	=> '', 
+					'purchase'	=> '',
 					'overview'	=> '',
-
-				); 
-
-
+				);
 			}
-
 		}
-
-	
 	}
-	
+
 	function get_sections(){
 		$sections = $this->get_available_sections();
 
@@ -57,36 +51,47 @@ class EditorExtensions {
 				'desc'		=> $s->description,
 				'thumb'		=> $s->screenshot,
 				'splash'	=> $s->splash,
-				'purchase'	=> '', 
+				'purchase'	=> '',
 				'overview'	=> '',
 
-			); 
-						
+			);
+
 		}
 	}
-	
+
 	function get_store(){
-		
-		
+		global $mixed_array;
+		foreach( $mixed_array as $key => $s ) {
+			if( ! isset( $s['name'] ) )
+				continue;
+			$this->ext[ $key ] = array(
+				'name'		=> $s['name'],
+				'desc'		=> '',
+				'thumb'		=> $s['thumb'],
+				'splash'	=> $s['splash'],
+				'purchase'	=> '',
+				'overview'	=> '',
+			);
+		}
 	}
 
-	/* 
+	/*
 	 * Functions library for editor
 	 */
 
 	function get_available_sections(){
 
 
-		global $pl_section_factory; 
+		global $pl_section_factory;
 
-		$sections = $pl_section_factory->sections; 
+		$sections = $pl_section_factory->sections;
 
 		$sections = array_merge($sections, $this->layout_sections());
-		
+
 		return $sections;
 
 	}
-	
+
 
 	function layout_sections(){
 
@@ -161,6 +166,6 @@ class EditorExtensions {
 
 		return $layouts;
 	}
-	
-	
+
+
 }
