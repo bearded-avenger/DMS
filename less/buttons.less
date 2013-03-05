@@ -87,11 +87,16 @@ body a.btn:hover {
 
 // Small
 .btn-small {
-  padding: 5px 9px;
-  font-size: @buttonFontSize - 2px;
-  line-height: @baseLineHeight - 2px;
+  padding: @paddingSmall;
+  font-size: @fontSizeSmall;
+  .border-radius(@borderRadiusSmall);
 }
-.btn-small [class^="icon-"] {
+.btn-small [class^="icon-"],
+.btn-small [class*=" icon-"] {
+  margin-top: 0;
+}
+.btn-mini [class^="icon-"],
+.btn-mini [class*=" icon-"] {
   margin-top: -1px;
 }
 
