@@ -10,22 +10,19 @@ class EditorStoreFront extends PageLinesAPI {
 		$this->data_url = $this->base_url . '/v4/all';
 		$this->username = get_pagelines_credentials( 'user' );
 		$this->password = get_pagelines_credentials( 'pass' );
-		global $pldraft;
-		$this->draft = $pldraft->mode;
-		$this->get_latest();
 	}
 
 	function get_latest(){
 
-		if( 'draft' == $this->draft ) {
-			$data = $this->json_get( $this->data_url );
-
-			// Add the decoded data to the global for store to use.
-			global $mixed_array;
-			$mixed_array = $this->make_array( json_decode( $data ) );
-		}
+			$data = $this->get( 'store_mixed', array( $this, 'json_get' ), array( $this->data_url ) );
+			return $this->sort( $this->make_array( json_decode( $data ) ) );
 	}
 
+	// sort store data
+	function sort( $data ){
+
+		return $data;
+	}
 }
 
 /*
@@ -37,6 +34,26 @@ class PageLinesAPI {
 	var $prot = array( 'https://', 'http://' );
 	var $base_url = 'api.pagelines.com';
 
+	// default timeout for transients.
+	var $timeout = 300;
+
+	// write data to a transient.
+	function put( $data, $id, $timeout = false ) {
+		if( ! $timeout )
+			$timeout = $this->timeout;
+		set_transient( $id, $data, $timeout );
+	}
+
+	// fetch from transient, if not found use callback.
+	function get( $id, $callback, $args ){
+
+		if( false === ( $data = get_transient( $id ) ) ) {
+			$data = call_user_func_array( $callback, $args );
+			if( '' != $data )
+				$this->put( $data, $id );
+		}
+		return $data;
+	}
 	/*
 	 * Turn something into an array.
 	 */
@@ -57,7 +74,6 @@ class PageLinesAPI {
 	function json_get( $url ) {
 
 		$options = array(
-			'sslverify'	=>	false,
 			'timeout'	=>	15,
 			'body' => array(
 				'username'	=>	( $this->username != '' ) ? $this->username : false,

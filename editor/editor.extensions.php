@@ -60,17 +60,18 @@ class EditorExtensions {
 	}
 
 	function get_store(){
-		global $mixed_array;
-		foreach( $mixed_array as $key => $s ) {
+
+		global $storeapi;
+		foreach( $storeapi->get_latest() as $key => $s ) {
 			if( ! isset( $s['name'] ) )
 				continue;
 			$this->ext[ $key ] = array(
 				'name'		=> $s['name'],
-				'desc'		=> '',
+				'desc'		=> $s['description'],
 				'thumb'		=> $s['thumb'],
 				'splash'	=> $s['splash'],
 				'purchase'	=> '',
-				'overview'	=> '',
+				'overview'	=> $s['overview'],
 			);
 		}
 	}
