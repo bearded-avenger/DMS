@@ -24,6 +24,8 @@
 			
 			$.plAJAX.init() 
 			
+			
+			
 			this.bindUIActions()
 				
 		}
@@ -308,14 +310,39 @@
 				buttons += sprintf('<a href="#" class="btn"><i class="icon-folder-open"></i> Overview</a> ')
 				buttons += sprintf('<a href="#" class="btn"><i class="icon-desktop"></i> Demo</a> ')
 			} else if ( panel == 'x-themes' ){
-				buttons += sprintf('<a href="#" class="btn btn-primary"><i class="icon-bolt"></i> Activate</a> ')
-				buttons += sprintf('<a href="#" class="btn"><i class="icon-eye-open"></i> Preview</a> ')
+				buttons += $.plThemes.actionButtons()
 			} else if ( panel == 'x-sections' ){
 				buttons += sprintf('<a href="#" class="btn btn-small disabled"><i class="icon-random"></i> Drag Thumb to Page</a> ')
 			}
 			
 			
 			return buttons
+		}
+		
+		, loadPaneActions: function(panel){
+			
+			if(panel == 'x-store'){
+				
+			} else if ( panel == 'x-themes' ){
+				$.plThemes.btnActions()
+			} else if ( panel == 'x-sections' ){
+			
+			}
+			
+			$('.x-close').on('click.extensionItem ', function(e){
+	
+				e.preventDefault
+
+				var theIsotope = $(this).parent()
+				,	removeItems = $('.x-remove')
+
+				theIsotope
+					.isotope({ filter: '*' })
+					.isotope('remove', removeItems)
+					.removeClass('x-pane-mode')
+
+
+			})
 		}
 
 		, extensionActions: function(){
@@ -349,20 +376,8 @@
 						.addClass('x-pane-mode')
 				} 
 				
-				$('.x-close').on('click.extensionItem ', function(e){
-		
-					e.preventDefault
-
-					var theIsotope = $(this).parent()
-					,	removeItems = $('.x-remove')
-
-					theIsotope
-						.isotope({ filter: '*' })
-						.isotope('remove', removeItems)
-						.removeClass('x-pane-mode')
-
-
-				})
+				// load actions after elements added to DOM
+				that.loadPaneActions( panel )
 				
 				
 			})

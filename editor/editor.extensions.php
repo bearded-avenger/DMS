@@ -29,11 +29,19 @@ class EditorExtensions {
 				if($t->get_template() != 'pagelines')
 					continue;
 
+				$thumb = $t->get_screenshot( );
+				
+				if( is_file( sprintf( '%s/splash.png', $t->get_stylesheet_directory() ) ) )
+				 	$splash = sprintf( '%s/splash.png', $t->get_stylesheet_directory_uri()  );
+				else 
+					$splash = $thumb;
+
 				$this->ext[ $theme ] = array(
+					'id'		=> $theme,
 					'name'		=> $t->name,
 					'desc'		=> $t->description,
-					'thumb'		=> $t->get_screenshot( ),
-					'splash'	=> $t->get_screenshot( ),
+					'thumb'		=> $thumb,
+					'splash'	=> $splash,
 					'purchase'	=> '',
 					'overview'	=> '',
 				);
@@ -47,6 +55,7 @@ class EditorExtensions {
 		foreach($sections as $key => $s){
 
 			$this->ext[ $s->id ] = array(
+				'id'		=> $s->id,
 				'name'		=> $s->name,
 				'desc'		=> $s->description,
 				'thumb'		=> $s->screenshot,

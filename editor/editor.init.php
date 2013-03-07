@@ -48,6 +48,7 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.layout.php' );
 		require_once( PL_EDITOR . '/editor.map.php' );
 		require_once( PL_EDITOR . '/editor.templates.php' );
+		require_once( PL_EDITOR . '/editor.themes.php' );
 		require_once( PL_EDITOR . '/editor.data.php' );
 
 

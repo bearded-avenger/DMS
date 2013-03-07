@@ -66,6 +66,7 @@ class EditorInterface {
 		wp_enqueue_script( 'pl-library', $this->url . '/js/pl.library.js', array( 'jquery' ), PL_CORE_VERSION );
 		wp_enqueue_script( 'pl-layout', $this->url . '/js/pl.layout.js', array( 'jquery' ), PL_CORE_VERSION );
 		wp_enqueue_script( 'pl-extend', $this->url . '/js/pl.extend.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_script( 'pl-js-themes', $this->url . '/js/pl.themes.js', array( 'jquery' ), PL_CORE_VERSION );
 
 		// Isotope
 		wp_enqueue_script( 'isotope', $this->url . '/js/utils.isotope.js', array('jquery'));
@@ -603,7 +604,7 @@ class EditorInterface {
 
 		$popover_content = sprintf('<img src="%s" />', $args['splash']);
 
-		$img = sprintf('<img src="%s" />', $args['thumb']);
+		$img = sprintf('<img width="300" height="225" src="%s" />', $args['thumb']);
 
 		$datas = '';
 		foreach($args['data_array'] as $field => $val){
@@ -611,7 +612,7 @@ class EditorInterface {
 		}
 
 		$list_item = sprintf(
-			"<section class='x-item x-extension %s %s'  %s data-content='%s' data-extend-id='%s'>
+			"<section class='x-item x-extension %s %s' %s data-content='%s' data-extend-id='%s'>
 				<div class='x-item-frame'>
 					<div class='pl-vignette'>
 						%s
@@ -657,14 +658,19 @@ class EditorInterface {
 					$active = '';
 					$number = $count++;
 				}
-
-				$class[] = 'x-item-larger';
+				
+				if( is_file( sprintf( '%s/splash.png', $t->get_stylesheet_directory() ) ) )
+				 	$splash = sprintf( '%s/splash.png', $t->get_stylesheet_directory_uri()  );
+				else 
+					$splash = $t->get_stylesheet();
+				
 
 				$args = array(
 					'id'			=> $theme,
 					'class_array' 	=> $class,
 					'data_array'	=> array(
-							'number' 	=> $number
+						'number' 		=> $number,
+						'stylesheet'	=> $t->get_stylesheet()
 					),
 					'thumb'			=> $t->get_screenshot( ),
 					'splash'		=> $t->get_screenshot( ),
@@ -700,8 +706,6 @@ class EditorInterface {
 			if ( 'true' == $item['plus_product'] )
 				$class[] = 'plus';
 
-			$class[] = ($item['type'] == 'themes') ? 'x-item-size-10' : 'x-item-size-5';
-
 			$class[] = 'x-storefront';
 
 			$img = sprintf('<img src="%s" style=""/>', $item['thumb']);
@@ -711,7 +715,7 @@ class EditorInterface {
 				'id'			=> $item['slug'],
 				'class_array' 	=> $class,
 				'data_array'	=> array(
-						'store-id' 	=> $item['slug']
+					'store-id' 	=> $item['slug']
 				),
 				'thumb'			=> $item['thumb'],
 				'splash'		=> $item['splash'],

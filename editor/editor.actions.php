@@ -2,6 +2,28 @@
 
 
 
+add_action('wp_ajax_pl_editor_actions', 'pl_editor_actions'); 
+function pl_editor_actions(){
+	
+	$post = $_POST; 
+	$response_object = array();
+	
+	if($post['mode'] == 'themes'){
+		$themes = new EditorThemesHandler;
+	}
+	
+	
+
+
+	$response_object['post'] = $post;
+
+	// RESPONSE
+	echo json_encode( $response_object, JSON_FORCE_OBJECT);
+	
+	die(); // don't forget this, always returns 0 w/o
+}
+
+
 add_action('wp_ajax_pl_editor_mode', 'pl_editor_mode'); 
 function pl_editor_mode(){
 	

@@ -6,7 +6,58 @@
 	 */
 	$.plAJAX = {
 		
-		init: function(){
+		// Generalized AJAX Function
+		run: function( args ){
+			
+			var	that = this
+			, 	refresh = args.refresh || false
+			,	savingDialog = args.savingText || 'Saving'
+			,	refreshingDialog = args.refreshText || 'Refreshing Page'
+			,	defaultData = {
+						action: 'pl_editor_actions'
+					,	mode: 'default'
+					,	flag: 'default'
+					,	pageID: $.pl.config.pageID
+					,	typeID: $.pl.config.typeID
+					,	log: false
+				}
+			,	theData = $.extend(true, defaultData, args.theData)
+
+			$.ajax( {
+				type: 'POST'
+				, url: ajaxurl
+				, data: theData	
+				, beforeSend: function(){
+					$('.btn-saving').addClass('active')
+
+					if(refresh)
+						bootbox.dialog( that.dialogText( savingDialog ), [ ], {animate: false})
+				}
+				, success: function( response ){
+
+					that.success( response )
+
+					if(refresh){
+						bootbox.dialog( that.dialogText( refreshingDialog ), [ ], {animate: false})
+						location.reload()
+					}
+
+				}
+			})
+			
+			return ''
+		}
+		
+		, success: function( response ){
+			var that = this
+			
+			if(response.post.log == true)
+				console.log(response)
+			
+			that.ajaxSuccess(response)
+		}
+		
+		, init: function(){
 			
 			
 			this.bindUIActions()
@@ -384,6 +435,32 @@
 					$('.btn-saving').removeClass('active')
 					$('.state-list').removeClass('clean global local type multi map-local map-global').addClass(response)
 					$('.btn-state span').removeClass().addClass('state-draft '+response)
+				}
+			})
+		
+			
+		}
+		
+		, switchThemes: function( ){
+		
+			var that = this
+			, 	interrupt = interrupt || false
+			,	saveData = {
+						action: 'pl_save_page'
+					, 	mode: 'map'
+					,	map: $.pl.map
+					,	pageID: $.pl.config.pageID
+					,	typeID: $.pl.config.typeID
+					, 	special: $.pl.config.isSpecial
+				}
+			
+			$.ajax( {
+				type: 'POST'
+				, url: ajaxurl
+				, data: saveData	
+				, beforeSend: function(){
+				}
+				, success: function( response ){
 				}
 			})
 		
