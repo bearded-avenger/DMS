@@ -10,6 +10,7 @@ class EditorStoreFront extends PageLinesAPI {
 		$this->data_url = $this->base_url . '/v4/all';
 		$this->username = get_pagelines_credentials( 'user' );
 		$this->password = get_pagelines_credentials( 'pass' );
+
 	}
 
 	function get_latest(){
@@ -45,9 +46,12 @@ class PageLinesAPI {
 	}
 
 	// fetch from transient, if not found use callback.
-	function get( $id, $callback, $args ){
+	function get( $id, $callback = false, $args = array() ){
 
-		if( false === ( $data = get_transient( $id ) ) ) {
+		$data = '';
+
+		if( false === ( $data = get_transient( $id ) ) && $callback ) {
+
 			$data = call_user_func_array( $callback, $args );
 			if( '' != $data )
 				$this->put( $data, $id );
