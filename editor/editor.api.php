@@ -10,7 +10,13 @@ class EditorStoreFront extends PageLinesAPI {
 		$this->data_url = $this->base_url . '/v4/all';
 		$this->username = get_pagelines_credentials( 'user' );
 		$this->password = get_pagelines_credentials( 'pass' );
-
+		$this->bootstrap();
+	}
+	// bootstrap, make sure store data is ready before page loads.
+	function bootstrap(){
+		global $pldraft;
+		if( is_object( $pldraft ) && 'draft' == $pldraft->mode )
+			$this->get_latest();
 	}
 
 	function get_latest(){
