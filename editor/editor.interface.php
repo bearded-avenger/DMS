@@ -691,25 +691,16 @@ class EditorInterface {
 	function the_store_callback(){
 
 		$list = '';
-		global $mixed_array;
+		global $storeapi;
+		$mixed_array = $storeapi->get_latest();
+
 		foreach( $mixed_array as $key => $item){
 
-		if( ! isset( $item['type'] ) )
-			continue;
-
-			$class = array();
-			$class[] = $item['type'];
-			$class[] = $item['slug'];
-
-			if ( 'true' == $item['featured'] )
-				$class[] = 'featured';
-			if ( 'true' == $item['plus_product'] )
-				$class[] = 'plus';
+			$class = $item['class_array'];
 
 			$class[] = 'x-storefront';
 
 			$img = sprintf('<img src="%s" style=""/>', $item['thumb']);
-
 
 			$args = array(
 				'id'			=> $item['slug'],
