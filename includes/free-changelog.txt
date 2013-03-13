@@ -1,3 +1,14 @@
+= 1.3.7 =
+
+* Run tab contents through do_shortcode.
+* Add auto 'show' to modal popup.
+* Fix feature background nobg mode.
+* Check features aspect ration is a valid setting.
+* Update bootstrap and lessc
+* Small nextgen fix.
+* Added pl_is_section_active()
+* Updated SHIV function.
+
 = 1.3.6 =
 
 * Enable HTML in popovers.
