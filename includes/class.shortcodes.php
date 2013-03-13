@@ -1292,9 +1292,8 @@ class PageLines_ShortCodes {
 		    return sprintf( '<div class="tab-pane %s" id="%s"><p>%s</p></div>',
 					$active,
 					$number,
-					do_shortcode( $content )
+					do_shortcode( apply_filters( 'the_content',$content ) )
 					);
-
 		}
 
 	/**
@@ -1312,6 +1311,7 @@ class PageLines_ShortCodes {
 		    'type'		=> '',
 		    'colortype' => '',
 		    'label' 	=> '',
+		    'show'		=> 'false',
 			'hash'		=> rand()
 	    ), $atts ) );
 
@@ -1322,7 +1322,7 @@ class PageLines_ShortCodes {
 	            	jQuery(function(){
 						jQuery('#modal_<?php echo $hash; ?>').modal({
 							keyboard: true
-							, show: false
+							, show: <?php echo $show; ?>
 						});
 					});
 				</script><?php
