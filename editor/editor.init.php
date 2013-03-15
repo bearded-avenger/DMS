@@ -60,9 +60,9 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.interface.php' );
 		require_once( PL_EDITOR . '/editor.page.php' );
 		require_once( PL_EDITOR . '/editor.handler.php' );
-		require_once( PL_EDITOR . '/editor.less.php' );
 		require_once( PL_EDITOR . '/editor.library.php' );
-		require_once( PL_EDITOR . '/editor.less.compile.php' );
+		require_once( PL_EDITOR . '/editor.less.libs.php' );
+		require_once( PL_EDITOR . '/editor.less.php' );
 		require_once( PL_EDITOR . '/editor.api.php' );
 
 	}
@@ -76,9 +76,10 @@ class PageLinesEditor {
 
 		$plpg = $this->page = new PageLinesPage;
 		$pldraft = $this->draft = new EditorDraft( $this->page );
-		$editorless = $this->editorless = new EditorLessHandler;
+//		$editorless = $this->editorless = new EditorLessHandler;
 		$storeapi = $this->storeapi = new EditorStoreFront;
-
+		$pless = new PageLinesLess;
+		$this->editor_less = new EditorLess($pless);
 		$this->layout = new EditorLayout();
 		
 		$this->templates = new EditorTemplates( $this->page );
@@ -109,8 +110,7 @@ class PageLinesEditor {
 
 		pagelines_add_bodyclass('pl-editor');
 
-//		$pless = new PageLinesLess;
-//		$this->editor_less = new EditorLess($pless);
+
 
 //		$this->editor_less->enqueue_styles();
 

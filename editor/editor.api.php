@@ -12,20 +12,41 @@ class EditorStoreFront extends PageLinesAPI {
 		$this->password = get_pagelines_credentials( 'pass' );
 		$this->bootstrap();
 	}
-	// bootstrap, make sure store data is ready before page loads.
+
+	/**
+	 *
+	 *  Bootstrap draft data, must load before page does.
+	 *
+	 *  @package PageLines Framework
+	 *  @since 3.0
+	 */
 	function bootstrap(){
 		global $pldraft;
 		if( is_object( $pldraft ) && 'draft' == $pldraft->mode )
 			$this->get_latest();
 	}
 
+	/**
+	 *
+	 *  Get all store data for json head data.
+	 *  @TODO make paginated??
+	 *
+	 *  @package PageLines Framework
+	 *  @since 3.0
+	 */
 	function get_latest(){
 
 			$data = $this->get( 'store_mixed', array( $this, 'json_get' ), array( $this->data_url ) );
 			return $this->sort( $this->make_array( json_decode( $data ) ) );
 	}
 
-	// sort store data
+	/**
+	 *
+	 *  Unused as yet.
+	 *
+	 *  @package PageLines Framework
+	 *  @since 3.0
+	 */
 	function sort( $data ){
 
 		return $data;
@@ -41,22 +62,30 @@ class PageLinesAPI {
 	var $prot = array( 'https://', 'http://' );
 	var $base_url = 'api.pagelines.com';
 
-	// default timeout for transients.
-	var $timeout = 300;
-
-	// write data to a transient.
-	function put( $data, $id, $timeout = false ) {
-		if( ! $timeout )
-			$timeout = $this->timeout;
-		set_transient( $id, $data, $timeout );
+	/**
+	 *
+	 *  Write cache data
+	 *
+	 *  @package PageLines Framework
+	 *  @since 3.0
+	 */
+	function put( $data, $id, $timeout = 3600 ) {
+		if( $data && $id )
+			set_transient( sprintf( 'plapi_%s', $id ), $data, $timeout );
 	}
 
-	// fetch from transient, if not found use callback.
+	/**
+	 *
+	 *  Get cache data
+	 *
+	 *  @package PageLines Framework
+	 *  @since 3.0
+	 */
 	function get( $id, $callback = false, $args = array() ){
 
 		$data = '';
 
-		if( false === ( $data = get_transient( $id ) ) && $callback ) {
+		if( false === ( $data = get_transient( sprintf( 'plapi_%s', $id ) ) ) && $callback ) {
 
 			$data = call_user_func_array( $callback, $args );
 			if( '' != $data )
@@ -64,8 +93,23 @@ class PageLinesAPI {
 		}
 		return $data;
 	}
-	/*
-	 * Turn something into an array.
+	/**
+	 *
+	 *  Delete cache data
+	 *
+	 *  @package PageLines Framework
+	 *  @since 3.0
+	 */
+	function del( $id ) {
+		delete_transient( sprintf( 'plapi_%s', $id ) );
+	}
+
+	/**
+	 *
+	 *  Make sure something is an array.
+	 *
+	 *  @package PageLines Framework
+	 *  @since 3.0
 	 */
 	function make_array( $data ) {
 
@@ -78,8 +122,12 @@ class PageLinesAPI {
 		return array();
 	}
 
-	/*
-	 * Fetch remote json.
+	/**
+	 *
+	 *  Fetch remote json from API server.
+	 *
+	 *  @package PageLines Framework
+	 *  @since 3.0
 	 */
 	function json_get( $url ) {
 
@@ -94,8 +142,12 @@ class PageLinesAPI {
 		return $f;
 	}
 
-	/*
-	 * Retrieve a remote object.
+	/**
+	 *
+	 *  Get remote object with POST.
+	 *
+	 *  @package PageLines Framework
+	 *  @since 3.0
 	 */
 	function try_api( $url, $args ) {
 
@@ -116,5 +168,57 @@ class PageLinesAPI {
 			}
 		}
 		return false;
+	}
+}
+
+// API wrapper functions.
+
+/**
+ *  Get data from cache.
+ *
+ *  @package PageLines Framework
+ *	@since 3.0
+ */
+function pl_cache_get( $id, $callback = false, $args = array() ) {
+	global $storeapi;
+	if( is_object( $storeapi ) )
+		return $storeapi->get( $id, $callback, $args );
+	else
+		return false;
+}
+
+/**
+ *  Write data to cache.
+ *
+ *  @package PageLines Framework
+ *	@since 3.0
+ */
+function pl_cache_put( $data, $id, $time = 3600 ) {
+	global $storeapi;
+	if( $id && $data && is_object( $storeapi ) )
+		$storeapi->put( $data, $id, $time );
+}
+
+/**
+ *  Delete from cache.
+ *
+ *  @package PageLines Framework
+ *	@since 3.0
+ */
+function pl_cache_del( $id ) {
+	delete_transient( sprintf( 'plapi_%s', $id ) );
+}
+
+/**
+ *  Clear draft caches.
+ *
+ *  @package PageLines Framework
+ *	@since 3.0
+ */
+function pl_flush_draft_caches() {
+
+	$caches = array( 'draft_core_raw', 'draft_core_compiled', 'draft_sections_compiled' );
+	foreach( $caches as $key ) {
+		pl_cache_del( $key );
 	}
 }

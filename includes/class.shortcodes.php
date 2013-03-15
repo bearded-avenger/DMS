@@ -252,7 +252,7 @@ class PageLines_ShortCodes {
 				if ( $colors ) $string .= '&chco='.$colors.'';
 				$string .= '&chs='.$size.'';
 				$string .= '&chd=t:'.$data.'';
-				$string .= '&chf='.$bg.'';
+				$string .= '&chf=bg,s,'.$bg.'';
 
 		return '<img title="'.$title.'" src="http://chart.apis.google.com/chart?cht='.$charttype.''.$string.$advanced.'" alt="'.$title.'" />';
 	}	
@@ -1292,9 +1292,8 @@ class PageLines_ShortCodes {
 		    return sprintf( '<div class="tab-pane %s" id="%s"><p>%s</p></div>',
 					$active,
 					$number,
-					do_shortcode( $content )
+					do_shortcode( apply_filters( 'the_content',$content ) )
 					);
-		        
 		}
 
 	/**
@@ -1312,6 +1311,7 @@ class PageLines_ShortCodes {
 		    'type'		=> '',
 		    'colortype' => '',
 		    'label' 	=> '',
+		    'show'		=> 'false',
 			'hash'		=> rand()
 	    ), $atts ) );
  
@@ -1322,7 +1322,7 @@ class PageLines_ShortCodes {
 	            	jQuery(function(){
 						jQuery('#modal_<?php echo $hash; ?>').modal({
 							keyboard: true
-							, show: false
+							, show: <?php echo $show; ?>
 						});
 					});
 				</script><?php
@@ -1412,24 +1412,24 @@ class PageLines_ShortCodes {
 	    	'height' => '100%',
 	    	'related' => '',
 	    	), $atts ) );
+    	if ( $related )
+			$related = '?rel=0';
 
-        if ($atts['type'] == 'youtube') {
-	    
-	    	$out = sprintf('<div class="pl-video youtube"><iframe src="http://www.youtube.com/embed/%s" width="%s" height="%s" frameborder="0" allowfullscreen wmode="transparent"></iframe></div>',$id,$width,$height);
+    	switch( $type ) {
 
-	    	return $out;
 
-	    	if ($att['related'] == 'on') {
+    		case 'vimeo':
+    			$out = sprintf( '<div class="pl-video vimeo"><iframe src="http://player.vimeo.com/video/%s" width="%s" height="%s"  frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen wmode="transparent"></iframe></div>',$id, $width, $height );
+    			break;
 
-	    		$out = sprintf('<div class="pl-video youtube"><iframe src="http://www.youtube.com/embed/%s?rel=0" width="%s" height="%s" frameborder="0" allowfullscreen wmode="transparent"></iframe></div>',$id,$width,$height);
-		    	return $out;
-	    	}
+    		case 'dailymotion':
+    			$out = sprintf( '<div class="pl-video dailymotion"><iframe src="http://www.dailymotion.com/embed/video/%s" width="%s" height="%s"  frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen wmode="transparent"></iframe></div>',$id, $width, $height );
+    			break;
 
-	    } elseif ($atts['type'] == 'vimeo') {
-
-	    $out = sprintf('<div class="pl-video vimeo"><iframe src="http://player.vimeo.com/video/%s" width="%s" height="%s"  frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen wmode="transparent"></iframe></div>',$id,$width,$height);
-	    	return $out;
-	    }
+    		default:
+    			$out = sprintf('<div class="pl-video youtube"><iframe src="http://www.youtube.com/embed/%s%s" width="%s" height="%s" frameborder="0" allowfullscreen wmode="transparent"></iframe></div>', $id, $related, $width, $height);
+    	}
+	    return $out;
     }
 
 

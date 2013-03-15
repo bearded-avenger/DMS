@@ -153,10 +153,9 @@ class PageLinesPostType {
 	*
 	*/
 	function register_columns(){
-		
-		add_filter("manage_edit-{$this->id}_columns", array(&$this, 'set_columns'));
-		
-		add_action('manage_posts_custom_column',  array(&$this, 'set_column_values'));
+
+		add_filter( "manage_edit-{$this->id}_columns", array( &$this, 'set_columns' ) );
+		add_action( "manage_{$this->id}_posts_custom_column",  array( &$this, 'set_column_values' ) );
 	}
 		
 
