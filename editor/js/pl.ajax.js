@@ -10,49 +10,91 @@
 		run: function( args ){
 			
 			var	that = this
-			, 	refresh = args.refresh || false
-			,	savingDialog = args.savingText || 'Saving'
-			,	refreshingDialog = args.refreshText || 'Refreshing Page'
-			,	defaultData = {
+			,	theData = {
 						action: 'pl_editor_actions'
 					,	mode: 'default'
-					,	flag: 'default'
+					,	run: 'default'
 					,	pageID: $.pl.config.pageID
 					,	typeID: $.pl.config.typeID
 					,	log: false
+					,	confirm: false
+					, 	confirmText: 'Are you sure?'
+					,	savingText: 'Saving'
+					,	refresh: 	false
+					,	refreshText: 'Refreshing page...'
+					, 	toolboxOpen: $.toolbox('open')
+					
 				}
-			,	theData = $.extend(true, defaultData, args.theData)
-
-			$.ajax( {
-				type: 'POST'
-				, url: ajaxurl
-				, data: theData	
-				, beforeSend: function(){
-					$('.btn-saving').addClass('active')
-
-					if(refresh)
-						bootbox.dialog( that.dialogText( savingDialog ), [ ], {animate: false})
-				}
-				, success: function( response ){
-
-					that.success( response )
-
-					if(refresh){
-						bootbox.dialog( that.dialogText( refreshingDialog ), [ ], {animate: false})
-						location.reload()
+			
+			// merge args into theData, overwriting theData w/ args	
+			$.extend(theData, args)
+			
+			if( theData.confirm ){
+				
+				if( theData.toolboxOpen )
+					$.toolbox('hide')
+				
+				bootbox.confirm( theData.confirmText, function( result ){
+					
+					if(result == true){
+						that.runAction( theData )
+					} else {
+						
+						if( theData.toolboxOpen )
+							$('body').toolbox('show')
 					}
-
-				}
-			})
+					
+				})
+				
+			} else {
+				
+				that.runAction( theData )
+				
+			}
+			
 			
 			return ''
 		}
 		
-		, success: function( response ){
+		, runAction: function( theData ){
+			
 			var that = this
 			
-			if(response.post.log == true)
-				console.log(response)
+			$.ajax( {
+					type: 'POST'
+				, 	url: ajaxurl
+				, 	data: theData	
+				, 	beforeSend: function(){
+					
+						$('.btn-saving').addClass('active')
+
+						if( theData.refresh ){
+							$.toolbox('hide')
+							bootbox.dialog( that.dialogText( theData.savingText ), [ ], {animate: false})
+						}
+							
+					
+					}
+				, 	success: function( response ){
+
+						that.runSuccess( response )
+
+						if( theData.refresh ){
+							bootbox.dialog( that.dialogText( theData.refreshText ), [ ], {animate: false})
+							location.reload()
+						}
+						
+					}
+			}) 
+		}
+		
+		, runSuccess: function( response ){
+			var that = this
+			,	rsp	= $.parseJSON( response )
+			,	log = (rsp.post) ? rsp.post.log || false : ''
+			
+			if(log == 'true')
+				console.log(rsp)
 			
 			that.ajaxSuccess(response)
 		}

@@ -8,7 +8,7 @@
  */
 
 
-//return;
+// return;
 
 // Make sure user can handle this.
 if (!defined('PL_UX_DEV') || !PL_UX_DEV)
@@ -85,6 +85,8 @@ class PageLinesEditor {
 
 		$this->map = new EditorMap( $this->templates, $this->draft);
 
+		$this->themer = new EditorThemeHandler;
+
 		// Must come before settings
 		$this->foundry = new PageLinesFoundry;
 		$this->typography = new EditorTypography( $this->foundry );
@@ -96,7 +98,7 @@ class PageLinesEditor {
 
 		$plopts = $this->opts = new PageLinesOpts( $this->page, $this->draft );
 
-		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates, $this->map, $this->extensions );
+		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates, $this->map, $this->extensions, $this->themer );
 
 		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset, $this->foundry, $this->map, $this->draft, $this->opts, $this->layout, $this->extensions );
 

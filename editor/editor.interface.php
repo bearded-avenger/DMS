@@ -14,8 +14,9 @@
 class EditorInterface {
 
 
-	function __construct( PageLinesPage $pg, EditorSettings $siteset, EditorDraft $draft, EditorTemplates $templates, EditorMap $map, EditorExtensions $extensions ) {
+	function __construct( PageLinesPage $pg, EditorSettings $siteset, EditorDraft $draft, EditorTemplates $templates, EditorMap $map, EditorExtensions $extensions, EditorThemeHandler $theme ) {
 
+		$this->theme = $theme;
 		$this->page = $pg;
 		$this->draft = $draft;
 		$this->siteset = $siteset;
@@ -25,7 +26,7 @@ class EditorInterface {
 
 
 		if ( $this->draft->show_editor() ){
-
+			
 			add_action( 'wp_footer', array( &$this, 'pagelines_toolbox' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_scripts' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_styles' ) );
@@ -177,58 +178,73 @@ class EditorInterface {
 				'panel'	=> array(
 					'heading'	=> "<i class='icon-random'></i> Drag to Add",
 					'add_section'	=> array(
-						'name'	=> 'Add Sections',
+						'name'	=> 'Your Sections',
+						'icon'	=> 'icon-random',
 						'clip'	=> 'Drag on to page to add',
 						'type'	=> 'call',
 						'call'	=> array(&$this, 'add_new_callback'),
 						'filter'=> '*'
 					),
+					'more_sections'	=> array(
+						'name'	=> 'Get More Sections',
+						'icon'	=> 'icon-download',
+						'flag'	=> 'link-storefront'
+					),
 					'heading2'	=> "<i class='icon-filter'></i> Filters",
 					'components'		=> array(
 						'name'	=> 'Components',
 						'href'	=> '#add_section',
-						'filter'=> '.component'
+						'filter'=> '.component',
+						'icon'	=> 'icon-circle-blank'
 					),
 					'layouts'		=> array(
 						'name'	=> 'Layouts',
 						'href'	=> '#add_section',
-						'filter'=> '.layout'
+						'filter'=> '.layout',
+						'icon'	=> 'icon-columns'
 					),
 					'formats'		=> array(
 						'name'	=> 'Post Formats',
 						'href'	=> '#add_section',
-						'filter'=> '.format'
+						'filter'=> '.format',
+						'icon'	=> 'icon-th'
 					),
 					'galleries'		=> array(
 						'name'	=> 'Galleries',
 						'href'	=> '#add_section',
-						'filter'=> '.gallery'
+						'filter'=> '.gallery',
+						'icon'	=> 'icon-camera'
 					),
 					'navigation'	=> array(
 						'name'	=> 'Navigation',
 						'href'	=> '#add_section',
-						'filter'=> '.nav'
+						'filter'=> '.nav',
+						'icon'	=> 'icon-circle-arrow-right'
 					),
 					'features'		=> array(
 						'name'	=> 'Features',
 						'href'	=> '#add_section',
-						'filter'=> '.feature'
+						'filter'=> '.feature',
+						'icon'	=> 'icon-picture'
 					),
 
 					'social'	=> array(
 						'name'	=> 'Social',
 						'href'	=> '#add_section',
-						'filter'=> '.social'
+						'filter'=> '.social',
+						'icon'	=> 'icon-comments'
 					),
 					'widgets'	=> array(
 						'name'	=> 'Widgetized',
 						'href'	=> '#add_section',
-						'filter'=> '.widgetized'
+						'filter'=> '.widgetized',
+						'icon'	=> 'icon-retweet'
 					),
 					'misc'		=> array(
 						'name'	=> 'Miscellaneous',
 						'href'	=> '#add_section',
-						'filter'=> '.misc'
+						'filter'=> '.misc',
+						'icon'	=> 'icon-star'
 					),
 				)
 			),
@@ -254,13 +270,13 @@ class EditorInterface {
 				'icon'	=> 'icon-picture',
 				'panel'	=> array(
 					'heading'	=> "Select Theme",
-					'tmp_load'	=> array(
+					'avail_themes'	=> array(
 						'name'	=> '<i class="icon-picture"></i> Available Themes',
 						'call'	=> array(&$this, 'themes_dashboard'),
 					),
-					'tmp_save'	=> array(
+					'more_themes'	=> array(
 						'name'	=> '<i class="icon-download"></i> Get More Themes',
-						'call'	=> array(&$this->templates, 'save_templates'),
+						'flag'	=> 'link-storefront'
 					)
 				)
 
@@ -521,6 +537,7 @@ class EditorInterface {
 				</li>
 			</ul>
 		</div>
+		<?php pagelines_register_hook('before_toolbox_panel'); // Hook ?>
 		<div class="toolbox-panel-wrap">
 			<div class="toolbox-panel">
 				<div class="toolbox-content fix">
@@ -664,6 +681,7 @@ class EditorInterface {
 				else 
 					$splash = $t->get_stylesheet();
 				
+				$class[] = 'x-item-size-10';
 
 				$args = array(
 					'id'			=> $theme,

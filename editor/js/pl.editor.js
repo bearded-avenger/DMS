@@ -24,8 +24,6 @@
 			
 			$.plAJAX.init() 
 			
-			
-			
 			this.bindUIActions()
 				
 		}
@@ -122,7 +120,7 @@
 						
 					})
 				}
-				, activate: function(event, ui){
+				, activate: function(e, ui){
 					
 					var theTab = ui.newTab
 					, 	tabAction = theTab.attr('data-tab-action') || ''
@@ -137,6 +135,13 @@
 							, 	'lineWrapping': true
 						})
 						
+					} else if ( tabFlag == 'link-storefront' ){
+						
+						e.preventDefault()
+						
+						$('.btn-pl-extend')
+							.trigger('click')
+					
 					}
 					
 				}
@@ -302,7 +307,7 @@
 				
 		}
 		
-		, loadButtons: function( panel ){
+		, loadButtons: function( panel, data ){
 			var buttons = ''
 			
 			if(panel == 'x-store'){
@@ -310,7 +315,7 @@
 				buttons += sprintf('<a href="#" class="btn"><i class="icon-folder-open"></i> Overview</a> ')
 				buttons += sprintf('<a href="#" class="btn"><i class="icon-desktop"></i> Demo</a> ')
 			} else if ( panel == 'x-themes' ){
-				buttons += $.plThemes.actionButtons()
+				buttons += $.plThemes.actionButtons( data )
 			} else if ( panel == 'x-sections' ){
 				buttons += sprintf('<a href="#" class="btn btn-small disabled"><i class="icon-random"></i> Drag Thumb to Page</a> ')
 			}
@@ -349,7 +354,8 @@
 	
 			var that = this
 			$('.x-extension').on('click.extensionItem', function(){
-				var theIsotope = $(this).parent()
+				var theExtension = $(this)
+				,	theIsotope = $(this).parent()
 				,	theID = $(this).data('extend-id')
 				,	filterClass = '.'+theID
 				,	ext = $.pl.config.extensions[theID] || false
@@ -359,7 +365,7 @@
 					
 					var splash	= sprintf('<div class="x-pane-frame"><img src="%s" /></div>', ext.splash)
 					,	btnClose = sprintf('<div class="x-item x-close x-remove %s"><a href="#" class="btn btn-close"><i class="icon-remove"></i></a></div>', theID)
-					,	btns = sprintf('<div class="x-pane-btns">%s</div>', that.loadButtons( panel ))
+					,	btns = sprintf('<div class="x-pane-btns">%s</div>', that.loadButtons( panel, theExtension.data() ))
 					,	desc = sprintf('<div class="x-pane-info"><h4>Description</h4>%s</div>', ext.desc)
 					,	extPane = $( sprintf('<div class="x-pane x-remove x-item %s"><div class="x-pane-pad">%s %s %s</div></div>%s', theID, splash, btns, desc, btnClose) )
 

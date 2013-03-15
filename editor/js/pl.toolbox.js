@@ -58,6 +58,7 @@
 	
         this.isShown = true
 		store.set('toolboxShown', true)
+
 		
         this.keyboard() 
 
@@ -98,6 +99,8 @@
 		store.set('toolboxShown', false)
         $('body')
 			.removeClass('toolbox-open')
+		
+		
 		
         this.keyboard()
 		
@@ -275,6 +278,16 @@
 /* MODAL PLUGIN DEFINITION
  * ======================= */
 
+	$.toolbox = function( option ){
+		
+		if(typeof option == 'string' && option == 'open')
+			return ( $('body').hasClass('toolbox-open') ) ? true : false
+		else
+			return $('body').toolbox( option )
+		
+	
+	}
+	
 	$.fn.toolbox = function ( option ) {
 
 		return this.each( function() {
@@ -314,6 +327,7 @@
 	}
 
 	$.fn.toolbox.Constructor = ToolBox
+
 
 
 }(window.jQuery);

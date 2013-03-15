@@ -18,31 +18,131 @@ function pl_setting( $key, $args = array() ){
 		
 }
 
-/**
- * 
- *
- *  PageLines Settings
- *
- *
+function pl_setting_update( $args_or_key, $value = false, $mode = 'draft', $scope = 'global' ){
+	$settings_handler = new PageLinesSettings;
+	
+	if( is_array($args_or_key) ){
+		$args = $args_or_key; 
+	} else {
+		
+		$args = array(
+			'key' 	=> $args_or_key,
+			'val'	=> $value,
+			'mode'	=> $mode,
+			'scope'	=> $scope
+		); 
+		
+	}
+	
+	$settings_handler->update_setting( $args ); 
+	
+}
+
+/*
+ * This class contains all methods for interacting with WordPress' data system
+ * It has no dependancy so it can be used as a substitute for WordPress native functions
+ * The options system inherits from it.
+ */ 
+class PageLinesData {
+	
+	function meta($id, $key, $default = false){
+
+		$val = get_post_meta($id, $key, true);
+
+		if( !$val ){
+
+			$val = $default;
+
+		} elseif( is_array($val) && is_array($default)) {
+
+			$val = wp_parse_args( $val, $default );
+
+		}
+
+		return $val;
+
+	}
+	
+	function meta_update($id, $key, $value){
+
+		update_post_meta($id, $key, $value);
+
+	}
+
+	
+	function opt( $key, $default = false, $parse = false ){
+		
+		$val = get_option($key); 
+
+		if( !$val ){
+
+			$val = $default;
+
+		} elseif( $parse && is_array($val) && is_array($default)) {
+
+			$val = wp_parse_args( $val, $default );
+
+		}
+
+		return $val;
+		
+	}
+	
+	function opt_update( $key, $value ){
+
+		update_option($key, $value);
+
+	}
+	
+	function user( $user_id, $key, $default = false ){
+		
+		$val = get_user_meta($user_id, $key, true);
+
+		if( !$val ){
+
+			$val = $default;
+
+		} elseif( is_array($val) && is_array($default)) {
+
+			$val = wp_parse_args( $val, $default );
+
+		}
+
+		return $val;
+		
+	}
+	
+	function user_update( $user_id, $key, $value ){
+		update_user_meta( $user_id, $key, $value ); 		
+	}
+	
+	
+	
+}
+
+/*
+ *  PageLines Settings Interface
  */
-class PageLinesOpts extends PageLinesData {
+class PageLinesSettings extends PageLinesData {
 
 	var $pl_settings = PL_SETTINGS;
 	var $default = array( 'draft' => array(), 'live' => array() );
 
-	function __construct( PageLinesPage $page, EditorDraft $draft ){
+	function global_settings(){
 		
-		$this->page = $page; 
-		$this->draft = $draft;
-		
-		$this->local = $this->local_settings();
-		$this->type = $this->type_settings();
-		$this->global = $this->global_settings();
-		$this->set = $this->page_settings();
+		$set = $this->opt( $this->pl_settings );
 
+		// Have to move this to an action because ploption calls pl_setting before all settings are loaded
+		if( !$set || empty($set['draft']) || empty($set['live']) )
+			add_action('pl_after_settings_load', array(&$this, 'set_default_settings')); 
+		
+		return $this->get_by_mode($set); 
+		
 	}
-	
-	
+
+	/*
+	 *  Resets global options to an empty set
+	 */
 	function reset_global(  ){
 	
 		$set = $this->opt( PL_SETTINGS, $this->default ); 
@@ -53,6 +153,9 @@ class PageLinesOpts extends PageLinesData {
 		
 	}
 	
+	/*
+	 *  Resets local options to an empty set based on ID (works for type ID)
+	 */
 	function reset_local( $metaID ){
 	
 		$set = $this->meta( $metaID, PL_SETTINGS, $this->default ); 
@@ -63,15 +166,102 @@ class PageLinesOpts extends PageLinesData {
 		
 	}
 	
-	
-	function page_settings(){
+	/*
+	 *  Sets default values for global settings
+	 */
+	function set_default_settings(){
 		
-		$set = $this->parse_settings( $this->local, $this->parse_settings($this->type, $this->global));
-
-		return $set;
-			
+		$set = $this->opt( $this->pl_settings );
+		
+		$settings_defaults = $this->get_default_settings();
+		
+		if( !$set )
+			$set = $this->default;
+		
+		if(empty($set['draft']))
+			$set['draft'] = $settings_defaults;
+		
+		if(empty($set['live']))
+			$set['live'] = $settings_defaults;
+		
+		$this->opt_update( $this->pl_settings, $set);
+		
 	}
 	
+	/*
+	 *  Grabs global settings engine array, and default values (set in array)
+	 */
+	function get_default_settings(){
+		$settings_object = new EditorSettings;
+		
+		$settings = $settings_object->get_set();
+		
+		
+		$defaults = array();
+		foreach($settings as $tab => $tab_settings){
+			foreach($tab_settings['opts'] as $index => $opt){
+				if($opt['type'] == 'multi'){
+					foreach($opt['opts'] as $subi => $sub_opt){
+						if(isset($sub_opt['default'])){
+							$defaults[ $sub_opt['key'] ] = array( $sub_opt['default'] );
+						}
+					}
+				}
+				if(isset($opt['default'])){
+					$defaults[ $opt['key'] ] = array( $opt['default'] );
+				}
+			}
+		}
+		
+		return $defaults;
+	}
+	
+	
+
+	/*
+	 *  Update a PageLines setting using arguments
+	 */
+	function update_setting( $args = array() ){
+		
+		$defaults = array(
+			'key'	=> '',
+			'val'	=> '',
+			'mode'	=> 'draft',
+			'scope'	=> 'global'
+		);
+		
+		$a = wp_parse_args( $args, $defaults );
+		
+		$scope = $a['scope']; 
+		$mode = $a['mode']; 
+		$key = $a['key']; 
+		$val = $a['val']; 
+		
+		// Allow for an array of key/value pairs
+		$set = ( !is_array($val) && $key != '' ) ? array( $key => $value ) : $val;
+		
+		if( $scope == 'global'){
+			
+			$settings = $this->opt( $this->pl_settings, $this->default ); 
+
+			if( isset($settings[ $mode ]) ){
+				
+				$settings[ $mode ] = wp_parse_args($set, $settings[ $mode ]); 
+
+				pl_opt_update( PL_SETTINGS, $option_set );
+				
+			}
+			
+			
+		}
+	}
+	
+	
+	/*
+	 *  Parse settings taking the top values over the bottom
+	 * 	Deep parsing: Parses arguments on nested arrays then deals with overriding
+	 *  Checkboxes: Handles checkboxes by using 'flip' value settings to toggle the value
+	 */
 	function parse_settings( $top, $bottom ){
 	
 		
@@ -134,6 +324,37 @@ class PageLinesOpts extends PageLinesData {
 		
 		return $parsed_args;
 	}
+
+}
+
+
+
+/**
+ *  PageLines *Page Specific* Settings Interface
+ * 	Has a dependancy on the PageLinesPage object and EditorDraft object
+ */
+class PageLinesOpts extends PageLinesSettings {
+
+	function __construct( PageLinesPage $page, EditorDraft $draft ){
+		
+		$this->page = $page; 
+		$this->draft = $draft;
+		
+		$this->local = $this->local_settings();
+		$this->type = $this->type_settings();
+		$this->global = $this->global_settings();
+		$this->set = $this->page_settings();
+
+	}
+	
+	
+	function page_settings(){
+		
+		$set = $this->parse_settings( $this->local, $this->parse_settings($this->type, $this->global));
+
+		return $set;
+			
+	}
 	
 	function setting( $key ){
 		
@@ -175,63 +396,7 @@ class PageLinesOpts extends PageLinesData {
 			
 	}
 	
-	function global_settings(){
-		
-		$set = $this->opt( $this->pl_settings );
 
-		// Have to move this to an action because ploption calls pl_setting before all settings are loaded
-		if( !$set || empty($set['draft']) || empty($set['live']) )
-			add_action('pl_after_settings_load', array(&$this, 'set_default_settings')); 
-		
-		return $this->get_by_mode($set); 
-		
-	}
-	
-	function set_default_settings(){
-		
-		$set = $this->opt( $this->pl_settings );
-		
-		$settings_defaults = $this->get_default_settings();
-		
-		if( !$set )
-			$set = $this->default;
-		
-		if(empty($set['draft']))
-			$set['draft'] = $settings_defaults;
-		
-		if(empty($set['live']))
-			$set['live'] = $settings_defaults;
-		
-		$this->opt_update( $this->pl_settings, $set);
-		
-	}
-		
-	
-	function get_default_settings(){
-		$settings_object = new EditorSettings;
-		
-		$settings = $settings_object->get_set();
-		
-		
-		$defaults = array();
-		foreach($settings as $tab => $tab_settings){
-			foreach($tab_settings['opts'] as $index => $opt){
-				if($opt['type'] == 'multi'){
-					foreach($opt['opts'] as $subi => $sub_opt){
-						if(isset($sub_opt['default'])){
-							$defaults[ $sub_opt['key'] ] = array( $sub_opt['default'] );
-						}
-					}
-				}
-				if(isset($opt['default'])){
-					$defaults[ $opt['key'] ] = array( $opt['default'] );
-				}
-			}
-		}
-		
-		return $defaults;
-	}
-	
 	function get_by_mode( $set ){
 		
 		$set = wp_parse_args( $set, $this->default );
@@ -245,63 +410,9 @@ class PageLinesOpts extends PageLinesData {
 }
 
 
-/*
- * This class contains all methods for interacting with WordPress' data system
- * It has no dependancy so it can be used as a substitute for WordPress native functions
- * The options system inherits from it.
- */ 
-class PageLinesData {
-	
-	function meta($id, $key, $default = false){
 
-		$val = get_post_meta($id, $key, true);
 
-		if( !$val ){
 
-			$val = $default;
-
-		} elseif( is_array($val) && is_array($default)) {
-
-			$val = wp_parse_args( $val, $default );
-
-		}
-
-		return $val;
-
-	}
-	
-	function meta_update($id, $key, $value){
-
-		update_post_meta($id, $key, $value);
-
-	}
-
-	
-	function opt( $key, $default = false, $parse = false ){
-		
-		$val = get_option($key); 
-
-		if( !$val ){
-
-			$val = $default;
-
-		} elseif( $parse && is_array($val) && is_array($default)) {
-
-			$val = wp_parse_args( $val, $default );
-
-		}
-
-		return $val;
-		
-	}
-	
-	function opt_update( $key, $value ){
-
-		update_option($key, $value);
-
-	}
-	
-}
 
 
 
