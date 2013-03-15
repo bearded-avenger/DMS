@@ -78,9 +78,10 @@ class PageLinesEditor {
 		$pldraft = $this->draft = new EditorDraft( $this->page );
 //		$editorless = $this->editorless = new EditorLessHandler;
 		$storeapi = $this->storeapi = new EditorStoreFront;
+		$this->layout = new EditorLayout();
 		$pless = new PageLinesLess;
 		$this->editor_less = new EditorLess($pless);
-		$this->layout = new EditorLayout();
+
 		
 		$this->templates = new EditorTemplates( $this->page );
 
