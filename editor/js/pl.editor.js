@@ -295,7 +295,7 @@
 				})
 			})
 			
-			this.listPopOverStart()
+			//this.listPopOverStart()
 			
 			if(key == 'add-new')
 				this.makeDraggable(panel)
@@ -442,7 +442,7 @@
 				.isotope('remove', $('.x-remove'))
 				.isotope( 'destroy' )
 		
-			this.listPopOverStop()
+			//this.listPopOverStop()
 		}
 		
 		, switchOnAdd: function( element ){
