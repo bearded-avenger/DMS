@@ -257,10 +257,12 @@ class EditorInterface {
 					'tmp_load'	=> array(
 						'name'	=> 'Your Templates',
 						'call'	=> array(&$this->templates, 'user_templates'),
+						'icon'	=> 'icon-copy'
 					),
 					'tmp_save'	=> array(
 						'name'	=> 'Save New Template',
 						'call'	=> array(&$this->templates, 'save_templates'),
+						'icon'	=> 'icon-paste'
 					)
 				)
 
@@ -271,12 +273,14 @@ class EditorInterface {
 				'panel'	=> array(
 					'heading'	=> "Select Theme",
 					'avail_themes'	=> array(
-						'name'	=> '<i class="icon-picture"></i> Available Themes',
+						'name'	=> 'Available Themes',
 						'call'	=> array(&$this, 'themes_dashboard'),
+						'icon'	=> 'icon-picture'
 					),
 					'more_themes'	=> array(
-						'name'	=> '<i class="icon-download"></i> Get More Themes',
-						'flag'	=> 'link-storefront'
+						'name'	=> 'Get More Themes',
+						'flag'	=> 'link-storefront',
+						'icon'	=> 'icon-download' 
 					)
 				)
 
@@ -291,11 +295,13 @@ class EditorInterface {
 					'user_less'	=> array(
 						'name'	=> 'Custom LESS/CSS',
 						'call'	=> array(&$this, 'custom_less'),
+						'icon'	=> 'icon-circle'
 					),
 					'user_scripts'	=> array(
 						'name'	=> 'Custom Scripts',
 						'call'	=> array(&$this, 'custom_scripts'),
-						'flag'	=> 'custom-scripts'
+						'flag'	=> 'custom-scripts',
+						'icon'	=> 'icon-circle-blank'
 					),
 				)
 			),
@@ -307,12 +313,12 @@ class EditorInterface {
 			'live' => array(
 				'name'	=> 'Live',
 				'icon'	=> 'icon-comments',
-
+				
 				'panel'	=> array(
 					'heading'	=> "<i class='icon-comments'></i> Live Support",
 					'support_chat'	=> array(
 						'name'	=> 'PageLines Live Chat',
-
+						'icon'	=> 'icon-comments'
 					),
 				)
 			),
@@ -327,36 +333,48 @@ class EditorInterface {
 						'filter'=> '*',
 						'type'	=> 'call',
 						'call'	=> array(&$this, 'the_store_callback'),
+						'icon'	=> 'icon-briefcase'
 					),
-					'heading2'	=> "Filters",
+					'heading2'	=> "<i class='icon-filter'></i> Filters",
 					'plus'		=> array(
 						'name'	=> 'Free with Plus',
 						'href'	=> '#store',
-						'filter'=> '.plus'
+						'filter'=> '.plus',
+						'icon'	=> 'icon-plus-sign'
 					),
 					'featured'		=> array(
 						'name'	=> 'Featured',
 						'href'	=> '#store',
-						'filter'=> '.featured'
+						'filter'=> '.featured', 
+						'icon'	=> 'icon-star'
 					),
 					'sections'		=> array(
 						'name'	=> 'Sections',
 						'href'	=> '#store',
-						'filter'=> '.sections'
+						'filter'=> '.sections',
+						'icon'	=> 'icon-random'
 					),
 					'plugins'		=> array(
 						'name'	=> 'Plugins',
 						'href'	=> '#store',
-						'filter'=> '.plugins'
+						'filter'=> '.plugins',
+						'icon'	=> 'icon-download-alt'
 					),
 					'themes'		=> array(
 						'name'	=> 'Themes',
 						'href'	=> '#store',
-						'filter'=> '.themes'
+						'filter'=> '.themes',
+						'icon'	=> 'icon-picture'
 					),
 					'heading3'	=> "Tools",
-					'upload'	=> array('name'	=> 'Upload'),
-					'search'	=> array('name'	=> 'Search'),
+					'upload'	=> array(
+						'name'	=> 'Upload',
+						'icon'	=> 'icon-upload'
+					),
+					'search'	=> array(
+						'name'	=> 'Search',
+						'icon'	=> 'icon-search'
+					),
 				)
 			),
 			'pl-actions' => array(
