@@ -48,12 +48,18 @@ class PageLinesTwitterBar extends PageLinesSection {
 
 		$account = pl_setting('twittername');
 
-		$twitter = sprintf(
-			'<span class="twitter">%s &nbsp;&mdash;&nbsp;<a class="twitteraccount" href="http://twitter.com/#!/%s">%s</a></span>',
-			pagelines_tweet_clickable( pagelines_get_tweets( $account, true ) ),
-			$account,
-			$account
-		);
+		$tweet_data = pagelines_get_tweets( $account, true );
+
+		if( isset( $tweet_data['text'] ) )
+			$twitter = sprintf(
+				'<span class="twitter">%s &nbsp;&mdash;&nbsp;<a class="twitteraccount" href="http://twitter.com/#!/%s" %s>%s</a></span>',
+				pagelines_tweet_clickable( $tweet_data['text'] ),
+				$account,
+				sprintf( 'rel="twitterpopover" data-img="https://api.twitter.com/1/users/profile_image?user_id=%s&size=bigger" data-original-title="@%s"', $tweet_data['user']['id'], $account ),
+				$account
+			);
+		else
+			$twitter = sprintf( '<span class="twitter">%s</span>', __( 'Twitter error.', 'pagelines' ) );
 
 		printf('<div class="tbubble"><div class="tbubble-pad">%s</div></div>', $twitter);
 	}
