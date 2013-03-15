@@ -79,8 +79,7 @@ class PageLinesEditor {
 //		$editorless = $this->editorless = new EditorLessHandler;
 		$storeapi = $this->storeapi = new EditorStoreFront;
 		$this->layout = new EditorLayout();
-		$pless = new PageLinesLess;
-		$this->editor_less = new EditorLess($pless);
+
 
 		
 		$this->templates = new EditorTemplates( $this->page );
@@ -95,7 +94,8 @@ class PageLinesEditor {
 		$this->color = new EditorColor;
 		$this->siteset = new EditorSettings;
 		$this->extensions = new EditorExtensions;
-
+		$pless = new PageLinesLess;
+		$this->editor_less = new EditorLess($pless);
 		pagelines_register_hook('pl_after_settings_load'); // hook
 
 		$plopts = $this->opts = new PageLinesOpts( $this->page, $this->draft );
