@@ -14,10 +14,13 @@ function pl_editor_actions(){
 		
 		$theme = new EditorThemeHandler;
 		
-		if($post['run'] == 'activate')
+		if($post['run'] == 'activate'){
 			$response = $theme->activate( $response );
-		elseif($post['run'] == 'preview')
-			$response = $theme->set_preview( $response );
+			pl_flush_draft_caches();
+		}
+			
+		// elseif($post['run'] == 'preview')
+		// 			$response = $theme->set_preview( $response );
 	}
 	
 

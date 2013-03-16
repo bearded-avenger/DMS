@@ -66,8 +66,10 @@ class EditorInterface {
 		wp_enqueue_script( 'pl-ajax', $this->url . '/js/pl.ajax.js', array( 'jquery' ), PL_CORE_VERSION );
 		wp_enqueue_script( 'pl-library', $this->url . '/js/pl.library.js', array( 'jquery' ), PL_CORE_VERSION );
 		wp_enqueue_script( 'pl-layout', $this->url . '/js/pl.layout.js', array( 'jquery' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'pl-extend', $this->url . '/js/pl.extend.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_script( 'pl-js-extend', $this->url . '/js/pl.extend.js', array( 'jquery' ), PL_CORE_VERSION );
 		wp_enqueue_script( 'pl-js-themes', $this->url . '/js/pl.themes.js', array( 'jquery' ), PL_CORE_VERSION );
+		
+		wp_enqueue_script( 'pl-js-code', $this->url . '/js/pl.code.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION );
 
 		// Isotope
 		wp_enqueue_script( 'isotope', $this->url . '/js/utils.isotope.js', array('jquery'));
@@ -289,6 +291,7 @@ class EditorInterface {
 			'pl-design' => array(
 				'name'	=> 'Design',
 				'icon'	=> 'icon-magic',
+				'form'	=> true,
 				'panel'	=> array(
 					'heading'	=> "Site Design",
 
@@ -562,11 +565,12 @@ class EditorInterface {
 					<div class="toolbox-content-pad option-panel">
 						<?php
 						foreach($this->toolbar_config() as $key => $tab){
-
+							
 							if(isset($tab['panel']) && !empty($tab['panel']))
 								$this->panel($key, $tab['panel']);
 							else
 								printf('<div class="panel-%s tabbed-set error-panel"><i class="icon-spinner icon-spin"></i></div>', $key);
+						
 						}
 							 ?>
 					</div>
@@ -876,7 +880,7 @@ class EditorInterface {
 					<label class="codetext-label">Custom LESS/CSS</label>
 					<span class="codetext-help help-block"><span class="label label-info">Tip</span> Hit [Cmd&#8984;+Return ] or [Ctrl+Return] to Preview Live</span>
 				</div>
-				<textarea class="custom-less" style=""> </textarea>
+				<form class="code-form"><textarea class="custom-less" name="custom_less[0]"> </textarea></form>
 			</div>
 		</div>
 
@@ -893,7 +897,7 @@ class EditorInterface {
 				<div class="codetext-meta fix">
 					<label class="codetext-label">Custom Javascript or Header HTML</label>
 				</div>
-				<textarea class="custom-scripts" style=""> </textarea>
+				<form class="code-form"><textarea class="custom-scripts" name="custom_scripts[0]"> </textarea></form>
 			</div>
 		</div>
 

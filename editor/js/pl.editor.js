@@ -129,11 +129,8 @@
 					
 					if (tabFlag == 'custom-scripts'){
 						
-						var editor2 = CodeMirror.fromTextArea( $(".custom-scripts").get(0), {
-							'lineNumbers': true
-							,	'mode': 'text/x-less'
-							, 	'lineWrapping': true
-						})
+						
+						$.plCode.activateScripts()
 						
 					} else if ( tabFlag == 'link-storefront' ){
 						
@@ -175,18 +172,7 @@
 			}
 			
 			 else if (key == 'pl-design'){
-				var editor = CodeMirror.fromTextArea( $(".custom-less").get(0), {
-					'lineNumbers': true
-					,	'mode': 'text/x-less'
-					, 	'lineWrapping': true
-					, 	onKeyEvent: function(instance, e){
-
-						if(e.type == 'keydown' && e.which == 13 && (e.metaKey || e.ctrlKey) ){
-							$('#pl-custom-less').text(instance.getValue())
-						}
-
-					}
-				})
+				$.plCode.activateLESS()
 				
 			} else if (key == 'section-options'){
 				
@@ -201,19 +187,6 @@
 				})
 				
 			} 
-			
-			// else if (key == 'pl-extend'){
-			// 				
-			// 				$('body').toolbox({
-			// 					action: 'show'
-			// 					, panel: key
-			// 					, info: function(){
-			// 					
-			// 						$.plExtend.drawStore()
-			// 					
-			// 					}
-			// 				})
-			// 			}
 		
 			selectedTab.addClass('active-tab')
 			
