@@ -171,12 +171,13 @@ class EditorInterface {
 		$data = array(
 			'pl-toggle' => array(
 				'icon'	=> 'icon-off',
-				'type'	=> 'btn'
-
+				'type'	=> 'btn',
+				'pos'	=> 1
 			),
 			'add-new' => array(
 				'name'	=> 'Add New',
 				'icon'	=> 'icon-plus-sign',
+				'pos'	=> 20,
 				'panel'	=> array(
 					'heading'	=> "<i class='icon-random'></i> Drag to Add",
 					'add_section'	=> array(
@@ -254,6 +255,7 @@ class EditorInterface {
 			'page-setup' => array(
 				'name'	=> 'Templates',
 				'icon'	=> 'icon-paste',
+				'pos'	=> 30,
 				'panel'	=> array(
 					'heading'	=> "Page Templates",
 					'tmp_load'	=> array(
@@ -272,6 +274,7 @@ class EditorInterface {
 			'theme' => array(
 				'name'	=> 'Theme',
 				'icon'	=> 'icon-picture',
+				'pos'	=> 40,
 				'panel'	=> array(
 					'heading'	=> "Select Theme",
 					'avail_themes'	=> array(
@@ -292,6 +295,7 @@ class EditorInterface {
 				'name'	=> 'Design',
 				'icon'	=> 'icon-magic',
 				'form'	=> true,
+				'pos'	=> 50,
 				'panel'	=> array(
 					'heading'	=> "Site Design",
 
@@ -311,12 +315,13 @@ class EditorInterface {
 			'settings' => array(
 				'name'	=> 'Settings',
 				'icon'	=> 'icon-cog',
+				'pos'	=> 60,
 				'panel'	=> $this->get_settings_tabs( 'site' )
 			),
 			'live' => array(
 				'name'	=> 'Live',
 				'icon'	=> 'icon-comments',
-				
+				'pos'	=> 70,
 				'panel'	=> array(
 					'heading'	=> "<i class='icon-comments'></i> Live Support",
 					'support_chat'	=> array(
@@ -328,7 +333,7 @@ class EditorInterface {
 			'pl-extend' => array(
 				'name'	=> 'Extend',
 				'icon'	=> 'icon-download',
-
+				'pos'	=> 80,
 				'panel'	=> array(
 					'heading'	=> "Extend PageLines",
 					'store'		=> array(
@@ -385,9 +390,11 @@ class EditorInterface {
 				'icon'	=> '',
 				'type'	=> 'dropup',
 				'panel'	=> array(
-
-					'toggle_grid'	=> array('name'	=> '<i class="icon-table"></i> Toggle Editor Grid'),
-				)
+					'toggle_grid'	=> array(
+						'name'	=> '<i class="icon-table"></i> Toggle Editor Grid'
+					),
+				),
+				'pos'	=> 200
 
 			),
 			'section-options' => array(
@@ -396,13 +403,44 @@ class EditorInterface {
 				'type'	=> 'hidden',
 				'flag'	=> 'section-opts',
 				'panel'	=> $this->section_options_panel()
-
+				
 			),
 		);
 
 		return $data;
 
 	}
+	
+	
+	function get_toolbar_config( ){
+		
+	
+		$toolbar_config =  apply_filters('pl_toolbar_config', $this->toolbar_config());
+		
+		$default = array(
+			'pos'	=> 100
+		);
+		
+		
+		foreach( $toolbar_config as $key => &$info ){
+			$info = wp_parse_args( $info, $default ); 
+		}
+		unset($info); // set by reference ^^
+				
+		uasort( $toolbar_config, array(&$this, "cmp_by_position") );
+
+		return apply_filters( 'pl_sorted_toolbar_config', $toolbar_config );
+	}
+	
+	function cmp_by_position($a, $b) {
+		
+	  return $a["pos"] - $b["pos"];
+	
+	}
+	
+	
+	
+	
 
 	function section_options_panel(){
 
@@ -468,7 +506,7 @@ class EditorInterface {
 
 				<?php
 
-					foreach($this->toolbar_config() as $key => $tab){
+					foreach($this->get_toolbar_config() as $key => $tab){
 
 						if(!isset($tab['type']))
 							$tab['type'] = 'panel';
@@ -564,7 +602,7 @@ class EditorInterface {
 				<div class="toolbox-content fix">
 					<div class="toolbox-content-pad option-panel">
 						<?php
-						foreach($this->toolbar_config() as $key => $tab){
+						foreach($this->get_toolbar_config() as $key => $tab){
 							
 							if(isset($tab['panel']) && !empty($tab['panel']))
 								$this->panel($key, $tab['panel']);
