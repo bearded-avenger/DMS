@@ -56,6 +56,9 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.typography.php' );
 		require_once( PL_EDITOR . '/editor.color.php' );
 
+		// Interfaces
+		require_once( PL_EDITOR . '/editor.code.php' );
+
 		require_once( PL_EDITOR . '/editor.extensions.php' );
 		require_once( PL_EDITOR . '/editor.interface.php' );
 		require_once( PL_EDITOR . '/editor.page.php' );
@@ -99,6 +102,9 @@ class PageLinesEditor {
 		pagelines_register_hook('pl_after_settings_load'); // hook
 
 		$plopts = $this->opts = new PageLinesOpts( $this->page, $this->draft );
+		
+		// Interfaces
+		$this->code = new EditorCode;
 
 		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates, $this->map, $this->extensions, $this->themer );
 

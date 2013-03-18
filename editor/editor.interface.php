@@ -69,7 +69,9 @@ class EditorInterface {
 		wp_enqueue_script( 'pl-js-extend', $this->url . '/js/pl.extend.js', array( 'jquery' ), PL_CORE_VERSION );
 		wp_enqueue_script( 'pl-js-themes', $this->url . '/js/pl.themes.js', array( 'jquery' ), PL_CORE_VERSION );
 		
-		wp_enqueue_script( 'pl-js-code', $this->url . '/js/pl.code.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION );
+		
+
+		pagelines_register_hook('pagelines_editor_scripts'); // Hook
 
 		// Isotope
 		wp_enqueue_script( 'isotope', $this->url . '/js/utils.isotope.js', array('jquery'));
@@ -100,13 +102,7 @@ class EditorInterface {
 		wp_enqueue_script( 'form-params', $this->url . '/js/form.params.js', array('jquery'), '1.0.0', true );
 		wp_enqueue_script( 'form-store', $this->url . '/js/form.store.js', array('jquery'), '1.0.0', true );
 
-		// Prettify
-		wp_enqueue_script( 'codemirror', PL_ADMIN_JS . '/codemirror/codemirror.js', array( 'jquery' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'codemirror-css', PL_ADMIN_JS . '/codemirror/css/css.js', array( 'jquery' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'codemirror-less', PL_ADMIN_JS . '/codemirror/less/less.js', array( 'jquery' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'codemirror-js', PL_ADMIN_JS . '/codemirror/javascript/javascript.js', array( 'jquery' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'codemirror-xml', PL_ADMIN_JS . '/codemirror/xml/xml.js', array( 'jquery' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'codemirror-html', PL_ADMIN_JS . '/codemirror/htmlmixed/htmlmixed.js', array( 'jquery' ), PL_CORE_VERSION );
+		
 
 		// Less
 		wp_enqueue_script( 'lessjs', $this->url . '/js/utils.less.js', array('jquery'), '1.3.1', true );
@@ -291,27 +287,7 @@ class EditorInterface {
 
 			),
 
-			'pl-design' => array(
-				'name'	=> 'Design',
-				'icon'	=> 'icon-magic',
-				'form'	=> true,
-				'pos'	=> 50,
-				'panel'	=> array(
-					'heading'	=> "Site Design",
-
-					'user_less'	=> array(
-						'name'	=> 'Custom LESS/CSS',
-						'call'	=> array(&$this, 'custom_less'),
-						'icon'	=> 'icon-circle'
-					),
-					'user_scripts'	=> array(
-						'name'	=> 'Custom Scripts',
-						'call'	=> array(&$this, 'custom_scripts'),
-						'flag'	=> 'custom-scripts',
-						'icon'	=> 'icon-circle-blank'
-					),
-				)
-			),
+			
 			'settings' => array(
 				'name'	=> 'Settings',
 				'icon'	=> 'icon-cog',
@@ -907,40 +883,7 @@ class EditorInterface {
 		<?php
 	}
 
-	function custom_less(){
-		?>
-		<div class="opt codetext">
-			<div class="opt-name">
-				Custom LESS/CSS
-			</div>
-			<div class="opt-box">
-				<div class="codetext-meta fix">
-					<label class="codetext-label">Custom LESS/CSS</label>
-					<span class="codetext-help help-block"><span class="label label-info">Tip</span> Hit [Cmd&#8984;+Return ] or [Ctrl+Return] to Preview Live</span>
-				</div>
-				<form class="code-form"><textarea class="custom-less" name="custom_less[0]"> </textarea></form>
-			</div>
-		</div>
 
-		<?php
-	}
-
-	function custom_scripts(){
-		?>
-		<div class="opt codetext">
-			<div class="opt-name">
-				Custom Scripts
-			</div>
-			<div class="opt-box">
-				<div class="codetext-meta fix">
-					<label class="codetext-label">Custom Javascript or Header HTML</label>
-				</div>
-				<form class="code-form"><textarea class="custom-scripts" name="custom_scripts[0]"> </textarea></form>
-			</div>
-		</div>
-
-		<?php
-	}
 
 	function area_controls($a){
 
