@@ -83,7 +83,7 @@ class PageLinesRenderCSS {
 	private function actions() {
 
 
-		if( EditorLessHandler::is_draft() )
+		if( pl_has_editor() && EditorLessHandler::is_draft() )
 			return;
 
 		global $pagelines_template;
@@ -413,8 +413,13 @@ class PageLinesRenderCSS {
 	}
 	function check_draft() {
 		global $pldraft;
-		$draft = $pldraft->mode;
-		return( 'draft' == $draft ) ? true : false;
+		
+		if( is_object($pldraft) )
+			$mode = $pldraft->mode;
+		else 
+			$mode = false;
+			
+		return( 'draft' == $mode ) ? true : false;
 	}
 	/**
 	 *
