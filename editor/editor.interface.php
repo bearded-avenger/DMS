@@ -29,12 +29,10 @@ class EditorInterface {
 			
 			add_action( 'wp_footer', array( &$this, 'pagelines_toolbox' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_scripts' ) );
-			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_styles' ) );
-			add_action( 'wp_ajax_the_store_callback', array( &$this, 'the_store_callback' ) );
 
 		} elseif(current_user_can('edit_themes')) {
 
-			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_live_scripts' ) );
+			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_live_site_scripts' ) );
 			add_action( 'wp_footer', array( &$this, 'pagelines_editor_activate' ) );
 
 		}
@@ -45,16 +43,10 @@ class EditorInterface {
 
 	}
 
-	function pl_live_scripts(){
+	function pl_live_site_scripts(){
 		wp_enqueue_script( 'pl-utility-js', $this->url . '/js/pl.live.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
 
-
-	function pl_editor_styles() {
-
-		wp_enqueue_style( 'codemirror', PL_ADMIN_JS . '/codemirror/codemirror.css' );
-		wp_enqueue_style( 'css3colorpicker', $this->url . '/js/colorpicker/colorpicker.css');
-	}
 
 	function pl_editor_scripts(){
 
@@ -66,15 +58,9 @@ class EditorInterface {
 		wp_enqueue_script( 'pl-ajax', $this->url . '/js/pl.ajax.js', array( 'jquery' ), PL_CORE_VERSION );
 		wp_enqueue_script( 'pl-library', $this->url . '/js/pl.library.js', array( 'jquery' ), PL_CORE_VERSION );
 		wp_enqueue_script( 'pl-layout', $this->url . '/js/pl.layout.js', array( 'jquery' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'pl-js-extend', $this->url . '/js/pl.extend.js', array( 'jquery' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'pl-js-themes', $this->url . '/js/pl.themes.js', array( 'jquery' ), PL_CORE_VERSION );
-		
 		
 
 		pagelines_register_hook('pagelines_editor_scripts'); // Hook
-
-		// Isotope
-		wp_enqueue_script( 'isotope', $this->url . '/js/utils.isotope.js', array('jquery'));
 
 		// Jquery UI
 		wp_enqueue_script( 'jquery-ui-tabs');
@@ -115,7 +101,7 @@ class EditorInterface {
 		wp_enqueue_script( 'css3colorpicker', $this->url . '/js/colorpicker/colorpicker.js', array('jquery'), '1.3.1', true );
 
 		// Image Uploader
-		wp_enqueue_script( 'fineupload', $this->url . '/js/fineuploader/jquery.fineuploader-3.2.min.js');
+		wp_enqueue_script( 'fineupload', $this->url . '/js/fineuploader/jquery.fineuploader-3.2.min.js', array('jquery'));
 
 		// Images Loaded
 		wp_enqueue_script( 'imagesloaded', $this->url . '/js/utils.imagesloaded.js');
@@ -170,123 +156,6 @@ class EditorInterface {
 				'type'	=> 'btn',
 				'pos'	=> 1
 			),
-			'add-new' => array(
-				'name'	=> 'Add New',
-				'icon'	=> 'icon-plus-sign',
-				'pos'	=> 20,
-				'panel'	=> array(
-					'heading'	=> "<i class='icon-random'></i> Drag to Add",
-					'add_section'	=> array(
-						'name'	=> 'Your Sections',
-						'icon'	=> 'icon-random',
-						'clip'	=> 'Drag on to page to add',
-						'type'	=> 'call',
-						'call'	=> array(&$this, 'add_new_callback'),
-						'filter'=> '*'
-					),
-					'more_sections'	=> array(
-						'name'	=> 'Get More Sections',
-						'icon'	=> 'icon-download',
-						'flag'	=> 'link-storefront'
-					),
-					'heading2'	=> "<i class='icon-filter'></i> Filters",
-					'components'		=> array(
-						'name'	=> 'Components',
-						'href'	=> '#add_section',
-						'filter'=> '.component',
-						'icon'	=> 'icon-circle-blank'
-					),
-					'layouts'		=> array(
-						'name'	=> 'Layouts',
-						'href'	=> '#add_section',
-						'filter'=> '.layout',
-						'icon'	=> 'icon-columns'
-					),
-					'formats'		=> array(
-						'name'	=> 'Post Formats',
-						'href'	=> '#add_section',
-						'filter'=> '.format',
-						'icon'	=> 'icon-th'
-					),
-					'galleries'		=> array(
-						'name'	=> 'Galleries',
-						'href'	=> '#add_section',
-						'filter'=> '.gallery',
-						'icon'	=> 'icon-camera'
-					),
-					'navigation'	=> array(
-						'name'	=> 'Navigation',
-						'href'	=> '#add_section',
-						'filter'=> '.nav',
-						'icon'	=> 'icon-circle-arrow-right'
-					),
-					'features'		=> array(
-						'name'	=> 'Features',
-						'href'	=> '#add_section',
-						'filter'=> '.feature',
-						'icon'	=> 'icon-picture'
-					),
-
-					'social'	=> array(
-						'name'	=> 'Social',
-						'href'	=> '#add_section',
-						'filter'=> '.social',
-						'icon'	=> 'icon-comments'
-					),
-					'widgets'	=> array(
-						'name'	=> 'Widgetized',
-						'href'	=> '#add_section',
-						'filter'=> '.widgetized',
-						'icon'	=> 'icon-retweet'
-					),
-					'misc'		=> array(
-						'name'	=> 'Miscellaneous',
-						'href'	=> '#add_section',
-						'filter'=> '.misc',
-						'icon'	=> 'icon-star'
-					),
-				)
-			),
-
-			'page-setup' => array(
-				'name'	=> 'Templates',
-				'icon'	=> 'icon-paste',
-				'pos'	=> 30,
-				'panel'	=> array(
-					'heading'	=> "Page Templates",
-					'tmp_load'	=> array(
-						'name'	=> 'Your Templates',
-						'call'	=> array(&$this->templates, 'user_templates'),
-						'icon'	=> 'icon-copy'
-					),
-					'tmp_save'	=> array(
-						'name'	=> 'Save New Template',
-						'call'	=> array(&$this->templates, 'save_templates'),
-						'icon'	=> 'icon-paste'
-					)
-				)
-
-			),
-			'theme' => array(
-				'name'	=> 'Theme',
-				'icon'	=> 'icon-picture',
-				'pos'	=> 40,
-				'panel'	=> array(
-					'heading'	=> "Select Theme",
-					'avail_themes'	=> array(
-						'name'	=> 'Available Themes',
-						'call'	=> array(&$this, 'themes_dashboard'),
-						'icon'	=> 'icon-picture'
-					),
-					'more_themes'	=> array(
-						'name'	=> 'Get More Themes',
-						'flag'	=> 'link-storefront',
-						'icon'	=> 'icon-download' 
-					)
-				)
-
-			),
-
 			
 			'settings' => array(
 				'name'	=> 'Settings',
@@ -294,73 +163,7 @@ class EditorInterface {
 				'pos'	=> 60,
 				'panel'	=> $this->get_settings_tabs( 'site' )
 			),
-			'live' => array(
-				'name'	=> 'Live',
-				'icon'	=> 'icon-comments',
-				'pos'	=> 70,
-				'panel'	=> array(
-					'heading'	=> "<i class='icon-comments'></i> Live Support",
-					'support_chat'	=> array(
-						'name'	=> 'PageLines Live Chat',
-						'icon'	=> 'icon-comments'
-					),
-				)
-			),
-			'pl-extend' => array(
-				'name'	=> 'Extend',
-				'icon'	=> 'icon-download',
-				'pos'	=> 80,
-				'panel'	=> array(
-					'heading'	=> "Extend PageLines",
-					'store'		=> array(
-						'name'	=> 'PageLines Store',
-						'filter'=> '*',
-						'type'	=> 'call',
-						'call'	=> array(&$this, 'the_store_callback'),
-						'icon'	=> 'icon-briefcase'
-					),
-					'heading2'	=> "<i class='icon-filter'></i> Filters",
-					'plus'		=> array(
-						'name'	=> 'Free with Plus',
-						'href'	=> '#store',
-						'filter'=> '.plus',
-						'icon'	=> 'icon-plus-sign'
-					),
-					'featured'		=> array(
-						'name'	=> 'Featured',
-						'href'	=> '#store',
-						'filter'=> '.featured', 
-						'icon'	=> 'icon-star'
-					),
-					'sections'		=> array(
-						'name'	=> 'Sections',
-						'href'	=> '#store',
-						'filter'=> '.sections',
-						'icon'	=> 'icon-random'
-					),
-					'plugins'		=> array(
-						'name'	=> 'Plugins',
-						'href'	=> '#store',
-						'filter'=> '.plugins',
-						'icon'	=> 'icon-download-alt'
-					),
-					'themes'		=> array(
-						'name'	=> 'Themes',
-						'href'	=> '#store',
-						'filter'=> '.themes',
-						'icon'	=> 'icon-picture'
-					),
-					'heading3'	=> "Tools",
-					'upload'	=> array(
-						'name'	=> 'Upload',
-						'icon'	=> 'icon-upload'
-					),
-					'search'	=> array(
-						'name'	=> 'Search',
-						'icon'	=> 'icon-search'
-					),
-				)
-			),
+		
 			'pl-actions' => array(
 				'name'	=> '',
 				'icon'	=> '',
@@ -597,187 +400,6 @@ class EditorInterface {
 
 
 
-	function add_new_callback(){
-		$sections = $this->extensions->get_available_sections();
-
-
-		$section_classes = 'pl-sortable span12 sortable-first sortable-last';
-		$list = '';
-		foreach($sections as $key => $s){
-
-			$img = sprintf('<img src="%s" style=""/>', $s->screenshot);
-
-			if($s->map != ''){
-				$map = json_encode( $s->map );
-				$special_class = 'section-plcolumn';
-			} else {
-				$map = '';
-				$special_class = '';
-			}
-
-
-			$args = array(
-				'id'			=> $s->id,
-				'class_array' 	=> array('x-add-new', $section_classes, $special_class, $s->filter),
-				'data_array'	=> array(
-					'object' 	=> $s->class_name,
-					'sid'		=> $s->id,
-					'name'		=> $s->name,
-					'image'		=> $s->screenshot,
-					'template'	=> $map,
-					'clone'		=> '0'
-				),
-				'thumb'			=> $s->screenshot,
-				'splash'		=> $s->splash,
-				'name'			=> $s->name
-			);
-
-			$list .= $this->get_x_list_item( $args );
-
-
-
-		}
-
-		printf('<div class="x-list x-sections" data-panel="x-sections">%s</div>', $list);
-
-	}
-
-	function get_x_list_item( $args ){
-		$d = array(
-			'id'			=> '',
-			'class_array' 	=> array(),
-			'data_array'	=> array(),
-			'thumb'			=> '',
-			'splash'		=> '',
-			'name'			=> 'No Name'
-		);
-		$args = wp_parse_args($args, $d);
-
-		$classes = join(' ', $args['class_array']);
-
-		$popover_content = sprintf('<img src="%s" />', $args['splash']);
-
-		$img = sprintf('<img width="300" height="225" src="%s" />', $args['thumb']);
-
-		$datas = '';
-		foreach($args['data_array'] as $field => $val){
-			$datas .= sprintf("data-%s='%s' ", $field, $val);
-		}
-
-		$list_item = sprintf(
-			"<section class='x-item x-extension %s %s' %s data-content='%s' data-extend-id='%s'>
-				<div class='x-item-frame'>
-					<div class='pl-vignette'>
-						%s
-					</div>
-				</div>
-				<div class='x-item-text'>
-					%s
-				</div>
-			</section>",
-			$args['id'],
-			$classes,
-			$datas,
-			$popover_content,
-			$args['id'],
-			$img,
-			$args['name']
-		);
-
-		return $list_item;
-
-	}
-
-	function themes_dashboard(){
-		$themes = wp_get_themes();
-
-		$active_theme = wp_get_theme();
-
-		$list = '';
-		$count = 1;
-		if(is_array($themes)){
-
-			foreach($themes as $theme => $t){
-				$class = array();
-
-				if($t->get_template() != 'pagelines')
-					continue;
-
-				if($active_theme->stylesheet == $t->get_stylesheet()){
-					$class[] = 'active-theme';
-					$active = ' <span class="badge badge-info"><i class="icon-ok"></i> Active</span>';
-					$number = 0;
-				}else {
-					$active = '';
-					$number = $count++;
-				}
-				
-				if( is_file( sprintf( '%s/splash.png', $t->get_stylesheet_directory() ) ) )
-				 	$splash = sprintf( '%s/splash.png', $t->get_stylesheet_directory_uri()  );
-				else 
-					$splash = $t->get_stylesheet();
-				
-				$class[] = 'x-item-size-10';
-
-				$args = array(
-					'id'			=> $theme,
-					'class_array' 	=> $class,
-					'data_array'	=> array(
-						'number' 		=> $number,
-						'stylesheet'	=> $t->get_stylesheet()
-					),
-					'thumb'			=> $t->get_screenshot( ),
-					'splash'		=> $t->get_screenshot( ),
-					'name'			=> $t->name . $active
-				);
-
-				$list .= $this->get_x_list_item( $args );
-
-
-			}
-
-		}
-
-
-		printf('<div class="x-list x-themes" data-panel="x-themes">%s</div>', $list);
-	}
-
-	function the_store_callback(){
-
-		$list = '';
-		global $storeapi;
-		$mixed_array = $storeapi->get_latest();
-
-		foreach( $mixed_array as $key => $item){
-
-			$class = $item['class_array'];
-
-			$class[] = 'x-storefront';
-
-			$img = sprintf('<img src="%s" style=""/>', $item['thumb']);
-
-			$args = array(
-				'id'			=> $item['slug'],
-				'class_array' 	=> $class,
-				'data_array'	=> array(
-					'store-id' 	=> $item['slug']
-				),
-				'thumb'			=> $item['thumb'],
-				'splash'		=> $item['splash'],
-				'name'			=> $item['name']
-			);
-
-			$list .= $this->get_x_list_item( $args );
-
-
-		}
-
-		printf('<div class="x-list x-store" data-panel="x-store">%s</div>', $list);
-	}
-
-	function live_callback(){
-		printf('<div class="live-wrap"><iframe class="live_chat_iframe" src="http://pagelines.campfirenow.com/6cd04"></iframe></div>');
-	}
 
 	function defaults(){
 		$d = array(

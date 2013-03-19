@@ -16,9 +16,33 @@ class EditorTemplates {
 			$this->default_tpl = $this->data->meta( $plpg->typeid, $this->default_template_slug );
 		}
 		
+		add_filter('pl_toolbar_config', array(&$this, 'toolbar'));
+		
 	}
 	
-	
+	function toolbar( $toolbar ){
+		$toolbar['page-setup'] = array(
+			'name'	=> 'Templates',
+			'icon'	=> 'icon-paste',
+			'pos'	=> 30,
+			'panel'	=> array(
+				'heading'	=> "Page Templates",
+				'tmp_load'	=> array(
+					'name'	=> 'Your Templates',
+					'call'	=> array(&$this, 'user_templates'),
+					'icon'	=> 'icon-copy'
+				),
+				'tmp_save'	=> array(
+					'name'	=> 'Save New Template',
+					'call'	=> array(&$this, 'save_templates'),
+					'icon'	=> 'icon-paste'
+				)
+			)
+
+		);
+		
+		return $toolbar;
+	}
 	
 	function user_templates(){
 	

@@ -47,23 +47,27 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.draft.php' );
 		require_once( PL_EDITOR . '/editor.layout.php' );
 		require_once( PL_EDITOR . '/editor.map.php' );
-		require_once( PL_EDITOR . '/editor.templates.php' );
-		require_once( PL_EDITOR . '/editor.themes.php' );
+		
+		
 		require_once( PL_EDITOR . '/editor.data.php' );
-
 
 		require_once( PL_EDITOR . '/editor.settings.config.php' );
 		require_once( PL_EDITOR . '/editor.typography.php' );
 		require_once( PL_EDITOR . '/editor.color.php' );
 
 		// Interfaces
-		require_once( PL_EDITOR . '/editor.code.php' );
+		require_once( PL_EDITOR . '/editor.xlist.php' );
+		require_once( PL_EDITOR . '/panel.code.php' );
+		require_once( PL_EDITOR . '/panel.live.php' );
+		require_once( PL_EDITOR . '/panel.sections.php' );
+		require_once( PL_EDITOR . '/panel.extend.php' );
+		require_once( PL_EDITOR . '/panel.themes.php' );
+		require_once( PL_EDITOR . '/panel.templates.php' );
 
 		require_once( PL_EDITOR . '/editor.extensions.php' );
 		require_once( PL_EDITOR . '/editor.interface.php' );
 		require_once( PL_EDITOR . '/editor.page.php' );
 		require_once( PL_EDITOR . '/editor.handler.php' );
-		require_once( PL_EDITOR . '/editor.library.php' );
 		require_once( PL_EDITOR . '/editor.less.libs.php' );
 		require_once( PL_EDITOR . '/editor.less.php' );
 		require_once( PL_EDITOR . '/editor.api.php' );
@@ -82,14 +86,9 @@ class PageLinesEditor {
 //		$editorless = $this->editorless = new EditorLessHandler;
 		$storeapi = $this->storeapi = new EditorStoreFront;
 		$this->layout = new EditorLayout();
-
-
 		
 		$this->templates = new EditorTemplates( $this->page );
-
 		$this->map = new EditorMap( $this->templates, $this->draft);
-
-		$this->themer = new EditorThemeHandler;
 
 		// Must come before settings
 		$this->foundry = new PageLinesFoundry;
@@ -104,10 +103,17 @@ class PageLinesEditor {
 		$plopts = $this->opts = new PageLinesOpts( $this->page, $this->draft );
 		
 		// Interfaces
+		$this->xlist = new EditorXList;
+		$this->add_sections = new PageLinesSectionsPanel;
+		$this->extend_panel = new PageLinesExtendPanel;
+		$this->live_panel = new PageLinesLivePanel;
+		$this->themer = new EditorThemeHandler;
 		$this->code = new EditorCode;
-
+		
+		// Editor UX Elements
 		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates, $this->map, $this->extensions, $this->themer );
 
+		// Master UX Handler
 		$this->handler = new PageLinesTemplateHandler( $this->interface, $this->page, $this->siteset, $this->foundry, $this->map, $this->draft, $this->opts, $this->layout, $this->extensions );
 
 	}

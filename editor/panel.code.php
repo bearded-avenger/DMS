@@ -14,6 +14,10 @@ class EditorCode{
 	
 	function scripts(){
 		
+		// Codemirror Styles
+		wp_enqueue_style( 'codemirror', PL_ADMIN_JS . '/codemirror/codemirror.css' );
+		wp_enqueue_style( 'css3colorpicker', $this->url . '/js/colorpicker/colorpicker.css');
+		
 		// CodeMirror Syntax Highlighting
 		wp_enqueue_script( 'codemirror', PL_ADMIN_JS . '/codemirror/codemirror.js', array( 'jquery' ), PL_CORE_VERSION );
 		wp_enqueue_script( 'codemirror-css', PL_ADMIN_JS . '/codemirror/css/css.js', array( 'jquery' ), PL_CORE_VERSION );
@@ -64,7 +68,7 @@ class EditorCode{
 					<label class="codetext-label">Custom LESS/CSS</label>
 					<span class="codetext-help help-block"><span class="label label-info">Tip</span> Hit [Cmd&#8984;+Return ] or [Ctrl+Return] to Preview Live</span>
 				</div>
-				<form class="code-form"><textarea class="custom-less" name="custom_less[0]"> </textarea></form>
+				<form class="code-form"><textarea class="custom-less" name="custom_less[0]"></textarea></form>
 			</div>
 		</div>
 
@@ -81,7 +85,7 @@ class EditorCode{
 				<div class="codetext-meta fix">
 					<label class="codetext-label">Custom Javascript or Header HTML</label>
 				</div>
-				<form class="code-form"><textarea class="custom-scripts" name="custom_scripts[0]"> </textarea></form>
+				<form class="code-form"><textarea class="custom-scripts" name="custom_scripts[0]"></textarea></form>
 			</div>
 		</div>
 
