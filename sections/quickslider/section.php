@@ -24,7 +24,7 @@ class PageLinesQuickSlider extends PageLinesSection {
 	 * Load styles and scripts
 	 */
 	function section_styles(){
-		wp_enqueue_script( 'flexslider', $this->base_url.'/flexslider/jquery.flexslider-min.js', array( 'jquery' ) );
+		wp_enqueue_script( 'flexslider', $this->base_url.'/flexslider/jquery.flexslider-min.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
 	
 	function section_head($clone_id){

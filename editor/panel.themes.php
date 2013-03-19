@@ -15,7 +15,7 @@ class EditorThemeHandler {
 	}
 	
 	function scripts(){
-		wp_enqueue_script( 'pl-js-themes', $this->url . '/js/pl.themes.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_script( 'pl-js-themes', $this->url . '/js/pl.themes.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
 	
 	function toolbar( $toolbar ){

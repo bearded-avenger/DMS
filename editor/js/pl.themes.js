@@ -5,7 +5,7 @@ $.plThemes = {
 
 	btnActions: function(){
 		
-		$('.btn-theme-activate').on('click', function(){
+		$('.btn-theme-activate').on('click.paneAction', function(){
 			var args = {
 					mode: 'themes'
 				,	run: 'activate'
@@ -21,7 +21,7 @@ $.plThemes = {
 			var response = $.plAJAX.run( args )
 		})
 		
-		$('.btn-theme-preview').on('click', function(){
+		$('.btn-theme-preview').on('click.paneAction', function(){
 			var args = {
 					mode: 'themes'
 				,	run: 'preview'
@@ -42,7 +42,7 @@ $.plThemes = {
 		var buttons = ''
 		,	theme = sprintf('data-stylesheet="%s"', data.stylesheet)
 		
-		buttons += sprintf('<a href="#" class="btn btn-primary btn-theme-activate" %s><i class="icon-bolt"></i> Activate</a> ', theme)
+		buttons += sprintf('<a href="#" class="btn btn-primary btn-theme-activate x-remove" %s><i class="icon-bolt"></i> Activate</a> ', theme)
 		
 		
 		// Can't get this to work because of a PHP loading issue

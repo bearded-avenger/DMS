@@ -3,50 +3,54 @@
 $.plExtend = {
 	
 	btnActions: function(){
+		var that = this
 		
-		$('.btn-theme-activate').on('click', function(){
-			var args = {
-					mode: 'themes'
-				,	run: 'activate'
-				,	confirm: true
-				,	confirmText: '<h3>Are you sure?</h3> <p>This will activate this theme sitewide.</p>'
-				,	savingText: 'Activating Theme'
-				,	refresh: true
-				,	refreshText: 'Successfully Activated. Refreshing page'
-				, 	log: true
-				,	stylesheet: $(this).data('stylesheet')
-			}
+		$('.btn-purchase-item').on('click', function(){
 			
-			var response = $.plAJAX.run( args )
-		})
-		
-		$('.btn-theme-preview').on('click', function(){
-			var args = {
-					mode: 'themes'
-				,	run: 'preview'
-				,	confirm: true
-				,	confirmText: '<h3>Activate Theme Preview?</h3> <p>This will activate a theme preview sitewide.<br/>(while in draft mode)</p>'
-				,	savingText: 'Loading Theme Preview'
-				,	refresh: false
-				,	refreshText: 'Successfully Loaded. Refreshing page'
-				, 	log: true
-				,	stylesheet: $(this).data('stylesheet')
-			}
+			var tbOpen = $.toolbox('open')
 			
-			var response = $.plAJAX.run( args )
+		//	var theID = $(this).closest('.x-pane').data('extend-id')
+			
+			if(tbOpen)
+				$.toolbox('hide')
+				
+			
+			bootbox.confirm( that.purchaseModal, function( result ){
+				
+				if(result == true){
+					console.log('yes!')
+					
+				} else {
+					console.log('no!')
+					
+					if( tbOpen )
+						$.toolbox('show')
+				}
+				
+			})
 		})
 	
 	}
 	, actionButtons: function( data ){
 		var buttons = ''
-		,	theme = sprintf('data-stylesheet="%s"', data.stylesheet)
-		
-		buttons += sprintf('<a href="#" class="btn btn-primary btn-theme-activate" %s><i class="icon-bolt"></i> Activate</a> ', theme)
-		
+		, 	theID	= data.extendId
+		,	ext = $.pl.config.extensions[theID] || false
+		,	overviewLink = ext.overview || false
+		,	demoLink = ext.demo || false
 	
+		buttons += sprintf('<a href="#" class="btn btn-primary btn-purchase-item x-remove %s"><i class="icon-ok"></i> Purchase</a> ', theID)
+		
+		if(overviewLink)
+			buttons += sprintf('<a href="%s" class="btn x-remove" target="_blank"><i class="icon-folder-open"></i> Overview</a> ', overviewLink)
+			
+		if(demoLink)
+			buttons += sprintf('<a href="%s" class="btn x-remove" target="_blank"><i class="icon-desktop"></i> Demo</a> ', demoLink)
+
 		
 		return buttons
 	}
+	
+	, purchaseModal: "<h3>Purchase</h3><p>Ready to purchase this thing? Testing Testing Testing </p><iframe style='width: 100%; height: 550px;' src='http://pagelines.campfirenow.com/6cd04'></iframe>"
 
 }
 

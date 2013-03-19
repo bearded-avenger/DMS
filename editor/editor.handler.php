@@ -54,15 +54,16 @@ class PageLinesTemplateHandler {
 		
 		$this->setup_processing();
 		
-		if( $this->draft->show_editor() )
-			add_action( 'pagelines_head_last', array( &$this, 'json_data' ) );
+		if( $this->draft->show_editor() ){
+			add_action( 'wp_footer', array( &$this, 'json_blob' ) );
+		}
+			
+			
+		
 		
 	}
 	
-	function json_data(){
-		
-	
-		
+	function json_blob(){
 		?>
 		<script>
 		
@@ -109,9 +110,6 @@ class PageLinesTemplateHandler {
 			
 			}(window.jQuery);
 		</script>
-		
-		
-		
 		<?php
 		
 	}

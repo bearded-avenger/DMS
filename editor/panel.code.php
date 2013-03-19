@@ -21,15 +21,15 @@ class EditorCode{
 		wp_enqueue_style( 'css3colorpicker', $this->url . '/js/colorpicker/colorpicker.css');
 		
 		// CodeMirror Syntax Highlighting
-		wp_enqueue_script( 'codemirror', PL_ADMIN_JS . '/codemirror/codemirror.js', array( 'jquery' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'codemirror-css', PL_ADMIN_JS . '/codemirror/css/css.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'codemirror-less', PL_ADMIN_JS . '/codemirror/less/less.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'codemirror-js', PL_ADMIN_JS . '/codemirror/javascript/javascript.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'codemirror-xml', PL_ADMIN_JS . '/codemirror/xml/xml.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION );
-		wp_enqueue_script( 'codemirror-html', PL_ADMIN_JS . '/codemirror/htmlmixed/htmlmixed.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION );
+		wp_enqueue_script( 'codemirror', PL_ADMIN_JS . '/codemirror/codemirror.js', array( 'jquery' ), PL_CORE_VERSION, true );
+		wp_enqueue_script( 'codemirror-css', PL_ADMIN_JS . '/codemirror/css/css.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
+		wp_enqueue_script( 'codemirror-less', PL_ADMIN_JS . '/codemirror/less/less.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
+		wp_enqueue_script( 'codemirror-js', PL_ADMIN_JS . '/codemirror/javascript/javascript.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
+		wp_enqueue_script( 'codemirror-xml', PL_ADMIN_JS . '/codemirror/xml/xml.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
+		wp_enqueue_script( 'codemirror-html', PL_ADMIN_JS . '/codemirror/htmlmixed/htmlmixed.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
 		
 		// PageLines Specific JS @Code Stuff
-		wp_enqueue_script( 'pl-js-code', $this->url . '/js/pl.code.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION );
+		wp_enqueue_script( 'pl-js-code', $this->url . '/js/pl.code.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
 	}
 	
 	function toolbar( $toolbar ){
@@ -39,7 +39,7 @@ class EditorCode{
 				'form'	=> true,
 				'pos'	=> 50,
 				'panel'	=> array(
-					'heading'	=> "Site Design",
+					'heading'	=> "Custom Design",
 
 					'user_less'	=> array(
 						'name'	=> 'Custom LESS/CSS',

@@ -221,7 +221,7 @@ class PLNavBar extends PageLinesSection {
 	 */
 	function section_styles() {
 
-		wp_enqueue_script( 'navbar', $this->base_url.'/navbar.js', array( 'jquery' ) );
+		wp_enqueue_script( 'navbar', $this->base_url.'/navbar.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
 
 	function before_section_template( $location = '' ) {

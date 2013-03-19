@@ -284,9 +284,7 @@
 			var buttons = ''
 			
 			if(panel == 'x-store'){
-				buttons += sprintf('<a href="#" class="btn btn-primary"><i class="icon-ok"></i> Purchase</a> ')
-				buttons += sprintf('<a href="#" class="btn"><i class="icon-folder-open"></i> Overview</a> ')
-				buttons += sprintf('<a href="#" class="btn"><i class="icon-desktop"></i> Demo</a> ')
+				buttons += $.plExtend.actionButtons( data )
 			} else if ( panel == 'x-themes' ){
 				buttons += $.plThemes.actionButtons( data )
 			} else if ( panel == 'x-sections' ){
@@ -300,19 +298,20 @@
 		, loadPaneActions: function(panel){
 			
 			if(panel == 'x-store'){
-				
+				$.plExtend.btnActions()
 			} else if ( panel == 'x-themes' ){
 				$.plThemes.btnActions()
-			} else if ( panel == 'x-sections' ){
+			} 
 			
-			}
-			
-			$('.x-close').on('click.extensionItem ', function(e){
+			$('.x-close').on('click.paneAction ', function(e){
 	
 				e.preventDefault
 
 				var theIsotope = $(this).parent()
 				,	removeItems = $('.x-remove')
+				
+				removeItems
+					.off('click')
 
 				theIsotope
 					.isotope({ filter: '*' })
@@ -340,7 +339,7 @@
 					,	btnClose = sprintf('<div class="x-item x-close x-remove %s"><a href="#" class="btn btn-close"><i class="icon-remove"></i></a></div>', theID)
 					,	btns = sprintf('<div class="x-pane-btns">%s</div>', that.loadButtons( panel, theExtension.data() ))
 					,	desc = sprintf('<div class="x-pane-info"><h4>Description</h4>%s</div>', ext.desc)
-					,	extPane = $( sprintf('<div class="x-pane x-remove x-item %s"><div class="x-pane-pad">%s %s %s</div></div>%s', theID, splash, btns, desc, btnClose) )
+					,	extPane = $( sprintf('<div class="x-pane x-remove x-item %s" data-extend-id="%s"><div class="x-pane-pad">%s %s %s</div></div>%s', theID, theID, splash, btns, desc, btnClose) )
 
 					if( panel == 'x-sections' ){
 						var prep = sprintf('<span class="x-remove badge badge-info %s"><i class="icon-arrow-up"></i> Drag This</span>', theID)
@@ -354,7 +353,7 @@
 						.isotope({filter: filterClass})
 						.addClass('x-pane-mode')
 				} 
-				
+	
 				// load actions after elements added to DOM
 				that.loadPaneActions( panel )
 				
@@ -409,10 +408,19 @@
 			
 		}
 		, listStop: function(){
+			
+			var removeItems = $('.x-remove')
+			
+			removeItems
+				.off('click')
+					
+			$('.x-extension')
+				.off('click.extensionItem')
+					
 		 	$('.x-list.isotope')
 				.removeClass('x-pane-mode')
-				.isotope({ filter: '*' })
-				.isotope('remove', $('.x-remove'))
+				.isotope( 'remove', removeItems)
+				.isotope( { filter: '*' })
 				.isotope( 'destroy' )
 		
 			//this.listPopOverStop()
