@@ -329,20 +329,21 @@
 				var theExtension = $(this)
 				,	theIsotope = $(this).parent()
 				,	theID = $(this).data('extend-id')
-				,	filterClass = '.'+theID
+				,	filterID = 'filter-'+theID
+				,	filterClass = '.'+filterID
 				,	ext = $.pl.config.extensions[theID] || false
 				,	panel = theIsotope.data('panel') || false
 
 				if(!theIsotope.hasClass('x-pane-mode') && ext){
 					
 					var splash	= sprintf('<div class="x-pane-frame"><img src="%s" /></div>', ext.splash)
-					,	btnClose = sprintf('<div class="x-item x-close x-remove %s"><a href="#" class="btn btn-close"><i class="icon-remove"></i></a></div>', theID)
+					,	btnClose = sprintf('<div class="x-item x-close x-remove %s"><a href="#" class="btn btn-close"><i class="icon-remove"></i></a></div>', filterID)
 					,	btns = sprintf('<div class="x-pane-btns">%s</div>', that.loadButtons( panel, theExtension.data() ))
 					,	desc = sprintf('<div class="x-pane-info"><h4>Description</h4>%s</div>', ext.desc)
-					,	extPane = $( sprintf('<div class="x-pane x-remove x-item %s" data-extend-id="%s"><div class="x-pane-pad">%s %s %s</div></div>%s', theID, theID, splash, btns, desc, btnClose) )
+					,	extPane = $( sprintf('<div class="x-pane x-remove x-item %s" data-extend-id="%s"><div class="x-pane-pad">%s %s %s</div></div>%s', filterID, theID, splash, btns, desc, btnClose) )
 
 					if( panel == 'x-sections' ){
-						var prep = sprintf('<span class="x-remove badge badge-info %s"><i class="icon-arrow-up"></i> Drag This</span>', theID)
+						var prep = sprintf('<span class="x-remove badge badge-info %s"><i class="icon-arrow-up"></i> Drag This</span>', filterID)
 						
 						theIsotope.find('.pl-sortable').append(prep)
 					}

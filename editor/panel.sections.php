@@ -119,6 +119,8 @@ class PageLinesSectionsPanel{
 				$special_class = '';
 			}
 
+			if($s->filter == 'deprecated')
+				continue;
 
 			$args = array(
 				'id'			=> $s->id,
@@ -133,7 +135,8 @@ class PageLinesSectionsPanel{
 				),
 				'thumb'			=> $s->screenshot,
 				'splash'		=> $s->splash,
-				'name'			=> $s->name
+				'name'			=> $s->name,
+				'sub'			=> ucfirst($s->filter)
 			);
 
 			$list .= $this->xlist->get_x_list_item( $args );

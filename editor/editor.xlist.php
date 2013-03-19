@@ -55,7 +55,7 @@ class EditorXList{
 					%s 
 				</div>
 			</section>",
-			$args['id'],
+			'filter-'.$args['id'],
 			$classes,
 			$datas,
 			$popover_content,

@@ -64,16 +64,49 @@ class PageLinesExtendPanel{
 				'heading3'	=> "Tools",
 				'upload'	=> array(
 					'name'	=> 'Upload',
-					'icon'	=> 'icon-upload'
+					'icon'	=> 'icon-upload',
+					'call'	=> array(&$this, 'upload_callback'),
 				),
 				'search'	=> array(
 					'name'	=> 'Search',
-					'icon'	=> 'icon-search'
+					'icon'	=> 'icon-search',
+					'call'	=> array(&$this, 'search_callback'),
 				),
 			)
 		);
 		
 		return $toolbar;
+	}
+	
+	function upload_callback(){
+			?>
+
+			<form class="opt standard-form form-save-template">
+				<fieldset>
+					<span class="help-block">Upload a .zip extension into your PageLines install using this tool.</span>
+					<label for="template-name">Extension File (zip file - required)</label>
+					<input type="upload" id="template-name" name="template-name" required />
+					<button type="submit" class="btn btn-primary btn-save-template">Upload Extension</button>
+				</fieldset>
+			</form>
+
+			<?php
+	}
+	
+	function search_callback(){
+			?>
+
+			<form class="opt standard-form form-save-template">
+				<fieldset>
+					<span class="help-block">Search the PageLines store for extensions.</span>
+					<div class="input-append">
+					  <input class="span2" id="appendedInputButton" type="text">
+					  <button class="btn" type="button">Search!</button>
+					</div>
+				</fieldset>
+			</form>
+
+			<?php
 	}
 	
 	
