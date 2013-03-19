@@ -99,10 +99,10 @@ class PageLinesExtendPanel{
 			<form class="opt standard-form form-save-template">
 				<fieldset>
 					<span class="help-block">Search the PageLines store for extensions.</span>
-					<div class="input-append">
-					  <input class="span2" id="appendedInputButton" type="text">
-					  <button class="btn" type="button">Search!</button>
-					</div>
+					
+					<input class="" id="appendedInputButton" type="text">
+					<button class="btn" type="button">Search!</button>
+
 				</fieldset>
 			</form>
 
