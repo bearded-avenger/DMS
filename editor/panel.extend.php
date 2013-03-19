@@ -85,7 +85,7 @@ class PageLinesExtendPanel{
 		
 		global $storeapi;
 		$mixed_array = $storeapi->get_latest();
-
+//plprint($mixed_array);
 		foreach( $mixed_array as $key => $item){
 
 			$class = $item['class_array'];
@@ -93,6 +93,8 @@ class PageLinesExtendPanel{
 			$class[] = 'x-storefront';
 
 			$img = sprintf('<img src="%s" style=""/>', $item['thumb']);
+
+			$sub = ($item['price'] == 'free') ? __('Free!', 'pagelines') : '$'.$item['price'];
 
 			$args = array(
 				'id'			=> $item['slug'],
@@ -102,7 +104,8 @@ class PageLinesExtendPanel{
 				),
 				'thumb'			=> $item['thumb'],
 				'splash'		=> $item['splash'],
-				'name'			=> $item['name']
+				'name'			=> $item['name'],
+				'sub'			=> $sub
 			);
 
 			$list .= $this->xlist->get_x_list_item( $args );

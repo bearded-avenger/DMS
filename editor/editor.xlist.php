@@ -25,7 +25,8 @@ class EditorXList{
 			'data_array'	=> array(),
 			'thumb'			=> '',
 			'splash'		=> '',
-			'name'			=> 'No Name'
+			'name'			=> 'No Name', 
+			'sub'			=> false
 		);
 		$args = wp_parse_args($args, $d);
 
@@ -39,6 +40,8 @@ class EditorXList{
 		foreach($args['data_array'] as $field => $val){
 			$datas .= sprintf("data-%s='%s' ", $field, $val);
 		}
+		
+		$sub = ($args['sub']) ? sprintf('<div class="x-item-sub">%s</div>', $args['sub']) : ''; 
 
 		$list_item = sprintf(
 			"<section class='x-item x-extension %s %s' %s data-content='%s' data-extend-id='%s'>
@@ -49,6 +52,7 @@ class EditorXList{
 				</div>
 				<div class='x-item-text'>
 					%s
+					%s 
 				</div>
 			</section>",
 			$args['id'],
@@ -57,7 +61,8 @@ class EditorXList{
 			$popover_content,
 			$args['id'],
 			$img,
-			$args['name']
+			$args['name'],
+			$sub
 		);
 
 		return $list_item;

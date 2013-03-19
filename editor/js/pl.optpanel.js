@@ -165,7 +165,7 @@
 				//console.log($.pl.data[scope])
 				
 				$.pl.flags.refreshOnSave = true;
-				$('.li-draft').show()
+		
 				
 				if(e.type == 'change' || e.type == 'blur'){
 					$.plAJAX.saveData( 'draft' )
@@ -318,7 +318,7 @@
 				,	remove = '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>'
 				,	thm = (o.value != '') ? sprintf('<div class="img-wrap"><img src="%s" style="max-%s: %s" /></div>', o.value, sizeMode, size) : ''
 			
-				oHTML += sprintf('<div class="upload-thumb-%s upload-thumb">%s</div>', o.key, thm);
+				oHTML += sprintf('<div class="upload-thumb-%s upload-thumb" data-imgstyle="max-%s: %s">%s</div>', o.key, sizeMode, size, thm);
 			
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
 			
@@ -651,8 +651,11 @@
 					var optBox = $(this).closest('.opt-box')
 					
 						if (response.success) {
+							var theThumb = optBox.find('.upload-thumb')
+							, 	imgStyle = theThumb.data('imgstyle')
+						
 							
-							optBox.find('.upload-thumb').fadeIn().html( sprintf('<div class="img-wrap"><img src="%s" /></div>', response.url ))
+							theThumb.fadeIn().html( sprintf('<div class="img-wrap"><img src="%s" style="%s"/></div>', response.url, imgStyle ))
 							optBox.find('.text-input').val(response.url).change()
 							optBox.imagesLoaded( function(){
 								optBox.closest('.isotope').isotope( 'reLayout' )
