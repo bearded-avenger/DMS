@@ -110,6 +110,7 @@
 			
 			var	that = this
 			, 	refresh = refresh || false
+			, 	mode = mode || 'draft'
 			,	savingDialog = $.pl.flags.savingDialog
 			,	refreshingDialog = $.pl.flags.refreshingDialog
 			,	theData = {

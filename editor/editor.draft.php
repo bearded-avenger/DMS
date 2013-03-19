@@ -179,3 +179,11 @@ class EditorDraft{
 	}
 
 }
+
+function pl_draft_mode(){
+	
+	$draft = new EditorDraft;
+	
+	return ($draft->mode == 'draft') ? true : false;
+		
+}

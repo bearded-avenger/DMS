@@ -110,7 +110,7 @@ class PageLinesTemplateHandler {
 			}(window.jQuery);
 		</script>
 		
-		<style id="pl-custom-less" type="text/less"></style>
+		
 		
 		<?php
 		

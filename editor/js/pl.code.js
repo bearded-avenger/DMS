@@ -26,6 +26,10 @@ $.plCode = {
 						$('#pl-custom-less').text(instance.getValue())
 						
 					}
+					
+					instance.on('blur', function(instance, changeObj){
+						$.plAJAX.saveData()
+					})
 
 				}
 			})
@@ -54,6 +58,9 @@ $.plCode = {
 					
 					$.pl.data.global = $.extend(true, $.pl.data.global, theCode)
 					
+					instance.on('blur', function(instance, changeObj){
+						$.plAJAX.saveData()
+					})
 
 				}
 			})

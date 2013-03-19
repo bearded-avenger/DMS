@@ -108,7 +108,8 @@ class PageLinesEditor {
 		$this->extend_panel = new PageLinesExtendPanel;
 		$this->live_panel = new PageLinesLivePanel;
 		$this->themer = new EditorThemeHandler;
-		$this->code = new EditorCode;
+		
+		$this->code = new EditorCode( $this->draft );
 		
 		// Editor UX Elements
 		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates, $this->map, $this->extensions, $this->themer );
