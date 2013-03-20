@@ -19,7 +19,7 @@ $.plTemplates = {
 						,	confirm: true
 						,	confirmText: '<h3>Are you sure?</h3><p>Loading a new template will overwrite the current template configuration.</p>'
 						,	savingText: 'Loading Template'
-					//	,	refresh: true
+						,	refresh: true
 						,	refreshText: 'Successfully Loaded. Refreshing page'
 						, 	log: true
 						,	key: $(this).closest('.list-item').data('key')
