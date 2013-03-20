@@ -122,7 +122,9 @@ class EditorExtensions {
 				'id'			=> 'pl_split_column',
 				'name'			=> '2 Columns - Split',
 				'filter'		=> 'layout',
-				'screenshot'	=>  PL_ADMIN_IMAGES . '/thumb-default.png',
+				'screenshot'	=>  PL_EDITOR_URL . '/images/thumb-2column.png',
+				'thumb'			=>  PL_EDITOR_URL . '/images/thumb-2column.png',
+				'splash'		=>  PL_EDITOR_URL . '/images/splash-2column.png',
 				'map'			=> array(
 									array(
 										'object'	=> 'PLColumn',
@@ -139,7 +141,9 @@ class EditorExtensions {
 				'id'			=> 'pl_3_column',
 				'name'			=> '3 Columns',
 				'filter'		=> 'layout',
-				'screenshot'	=>  PL_ADMIN_IMAGES . '/thumb-default.png',
+				'screenshot'	=>  PL_EDITOR_URL . '/images/thumb-3column.png',
+				'thumb'			=>  PL_EDITOR_URL . '/images/thumb-3column.png',
+				'splash'		=>  PL_EDITOR_URL . '/images/splash-3column.png',
 				'map'			=> array(
 									array(
 										'object'	=> 'PLColumn',
