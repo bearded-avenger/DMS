@@ -645,6 +645,11 @@ function pagelines_pagination() {
 <?php endif;
 }
 
+// As a callback with nav args associated
+function pl_nav_callback( $args ){
+	pl_nav_fallback( $args['menu_class'] );
+}
+
 function pl_nav_fallback($class = '', $limit = 8){
 
 	$pages = wp_list_pages('echo=0&title_li=&sort_column=menu_order&depth=2');

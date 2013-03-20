@@ -1,9 +1,9 @@
 <?php
 /*
-	Section: Simple Nav
+	Section: SimpleNav
 	Author: PageLines
 	Author URI: http://www.pagelines.com
-	Description: Creates footer navigation.
+	Description: Creates a simple single line navigation. Select menu and alignment.
 	Class Name: SimpleNav
 	Workswith: footer
 	Filter: nav
@@ -24,28 +24,59 @@ class SimpleNav extends PageLinesSection {
 		register_nav_menus( array( 'simple_nav' => __( 'Simple Nav Section', 'pagelines' ) ) );
 
 	}
+	
+	function section_opts(){
+		$opts = array(
+			array(
+				'key'		=> 'simple_nav_menu_multi',
+				'type' 		=> 'multi',
+				'title'		=> __( 'Select Menu', 'pagelines' ),		
+				'help'		=> __( 'The SimpleNav uses WordPress menus. Select one for use.', 'pagelines' ),
+				'opts'		=> array(
+					array(
+							'key'			=> 'simple_nav_menu' ,
+							'type' 			=> 'select_menu',
+							'label' 	=> __( 'Select Menu', 'pagelines' ),
+						),
+				),
+
+
+			),
+			array(
+				'type' 			=> 'select',
+				'title' 		=> 'Select Alignment',
+				'key'			=> 'simple_nav_align',
+				'label' 		=> 'Select Alignment',
+				'opts'=> array(
+					'center'	=> array( 'name' => 'Align Center (Default)' ),
+					'left'	 	=> array( 'name' => 'Align Left' ), 
+					'right'	 	=> array( 'name' => 'Align Right' )
+				),
+			),
+		); 
+		
+		return $opts;
+	}
 
 	/**
 	* Section template.
 	*/
    function section_template() { 
 
-	if(function_exists('wp_nav_menu'))
-		wp_nav_menu( array('menu_class'  => 'inline-list simplenav font-sub', 'theme_location'=>'simple_nav','depth' => 1,  'fallback_cb'=>'simple_nav_fallback') );
-	else
-		nav_fallback();
+		$menu = ( $this->opt( 'simple_nav_menu' ) ) ? $this->opt( 'simple_nav_menu' ) : null;
+		
+		$align = ( $this->opt( 'simple_nav_align' ) ) ? 'align-'.$this->opt( 'simple_nav_align' ) : 'align-center';
+		
+		$classes = sprintf('inline-list simplenav font-sub %s', $align);
+		
+		$args = array(
+			'menu_class'  	=> $classes, 
+			'menu'			=> $menu,
+			'depth' 		=> 1,  
+			'fallback_cb'	=> 'pl_nav_callback'
+		); 
+		wp_nav_menu( $args );
+
 	}
-
-}
-
-if(!function_exists('simple_nav_fallback')){
-
-	/**
-	*
-	* @TODO document
-	*
-	*/
-	function simple_nav_fallback() {
-		printf('<ul id="simple_nav_fallback" class="inline-list simplenav font-sub">%s</ul>', wp_list_pages( 'title_li=&sort_column=menu_order&depth=1&echo=0') );
-	}
+	
 }

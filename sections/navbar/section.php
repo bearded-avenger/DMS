@@ -71,7 +71,6 @@ class PLNavBar extends PageLinesSection {
 				'opts'		=> array(
 					array(
 							'key'			=> 'navbar_menu' ,
-							'default'		=> 'black-trans',
 							'type' 			=> 'select_menu',
 							'label' 	=> __( 'Select Menu', 'pagelines' ),
 						),
