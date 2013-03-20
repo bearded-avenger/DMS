@@ -23,50 +23,79 @@ class PageLinesBranding extends PageLinesSection {
 			array(
 				'type' 			=> 'image_upload',
 				'title' 		=> 'Site Image',
-				'key'			=> 'branding_logo' ),
+				'key'			=> 'pagelines_custom_logo' 
+			),
 
-			array(
-				'type' 			=> 'check',
-				'title' 		=> 'Show RSS',
-				'key'			=> 'rsslink',
-				'label'			=> 'Show RSS Link?' ),
 
 			array(
 				'type' 			=> 'multi',
 				'title' 		=> 'Social Links',
 				'opts'	=> array(
+						array(
+							'type' 			=> 'check',
+							'title' 		=> 'Show RSS',
+							'key'			=> 'rsslink',
+							'label'			=> 'Show RSS Link?'
+						),
+						array(
+							'key'			=> 'twitterlink',
+							'type' 			=> 'text',
+							'size'			=> 'big',
+							'label' 		=> 'Twitter URL' 
+						),
 
-			array(
-				'key'			=> 'twitterlink',
-				'type' 			=> 'text',
-				'size'			=> 'big',
-				'label' 		=> 'Twitter URL' ),
+						array(
+							'key'			=> 'facebooklink',
+							'type' 			=> 'text',
+							'size'			=> 'big',
+							'label' 		=> 'Facebook URL' 
+						),
 
-			array(
-				'key'			=> 'facebooklink',
-				'type' 			=> 'text',
-				'size'			=> 'big',
-				'label' 		=> 'Facebook URL' ),
+						array(
+							'key'			=> 'linkedinlink',
+							'type' 			=> 'text',
+							'size'			=> 'big',
+							'label' 		=> 'LinkedIn URL' 
+						),
 
-			array(
-				'key'			=> 'linkedinlink',
-				'type' 			=> 'text',
-				'size'			=> 'big',
-				'label' 		=> 'LinkedIn URL' ),
+						array(
+							'key'			=> 'youtubelink',
+							'type' 			=> 'text',
+							'size'			=> 'big',
+							'label' 		=> 'Youtube URL' 
+						),
 
-			array(
-				'key'			=> 'youtubelink',
-				'type' 			=> 'text',
-				'size'			=> 'big',
-				'label' 		=> 'Youtube URL' ),
+						array(
+							'key'			=> 'gpluslink',
+							'type' 			=> 'text',
+							'size'			=> 'big',
+							'label' 		=> 'Google Plus URL'
+						)
+					)
+				),
+				array(
+					'type' 			=> 'multi',
+					'title' 		=> 'Icon Positioning',
+					'help'			=> 'Enter offset pixel values for the icons in your branding section.',
+					'opts'	=> array(
 
-			array(
-				'key'			=> 'gpluslink',
-				'type' 			=> 'text',
-				'size'			=> 'big',
-				'label' 		=> 'Google Plus URL' )
+						array(
+							'key'	=> 'icon_pos_bottom',
+							'type'	=> 'text',
+							'size'	=> 'small',
+							'label'	=> __( 'Distance From Bottom (in pixels)', 'pagelines' ), 
+							'default'=> 12
+						),
+						array(
+							'key'	=> 'icon_pos_right',
+							'type'	=> 'text',
+							'size'	=> 'small',
+							'label'	=> __( 'Distance From Right (in pixels)', 'pagelines' ), 
+							'default'=> 1
+						),
+					)
 				)
-			)
+				
 		);
 		return $opts;
 	}
@@ -78,11 +107,11 @@ class PageLinesBranding extends PageLinesSection {
 
 			echo '<div class="branding_wrap fix">';
 
-				pagelines_main_logo();
+				$this->logo();
 
 				pagelines_register_hook( 'pagelines_before_branding_icons', 'branding' ); // Hook
 
-				printf( '<div class="icons" style="bottom: %spx; right: %spx;">', intval( pagelines_option( 'icon_pos_bottom' ) ), pagelines_option( 'icon_pos_right' ) );
+				printf( '<div class="icons" style="bottom: %spx; right: %spx;">', intval( $this->opt( 'icon_pos_bottom' ) ), $this->opt( 'icon_pos_right' ) );
 
 					pagelines_register_hook( 'pagelines_branding_icons_start', 'branding' ); // Hook
 
@@ -114,10 +143,47 @@ class PageLinesBranding extends PageLinesSection {
 			pagelines_register_hook( 'pagelines_after_branding_wrap', 'branding' ); // Hook
 
 			?>
-			<script type="text/javascript">
+			<script>
 				jQuery('.icons a').hover(function(){ jQuery(this).fadeTo('fast', 1); },function(){ jQuery(this).fadeTo('fast', 0.5);});
 			</script>
 <?php
 
 		}
+		
+		
+	function logo( ){ 
+
+		$site_name = get_bloginfo('name');
+		$site_desc = get_bloginfo('description');
+
+		if($this->opt('pagelines_custom_logo') || apply_filters('pagelines_site_logo', '') || apply_filters('pagelines_logo_url', '')){
+
+			$logo = apply_filters('pagelines_logo_url', esc_url($this->opt('pagelines_custom_logo', $oset) ));
+
+
+			$logo_url = ( esc_url($this->opt('pagelines_custom_logo_url', $oset) ) ) ? esc_url($this->opt('pagelines_custom_logo_url', $oset) ) : home_url();
+
+			$site_logo = sprintf( 
+				'<a class="plbrand mainlogo-link" href="%s" title="%s"><img class="mainlogo-img" src="%s" alt="%s" /></a>', 
+				$logo_url, 
+				$site_name,
+				$logo, 
+				$site_name
+			);
+
+			echo apply_filters('pagelines_site_logo', $site_logo);
+
+		} else {
+
+			$site_title = sprintf( 
+				'<div class="title-container"><a class="home site-title" href="%s" title="%s">%s</a><h6 class="site-description subhead">%s</h6></div>', 
+				esc_url(home_url()), 
+				__('Home','pagelines'), 
+				$site_name,
+				$site_desc
+			);
+
+			echo apply_filters('pagelines_site_title', $site_title);	
+		}		
+	}
 }

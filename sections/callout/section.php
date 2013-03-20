@@ -102,14 +102,22 @@ class PageLinesCallout extends PageLinesSection {
 	*/
  	function section_template() {
 
-		$call_title = $this->opt( 'pagelines_callout_header', $this->tset );
-		$call_sub = $this->opt( 'pagelines_callout_subheader', $this->tset );
+		$args = $this->tset;
+		
+		$call_title = $this->opt( 'pagelines_callout_header', $args );
+		$call_sub = $this->opt( 'pagelines_callout_subheader', $this->tset, __("Your callout section is activated, now set the options!", "pagelines"));
+		
+		
+		
 		$call_img = $this->opt( 'pagelines_callout_image', $this->oset );
 		$call_link = $this->opt( 'pagelines_callout_button_link', $this->tset );
 		$call_btext = $this->opt( 'pagelines_callout_button_text', $this->tset );
 		$call_btheme = $this->opt( 'pagelines_callout_button_theme', $this->tset );
 		$target = ( $this->opt( 'pagelines_callout_button_target', $this->oset ) ) ? 'target="_blank"' : '';
-		$call_action_text = ($this->opt('pagelines_callout_action_text', $this->oset)) ? $this->opt( 'pagelines_callout_action_text', $this->oset ) : __( 'Start Here', 'pagelines' );
+		
+		$call_title = ($call_title) ? $call_title :  __("Here's to the crazy ones...", "pagelines");
+		$call_sub = ($call_sub) ? $call_sub :  __("Your callout section is activated, now set the options!", "pagelines");
+		$call_btext = ($call_btext) ? $call_btext :  __("Go &rarr;", "pagelines");
 
 		$styling_class = ($call_sub) ? 'with-callsub' : '';
 
@@ -117,9 +125,9 @@ class PageLinesCallout extends PageLinesSection {
 
 		$call_align = ( $alignment == 'left' ) ? '' : 'rtimg';
 
-		if( $call_title || $call_img ) {
 
-			if( $alignment == 'center' ): ?>
+
+	if( $alignment == 'center' ): ?>
 <div class="callout-area fix callout-center <?php echo $styling_class;?>">
 	<div class="callout_text">
 		<div class="callout_text-pad">
@@ -143,8 +151,6 @@ class PageLinesCallout extends PageLinesSection {
 	</div>
 </div>
 <?php endif;
-		} else
-			echo setup_section_notify( $this, __( 'Set Callout page options to activate.', 'pagelines' ) );
 	}
 
 	function draw_action( $call_link, $target, $call_img, $call_btheme, $call_btext ){
@@ -159,6 +165,6 @@ class PageLinesCallout extends PageLinesSection {
 		printf( '<h2 class="callout_head %s">%s</h2>', ( ! $call_img ) ? 'noimage' : '', $call_title );
 
 		if( $call_sub )
-			printf( '<p class="callout_sub subhead %s">%s</p>', ( ! $call_img ) ? 'noimage' : '', $call_sub );
+			printf( '<p class="callout_sub %s">%s</p>', ( ! $call_img ) ? 'noimage' : '', $call_sub );
 	}
 }

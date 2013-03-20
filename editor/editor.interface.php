@@ -228,12 +228,13 @@ class EditorInterface {
 		$tabs = array();
 		$tabs['heading'] = "Section Options";
 
-		$tabs['local'] = array( 'name'	=> 'Current Page <span class="label">'.$current_page.'</span>' );
-
+		$tabs['global'] = array( 'name'	=> 'Sitewide Defaults' );
+	
 		if(!$this->page->is_special())
 			$tabs['type'] = array( 'name'	=> 'Post Type <span class="label">'.$this->page->type_name.'</span>' );
-
-		$tabs['global'] = array( 'name'	=> 'Sitewide Defaults' );
+		
+		$tabs['local'] = array( 'name'	=> 'Current Page <span class="label">'.$current_page.'</span>' );
+		
 
 		return $tabs;
 

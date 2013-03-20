@@ -7,7 +7,7 @@
 	Class Name: PageLinesBrandNav
 	Depends: PageLinesNav
 	Workswith: header
-	Filter: nav
+	Filter: deprecated
 */
 
 /**
@@ -58,7 +58,16 @@ class PageLinesBrandNav extends PageLinesNav {
 		
 			<div class="brandnav-nav main_nav fix">		
 <?php 	
-				wp_nav_menu( array('menu_class'  => 'main-nav tabbed-list'.pagelines_nav_classes(), 'container' => null, 'container_class' => '', 'depth' => 3, 'theme_location'=>'brandnav', 'fallback_cb'=>'pagelines_nav_fallback') );
+				$args = array(
+					'menu_class'  => 'main-nav tabbed-list'.pagelines_nav_classes(), 
+					'container' => null, 
+					'container_class' => '', 
+					'depth' => 3, 
+					'theme_location'=>'brandnav', 
+					'fallback_cb'=>'pagelines_nav_fallback'
+				);
+
+				wp_nav_menu(  );
 
 				
 				pagelines_register_hook( 'brandnav_after_nav', 'brandnav' ); // Hook

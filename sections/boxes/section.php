@@ -271,23 +271,23 @@ class PageLinesBoxes extends PageLinesSection {
    function section_template( $clone_id = null ) {    
 		
 		// Options
-			$per_row = ( ploption( 'box_col_number', $this->oset) ) ? ploption( 'box_col_number', $this->oset) : 3; 
-			$box_set = ( ploption( 'box_set', $this->oset ) ) ? ploption( 'box_set', $this->oset ) : null;
-			$box_limit = ploption( 'box_items', $this->oset );
-			$this->thumb_type = ( ploption( 'box_thumb_type', $this->oset) ) ? ploption( 'box_thumb_type', $this->oset) : 'inline_thumbs';	
-			$this->thumb_size = ploption('box_thumb_size', $this->oset);
-			$this->framed = ploption('box_thumb_frame', $this->oset);
+			$per_row = ( $this->opt( 'box_col_number', $this->oset) ) ? $this->opt( 'box_col_number', $this->oset) : 3; 
+			$box_set = ( $this->opt( 'box_set', $this->oset ) ) ? $this->opt( 'box_set', $this->oset ) : null;
+			$box_limit = $this->opt( 'box_items', $this->oset );
+			$this->thumb_type = ( $this->opt( 'box_thumb_type', $this->oset) ) ? $this->opt( 'box_thumb_type', $this->oset) : 'inline_thumbs';	
+			$this->thumb_size = $this->opt('box_thumb_size', $this->oset);
+			$this->framed = $this->opt('box_thumb_frame', $this->oset);
 			
 			
-			$class = ( ploption( 'box_class', $this->oset ) ) ? ploption( 'box_class', $this->oset ) : null;
+			$class = ( $this->opt( 'box_class', $this->oset ) ) ? $this->opt( 'box_class', $this->oset ) : null;
 			
 		// Actions	
 			// Set up the query for this page
-				$orderby = ( ploption('box_orderby', $this->oset) ) ? ploption('box_orderby', $this->oset) : 'ID';
-				$order = ( ploption('box_order', $this->oset) ) ? ploption('box_order', $this->oset) : 'DESC';
+				$orderby = ( $this->opt('box_orderby', $this->oset) ) ? $this->opt('box_orderby', $this->oset) : 'ID';
+				$order = ( $this->opt('box_order', $this->oset) ) ? $this->opt('box_order', $this->oset) : 'DESC';
 				$params = array( 'orderby'	=> $orderby, 'order' => $order, 'post_type'	=> $this->ptID );
-				$params[ 'showposts' ] = ( ploption('box_items', $this->oset) ) ? ploption('box_items', $this->oset) : $per_row;
-				$params[ $this->taxID ] = ( ploption( 'box_set', $this->oset ) ) ? ploption( 'box_set', $this->oset ) : null;
+				$params[ 'showposts' ] = ( $this->opt('box_items', $this->oset) ) ? $this->opt('box_items', $this->oset) : $per_row;
+				$params[ $this->taxID ] = ( $this->opt( 'box_set', $this->oset ) ) ? $this->opt( 'box_set', $this->oset ) : null;
 				$params[ 'no_found_rows' ] = 1;
 
 				$q = new WP_Query( $params );
@@ -316,11 +316,12 @@ class PageLinesBoxes extends PageLinesSection {
 		setup_postdata($p); 
 		
 		$oset = array('post_id' => $p->ID);
-	 	$box_link = plmeta('the_box_icon_link', $oset);
-		$box_icon = plmeta('the_box_icon', $oset);
-		$box_target = (plmeta('the_box_icon_target', $oset)) ? 'target="_blank"' : '';
+		$ID = $p->ID;
+	 	$box_link = pl_meta( $ID, 'the_box_icon_link');
+		$box_icon = pl_meta( $ID, 'the_box_icon');
+		$box_target = (pl_meta( $ID, 'the_box_icon_target')) ? 'target="_blank"' : '';
 		
-		$class = ( plmeta( 'box_class', $oset ) ) ? plmeta( 'box_class', $oset ) : null;
+		$class = ( pl_meta( $ID, 'box_class' ) ) ? pl_meta( $ID,  'box_class' ) : null;
 		
 		$image = ($box_icon) ? self::_get_box_image( $p, $box_icon, $box_link, $this->thumb_size, $box_target) : '';
 	
@@ -328,10 +329,10 @@ class PageLinesBoxes extends PageLinesSection {
 	
 		$title = do_shortcode(sprintf('<div class="fboxtitle"><h3>%s</h3></div>', $title_text));
 
-		if(plmeta('box_more_text', $oset)){
-			$more_text = plmeta('box_more_text', $oset);
-		} elseif(ploption('box_more_text', $this->oset)){
-			$more_text = ploption('box_more_text', $this->oset);
+		if(pl_meta( $ID, 'box_more_text')){
+			$more_text = pl_meta( $ID, 'box_more_text');
+		} elseif($this->opt('box_more_text', $this->oset)){
+			$more_text = $this->opt('box_more_text', $this->oset);
 		}else 
 			$more_text = false;
 		
@@ -339,7 +340,7 @@ class PageLinesBoxes extends PageLinesSection {
 		
 		$more_link = apply_filters('box_more_link', $more_link);
 		
-		$content = sprintf('<div class="fboxtext">%s %s %s</div>', do_shortcode($p->post_content), pledit( $p->ID ), $more_link);
+		$content = sprintf('<div class="fboxtext">%s %s %s</div>', do_shortcode($p->post_content), pledit( $ID ), $more_link);
 			
 		$info = ($this->thumb_type != 'only_thumbs') ? sprintf('<div class="fboxinfo fix bd">%s%s</div>', $title, $content) : '';				
 				

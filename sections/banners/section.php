@@ -41,6 +41,7 @@ class PageLinesBanners extends PageLinesSection {
 						var padHeight = (mediaHeight - textHeight ) / 2;
 						bannerText.css('padding-top', padHeight);
 					}
+					
 				});
 				
 			}); 
