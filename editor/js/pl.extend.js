@@ -50,7 +50,7 @@ $.plExtend = {
 		return buttons
 	}
 	
-	, purchaseModal: "<h3>Purchase</h3><p>Ready to purchase this thing? Testing Testing Testing </p><iframe style='width: 100%; height: 550px;' src='http://pagelines.campfirenow.com/6cd04'></iframe>"
+	, purchaseModal: "<h3>Purchase</h3><p>Ready to purchase this thing? Testing Testing Testing </p>	<iframe style='width: 100%; height: 550px;' src='http://pagelines.campfirenow.com/6cd04'></iframe>"
 
 }
 

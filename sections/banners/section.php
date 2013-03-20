@@ -3,7 +3,7 @@
 	Section: Banners	
 	Author: PageLines
 	Author URI: http://www.pagelines.com
-	Description: Creates banners, great for product tours.
+	Description: Banner post format. Images on one side, text on the other. Set up each individually. Great for tours, and feature walk throughs. 
 	Class Name: PageLinesBanners
 	Workswith: templates, main, header, morefoot
 	Edition: pro
@@ -206,8 +206,8 @@ class PageLinesBanners extends PageLinesSection {
    function section_template( $clone_id ) {    
 
 		// Options
-			$set = (ploption('banner_set', $this->oset)) ? ploption('banner_set', $this->oset) : null;
-			$limit = (ploption('banner_items', $this->oset)) ? ploption('banner_items', $this->oset) : null;
+			$set = ($this->opt('banner_set', $this->oset)) ? $this->opt('banner_set', $this->oset) : null;
+			$limit = ($this->opt('banner_items', $this->oset)) ? $this->opt('banner_items', $this->oset) : null;
 		
 		// Actions
 			$b = $this->load_pagelines_banners($set, $limit);
@@ -232,13 +232,13 @@ class PageLinesBanners extends PageLinesSection {
 	<?php 
 		
 		foreach($b as $bpost) : 
-			$oset = array('post_id' => $bpost->ID);
+			$ID = $bpost->ID;
 			
-			$banner_text_width = (ploption('banner_text_width', $oset)) ? ploption('banner_text_width', $oset) : 50;
+			$banner_text_width = pl_meta($ID, 'banner_text_width', 50);
 			$banner_media_width = 100 - $banner_text_width; // Math
-			$banner_align = (ploption('banner_align', $oset)) ? ploption('banner_align', $oset) : 'banner_left';
+			$banner_align = pl_meta($ID, 'banner_align', 'banner_left');
 			
-			$pad = ploption('banner_text_padding', $oset);
+			$pad = pl_meta($ID, 'banner_text_padding');
 			$banner_text_padding = ($pad) ? sprintf('padding:%s;', $pad) : "padding: 20px 40px"; 
 			
 			$pad_flag = ($pad) ? 'with-pad' : 'no-pad';
@@ -260,7 +260,7 @@ class PageLinesBanners extends PageLinesSection {
 				</div>
 				<div class="banner-media pprand" style="width:<?php echo $banner_media_width; ?>%;" >
 					<div class="banner-media-pad pprand-pad">
-						<?php echo do_shortcode(self::_get_banner_media( $oset ) );?>
+						<?php echo do_shortcode(self::_get_banner_media( $ID ) );?>
 					</div>
 				</div>
 				<div class="clear"></div>
@@ -276,17 +276,20 @@ class PageLinesBanners extends PageLinesSection {
 	* @TODO document
 	*
 	*/
-	function _get_banner_media( $oset ){
+	function _get_banner_media( $ID ){
 			
-			if(plmeta('the_banner_image', $oset))
-				$banner_media = '<img src="'.plmeta('the_banner_image', $oset).'" alt="'.get_the_title( $oset['post_id'] ).'" />';
-			elseif(plmeta('the_banner_media', $oset))
-				$banner_media = do_shortcode( plmeta('the_banner_media', $oset) );
-			else 
-				$banner_media = '';
+		$image = pl_meta( $ID, 'the_banner_image' );
+		$media = pl_meta( $ID, 'the_banner_media' );
 			
-			// Filter output
-			return apply_filters('pl_banner_image', $banner_media, $oset);
+		if( $image )
+			$banner_media = sprintf('<img src="%s" alt="%s" />', $image, get_the_title( $ID ));
+		elseif( $media )
+			$banner_media = do_shortcode( $media );
+		else 
+			$banner_media = '';
+		
+		// Filter output
+		return apply_filters('pl_banner_image', $banner_media, $ID);
 	}
 	
 	

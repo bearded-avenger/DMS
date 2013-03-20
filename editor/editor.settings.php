@@ -38,6 +38,21 @@ function pl_setting_update( $args_or_key, $value = false, $mode = 'draft', $scop
 	
 }
 
+function pl_meta($id, $key, $default = false){
+	
+	$data = new PageLinesData;
+	return $data->meta($id, $key, $default);
+	
+}
+
+
+function pl_meta_update($id, $key, $value){
+
+	$data = new PageLinesData;
+	return $data->meta_update($id, $key, $value);
+	
+}
+
 /*
  * This class contains all methods for interacting with WordPress' data system
  * It has no dependancy so it can be used as a substitute for WordPress native functions
@@ -49,7 +64,7 @@ class PageLinesData {
 
 		$val = get_post_meta($id, $key, true);
 
-		if( !$val ){
+		if( (!$val || $val == '') && $default ){
 
 			$val = $default;
 
@@ -472,30 +487,7 @@ function pl_opt_update( $key, $value ){
 
 
 
-function pl_meta($id, $key, $default = false){
 
-	$val = get_post_meta($id, $key, true);
-	
-	if( !$val ){
-		
-		$val = $default;
-
-	} elseif( is_array($val) && is_array($default)) {
-		
-		$val = wp_parse_args( $val, $default );
-		
-	}
-	
-	return $val;
-	
-}
-
-
-function pl_meta_update($id, $key, $value){
-
-	update_post_meta($id, $key, $value);
-	
-}
 
 
 
