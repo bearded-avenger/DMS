@@ -1,3 +1,4 @@
+
 .hentry {
 	clear: both;
 	.entry-title{ 
@@ -17,9 +18,6 @@
 		margin-bottom: 0;
 	}
 }
-
-
-.entry_content
 
 .fpost .post-excerpt {
 	font-size: 1.03em; 
@@ -56,8 +54,6 @@
 }
 
 
-	
-
 
 /* 
  * Thumbs and other images 
@@ -70,6 +66,68 @@
 		box-shadow: 0 1px 2px lighten(@light-base, 8);
 	}
 }
+
+.multi-post {
+	.hentry {
+		margin: 0 0 @baseLineHeight;
+		.hentry-pad{
+			padding: 0 0 @baseLineHeight;
+		}
+	}
+	
+	.clip_box{
+		margin: 0 0 @baseLineHeight;
+		border-color: @dark-base;
+		.clip{
+			width:47%;
+			clear: none;
+			float: left;
+			margin: 0;
+			.hentry-pad{
+				padding: 0 0 @baseLineHeight/2; 
+			}
+			&.clip-right{
+				float: right; 	
+			}
+			.post-meta .c_img { 
+				padding: 2px;
+			}
+			.clip-header { 
+				padding: 4px 0 4px 0;
+				display: table-cell;
+				width: 10000px;
+			}
+			.clip-thumb{
+				a{
+					float:left;
+					margin-right: 10px;
+				}
+				img{
+					padding: 2px;
+					display:block;
+					margin:0 0 0.4em;	
+				}
+			}
+			.post-excerpt{
+				font-size: 90%;
+				line-height: 1.6em;
+				margin-bottom:1.5em;
+				margin-top:.5em;
+				.post-thumb.img {
+					margin-right: 10px
+				}
+			} 
+
+			.entry-title, 
+			.metabar{
+				padding: 0;
+			}
+		}
+	}
+
+}
+
+
 
 	
 /* @ Posts */
@@ -132,52 +190,3 @@
 
 // Clips - Only used in blog listing
 // ------------------------------------
-.clip_box{
-	margin: 0 0 1.8em;
-	border-color: @dark-base;
-}
-.clip{
-	width:47%;
-	clear: none;
-	float: left;
-	.hentry{ 
-		margin: 0;
-	}
-	&.clip-right{
-		float: right; 	
-	}
-	.post-meta .c_img { 
-		padding: 2px;
-	}
-	.clip-header { 
-		padding: 4px 0 4px 0;
-		display: table-cell;
-		width: 10000px;
-	}
-	.clip-thumb{
-		a{
-			float:left;
-			margin-right: 10px;
-		}
-		img{
-			padding: 2px;
-			display:block;
-			margin:0 0 0.4em;	
-		}
-	}
-	.post-excerpt{
-		font-size: 90%;
-		line-height: 1.6em;
-		margin-bottom:1.5em;
-		margin-top:.5em;
-		.post-thumb.img {
-			margin-right: 10px
-		}
-	} 
-	
-	.entry-title, 
-	.metabar{
-		padding: 0;
-	}
-}
-

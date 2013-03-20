@@ -109,7 +109,10 @@ class PageLinesSection {
 		$this->settings['classes'] = ( !empty( $this->sinfo['classes'] ) ) ? $this->format_classes( $this->sinfo['classes'] ) : $this->settings['classes'];
 		$this->settings['p_ver'] = $this->sinfo['version'];
 
+		// deprecated v3
 		$this->special_classes = ''; // special classes for wrapper
+		
+		$this->wrapper_classes = array();
 
 		$this->icon = $this->settings['icon'] = ( is_file( sprintf( '%s/icon.png', $this->base_dir ) ) ) ? sprintf( '%s/icon.png', $this->base_url ) : PL_ADMIN_ICONS . '/leaf.png';
 	

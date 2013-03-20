@@ -195,6 +195,15 @@ class PageLinesPostLoop extends PageLinesSection {
 		return $opts;
 	}
 
+	function before_section_template( $location = '' ) {
+
+		global $wp_query;
+		
+		if(isset($wp_query) && is_object($wp_query)) 
+			$this->wrapper_classes[] = ( $wp_query->post_count >= 1 ) ? 'multi-post' : 'single-post';
+		
+	}
+
 	/**
 	* Section template.
 	*/

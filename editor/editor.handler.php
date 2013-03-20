@@ -628,12 +628,15 @@ class PageLinesTemplateHandler {
 			
 			if( $render ){
 				
+				$s->before_section_template( );
+				
 				$this->before_section( $s );
 
 				echo $output;
 
 				$this->after_section( $s );
 				
+				$s->after_section_template( );
 			}
 			
 			$this->grid_row_stop( $s, $count, $total, $render, $level );
@@ -718,6 +721,7 @@ class PageLinesTemplateHandler {
 		$class[] = $span;
 		$class[] = $offset;
 		$class[] = $newrow;
+		$class = array_merge($class, $s->wrapper_classes); 
 		
 		printf(
 			'<section id="%s" data-object="%s" data-sid="%s" data-clone="%s" class="%s">%s<div class="pl-section-pad fix">', 

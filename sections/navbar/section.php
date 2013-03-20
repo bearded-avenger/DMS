@@ -229,9 +229,9 @@ class PLNavBar extends PageLinesSection {
 		$format = ( $location == 'passive' ) ? 'open' : 'standard';
 		$this->special_classes = ( $location == 'passive' ) ? ' fixed-top' : '';
 		$this->settings['format'] = $format;
-
+		
 	}
-
+	
 	/**
 	* Section template.
 	*/
