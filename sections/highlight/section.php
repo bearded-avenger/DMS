@@ -49,8 +49,7 @@ class PageLinesHighlight extends PageLinesSection {
 					array(
 						'key'			=> '_highlight_subhead',
 						'version' 		=> 'pro',
-						'type' 			=> 'text',
-						'size'			=> 'big',		
+						'type' 			=> 'textarea',
 						'label' 		=> 'Highlight Subheader Text (Optional)',
 					)
 

@@ -144,9 +144,14 @@ class PLheroUnit extends PageLinesSection {
 
 		if ( ! $hero_rt_width )
 			$hero_rt_width = 'span6';
+			
 		if ( ! $hero_lt_width )
 			$hero_lt_width = 'span6';
-   		if( $hero_title ) { ?>
+			
+		$hero_title = ($hero_title) ? $hero_title : __('The Hero!', 'pagelines'); 
+		$hero_tag = ($hero_tag) ? $hero_tag : __('Now just set up your Hero section options', 'pagelines'); 
+			
+   	?>
 
 	   	<div class="pl-hero-wrap row">
 
@@ -181,8 +186,6 @@ class PLheroUnit extends PageLinesSection {
 
 		<?php
 
-		} else
-			echo setup_section_notify( $this, __( 'Set Hero page options to activate.', 'pagelines' ) );
 	}
 
 }
