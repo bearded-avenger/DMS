@@ -376,6 +376,12 @@
 				
 			}
 			
+			else if( o.type == 'link' ){
+				
+				oHTML += sprintf('<a href="%s" class="btn %s" >%s</a>', o.url, o.classes, o.label )
+				
+			}
+			
 			
 			// Checkbox Options
 			else if ( o.type == 'check' ) {
