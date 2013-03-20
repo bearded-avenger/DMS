@@ -1,6 +1,6 @@
 <?php
 /*
-	Section: No Posts
+	Section: 404 Error
 	Author: PageLines
 	Author URI: http://www.pagelines.com
 	Description: Shown when no posts or 404 is returned

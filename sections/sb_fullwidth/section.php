@@ -8,7 +8,7 @@
 	Edition: pro
 	Workswith: templates, footer, morefoot
 	Persistant: true
-	Filter: widgetized
+	Filter: deprecated
 */
 
 /**

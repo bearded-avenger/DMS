@@ -7,7 +7,7 @@
 	Class Name: PageLinesSecondNav
 	Workswith: header, content
 	Edition: pro
-	Filter: nav
+	Filter: deprecated
 */
 
 /**
