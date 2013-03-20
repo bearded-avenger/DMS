@@ -9,18 +9,33 @@ function pl_editor_actions(){
 	$post = $_POST; 
 	$response = array();
 	$response['post'] = $post;
+	$mode = $post['mode'];
+	$run = $post['run'];
+	$pageID = $post['pageID'];
 	
-	if($post['mode'] == 'themes'){
+	if( $mode == 'themes'){
 		
 		$theme = new EditorThemeHandler;
 		
-		if($post['run'] == 'activate'){
+		if( $run == 'activate' ){
 			$response = $theme->activate( $response );
 			pl_flush_draft_caches();
 		}
-			
-		// elseif($post['run'] == 'preview')
-		// 			$response = $theme->set_preview( $response );
+		
+		
+	} elseif ( $mode == 'templates' ){
+		
+		$tpl = new EditorTemplates;
+
+		if ( $run == 'load' ){
+
+			$map = new EditorMap( $tpl, new EditorDraft );
+
+			$new_tpl_map = $tpl->get_map_from_template_key( $post['key'] );
+
+			$map->set_new_local_template( $pageID, $new_tpl_map );
+		
+		}	
 	}
 	
 
@@ -28,6 +43,52 @@ function pl_editor_actions(){
 	echo json_encode( $response, JSON_FORCE_OBJECT);
 	
 	die(); // don't forget this, always returns 0 w/o
+}
+
+add_action( 'wp_ajax_pl_template_action', 'pl_template_action' );
+function pl_template_action (){
+
+	$post = $_POST;
+	$mode = (isset($post['mode'])) ? $post['mode'] : 'default';
+
+
+	$tpl = new EditorTemplates;
+
+	if ( $mode == 'load_template' ){
+		
+		$map = new EditorMap( $tpl, new EditorDraft );
+
+		$new_tpl_map = $tpl->get_map_from_template_key( $post['key'] );
+
+		$map->set_new_local_template( $post['page'], $new_tpl_map );
+		
+	} elseif( $mode == 'save_template' ){
+
+		$template_map = $post['map']['template'];
+
+		$name = (isset($post['template-name'])) ? $post['template-name'] : 'Template (No Name)';
+		$desc = (isset($post['template-desc'])) ? $post['template-desc'] : 'No description.';
+
+		$tpl->create_template($name, $desc, $template_map);
+
+	} elseif( $mode == 'delete_template' ){
+
+		$key = ( isset($post['key']) ) ? $post['key'] : false;
+
+		$tpl->delete_template( $key );
+
+	} elseif( $mode == 'type_default' ){
+
+
+		$storage = new PageLinesData;
+
+		$storage->meta_update($post['typeID'], $post['field'], $post['key']);
+
+	}
+	echo true;
+
+	die(); // don't forget this, always returns 0 w/o
+
 }
 
 add_action('wp_ajax_pl_editor_mode', 'pl_editor_mode');
@@ -96,59 +157,7 @@ function pl_save_page(){
 }
 
 
-add_action( 'wp_ajax_pl_load_template', 'pl_load_template' );
-function pl_load_template (){
 
-	$tpl = new EditorTemplates;
-	$map = new EditorMap( new EditorDraft );
-
-	$new_tpl_map = $tpl->get_map_from_template_key( $_POST['key'] );
-
-	$map->set_new_local_template( $_POST['page'], $new_tpl_map );
-
-	echo true;
-	die(); // don't forget this, always returns 0 w/o
-
-}
-
-
-add_action( 'wp_ajax_pl_template_action', 'pl_template_action' );
-function pl_template_action (){
-
-	$data = $_POST;
-	$mode = (isset($data['mode'])) ? $data['mode'] : 'default';
-
-
-	$tpl = new EditorTemplates;
-
-	if( $mode == 'save_template' ){
-
-		$template_map = $data['map']['template'];
-
-		$name = (isset($data['template-name'])) ? $data['template-name'] : 'Template (No Name)';
-		$desc = (isset($data['template-desc'])) ? $data['template-desc'] : 'No description.';
-
-		$tpl->create_template($name, $desc, $template_map);
-
-	} elseif( $mode == 'delete_template' ){
-
-		$key = ( isset($data['key']) ) ? $data['key'] : false;
-
-		$tpl->delete_template( $key );
-
-	} elseif( $mode == 'type_default' ){
-
-
-		$storage = new PageLinesData;
-
-		$storage->meta_update($data['typeID'], $data['field'], $data['key']);
-
-	}
-	echo true;
-
-	die(); // don't forget this, always returns 0 w/o
-
-}
 
 add_action( 'wp_ajax_pl_up_image', 'pl_up_image' );
 function pl_up_image (){

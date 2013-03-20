@@ -145,7 +145,7 @@ function pagelines_print_js() {
 // Load Supersize BG Script
 add_action( 'wp_enqueue_scripts', 'pagelines_supersize_bg' );
 
-if ( defined( 'PL_LESS_DEV' ) && PL_LESS_DEV ) {
+if ( defined( 'PL_LESS_DEV' ) && PL_LESS_DEV && pl_has_editor()) {
 	PageLinesRenderCSS::flush_version( false );
 	pl_flush_draft_caches();
 }

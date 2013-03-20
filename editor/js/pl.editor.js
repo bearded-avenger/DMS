@@ -24,6 +24,8 @@
 			
 			$.plAJAX.init() 
 			
+			$.plTemplates.init()
+			
 			this.bindUIActions()
 				
 		}

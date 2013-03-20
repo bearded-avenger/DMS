@@ -16,8 +16,15 @@ class EditorTemplates {
 			$this->default_tpl = $this->data->meta( $plpg->typeid, $this->default_template_slug );
 		}
 		
-		add_filter('pl_toolbar_config', array(&$this, 'toolbar'));
+		$this->url = PL_PARENT_URL . '/editor';
 		
+		add_filter('pl_toolbar_config', array(&$this, 'toolbar'));
+		add_filter('pagelines_editor_scripts', array(&$this, 'scripts'));
+		
+	}
+	
+	function scripts(){
+		wp_enqueue_script( 'pl-js-templates', $this->url . '/js/pl.templates.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
 	
 	function toolbar( $toolbar ){
