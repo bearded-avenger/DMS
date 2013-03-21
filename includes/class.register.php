@@ -175,6 +175,7 @@ class PageLinesRegister {
 			'classname'		=> 'Class Name',
 			'depends'		=> 'Depends',
 			'workswith'		=> 'workswith',
+			'isolate'		=> 'isolate',
 			'edition'		=> 'edition',
 			'cloning'		=> 'cloning',
 			'failswith'		=> 'failswith',
@@ -269,9 +270,11 @@ class PageLinesRegister {
 							$load = true;
 					}
 				}
+				
 				if ( $load )
 					$purchased = 'purchased';
-				$sections[$headers['classname']] = array(
+			
+				$sections[ $headers['classname'] ] = array(
 					'class'			=> $headers['classname'],
 					'depends'		=> $headers['depends'],
 					'type'			=> $type,
@@ -285,6 +288,7 @@ class PageLinesRegister {
 					'base_dir'		=> $base_dir,
 					'base_file'		=> $fullFileName,
 					'workswith'		=> ( $headers['workswith'] ) ? array_map( 'trim', explode( ',', $headers['workswith'] ) ) : '',
+					'isolate'		=> ( $headers['isolate'] ) ? array_map( 'trim', explode( ',', $headers['isolate'] ) ) : '',
 					'edition'		=> $headers['edition'],
 					'cloning'		=> ( 'true' === $headers['cloning'] ) ? true : '',
 					'failswith'		=> ( $headers['failswith'] ) ? array_map( 'trim', explode( ',', $headers['failswith'] ) ) : '',
@@ -302,6 +306,7 @@ class PageLinesRegister {
 					'uid'			=> $uid,
 					'filter'		=> $headers['filter']
 				);	
+				
 			}
 		}
 		return $sections;

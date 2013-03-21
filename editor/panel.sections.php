@@ -101,12 +101,14 @@ class PageLinesSectionsPanel{
 	function add_new_callback(){
 		$this->xlist = new EditorXList; 
 		$this->extensions = new EditorExtensions;
+		$this->page = new PageLinesPage;
 
 		$sections = $this->extensions->get_available_sections();
 
 
 		$section_classes = 'pl-sortable span12 sortable-first sortable-last';
 		$list = '';
+		$count = 1;
 		foreach($sections as $key => $s){
 
 			$img = sprintf('<img src="%s" style=""/>', $s->screenshot);
@@ -121,17 +123,42 @@ class PageLinesSectionsPanel{
 
 			if($s->filter == 'deprecated')
 				continue;
+				
+			$class = array('x-add-new', $section_classes, $special_class, $s->filter);
+
+			$number = $count++;
+
+			if( !empty($s->isolate) ){
+				$disable = true;
+				foreach($s->isolate as $isolation){
+					if($isolation == 'posts_pages' && $this->page->is_posts_page()){
+						$disable = false;
+					} elseif ($isolation == '404_page' && is_404()){
+						$disable = false;
+					}
+				}
+				
+				if( $disable ) {
+					$class[] = 'x-disable';
+					$number += 100;
+				}
+					
+				
+			}
+			
+			
 
 			$args = array(
 				'id'			=> $s->id,
-				'class_array' 	=> array('x-add-new', $section_classes, $special_class, $s->filter),
+				'class_array' 	=> $class,
 				'data_array'	=> array(
 					'object' 	=> $s->class_name,
 					'sid'		=> $s->id,
 					'name'		=> $s->name,
 					'image'		=> $s->screenshot,
 					'template'	=> $map,
-					'clone'		=> '0'
+					'clone'		=> '0',
+					'number' 	=> $number,
 				),
 				'thumb'			=> $s->screenshot,
 				'splash'		=> $s->splash,

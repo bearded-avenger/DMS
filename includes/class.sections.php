@@ -36,6 +36,7 @@ class PageLinesSection {
 				'markup'			=> null, // needs to be null for overriding
 				'workswith'		 	=> array('content'),
 				'description' 		=> null, 
+				'isolate'			=> array(),
 				'required'			=> null,
 				'version'			=> 'all', 
 				'base_url'			=> PL_SECTION_ROOT,
@@ -70,7 +71,7 @@ class PageLinesSection {
      *
      * @since   ...
      *
-     * @uses    pageliens_register_sections
+     * @uses    pagelines_register_sections
      * @uses    section_install_type
      * @uses    PL_ADMIN_ICONS
      * @uses    PL_ADMIN_IMAGES
@@ -109,11 +110,19 @@ class PageLinesSection {
 		$this->settings['classes'] = ( !empty( $this->sinfo['classes'] ) ) ? $this->format_classes( $this->sinfo['classes'] ) : $this->settings['classes'];
 		$this->settings['p_ver'] = $this->sinfo['version'];
 
-		// deprecated v3
-		$this->special_classes = ''; // special classes for wrapper
-		
-		$this->wrapper_classes = array();
 
+		/*
+		 * SECTION PAGE ISOLATION
+		 */
+			$this->isolate = ( !empty( $this->sinfo['isolate'] ) ) ? $this->sinfo['isolate'] : $this->settings['isolate'];
+		/*
+		 * SECTION WRAPPER CLASSES
+		 */
+			$this->wrapper_classes = array();
+
+		/*
+		 * STANDARD IMAGES
+		 */
 		$this->icon = $this->settings['icon'] = ( is_file( sprintf( '%s/icon.png', $this->base_dir ) ) ) ? sprintf( '%s/icon.png', $this->base_url ) : PL_ADMIN_ICONS . '/leaf.png';
 	
 		if( is_file( sprintf( '%s/thumb.png', $this->base_dir ) ) ){
@@ -130,6 +139,17 @@ class PageLinesSection {
 			$this->splash = $this->settings['splash'] = PL_ADMIN_IMAGES . '/thumb-default.png';
 		}
 
+		$this->deprecated_setup();
+		
+		load_plugin_textdomain($this->id, false, sprintf( 'pagelines-sections/%s/lang', $this->id ) );
+		
+
+	}
+	
+	function deprecated_setup(){
+		
+		$this->special_classes = ''; //--> deprecated in v3, used in NavBar
+		
 		$this->optionator_default = array(
 			'clone_id'	=> 1,
 			'active'	=> true, 
@@ -137,9 +157,6 @@ class PageLinesSection {
 			'type'		=> ''
 		);
 		
-		load_plugin_textdomain($this->id, false, sprintf( 'pagelines-sections/%s/lang', $this->id ) );
-		
-
 	}
 	
 	function prefix( $clone_id = false ){

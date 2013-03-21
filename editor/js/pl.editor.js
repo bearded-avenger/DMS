@@ -390,7 +390,7 @@
 			
 			list = this
 		
-			panel.find( '.x-item' ).draggable({
+			panel.find( '.x-item:not(.x-disable)' ).draggable({
 					appendTo: "body"
 				, 	helper: "clone"
 				, 	cursor: "move" 

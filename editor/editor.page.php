@@ -156,6 +156,15 @@ class PageLinesPage {
 		
 	}
 	
+	function is_posts_page(){
+		
+		if ( is_home() || is_search() || is_archive() || is_category() ) 
+			return true;
+		else 
+			return false;
+		
+	}
+	
 
 }
 

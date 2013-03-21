@@ -3,9 +3,10 @@
 	Section: Posts Info
 	Author: PageLines
 	Author URI: http://www.pagelines.com
-	Description: Shows information about posts being viewed (e.g. "Currently Viewing Archives from...")
+	Description: Shows information about posts being viewed (e.g. "Currently Viewing Archives from...") Only works on pages that include multiple posts like categories, etc.. 
 	Class Name: PageLinesPostsInfo
 	Workswith: main
+	Isolate: posts_pages
 	Filter: component
 */
 

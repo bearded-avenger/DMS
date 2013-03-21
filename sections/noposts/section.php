@@ -6,15 +6,10 @@
 	Description: Shown when no posts or 404 is returned
 	Class Name: PageLinesNoPosts
 	Workswith: 404_page
+	Isolate: 404_page
 	Filter: misc
 */
 
-/**
- * No Posts Section
- *
- * @package PageLines Framework
- * @author PageLines
- */
 class PageLinesNoPosts extends PageLinesSection {
 
 	/**
