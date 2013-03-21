@@ -265,7 +265,7 @@ class EditorInterface {
 
 	function pagelines_editor_activate(){
 		?>
-			<div class="toolbox-activate"><i class="icon-off"></i> <span class="txt">Activate PageLines Editor</span></span></div>
+			<div id="toolbox-activate" class="toolbox-activate"><i class="icon-off"></i> <span class="txt">Activate PageLines Editor</span></span></div>
 
 		<?php
 	}

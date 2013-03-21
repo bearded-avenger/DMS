@@ -55,7 +55,7 @@
 			$(".btn-action").on("click.actionButton", function(e) {
 			
 				e.preventDefault()
-				
+		
 				var btn = $(this)
 				, 	btnAction = btn.data('action')
 				
