@@ -127,12 +127,12 @@ function pagelines_special_content_wrap_finish_after_content(){
  *
  * @uses    pagelines_default_widget
  */
-function pagelines_draw_sidebar($id, $name, $default = null, $element = 'ul'){
+function pagelines_draw_sidebar($id, $name = '', $default = null, $element = 'ul'){
 	
 	printf('<%s id="%s" class="sidebar_widgets fix">', $element, 'list_'.$id);
 	
-	if (!dynamic_sidebar($name))
-		pagelines_default_widget( $id, $name, $default); 
+	if ( !dynamic_sidebar($id) )
+		pagelines_default_widget( $id, $default); 
 	
 	printf('</%s>', $element);
 
@@ -152,7 +152,14 @@ function pagelines_draw_sidebar($id, $name, $default = null, $element = 'ul'){
  * @uses    pagelines
  * @todo Finish paramater definitions
  */
-function pagelines_default_widget($id, $name, $default){
+function pagelines_default_widget($id, $default){
+	
+	global $wp_registered_sidebars;		
+	if( isset($wp_registered_sidebars[ $id ]) && isset($wp_registered_sidebars[ $id ]['name']) )
+		$name = $wp_registered_sidebars[ $id ]['name'];
+	else 
+		$name = 'Widgetized Area';
+	
 	if(isset($default) && !pagelines('sidebar_no_default')):
 	
 		get_template_part( $default ); 
@@ -166,7 +173,7 @@ function pagelines_default_widget($id, $name, $default){
 			<p class="fix">This is your <?php echo $name;?> but it needs some widgets!<br/> Easy! Just add some content to it in your <a href="<?php echo admin_url('widgets.php');?>">widgets panel</a>.	
 			</p>
 			<p>
-				<a href="<?php echo admin_url('widgets.php');?>" class="button"><?php _e('Add Widgets &rarr;', 'pagelines');?></a>
+				<a href="<?php echo admin_url('widgets.php');?>" class="btn"><i class="icon-retweet"></i> <?php _e('Add Widgets &rarr;', 'pagelines');?></a>
 			</p>
 		
 		</div>

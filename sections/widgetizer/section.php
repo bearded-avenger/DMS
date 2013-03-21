@@ -1,0 +1,86 @@
+<?php
+/*
+	Section: Widgetizer
+	Author: PageLines
+	Author URI: http://www.pagelines.com
+	Description: Place this section wherever you like and select a widgetized area (configured in admin) for it to use.
+	Class Name: PageLinesWidgetizer	
+	Filter: widgets
+*/
+
+/**
+ * Post Author Section
+ *
+ * @package PageLines Framework
+ * @author PageLines
+ */
+class PageLinesWidgetizer extends PageLinesSection {
+
+
+	function section_opts(){
+	
+		
+	
+		$opts = array(
+			array(
+				'key'	=> 'widgetizer_area', 
+				'type'	=> 'select', 
+				'opts'	=> $this->get_sidebar_select(),
+				'title'	=> 'Select Widgetized Area', 
+				'label'		=>	'Select widgetized area',
+				'help'		=> "Select the widgetized area you would like to use with this instance of Widgetizer.",
+			),
+			array(
+				'key'	=> 'widgetizer_help', 
+				'type'	=> 'link', 
+				'url'	=> admin_url( 'widgets.php' ),
+				'title'	=> 'Widgetized Areas Help', 
+				'label'		=>	'<i class="icon-retweet"></i> Edit Widgetized Areas',
+				'help'		=> "This section uses widgetized areas that are created and edited in inside your admin.",
+			)
+		); 
+		
+		if(!class_exists('CustomSidebars')){
+			$opts[] = array(
+				'key'	=> 'widgetizer_custom_sidebars', 
+				'type'	=> 'link', 
+				'url'	=> 'http://wordpress.org/extend/plugins/custom-sidebars/',
+				'title'	=> 'Get Custom Sidebars', 
+				'label'		=>	'<i class="icon-external-link"></i> Check out plugin',
+				'help'		=> "We have detected that you don't have the Custom Sidebars plugin installed. We recommend you install this plugin to create custom widgetized areas on demand.",
+			);
+		}
+		
+		return $opts;
+	}
+
+	function get_sidebar_select(){
+
+
+		global $wp_registered_sidebars;		
+		$allsidebars = $wp_registered_sidebars;
+		ksort($allsidebars);
+		
+		$sidebar_select = array(); 
+		foreach($allsidebars as $key => $sb){
+			
+			$sidebar_select[ $sb['id'] ] = array( 'name' => $sb['name'] ); 
+		}
+		
+		return $sidebar_select;
+	}
+
+	/**
+	* Section template.
+	*/
+   function section_template() { 
+	$area = $this->opt('widgetizer_area');
+	
+	if($area)
+		pagelines_draw_sidebar( $area ); 
+	else 
+		echo setup_section_notify( $this );
+
+	}
+
+}

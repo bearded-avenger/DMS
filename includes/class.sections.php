@@ -860,46 +860,44 @@ function get_unavailable_section_areas(){
 	
 }
 
+
 /**
  * Setup Section Notify
- *
- * @since   ...
- *
- * @param   $section
- * @param   $text
- * @param   null $url
- * @param   null $ltext
- * @param   null $tab
- *
- * @return  string
  */
-function setup_section_notify( $section, $text, $url = null, $ltext = null, $tab = null){
+function setup_section_notify( $section, $text = '', $user_url = null, $ltext = null){
 	
 	
 	if(current_user_can('edit_themes')){
 	
 		$banner_title = sprintf('<strong><i class="icon-pencil"></i> %s</strong>', $section->name);
 		
-		$tab = ( !isset( $tab) && isset($section->tabID)) ? $section->tabID : $tab;
+		if(pl_has_editor()){
+			$url = (isset($user_url)) ? $user_url : '#';
+			$class = (isset($user_url)) ? '' : 's-control section-edit';
+		} else {
+			$class = '';
+			$url = (isset($url)) ? $url : pl_meta_set_url( $tab );
+		}
 		
-		$url = (isset($url)) ? $url : pl_meta_set_url( $tab );
 		
-		$link_text = (isset($ltext)) ? $ltext : __('Set Meta', 'pagelines');
+		$link_text = (isset($ltext)) ? $ltext : sprintf(__('Configure %s <i class="icon-arrow-right"></i>', 'pagelines'), $section->name);
 		
-		$link = sprintf('<a href="%s">%s</a>', $url, $link_text . ' &rarr;');
+		$link = sprintf('</br><a href="%s" class="btn btn-mini %s">%s</a>', $url, $class, $link_text);
 		
-		return sprintf('<div class="setup-section"><div class="setup-section-pad">%s <br/><small class="banner_text subhead">%s %s</small></div></div>', $banner_title, $text, $link);
+		$text = ($text != '') ? $text : __('Configure this section');
+		
+		return sprintf(
+			'<div class="setup-section"><div class="setup-section-pad">%s <br/><small class="banner_text subhead">%s %s</small></div></div>', 
+			$banner_title, 
+			$text, 
+			$link
+		);
 	}
 	
 }
 
 /**
  * Splice Section Slug
- *
- * @param   $slug
- *
- * @return  array
- * @TODO document
  */
 function splice_section_slug( $slug ){
 	
