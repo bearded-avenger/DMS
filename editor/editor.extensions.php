@@ -110,8 +110,8 @@ class EditorExtensions {
 			'name'			=> 'No Name',
 			'filter'		=> 'layout',
 			'description'	=> 'Layout section',
-			'screenshot'	=>  PL_ADMIN_IMAGES . '/thumb-default.png',
-			'splash'		=> PL_ADMIN_IMAGES . '/thumb-default.png',
+			'screenshot'	=>  PL_IMAGES . '/thumb-missing.png',
+			'splash'		=> PL_IMAGES . '/splash-missing.png',
 			'class_name'	=> '',
 			'map'			=> ''
 

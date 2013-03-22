@@ -483,12 +483,14 @@ class EditorInterface {
 					}
 
 					$clip = ( isset($t['clip']) ) ? sprintf('<span class="clip-desc">%s</span>', $t['clip']) : '';
+					
+					$tools = ( isset($t['tools']) ) ? sprintf('<span class="clip-tools">%s</span>', $t['tools']) : '';
 
 
 					printf(
 						'<div id="%s" class="tab-panel" data-panel="%s" data-type="%s">
 							<div class="tab-panel-inner">
-								<legend>%s %s</legend>
+								<legend>%s %s %s</legend>
 								<div class="panel-tab-content">%s</div>
 							</div>
 						</div>',
@@ -497,6 +499,7 @@ class EditorInterface {
 						$t['type'],
 						$t['name'],
 						$clip,
+						$tools,
 						$content
 					);
 				}
