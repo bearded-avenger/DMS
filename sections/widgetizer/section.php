@@ -5,7 +5,7 @@
 	Author URI: http://www.pagelines.com
 	Description: Place this section wherever you like and select a widgetized area (configured in admin) for it to use.
 	Class Name: PageLinesWidgetizer	
-	Filter: widgets
+	Filter: widgetized
 */
 
 /**
