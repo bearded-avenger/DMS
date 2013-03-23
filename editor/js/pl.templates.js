@@ -33,34 +33,25 @@ $.plTemplates = {
 				$(".delete-template").on("click.deleteTemplate", function(e) {
 
 					e.preventDefault()
-
+					
 					var key = $(this).closest('.list-item').data('key')
-					, 	confirmText = "<h3>Are you sure?</h3><p>This will delete this template configuration.</p>"
-					,	theData = {
-								action: 'pl_template_action'
-							,	mode: 'delete_template'
+					,	args = {
+								mode: 'templates'
+							,	run: 'delete'
+							,	confirm: true
+							,	confirmText: '<h3>Are you sure?</h3><p>This will delete this template configuration.</p>'
+							,	savingText: 'Deleting Template'
+							,	refresh: false
+							, 	log: true
 							,	key: key
-							,	page: $.pl.config.pageID
-						}
-
-					// modal
-					bootbox.confirm( confirmText, function( result ){
-						if(result == true){
-
-							$.ajax( {
-								type: 'POST'
-								, url: ajaxurl
-								, data: theData	
-								, beforeSend: function(){
+							, 	beforeSend: function(){
 									$( '.template_key_'+key ).fadeOut(300, function() { 
 										$(this).remove()
 									})
 								}
-							})
-
 						}
 
-					})
+					var response = $.plAJAX.run( args )
 
 				})
 
@@ -70,28 +61,26 @@ $.plTemplates = {
 					e.preventDefault()
 
 					var form = $(this).formParams()
-					,	theData = {
-								action: 'pl_template_action'
-							, 	mode: 'save_template'
-							, 	map: $.pageBuilder.getCurrentMap()
-							,	page: $.pl.config.pageID
+					,	args = {
+								mode: 'templates'
+							,	run: 'save'
+							,	confirm: false
+							,	savingText: 'Saving Template'
+							,	refreshText: 'Successfully Saved. Refreshing page'
+							,	refresh: true
+							, 	log: true
+							,	map: $.pageBuilder.getCurrentMap()
+							, 	beforeSend: function(){
+									$( '.template_key_'+key ).fadeOut(300, function() { 
+										$(this).remove()
+									})
+								}
 						}
-					,	theData = $.extend({}, theData, form)
+					,	args = $.extend({}, args, form) // add form fields to post
+						
 
-					$.ajax( {
-						type: 'POST'
-						, url: ajaxurl
-						, data: theData	
-						, beforeSend: function(){
+					var response = $.plAJAX.run( args )
 
-							bootbox.dialog( $.plAJAX.dialogText('Saving Template'), [], {animate: false})
-						}
-						, success: function( response ){
-							bootbox.dialog( $.plAJAX.dialogText('Success! Reloading Page'), [], {animate: false})
-							location.reload()
-
-						}
-					})
 
 				})
 
@@ -100,41 +89,34 @@ $.plTemplates = {
 					e.preventDefault()
 
 					var that = this
-					, 	theTemplate = $(this).closest('.list-item').data('key')
+					,	key = $(this).closest('.list-item').data('key')
 					,	theType = $(this).data('posttype')
-					,	theData = {
-								action: 'pl_template_action'
-							, 	mode: 'type_default'
+					,	args = {
+								mode: 'templates'
+							,	run: 'type_default'
+							,	confirm: false
+							,	refresh: false
+							, 	log: true
 							, 	field: $(this).data('field')
-							, 	key: theTemplate
-							,	pageID: $.pl.config.pageID
-							,	typeID: $.pl.config.typeID
-						}
+							,	key: key
+							, 	success: function(){
+									$(that)
+										.closest('.y-list')
+										.find('.btn-tpl-default')
+										.removeClass('btn-success')
+										.html('Set as "'+theType+'" default')
 
-					$.ajax( {
-						type: 'POST'
-						, url: ajaxurl
-						, data: theData	
-						, beforeSend: function(){
+									$(that)
+										.removeClass('set-default-tpl')
+										.addClass('btn-success')
+										.html('Active "'+theType+'" default')
 
-							$('.btn-saving').addClass('active')
+								}
 						}
-						, success: function( response ){
-							
-							$(that)
-								.closest('.y-list')
-								.find('.btn-tpl-default')
-								.removeClass('btn-success')
-								.html('Set as "'+theType+'" default')
-								
-							$(that)
-								.removeClass('set-default-tpl')
-								.addClass('btn-success')
-								.html('Active "'+theType+'" default')
+						
 
-							$('.btn-saving').removeClass('active')
-						}
-					})
+					var response = $.plAJAX.run( args )
+
 
 				})
 			

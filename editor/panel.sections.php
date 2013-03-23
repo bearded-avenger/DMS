@@ -13,7 +13,7 @@ class PageLinesSectionsPanel{
 	}
 	
 	function scripts(){
-		
+		wp_enqueue_script( 'pl-js-sections', $this->url . '/js/pl.sections.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
 	
 	function toolbar( $toolbar ){
@@ -27,7 +27,7 @@ class PageLinesSectionsPanel{
 					'name'	=> 'Your Sections',
 					'icon'	=> 'icon-random',
 					'clip'	=> 'Drag on to page to add',
-					'tools'	=> '<a href="#" class="btn btn-mini btn-rld-sections"><i class="icon-repeat"></i> Reload Sections</a>',
+					'tools'	=> '<a href="#" class="btn btn-mini btn-reload-sections"><i class="icon-repeat"></i> Reload Sections</a>',
 					'type'	=> 'call',
 					'call'	=> array(&$this, 'add_new_callback'),
 					'filter'=> '*'

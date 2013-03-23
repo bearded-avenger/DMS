@@ -12,6 +12,7 @@ function pl_editor_actions(){
 	$mode = $post['mode'];
 	$run = $post['run'];
 	$pageID = $post['pageID'];
+	$typeID = $post['pageID'];
 	
 	if( $mode == 'themes'){
 		
@@ -35,7 +36,37 @@ function pl_editor_actions(){
 
 			$map->set_new_local_template( $pageID, $new_tpl_map );
 		
-		}	
+		} elseif ( $run == 'delete'){
+			
+			$key = ( isset($post['key']) ) ? $post['key'] : false;
+
+			$tpl->delete_template( $key );
+			
+		} elseif ( $run == 'save' ){
+			
+			$template_map = $post['map']['template'];
+
+			$name = (isset($post['template-name'])) ? $post['template-name'] : 'Template (No Name)';
+			$desc = (isset($post['template-desc'])) ? $post['template-desc'] : 'No description.';
+
+			$tpl->create_template($name, $desc, $template_map);
+			
+		} elseif( $run == 'type_default' ){
+
+
+			$storage = new PageLinesData;
+			$field = $post['field'];
+			$key = $post['key'];
+			$storage->meta_update( $typeID, $post['field'], $post['key'] );
+			
+			$response['result'] = $storage->meta( $typeID, $post['field'] );
+			
+		
+			
+			$response['result'] = $key;
+			
+
+		}
 	}
 	
 

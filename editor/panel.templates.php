@@ -60,11 +60,11 @@ class EditorTemplates {
 			if(!$this->page->is_special()){
 
 				if($index === $this->default_tpl){
-					$class = 'btn-success';
+					$class = 'set-default-tpl btn-success';
 					$text = 'Active';
 				} else {
 					$class = 'set-default-tpl';
-					$text = 'Set as';
+					$text = 'Make';
 				}
 
 				$post_type_default = sprintf(

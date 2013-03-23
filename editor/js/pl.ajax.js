@@ -23,6 +23,8 @@
 					,	refresh: 	false
 					,	refreshText: 'Refreshing page...'
 					, 	toolboxOpen: $.toolbox('open')
+					,	beforeSend: ''
+					, 	success: ''
 					
 				}
 			
@@ -68,6 +70,9 @@
 					
 						$('.btn-saving').addClass('active')
 
+						if ( $.isFunction( theData.beforeSend ) )
+							theData.beforeSend.call( this )
+
 						if( theData.refresh ){
 							$.toolbox('hide')
 							bootbox.dialog( that.dialogText( theData.savingText ), [ ], {animate: false})
@@ -76,12 +81,22 @@
 					
 					}
 				, 	success: function( response ){
+					
+						if ( $.isFunction( theData.success ) )
+							theData.success.call( this, response )
 
 						that.runSuccess( response )
 
 						if( theData.refresh ){
+							
 							bootbox.dialog( that.dialogText( theData.refreshText ), [ ], {animate: false})
 							location.reload()
+							
+						} else {
+							
+							if( theData.toolboxOpen )
+								$('body').toolbox('show')
+							
 						}
 						
 					}
