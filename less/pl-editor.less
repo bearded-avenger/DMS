@@ -347,33 +347,29 @@
 
 	.pl-refresh-banner{
 		display: block; 
-		
-		text-align: center; 
-		padding: 5px;
-		margin: 10px;
-		box-shadow: 0 1px 4px rgba(0,0,0,.4);
-
+		padding: 20px;
+		text-align: center;
 		font-weight: bold;
 		color: @textColorSubtle;
-		.buttonBackground(@baseContrastSlight, @baseContrastMore);
-		border: 1px solid @baseDarkerMore;
-	
-		.banner-refresh{
-			display: none;
-			margin-top: 8px;
-		}
-		.banner-frame{
-			box-shadow: 1px 1px 0 rgba(255,255,255.4);
-			max-width: 130px;
-			margin-bottom: 8px;
-			display: inline-block;
-			img{
-				max-width: 100%;
+	  	#pattern > .striped( @baseContrastSlight );
+		.banner-content{
+			width: 130px;
+			margin: 0 auto;
+			.btn, 
+			.banner-frame{
+				box-shadow: inset 1px 1px 0 rgba(255,255,255.2), 1px 1px 0 rgba(255,255,255.4);
+				border:1px solid rgba(0,0,0,.3);
+			}
+			.banner-frame{
+				max-width: 130px;
+				margin-bottom: 8px;
+				display: inline-block;
+				img{
+					max-width: 100%;
+				}
 			}
 		}
-		.banner-txt{
-			margin: 5px 0 0;
-		}
+		
 	}
 }
 

@@ -435,27 +435,59 @@
 			var name = element.data('name')
 			, 	image = element.data('image')
 			, 	imageHTML = sprintf('<div class="pl-touchable banner-frame"><div class="pl-vignette pl-touchable-vignette"><img class="section-thumb" src="%s" /></div></div>', image )
-			, 	text = sprintf('<div class="banner-title">%s</div>', name )
-			, 	theHTML = sprintf('<div class="pl-refresh-banner">%s %s</div>', imageHTML, text)
+			, 	theHTML = sprintf('<div class="pl-refresh-banner"><div class="banner-content">%s</div></div>', imageHTML	)
 			
 			
 			element
 				.removeAttr("style")
 				.html(theHTML)
 				
-			if(!element.hasClass('ui-draggable-dragging'))
+			if( !element.hasClass('ui-draggable-dragging') )
 				element.hide()
 				
 		}
 		, switchOnStop: function( element ){
-			element.addClass('pl-section')
+			
+			var name = element.data('name')
+			,	controls = $('.pl-section-controls').first().clone()
+			, 	btns = sprintf('<div class="btns"><a href="#" class="btn btn-mini btn-block banner-refresh"><i class="icon-repeat"></i> Refresh to Load</a></div>')
+				
+			// Set controls name from new
+			controls
+				.find('.ctitle')
+				.html(name)
+				
+			// Remove controls that only work once section fully loaded
+			controls
+				.find('.s-loaded')
+				.hide()
+			
+			element
+				.prepend( controls )
+				.addClass('pl-section')
+				.find('.banner-content')
+				.append( btns )
 			
 			$.pageBuilder.handleCloneData( element )
 			
 			if(!element.hasClass('ui-draggable-dragging'))
 				element.show()
+				
+			// reload events
+			$('.s-control')
+				.off('click.sectionControls')
 			
-			$.pageBuilder.storeConfig(true)
+			$.pageBuilder.sectionControls()
+			
+			$('.banner-refresh')
+				.off()
+				.on('click', function(e){ 
+					e.preventDefault()
+					location.reload() 
+				})
+				
+			// Store new page config
+			$.pageBuilder.storeConfig()
 		}
 		
 	}

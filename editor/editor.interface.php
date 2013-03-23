@@ -533,7 +533,7 @@ class EditorInterface {
 		$sid = $s->id;
 		ob_start();
 		?>
-		<div id="<?php echo $sid;?>_control" class="pl-section-controls fix" >
+		<div class="pl-section-controls fix" >
 			<div class="controls-left">
 				<a title="Section Decrease Width" href="#" class="s-control s-control-icon section-decrease"><i class="icon-caret-left"></i></a>
 				<span title="Width" class="s-control section-size"></span>
@@ -544,11 +544,11 @@ class EditorInterface {
 				<a title="Force New Row" href="#" class="s-control s-control-icon section-start-row"><i class="icon-double-angle-left"></i></a>
 			</div>
 			<div class="controls-right">
-				<a title="Edit Section" href="#" class="s-control s-control-icon section-edit"><i class="icon-pencil"></i></a>
-				<a title="Clone Section" href="#" class="s-control s-control-icon section-clone"><i class="icon-copy"></i></a>
+				<a title="Edit Section" href="#" class="s-control s-control-icon section-edit s-loaded"><i class="icon-pencil"></i></a>
+				<a title="Clone Section" href="#" class="s-control s-control-icon section-clone s-loaded"><i class="icon-copy"></i></a>
 				<a title="Delete Section" href="#" class="s-control s-control-icon section-delete"><i class="icon-remove"></i></a>
 			</div>
-			<div class="controls-title"><?php echo $s->name;?> <span class="title-desc"><?php echo $clone_desc;?></span></div>
+			<div class="controls-title"><span class="ctitle"><?php echo $s->name;?></span> <span class="title-desc"><?php echo $clone_desc;?></span></div>
 		</div>
 		<?php
 
