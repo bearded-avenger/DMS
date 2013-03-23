@@ -18,7 +18,7 @@ class EditorXList{
 		
 	}
 	
-	function get_x_list_item( $args ){
+	function defaults(){
 		$d = array(
 			'id'			=> '',
 			'class_array' 	=> array(),
@@ -26,9 +26,18 @@ class EditorXList{
 			'thumb'			=> '',
 			'splash'		=> '',
 			'name'			=> 'No Name', 
-			'sub'			=> false
+			'sub'			=> false,
+			'actions'		=> array(),
+			'format'		=> 'touchable',
+			'icon'			=> ''
 		);
-		$args = wp_parse_args($args, $d);
+		
+		return $d;
+	}
+	
+	function get_x_list_item( $args ){
+		
+		$args = wp_parse_args($args, $this->defaults());
 
 		$classes = join(' ', $args['class_array']);
 
@@ -43,31 +52,70 @@ class EditorXList{
 		
 		$sub = ($args['sub']) ? sprintf('<div class="x-item-sub">%s</div>', $args['sub']) : ''; 
 
+		$thumb = ($args['thumb'] != '') ? sprintf("<div class='x-item-frame'><div class='pl-vignette'>%s</div></div>", $img) : '';
+
+		$thumb = ($args['format'] == 'media' && $args['icon'] != '') ? sprintf("<div class='img'><i class='icon-3x %s'></i></div>", $args['icon']) : '';
+
+		$action_output = $this->get_action_out($args['actions']); 
+		
+		$pad_class = ($args['format'] == 'media') ? 'media fix' : '';
+		
+		$xID = ($args['id'] != '') ? sprintf("data-extend-id='%s'", $args['id']) : ''; 
+
 		$list_item = sprintf(
-			"<section class='x-item x-extension %s %s' %s data-content='%s' data-extend-id='%s'>
-				<div class='x-item-frame'>
-					<div class='pl-vignette'>
+			"<section class='x-item x-extension %s %s' %s %s>
+				<div class='x-item-pad %s'>
+					%s
+					<div class='x-item-text bd'>
+						<span class='x-name'>%s</span>
+						%s 
 						%s
 					</div>
-				</div>
-				<div class='x-item-text'>
-					%s
-					%s 
+					
 				</div>
 			</section>",
 			'filter-'.$args['id'],
 			$classes,
 			$datas,
-			$popover_content,
-			$args['id'],
-			$img,
+			$xID,
+			$pad_class,
+			$thumb,
 			$args['name'],
-			$sub
+			$sub, 
+			$action_output
 		);
 
 		return $list_item;
 
 	}
 	
+	function get_action_out( $actions ){
+	
+		if(!empty($actions)){
+	
+			foreach($actions as $action){
+			
+				$action = wp_parse_args($action, $this->defaults());
+			
+				$action_classes = join(' ', $action['class_array']);
+			
+				$action_datas = '';
+				foreach($action['data_array'] as $field => $val){
+					$action_datas .= sprintf("data-%s='%s' ", $field, $val);
+				}
+			
+				$action_name = $action['name'];
+			
+				$action_output .= sprintf('<a class="btn btn-mini %s" %s>%s</a> ', $action_classes, $action_datas, $action_name); 
+			
+			}
+			return sprintf('<div class="x-item-actions">%s</div>', $action_output);
+			
+		} else
+			return '';
+		
+		
+		
+	}
 	
 }

@@ -89,6 +89,10 @@
 
 						if( theData.refresh ){
 							
+							// reopen toolbox after load if it was shown
+							if( theData.toolboxOpen )
+								store.set('toolboxShown', true)
+								
 							bootbox.dialog( that.dialogText( theData.refreshText ), [ ], {animate: false})
 							location.reload()
 							

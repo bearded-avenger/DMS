@@ -22,7 +22,7 @@ $.plTemplates = {
 						,	refresh: true
 						,	refreshText: 'Successfully Loaded. Refreshing page'
 						, 	log: true
-						,	key: $(this).closest('.list-item').data('key')
+						,	key: $(this).closest('.x-item').data('key')
 					}
 
 					var response = $.plAJAX.run( args )
@@ -34,7 +34,7 @@ $.plTemplates = {
 
 					e.preventDefault()
 					
-					var key = $(this).closest('.list-item').data('key')
+					var key = $(this).closest('.x-item').data('key')
 					,	args = {
 								mode: 'templates'
 							,	run: 'delete'
@@ -70,11 +70,6 @@ $.plTemplates = {
 							,	refresh: true
 							, 	log: true
 							,	map: $.pageBuilder.getCurrentMap()
-							, 	beforeSend: function(){
-									$( '.template_key_'+key ).fadeOut(300, function() { 
-										$(this).remove()
-									})
-								}
 						}
 					,	args = $.extend({}, args, form) // add form fields to post
 						
@@ -89,7 +84,7 @@ $.plTemplates = {
 					e.preventDefault()
 
 					var that = this
-					,	key = $(this).closest('.list-item').data('key')
+					,	key = $(this).closest('.x-item').data('key')
 					,	theType = $(this).data('posttype')
 					,	args = {
 								mode: 'templates'
@@ -101,8 +96,8 @@ $.plTemplates = {
 							,	key: key
 							, 	success: function(){
 									$(that)
-										.closest('.y-list')
-										.find('.btn-tpl-default')
+										.closest('.x-list')
+										.find('.set-default-tpl')
 										.removeClass('btn-success')
 										.html('Set as "'+theType+'" default')
 

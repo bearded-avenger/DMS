@@ -53,54 +53,85 @@ class EditorTemplates {
 	
 	function user_templates(){
 	
-		
+		$this->xlist = new EditorXList; 
 		$templates = '';
+		$list = '';
 		foreach( $this->get_user_templates() as $index => $template){
 		
+			
+			$classes = array('x-templates'); 
+			$classes[] = sprintf('template_key_%s', $index); 
+			
+			
+			$actions = array();
+			
+			
+			$actions[] = array(
+							'name'			=> 'Load Template',
+							'class_array'	=> array('load-template', 'btn-primary')
+						);
+						
 			if(!$this->page->is_special()){
 
-				if($index === $this->default_tpl){
-					$class = 'set-default-tpl btn-success';
-					$text = 'Active';
-				} else {
-					$class = 'set-default-tpl';
-					$text = 'Make';
-				}
-
-				$post_type_default = sprintf(
-					'<a class="btn btn-mini %s btn-tpl-default" data-type="%s" data-field="%s" data-posttype="%s">%s "%s" Default</a>', 
-					$class,
-					$this->page->type, 
-					$this->default_template_slug,
-					$this->page->type_name,
-					$text,
-					$this->page->type_name
-				);
-			} else
-				$post_type_default = '';
-		
-			$templates .= sprintf(
-							'<div class="list-item template_key_%s" data-key="%s">
-								<div class="list-item-pad fix">
-									<div class="title">%s</div>
-									<div class="desc">%s</div>
-									<div class="btns">
-										<a class="btn btn-mini btn-primary load-template">Load Template</a>
-										%s
-										<a class="btn btn-mini delete-template">Delete</a>
-									</div>
-								</div>
-							</div>', 
-							$index,
-							$index,
-							$template['name'], 
-							$template['desc'],
-							$post_type_default
+				$active = ($index === $this->default_tpl) ? 'btn-success' : '';
+				$text = ($index === $this->default_tpl) ? 'Active' : 'Make';
+				
+				$name = sprintf('%s "%s" Default', $text, $this->page->type_name); 
+				
+				$actions[]	= array(
+								'name'	=> $name,
+								'class_array'	=> array('set-default-tpl', $active), 
+								'data_array' => array(
+									'type'	=> $this->page->type,
+									'field'	=> $this->default_template_slug,
+									'posttype'	=> $this->page->type_name
+								)
+							);
+			} 
+			
+			$actions[] = array(
+							'name'			=> 'Delete',
+							'class_array'	=> array('delete-template')
 						);
+			
+			
+			$args = array(
+				'class_array' 	=> $classes,
+				'data_array'	=> array(
+					'key' 	=> $index
+				),
+				'name'			=> $template['name'],
+				'sub'			=> $template['desc'],
+				'actions'		=> $actions,
+				'format'		=> 'media',
+				'icon'			=> 'icon-copy'
+			);
+
+			$list .= $this->xlist->get_x_list_item( $args );
+		
+			
+			// $templates .= sprintf(
+			// 				'<div class="x-item template_key_%s" data-key="%s">
+			// 					<div class="list-item-pad fix">
+			// 						<div class="title">%s</div>
+			// 						<div class="desc">%s</div>
+			// 						<div class="btns">
+			// 							<a class="btn btn-mini btn-primary load-template">Load Template</a>
+			// 							%s
+			// 							<a class="btn btn-mini delete-template">Delete</a>
+			// 						</div>
+			// 					</div>
+			// 				</div>', 
+			// 				$index,
+			// 				$index,
+			// 				$template['name'], 
+			// 				$template['desc'],
+			// 				$post_type_default
+			// 			);
 			
 		}
 		
-		printf('<div class="y-list">%s</div>', $templates);
+		printf('<div class="x-list">%s</div>', $list);
 		
 	}
 	

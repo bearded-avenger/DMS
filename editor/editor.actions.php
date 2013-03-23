@@ -57,13 +57,7 @@ function pl_editor_actions(){
 			$storage = new PageLinesData;
 			$field = $post['field'];
 			$key = $post['key'];
-			$storage->meta_update( $typeID, $post['field'], $post['key'] );
-			
-			$response['result'] = $storage->meta( $typeID, $post['field'] );
-			
-		
-			
-			$response['result'] = $key;
+			$storage->meta_update( $typeID, $field, $key );
 			
 
 		}
