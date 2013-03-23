@@ -13,8 +13,12 @@ class EditorTemplates {
 		
 		if($plpg && $plpg != ''){
 			$this->page = $plpg;
-			$this->default_tpl = $this->data->meta( $plpg->typeid, $this->default_template_slug );
+			$this->default_type_tpl = $this->data->meta( $plpg->typeid, $this->default_template_slug );
 		}
+		
+		$this->default_global_tpl = $this->data->opt( $this->default_template_slug );
+		
+		$this->default_tpl = ($this->default_type_tpl) ? $this->default_type_tpl : $this->default_global_tpl;
 		
 		$this->url = PL_PARENT_URL . '/editor';
 		
@@ -63,36 +67,37 @@ class EditorTemplates {
 			$classes[] = sprintf('template_key_%s', $index); 
 			
 			
-			$actions = array();
+			ob_start(); 
 			
+			?>
+			<div class="x-item-actions">
+				<button class="btn btn-mini btn-primary load-template">Load Template</button>
+				<button class="btn btn-mini delete-template">Delete</button>
+				<?php if(!$this->page->is_special()): 
+	
 			
-			$actions[] = array(
-							'name'			=> 'Load Template',
-							'class_array'	=> array('load-template', 'btn-primary')
-						);
-						
-			if(!$this->page->is_special()){
-
-				$active = ($index === $this->default_tpl) ? 'btn-success' : '';
-				$text = ($index === $this->default_tpl) ? 'Active' : 'Make';
+					$active = ($index == $this->default_type_tpl) ? 'btn-inverse' : '';
+					$text = ($index == $this->default_type_tpl) ? 'Active' : 'Set';
+					
+					$slug = $this->default_template_slug;
+					?>
+					<button class="btn btn-mini set-tpl <?php echo $active;?>" data-run="type" data-field="<?php echo $slug;?>"><?php echo $text; ?> Type Default</button>
+				<?php endif;
 				
-				$name = sprintf('%s "%s" Default', $text, $this->page->type_name); 
+				$active = ($index == $this->default_global_tpl) ? 'btn-inverse' : '';
+				$text = ($index == $this->default_global_tpl) ? 'Active' : 'Set';
+				?>
 				
-				$actions[]	= array(
-								'name'	=> $name,
-								'class_array'	=> array('set-default-tpl', $active), 
-								'data_array' => array(
-									'type'	=> $this->page->type,
-									'field'	=> $this->default_template_slug,
-									'posttype'	=> $this->page->type_name
-								)
-							);
-			} 
+				
+				<button class="btn btn-mini set-tpl <?php echo $active;?>" data-run="global" data-field="<?php echo $slug;?>"><?php echo $text; ?> Global Default</button>
+			</div>
 			
-			$actions[] = array(
-							'name'			=> 'Delete',
-							'class_array'	=> array('delete-template')
-						);
+			
+			<?php 
+			
+			$actions = ob_get_clean();
+			
+			
 			
 			
 			$args = array(
@@ -109,25 +114,7 @@ class EditorTemplates {
 
 			$list .= $this->xlist->get_x_list_item( $args );
 		
-			
-			// $templates .= sprintf(
-			// 				'<div class="x-item template_key_%s" data-key="%s">
-			// 					<div class="list-item-pad fix">
-			// 						<div class="title">%s</div>
-			// 						<div class="desc">%s</div>
-			// 						<div class="btns">
-			// 							<a class="btn btn-mini btn-primary load-template">Load Template</a>
-			// 							%s
-			// 							<a class="btn btn-mini delete-template">Delete</a>
-			// 						</div>
-			// 					</div>
-			// 				</div>', 
-			// 				$index,
-			// 				$index,
-			// 				$template['name'], 
-			// 				$template['desc'],
-			// 				$post_type_default
-			// 			);
+		
 			
 		}
 		

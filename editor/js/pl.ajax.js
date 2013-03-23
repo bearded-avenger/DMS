@@ -24,13 +24,13 @@
 					,	refreshText: 'Refreshing page...'
 					, 	toolboxOpen: $.toolbox('open')
 					,	beforeSend: ''
-					, 	success: ''
+					, 	postSuccess: ''
 					
 				}
 			
 			// merge args into theData, overwriting theData w/ args	
 			$.extend(theData, args)
-			
+				
 			if( theData.confirm ){
 				
 				if( theData.toolboxOpen )
@@ -61,7 +61,6 @@
 		, runAction: function( theData ){
 			
 			var that = this
-			
 			$.ajax( {
 					type: 'POST'
 				, 	url: ajaxurl
@@ -82,10 +81,7 @@
 					}
 				, 	success: function( response ){
 					
-						if ( $.isFunction( theData.success ) )
-							theData.success.call( this, response )
-
-						that.runSuccess( response )
+						that.runSuccess( theData, response )
 
 						if( theData.refresh ){
 							
@@ -107,13 +103,16 @@
 			}) 
 		}
 		
-		, runSuccess: function( response ){
+		, runSuccess: function( theData, response ){
 			var that = this
 			,	rsp	= $.parseJSON( response )
 			,	log = (rsp.post) ? rsp.post.log || false : ''
 			
 			if(log == 'true')
 				console.log(rsp)
+			
+			if ( $.isFunction( theData.postSuccess ) )
+				theData.postSuccess.call( this, rsp )
 			
 			that.ajaxSuccess(response)
 		}

@@ -262,6 +262,7 @@
 					itemSelector : '.x-item'
 					, layoutMode : layout
 					, sortBy: 'number'
+					, containerStyle: { position: 'relative', overflow: 'visible' }
 					, getSortData : {
 						number : function ( $elem ) {
 							return $elem.data('number');

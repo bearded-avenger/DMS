@@ -12,7 +12,7 @@ function pl_editor_actions(){
 	$mode = $post['mode'];
 	$run = $post['run'];
 	$pageID = $post['pageID'];
-	$typeID = $post['pageID'];
+	$typeID = $post['typeID'];
 	
 	if( $mode == 'themes'){
 		
@@ -51,13 +51,40 @@ function pl_editor_actions(){
 
 			$tpl->create_template($name, $desc, $template_map);
 			
-		} elseif( $run == 'type_default' ){
+		} elseif( $run == 'set_type' ){
 
 
 			$storage = new PageLinesData;
 			$field = $post['field'];
-			$key = $post['key'];
-			$storage->meta_update( $typeID, $field, $key );
+			$value = $post['value'];
+			
+			$previous_val = $storage->meta( $typeID, $field );
+			
+			if($previous_val == $value){
+				$storage->meta_update( $typeID, $field, false );
+			} else {
+				$storage->meta_update( $typeID, $field, $value );
+			}
+			
+			$response['result'] = $storage->meta( $typeID, $field );
+			
+
+		} elseif( $run == 'set_global' ){
+
+
+			$storage = new PageLinesData;
+			$field = $post['field'];
+			$value = $post['value'];
+			
+			$previous_val = $storage->opt( $field );
+			
+			if($previous_val == $value){
+				$storage->opt_update( $field, false );
+			} else {
+				$storage->opt_update( $field, $value );
+			}
+			
+			$response['result'] = $storage->opt( $field );
 			
 
 		}

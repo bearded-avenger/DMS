@@ -27,7 +27,7 @@ class EditorXList{
 			'splash'		=> '',
 			'name'			=> 'No Name', 
 			'sub'			=> false,
-			'actions'		=> array(),
+			'actions'		=> '',
 			'format'		=> 'touchable',
 			'icon'			=> ''
 		);
@@ -54,24 +54,25 @@ class EditorXList{
 
 		$thumb = ($args['thumb'] != '') ? sprintf("<div class='x-item-frame'><div class='pl-vignette'>%s</div></div>", $img) : '';
 
-		$thumb = ($args['format'] == 'media' && $args['icon'] != '') ? sprintf("<div class='img'><i class='icon-3x %s'></i></div>", $args['icon']) : '';
+		$icon = ($args['format'] == 'media' && $args['icon'] != '') ? sprintf("<div class='img rtimg'><i class='icon-3x %s'></i></div>", $args['icon']) : '';
 
-		$action_output = $this->get_action_out($args['actions']); 
-		
 		$pad_class = ($args['format'] == 'media') ? 'media fix' : '';
 		
 		$xID = ($args['id'] != '') ? sprintf("data-extend-id='%s'", $args['id']) : ''; 
 
 		$list_item = sprintf(
 			"<section class='x-item x-extension %s %s' %s %s>
-				<div class='x-item-pad %s'>
-					%s
-					<div class='x-item-text bd'>
-						<span class='x-name'>%s</span>
-						%s 
+				<div class='x-item-pad'>
+					<div class='%s'>
 						%s
+						%s
+						<div class='x-item-text bd'>
+							<span class='x-name'>%s</span>
+							%s 
+						</div>
+						
 					</div>
-					
+					%s
 				</div>
 			</section>",
 			'filter-'.$args['id'],
@@ -80,9 +81,11 @@ class EditorXList{
 			$xID,
 			$pad_class,
 			$thumb,
+			$icon,
 			$args['name'],
 			$sub, 
-			$action_output
+			
+			$args['actions']
 		);
 
 		return $list_item;

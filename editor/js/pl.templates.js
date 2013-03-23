@@ -79,41 +79,52 @@ $.plTemplates = {
 
 				})
 
-				$(".set-default-tpl").on("click.defaultTemplate", function(e) {
+				$(".set-tpl").on("click.defaultTemplate", function(e) {
 
 					e.preventDefault()
 
 					var that = this
-					,	key = $(this).closest('.x-item').data('key')
-					,	theType = $(this).data('posttype')
+					,	value = $(this).closest('.x-item').data('key')
+					,	run = $(this).data('run')
 					,	args = {
 								mode: 'templates'
-							,	run: 'type_default'
+							,	run: 'set_'+run
 							,	confirm: false
 							,	refresh: false
 							, 	log: true
 							, 	field: $(this).data('field')
-							,	key: key
-							, 	success: function(){
+							,	value: value
+							, 	postSuccess: function( response ){
+								
+									// console.log("caller is " + arguments.callee.caller.toString());
+								
+									if(!response)
+										return 
+							
 									$(that)
 										.closest('.x-list')
-										.find('.set-default-tpl')
-										.removeClass('btn-success')
-										.html('Set as "'+theType+'" default')
+										.find('.set-tpl[data-run="'+run+'"]')
+										.removeClass('btn-inverse')
+										.html('Set '+run+' Default')
 
-									$(that)
-										.removeClass('set-default-tpl')
-										.addClass('btn-success')
-										.html('Active "'+theType+'" default')
+									if(response.result && response.result != false){
+										$(that)
+											.addClass('btn-inverse')
+											.html('Active '+run+' Default')
+									}
+										
+									
+									
 
 								}
 						}
 						
-
 					var response = $.plAJAX.run( args )
 
 
 				})
+				
+			
 			
 		
 	
