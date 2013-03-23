@@ -3,23 +3,37 @@
 $.plSections = {
 	
 	init: function(){
-		
+		this.bindActions()
+		this.makeDraggable()
 	}
-	, BindActions: function(){
+	, bindActions: function(){
 		var that = this
 		
-		$('.btn-reload-sections').on('click', function(){
+		$('.btn-reload-sections').on('click', function(e){
 		
-			
+			e.preventDefault()
+
+			var args = {
+						mode: 'sections'
+					,	run: 'reload'
+					,	confirm: false
+					,	savingText: 'Reloading and Registering Sections'
+					,	refreshText: 'Sections reloaded. Refreshing page!'
+					,	refresh: true
+					, 	log: true
+				}
+				
+
+			var response = $.plAJAX.run( args )
 		
 		})
 	
 	}
-	, makeDraggable: function( panel ){
+	, makeDraggable: function( ){
 		
 		var that = this
 	
-		panel.find( '.x-item:not(.x-disable)' ).draggable({
+		$('.panel-add-new').find( '.x-item:not(.x-disable)' ).draggable({
 				appendTo: "body"
 			, 	helper: "clone"
 			, 	cursor: "move" 

@@ -14,7 +14,17 @@ function pl_editor_actions(){
 	$pageID = $post['pageID'];
 	$typeID = $post['typeID'];
 	
-	if( $mode == 'themes'){
+	if( $mode == 'sections'){
+		
+		if( $run == 'reload'){
+			
+			global $load_sections;
+			$available = $load_sections->pagelines_register_sections( true, false );
+			$response['result'] = $available;
+		}
+		
+		
+	} elseif( $mode == 'themes'){
 		
 		$theme = new EditorThemeHandler;
 		

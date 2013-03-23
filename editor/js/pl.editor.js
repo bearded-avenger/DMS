@@ -273,8 +273,10 @@
 			
 			//this.listPopOverStart()
 			
-			if(key == 'add-new')
-				$.plSections.makeDraggable( panel )
+			if(key == 'add-new'){
+				$.plSections.init()
+			}
+				
 				
 			
 			this.extensionActions()

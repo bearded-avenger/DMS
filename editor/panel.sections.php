@@ -27,7 +27,7 @@ class PageLinesSectionsPanel{
 					'name'	=> 'Your Sections',
 					'icon'	=> 'icon-random',
 					'clip'	=> 'Drag on to page to add',
-					'tools'	=> '<a href="#" class="btn btn-mini btn-reload-sections"><i class="icon-repeat"></i> Reload Sections</a>',
+					'tools'	=> '<button class="btn btn-mini btn-reload-sections"><i class="icon-repeat"></i> Reload Sections</button>',
 					'type'	=> 'call',
 					'call'	=> array(&$this, 'add_new_callback'),
 					'filter'=> '*'

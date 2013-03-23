@@ -98,6 +98,8 @@ $.plTemplates = {
 								
 									// console.log("caller is " + arguments.callee.caller.toString());
 								
+								
+									// $.Ajax parses argument values and calles this thing, probably supposed to do that a different way
 									if(!response)
 										return 
 							
