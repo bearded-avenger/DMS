@@ -32,7 +32,6 @@ class EditorInterface {
 
 		} elseif(current_user_can('edit_themes')) {
 
-			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_live_site_scripts' ) );
 			add_action( 'wp_footer', array( &$this, 'pagelines_editor_activate' ) );
 
 		}
@@ -264,8 +263,15 @@ class EditorInterface {
 	}
 
 	function pagelines_editor_activate(){
+		global $wp;
+		$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
+		
+		$nigl = (count($_GET) > 0) ? '&' : '?'; 
+		
+		$activate_url = $current_url . $nigl . 'edtr=on';
+		
 		?>
-			<div id="toolbox-activate" class="toolbox-activate"><i class="icon-off"></i> <span class="txt">Activate PageLines Editor</span></span></div>
+			<a id="toolbox-activate" href="<?php echo $activate_url;?>" class="toolbox-activate"><i class="icon-off"></i> <span class="txt">Activate PageLines Editor</span></span></a>
 
 		<?php
 	}

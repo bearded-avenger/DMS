@@ -17,9 +17,9 @@ class EditorDraft{
 	function editor_mode(){
 		$current_user = wp_get_current_user();
 
-		if(isset($_GET['editor_state']) && $_GET['editor_state'] != ''){
+		if(isset($_GET['edtr']) && $_GET['edtr'] != ''){
 
-			$state = ($_GET['editor_state'] == 'on') ? 'on' : 'off';
+			$state = ($_GET['edtr'] == 'on') ? 'on' : 'off';
 
 			update_user_meta($current_user->ID, 'pl_editor_state', $state);
 

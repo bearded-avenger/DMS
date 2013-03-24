@@ -61,6 +61,7 @@ class EditorTypography{
 			array(
 				'key'			=> 'base_font_size',
 				'type'			=> 'count_select',
+				'compile'		=> true,
 				'count_start'	=> 10, 
 				'count_number'	=> 50,
 				'suffix'		=> 'px',
@@ -77,7 +78,8 @@ class EditorTypography{
 						'key'			=> 'font_primary',
 						'type' 			=> 'type', 
 						'label' 		=> 'Header Font', 
-						'default'		=> 'helvetica'
+						'default'		=> 'helvetica',
+						'compile'		=> true,
 					), 
 					array(
 						'key'			=> 'font_primary_weight',
@@ -88,7 +90,8 @@ class EditorTypography{
 							'normal'	=> array('name' => 'Normal'),
 							'bold'		=> array('name' => 'Bold')
 						),
-						'default' 		=> 'normal'
+						'default' 		=> 'normal',
+						'compile'		=> true,
 					),
 				),
 				
@@ -102,7 +105,9 @@ class EditorTypography{
 						'key'			=> 'font_headers',
 						'type' 			=> 'type', 
 						'label' 		=> 'Header Font', 
-						'default'		=> 'helvetica'
+						'default'		=> 'helvetica',
+						'compile'		=> true,
+						
 					), 
 					array(
 						'key'			=> 'font_headers_weight',
@@ -113,7 +118,8 @@ class EditorTypography{
 							'normal'	=> array('name' => 'Normal'),
 							'bold'		=> array('name' => 'Bold')
 						),
-						'default' 		=> 'bold'
+						'default' 		=> 'bold',
+						'compile'		=> true,
 					)
 				),
 				
@@ -128,7 +134,8 @@ class EditorTypography{
 						'key'			=> 'font_secondary',
 						'type' 			=> 'type', 
 						'label' 		=> 'Header Font', 
-						'default'		=> 'helvetica'
+						'default'		=> 'helvetica',
+						'compile'		=> true,
 					), 
 					array(
 						'key'			=> 'font_secondary_weight',
@@ -139,7 +146,8 @@ class EditorTypography{
 							'normal'	=> array('name' => 'Normal'),
 							'bold'		=> array('name' => 'Bold')
 						),
-						'default' 		=> 'normal'
+						'default' 		=> 'normal',
+						'compile'		=> true,
 					),
 				),
 				

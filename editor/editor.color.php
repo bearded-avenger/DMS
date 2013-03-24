@@ -97,7 +97,8 @@ class EditorColor{
 						'key'			=> 'bodybg',
 						'type'			=> 'color',
 						'label' 		=> __( 'Base Color', 'pagelines' ),
-						'default'		=> $this->default_base
+						'default'		=> $this->default_base,
+						'compile'		=> true,
 					),
 				)
 			),
@@ -112,20 +113,23 @@ class EditorColor{
 						'key'			=> 'text_primary',
 						'type'			=> 'color',
 						'label' 		=> __( 'Main Text Color', 'pagelines' ),
-						'default'		=> $this->default_text
+						'default'		=> $this->default_text,
+						'compile'		=> true,
 
 					),
 					array(
 						'key'			=> 'headercolor',
 						'type'			=> 'color',
 						'label' 		=> __( 'Text Headers Color', 'pagelines' ),
-						'default'		=> $this->default_text
+						'default'		=> $this->default_text,
+						'compile'		=> true,
 						),
 					array(
 						'key'			=> 'linkcolor',
 						'type'			=> 'color',
 						'label' 		=> __( 'Link Color', 'pagelines' ),
-						'default'		=> $this->default_link
+						'default'		=> $this->default_link,
+						'compile'		=> true,
 					)
 				)
 			),
@@ -140,14 +144,16 @@ class EditorColor{
 						'key'			=> 'page_background_image',
 						'type'			=> 'image_upload',
 						'label' 		=> __( 'Page Background Image', 'pagelines' ),
-						'default'		=> ''
+						'default'		=> '',
+						'compile'		=> true,
 
 					),
 					array(
 						'key'			=> 'supersize_bg',
 						'type'			=> 'check',
 						'label' 		=> __( 'Fit image to page?', 'pagelines' ),
-						'default'		=> true
+						'default'		=> true,
+						'compile'		=> true,
 						),
 				)
 			),
