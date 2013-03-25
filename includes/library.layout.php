@@ -160,7 +160,11 @@ function pl_add_options_page( $args ) {
 	
 }
 
-
+/**
+ * Filter to add custom pages to core settings area
+ *
+ * @since 3.0
+ */
 add_filter( 'pl_settings_array', 'pl_add_settings_panel', 15 );
 function pl_add_settings_panel( $settings ){
 
@@ -182,7 +186,6 @@ function pl_add_settings_panel( $settings ){
 		
 	}
 		
-		
 	return $settings;
 	
 }
@@ -190,6 +193,7 @@ function pl_add_settings_panel( $settings ){
 /**
  * Filter to add custom pages to main settings area.
  *
+ * DEPRECATED with version 3.0
  * @since 2.2
  */
 add_filter( 'pagelines_options_array', 'pl_add_options_page_filter' );

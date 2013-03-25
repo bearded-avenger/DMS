@@ -22,7 +22,9 @@ class PageLinesAreas {
 		?>
 
 		<div class="pl-area-controls">
-			<a class="area-control" data-area-action="add" >
+			<a class="area-control" data-area-action="delete" >
+				<i class="icon-remove"></i>
+			</a><a class="area-control" data-area-action="add" >
 				<i class="icon-plus"></i>
 			</a><a class="area-control" data-area-action="up" >
 				<i class="icon-chevron-up"></i>

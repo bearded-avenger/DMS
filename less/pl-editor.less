@@ -265,6 +265,7 @@
 	
 	.pl-region{
 		position: relative;
+		min-height: 20px;
 		&.header{
 			margin-top: 13px;
 		}
@@ -307,8 +308,8 @@
 			left: 0; 
 			top: 0px;
 			text-align: left;
-			width: 60px;
-			margin-left: -50px;
+			width: 80px;
+			margin-left: -70px;
 			#gradient > .vertical(rgba(182, 242, 253, .5), rgba(125, 233, 253, .5));
 			i{opacity: 0;}
 			&:hover{
@@ -318,7 +319,7 @@
 			&::after{
 				content: '';
 				display: block;
-				width: 70px;
+				width: 90px;
 				height: 110%;
 				position: absolute;
 				top: -5%;
@@ -341,6 +342,11 @@
 				&:hover{
 					cursor:pointer;
 					#gradient > .vertical(rgba(182, 242, 253, .7), rgba(125, 233, 253, .7));
+				}
+				&:active{
+					color:#000;
+					cursor:pointer;
+					#gradient > .vertical(rgba(182, 242, 253, .9), rgba(125, 233, 253, .9));
 				}
 			}
 		}

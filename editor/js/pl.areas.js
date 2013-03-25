@@ -37,7 +37,11 @@
 				} else if (action == 'up' ){
 					$.areaControl.move($(this), 'up')
 				} else if (action == 'add' ){
-					alert('add something')
+					$.areaControl.addArea($(this))
+				
+				}else if (action == 'delete' ){
+					$.areaControl.deleteArea($(this))
+
 				}
 			})
 			
@@ -54,6 +58,44 @@
 					.attr('data-area-number', num)
 
 			})
+		}
+		
+		, addArea: function( btn ){
+			
+			var currentArea = btn.closest('.pl-area')
+			,	newArea = currentArea.clone( true ) // with data and events
+			
+			newArea.find('section').each( function(index, el){
+				el.remove()
+			})
+			
+			currentArea
+				.before( newArea )
+				
+			$.areaControl.update()
+			
+		}
+		
+		, deleteArea: function( btn ){
+			
+			var currentArea = btn.closest('.pl-area')
+			, 	confirmText = '<h3>Are you sure?</h3><p>This action will delete this area and all its elements from this page.</p>'
+		
+			bootbox.confirm( confirmText, function( result ){
+				if(result == true){
+					
+					currentArea.slideUp(500, function(){
+						$(this).remove()
+					})
+					
+					$.areaControl.update()
+
+				}
+
+			})
+				
+			
+			
 		}
 		
 		, move: function( button, direction ){
