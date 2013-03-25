@@ -285,7 +285,7 @@ class PageLinesTemplateHandler {
 					$s->section_optionator( array() );
 				
 					if(isset( $this->current_option_array ))
-						$opts = $this->process_to_new_option_format( $this->current_option_array ); 
+						$opts = process_to_new_option_format( $this->current_option_array ); 
 						
 					
 				}
@@ -372,79 +372,7 @@ class PageLinesTemplateHandler {
 		return $opts;
 	}
 	
-	function process_to_new_option_format( $old_options ){
-		
-		$new_options = array();
-		
-		foreach($old_options as $key => $o){
-			
-			if($o['type'] == 'multi_option' || $o['type'] == 'text_multi'){
-			
-				$sub_options = array();
-				foreach($o['selectvalues'] as $sub_key => $sub_o){
-					$sub_options[ ] = $this->process_old_opt($sub_key, $sub_o, $o); 
-				}
-				$new_options[ ] = array(
-					'type' 	=> 'multi', 
-					'title'	=> $o['title'],
-					'opts'	=> $sub_options
-				);
-			} else {
-				$new_options[ ] = $this->process_old_opt($key, $o);	
-			}
-			
-		}
-		
-		return $new_options;
-	}
-	
-	function process_old_opt( $key, $old, $otop = array()){
-		
-		if(isset($otop['type']) && $otop['type'] == 'text_multi')
-			$old['type'] = 'text'; 
-			
-		$defaults = array(
-            'type' 			=> 'check',
-			'title'			=> '',
-			'inputlabel'	=> '', 
-			'exp'			=> '', 
-			'shortexp'		=> '',
-			'count_start'	=> 0,
-			'count_number'	=> '',
-			'selectvalues'	=> array(),
-			'taxonomy_id'	=> '',
-			'span'			=> 1
-		);
-		
-		$old = wp_parse_args($old, $defaults);
-		
-		$exp = ($old['exp'] == '' && $old['shortexp'] != '') ? $old['shortexp'] : $old['exp'];
-		
-		if($old['type'] == 'text_small'){
-			$type = 'text'; 
-		} else 
-			$type = $old['type'];
-		
-		$new = array(
-			'key'			=> $key, 
-			'title'			=> $old['title'],
-			'label'			=> $old['inputlabel'], 
-			'type'			=> $type, 
-			'help'			=> $exp, 
-			'opts'			=> $old['selectvalues'],
-			'span'			=> $old['span']
-		); 
-		
-		if($old['type'] == 'count_select'){
-			$new['count_start'] = $old['count_start'];
-			$new['count_number'] = $old['count_number'];
-		}
-		
-		if($old['taxonomy_id'] != '')
-			$new['taxonomy_id'] = $old['taxonomy_id'];
-		
-		return $new;
-	}
+
 		
 	function get_opts_from_optionator( $array ){
 		

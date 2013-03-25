@@ -113,9 +113,32 @@ function pagelines_layout_library_data() {
  */
 function pl_add_options_page( $args ) {
 	
-
+	if( pl_has_editor() ){
+		
+		global $pagelines_add_settings_panel;
+		
+		$args['opts'] = (!isset($args['opts']) && isset($args['array'])) ? $args['array'] : array();
+		$args['pos'] = (!isset($args['pos']) && isset($args['position'])) ? $args['position'] : array();
+		
+		$d = array(
+			'name' 	=> 'No Name', 
+			'icon'	=> 'icon-edit',
+			'pos'	=> 10,
+			'opts' 	=> array()
+		);
+		
+		$a = wp_parse_args( $args, $d );
+		
+		// make sure its not set elsewhere. Navbar was already set, and we were writing twice
+		if( !isset( $pagelines_add_settings_panel[ $a['name'] ]) && !isset( $pagelines_add_settings_panel[ strtolower( $a['name'] ) ]) )
+			$pagelines_add_settings_panel[ strtolower($a['name']) ] = $a;
+	} 
+		
+		
+	// Version 2 
+	// Deprecated as of v3
 	$defaults = array(
-	
+
 		'name'		=>	null,
 		'title'	 	=>	'custom page',
 		'path'		=>	null,
@@ -126,26 +149,50 @@ function pl_add_options_page( $args ) {
 		'icon'		=>	PL_ADMIN_ICONS.'/settings.png',
 		'position'	=>	null
 	);
-	
+
 	$args = wp_parse_args( $args, $defaults );
-	
+
 	global $pagelines_add_options_page;
 
 	if ( isset( $args['name'] )  && ! isset( $pagelines_add_options_page[ $args['name'] ] ) )
-		$pagelines_add_options_page[$args['name']] = $args;
+		$pagelines_add_options_page[ $args['name'] ] = $args;
+		
 	
 }
 
-add_filter( 'pagelines_options_array', 'pl_add_options_page_filter' );
+
+add_filter( 'pl_settings_array', 'pl_add_settings_panel', 15 );
+function pl_add_settings_panel( $settings ){
+
+	global $pagelines_add_settings_panel;
+	
+	if ( !isset( $pagelines_add_settings_panel ) || !is_array( $pagelines_add_settings_panel ) )
+		return $settings;
+		
+	foreach( $pagelines_add_settings_panel as $panel => $setup ) {
+		
+		if(strpos($setup['icon'], "http://") !== false)
+			$setup['icon'] = 'icon-circle';
+		
+		$setup['opts'] = process_to_new_option_format( $setup['opts'] );
+		
+		if(!isset($settings[ $panel ]))
+			$settings[ $panel ] = $setup;
+		
+		
+	}
+		
+		
+	return $settings;
+	
+}
 
 /**
  * Filter to add custom pages to main settings area.
  *
  * @since 2.2
- *
- * @param array $optionarray 
- * @return array $optionarray 
  */
+add_filter( 'pagelines_options_array', 'pl_add_options_page_filter' );
 function pl_add_options_page_filter( $optionarray ){
 
 		global $pagelines_add_options_page;
