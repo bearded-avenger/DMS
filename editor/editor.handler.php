@@ -21,6 +21,7 @@ class PageLinesTemplateHandler {
 
 	function __construct( 
 		EditorInterface $interface, 
+		PageLinesAreas $areas, 
 		PageLinesPage $pg, 
 		EditorSettings $siteset, 
 		PageLinesFoundry $foundry, 
@@ -38,6 +39,7 @@ class PageLinesTemplateHandler {
 		
 		// Dependancy Injection (^^)
 		$this->editor = $interface;
+		$this->areas = $areas;
 		$this->page = $pg;
 		$this->siteset = $siteset;
 		$this->foundry = $foundry;
@@ -45,6 +47,7 @@ class PageLinesTemplateHandler {
 		$this->optset = $opts;
 		$this->layout = $layout;
 		$this->extensions = $extensions;
+		
 		
 		$this->map = $map->get_map( $this->page );
 
@@ -584,7 +587,7 @@ class PageLinesTemplateHandler {
 			
 			$a['area_number'] = $this->area_number++; 
 			
-			$this->editor->area_start($a);
+			$this->areas->area_start($a);
 			
 			if( isset($a['content']) && !empty($a['content'])){
 				
@@ -600,7 +603,7 @@ class PageLinesTemplateHandler {
 				
 			}
 
-			$this->editor->area_end($a);
+			$this->areas->area_end($a);
 			
 		}
 	}

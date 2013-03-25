@@ -184,7 +184,7 @@
 
 	.pl-sortable-area, 
 	.pl-sortable-column{
-		min-height: 25px;
+		min-height: 45px;
 		.transition(.5s);
 	}
 	&.pl-dragging{
@@ -293,6 +293,8 @@
 			.border-radius(0);
 		}
 	}
+	
+	
 	.pl-area{
 		position: relative;
 		border-top: 1px dashed #35eafd;
@@ -303,43 +305,42 @@
 			z-index: @zindexEditor;
 			position: absolute; 
 			left: 0; 
-			top: 0;
+			top: 0px;
 			text-align: left;
-			width: 50px;
-			margin-left: -40px;
-			#gradient > .vertical(rgba(182, 242, 253, .4), rgba(125, 233, 253, .4));
+			width: 60px;
+			margin-left: -50px;
+			#gradient > .vertical(rgba(182, 242, 253, .5), rgba(125, 233, 253, .5));
+			i{opacity: 0;}
 			&:hover{
+				i{opacity: 1;}
 				margin-left: 0;
 			}
 			&::after{
 				content: '';
 				display: block;
-				width: 60px;
+				width: 70px;
 				height: 110%;
 				position: absolute;
 				top: -5%;
-				right: -60px;
+				right: -70px;
 				z-index: -100;
 			}
 			
 			line-height: 1em;
 			font-size: 9px;
-			.area-move-btn{
-				color: @editorText;
-				text-shadow: 0 1px 0 rgba(255,255,255,.4);
+			.area-control{
+				display: inline-block;
 				font-size: 11px;
-				padding: 1px 4px;
-				line-height: 16px;
-				width: 12px;
-				height: 14px;
 				font-weight: bold;
-				
-				
+				color: @editorText;
+				text-shadow: 0 1px 0 #fff; //rgba(255,255,255,.4);
+				height: 20px; 
+				width: 20px;
+				line-height: 20px;
+				text-align: center;
 				&:hover{
+					cursor:pointer;
 					#gradient > .vertical(rgba(182, 242, 253, .7), rgba(125, 233, 253, .7));
-				}
-				&:active{
-					opacity: .6;
 				}
 			}
 		}

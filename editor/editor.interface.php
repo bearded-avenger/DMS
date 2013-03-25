@@ -122,29 +122,6 @@ class EditorInterface {
 
 	}
 
-	function area_start($a){
-
-		printf(
-			'<div class="pl-area area-tag" data-area-number="%s">%s<div class="pl-content"><div class="pl-inner area-region pl-sortable-area editor-row">%s',
-			$a['area_number'],
-			$this->area_controls($a),
-			$this->area_sortable_buffer()
-		);
-
-	}
-
-	/*
-	 * Used to allow for dropping at top of area, gets around floated element problems
-	 */
-	function area_sortable_buffer(){
-
-		return ($this->draft->show_editor()) ? sprintf('<div class="pl-sortable pl-sortable-buffer span12 offset0"></div>') : '';
-	}
-
-	function area_end(){
-		printf('%s</div></div></div>', $this->area_sortable_buffer());
-	}
-
 
 
 	function toolbar_config(){
@@ -517,18 +494,6 @@ class EditorInterface {
 
 
 
-	function area_controls($a){
-
-		ob_start();
-		?>
-
-		<div class="pl-area-controls">
-			<a class="area-move-btn btn-area-up"><i class="icon-caret-up"></i></a><a class="area-move-btn btn-area-down"><i class="icon-caret-down"></i></a>
-		</div>
-		<?php
-
-		return ob_get_clean();
-	}
 
 	function section_controls( $s ){
 
