@@ -41,7 +41,8 @@ class EditorTemplates {
 				'tmp_load'	=> array(
 					'name'	=> 'Your Templates',
 					'call'	=> array(&$this, 'user_templates'),
-					'icon'	=> 'icon-copy'
+					'icon'	=> 'icon-copy',
+					'tools'	=> '<button class="btn btn-mini btn-restore-global-areas"><i class="icon-repeat"></i> Restore Header/Footer</button>',
 				),
 				'tmp_save'	=> array(
 					'name'	=> 'Save New Template',
@@ -268,15 +269,15 @@ class EditorTemplates {
 						'content'	=> array(
 							array(
 								'object'	=> 'PLColumn',
-								'span' 	=> 6,
+								'span' 	=> 9,
 								'content'	=> array( 
 									'PageLinesPostLoop' => array( ), 
-									'PageLinesComments' 	=> array( ),	
+									'PageLinesComments' => array( ),	
 								)
 							),
 							array(
 								'object'	=> 'PLColumn',
-								'span' 	=> 6,
+								'span' 	=> 3,
 								'content'	=> array( 
 									'PrimarySidebar' => array( )
 								)
