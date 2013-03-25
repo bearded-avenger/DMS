@@ -234,7 +234,7 @@
 							
 							bootbox.dialog( that.dialogText('Editor deactivated! Reloading page.'), [], {animate: false})
 							
-							window.location = window.location.href.split("?")[0];
+							window.location = $.pl.config.currentURL
 						}
 					})
 				}

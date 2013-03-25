@@ -91,6 +91,7 @@ class PageLinesTemplateHandler {
 					}
 					, config: {
 						userID: '<?php echo $this->get_user_id();?>'
+						, currentURL: '<?php echo $this->current_url();?>'
 						, pageID: '<?php echo $this->page->id;?>'
 						, typeID: '<?php echo $this->page->typeid;?>'
 						, pageTypeID: '<?php echo $this->page->type;?>'
@@ -115,6 +116,13 @@ class PageLinesTemplateHandler {
 		</script>
 		<?php
 		
+	}
+	
+	function current_url(){
+		global $wp;
+		$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
+		
+		return $current_url;
 	}
 	
 
