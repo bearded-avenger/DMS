@@ -74,6 +74,8 @@
 				
 			$.areaControl.update()
 			
+			newArea.sortable( 'refresh' ) 
+			
 		}
 		
 		, deleteArea: function( btn ){

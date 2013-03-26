@@ -69,7 +69,7 @@ $.plTemplates = {
 							,	refreshText: 'Successfully Saved. Refreshing page'
 							,	refresh: true
 							, 	log: true
-							,	map: $.pageBuilder.getCurrentMap()
+							,	map: $.plMapping.getCurrentMap()
 						}
 					,	args = $.extend({}, args, form) // add form fields to post
 						

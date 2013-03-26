@@ -47,10 +47,8 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.draft.php' );
 		require_once( PL_EDITOR . '/editor.layout.php' );
 		require_once( PL_EDITOR . '/editor.map.php' );
+		require_once( PL_EDITOR . '/editor.mapping.php' );
 		
-		
-		require_once( PL_EDITOR . '/editor.data.php' );
-
 		require_once( PL_EDITOR . '/editor.settings.config.php' );
 		require_once( PL_EDITOR . '/editor.typography.php' );
 		require_once( PL_EDITOR . '/editor.color.php' );
@@ -63,6 +61,7 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/panel.extend.php' );
 		require_once( PL_EDITOR . '/panel.themes.php' );
 		require_once( PL_EDITOR . '/panel.templates.php' );
+		require_once( PL_EDITOR . '/panel.settings.php' );
 
 		require_once( PL_EDITOR . '/editor.extensions.php' );
 		require_once( PL_EDITOR . '/editor.interface.php' );
@@ -84,13 +83,15 @@ class PageLinesEditor {
 
 		$plpg = $this->page = new PageLinesPage;
 		$pldraft = $this->draft = new EditorDraft( $this->page );
-//		$editorless = $this->editorless = new EditorLessHandler;
 		$storeapi = $this->storeapi = new EditorStoreFront;
 		$this->layout = new EditorLayout();
 		
 		$this->templates = new EditorTemplates( $this->page );
-		$this->map = new EditorMap( $this->templates, $this->draft);
-
+		
+		// Mapping
+		$this->map = new EditorMap( $this->templates, $this->draft); // this needs to be rewritten and moved to mapping class
+		$this->mapping = new EditorMapping;
+		
 		// Must come before settings
 		$this->foundry = new PageLinesFoundry;
 		$this->typography = new EditorTypography( $this->foundry );
@@ -107,6 +108,7 @@ class PageLinesEditor {
 		$this->xlist = new EditorXList;
 		$this->add_sections = new PageLinesSectionsPanel;
 		$this->extend_panel = new PageLinesExtendPanel;
+		$this->settings_panel = new PageLinesSettingsPanel;
 		$this->live_panel = new PageLinesLivePanel;
 		$this->themer = new EditorThemeHandler;
 		

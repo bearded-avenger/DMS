@@ -164,52 +164,7 @@
 			
 		}
 		
-		, resetOptions: function( mode ){
-			
-			var that = this
-			,	theData = {
-					action: 'pl_save_page'
-					, 	mode: mode
-					,	page: $.pl.config.pageID
-					,	pageID: $.pl.config.pageID
-					,	typeID: $.pl.config.typeID
-				}
-				
-			if(mode == 'reset_global')
-				var resetWhat = "global site options"
-			else if(mode == 'reset_local')	
-				var resetWhat = "local page options"
-			else 
-				return
-				
-			confirmText = sprintf("<h3>Are you sure?</h3><p>This will reset <strong>%s</strong> to their defaults. <br/>(Once reset, these changes will still need to be published to your live site.)</p>", resetWhat)
-
-
-			// modal
-			bootbox.confirm( confirmText, function( result ){
-				if(result == true){
-
-					$.ajax( {
-						type: 'POST'
-						, url: ajaxurl
-						, data: theData	
-						, beforeSend: function(){
-							$('.btn-saving').addClass('active')
-						}
-						, success: function( response ){
-							
-							that.ajaxSuccess(response)
-							
-							bootbox.dialog( that.dialogText('Options reset. Reloading page.'), [], {animate: false})
-							
-							location.reload()
-						}
-					})
-
-				}
-
-			})
-		}
+		
 		
 		, toggleEditor: function(){
 			

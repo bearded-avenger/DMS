@@ -42,11 +42,6 @@ class EditorInterface {
 
 	}
 
-	function pl_live_site_scripts(){
-		wp_enqueue_script( 'pl-utility-js', $this->url . '/js/pl.live.js', array( 'jquery' ), PL_CORE_VERSION, true );
-	}
-
-
 	function pl_editor_scripts(){
 
 		// PageLines Custom
@@ -133,13 +128,6 @@ class EditorInterface {
 				'pos'	=> 1
 			),
 			
-			'settings' => array(
-				'name'	=> 'Settings',
-				'icon'	=> 'icon-cog',
-				'pos'	=> 60,
-				'panel'	=> $this->get_settings_tabs( 'site' )
-			),
-		
 			'pl-actions' => array(
 				'name'	=> '',
 				'icon'	=> '',
@@ -152,14 +140,7 @@ class EditorInterface {
 				'pos'	=> 200
 
 			),
-			'section-options' => array(
-				'name'	=> 'Section Options',
-				'icon'	=> 'icon-paste',
-				'type'	=> 'hidden',
-				'flag'	=> 'section-opts',
-				'panel'	=> $this->section_options_panel()
-				
-			),
+			
 		);
 
 		return $data;
@@ -197,47 +178,9 @@ class EditorInterface {
 	
 	
 
-	function section_options_panel(){
-
-		$current_page = ($this->page->is_special()) ? $this->page->type_name : $this->page->id;
-
-		$tabs = array();
-		$tabs['heading'] = "Section Options";
-
-		$tabs['global'] = array( 'name'	=> 'Sitewide Defaults' );
 	
-		if(!$this->page->is_special())
-			$tabs['type'] = array( 'name'	=> 'Post Type <span class="label">'.$this->page->type_name.'</span>' );
-		
-		$tabs['local'] = array( 'name'	=> 'Current Page <span class="label">'.$current_page.'</span>' );
-		
-
-		return $tabs;
-
-	}
 
 
-	function get_settings_tabs( $panel = 'site' ){
-
-		$tabs = array();
-
-		if($panel == 'site'){
-			$tabs['heading'] = 'Global Settings';
-
-			foreach( $this->siteset->get_set('site') as $tabkey => $tab ){
-
-				$tabs[ $tabkey ] = array(
-					'key' 	=> $tabkey,
-					'name' 	=> $tab['name'],
-					'icon'	=> isset($tab['icon']) ? $tab['icon'] : ''
-				);
-			}
-
-		}
-
-		return $tabs;
-
-	}
 
 	function pagelines_editor_activate(){
 		global $wp;

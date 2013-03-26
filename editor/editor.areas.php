@@ -17,7 +17,7 @@ class PageLinesAreas {
 	
 	
 	function area_controls($a){
-
+		
 		ob_start();
 		?>
 
@@ -40,8 +40,15 @@ class PageLinesAreas {
 	
 	function area_start($a){
 
+		$name = (isset($a['name'])) ? $a['name'] : '';
+		$id = (isset($a['id'])) ? $a['id'] : '';
+		$styles = (isset($a['styles'])) ? $a['styles'] : '';
+		
 		printf(
-			'<div class="pl-area area-tag" data-area-number="%s">%s<div class="pl-content"><div class="pl-inner area-region pl-sortable-area editor-row">%s',
+			'<div id="%s" data-name="%s" class="pl-area area-tag" style="%s" data-area-number="%s">%s<div class="pl-content"><div class="pl-inner area-region pl-sortable-area editor-row">%s',
+			$id,
+			$name,
+			$styles,
 			$a['area_number'],
 			$this->area_controls($a),
 			$this->area_sortable_buffer()
@@ -58,7 +65,7 @@ class PageLinesAreas {
 	 */
 	function area_sortable_buffer(){
 
-		return (pl_draft_mode()) ? sprintf('<div class="pl-sortable pl-sortable-buffer span12 offset0"></div>') : '';
+		return ( pl_draft_mode() ) ? sprintf('<div class="pl-sortable pl-sortable-buffer span12 offset0"></div>') : '';
 	}
 
 	

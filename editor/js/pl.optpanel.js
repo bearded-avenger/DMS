@@ -365,7 +365,7 @@
 			
 			else if( o.type == 'action_button' ){
 				
-				oHTML += sprintf('<a href="#" data-action="%s" class="btn btn-action %s" >%s</a>', o.key, o.classes, o.label )
+				oHTML += sprintf('<a href="#" data-action="%s" class="btn settings-action %s" >%s</a>', o.key, o.classes, o.label )
 				
 			}
 			
@@ -502,6 +502,37 @@
 			
 			var that = this
 			
+			// Settings Actions
+			$(".settings-action").on("click.settingsAction", function(e) {
+			
+				e.preventDefault()
+		
+				var btn = $(this)
+				, 	theAction = btn.data('action')
+				
+				if( theAction == 'reset_global' || theAction == 'reset_local'){
+					
+					var context = (theAction == 'reset_global') ? "global site options" : "local page options"
+					
+					,	confirmText = sprintf("<h3>Are you sure?</h3><p>This will reset <strong>%s</strong> to their defaults.<br/>(Once reset, this will still need to be published live.)</p>", context)
+					
+					var args = {
+							mode: 'settings'
+						,	run: theAction
+						,	confirm: true
+						,	confirmText: confirmText
+						,	savingText: 'Resetting Options'
+						,	refresh: true
+						,	refreshText: 'Successfully Reset. Refreshing page'
+						, 	log: true
+					}
+
+					var response = $.plAJAX.run( args )
+					
+				}
+				
+			})
+			
 			// Color picker buttons
 			$('.trigger-color').on('click', function(){
 				$(this)
@@ -531,6 +562,7 @@
 				}
 				
 			})
+			
 			$('.rmv-upload').on('click', function(){
 				$(this).closest('.opt').find('.upload-input').val('')
 				$(this).closest('.opt').find('.upload-thumb').fadeOut()

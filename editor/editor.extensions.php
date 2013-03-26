@@ -159,7 +159,16 @@ class EditorExtensions {
 										'span' 	=> 4
 									),
 								)
+			),
+			array(
+				'id'			=> 'pl_new_area',
+				'name'			=> 'Section Area',
+				'filter'		=> 'full-width',
+				'screenshot'	=>  PL_EDITOR_URL . '/images/thumb-section-area.png',
+				'thumb'			=>  PL_EDITOR_URL . '/images/thumb-section-area.png',
+				'splash'		=>  PL_EDITOR_URL . '/images/splash-section-area.png'
 			)
+			
 		);
 
 		foreach($the_layouts as $index => $l){
