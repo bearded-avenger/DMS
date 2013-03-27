@@ -157,6 +157,7 @@
 					
 					if( theInput.attr('id') == 'area_class' ){
 						theObject.attr('data-class', theValue).data('class', theValue)
+						theObject.removeClass().addClass('pl-area area-tag '+theValue)
 					}
 					
 					if( theInput.attr('id') == 'area_name' ){
