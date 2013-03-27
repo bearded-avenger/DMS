@@ -14,7 +14,36 @@ function pl_editor_actions(){
 	$pageID = $post['pageID'];
 	$typeID = $post['typeID'];
 	
-	if( $mode == 'sections'){
+	if($mode == 'save'){
+		
+		$draft = new EditorDraft;
+		$tpl = new EditorTemplates;
+		$map = $post['map_object'] = new EditorMap( $tpl, $draft );
+
+		if( $run == 'draft' ){
+
+			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
+			pl_flush_draft_caches();
+			
+		} elseif ( $run == 'publish' ) {
+			
+			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
+			$draft->publish( $pageID, $typeID, $map );
+			
+		} elseif ( $run == 'revert' ){
+
+			$draft->revert( $post, $map );
+
+		} elseif ( $run == 'map' ){
+
+			$map->save_map_draft( $pageID, $post['map'] );
+
+		} 
+		
+		$response['state'] = $draft->get_state( $pageID, $typeID, $map );
+		
+		
+	} elseif( $mode == 'sections'){
 		
 		if( $run == 'reload'){
 			
@@ -98,6 +127,22 @@ function pl_editor_actions(){
 			
 
 		}
+	} elseif ( $mode == 'settings' ){
+		
+		$plpg = new PageLinesPage( array( 'mode' => 'ajax', 'pageID' => $pageID, 'typeID' => $typeID ) );
+		$draft = new EditorDraft;
+		$settings = new PageLinesOpts( $plpg, $draft );
+		
+		if ($run == 'reset_global'){
+
+			$settings->reset_global();
+
+		} elseif( $run == 'reset_local' ){
+
+			$settings->reset_local( $data['pageID'] );
+
+		}
+		
 	}
 	
 
@@ -107,51 +152,7 @@ function pl_editor_actions(){
 	die(); // don't forget this, always returns 0 w/o
 }
 
-add_action( 'wp_ajax_pl_template_action', 'pl_template_action' );
-function pl_template_action (){
 
-	$post = $_POST;
-	$mode = (isset($post['mode'])) ? $post['mode'] : 'default';
-
-
-	$tpl = new EditorTemplates;
-
-	if ( $mode == 'load_template' ){
-		
-		$map = new EditorMap( $tpl, new EditorDraft );
-
-		$new_tpl_map = $tpl->get_map_from_template_key( $post['key'] );
-
-		$map->set_new_local_template( $post['page'], $new_tpl_map );
-		
-	} elseif( $mode == 'save_template' ){
-
-		$template_map = $post['map']['template'];
-
-		$name = (isset($post['template-name'])) ? $post['template-name'] : 'Template (No Name)';
-		$desc = (isset($post['template-desc'])) ? $post['template-desc'] : 'No description.';
-
-		$tpl->create_template($name, $desc, $template_map);
-
-	} elseif( $mode == 'delete_template' ){
-
-		$key = ( isset($post['key']) ) ? $post['key'] : false;
-
-		$tpl->delete_template( $key );
-
-	} elseif( $mode == 'type_default' ){
-
-
-		$storage = new PageLinesData;
-
-		$storage->meta_update($post['typeID'], $post['field'], $post['key']);
-
-	}
-	echo true;
-
-	die(); // don't forget this, always returns 0 w/o
-
-}
 
 add_action('wp_ajax_pl_editor_mode', 'pl_editor_mode');
 function pl_editor_mode(){
@@ -202,17 +203,9 @@ function pl_save_page(){
 
 		$map->save_map_draft( $data );
 
-	} elseif ($mode == 'reset_global'){
-
-		$settings->reset_global();
-
-	} elseif( $mode == 'reset_local' ){
-
-		$settings->reset_local( $data['pageID'] );
-
-	}
-
-	echo $draft->get_state( $data );
+	} 
+	
+	//echo $draft->get_state( $data );
 
 	die(); // don't forget this, always returns 0 w/o
 

@@ -59,28 +59,17 @@
 				var btn = $(this)
 				, 	btnAction = btn.data('action')
 				
-				that.handleActions(btnAction)
-				
+				if( btnAction == 'pl-toggle' )
+					$.plAJAX.toggleEditor( btnAction )
+
+				if( btnAction == 'toggle_grid' )
+					that.toggleGrid()
 				
 			})
 			
 		
         }
 
-		, handleActions: function( key ){
-			var that = this
-			
-			if( key == 'reset_global' || key == 'reset_local')
-				$.plAJAX.resetOptions( key )
-				
-			if( key == 'pl-toggle' )
-				$.plAJAX.toggleEditor( key )
-				
-			if( key == 'toggle_grid' )
-				that.toggleGrid()
-				
-		}
-		
 		, toggleGrid: function(){
 			
 			if($('body').hasClass('drag-drop-editing')){
@@ -95,7 +84,8 @@
 			, 	selectedTab = $('[data-action="'+key+'"]')
 			, 	allPanels = $('.tabbed-set')
 			
-			$('body').toolbox('show')
+			$('body')
+				.toolbox('show')
 			
 			store.set('toolboxPanel', key)
 			
@@ -105,7 +95,7 @@
 			$('.btn-toolbox').removeClass('active-tab')
 			
 			allPanels
-				.removeClass('current-panel')
+				.removeClass( 'current-panel' )
 				.hide()
 				
 			$('.ui-tabs').tabs('destroy')
@@ -161,6 +151,20 @@
 					}
 				
 				$.optPanel.render( config )
+				
+			}
+			else if( key == 'area_settings'){
+				areaID = store.get('lastAreaConfig')
+				
+				if(areaID != ''){
+					$.areaControl.areaPanelRender(areaID)
+				} else {
+					$('body')
+						.toolbox('hide')
+				}
+				
+				
+				
 				
 			}
 			else if( key == 'live'){
@@ -297,7 +301,6 @@
 					sid: cloned.data('sid')
 					, sobj: cloned.data('object')
 					, clone: cloned.data('clone')
-					, settingData: ($.pl.config.isSpecial) ? $.pl.data.type : $.pl.data.local
 				}
 			,	clonedSet = ($.pl.config.opts[config.sid] && $.pl.config.opts[config.sid].opts) || {}
 			, 	mode = ($.pl.config.isSpecial) ? 'type' : 'local'
@@ -336,7 +339,7 @@
 			})
 
 			// save settings data
-			$.plAJAX.saveData( 'draft' )
+			$.plAJAX.saveData( )
 		
 		}
 		
@@ -352,7 +355,6 @@
 						sid: section.data('sid')
 						, sobj: section.data('object')
 						, clone: section.data('clone')
-						, settingData: ($.pl.config.isSpecial) ? $.pl.data.type : $.pl.data.local
 					}
 			
 				if(btn.hasClass('section-edit')){
@@ -404,7 +406,7 @@
 					
 				} else if ( btn.hasClass('section-increase')){
 					
-					var sizes = $.pageBuilder.getColumnSize(section)
+					var sizes = $.plMapping.getColumnSize(section)
 
 					if ( sizes[1] )
 						section.removeClass( sizes[0] ).addClass( sizes[1] )
@@ -412,7 +414,7 @@
 					
 				} else if ( btn.hasClass('section-decrease')){
 
-					var sizes = $.pageBuilder.getColumnSize( section )
+					var sizes = $.plMapping.getColumnSize( section )
 
 					if (sizes[2])
 						section.removeClass(sizes[0]).addClass(sizes[2]) // Switch for next class
@@ -457,7 +459,7 @@
 			})
 			
 			if( source !== 'start' )
-				$.pageBuilder.storeConfig( );
+				$.pageBuilder.storeMap()
 			
         }
 
@@ -476,8 +478,8 @@
             sort_area.children(".pl-sortable:not(.pl-sortable-buffer)").each( function ( index ) {
 				
                 var section = $(this)
-				,	col_size = that.getColumnSize( section )
-				,	off_size = that.getOffsetSize( section )
+				,	col_size = $.plMapping.getColumnSize( section )
+				,	off_size = $.plMapping.getOffsetSize( section )
 				
 				
 				if(sort_area.hasClass('pl-sortable-column')){
@@ -489,8 +491,8 @@
 							.removeClass(off_size[0])
 							.addClass('span12 offset0 level2')
 							
-						col_size = that.getColumnSize( section, true )
-						off_size = that.getOffsetSize( section, true )
+						col_size = $.plMapping.getColumnSize( section, true )
+						off_size = $.plMapping.getOffsetSize( section, true )
 					} else {
 						section
 							.addClass('level2')
@@ -551,97 +553,22 @@
 
         }
 		
-		, storeConfig: function( interrupt ) {
+		, storeMap: function( interrupt ) {
 			
 			var that = this
 			, 	interrupt = interrupt || false
-			,	map = that.getCurrentMap()
+			,	map = $.plMapping.getCurrentMap()
 			
 			$.pl.map = map
 			
-			$.plAJAX.ajaxSaveMap( map, interrupt )
+			$.plAJAX.saveData( { run: 'map' } )
 			
 			return map
 			
 		
 		}
 		
-		, getCurrentMap: function() {
-			
-			var that = this
-			,	map = {}
 
-
-			$('.pl-region').each( function(regionIndex, o) {
-
-				var region = $(this).data('region')
-				, 	areaConfig = []
-
-				$(this).find('.pl-area').each( function(areaIndex, o2) {
-
-					var area = $(this)
-					,	areaContent	= []
-					, 	areaSet = {}
-
-					$(this).find('.pl-section.level1').each( function(sectionIndex, o3) {
-
-						var section = $(this)
-						
-						if( section.data('template') != undefined && section.data('template') != "" ){
-			
-							set = section.data('template')
-							$.merge( areaContent, set )
-							
-						} else {
-							set = that.sectionConfig( section )
-							areaContent.push( set )
-						
-						}
-
-					})
-
-					areaSet = {
-							area: ''
-						,	content: areaContent
-					}
-
-					areaConfig.push( areaSet )
-
-				})
-
-				map[region] = areaConfig
-
-			})
-			
-			return map
-			
-		}
-		
-		, sectionConfig: function( section ){
-			
-			var that = this
-			,	set = {}
-
-			set.object 	= section.data('object')
-			set.clone 	= section.data('clone')
-		
-			set.sid 	= section.data('sid')
-			set.span 	= that.getColumnSize( section )[ 4 ]
-			set.offset 	= that.getOffsetSize( section )[ 3 ]
-			set.newrow 	= (section.hasClass('force-start-row')) ? 'true' : 'false'
-			set.content = []
-			
-			
-			// Recursion
-			section.find( '.pl-section.level2' ).each( function() {
-			
-				set.content.push( that.sectionConfig( $(this) ) )
-				
-			})
-			
-			return set
-			
-		}
 
 	
 		, isAreaEmpty: function(area){
@@ -654,143 +581,14 @@
 			
 		}
 
-		, getOffsetSize: function( column, defaultValue ) {
-			
-			var that = this
-			,	max = 12
-			,	sizes = that.getColumnSize( column )
-			,	avail = max - sizes[4]
-			,	data = []
-
-			for( i = 0; i <= 12; i++){
-
-					next = ( i == avail ) ? 0 : i+1
-
-					prev = ( i == 0 ) ? avail : i-1	
-
-					if(column.hasClass("offset"+i))
-						data = new Array("offset"+i, "offset"+next, "offset"+prev, i)
-
-			}
-
-			if(data.length === 0 || defaultValue)
-				return new Array("offset0", "offset0", "offset0", 0)
-			else
-				return data
-
-		}
 		
-
-		, getColumnSize: function(column, defaultValue) {
-
-			if (column.hasClass("span12") || defaultValue) //full-width
-				return new Array("span12", "span2", "span10", "1/1", 12)
-
-		    else if (column.hasClass("span10")) //five-sixth
-		        return new Array("span10", "span12", "span9", "5/6", 10)
-
-			else if (column.hasClass("span9")) //three-fourth
-				return new Array("span9", "span10", "span8", "3/4", 9)
-
-			else if (column.hasClass("span8")) //two-third
-				return new Array("span8", "span9", "span6", "2/3", 8)
-
-			else if (column.hasClass("span6")) //one-half
-				return new Array("span6", "span8", "span4", "1/2", 6)
-
-			else if (column.hasClass("span4")) // one-third
-				return new Array("span4", "span6", "span3", "1/3", 4)
-
-			else if (column.hasClass("span3")) // one-fourth
-				return new Array("span3", "span4", "span2", "1/4", 3)
-
-		    else if (column.hasClass("span2")) // one-sixth
-		        return new Array("span2", "span3", "span12", "1/6", 2)
-
-			else
-				return false
-
-		}
 
 		, startDroppable: function(){
 			
 			var that = this
 			,	sortableArgs = {}
-			, 	sortableArgsColumn = {}
 			
-			sortableArgs = {
-			       	items: 	".pl-sortable"
-				,	connectWith: ".pl-sortable-area"
-				,	placeholder: "pl-placeholder"
-				,	forcePlaceholderSize: true
-		        ,	tolerance: "pointer"		// basis for calculating where to drop
-				,	helper: 	"clone" 		// needed or positioning issues ensue
-				,	scrollSensitivity: 50
-				,	scrollSpeed: 40
-		        ,	cursor: "move"
-				,	distance: 3
-				,	delay: 100
-
-				, start: function(event, ui){
-					$('body')
-						.addClass('pl-dragging')
-						.toolbox('hide')
-
-					if(ui.item.hasClass('x-item'))
-						$.plSections.switchOnAdd(ui.item)
-
-					// allows us to change sizes when dragging starts, while keeping good dragging
-					$( this ).sortable( "refreshPositions" ) 
-					
-					// Prevents double nesting columns and other recursion bugs. 
-					// Remove all drag and drop elements and disable sortable areas within columns if 
-					// the user is dragging a column
-					if( ui.item.hasClass('section-plcolumn') ){
-				
-						$( '.section-plcolumn .pl-sortable-column' ).removeClass('pl-sortable-area ui-sortable')
-						$( '.section-plcolumn .pl-section' ).removeClass('pl-sortable')
-						
-						$( '.ui-sortable' ).sortable( 'refresh' )
-						
-					}
-				
-
-				} 
-				, stop: function(event, ui){
-
-					$('body')
-						.removeClass('pl-dragging')
-
-					// when new sections are added
-					ui.item.find('.banner-refresh').fadeIn('slow')
-					
-					if( ui.item.hasClass('section-plcolumn') ){
-						
-						$( '.section-plcolumn .pl-sortable-column' ).addClass('pl-sortable-area ui-sortable')
-						$( '.section-plcolumn .pl-section' ).addClass('pl-sortable')
-						
-						$( '.ui-sortable' ).sortable( 'refresh' )
-						
-					}
-					
-					if(ui.item.hasClass('x-item'))
-						$.plSections.switchOnStop(ui.item)
-
-				}
-
-				, over: function(event, ui) {
-
-		           $( "#droppable" ).droppable( "disable" )
-
-					ui.placeholder.css({
-						maxWidth: ui.placeholder.parent().width()
-					})
-
-		        }
-				, update: function() {
-					that.reloadConfig( 'update-sortable' )
-				}
-			}
+		
 			
 			$( '.section-plcolumn' ).on('mousedown', function(e){
 				$('.section-plcolumn .pl-sortable-area').sortable( "disable" )
@@ -800,13 +598,108 @@
 				$( '.section-plcolumn .pl-section' ).addClass('pl-sortable')
 			})
 			
-		    $( '.pl-sortable-area' ).sortable( sortableArgs ) 
+		    $( '.pl-sortable-area' ).sortable( that.sortableArguments( 'section' ) ) 
 		
-		//	$( ".x-item" ).draggable()
-			
+		
+			// AREA drag and drop
+			$( '.pl-area-container' ).sortable( that.sortableArguments( 'area' ) )
+		
+
 			
 		
 		}
+		
+		, sortableArguments: function( type ){
+			
+			var that = this
+			,	type = type || 'section'
+			,	sortableSettings = {}
+			,	items = ( type == 'section' ) ? '.pl-sortable' : '.pl-area'
+			,	container = ( type == 'section' ) ? '.pl-sortable-area' : '.pl-area-container'
+			,	placeholder = ( type == 'section' ) ? 'pl-placeholder' : 'pl-area-placeholder'
+			
+				sortableSettings = {
+				       	items: 	items
+					,	connectWith: container
+					,	placeholder: placeholder
+					,	forcePlaceholderSize: true
+			        ,	tolerance: "pointer"		// basis for calculating where to drop
+					,	helper: 	"clone" 		// needed or positioning issues ensue
+					,	scrollSensitivity: 50
+					,	scrollSpeed: 40
+			        ,	cursor: "move"
+					,	distance: 3
+					,	delay: 100
+
+					, start: function(event, ui){
+						
+						$('body')
+							.addClass('pl-dragging')
+							.toolbox('hide')
+
+						if( ui.item.hasClass('x-item') )
+							$.plSections.switchOnAdd(ui.item)
+
+						// allows us to change sizes when dragging starts, while keeping good dragging
+						$( this ).sortable( "refreshPositions" ) 
+
+						
+						// Prevents double nesting columns and other recursion bugs. 
+						// Remove all drag and drop elements and disable sortable areas within columns if 
+						// the user is dragging a column
+						if( ui.item.hasClass('section-plcolumn') ){
+
+							$( '.section-plcolumn .pl-sortable-column' ).removeClass('pl-sortable-area ui-sortable')
+							$( '.section-plcolumn .pl-section' ).removeClass('pl-sortable')
+
+							$( '.ui-sortable' ).sortable( 'refresh' )
+
+						}
+						
+					} 
+					, stop: function(event, ui){
+
+						$('body')
+							.removeClass('pl-dragging')
+
+						// when new sections are added
+						ui.item.find('.banner-refresh').fadeIn('slow')
+
+						if( ui.item.hasClass('section-plcolumn') ){
+
+							$( '.section-plcolumn .pl-sortable-column' ).addClass('pl-sortable-area ui-sortable')
+							$( '.section-plcolumn .pl-section' ).addClass('pl-sortable')
+
+							$( '.ui-sortable' ).sortable( 'refresh' )
+
+						}
+
+						if(ui.item.hasClass('x-item'))
+							$.plSections.switchOnStop(ui.item)
+
+					}
+
+					, over: function(event, ui) {
+
+			           $( "#droppable" ).droppable( "disable" )
+
+						ui.placeholder.css({
+							maxWidth: ui.placeholder.parent().width()
+						})
+
+			        }
+					, update: function() {
+						that.reloadConfig( 'update-sortable' )
+					}
+				}
+			
+			return sortableSettings
+		}
+		
+		
+		
+		
+		
 		
 		
     }

@@ -15,6 +15,7 @@ class EditorDraft{
 	}
 
 	function editor_mode(){
+		global $is_chrome;
 		$current_user = wp_get_current_user();
 
 		if(isset($_GET['edtr']) && $_GET['edtr'] != ''){
@@ -29,7 +30,7 @@ class EditorDraft{
 		}
 
 
-		if( current_user_can('edit_themes') && $state != 'off')
+		if( current_user_can('edit_themes') && $state != 'off' && $is_chrome )
 			return 'draft';
 		else {
 			return 'live';
@@ -43,43 +44,27 @@ class EditorDraft{
 			return false;
 	}
 
-	function save_draft( $data ){
+	function save_draft( $pageID, $typeID, $pageData ){
 
-		if( isset($data['pageData']['global']) )
-			pl_settings_update( stripslashes_deep( $data['pageData']['global'] ), 'draft');
+		if( isset($pageData['global']) )
+			pl_settings_update( stripslashes_deep( $pageData['global'] ), 'draft');
 
-		if( isset($data['pageData']['local']) )
-			pl_settings_update( $data['pageData']['local'], 'draft', $data['pageID'] );
+		if( isset($pageData['local']) )
+			pl_settings_update( $pageData['local'], 'draft', $pageID );
 
-		if( isset($data['pageData']['type']) && $data['pageID'] != $data['typeID'])
-			pl_settings_update( $data['pageData']['type'], 'draft', $data['typeID'] );
-
-	}
-
-	function set_state( $draft_state, $live_state, $metaID = false ){
-
-		$modified = ( $live_state != $draft_state ) ? true : false;
-
-		if($modified)
-			echo $metaID;
-
-		if( $metaID )
-			pl_meta_update( $metaID, $this->slug, $modified  );
-		else
-			pl_opt_update( $this->slug, $modified );
+		if( isset($pageData['type']) && $pageID != $typeID)
+			pl_settings_update( $pageData['type'], 'draft', $typeID );
 
 	}
 
-	function publish( $data, EditorMap $map ){
+	
 
-		$pageID = $data['pageID'];
-		$typeID = $data['typeID'];
+	function publish( $pageID, $typeID, EditorMap $map ){
 
 		pl_publish_settings($pageID, $typeID);
 
-		$data['map_object']->publish_map( $data['pageID'] );
-
-		$this->reset_state( $data['pageID'] );
+		$map->publish_map( $pageID );
+		
 		do_action( 'extend_flush' );
 	}
 
@@ -119,12 +104,10 @@ class EditorDraft{
 
 
 
-	function get_state( $data ){
+	function get_state( $pageID, $typeID, $map ){
 
 		$state = array();
 		$settings = array();
-		$pageID = $data['pageID'];
-		$typeID = $data['typeID'];
 		$default = array('live'=> array(), 'draft' => array());
 
 
@@ -135,8 +118,9 @@ class EditorDraft{
 			$settings['type'] = pl_meta( $typeID, PL_SETTINGS );
 
 		$settings['global'] = pl_opt( PL_SETTINGS );
-		$settings['map-local'] = $data['map_object']->map_local( $pageID );
-		$settings['map-global'] = $data['map_object']->map_global();
+		
+		$settings['map-local'] = $map->map_local( $pageID );
+		$settings['map-global'] = $map->map_global();
 
 		foreach( $settings as $scope => $set ){
 
@@ -146,29 +130,17 @@ class EditorDraft{
 
 			if( $set['draft'] != $set['live'] ){
 				$state[$scope] = $scope;
-			//	print_r( array_diff($set['draft'], $set['live']) );
 			}
 
-
-
 		}
-
-	//	print_r($state);
-
-		if( count( $state ) > 1 )
+		
+		if( count($state) > 1 )
 			$state[] = 'multi';
-
-		if(empty($state))
-			return 'clean';
-		else
-			return join(' ', $state);
+		
+		return $state;
 
 	}
 
-	function reset_state( $pageID ){
-		pl_meta_update( $pageID, $this->slug, false );
-		pl_opt_update( $this->slug, false );
-	}
 
 	function set_local( $pageID, $val = true ){
 		pl_meta_update( $pageID, $this->slug, $val );

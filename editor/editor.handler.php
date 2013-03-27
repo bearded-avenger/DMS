@@ -99,6 +99,7 @@ class PageLinesTemplateHandler {
 						, isSpecial: '<?php echo $this->page->is_special();?>'
 						, opts: <?php echo json_encode($this->get_options_config(), JSON_FORCE_OBJECT); ?>
 						, settings: <?php echo json_encode($this->siteset->get_set('site'), JSON_FORCE_OBJECT); ?>
+						, areaSettings: <?php echo json_encode($this->areas->settings(), JSON_FORCE_OBJECT); ?>
 						, fonts: <?php echo json_encode($this->foundry->get_foundry(), JSON_FORCE_OBJECT); ?>
 						, menus: <?php echo json_encode( $this->get_wp_menus(), JSON_FORCE_OBJECT); ?>
 						, extensions: <?php echo json_encode( $this->extensions->get_list(), JSON_FORCE_OBJECT); ?>
@@ -517,7 +518,8 @@ class PageLinesTemplateHandler {
 		if(!isset($this->map[ $region ]))
 			return;
 		
-		$this->editor->region_start( $region, $this->area_number++ );
+		if(pl_draft_mode())
+			$this->editor->region_start( $region, $this->area_number++ );
 		
 		foreach( $this->map[ $region ] as $area => $a ){
 			

@@ -1,0 +1,9 @@
+!function ($) {
+
+	$.plSettings = {
+	
+       
+		
+	}
+	
+}(window.jQuery);

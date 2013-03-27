@@ -49,6 +49,117 @@
 
 .drag-drop-editing{
 	
+	// Area Controls
+	// --------------------------------------------------
+	
+	.pl-region{
+		position: relative;
+		
+		&.header{
+			margin-top: 13px;
+		}
+	}
+	.pl-region-bar{
+		display: block;
+		position: absolute; 
+		top: -13px;
+		line-height: 12px;	
+		z-index: @zindexEditor;
+		#gradient > .vertical(rgba(182, 242, 253, .06), rgba(125, 233, 253, .06));
+		width: 100%;
+		height: 13px;
+		a.btn-region{
+			vertical-align: top;
+			color: @editorText;
+			text-shadow: 0 1px 0 rgba(255,255,255,.4);
+			box-shadow: inset 2px 1px 0 rgba(255,255,255,.5); 
+			outline: 1px dashed  @editorBorder;
+			#gradient > .vertical(rgba(182, 242, 253, .5), rgba(125, 233, 253, .5));
+
+			font-size: 9px;
+			line-height: 13px;
+			padding: 1px 4px;
+			font-weight: bold;
+			.border-radius(0);
+		}
+	}
+	
+	.pl-area-container{
+		min-height: 20px;
+	}
+	.pl-area-placeholder{
+		max-height: 400px; 
+		border-top: 1px dashed @editorBorder;
+		#gradient > .vertical(rgba(182, 242, 253, .06), rgba(125, 233, 253, .06));
+	}
+	
+	.pl-area{
+		position: relative;
+		border-top: 1px dashed @editorBorder;
+		&.ui-sortable-helper{
+			border: 1px dashed @editorBorder;
+			.pl-area-controls{
+				display: none;
+			}
+		}
+		.pl-area-controls{
+			.transition(all 0.15s ease-in-out);
+			display: block;
+			z-index: @zindexEditor;
+			position: absolute; 
+			left: 0; 
+			top: 0px;
+			text-align: left;
+			width: 40px;
+			line-height: 1em;
+			font-size: 9px;
+			
+			#gradient > .vertical(rgba(182, 242, 253, .6), rgba(125, 233, 253, .6));
+			margin-left: -30px;
+			i{opacity: 0;}
+			&:hover{
+				i{opacity: 1;}
+				margin-left: 0;
+			}
+			&::after{
+				content: '';
+				display: block;
+				width: 200px;
+				height: 160%;
+				position: absolute;
+				top: -5%;
+				right: -50px;
+				z-index: -100;
+			}
+			
+			
+			.area-control{
+				display: inline-block;
+				font-size: 11px;
+				font-weight: bold;
+				color: rgba(0,0,0,.9);
+				text-shadow: 0 1px 0 #fff; //rgba(255,255,255,.4);
+				height: 20px; 
+				width: 20px;
+				line-height: 20px;
+				text-align: center;
+				&:hover{
+					cursor:pointer;
+					#gradient > .vertical(rgba(182, 242, 253, .7), rgba(125, 233, 253, .7));
+				}
+				&:active{
+					color:#000;
+					cursor:pointer;
+					#gradient > .vertical(rgba(62, 216, 241, .7), rgba(125, 233, 253, .7));
+				}
+			}
+		}
+	}
+	
+	
+	
+	
+	
 	.pl-section{
 		.box-sizing(border-box);
 		position: relative;
@@ -56,7 +167,7 @@
 		&:hover, 
 		&.ui-sortable-helper { 
 			cursor: move;
-			background: @baseContrastSlight;
+			background: fadeout(@baseContrast, 50%);
 			> .pl-section-controls{
 				display: block;
 			}
@@ -184,7 +295,7 @@
 
 	.pl-sortable-area, 
 	.pl-sortable-column{
-		min-height: 45px;
+		min-height: 35px;
 		.transition(.5s);
 	}
 	&.pl-dragging{
@@ -217,6 +328,7 @@
 		}
 
 	}
+	
 	
 	// Area for dropping elements on drag
 	.pl-placeholder {
@@ -260,97 +372,7 @@
 
 
 	
-	// Area Controls
-	// --------------------------------------------------
 	
-	.pl-region{
-		position: relative;
-		min-height: 20px;
-		&.header{
-			margin-top: 13px;
-		}
-	}
-	.pl-region-bar{
-		display: block;
-		position: absolute; 
-		top: -13px;
-		line-height: 12px;	
-		z-index: @zindexEditor;
-		#gradient > .vertical(rgba(182, 242, 253, .06), rgba(125, 233, 253, .06));
-		width: 100%;
-		height: 13px;
-		a.btn-region{
-			vertical-align: top;
-			color: @editorText;
-			text-shadow: 0 1px 0 rgba(255,255,255,.4);
-			box-shadow: inset 2px 1px 0 rgba(255,255,255,.5); 
-			outline: 1px dashed  @editorBorder;
-			#gradient > .vertical(rgba(182, 242, 253, .5), rgba(125, 233, 253, .5));
-
-			font-size: 9px;
-			line-height: 13px;
-			padding: 1px 4px;
-			font-weight: bold;
-			.border-radius(0);
-		}
-	}
-	
-	
-	.pl-area{
-		position: relative;
-		border-top: 1px dashed #35eafd;
-
-		.pl-area-controls{
-			.transition(all 0.15s ease-in-out);
-			display: block;
-			z-index: @zindexEditor;
-			position: absolute; 
-			left: 0; 
-			top: 0px;
-			text-align: left;
-			width: 80px;
-			margin-left: -70px;
-			#gradient > .vertical(rgba(182, 242, 253, .5), rgba(125, 233, 253, .5));
-			i{opacity: 0;}
-			&:hover{
-				i{opacity: 1;}
-				margin-left: 0;
-			}
-			&::after{
-				content: '';
-				display: block;
-				width: 200px;
-				height: 160%;
-				position: absolute;
-				top: -5%;
-				right: -60px;
-				z-index: -100;
-			}
-			
-			line-height: 1em;
-			font-size: 9px;
-			.area-control{
-				display: inline-block;
-				font-size: 11px;
-				font-weight: bold;
-				color: @editorText;
-				text-shadow: 0 1px 0 #fff; //rgba(255,255,255,.4);
-				height: 20px; 
-				width: 20px;
-				line-height: 20px;
-				text-align: center;
-				&:hover{
-					cursor:pointer;
-					#gradient > .vertical(rgba(182, 242, 253, .7), rgba(125, 233, 253, .7));
-				}
-				&:active{
-					color:#000;
-					cursor:pointer;
-					#gradient > .vertical(rgba(62, 216, 241, .7), rgba(125, 233, 253, .7));
-				}
-			}
-		}
-	}
 
 	.pl-refresh-banner{
 		display: block; 
@@ -571,7 +593,6 @@
 							opacity: 1;
 						}
 						> .btn-toolbox{
-							color: @linkcolor;
 							border-left: 1px solid transparent;
 							border-right: 1px solid transparent;
 							padding: 0 4px;
@@ -638,6 +659,12 @@
 						font-size: 1.4em;
 						vertical-align: middle;
 					}
+					&.btn-publish{
+						padding: 0 10px;
+						height: 28px;
+						#gradient > .vertical(#ddd, #ccc);
+						i{ color: #225E9B;}
+					}
 					&.btn-state{
 						padding: 0 10px;
 						height: 28px;
@@ -661,7 +688,7 @@
 						border-right: 1px solid #AAA;
 						box-shadow: inset 0 1px 0 #fff;
 						i{
-							color: #0f63cc;
+							color: #225E9B;
 						}
 					}
 
@@ -708,23 +735,10 @@
 			box-shadow: inset 0 0 2px rgba(0,0,0,.4);
 			vertical-align: middle;
 			margin: -3px 0 0 0;
-			&.state-draft.global{
-				background: rgba(22, 134, 243, .5);
-			}
-			&.state-draft.local{
-				background: rgba(255, 0, 5, .4);
-			}
-			&.state-draft.type{
-				background: rgba(255, 196, 23, .4);
-			}
-			&.state-draft.multi{
-				background: rgba(139, 22, 243, .4);
-			}
-			&.state-draft.unsaved{
-				background: rgba(0, 0, 0, .9);
-			}
-			
+		
 		}
+		
+			
 		.btn-state span {
 			box-shadow: 0 1px 0 #fff, inset 0 0 2px rgba(0,0,0,.4);
 		}
@@ -741,12 +755,45 @@
 			}
 		}
 		
-		.state-list.clean .li-state-clean{ display: block; }
-		.state-list.local .li-state-local{ display: block; }
-		.state-list.global .li-state-global{ display: block; }
-		.state-list.type .li-state-type{ display: block; }
-		.state-list.multi .li-state-multi{ display: block; }
-		.state-list.unsaved .li-state-unsaved{ display: block; }
+		#stateTool.clean {
+			.li-state-clean{ display: block; }
+		}
+		#stateTool.local{
+			.li-state-local{ display: block; }
+			.state-tag, 
+			.state-draft.local{
+				background: rgba(255, 0, 5, .4);
+			}
+		} 
+		#stateTool.global{
+			.li-state-global{ display: block; }
+			.state-tag, 
+			.state-draft.global{
+				background: rgba(22, 134, 243, .5);
+			}
+		}
+		#stateTool.type{
+			.li-state-type{ display: block; }
+			.state-tag, 
+			.state-draft.type{
+				background: rgba(255, 196, 23, .4);
+			}
+		}
+		#stateTool.multi{
+			.li-state-multi{ display: block; }
+			.state-tag, 
+			.state-draft.multi{
+				background: rgba(139, 22, 243, .4);
+			}
+		}
+		#stateTool.unsaved{
+			.li-state-unsaved{ display: block; }
+			.state-tag, 
+			.state-draft.unsaved{
+				background: rgba(0, 0, 0, .9);
+			}
+		}
+
 		
 		
 	}

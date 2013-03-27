@@ -120,10 +120,10 @@ class EditorMap {
 		$this->save_local_map( $pageID, $local_map );
 	}
 	
-	function save_map_draft( $data ){
-		//print_r($data);
-		$pageID = (int) $data['pageID'];
-		$map = (array) $data['map'];
+	function save_map_draft( $pageID, $the_map ){
+
+		$pageID =  $pageID;
+		$map = $the_map;
 	
 		// global
 		$global_map = pl_opt( $this->map_option_slug, $this->map_default, true );

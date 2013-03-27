@@ -50,6 +50,12 @@ class PageLinesSectionsPanel{
 					'filter'=> '.layout',
 					'icon'	=> 'icon-columns'
 				),
+				'full-width'	=> array(
+					'name'	=> 'Full Width',
+					'href'	=> '#add_section',
+					'filter'=> '.full-width',
+					'icon'	=> 'icon-resize-horizontal'
+				),
 				'formats'		=> array(
 					'name'	=> 'Post Formats',
 					'href'	=> '#add_section',
@@ -74,7 +80,6 @@ class PageLinesSectionsPanel{
 					'filter'=> '.feature',
 					'icon'	=> 'icon-picture'
 				),
-
 				'social'	=> array(
 					'name'	=> 'Social',
 					'href'	=> '#add_section',
@@ -105,9 +110,7 @@ class PageLinesSectionsPanel{
 		$this->page = new PageLinesPage;
 
 		$sections = $this->extensions->get_available_sections();
-
-
-		$section_classes = 'pl-sortable span12 sortable-first sortable-last';
+		
 		$list = '';
 		$count = 1;
 		foreach($sections as $key => $s){
@@ -124,6 +127,14 @@ class PageLinesSectionsPanel{
 
 			if($s->filter == 'deprecated')
 				continue;
+				
+				
+			if( $s->filter == 'full-width' ){
+				$section_classes = 'pl-area area-tag';	
+			} else {
+				$section_classes = 'pl-sortable span12 sortable-first sortable-last';	
+			}
+			
 				
 			$class = array('x-add-new', $section_classes, $special_class, $s->filter);
 
@@ -146,8 +157,6 @@ class PageLinesSectionsPanel{
 					
 				
 			}
-			
-			
 
 			$args = array(
 				'id'			=> $s->id,

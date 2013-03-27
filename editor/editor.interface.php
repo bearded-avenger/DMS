@@ -24,8 +24,8 @@ class EditorInterface {
 		$this->map = $map;
 		$this->extensions = $extensions;
 
-
-		if ( $this->draft->show_editor() ){
+		global $is_chrome;
+		if ( $this->draft->show_editor() && $is_chrome){
 			
 			add_action( 'wp_footer', array( &$this, 'pagelines_toolbox' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_scripts' ) );
@@ -41,11 +41,6 @@ class EditorInterface {
 
 
 	}
-
-	function pl_live_site_scripts(){
-		wp_enqueue_script( 'pl-utility-js', $this->url . '/js/pl.live.js', array( 'jquery' ), PL_CORE_VERSION, true );
-	}
-
 
 	function pl_editor_scripts(){
 
@@ -90,7 +85,7 @@ class EditorInterface {
 		
 
 		// Less
-		wp_enqueue_script( 'lessjs', $this->url . '/js/utils.less.js', array('jquery'), '1.3.1', true );
+		wp_enqueue_script( 'lessjs', $this->url . '/js/utils.less.js', array('jquery'), '1.3.1' );
 
 		// Less
 		wp_enqueue_script( 'bootbox', $this->url . '/js/utils.bootbox.js', array('jquery'), '3.0.0', true );
@@ -133,13 +128,6 @@ class EditorInterface {
 				'pos'	=> 1
 			),
 			
-			'settings' => array(
-				'name'	=> 'Settings',
-				'icon'	=> 'icon-cog',
-				'pos'	=> 60,
-				'panel'	=> $this->get_settings_tabs( 'site' )
-			),
-		
 			'pl-actions' => array(
 				'name'	=> '',
 				'icon'	=> '',
@@ -152,14 +140,7 @@ class EditorInterface {
 				'pos'	=> 200
 
 			),
-			'section-options' => array(
-				'name'	=> 'Section Options',
-				'icon'	=> 'icon-paste',
-				'type'	=> 'hidden',
-				'flag'	=> 'section-opts',
-				'panel'	=> $this->section_options_panel()
-				
-			),
+			
 		);
 
 		return $data;
@@ -197,58 +178,35 @@ class EditorInterface {
 	
 	
 
-	function section_options_panel(){
-
-		$current_page = ($this->page->is_special()) ? $this->page->type_name : $this->page->id;
-
-		$tabs = array();
-		$tabs['heading'] = "Section Options";
-
-		$tabs['global'] = array( 'name'	=> 'Sitewide Defaults' );
 	
-		if(!$this->page->is_special())
-			$tabs['type'] = array( 'name'	=> 'Post Type <span class="label">'.$this->page->type_name.'</span>' );
-		
-		$tabs['local'] = array( 'name'	=> 'Current Page <span class="label">'.$current_page.'</span>' );
-		
-
-		return $tabs;
-
-	}
 
 
-	function get_settings_tabs( $panel = 'site' ){
-
-		$tabs = array();
-
-		if($panel == 'site'){
-			$tabs['heading'] = 'Global Settings';
-
-			foreach( $this->siteset->get_set('site') as $tabkey => $tab ){
-
-				$tabs[ $tabkey ] = array(
-					'key' 	=> $tabkey,
-					'name' 	=> $tab['name'],
-					'icon'	=> isset($tab['icon']) ? $tab['icon'] : ''
-				);
-			}
-
-		}
-
-		return $tabs;
-
-	}
 
 	function pagelines_editor_activate(){
 		global $wp;
-		$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
+		global $is_chrome; 
 		
-		$nigl = (count($_GET) > 0) ? '&' : '?'; 
+		if($is_chrome){
+			
+			$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
+
+			$nigl = (count($_GET) > 0) ? '&' : '?'; 
+
+			$activate_url = $current_url . $nigl . 'edtr=on';
+			
+			$text = 'Activate PageLines Editor';
+			
+			$target = "";
+		} else {
+			$target = "target='_blank'";
+			$activate_url = 'http://www.google.com/chrome';
+			$text = 'Chrome is required to use PageLines Editor';
+			
+		}
 		
-		$activate_url = $current_url . $nigl . 'edtr=on';
 		
 		?>
-			<a id="toolbox-activate" href="<?php echo $activate_url;?>" class="toolbox-activate"><i class="icon-off"></i> <span class="txt">Activate PageLines Editor</span></span></a>
+			<a id="toolbox-activate" href="<?php echo $activate_url;?>" class="toolbox-activate" <?php echo $target;?>><i class="icon-off"></i> <span class="txt"><?php echo $text; ?></span></span></a>
 
 		<?php
 	}
@@ -331,15 +289,21 @@ class EditorInterface {
 
 			<ul class="unstyled controls send-right">
 
-				<li class="dropup">
-					<?php
-						$state = $this->draft->get_state( array('pageID' => $this->page->id, 'typeID' => $this->page->typeid, 'map_object' => $this->map ) );
-
-					?>
+				<?php
+					$state = $this->draft->get_state( $this->page->id, $this->page->typeid, $this->map );
+					
+					$state_class = '';
+					foreach($state as $st){
+						$state_class .= ' '.$st;
+					}
+					
+					
+				?>
+				<li id="stateTool" class="dropup <?php echo $state_class;?>">
 					<span class="btn-toolbox btn-state " data-toggle="dropdown">
-						<span id="update-state" class="state-draft <?php echo $state;?>">&nbsp;</span>
+						<span id="update-state" class="state-draft state-tag">&nbsp;</span>
 					</span>
-					<ul class="dropdown-menu pull-right state-list <?php echo $state;?>">
+					<ul class="dropdown-menu pull-right state-list">
 						<li class="li-state-multi"><a class="btn-revert" data-revert="all"><span class="update-state state-draft multi">&nbsp;</span>&nbsp; Revert All Unpublished Changes</a></li>
 						<li class="li-state-global"><a class="btn-revert" data-revert="global"><span class="update-state state-draft global">&nbsp;</span>&nbsp; Revert Unpublished Global Changes</a></li>
 
@@ -348,8 +312,8 @@ class EditorInterface {
 						<li class="li-state-clean disabled"><a class="txt"><span class="update-state state-draft clean">&nbsp;</span>&nbsp; No Unpublished Changes</a></li>
 					</ul>
 				</li>
-				<li class="li-draft"><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-edit"></i> <span class="txt">Preview</span></li>
-				<li class="li-publish"><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-check"></i> <span class="txt">Publish</span></li>
+				<li class="li-draft"><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-save"></i> <span class="txt">Save <span class="spamp">&amp;</span> Preview</span></li>
+				<li class="li-publish"><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-ok"></i> <span class="txt">Publish</span></li>
 
 			</ul>
 			<ul class="unstyled controls not-btn send-right">

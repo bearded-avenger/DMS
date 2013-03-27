@@ -33,7 +33,7 @@ $.plSections = {
 		
 		var that = this
 	
-		$('.panel-add-new').find( '.x-item:not(.x-disable)' ).draggable({
+		$('.panel-add-new').find( '.x-item.pl-sortable:not(.x-disable)' ).draggable({
 				appendTo: "body"
 			, 	helper: "clone"
 			, 	cursor: "move" 
@@ -46,6 +46,25 @@ $.plSections = {
 					
 					ui.helper
 						.css('max-width', '300px')
+						.css('height', 'auto')
+						
+				
+				}
+		})
+		
+		$('.panel-add-new').find( '.x-item.pl-area' ).draggable({
+				appendTo: "body"
+			, 	helper: "clone"
+			, 	cursor: "move" 
+			, 	connectToSortable: ".pl-area-container"
+			,	zIndex: 10000
+			,	distance: 20
+			, 	start: function(event, ui){
+			
+					that.switchOnAdd( ui.helper )
+					
+					ui.helper
+						.css('width', '100%')
 						.css('height', 'auto')
 						
 				
@@ -112,7 +131,7 @@ $.plSections = {
 			})
 			
 		// Store new page config
-		$.pageBuilder.storeConfig()
+		$.pageBuilder.storeMap()
 	}
 }
 
