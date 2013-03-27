@@ -9,7 +9,7 @@ class EditorCode{
 		add_filter('pl_toolbar_config', array(&$this, 'toolbar'));
 		add_action('pagelines_editor_scripts', array(&$this, 'scripts'));
 	
-		add_action( 'wp_print_styles', array( &$this, 'draw_custom_styles' ), 20 );
+		add_action( 'pagelines_head_last', array( &$this, 'draw_custom_styles' ), 200 );
 		add_action( 'pagelines_head_last', array( &$this, 'draw_custom_scripts' ) );
 	
 		$this->url = PL_PARENT_URL . '/editor';
@@ -61,8 +61,7 @@ class EditorCode{
 	
 	function draw_custom_styles(){
 		
-		if( pl_draft_mode() )
-			printf('<style id="pl-custom-less" type="text/less">%s</style>', pl_setting('custom_less'));
+		printf('<style id="pl-custom-less" type="text/css">%s</style>', pl_setting('custom_less'));
 		
 		
 	}

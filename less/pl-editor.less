@@ -593,7 +593,6 @@
 							opacity: 1;
 						}
 						> .btn-toolbox{
-							color: @linkcolor;
 							border-left: 1px solid transparent;
 							border-right: 1px solid transparent;
 							padding: 0 4px;
@@ -660,6 +659,12 @@
 						font-size: 1.4em;
 						vertical-align: middle;
 					}
+					&.btn-publish{
+						padding: 0 10px;
+						height: 28px;
+						#gradient > .vertical(#ddd, #ccc);
+						i{ color: #225E9B;}
+					}
 					&.btn-state{
 						padding: 0 10px;
 						height: 28px;
@@ -683,7 +688,7 @@
 						border-right: 1px solid #AAA;
 						box-shadow: inset 0 1px 0 #fff;
 						i{
-							color: #0f63cc;
+							color: #225E9B;
 						}
 					}
 
@@ -730,23 +735,10 @@
 			box-shadow: inset 0 0 2px rgba(0,0,0,.4);
 			vertical-align: middle;
 			margin: -3px 0 0 0;
-			&.state-draft.global{
-				background: rgba(22, 134, 243, .5);
-			}
-			&.state-draft.local{
-				background: rgba(255, 0, 5, .4);
-			}
-			&.state-draft.type{
-				background: rgba(255, 196, 23, .4);
-			}
-			&.state-draft.multi{
-				background: rgba(139, 22, 243, .4);
-			}
-			&.state-draft.unsaved{
-				background: rgba(0, 0, 0, .9);
-			}
-			
+		
 		}
+		
+			
 		.btn-state span {
 			box-shadow: 0 1px 0 #fff, inset 0 0 2px rgba(0,0,0,.4);
 		}
@@ -763,12 +755,45 @@
 			}
 		}
 		
-		.state-list.clean .li-state-clean{ display: block; }
-		.state-list.local .li-state-local{ display: block; }
-		.state-list.global .li-state-global{ display: block; }
-		.state-list.type .li-state-type{ display: block; }
-		.state-list.multi .li-state-multi{ display: block; }
-		.state-list.unsaved .li-state-unsaved{ display: block; }
+		#stateTool.clean {
+			.li-state-clean{ display: block; }
+		}
+		#stateTool.local{
+			.li-state-local{ display: block; }
+			.state-tag, 
+			.state-draft.local{
+				background: rgba(255, 0, 5, .4);
+			}
+		} 
+		#stateTool.global{
+			.li-state-global{ display: block; }
+			.state-tag, 
+			.state-draft.global{
+				background: rgba(22, 134, 243, .5);
+			}
+		}
+		#stateTool.type{
+			.li-state-type{ display: block; }
+			.state-tag, 
+			.state-draft.type{
+				background: rgba(255, 196, 23, .4);
+			}
+		}
+		#stateTool.multi{
+			.li-state-multi{ display: block; }
+			.state-tag, 
+			.state-draft.multi{
+				background: rgba(139, 22, 243, .4);
+			}
+		}
+		#stateTool.unsaved{
+			.li-state-unsaved{ display: block; }
+			.state-tag, 
+			.state-draft.unsaved{
+				background: rgba(0, 0, 0, .9);
+			}
+		}
+
 		
 		
 	}

@@ -165,7 +165,7 @@
 					}
 					
 					if(e.type == 'change' || e.type == 'blur'){
-						$.pageBuilder.storeConfig()
+						$.pageBuilder.storeMap()
 					}
 					
 					
@@ -195,7 +195,7 @@
 
 
 					if(e.type == 'change' || e.type == 'blur'){
-						$.plAJAX.saveData( 'draft' )
+						$.plAJAX.saveData( )
 					}
 					
 				}

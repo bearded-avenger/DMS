@@ -73,7 +73,9 @@
 							theData.beforeSend.call( this )
 
 						if( theData.refresh ){
+							
 							$.toolbox('hide')
+							$.pl.flags.refreshing = true
 							bootbox.dialog( that.dialogText( theData.savingText ), [ ], {animate: false})
 						}
 							
@@ -94,7 +96,7 @@
 							
 						} else {
 							
-							if( theData.toolboxOpen )
+							if( theData.toolboxOpen && !$.pl.flags.refreshing )
 								$('body').toolbox('show')
 							
 						}
@@ -114,7 +116,7 @@
 			if ( $.isFunction( theData.postSuccess ) )
 				theData.postSuccess.call( this, rsp )
 			
-			that.ajaxSuccess(response)
+			that.ajaxSuccess(rsp)
 		}
 		
 		, init: function(){
@@ -124,43 +126,24 @@
 			
 		}
 		
-		, saveData: function( mode, refresh ){
+		, saveData: function( opts ){
+						
+			var args = {
+					mode: 'save'
+				,	savingText: 'Saving Settings'
+				,	refresh: false
+				,	refreshText: 'Settings successfully saved! Refreshing page...'
+				, 	log: true
+				,	pageData: $.pl.data
+				,	run: 'draft'
+				,	map: $.pl.map
+			}
 			
-			var	that = this
-			, 	refresh = refresh || false
-			, 	mode = mode || 'draft'
-			,	savingDialog = $.pl.flags.savingDialog
-			,	refreshingDialog = $.pl.flags.refreshingDialog
-			,	theData = {
-						action: 'pl_save_page'
-					,	map: $.pl.map
-					,	mode: mode
-					,	pageID: $.pl.config.pageID
-					,	typeID: $.pl.config.typeID
-					,	pageData: $.pl.data
-				}
+			$.extend( args, opts )
 
-			$.ajax( {
-				type: 'POST'
-				, url: ajaxurl
-				, data: theData	
-				, beforeSend: function(){
-					$('.btn-saving').addClass('active')
-					
-					if(refresh)
-						bootbox.dialog( that.dialogText( savingDialog ), [], {animate: false})
-				}
-				, success: function( response ){
-				
-					that.ajaxSuccess(response)
-					
-					if(refresh){
-						bootbox.dialog( that.dialogText( refreshingDialog ), [], {animate: false})
-						location.reload()
-					}
-					
-				}
-			})
+			var response = $.plAJAX.run( args )
+
+		
 			
 		}
 		
@@ -209,16 +192,7 @@
 				,	mode = (btn.data('mode')) ? btn.data('mode') : ''
 				
 				
-				if(mode == 'draft'){
-					$.pl.flags.savingDialog = 'Saving Draft';
-					$.pl.flags.refreshingDialog = 'Draft saved. Refreshing page.';
-				} else if (mode == 'publish'){
-					$.pl.flags.savingDialog = 'Publishing draft';
-					$.pl.flags.refreshingDialog = 'Published. Refreshing page.';	
-				}
-					
-				
-				$.plAJAX.saveData( mode, $.pl.flags.refreshOnSave )
+				$.plAJAX.saveData( { mode: mode, refresh: true } )
 				
 				
 			})
@@ -274,46 +248,6 @@
 		
 		
 		
-		, ajaxSaveMap: function( map, interrupt ){
-		
-			var that = this
-			, 	interrupt = interrupt || false
-			,	saveData = {
-						action: 'pl_save_page'
-					, 	mode: 'map'
-					,	map: $.pl.map
-					,	pageID: $.pl.config.pageID
-					,	typeID: $.pl.config.typeID
-					, 	special: $.pl.config.isSpecial
-				}
-			
-			$.ajax( {
-				type: 'POST'
-				, url: ajaxurl
-				, data: saveData	
-				, beforeSend: function(){
-					$('.btn-saving').addClass('active')
-					
-					if( interrupt )
-						bootbox.dialog( that.dialogText('Saving Template'), [], {animate: false})
-				}
-				, success: function( response ){
-					
-					if( interrupt ){
-						bootbox.dialog( that.dialogText('Success! Reloading Page'), [], {animate: false})
-						location.reload()
-					}
-					
-					
-					$('.btn-saving').removeClass('active')
-					$('.state-list').removeClass('clean global local type multi map-local map-global').addClass(response)
-					$('.btn-state span').removeClass().addClass('state-draft '+response)
-				}
-			})
-		
-			
-		}
-		
 		, switchThemes: function( ){
 		
 			var that = this
@@ -342,9 +276,20 @@
 		
 		, ajaxSuccess: function( response ){
 			
+				var state = response.state || false
+			
 				$('.btn-saving').removeClass('active')
-				$('.state-list').removeClass('clean global local local-global').addClass(response)
-				$('.btn-state span').removeClass().addClass('state-draft '+response)
+				
+				
+				$('#stateTool')
+					.removeClass()
+					.addClass('dropup')
+				
+				$.each(state, function(index, el){
+					console.log(el)
+					$('#stateTool').addClass(el)
+				})
+				
 		}
 		
 		

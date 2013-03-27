@@ -274,15 +274,20 @@ class EditorInterface {
 
 			<ul class="unstyled controls send-right">
 
-				<li class="dropup">
-					<?php
-						$state = $this->draft->get_state( array('pageID' => $this->page->id, 'typeID' => $this->page->typeid, 'map_object' => $this->map ) );
-
-					?>
+				<?php
+					$state = $this->draft->get_state( $this->page->id, $this->page->typeid, $this->map );
+					$state_class = '';
+					foreach($state as $st){
+						$state_class .= ' '.$st;
+					}
+					
+					
+				?>
+				<li id="stateTool" class="dropup <?php echo $state_class;?>">
 					<span class="btn-toolbox btn-state " data-toggle="dropdown">
-						<span id="update-state" class="state-draft <?php echo $state;?>">&nbsp;</span>
+						<span id="update-state" class="state-draft state-tag">&nbsp;</span>
 					</span>
-					<ul class="dropdown-menu pull-right state-list <?php echo $state;?>">
+					<ul class="dropdown-menu pull-right state-list">
 						<li class="li-state-multi"><a class="btn-revert" data-revert="all"><span class="update-state state-draft multi">&nbsp;</span>&nbsp; Revert All Unpublished Changes</a></li>
 						<li class="li-state-global"><a class="btn-revert" data-revert="global"><span class="update-state state-draft global">&nbsp;</span>&nbsp; Revert Unpublished Global Changes</a></li>
 
@@ -291,8 +296,8 @@ class EditorInterface {
 						<li class="li-state-clean disabled"><a class="txt"><span class="update-state state-draft clean">&nbsp;</span>&nbsp; No Unpublished Changes</a></li>
 					</ul>
 				</li>
-				<li class="li-draft"><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-edit"></i> <span class="txt">Preview</span></li>
-				<li class="li-publish"><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-check"></i> <span class="txt">Publish</span></li>
+				<li class="li-draft"><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-save"></i> <span class="txt">Save <span class="spamp">&amp;</span> Preview</span></li>
+				<li class="li-publish"><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-ok"></i> <span class="txt">Publish</span></li>
 
 			</ul>
 			<ul class="unstyled controls not-btn send-right">

@@ -339,7 +339,7 @@
 			})
 
 			// save settings data
-			$.plAJAX.saveData( 'draft' )
+			$.plAJAX.saveData( )
 		
 		}
 		
@@ -459,7 +459,7 @@
 			})
 			
 			if( source !== 'start' )
-				$.pageBuilder.storeConfig()
+				$.pageBuilder.storeMap()
 			
         }
 
@@ -553,7 +553,7 @@
 
         }
 		
-		, storeConfig: function( interrupt ) {
+		, storeMap: function( interrupt ) {
 			
 			var that = this
 			, 	interrupt = interrupt || false
@@ -561,7 +561,7 @@
 			
 			$.pl.map = map
 			
-			$.plAJAX.ajaxSaveMap( map, interrupt )
+			$.plAJAX.saveData( )
 			
 			return map
 			

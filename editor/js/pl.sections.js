@@ -131,7 +131,7 @@ $.plSections = {
 			})
 			
 		// Store new page config
-		$.pageBuilder.storeConfig()
+		$.pageBuilder.storeMap()
 	}
 }
 

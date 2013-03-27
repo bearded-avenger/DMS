@@ -14,7 +14,36 @@ function pl_editor_actions(){
 	$pageID = $post['pageID'];
 	$typeID = $post['typeID'];
 	
-	if( $mode == 'sections'){
+	if($mode == 'save'){
+
+		$draft = new EditorDraft;
+		$tpl = new EditorTemplates;
+		$map = $post['map_object'] = new EditorMap( $tpl, $draft );
+
+		if( $run == 'draft' ){
+
+			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
+			pl_flush_draft_caches();
+			
+		} elseif ( $run == 'publish' ) {
+
+			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
+			$draft->publish( $pageID, $typeID, $map );
+
+		} elseif ( $run == 'revert' ){
+
+			$draft->revert( $post, $map );
+
+		} elseif ( $run == 'map' ){
+
+			$map->save_map_draft( $post );
+
+		} 
+		
+		$response['state'] = $draft->get_state( $pageID, $typeID, $map );
+		
+		
+	} elseif( $mode == 'sections'){
 		
 		if( $run == 'reload'){
 			
@@ -174,17 +203,9 @@ function pl_save_page(){
 
 		$map->save_map_draft( $data );
 
-	} elseif ($mode == 'reset_global'){
-
-		$settings->reset_global();
-
-	} elseif( $mode == 'reset_local' ){
-
-		$settings->reset_local( $data['pageID'] );
-
-	}
-
-	echo $draft->get_state( $data );
+	} 
+	
+	//echo $draft->get_state( $data );
 
 	die(); // don't forget this, always returns 0 w/o
 

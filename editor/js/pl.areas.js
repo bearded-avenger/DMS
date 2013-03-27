@@ -59,7 +59,7 @@
 
 			})
 			
-			$.pageBuilder.storeConfig()
+			$.pageBuilder.storeMap()
 		}
 		
 		, areaSettings: function( btn ){

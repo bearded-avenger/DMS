@@ -43,16 +43,16 @@ class EditorDraft{
 			return false;
 	}
 
-	function save_draft( $data ){
+	function save_draft( $pageID, $typeID, $pageData ){
 
-		if( isset($data['pageData']['global']) )
-			pl_settings_update( stripslashes_deep( $data['pageData']['global'] ), 'draft');
+		if( isset($pageData['global']) )
+			pl_settings_update( stripslashes_deep( $pageData['global'] ), 'draft');
 
-		if( isset($data['pageData']['local']) )
-			pl_settings_update( $data['pageData']['local'], 'draft', $data['pageID'] );
+		if( isset($pageData['local']) )
+			pl_settings_update( $pageData['local'], 'draft', $pageID );
 
-		if( isset($data['pageData']['type']) && $data['pageID'] != $data['typeID'])
-			pl_settings_update( $data['pageData']['type'], 'draft', $data['typeID'] );
+		if( isset($pageData['type']) && $pageID != $typeID)
+			pl_settings_update( $pageData['type'], 'draft', $typeID );
 
 	}
 
@@ -70,16 +70,14 @@ class EditorDraft{
 
 	}
 
-	function publish( $data, EditorMap $map ){
-
-		$pageID = $data['pageID'];
-		$typeID = $data['typeID'];
+	function publish( $pageID, $typeID, EditorMap $map ){
 
 		pl_publish_settings($pageID, $typeID);
 
-		$data['map_object']->publish_map( $data['pageID'] );
+		$map->publish_map( $pageID );
 
-		$this->reset_state( $data['pageID'] );
+		$this->reset_state( $pageID );
+		
 		do_action( 'extend_flush' );
 	}
 
@@ -119,12 +117,10 @@ class EditorDraft{
 
 
 
-	function get_state( $data ){
+	function get_state( $pageID, $typeID, $map ){
 
 		$state = array();
 		$settings = array();
-		$pageID = $data['pageID'];
-		$typeID = $data['typeID'];
 		$default = array('live'=> array(), 'draft' => array());
 
 
@@ -135,8 +131,9 @@ class EditorDraft{
 			$settings['type'] = pl_meta( $typeID, PL_SETTINGS );
 
 		$settings['global'] = pl_opt( PL_SETTINGS );
-		$settings['map-local'] = $data['map_object']->map_local( $pageID );
-		$settings['map-global'] = $data['map_object']->map_global();
+		
+		$settings['map-local'] = $map->map_local( $pageID );
+		$settings['map-global'] = $map->map_global();
 
 		foreach( $settings as $scope => $set ){
 
@@ -146,22 +143,14 @@ class EditorDraft{
 
 			if( $set['draft'] != $set['live'] ){
 				$state[$scope] = $scope;
-			//	print_r( array_diff($set['draft'], $set['live']) );
 			}
 
-
-
 		}
-
-	//	print_r($state);
-
-		if( count( $state ) > 1 )
+		
+		if( count($state) > 1 )
 			$state[] = 'multi';
-
-		if(empty($state))
-			return 'clean';
-		else
-			return join(' ', $state);
+		
+		return $state;
 
 	}
 
