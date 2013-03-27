@@ -56,27 +56,13 @@ class EditorDraft{
 
 	}
 
-	function set_state( $draft_state, $live_state, $metaID = false ){
-
-		$modified = ( $live_state != $draft_state ) ? true : false;
-
-		if($modified)
-			echo $metaID;
-
-		if( $metaID )
-			pl_meta_update( $metaID, $this->slug, $modified  );
-		else
-			pl_opt_update( $this->slug, $modified );
-
-	}
+	
 
 	function publish( $pageID, $typeID, EditorMap $map ){
 
 		pl_publish_settings($pageID, $typeID);
 
 		$map->publish_map( $pageID );
-
-		$this->reset_state( $pageID );
 		
 		do_action( 'extend_flush' );
 	}
@@ -154,10 +140,6 @@ class EditorDraft{
 
 	}
 
-	function reset_state( $pageID ){
-		pl_meta_update( $pageID, $this->slug, false );
-		pl_opt_update( $this->slug, false );
-	}
 
 	function set_local( $pageID, $val = true ){
 		pl_meta_update( $pageID, $this->slug, $val );

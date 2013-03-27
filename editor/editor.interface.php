@@ -276,6 +276,7 @@ class EditorInterface {
 
 				<?php
 					$state = $this->draft->get_state( $this->page->id, $this->page->typeid, $this->map );
+					
 					$state_class = '';
 					foreach($state as $st){
 						$state_class .= ' '.$st;

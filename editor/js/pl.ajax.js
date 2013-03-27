@@ -189,10 +189,10 @@
 			$( '.btn-save' ).on('click.saveButton', function(){
 				
 				var btn = $(this)
-				,	mode = (btn.data('mode')) ? btn.data('mode') : ''
+				,	run = (btn.data('mode')) ? btn.data('mode') : ''
 				
-				
-				$.plAJAX.saveData( { mode: mode, refresh: true } )
+				console.log(run)
+				$.plAJAX.saveData( { run: run, refresh: true } )
 				
 				
 			})
@@ -234,9 +234,6 @@
 						}
 
 					})
-				
-				
-					
 				
 			})
 			

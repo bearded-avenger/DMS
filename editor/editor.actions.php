@@ -15,7 +15,7 @@ function pl_editor_actions(){
 	$typeID = $post['typeID'];
 	
 	if($mode == 'save'){
-
+		
 		$draft = new EditorDraft;
 		$tpl = new EditorTemplates;
 		$map = $post['map_object'] = new EditorMap( $tpl, $draft );
@@ -26,17 +26,17 @@ function pl_editor_actions(){
 			pl_flush_draft_caches();
 			
 		} elseif ( $run == 'publish' ) {
-
+			
 			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
 			$draft->publish( $pageID, $typeID, $map );
-
+			
 		} elseif ( $run == 'revert' ){
 
 			$draft->revert( $post, $map );
 
 		} elseif ( $run == 'map' ){
 
-			$map->save_map_draft( $post );
+			$map->save_map_draft( $pageID, $post['map'] );
 
 		} 
 		

@@ -561,7 +561,7 @@
 			
 			$.pl.map = map
 			
-			$.plAJAX.saveData( )
+			$.plAJAX.saveData( { run: 'map' } )
 			
 			return map
 			
