@@ -50,6 +50,12 @@ class PageLinesSectionsPanel{
 					'filter'=> '.layout',
 					'icon'	=> 'icon-columns'
 				),
+				'full-width'	=> array(
+					'name'	=> 'Full Width',
+					'href'	=> '#add_section',
+					'filter'=> '.full-width',
+					'icon'	=> 'icon-resize-horizontal'
+				),
 				'formats'		=> array(
 					'name'	=> 'Post Formats',
 					'href'	=> '#add_section',
@@ -73,12 +79,6 @@ class PageLinesSectionsPanel{
 					'href'	=> '#add_section',
 					'filter'=> '.feature',
 					'icon'	=> 'icon-picture'
-				),
-				'full-width'	=> array(
-					'name'	=> 'Full Width',
-					'href'	=> '#add_section',
-					'filter'=> '.full-width',
-					'icon'	=> 'icon-resize-horizontal'
 				),
 				'social'	=> array(
 					'name'	=> 'Social',
