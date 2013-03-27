@@ -7,7 +7,9 @@
 			, sid: ''
 			, sobj: ''
 			, clone: 0
+			, panel: ''
 			, settings: {}
+			, objectID: ''
 		}
 		
 		, cascade: ['local', 'type', 'global']
@@ -20,20 +22,27 @@
 			
 			that.config = $.extend({}, that.defaults, typeof config == 'object' && config)
 			
+			var mode = that.config.mode
+			,	panel = (that.config.panel != '') ? that.config.panel : mode
+			
 			store.set('lastSectionConfig', config)
-
-			that.panel = $('.panel-'+that.config.mode)
+			
+			if(mode == 'object')
+				store.set('lastAreaConfig', that.config.objectID)
+					
 			that.sobj = that.config.sobj
 			that.sid = that.config.sid
 			that.clone = that.config.clone
 			that.optConfig = $.pl.config.opts
 			that.data = $.pl.data
 			
-
+			that.panel = $('.panel-'+panel)
 			
-			if(that.config.mode == 'section-options')
+		
+			
+			if( mode == 'section-options' )
 				that.sectionOptionRender()
-			else if (that.config.mode == 'settings')
+			else if ( mode == 'settings' || mode == 'object' )
 				that.settingsRender( that.config.settings )
 			
 			that.setPanel()
@@ -46,7 +55,7 @@
 		
 		, settingsRender: function( settings ) {
 			var that = this
-			
+		
 			$.each( settings , function(index, o) {
 					
 				tab = $("[data-panel='"+index+"']")
@@ -58,6 +67,8 @@
 				that.runScriptEngine( index, o.opts )
 				
 			})
+			
+				
 		}
 		
 		, sectionOptionRender: function() {
@@ -137,42 +148,57 @@
 			
 			$('.lstn').on('keypress blur change', function( e ){
 				
-				var scope = (that.config.mode == 'section-options') ? that.activeForm.data('scope') : 'global'
+				var theInput = $(this)
 				
-				if($(this).hasClass('checkbox-input')){
+				if( that.config.mode == 'object' ){
 					
-					var checkToggle = $(this).prev()
-					,	checkGroup = $(this).closest('.checkbox-group').data('checkgroup')
+					var theObject = $( '#'+that.config.objectID )
+					,	theValue = theInput.val()
 					
-					if ($(this).is(':checked')) 
-					    checkToggle.val(1)
-					else
-					    checkToggle.val(0)
+					if( theInput.attr('id') == 'area_class' ){
+						theObject.attr('data-class', theValue).data('class', theValue)
+					}
+					
+					if( theInput.attr('id') == 'area_name' ){
+						theObject.attr('data-name', theValue).data('name',theValue)
+					}
+					
+					if(e.type == 'change' || e.type == 'blur'){
+						$.pageBuilder.storeConfig()
+					}
 					
 					
-					that.checkboxDisplay( checkGroup )
+				} else {
 					
-				}
-				
-				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
-			
-								// 
-								// 
-								// console.log('scope: '+scope)
-								// console.log(that.activeForm.formParams())
-				
-				
-				//console.log($.pl.data[scope])
-				
-				$.pl.flags.refreshOnSave = true;
-		
-				
-				if(e.type == 'change' || e.type == 'blur'){
-					$.plAJAX.saveData( 'draft' )
-				
-				}
-					
+					var scope = (that.config.mode == 'section-options') ? that.activeForm.data('scope') : 'global'
 
+					if($(this).hasClass('checkbox-input')){
+
+						var checkToggle = $(this).prev()
+						,	checkGroup = $(this).closest('.checkbox-group').data('checkgroup')
+
+						if ($(this).is(':checked')) 
+						    checkToggle.val(1)
+						else
+						    checkToggle.val(0)
+
+
+						that.checkboxDisplay( checkGroup )
+
+					}
+
+					$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
+
+					$.pl.flags.refreshOnSave = true;
+
+
+
+					if(e.type == 'change' || e.type == 'blur'){
+						$.plAJAX.saveData( 'draft' )
+					}
+					
+				}
+				
 					
 			})
 		}
@@ -247,18 +273,33 @@
 		}
 		
 		, optValue: function( scope, key ){
-			var that = this
-			, 	pageData = $.pl.data
-		
-			// global settings are always related to 'global'
-			if (that.config.mode == 'settings')
-				scope = 'global'
+			var that = this 
 			
-			// Set option value
-			if( pageData[ scope ] && pageData[ scope ][ key ] && pageData[ scope ][ key ][that.clone])
-				return pl_html_input( pageData[ scope ][ key ][that.clone] )
-			else 
-				return ''
+			if(that.config.mode == 'object'){
+				
+				var theObject = $( '#'+that.config.objectID )
+				
+				if(key == 'area_name'){
+					return theObject.data('name') 
+				} else if (key == 'area_class'){
+					return theObject.data('class') 
+				}
+				
+			} else {
+				var that = this
+				, 	pageData = $.pl.data
+
+				// global settings are always related to 'global'
+				if (that.config.mode == 'settings')
+					scope = 'global'
+
+				// Set option value
+				if( pageData[ scope ] && pageData[ scope ][ key ] && pageData[ scope ][ key ][that.clone])
+					return pl_html_input( pageData[ scope ][ key ][that.clone] )
+				else 
+					return ''
+			}
+			
 			
 		}
 		

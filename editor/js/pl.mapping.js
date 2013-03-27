@@ -17,6 +17,7 @@
 					var area = $(this)
 					,	areaContent	= []
 					, 	areaName = area.data('name') || ''
+					,	areaClass = area.data('class') || ''
 					, 	areaID = area.attr('id') || ''
 					, 	areaSet = {}
 
@@ -39,6 +40,7 @@
 
 					areaSet = {
 							name: areaName
+						,	class: areaClass
 						,	id: areaID
 						,	content: areaContent
 					}

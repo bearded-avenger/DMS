@@ -36,8 +36,8 @@
 					$.areaControl.move($(this), 'down')
 				} else if (action == 'up' ){
 					$.areaControl.move($(this), 'up')
-				} else if (action == 'add' ){
-					$.areaControl.addArea($(this))
+				} else if (action == 'settings' ){
+					$.areaControl.areaSettings($(this))
 				
 				}else if (action == 'delete' ){
 					$.areaControl.deleteArea($(this))
@@ -58,23 +58,38 @@
 					.attr('data-area-number', num)
 
 			})
+			
+			$.pageBuilder.storeConfig()
 		}
 		
-		, addArea: function( btn ){
+		, areaSettings: function( btn ){
 			
-			var currentArea = btn.closest('.pl-area')
-			,	newArea = currentArea.clone( true ) // with data and events
-			
-			newArea.find('section').each( function(index, el){
-				el.remove()
+			var that = this
+			,	theArea = btn.closest('.pl-area')
+			,	theID = theArea.attr('id')
+				
+			$('body').toolbox({
+				action: 'show'
+				, panel: 'area_settings'
+				, info: function(){
+					that.areaPanelRender(theID)
+				}
 			})
 			
-			currentArea
-				.before( newArea )
-				
-			$.areaControl.update()
 			
-			newArea.sortable( 'refresh' ) 
+		}
+		
+		, areaPanelRender: function( theID ){
+			
+			var theID = theID || store.get('lastAreaConfig')
+			,	config = {
+						mode: 'object'
+					,	panel: 'area_settings'
+					, 	settings: $.pl.config.areaSettings
+					, 	objectID: theID
+				}
+			
+			$.optPanel.render( config )
 			
 		}
 		
@@ -88,9 +103,9 @@
 					
 					currentArea.slideUp(500, function(){
 						$(this).remove()
+						$.areaControl.update()
 					})
 					
-					$.areaControl.update()
 
 				}
 

@@ -60,7 +60,7 @@
 				, 	btnAction = btn.data('action')
 				
 				if( btnAction == 'pl-toggle' )
-					$.plAJAX.toggleEditor( key )
+					$.plAJAX.toggleEditor( btnAction )
 
 				if( btnAction == 'toggle_grid' )
 					that.toggleGrid()
@@ -84,7 +84,8 @@
 			, 	selectedTab = $('[data-action="'+key+'"]')
 			, 	allPanels = $('.tabbed-set')
 			
-			$('body').toolbox('show')
+			$('body')
+				.toolbox('show')
 			
 			store.set('toolboxPanel', key)
 			
@@ -94,7 +95,7 @@
 			$('.btn-toolbox').removeClass('active-tab')
 			
 			allPanels
-				.removeClass('current-panel')
+				.removeClass( 'current-panel' )
 				.hide()
 				
 			$('.ui-tabs').tabs('destroy')
@@ -150,6 +151,20 @@
 					}
 				
 				$.optPanel.render( config )
+				
+			}
+			else if( key == 'area_settings'){
+				areaID = store.get('lastAreaConfig')
+				
+				if(areaID != ''){
+					$.areaControl.areaPanelRender(areaID)
+				} else {
+					$('body')
+						.toolbox('hide')
+				}
+				
+				
+				
 				
 			}
 			else if( key == 'live'){
@@ -286,7 +301,6 @@
 					sid: cloned.data('sid')
 					, sobj: cloned.data('object')
 					, clone: cloned.data('clone')
-					, settingData: ($.pl.config.isSpecial) ? $.pl.data.type : $.pl.data.local
 				}
 			,	clonedSet = ($.pl.config.opts[config.sid] && $.pl.config.opts[config.sid].opts) || {}
 			, 	mode = ($.pl.config.isSpecial) ? 'type' : 'local'
@@ -341,7 +355,6 @@
 						sid: section.data('sid')
 						, sobj: section.data('object')
 						, clone: section.data('clone')
-						, settingData: ($.pl.config.isSpecial) ? $.pl.data.type : $.pl.data.local
 					}
 			
 				if(btn.hasClass('section-edit')){
@@ -446,7 +459,7 @@
 			})
 			
 			if( source !== 'start' )
-				$.pageBuilder.storeConfig( );
+				$.pageBuilder.storeConfig()
 			
         }
 
