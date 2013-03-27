@@ -15,6 +15,7 @@ class EditorDraft{
 	}
 
 	function editor_mode(){
+		global $is_chrome;
 		$current_user = wp_get_current_user();
 
 		if(isset($_GET['edtr']) && $_GET['edtr'] != ''){
@@ -29,7 +30,7 @@ class EditorDraft{
 		}
 
 
-		if( current_user_can('edit_themes') && $state != 'off')
+		if( current_user_can('edit_themes') && $state != 'off' && $is_chrome )
 			return 'draft';
 		else {
 			return 'live';

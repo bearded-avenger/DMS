@@ -24,8 +24,8 @@ class EditorInterface {
 		$this->map = $map;
 		$this->extensions = $extensions;
 
-
-		if ( $this->draft->show_editor() ){
+		global $is_chrome;
+		if ( $this->draft->show_editor() && $is_chrome){
 			
 			add_action( 'wp_footer', array( &$this, 'pagelines_toolbox' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_scripts' ) );
@@ -184,14 +184,29 @@ class EditorInterface {
 
 	function pagelines_editor_activate(){
 		global $wp;
-		$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
+		global $is_chrome; 
 		
-		$nigl = (count($_GET) > 0) ? '&' : '?'; 
+		if($is_chrome){
+			
+			$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
+
+			$nigl = (count($_GET) > 0) ? '&' : '?'; 
+
+			$activate_url = $current_url . $nigl . 'edtr=on';
+			
+			$text = 'Activate PageLines Editor';
+			
+			$target = "";
+		} else {
+			$target = "target='_blank'";
+			$activate_url = 'http://www.google.com/chrome';
+			$text = 'Chrome is required to use PageLines Editor';
+			
+		}
 		
-		$activate_url = $current_url . $nigl . 'edtr=on';
 		
 		?>
-			<a id="toolbox-activate" href="<?php echo $activate_url;?>" class="toolbox-activate"><i class="icon-off"></i> <span class="txt">Activate PageLines Editor</span></span></a>
+			<a id="toolbox-activate" href="<?php echo $activate_url;?>" class="toolbox-activate" <?php echo $target;?>><i class="icon-off"></i> <span class="txt"><?php echo $text; ?></span></span></a>
 
 		<?php
 	}
