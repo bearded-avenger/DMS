@@ -80,7 +80,7 @@ class PageLinesAreas {
 			<a class="area-control" data-area-action="delete" >
 				<i class="icon-remove"></i>
 			</a><a class="area-control" data-area-action="settings" >
-				<i class="icon-cog"></i>
+				<i class="icon-pencil"></i>
 			</a>
 		</div>
 		<?php
