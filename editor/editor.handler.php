@@ -518,7 +518,8 @@ class PageLinesTemplateHandler {
 		if(!isset($this->map[ $region ]))
 			return;
 		
-		$this->editor->region_start( $region, $this->area_number++ );
+		if(pl_draft_mode())
+			$this->editor->region_start( $region, $this->area_number++ );
 		
 		foreach( $this->map[ $region ] as $area => $a ){
 			
