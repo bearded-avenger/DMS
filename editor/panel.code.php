@@ -43,7 +43,7 @@ class EditorCode{
 					'heading'	=> "Custom Design",
 
 					'user_less'	=> array(
-						'name'	=> 'Custom LESS/CSS',
+						'name'	=> 'Custom CSS',
 						'call'	=> array(&$this, 'custom_less'),
 						'icon'	=> 'icon-circle'
 					),
@@ -75,11 +75,11 @@ class EditorCode{
 		?>
 		<div class="opt codetext">
 			<div class="opt-name">
-				Custom LESS/CSS
+				Custom CSS
 			</div>
 			<div class="opt-box">
 				<div class="codetext-meta fix">
-					<label class="codetext-label">Custom LESS/CSS</label>
+					<label class="codetext-label">Custom CSS</label>
 					<span class="codetext-help help-block"><span class="label label-info">Tip</span> Hit [Cmd&#8984;+Return ] or [Ctrl+Return] to Preview Live</span>
 				</div>
 				<form class="code-form"><textarea class="custom-less" name="custom_less[0]" placeholder=""><?php echo pl_setting('custom_less'); ?></textarea></form>
