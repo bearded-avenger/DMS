@@ -119,6 +119,9 @@ class EditorInterface {
 
 
 	function toolbar_config(){
+		
+		// actions show up in a dropup
+		$actions = apply_filters('pl_toolbar_actions', array());
 
 		$data = array(
 			'pl-toggle' => array(
@@ -131,13 +134,14 @@ class EditorInterface {
 				'name'	=> '',
 				'icon'	=> '',
 				'type'	=> 'dropup',
-				'panel'	=> array(
-					'toggle_grid'	=> array(
-						'name'	=> '<i class="icon-table"></i> Toggle Editor Grid'
-					),
-				),
+				'panel'	=> $actions,
 				'pos'	=> 200
 
+			),
+			'toggle-grid' => array(
+				'icon'	=> 'icon-table',
+				'type'	=> 'btn',
+				'pos'	=> 199
 			),
 			
 		);
@@ -231,7 +235,7 @@ class EditorInterface {
 						if(!isset($tab['type']))
 							$tab['type'] = 'panel';
 
-						if($tab['type'] == 'hidden')
+						if( $tab['type'] == 'hidden' || ( $tab['type'] == 'dropup' && empty($tab['panel']) ) )
 							continue;
 
 						$data = '';
@@ -240,7 +244,7 @@ class EditorInterface {
 						$li_class = array();
 						$li_class[] = 'type-'.$tab['type'];
 
-						if($tab['type'] == 'dropup'){
+						if($tab['type'] == 'dropup' && !empty($tab['panel'])){
 
 							$data = 'data-toggle="dropdown"';
 							$suffix = ' <i class="uxi icon-caret-right"></i>';

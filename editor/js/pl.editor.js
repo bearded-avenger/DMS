@@ -43,13 +43,12 @@
 				var btn = $(this)
 				, 	btnAction = btn.data('action')
 			
-				if( btnAction == 'drag-drop' ){
+				if( btnAction == 'drag-drop' )
 					$.pageBuilder.showEditingTools()
-				
-				} else if( btn.hasClass('btn-panel') )
+				else if( btn.hasClass('btn-panel') )
 					that.showPanel(btnAction)
-				
-				
+				else if( btn.hasClass('btn-toggle-grid') )
+					that.toggleGrid( btn )
 			})
 			
 			$(".btn-action").on("click.actionButton", function(e) {
@@ -70,12 +69,16 @@
 		
         }
 
-		, toggleGrid: function(){
+		, toggleGrid: function( btn ){
 			
 			if($('body').hasClass('drag-drop-editing')){
+				btn.addClass('active-tab')
 				$('body').removeClass('drag-drop-editing width-resize')
-			} else 
+			} else {
+				btn.removeClass('active-tab')
 				$('body').addClass('drag-drop-editing width-resize')
+			}
+				
 		}
 		
 		, showPanel: function( key ){

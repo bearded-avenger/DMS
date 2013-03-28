@@ -27,7 +27,7 @@
 		}
 
 		, listen: function() {
-			$('.area-control').on('click', function(e){
+			$('.area-control').on('click.areaControl', function(e){
 				e.preventDefault()
 				
 				var action = $(this).data('area-action')

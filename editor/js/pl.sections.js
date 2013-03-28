@@ -92,8 +92,10 @@ $.plSections = {
 	}
 	, switchOnStop: function( element ){
 		
-		var name = element.data('name')
-		,	controls = $('.pl-section-controls').first().clone()
+		var type = (element.hasClass('pl-area')) ? 'area' : 'section'
+		,	name = element.data('name')
+		,	controlType = (type == 'section') ? '.pl-section-controls' : '.pl-area-controls'
+		,	controls = $( controlType ).first().clone()
 		, 	btns = sprintf('<div class="btns"><a href="#" class="btn btn-mini btn-block banner-refresh"><i class="icon-repeat"></i> Refresh to Load</a></div>')
 			
 		// Set controls name from new
@@ -122,6 +124,11 @@ $.plSections = {
 			.off('click.sectionControls')
 		
 		$.pageBuilder.sectionControls()
+		
+		$('.area-control')
+			.off('click.areaControl')
+		
+		$.areaControl.listen()
 		
 		$('.banner-refresh')
 			.off()

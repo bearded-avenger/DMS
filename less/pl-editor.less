@@ -382,38 +382,8 @@
 	
 	
 
-	.pl-refresh-banner{
-		display: block; 
-		padding: 20px;
-		text-align: center;
-		font-weight: bold;
-		color: @textColorSubtle;
-	  	#pattern > .striped( @baseContrastSlight );
-		.banner-content{
-			width: 130px;
-			margin: 0 auto;
-			.btn, 
-			.banner-frame{
-				box-shadow: inset 1px 1px 0 rgba(255,255,255.2), 1px 1px 0 rgba(255,255,255.4);
-				border:1px solid rgba(0,0,0,.3);
-			}
-			.banner-frame{
-				max-width: 130px;
-				margin-bottom: 8px;
-				display: inline-block;
-				img{
-					max-width: 100%;
-				}
-			}
-		}
-		
-	}
+
 }
-
-
-
-
-
 
 // Layout
 // --------------------------------------------------
@@ -478,6 +448,36 @@
 	
 	.footer .pl-content{
 		border-bottom: 1px dashed @editorBorder;
+	}
+	
+}
+
+
+// Need to refresh the page banner
+// --------------------------------------------------
+.pl-refresh-banner{
+	display: block; 
+	padding: 20px;
+	text-align: center;
+	font-weight: bold;
+	color: @textColorSubtle;
+  	background: fadeout(@baseContrast, 50%);
+	.banner-content{
+		width: 130px;
+		margin: 0 auto;
+		.btn, 
+		.banner-frame{
+			box-shadow: inset 1px 1px 0 rgba(255,255,255.2), 1px 1px 0 rgba(255,255,255.4);
+			border:1px solid rgba(0,0,0,.3);
+		}
+		.banner-frame{
+			max-width: 130px;
+			margin-bottom: 8px;
+			display: inline-block;
+			img{
+				max-width: 100%;
+			}
+		}
 	}
 	
 }
