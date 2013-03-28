@@ -4,4 +4,4 @@
 
 $platform_build = '2.3.3';
 
-$free_build = '1.3.8';
+$free_build = '1.3.9';
