@@ -10,7 +10,7 @@ class EditorColor{
 
 	function __construct( ){
 
-		$this->background = pl_setting('page_background_image');
+		$this->background = pl_setting('page_background_image_url');
 
  		add_filter('pl_settings_array', array(&$this, 'add_settings'));
 		add_filter('pless_vars', array(&$this, 'add_less_vars'));
@@ -41,9 +41,15 @@ class EditorColor{
 		if($image && $fit){
 			$background = $this->base;
 		}
-		elseif($image && !$fit)
-			$background = sprintf('%s url("%s") no-repeat', $this->base, $image);
-		else
+		elseif($image && !$fit){
+			$repeat = pl_setting('page_background_image_repeat');
+			$pos_x = pl_setting('page_background_image_pos_vert').'%';
+			$pos_y = pl_setting('page_background_image_pos_hor').'%';
+			$attach = pl_setting('page_background_image_attach');
+			
+			$background = sprintf('%s url("%s") %s %s %s %s', $this->base, $image, $repeat, $pos_x, $pos_y, $attach);
+		
+		} else
 			$background = $this->base;
 
 		return $background;
@@ -136,27 +142,88 @@ class EditorColor{
 			array(
 				'key'		=> 'background_style',
 				'type' 		=> 'multi',
-
+				
 				'title' 	=> __( 'Background Image', 'pagelines' ),
 				'help' 		=> __( '', 'pagelines' ),
 				'opts'		=> array(
 					array(
-						'key'			=> 'page_background_image',
+						'key'			=> 'page_background_image_url',
+						'imgsize' 		=> 	'150',
+						'sizemode'		=> 'height',
 						'type'			=> 'image_upload',
 						'label' 		=> __( 'Page Background Image', 'pagelines' ),
 						'default'		=> '',
 						'compile'		=> true,
 
 					),
+					
+				)
+			),
+			array(
+				'key'		=> 'background_image_settings',
+				'type' 		=> 'multi',
+
+				'title' 	=> __( 'Background Image Settings', 'pagelines' ),
+				'help' 		=> __( '', 'pagelines' ),
+				'opts'		=> array(
 					array(
 						'key'			=> 'supersize_bg',
 						'type'			=> 'check',
 						'label' 		=> __( 'Fit image to page?', 'pagelines' ),
 						'default'		=> true,
 						'compile'		=> true,
+						'help'			=> 'If you use this option the image will be fit "responsively" to the background of your page. This means the settings below will have no effect.'
 						),
+					array(
+						'key'			=> 'page_background_image_repeat',
+						'type'			=> 'select',
+						'label' 		=> __( 'Background Repeat', 'pagelines' ),
+						'default'		=> 'no-repeat',
+						'opts'	=> array(
+							'no-repeat' => array('name' => 'No Repeat'),
+							'repeat'	=> array('name' => 'Repeat'),
+							'repeat-x'	=> array('name' => 'Repeat Horizontally'),
+							'repeat-y'	=> array('name' => 'Repeat Vertically')
+						),
+						'compile'		=> true,
+
+					),
+					array(
+						'key'			=> 'page_background_image_pos_vert',
+						'type'			=> 'count_select',
+						'label' 		=> __( 'Vertical Background Position in Percent', 'pagelines' ),
+						'default'		=> '0',
+						'count_start'	=> 0, 
+						'count_number'	=> 100,
+						'suffix'		=> '%',
+						'compile'		=> true,
+
+					),
+					array(
+						'key'			=> 'page_background_image_pos_hor',
+						'type'			=> 'count_select',
+						'label' 		=> __( 'Horizontal Background Position in Percent', 'pagelines' ),
+						'default'		=> '50',
+						'count_start'	=> 0, 
+						'count_number'	=> 100,
+						'suffix'		=> '%',
+						'compile'		=> true,
+
+					),
+					array(
+						'key'			=> 'page_background_image_attach',
+						'type'			=> 'select',
+						'label' 		=> __( 'Set Background Attachment', 'pagelines' ),
+						'default'		=> 'scroll',
+						'opts'	=> array(
+							'scroll'	=> array('name' => __( 'Scroll', 'pagelines' )), 
+							'fixed'		=> array('name' => __( 'Fixed', 'pagelines' )),
+						),
+						'compile'		=> true,
+
+					)
 				)
-			),
+			)
 
 		);
 

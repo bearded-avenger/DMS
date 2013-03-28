@@ -351,7 +351,6 @@
 				oHTML += sprintf('<div class="input-prepend">%4$s<input type="text" id="%1$s" name="%3$s" class="lstn color-%1$s" value="%2$s" /></div>', o.key, o.value, o.name, prepend )
 				
 			}
-			
 		
 			else if( o.type == 'image_upload' ){
 				
@@ -367,6 +366,8 @@
 				oHTML += sprintf('<input id="%1$s" name="%2$s" type="text" class="lstn text-input upload-input" placeholder="" value="%3$s" />', o.key, o.name, o.value )
 		
 				oHTML += sprintf('<div id="upload-%1$s" class="fineupload upload-%1$s fileupload-new" data-provides="fileupload"></div>', o.key)
+			
+			
 			
 			}
 
@@ -700,7 +701,7 @@
 			}
 			
 			else if( o.type == 'image_upload' ){
-				var val = o.valu
+				var val = o.value
 				$('.fineupload.upload-'+o.key).fineUploader({
 					request: {
 						endpoint: ajaxurl

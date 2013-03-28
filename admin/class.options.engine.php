@@ -1300,12 +1300,14 @@ class OptEngine {
 						'type'			=> __( 'count_select', 'pagelines' ),
 						'count_start'	=> 0, 
 						'count_number'	=> 100,
+						'suffix'		=> '%'
 				),
 				'_pos_hor' => array(				
 						'inputlabel'	=> __( 'Horizontal Position In Percent', 'pagelines' ),
 						'type'			=> __( 'count_select', 'pagelines' ),
 						'count_start'	=> 0, 
 						'count_number'	=> 100,
+						'suffix'		=> '%'
 				),
 				'_attach' => array(				
 						'inputlabel'	=> __( 'Set Background Attachment', 'pagelines' ),

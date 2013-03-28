@@ -144,6 +144,7 @@ class EditorExtensions {
 				'id'			=> 'pl_3_column',
 				'name'			=> '3 Columns',
 				'filter'		=> 'layout',
+				'description'	=> 'Loads three equal width columns for placing sections.',
 				'screenshot'	=>  PL_EDITOR_URL . '/images/thumb-3column.png',
 				'thumb'			=>  PL_EDITOR_URL . '/images/thumb-3column.png',
 				'splash'		=>  PL_EDITOR_URL . '/images/splash-3column.png',
@@ -167,6 +168,7 @@ class EditorExtensions {
 				'id'			=> 'pl_area',
 				'name'			=> 'Section Area',
 				'filter'		=> 'full-width',
+				'description'	=> 'Creates a full width area with a nested content width region for placing sections and columns.',
 				'screenshot'	=>  PL_EDITOR_URL . '/images/thumb-section-area.png',
 				'thumb'			=>  PL_EDITOR_URL . '/images/thumb-section-area.png',
 				'splash'		=>  PL_EDITOR_URL . '/images/splash-section-area.png'
