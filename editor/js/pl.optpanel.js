@@ -281,9 +281,9 @@
 				var theObject = $( '#'+that.config.objectID )
 				
 				if(key == 'area_name'){
-					return theObject.data('name') 
+					return theObject.data('name') || ''
 				} else if (key == 'area_class'){
-					return theObject.data('class') 
+					return theObject.data('class') || ''
 				}
 				
 			} else {

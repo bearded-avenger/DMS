@@ -617,7 +617,7 @@
 			var that = this
 			,	type = type || 'section'
 			,	sortableSettings = {}
-			,	items = ( type == 'section' ) ? '.pl-sortable' : '.pl-area'
+			,	items = ( type == 'section' ) ? '.pl-sortable' : '.pl-area-sortable'
 			,	container = ( type == 'section' ) ? '.pl-sortable-area' : '.pl-area-container'
 			,	placeholder = ( type == 'section' ) ? 'pl-placeholder' : 'pl-area-placeholder'
 			,	handle = ( type == 'section' ) ? false : '.area-reorder'

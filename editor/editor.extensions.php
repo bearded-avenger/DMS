@@ -164,7 +164,7 @@ class EditorExtensions {
 								)
 			),
 			array(
-				'id'			=> 'pl_new_area',
+				'id'			=> 'pl_area',
 				'name'			=> 'Section Area',
 				'filter'		=> 'full-width',
 				'screenshot'	=>  PL_EDITOR_URL . '/images/thumb-section-area.png',

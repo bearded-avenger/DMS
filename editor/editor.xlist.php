@@ -63,7 +63,7 @@ class EditorXList{
 		$xID = ($args['id'] != '') ? sprintf("data-extend-id='%s'", $args['id']) : ''; 
 
 		$list_item = sprintf(
-			"<section class='x-item x-extension %s %s' %s %s>
+			"<section id='%s_%s' class='x-item x-extension %s %s' %s %s>
 				<div class='x-item-pad'>
 					<div class='%s'>
 						%s
@@ -77,6 +77,8 @@ class EditorXList{
 					%s
 				</div>
 			</section>",
+			$args['id'],
+			substr(uniqid(), 0, 6),
 			'filter-'.$args['id'],
 			$classes,
 			$datas,

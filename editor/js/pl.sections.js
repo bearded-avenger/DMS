@@ -52,7 +52,7 @@ $.plSections = {
 				}
 		})
 		
-		$('.panel-add-new').find( '.x-item.pl-area' ).draggable({
+		$('.panel-add-new').find( '.x-item.pl-area-sortable' ).draggable({
 				appendTo: "body"
 			, 	helper: "clone"
 			, 	cursor: "move" 
@@ -92,8 +92,9 @@ $.plSections = {
 	}
 	, switchOnStop: function( element ){
 		
-		var type = (element.hasClass('pl-area')) ? 'area' : 'section'
+		var type = (element.hasClass('pl-area-sortable')) ? 'area' : 'section'
 		,	name = element.data('name')
+		,	classToAdd = (type == 'section') ? 'pl-controls' : 'pl-area'
 		,	controlType = (type == 'section') ? '.pl-section-controls' : '.pl-area-controls'
 		,	controls = $( controlType ).first().clone()
 		, 	btns = sprintf('<div class="btns"><a href="#" class="btn btn-mini btn-block banner-refresh"><i class="icon-repeat"></i> Refresh to Load</a></div>')
@@ -109,8 +110,9 @@ $.plSections = {
 			.hide()
 		
 		element
+			.removeClass('x-item isotope-item x-add-new x-extension')
+			.addClass( classToAdd )
 			.prepend( controls )
-			.addClass('pl-section')
 			.find('.banner-content')
 			.append( btns )
 		

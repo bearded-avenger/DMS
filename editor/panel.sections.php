@@ -130,7 +130,7 @@ class PageLinesSectionsPanel{
 				
 				
 			if( $s->filter == 'full-width' ){
-				$section_classes = 'pl-area area-tag';	
+				$section_classes = 'pl-area-sortable area-tag';	
 			} else {
 				$section_classes = 'pl-sortable span12 sortable-first sortable-last';	
 			}

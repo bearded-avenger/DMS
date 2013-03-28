@@ -99,7 +99,7 @@ class PageLinesAreas {
 		$styles = (isset($a['styles'])) ? $a['styles'] : '';
 		
 		printf(
-			'<div id="%s" data-name="%s" data-class="%s" class="pl-area area-tag %s"  data-area-number="%s">%s<div class="pl-content"><div class="pl-inner area-region pl-sortable-area editor-row">%s',
+			'<div id="%s" data-name="%s" data-class="%s" class="pl-area pl-area-sortable area-tag %s"  data-area-number="%s">%s<div class="pl-content"><div class="pl-inner area-region pl-sortable-area editor-row">%s',
 			$id,
 			$name,
 			$class, 
