@@ -74,13 +74,16 @@ class EditorExtensions {
 		foreach( $storeapi->get_latest() as $key => $s ) {
 			if( ! isset( $s['name'] ) )
 				continue;
+
+			$purchased = ( isset( $s['purchased'] ) ) ? $s['purchased'] : '';
+
 			$this->ext[ $key ] = array(
 				'name'		=> $s['name'],
 				'desc'		=> $s['description'],
 				'thumb'		=> $s['thumb'],
 				'splash'	=> $s['splash'],
-				'purchase'	=> '',
-				'overview'	=> $s['overview'],
+				'purchase'	=> ( 'free' != $s['price'] && 'purchased' != $purchased ) ? sprintf( '%s,%s|%s|%s', $s['productid'], $s['uid'], $s['price'], $s['name'] ) : '',
+				'overview'	=> $s['overview']
 			);
 		}
 	}
