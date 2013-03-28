@@ -44,61 +44,60 @@ class EditorInterface {
 
 	function pl_editor_scripts(){
 
-		// PageLines Custom
-		wp_enqueue_script( 'js-sprintf', $this->url . '/js/utils.sprintf.js', array( 'jquery' ), PL_CORE_VERSION, true );
-		wp_enqueue_script( 'pl-editor-js', $this->url . '/js/pl.editor.js', array( 'jquery' ), PL_CORE_VERSION , true);
-		wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/pl.toolbox.js', array('pagelines-bootstrap-all' ), PL_CORE_VERSION, true );
-		wp_enqueue_script( 'pl-optpanel', $this->url . '/js/pl.optpanel.js', array( 'jquery' ), PL_CORE_VERSION, true );
-		wp_enqueue_script( 'pl-ajax', $this->url . '/js/pl.ajax.js', array( 'jquery' ), PL_CORE_VERSION, true );
-		wp_enqueue_script( 'pl-library', $this->url . '/js/pl.library.js', array( 'jquery' ), PL_CORE_VERSION, true );
-		wp_enqueue_script( 'pl-layout', $this->url . '/js/pl.layout.js', array( 'jquery' ), PL_CORE_VERSION, true );
+		// UTILITIES ----------------------------
+		// --------------------------------------
 		
+			// Sprintf
+			wp_enqueue_script( 'js-sprintf', $this->url . '/js/utils.sprintf.js', array( 'jquery' ), PL_CORE_VERSION, true );
+		
+			// Forms handling
+			wp_enqueue_script( 'form-params', $this->url . '/js/form.params.js', array('jquery'), PL_CORE_VERSION, true );
+			wp_enqueue_script( 'form-store', $this->url . '/js/form.store.js', array('jquery'), PL_CORE_VERSION, true );
 
+
+			// Bootbox Dialogs
+			wp_enqueue_script( 'bootbox', $this->url . '/js/utils.bootbox.js', array('jquery'), '3.0.0', true );
+			// Images Loaded
+			wp_enqueue_script( 'imagesloaded', $this->url . '/js/utils.imagesloaded.js', array('jquery'), PL_CORE_VERSION, true);
+
+		// PAGELINES CODE -----------------------
+		// --------------------------------------		
+			wp_enqueue_script( 'pl-editor-js', $this->url . '/js/pl.editor.js', array( 'jquery' ), PL_CORE_VERSION , true);
+			wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/pl.toolbox.js', array('pagelines-bootstrap-all' ), PL_CORE_VERSION, true );
+			wp_enqueue_script( 'pl-optpanel', $this->url . '/js/pl.optpanel.js', array( 'jquery' ), PL_CORE_VERSION, true );
+			wp_enqueue_script( 'pl-ajax', $this->url . '/js/pl.ajax.js', array( 'jquery' ), PL_CORE_VERSION, true );
+			wp_enqueue_script( 'pl-library', $this->url . '/js/pl.library.js', array( 'jquery' ), PL_CORE_VERSION, true );
+			wp_enqueue_script( 'pl-layout', $this->url . '/js/pl.layout.js', array( 'jquery' ), PL_CORE_VERSION, true );
+		
+		// Action in to scripts here... 
 		pagelines_register_hook('pagelines_editor_scripts'); // Hook
 
-		// Jquery UI
-		wp_enqueue_script( 'jquery-ui-tabs');
 
-		$dep = array('jquery-ui-core','jquery-ui-widget', 'jquery-ui-mouse');
-		wp_enqueue_script( 'jquery-ui-core' );
-		wp_enqueue_script( 'jquery-ui-widget' );
-		wp_enqueue_script( 'jquery-ui-mouse' );
+		// JQUERY UI STUFF ----------------------------
+		// --------------------------------------------
+			wp_enqueue_script( 'jquery-ui-tabs');
 
-		wp_enqueue_script( 'jquery-ui-draggable' );
-		wp_enqueue_script( 'jquery-ui-droppable' );
-		wp_enqueue_script( 'jquery-ui-resizable' );
-	//	wp_enqueue_script( 'jquery-ui-sortable' );
+			$dep = array('jquery-ui-core','jquery-ui-widget', 'jquery-ui-mouse');
+			wp_enqueue_script( 'jquery-ui-core' );
+			wp_enqueue_script( 'jquery-ui-widget' );
+			wp_enqueue_script( 'jquery-ui-mouse' );
 
-	// Older sortable needs to be used for now
-	// 	https://github.com/jquery/jquery-ui/commit/bae06d2b1ef6bbc946dce9fae91f68cc41abccda#commitcomment-2141597
-	//	http://bugs.jqueryui.com/ticket/8810
-		wp_enqueue_script( 'jquery-new-ui-sortable', PL_ADMIN_JS . '/jquery.ui.sortable.js', $dep, 1.9, true);
+			wp_enqueue_script( 'jquery-ui-draggable' );
+			wp_enqueue_script( 'jquery-ui-droppable' );
+			wp_enqueue_script( 'jquery-ui-resizable' );
+		//	wp_enqueue_script( 'jquery-ui-sortable' );
 
-		wp_enqueue_script( 'jquery-new-ui-effect', PL_ADMIN_JS . '/jquery.ui.effect.js', $dep, 1.9, true);
-		wp_enqueue_script( 'jquery-new-ui-effect-highlight', PL_ADMIN_JS . '/jquery.ui.effect-highlight.js', array('jquery-new-ui-effect'), 1.9, true);
-		wp_enqueue_script( 'jquery-mousewheel', $this->url . '/js/utils.mousewheel.js', array('jquery'), PL_CORE_VERSION, true );
+		// Older sortable needs to be used for now
+		// 	https://github.com/jquery/jquery-ui/commit/bae06d2b1ef6bbc946dce9fae91f68cc41abccda#commitcomment-2141597
+		//	http://bugs.jqueryui.com/ticket/8810
+			wp_enqueue_script( 'jquery-new-ui-sortable', PL_ADMIN_JS . '/jquery.ui.sortable.js', $dep, 1.9, true);
 
-		// Forms handling
-		wp_enqueue_script( 'form-params', $this->url . '/js/form.params.js', array('jquery'), PL_CORE_VERSION, true );
-		wp_enqueue_script( 'form-store', $this->url . '/js/form.store.js', array('jquery'), PL_CORE_VERSION, true );
+			wp_enqueue_script( 'jquery-new-ui-effect', PL_ADMIN_JS . '/jquery.ui.effect.js', $dep, 1.9, true);
+			wp_enqueue_script( 'jquery-new-ui-effect-highlight', PL_ADMIN_JS . '/jquery.ui.effect-highlight.js', array('jquery-new-ui-effect'), 1.9, true);
+			wp_enqueue_script( 'jquery-mousewheel', $this->url . '/js/utils.mousewheel.js', array('jquery'), PL_CORE_VERSION, true );
+
 
 		
-
-		// Less
-		wp_enqueue_script( 'lessjs', $this->url . '/js/utils.less.js', array('jquery'), '1.3.1' );
-
-		// Less
-		wp_enqueue_script( 'bootbox', $this->url . '/js/utils.bootbox.js', array('jquery'), '3.0.0', true );
-
-
-		// Colorpicker
-		wp_enqueue_script( 'css3colorpicker', $this->url . '/js/colorpicker/colorpicker.js', array('jquery'), '1.3.1', true );
-
-		// Image Uploader
-		wp_enqueue_script( 'fineupload', $this->url . '/js/fineuploader/jquery.fineuploader-3.2.min.js', array('jquery'), PL_CORE_VERSION, true );
-
-		// Images Loaded
-		wp_enqueue_script( 'imagesloaded', $this->url . '/js/utils.imagesloaded.js', array('jquery'), PL_CORE_VERSION, true);
 
 		// Global AjaxURL variable --> http://www.garyc40.com/2010/03/5-tips-for-using-ajax-in-wordpress/
 		wp_localize_script( 'pl-editor-js', 'ajaxurl', array( admin_url( 'admin-ajax.php' ) ) );

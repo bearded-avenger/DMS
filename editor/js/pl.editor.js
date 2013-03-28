@@ -617,6 +617,7 @@
 			,	items = ( type == 'section' ) ? '.pl-sortable' : '.pl-area'
 			,	container = ( type == 'section' ) ? '.pl-sortable-area' : '.pl-area-container'
 			,	placeholder = ( type == 'section' ) ? 'pl-placeholder' : 'pl-area-placeholder'
+			,	handle = ( type == 'section' ) ? false : '.area-reorder'
 			
 				sortableSettings = {
 				       	items: 	items
@@ -630,7 +631,7 @@
 			        ,	cursor: "move"
 					,	distance: 3
 					,	delay: 100
-
+					, 	handle: handle
 					, start: function(event, ui){
 						
 						$('body')

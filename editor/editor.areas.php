@@ -81,6 +81,8 @@ class PageLinesAreas {
 				<i class="icon-remove"></i>
 			</a><a class="area-control" data-area-action="settings" >
 				<i class="icon-pencil"></i>
+			</a><a class="area-control area-reorder" data-area-action="reorder" >
+				<i class="icon-reorder"></i>
 			</a>
 		</div>
 		<?php
