@@ -108,10 +108,16 @@ class EditorInterface {
 
 	function region_start( $region, $area_number ){
 
+		$region_name = strtoupper($region);
+
+		if($region == 'header' || $region == 'footer'){
+			$region_name .= ' <i class="icon-globe"></i>';
+		}
+
 		printf(
-			'<div class="pl-region-bar area-tag" data-area-number="%s"><a class="btn-region">%s</a></div>',
+			'<div class="pl-region-bar area-tag" data-area-number="%s"><a class="btn-region" data-toggle="tooltip" data-placement="right" data-original="hello">%s</a></div>',
 			$area_number,
-			ucfirst($region)
+			$region_name
 		);
 
 	}

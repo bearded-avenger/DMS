@@ -104,7 +104,8 @@ class PageLinesTemplateHandler {
 						, menus: <?php echo json_encode( $this->get_wp_menus(), JSON_FORCE_OBJECT); ?>
 						, extensions: <?php echo json_encode( $this->extensions->get_list(), JSON_FORCE_OBJECT); ?>
 						, urls: {
-							editPost: '<?php echo $this->edit_post_link(); ?>'
+							, adminURL: '<?php echo admin_url(); ?>'
+							, editPost: '<?php echo $this->edit_post_link(); ?>'
 							, menus: '<?php echo admin_url( "nav-menus.php" );?>'
 							, widgets: '<?php echo $this->edit_post_link();?>'
 						}
