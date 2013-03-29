@@ -110,8 +110,13 @@
 						var theIsotope = selectedPanel.find('.isotope')
 						,	removeItems = $('.x-remove')
 						
-						if( $(this).data('filter') )
-							theIsotope.isotope({ filter: $(this).data('filter') }).isotope('remove', removeItems).removeClass('storefront-mode')
+						if( $(this).data('filter') ){
+							theIsotope
+								.isotope({ filter: $(this).data('filter') })
+								.isotope('remove', removeItems)
+								.removeClass('x-pane-mode')
+						}
+							
 						
 					})
 				}
