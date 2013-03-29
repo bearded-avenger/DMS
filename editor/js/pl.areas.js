@@ -27,6 +27,8 @@
 		}
 
 		, listen: function() {
+			$('.btn-region').tooltip({placement: 'right'})
+			
 			$('.area-control').on('click.areaControl', function(e){
 				e.preventDefault()
 				

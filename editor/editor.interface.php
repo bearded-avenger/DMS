@@ -111,12 +111,20 @@ class EditorInterface {
 		$region_name = strtoupper($region);
 
 		if($region == 'header' || $region == 'footer'){
+			
+			$region_title = sprintf(__('Global Scope Region', 'pagelines'), $region_name); 
+			
 			$region_name .= ' <i class="icon-globe"></i>';
+		} else {
+			$region_title = sprintf(__('Local Scope Region', 'pagelines'), $region_name);  
+			
+			$region_name .= ' <i class="icon-map-marker"></i>';
 		}
 
 		printf(
-			'<div class="pl-region-bar area-tag" data-area-number="%s"><a class="btn-region" data-toggle="tooltip" data-placement="right" data-original="hello">%s</a></div>',
+			'<div class="pl-region-bar area-tag" data-area-number="%s"><a class="btn-region" title="%s">%s</a></div>',
 			$area_number,
+			$region_title,
 			$region_name
 		);
 
