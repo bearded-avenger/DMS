@@ -66,8 +66,6 @@ class PageLinesAPI {
 	 *
 	 *  Write cache data
 	 *
-	 *  @package PageLines Framework
-	 *  @since 3.0
 	 */
 	function put( $data, $id, $timeout = 3600 ) {
 		if( $data && $id )
@@ -78,8 +76,6 @@ class PageLinesAPI {
 	 *
 	 *  Get cache data
 	 *
-	 *  @package PageLines Framework
-	 *  @since 3.0
 	 */
 	function get( $id, $callback = false, $args = array() ){
 
@@ -97,8 +93,6 @@ class PageLinesAPI {
 	 *
 	 *  Delete cache data
 	 *
-	 *  @package PageLines Framework
-	 *  @since 3.0
 	 */
 	function del( $id ) {
 		delete_transient( sprintf( 'plapi_%s', $id ) );
@@ -176,7 +170,6 @@ class PageLinesAPI {
 /**
  *  Get data from cache.
  *
- *  @package PageLines Framework
  *	@since 3.0
  */
 function pl_cache_get( $id, $callback = false, $args = array() ) {
@@ -190,7 +183,6 @@ function pl_cache_get( $id, $callback = false, $args = array() ) {
 /**
  *  Write data to cache.
  *
- *  @package PageLines Framework
  *	@since 3.0
  */
 function pl_cache_put( $data, $id, $time = 3600 ) {
@@ -202,7 +194,6 @@ function pl_cache_put( $data, $id, $time = 3600 ) {
 /**
  *  Delete from cache.
  *
- *  @package PageLines Framework
  *	@since 3.0
  */
 function pl_cache_del( $id ) {
@@ -212,7 +203,6 @@ function pl_cache_del( $id ) {
 /**
  *  Clear draft caches.
  *
- *  @package PageLines Framework
  *	@since 3.0
  */
 function pl_flush_draft_caches() {

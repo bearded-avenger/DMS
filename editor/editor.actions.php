@@ -23,7 +23,7 @@ function pl_editor_actions(){
 		if( $run == 'draft' ){
 
 			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
-			pl_flush_draft_caches();
+			
 			
 		} elseif ( $run == 'publish' ) {
 			
