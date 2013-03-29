@@ -94,7 +94,7 @@ $.plSections = {
 		
 		var type = (element.hasClass('pl-area-sortable')) ? 'area' : 'section'
 		,	name = element.data('name')
-		,	classToAdd = (type == 'section') ? 'pl-controls' : 'pl-area'
+		,	classToAdd = (type == 'section') ? 'pl-section' : 'pl-area'
 		,	controlType = (type == 'section') ? '.pl-section-controls' : '.pl-area-controls'
 		,	controls = $( controlType ).first().clone()
 		, 	btns = sprintf('<div class="btns"><a href="#" class="btn btn-mini btn-block banner-refresh"><i class="icon-repeat"></i> Refresh to Load</a></div>')
