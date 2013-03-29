@@ -607,7 +607,7 @@
 			})
 			
 			$('.rmv-upload').on('click', function(){
-				$(this).closest('.opt').find('.upload-input').val('')
+				$(this).closest('.opt').find('.upload-input').val('').trigger('change')
 				$(this).closest('.opt').find('.upload-thumb').fadeOut()
 			})
 		
