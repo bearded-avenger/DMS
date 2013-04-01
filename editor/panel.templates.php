@@ -11,10 +11,10 @@ class EditorTemplates {
 		
 		global $plpg;
 		
-		if($plpg && $plpg != ''){
-			$this->page = $plpg;
-			$this->default_type_tpl = $this->data->meta( $plpg->typeid, $this->default_template_slug );
-		}
+		$this->page = $plpg;
+			
+		
+		$this->default_type_tpl = ($plpg && $plpg != '') ? $this->data->meta( $plpg->typeid, $this->default_template_slug ) : false;
 		
 		$this->default_global_tpl = $this->data->opt( $this->default_template_slug );
 		

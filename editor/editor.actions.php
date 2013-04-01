@@ -13,7 +13,7 @@ function pl_editor_actions(){
 	$run = $post['run'];
 	$pageID = $post['pageID'];
 	$typeID = $post['typeID'];
-	
+
 	if($mode == 'save'){
 		
 		$draft = new EditorDraft;

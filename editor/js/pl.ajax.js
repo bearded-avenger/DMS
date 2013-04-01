@@ -83,6 +83,8 @@
 					}
 				, 	success: function( response ){
 					
+						//console.debug(response)
+						
 						that.runSuccess( theData, response )
 
 						if( theData.refresh ){
@@ -106,6 +108,9 @@
 		}
 		
 		, runSuccess: function( theData, response ){
+			if(log == 'true')
+				console.log(response)
+				
 			var that = this
 			,	rsp	= $.parseJSON( response )
 			,	log = (rsp.post) ? rsp.post.log || false : ''
