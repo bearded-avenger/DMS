@@ -50,22 +50,18 @@ $.plExtend = {
 		,	InstallLink 	= sprintf('%sadmin.php?page=install-pl-extensions&tgmpa-install=install-plugin&slug=%s&_wpnonce=%s',adminURL, Slug, $.pl.config.nonce)
 		, 	Allowed			= (type != 'sections') ? true : false
 		,	Status			= ext.status || false
-console.debug(ext)
-
-
-// want a url like this:
-// https://www.pagelines.com/api/paypal/button.php?paypal=http://admin.url|slug
-
+		,	Activate 		= sprintf('%sadmin.php?page=install-pl-extensions&pl_installed=%s', adminURL, Slug)
+		,	Deactivate 		= sprintf('%s%s.php', adminURL, type)
 
 		if(!Owned && !Status && Allowed)
-			buttons = sprintf('<a href="https://www.pagelines.com/api/paypal/button.php?paypal=%s" class="btn btn-primary x-remove"><i class="icon-ok"></i> Purchase</a> ', payLink)
+			buttons = sprintf('<a href="https://www.pagelines.com/api/paypal/button.php?paypal=%s" class="btn btn-primary x-remove"><i class="icon-money"></i> Purchase</a> ', payLink)
 
-		if(Status == 'active')
-			buttons = sprintf('<a href="%s" class="btn btn-primary x-remove"><i class="icon-ok"></i> Deactivate</a> ', '#')
-		if(Status == 'inactive')
-			buttons = sprintf('<a href="%s" class="btn btn-primary x-remove"><i class="icon-ok"></i> Activate</a> ', '#')
+		if(Status == 'active' )
+			buttons = sprintf('<a href="%s" class="btn btn-primary x-remove"><i class="icon-remove"></i> Deactivate</a> ', Deactivate )
+		if(Status == 'installed' )
+			buttons = sprintf('<a href="%s" class="btn btn-primary x-remove"><i class="icon-ok"></i> Activate</a> ', Activate)
 		if(Owned && !Status && Allowed)
-			buttons = sprintf('<a href="%s" class="btn btn-primary x-remove"><i class="icon-ok"></i> Install</a> ', InstallLink)
+			buttons = sprintf('<a href="%s" class="btn btn-primary x-remove"><i class="icon-cloud-download"></i> Install</a> ', InstallLink)
 
 		if(overviewLink)
 			buttons += sprintf('<a href="%s" class="btn x-remove" target="_blank"><i class="icon-folder-open"></i> Overview</a> ', overviewLink)
