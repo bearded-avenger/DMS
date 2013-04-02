@@ -321,11 +321,11 @@ class EditorInterface {
 						<span id="update-state" class="state-draft state-tag">&nbsp;</span>
 					</span>
 					<ul class="dropdown-menu pull-right state-list">
-						<li class="li-state-multi"><a class="btn-revert" data-revert="all"><span class="update-state state-draft multi">&nbsp;</span>&nbsp; Revert All Unpublished Changes</a></li>
-						<li class="li-state-global"><a class="btn-revert" data-revert="global"><span class="update-state state-draft global">&nbsp;</span>&nbsp; Revert Unpublished Global Changes</a></li>
+						<li class="li-state-multi"><a class="btn-revert" data-revert="all"><span class="update-state state-draft multi">&nbsp;</span>&nbsp; Undo All Unpublished Changes</a></li>
+						<li class="li-state-global"><a class="btn-revert" data-revert="global"><span class="update-state state-draft global">&nbsp;</span>&nbsp; Undo Unpublished Global Changes</a></li>
 
-						<li class="li-state-type"><a class="btn-revert" data-revert="type"><span class="update-state state-draft type">&nbsp;</span>&nbsp; Revert Unpublished Post Type Changes</a></li>
-						<li class="li-state-local"><a class="btn-revert" data-revert="local"><span class="update-state state-draft local">&nbsp;</span>&nbsp; Revert Unpublished Local Changes</a></li>
+						<li class="li-state-type"><a class="btn-revert" data-revert="type"><span class="update-state state-draft type">&nbsp;</span>&nbsp; Undo Unpublished Post Type Changes</a></li>
+						<li class="li-state-local"><a class="btn-revert" data-revert="local"><span class="update-state state-draft local">&nbsp;</span>&nbsp; Undo Unpublished Local Changes</a></li>
 						<li class="li-state-clean disabled"><a class="txt"><span class="update-state state-draft clean">&nbsp;</span>&nbsp; No Unpublished Changes</a></li>
 					</ul>
 				</li>
