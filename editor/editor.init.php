@@ -8,13 +8,6 @@
  */
 
 
-// return;
-
-// Make sure user can handle this.
-if (!defined('PL_UX_DEV') || !PL_UX_DEV)
-	return;
-
-
 $pagelines_editor = new PageLinesEditor;
 
 class PageLinesEditor {
@@ -83,6 +76,10 @@ class PageLinesEditor {
 	}
 
 	function load_libs(){
+		
+		if(!pl_use_editor())
+			return; 
+		
 		global $plpg;
 		global $pldraft;
 		global $plopts;

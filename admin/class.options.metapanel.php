@@ -89,9 +89,9 @@ class PageLinesMetaPanel {
 			if( $this->settings['global'] ){
 				$obj = get_post_type_object($post_type);
 				
-				if( !is_object($obj) || !$obj->public )
+				if( pl_deprecate_v2() || !is_object($obj) || !$obj->public )
 					continue;
-			}
+			} 
 			
 			add_meta_box($this->settings['id'], $this->settings['name'], 'pagelines_metapanel_callback', $post_type, $this->settings['location'], $this->settings['priority'], array( $this ));
 		}

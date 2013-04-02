@@ -19,6 +19,13 @@ function pl_deprecate_v2(){
 }
 
 
+function pl_use_editor(){
+	
+	return true;
+	
+}
+
+
 // Process old function type to new format
 function process_to_new_option_format( $old_options ){
 	

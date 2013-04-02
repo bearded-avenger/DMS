@@ -61,8 +61,7 @@ require_once( PL_INCLUDES . '/library.functions.php');
 /**
  * Editor
  */	
-if( defined('PL_UX_DEV') && PL_UX_DEV )
-	require_once( PL_EDITOR . '/editor.init.php' );
+require_once( PL_EDITOR . '/editor.init.php' );
 
 // V3 Editor functions --- > always load
 require_once( PL_EDITOR . '/editor.functions.php' );

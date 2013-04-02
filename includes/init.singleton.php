@@ -26,6 +26,8 @@ $GLOBALS['pl_active_integrations'] = get_option(PAGELINES_INTEGRATIONS);
  * Singletons >> Metapanel Options
  */
 $GLOBALS['metapanel_options'] =  new PageLinesMetaPanel( array('global' => true) );
+
+
 $GLOBALS['profile_panel_options'] =  new ProfileEngine( );
 $GLOBALS['global_meta_options'] = get_global_meta_options();
 

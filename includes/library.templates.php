@@ -809,7 +809,7 @@ function pagelines_settings_menu_link(  ){
 	global $pagelines_template;
 
 	
-	if ( !current_user_can('edit_theme_options') )
+	if ( !current_user_can('edit_theme_options') || pl_deprecate_v2())
 		return;
 
 	$wp_admin_bar->add_menu( array( 'id' => 'pl_settings', 'title' => __('PageLines', 'pagelines'), 'href' => admin_url( PL_DASH_URL ) ) );
