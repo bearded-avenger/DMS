@@ -30,10 +30,10 @@ class EditorExtensions {
 					continue;
 
 				$thumb = $t->get_screenshot( );
-				
+
 				if( is_file( sprintf( '%s/splash.png', $t->get_stylesheet_directory() ) ) )
 				 	$splash = sprintf( '%s/splash.png', $t->get_stylesheet_directory_uri()  );
-				else 
+				else
 					$splash = $thumb;
 
 				$this->ext[ $theme ] = array(
@@ -70,6 +70,7 @@ class EditorExtensions {
 
 	function get_store(){
 
+		require_once ABSPATH . 'wp-admin/includes/plugin.php'; // Needed for plugins_api as we are on the frontend.
 		global $storeapi;
 		foreach( $storeapi->get_latest() as $key => $s ) {
 			if( ! isset( $s['name'] ) )
@@ -82,8 +83,11 @@ class EditorExtensions {
 				'desc'		=> $s['description'],
 				'thumb'		=> $s['thumb'],
 				'splash'	=> $s['splash'],
-				'purchase'	=> ( 'free' != $s['price'] && 'purchased' != $purchased ) ? sprintf( '%s,%s|%s|%s', $s['productid'], $s['uid'], $s['price'], $s['name'] ) : '',
-				'overview'	=> $s['overview']
+				'purchase'	=>  sprintf( '%s,%s|%s|%s', $s['productid'], $s['uid'], $s['price'], $s['name'] ),
+				'owned'		=> ( 'free' == $s['price'] || 'purchased' == $purchased ) ? true : false,
+				'overview'	=> $s['overview'],
+				'type'		=> $s['type'],
+				'status'	=> $this->get_ext_state( $key, $s['type'] )
 			);
 		}
 	}
@@ -173,7 +177,7 @@ class EditorExtensions {
 				'thumb'			=>  PL_EDITOR_URL . '/images/thumb-section-area.png',
 				'splash'		=>  PL_EDITOR_URL . '/images/splash-section-area.png'
 			)
-			
+
 		);
 
 		foreach($the_layouts as $index => $l){
@@ -195,5 +199,43 @@ class EditorExtensions {
 		return $layouts;
 	}
 
+		function get_ext_state( $slug, $type ) {
 
+			if( 'themes' == $type )
+				return $this->theme_status( $slug );
+
+			if( 'plugins' == $type )
+				return $this->plugin_status( $slug );
+		}
+
+
+		function plugin_status( $slug ) {
+
+			$installed_plugins = get_plugins();
+
+			$file = sprintf( '%s/%s.php', $slug, $slug );
+
+			if ( ! isset( $installed_plugins[$file] ) )
+				return false;
+
+			if ( is_plugin_active( $file ) )
+				return 'active';
+			elseif( is_plugin_inactive( $file ))
+				return 'installed';
+		}
+
+		function theme_status( $slug ) {
+
+			// lets see if the stylesheet exists....
+			$theme = wp_get_theme( $slug );
+
+			$current = wp_get_theme();
+
+			if( $theme->Name == $current )
+				return 'active';
+			if( $theme->exists() )
+				return 'installed';
+			else
+				return false;
+		}
 }

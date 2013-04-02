@@ -7,9 +7,8 @@ $.plExtend = {
 
 		$('.btn-purchase-item').on('click', function(){
 
-			var tbOpen = $.toolbox('open')
-
-			var theID = $(this).data('extend-id')
+			var tbOpen	= $.toolbox('open')
+			,	theID	= $(this).data('extend-id')
 
 			if(tbOpen)
 				$.toolbox('hide')
@@ -32,15 +31,41 @@ $.plExtend = {
 
 	}
 	, actionButtons: function( data ){
-		var buttons = ''
-		, 	theID	= data.extendId
-		,	ext = $.pl.config.extensions[theID] || false
-		,	overviewLink = ext.overview || false
-		,	demoLink = ext.demo || false
-		,	Purchase = ext.purchase || false
+		var buttons 		= ''
+		, 	theID			= data.extendId
+		,	ext				= $.pl.config.extensions[theID] || false
+		,	overviewLink	= ext.overview || false
+		,	demoLink 		= ext.demo || false
+		,	purchase		= ext.purchase || false
+		,	Owned			= ext.owned || false
+		,	ptext			= 'Download'
+		,	type			= ext.type || false
+		,	adminURL		= $.pl.config.urls.adminURL
+		,	Slug			= basename(ext.overview)
+		,	component		= sprintf('?page=install-pl-extensions&pl_installed=%s', Slug)
+		,	encoded			= encodeURIComponent(component)
+		,	InstallUrl 		= sprintf('%sadmin.php%s', adminURL, component)
+	//	,	PayUrl 		= sprintf('%sadmin.php%s', adminURL, encoded)
+		,	payLink			= sprintf('%s|%s|%s',ext.purchase, adminURL, Slug)
+		,	InstallLink 	= sprintf('%sadmin.php?page=install-pl-extensions&tgmpa-install=install-plugin&slug=%s&_wpnonce=%s',adminURL, Slug, $.pl.config.nonce)
+		, 	Allowed			= (type != 'sections') ? true : false
+		,	Status			= ext.status || false
+console.debug(ext)
 
-		if(Purchase)
-		buttons += sprintf('<a href="#" class="btn btn-primary btn-purchase-item x-remove %s" data-extend-id="%s"><i class="icon-ok"></i> Purchase</a> ', theID, theID)
+
+// want a url like this:
+// https://www.pagelines.com/api/paypal/button.php?paypal=http://admin.url|slug
+
+
+		if(!Owned && !Status && Allowed)
+			buttons = sprintf('<a href="https://www.pagelines.com/api/paypal/button.php?paypal=%s" class="btn btn-primary x-remove"><i class="icon-ok"></i> Purchase</a> ', payLink)
+
+		if(Status == 'active')
+			buttons = sprintf('<a href="%s" class="btn btn-primary x-remove"><i class="icon-ok"></i> Deactivate</a> ', '#')
+		if(Status == 'inactive')
+			buttons = sprintf('<a href="%s" class="btn btn-primary x-remove"><i class="icon-ok"></i> Activate</a> ', '#')
+		if(Owned && !Status && Allowed)
+			buttons = sprintf('<a href="%s" class="btn btn-primary x-remove"><i class="icon-ok"></i> Install</a> ', InstallLink)
 
 		if(overviewLink)
 			buttons += sprintf('<a href="%s" class="btn x-remove" target="_blank"><i class="icon-folder-open"></i> Overview</a> ', overviewLink)
@@ -48,18 +73,19 @@ $.plExtend = {
 		if(demoLink)
 			buttons += sprintf('<a href="%s" class="btn x-remove" target="_blank"><i class="icon-desktop"></i> Demo</a> ', demoLink)
 
-
 		return buttons
 	}
 
 	, purchaseModal: function( theID ) {
-		var		ext = $.pl.config.extensions[theID] || false
-		,    	payLink = ext.purchase || false
-console.debug(payLink);
+		var	ext			= $.pl.config.extensions[theID]
+		,	adminURL	= $.pl.config.urls.adminURL
+		,	Slug		= basename(ext.overview)
+		,	component	= sprintf('%sadmin.php?page=install-pl-extensions&pl_installed=%s', adminURL, Slug)
+		,	InstallUrl	= encodeURIComponent(component)
+		,	payLink		= sprintf('%s|%s',ext.purchase, InstallUrl)
 
-		return sprintf("<iframe style='width: 100%%; height: 650px;' src='https://api.pagelines.com/paypal/checkout/DGsetExpressCheckout.php?paypal=%s'></iframe>", payLink)
+		return sprintf("<iframe style='width: 100%%; height: 100px;' src='https://www.pagelines.com/api/paypal/button.php?paypal=%s'></iframe>", payLink)
 	}
-
 }
 
 }(window.jQuery);

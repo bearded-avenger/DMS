@@ -26,7 +26,9 @@ class PageLinesEditor {
 
 		// TEMPLATE ACTIONS
 
-		add_action('wp', array(&$this, 'load_libs' ));
+		add_action( 'init', array(&$this, 'load_libs' ), 5);
+
+		add_action( 'init', array(&$this, 'admin_scripts' ), 9 );
 
 		add_action('wp_enqueue_scripts', array(&$this, 'process_styles' ));
 		add_action( 'wp_head', array(&$this, 'process_head' ) );
@@ -37,8 +39,6 @@ class PageLinesEditor {
 		add_action( 'pagelines_footer', array(&$this, 'process_footer' ) );
 
 		add_action( 'wp_ajax_pl_save_pagebuilder', array(&$this, 'save_configuration_callback' ));
-
-
 	}
 
 	function load_files(){
@@ -48,7 +48,10 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.layout.php' );
 		require_once( PL_EDITOR . '/editor.map.php' );
 		require_once( PL_EDITOR . '/editor.mapping.php' );
-		
+
+		require_once (PL_EDITOR . '/editor.installer.libs.php');
+		require_once( PL_EDITOR . '/editor.installer.php' );
+
 		require_once( PL_EDITOR . '/editor.settings.config.php' );
 		require_once( PL_EDITOR . '/editor.typography.php' );
 		require_once( PL_EDITOR . '/editor.color.php' );
@@ -73,6 +76,11 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.api.php' );
 
 	}
+	function admin_scripts() {
+
+		$installer = new Editor_Plugin_Installer;
+		add_action( 'tgmpa_register', array( &$installer, 'register_plugins' ) );
+	}
 
 	function load_libs(){
 		global $plpg;
@@ -85,13 +93,13 @@ class PageLinesEditor {
 		$pldraft = $this->draft = new EditorDraft( $this->page );
 		$storeapi = $this->storeapi = new EditorStoreFront;
 		$this->layout = new EditorLayout();
-		
+
 		$this->templates = new EditorTemplates( $this->page );
-		
+
 		// Mapping
 		$this->map = new EditorMap( $this->templates, $this->draft); // this needs to be rewritten and moved to mapping class
 		$this->mapping = new EditorMapping;
-		
+
 		// Must come before settings
 		$this->foundry = new PageLinesFoundry;
 		$this->typography = new EditorTypography( $this->foundry );
@@ -103,7 +111,7 @@ class PageLinesEditor {
 		pagelines_register_hook('pl_after_settings_load'); // hook
 
 		$plopts = $this->opts = new PageLinesOpts( $this->page, $this->draft );
-		
+
 		// Interfaces
 		$this->xlist = new EditorXList;
 		$this->add_sections = new PageLinesSectionsPanel;
@@ -111,27 +119,29 @@ class PageLinesEditor {
 		$this->settings_panel = new PageLinesSettingsPanel;
 		$this->live_panel = new PageLinesLivePanel;
 		$this->themer = new EditorThemeHandler;
-		
+
 		$this->code = new EditorCode( $this->draft );
-		
+
 		$this->areas = new PageLinesAreas;
-		
+
+
+
 		// Editor UX Elements
 		$this->interface = new EditorInterface( $this->page, $this->siteset, $this->draft, $this->templates, $this->map, $this->extensions, $this->themer );
 
 		// Master UX Handler
-		$this->handler = new PageLinesTemplateHandler( 
-					$this->interface, 
+		$this->handler = new PageLinesTemplateHandler(
+					$this->interface,
 					$this->areas,
-					$this->page, 
-					$this->siteset, 
-					$this->foundry, 
-					$this->map, 
-					$this->draft, 
-					$this->opts, 
-					$this->layout, 
+					$this->page,
+					$this->siteset,
+					$this->foundry,
+					$this->map,
+					$this->draft,
+					$this->opts,
+					$this->layout,
 					$this->extensions
-					
+
 				);
 
 	}
@@ -167,3 +177,4 @@ class PageLinesEditor {
 	}
 
 }
+

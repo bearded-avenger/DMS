@@ -92,6 +92,7 @@ class PageLinesTemplateHandler {
 					, config: {
 						userID: '<?php echo $this->get_user_id();?>'
 						, currentURL: '<?php echo $this->current_url();?>'
+						, nonce: '<?php echo wp_create_nonce( "tgmpa-install" ); ?>'
 						, pageID: '<?php echo $this->page->id;?>'
 						, typeID: '<?php echo $this->page->typeid;?>'
 						, pageTypeID: '<?php echo $this->page->type;?>'
