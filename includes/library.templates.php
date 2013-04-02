@@ -665,7 +665,10 @@ function pl_nav_fallback($class = '', $limit = 8){
 
 	$pages_out = '';
 	for($i=0; $i < $limit; $i++){
-		$pages_out .= $pages_arr[$i];
+		
+		if(isset($pages_arr[$i]))
+			$pages_out .= $pages_arr[$i];
+		
 	}
 	
 	printf('<ul class="%s">%s</ul>', $class, $pages_out);

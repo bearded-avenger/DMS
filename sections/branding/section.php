@@ -106,7 +106,7 @@ class PageLinesBranding extends PageLinesSection {
    function section_template() {
 
 			echo '<div class="branding_wrap fix">';
-
+			
 				$this->logo();
 
 				pagelines_register_hook( 'pagelines_before_branding_icons', 'branding' ); // Hook
@@ -158,10 +158,10 @@ class PageLinesBranding extends PageLinesSection {
 
 		if($this->opt('pagelines_custom_logo') || apply_filters('pagelines_site_logo', '') || apply_filters('pagelines_logo_url', '')){
 
-			$logo = apply_filters('pagelines_logo_url', esc_url($this->opt('pagelines_custom_logo', $oset) ));
+			$logo = apply_filters('pagelines_logo_url', esc_url($this->opt('pagelines_custom_logo', $this->oset) ));
 
 
-			$logo_url = ( esc_url($this->opt('pagelines_custom_logo_url', $oset) ) ) ? esc_url($this->opt('pagelines_custom_logo_url', $oset) ) : home_url();
+			$logo_url = ( esc_url($this->opt('pagelines_custom_logo_url', $this->oset) ) ) ? esc_url($this->opt('pagelines_custom_logo_url', $oset) ) : home_url();
 
 			$site_logo = sprintf( 
 				'<a class="plbrand mainlogo-link" href="%s" title="%s"><img class="mainlogo-img" src="%s" alt="%s" /></a>', 
