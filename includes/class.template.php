@@ -32,6 +32,8 @@ class PageLinesTemplate {
      */
 	function __construct( $template_type = false ) {
 		
+		
+		
 		global $post;
 		global $pl_section_factory;
 		global $passive_sections; // passive sections for loading
@@ -70,6 +72,21 @@ class PageLinesTemplate {
 
 		if(!is_admin())
 			$this->template_name = $this->page_type_name();
+		
+		
+		// DEPRECATE AFTER THIS FOR V2 (for now)
+		if(pl_deprecate_v2())
+			return;
+		
+	
+		add_action('admin_head', array(&$this, 'load_section_optionator'));
+
+		add_action('pagelines_before_html', array(&$this, 'run_before_page'));
+
+		add_action('pagelines_head', array(&$this, 'hook_and_print_sections'));
+
+		add_action('wp_footer', array(&$this, 'print_template_section_scripts'));
+		
 	
 		$this->load_sections_on_hook_names();
 	

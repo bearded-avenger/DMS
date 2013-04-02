@@ -11,6 +11,15 @@ function pl_has_editor(){
 }
 
 
+// Function to be used w/ compabibility mode to de
+function pl_deprecate_v2(){
+	
+	return true;
+	
+}
+
+
+// Process old function type to new format
 function process_to_new_option_format( $old_options ){
 	
 	$new_options = array();

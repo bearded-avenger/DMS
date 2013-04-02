@@ -26,26 +26,16 @@ add_action('admin_head', 'build_pagelines_template', 5);
 add_action('pagelines_before_html', 'build_pagelines_layout', 5);
 add_action('admin_head', 'build_pagelines_layout');
 
-/**
- * Optionator
- * Does "just in time" loading of section option in meta; 
- * Will only load section options if the section is present, handles clones
- * @since 1.0.0
- */
-add_action('admin_head', array(&$pagelines_template, 'load_section_optionator'));
+
 
 add_filter( 'pagelines_options_array', 'pagelines_merge_addon_options' );
 
-// Run Before Any HTML
-add_action('pagelines_before_html', array(&$pagelines_template, 'run_before_page'));
+
 
 add_action('wp_print_styles', 'workaround_pagelines_template_styles'); // Used as workaround on WP login page (and other pages with wp_print_styles and no wp_head/pagelines_before_html)
 
 add_action( 'wp_print_styles', 'pagelines_get_childcss', 99);
 
-add_action('pagelines_head', array(&$pagelines_template, 'hook_and_print_sections'));
-
-add_action('wp_footer', array(&$pagelines_template, 'print_template_section_scripts'));
 
 /**
  * Creates a global page ID for reference in editing and meta options (no unset warnings)

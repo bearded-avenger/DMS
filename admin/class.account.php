@@ -50,8 +50,12 @@ class PageLinesAccount {
 
 			$d['updates']	= $this->pl_add_dashboard();
 
-			$d['_getting_started'] = $this->pl_add_welcome();
 
+			if(!pl_deprecate_v2()){
+				$d['_getting_started'] = $this->pl_add_welcome();
+			}
+			
+			
 			$d['_plus_extensions'] = $this->pl_add_extensions_dash();
 			$d['_live_chat'] = $this->pl_add_live_chat_dash();
 			$d['_resources'] = $this->pl_add_support_dash();
@@ -67,16 +71,22 @@ class PageLinesAccount {
 					'layout'	=> 'full',
 				)
 			);
-			$d['Import-Export']	= array(
-				'icon'			=> PL_ADMIN_ICONS.'/extend-inout.png',
-				'import_set'	=> array(
-					'default'	=> '',
-					'type'		=> 'import_export',
-					'layout'	=> 'full',
-					'title'		=> __( 'Import/Export PageLines Settings', 'pagelines' ),						
-					'shortexp'	=> __( 'Use this form to upload PageLines settings from another install.', 'pagelines' ),
-				)
-			);
+			
+			if(!pl_deprecate_v2()){
+			
+				$d['Import-Export']	= array(
+					'icon'			=> PL_ADMIN_ICONS.'/extend-inout.png',
+					'import_set'	=> array(
+						'default'	=> '',
+						'type'		=> 'import_export',
+						'layout'	=> 'full',
+						'title'		=> __( 'Import/Export PageLines Settings', 'pagelines' ),						
+						'shortexp'	=> __( 'Use this form to upload PageLines settings from another install.', 'pagelines' ),
+					)
+				);
+					
+			}
+			
 
 		return apply_filters( 'pagelines_account_array', $d ); 
 	}

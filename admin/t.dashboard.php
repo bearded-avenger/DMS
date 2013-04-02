@@ -21,7 +21,7 @@ class PageLinesDashboard {
 			'excerpt-trim'	=> 0
 		); 
 		
-		if ( ! EXTEND_NETWORK )
+		if ( ! EXTEND_NETWORK && !pl_has_editor())
 			$dashboards = $this->dashboard_pane('updates', $args); 
 		
 		// PageLines Blog Dashboard
