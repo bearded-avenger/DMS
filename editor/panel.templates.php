@@ -57,6 +57,7 @@ class EditorTemplates {
 	}
 	
 	function user_templates(){
+		$slug = $this->default_template_slug;
 		$this->xlist = new EditorXList; 
 		$templates = '';
 		$list = '';
@@ -81,7 +82,7 @@ class EditorTemplates {
 					
 					
 					?>
-					<button class="btn btn-mini set-tpl <?php echo $active;?>" data-run="type" data-field="<?php echo $this->default_template_slug;?>"><?php echo $text; ?> Type Default</button>
+					<button class="btn btn-mini set-tpl <?php echo $active;?>" data-run="type" data-field="<?php echo $slug;?>"><?php echo $text; ?> Type Default</button>
 				<?php endif;
 				
 				$active = ($index == $this->default_global_tpl) ? 'btn-inverse' : '';
