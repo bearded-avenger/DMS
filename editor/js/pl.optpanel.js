@@ -421,7 +421,7 @@
 			
 			else if( o.type == 'link' ){
 				
-				oHTML += sprintf('<a href="%s" class="btn %s" >%s</a>', o.url, o.classes, o.label )
+				oHTML += sprintf('<a href="%s" class="btn %s" target="_blank" >%s</a>', o.url, o.classes, o.label )
 				
 			}
 			
@@ -702,6 +702,8 @@
 			
 			else if( o.type == 'image_upload' ){
 				var val = o.value
+				, 	sizeLimit = o.sizelimit || 512000 // 500 kB
+				
 				$('.fineupload.upload-'+o.key).fineUploader({
 					request: {
 						endpoint: ajaxurl
@@ -714,7 +716,7 @@
 					,	multiple: false
 					,	validation: {
 							allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-							sizeLimit: 204800 // 200 kB = 200 * 1024 bytes
+							sizeLimit: sizeLimit
 						}
 					,	text: {
 							uploadButton: '<i class="icon-upload"></i> Upload Image'
