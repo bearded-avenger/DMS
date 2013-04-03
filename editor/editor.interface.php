@@ -202,14 +202,11 @@ class EditorInterface {
 	function pagelines_editor_activate(){
 		global $wp;
 		global $is_chrome; 
-		
+
 		if($is_chrome){
 			
-			$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
-
-			$nigl = (count($_GET) > 0) ? '&' : '?'; 
-
-			$activate_url = $current_url . $nigl . 'edtr=on';
+			$endpoint = $_SERVER['REQUEST_URI'];
+			$activate_url = add_query_arg( array( 'edtr' => 'on' ), home_url( $endpoint ) );
 			
 			$text = 'Activate PageLines Editor';
 			
