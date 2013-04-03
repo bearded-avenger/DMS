@@ -270,7 +270,7 @@ class PLNavBar extends PageLinesSection {
 	$classes = join(' ', $class);
 
 	$brand = ( $this->opt( 'navbar_logo' ) || $this->opt( 'navbar_logo' ) != '') ? sprintf( '<img src="%s" alt="%s" />', $this->opt( 'navbar_logo' ), esc_attr( get_bloginfo('name') ) ) : sprintf( '<h2 class="plbrand-text">%s</h2>', get_bloginfo( 'name' ) );
-    $navbartitle = $this->opt( 'navbar_title', $this->oset );
+    $navbartitle = $this->opt( 'navbar_title' );
 
 	?>
 	<div class="navbar fix <?php echo $classes; ?>">
