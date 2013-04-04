@@ -43,13 +43,13 @@ class EditorColor{
 		}
 		elseif($image && !$fit){
 			$repeat = pl_setting('page_background_image_repeat');
-			$pos_x = pl_setting('page_background_image_pos_hor').'%';
-			$pos_y = pl_setting('page_background_image_pos_vert').'%';
+			$pos_x = pl_setting('page_background_image_pos_hor');
+			$pos_y = pl_setting('page_background_image_pos_vert');
 			$attach = pl_setting('page_background_image_attach');
 			
 			$repeat = ($repeat) ? $repeat : 'no-repeat'; 
-			$pos_x = ($pos_x) ? $pos_x : '50%'; 
-			$pos_y = ($pos_y) ? $pos_y : '0%'; 
+			$pos_x = ($pos_x) ? $pos_x.'%' : '50%'; 
+			$pos_y = ($pos_y) ? $pos_y.'%' : '0%'; 
 			$attach = ($attach) ? $attach : 'fixed'; 
 			
 			$background = sprintf('%s url("%s") %s %s %s %s', $this->base, $image, $repeat, $pos_x, $pos_y, $attach);
