@@ -62,24 +62,7 @@ class PageLinesLess {
 			
 		$constants = array_merge($this->type_vars(), $constants);
 		
-		$this->constants = apply_filters('pless_vars', $constants);
-		
-		if(pl_has_editor()){
-			
-			$cached_constants = pl_cache_get('pagelines_less_vars'); 
-		
-			if( $this->constants != $cached_constants ){
-		
-				// cache new constants version
-				pl_cache_put( $this->constants, 'pagelines_less_vars');
-			
-				// force recompile
-				pl_flush_draft_caches(); 
-			}
-			
-		}
-		
-		
+		$this->constants = apply_filters('pless_vars', $constants);		
 	}
 	
 	/**
