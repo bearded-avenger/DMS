@@ -174,6 +174,9 @@ class PageLinesAPI {
  */
 function pl_cache_get( $id, $callback = false, $args = array() ) {
 	global $storeapi;
+	if( ! is_object( $storeapi ) )
+		$storeapi = new EditorStoreFront;
+	
 	if( is_object( $storeapi ) )
 		return $storeapi->get( $id, $callback, $args );
 	else
@@ -187,6 +190,8 @@ function pl_cache_get( $id, $callback = false, $args = array() ) {
  */
 function pl_cache_put( $data, $id, $time = 3600 ) {
 	global $storeapi;
+	if( ! is_object( $storeapi ) )
+		$storeapi = new EditorStoreFront;
 	if( $id && $data && is_object( $storeapi ) )
 		$storeapi->put( $data, $id, $time );
 }
