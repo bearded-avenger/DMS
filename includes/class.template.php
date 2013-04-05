@@ -921,7 +921,7 @@ class PageLinesTemplate {
 				$inactive = ( !in_array( $key, $this->default_allsections) ) ? true : false;
 		
 				if($inactive)
-					$section->section_optionator( array('clone_id' => $clone_id, 'active' => false, 'type' => $type) );
+					$section->section_optionator( array('clone_id' => 0, 'active' => false, 'type' => $type) );
 			}
 			
 		}

@@ -25,6 +25,61 @@ class EditorTemplates {
 		add_filter('pl_toolbar_config', array(&$this, 'toolbar'));
 		add_filter('pagelines_editor_scripts', array(&$this, 'scripts'));
 		
+		add_action('admin_init', array(&$this, 'admin_page_meta_box'));
+		
+	}
+	
+	function admin_page_meta_box(){
+		remove_meta_box( 'pageparentdiv', 'page', 'side' );
+		add_meta_box('specialpagelines', __('Page Setup'), array(&$this, 'page_attributes_meta_box'), 'page', 'side');
+		
+	}
+	function page_attributes_meta_box( $post ){
+		$post_type_object = get_post_type_object($post->post_type);
+
+		///// CUSTOM PAGE TEMPLATE STUFF ///// 
+
+			$options = ''; 
+			if( pl_meta($post->ID, 'pl-template-map') )
+				$options .= sprintf('<option value="custom-template" selected>%s</option>', 'Custom Template'); 
+
+			var_dump(get_post_custom($post->ID));
+
+			foreach($this->get_user_templates() as $index => $t){
+				$options .= sprintf('<option value="%s">%s</option>', $index, $t['name']); 
+			}
+
+			
+
+			printf('<p><strong>%1$s</strong></p>', __('Load PageLines Template', 'pagelines'));
+
+			printf('<select name="pagelines_template" id="pagelines_template">%s</select>', $options);
+
+		///// END TEMPLATE STUFF ///// 
+
+		
+		if ( $post_type_object->hierarchical ) {
+			$dropdown_args = array(
+				'post_type'        => $post->post_type,
+				'exclude_tree'     => $post->ID,
+				'selected'         => $post->post_parent,
+				'name'             => 'parent_id',
+				'show_option_none' => __('(no parent)'),
+				'sort_column'      => 'menu_order, post_title',
+				'echo'             => 0,
+			);
+
+			$dropdown_args = apply_filters( 'page_attributes_dropdown_pages_args', $dropdown_args, $post );
+			$pages = wp_dropdown_pages( $dropdown_args );
+			if ( ! empty($pages) ) {
+				printf('<p><strong>%1$s</strong></p>', __('Parent Page'));
+				echo $pages;
+			}
+		}	
+
+		printf('<p><strong>%1$s</strong></p>', __('Page Order'));
+		printf('<input name="menu_order" type="text" size="4" id="menu_order" value="%s" /></p>', esc_attr($post->menu_order) );
+
 	}
 	
 	function scripts(){
@@ -109,8 +164,6 @@ class EditorTemplates {
 				'name'			=> $template['name'],
 				'sub'			=> $template['desc'],
 				'actions'		=> $actions,
-				'format'		=> 'media',
-				'icon'			=> 'icon-copy'
 			);
 
 			$list .= $this->xlist->get_x_list_item( $args );
@@ -207,7 +260,7 @@ class EditorTemplates {
 			'content'	=> array(
 				array(
 					'object'	=> 'PLColumn',
-					'span' 	=> 9,
+					'span' 	=> 8,
 					'content'	=> array( 
 						'PageLinesPostLoop' => array( ), 
 						'PageLinesComments' => array( ),	
@@ -215,7 +268,7 @@ class EditorTemplates {
 				),
 				array(
 					'object'	=> 'PLColumn',
-					'span' 	=> 3,
+					'span' 	=> 4,
 					'content'	=> array( 
 						'PrimarySidebar' => array( )
 					)

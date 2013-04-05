@@ -7,21 +7,21 @@
  *
  */
 
-
+	
 $pagelines_editor = new PageLinesEditor;
 
 class PageLinesEditor {
 
 	function __construct() {
 
-
 		$this->load_files();
 
 		// TEMPLATE ACTIONS
 
-		add_action( 'init', array(&$this, 'load_libs' ), 5);
+		add_action( 'wp', array(&$this, 'load_libs' ), 5);
+		add_action( 'admin_init', array(&$this, 'load_libs' ), 5);
 
-		add_action( 'init', array(&$this, 'admin_scripts' ), 9 );
+		add_action( 'admin_init', array(&$this, 'admin_scripts' ), 9 );
 
 		add_action('wp_enqueue_scripts', array(&$this, 'process_styles' ));
 		add_action( 'wp_head', array(&$this, 'process_head' ) );
@@ -31,7 +31,8 @@ class PageLinesEditor {
 		add_action( 'pagelines_template', array(&$this, 'process_template' ) );
 		add_action( 'pagelines_footer', array(&$this, 'process_footer' ) );
 
-		add_action( 'wp_ajax_pl_save_pagebuilder', array(&$this, 'save_configuration_callback' ));
+
+
 	}
 
 	function load_files(){
@@ -156,6 +157,7 @@ class PageLinesEditor {
 	}
 
 	function process_head(){
+
 		$this->handler->process_head();
 	}
 
@@ -169,9 +171,6 @@ class PageLinesEditor {
 		$this->handler->process_region('footer');
 	}
 
-	function save_configuration_callback(){
-		echo 'worked!';
-	}
 
 }
 

@@ -75,7 +75,7 @@ class PageLinesSettingsPanel{
 
 		$tabs['local'] = array( 'name'	=> 'Current Page <span class="label">'.$current_page.'</span>' );
 	
-		if( $plpg->is_special() )
+		if( !$plpg->is_special() )
 			$tabs['type'] = array( 'name'	=> 'Post Type <span class="label">'.$plpg->type_name.'</span>' );
 		
 		$tabs['global'] = array( 'name'	=> 'Sitewide Defaults' );

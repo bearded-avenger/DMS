@@ -65,7 +65,9 @@ class Editor_Plugin_Installer {
 
 		if( isset( $_GET['api_returned'] ) )
 			$storeapi->del( 'store_mixed' );
+
 		$mixed = $storeapi->get_latest();
+		
 		$built = array();
 		// loop through and trash all non-plugins...
 

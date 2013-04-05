@@ -40,6 +40,8 @@ class EditorMap {
 	}
 	
 	function map_local( $pageID ){
+	//	var_dump($pageID);
+		//var_dump(pl_meta( $pageID, $this->map_option_slug));
 		return pl_meta( $pageID, $this->map_option_slug, $this->map_default );
 	}
 	
