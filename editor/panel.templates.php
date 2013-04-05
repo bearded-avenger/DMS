@@ -77,20 +77,20 @@ class EditorTemplates {
 				<?php if(!$this->page->is_special()): 
 	
 			
-					$active = ($index == $this->default_type_tpl) ? 'btn-inverse' : '';
-					$text = ($index == $this->default_type_tpl) ? 'Active' : 'Set';
+					$active = ($index === $this->default_type_tpl) ? 'btn-inverse' : '';
+					$text = ($index === $this->default_type_tpl) ? 'Active' : 'Set as';
 					
 					
 					?>
-					<button class="btn btn-mini set-tpl <?php echo $active;?>" data-run="type" data-field="<?php echo $slug;?>"><?php echo $text; ?> Type Default</button>
+					<button class="btn btn-mini set-tpl <?php echo $active;?>" data-run="type" data-field="<?php echo $slug;?>"><?php echo $text; ?> Post Type Default</button>
 				<?php endif;
 				
-				$active = ($index == $this->default_global_tpl) ? 'btn-inverse' : '';
-				$text = ($index == $this->default_global_tpl) ? 'Active' : 'Set';
+				$active = ($index === $this->default_global_tpl) ? 'btn-inverse' : '';
+				$text = ($index === $this->default_global_tpl) ? 'Active' : 'Set as';
 				?>
 				
 				
-				<button class="btn btn-mini set-tpl <?php echo $active;?>" data-run="global" data-field="<?php echo $slug;?>"><?php echo $text; ?> Global Default</button>
+				<button class="btn btn-mini set-tpl <?php echo $active;?>" data-run="global" data-field="<?php echo $slug;?>"><?php echo $text; ?> Sitewide Default</button>
 			</div>
 			
 			
@@ -133,8 +133,8 @@ class EditorTemplates {
 				<label for="template-name">Template Name (required)</label>
 				<input type="text" id="template-name" name="template-name" required />
 				
-				<label for="template-desc">Template Description (required)</label>
-				<textarea rows="4" id="template-desc" name="template-desc" required ></textarea>
+				<label for="template-desc">Template Description</label>
+				<textarea rows="4" id="template-desc" name="template-desc" ></textarea>
 				<button type="submit" class="btn btn-primary btn-save-template">Save New Template</button>
 			</fieldset>
 		</form>
@@ -187,38 +187,45 @@ class EditorTemplates {
 		
 	}
 	
-	function default_template(){
+	function load_template(){
 		
 		$d = $this->get_map_from_template_key( $this->default_tpl );
 		
 		if(!$d || $d == ''){
-			$d = array(
-				array(
-					'area'	=> 'TemplateAreaID',
-					'content'	=> array(
-						array(
-							'object'	=> 'PLColumn',
-							'span' 	=> 8,
-							'content'	=> array( 
-								'PageLinesPostLoop' => array( ), 
-								'PageLinesComments' => array(),	
-							)
-						),
-						array(
-							'object'	=> 'PLColumn',
-							'span' 	=> 4,
-							'content'	=> array( 
-								'PrimarySidebar' => array( )
-							)
-						),
-					)
-				)
-
-			);
+			
+			$d = array( $this->default_template() );
 		}
 		
 		
 		return $d;
+	}
+	
+	function default_template(){
+		$t = array(
+			'name'	=> 'Content Area',
+			'class'	=> 'std-content',
+			'content'	=> array(
+				array(
+					'object'	=> 'PLColumn',
+					'span' 	=> 9,
+					'content'	=> array( 
+						'PageLinesPostLoop' => array( ), 
+						'PageLinesComments' => array( ),	
+					)
+				),
+				array(
+					'object'	=> 'PLColumn',
+					'span' 	=> 3,
+					'content'	=> array( 
+						'PrimarySidebar' => array( )
+					)
+				),
+			)
+		);
+		
+		
+		return $t;
+		
 	}
 	
 	function default_header(){
@@ -260,53 +267,38 @@ class EditorTemplates {
 		
 		$t = array();
 		
-		$t[	'default'] = array(
-				'name'	=> 'Default Page', 
+		$t[] = array(
+				'name'	=> 'Default Template', 
 				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
 				'map'	=> array(
-					'template' => array(
-						'area'	=> 'TemplateAreaID',
-						'content'	=> array(
-							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 9,
-								'content'	=> array( 
-									'PageLinesPostLoop' => array( ), 
-									'PageLinesComments' => array( ),	
-								)
-							),
-							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 3,
-								'content'	=> array( 
-									'PrimarySidebar' => array( )
-								)
-							),
-						)
+					'template' => $this->default_template()
+				)
+			);
+		
+		$t[] = array(
+			'name'	=> 'Feature Template', 
+			'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
+			'map'	=> array(
+				'template' => array(
+					'area'	=> 'TemplateAreaID',
+					'content'	=> array(
+						array(
+							'object'	=> 'PageLinesQuickSlider',
+						),
+						array(
+							'object'	=> 'PageLinesBoxes',
+					
+						),
+						array(
+							'object'	=> 'PageLinesPostLoop',
+					
+						),
 					)
 				)
+			)
 		); 
-		
-		 $t['feature'] = array(
-				'name'	=> 'Feature Page', 
-				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
-				'map'	=> array(
-					'template' => array(
-						'area'	=> 'TemplateAreaID',
-						'content'	=> array(
-							array(
-								'object'	=> 'PageLinesFeatures',
-							),
-							array(
-								'object'	=> 'PageLinesBoxes',
-								
-							),
-						)
-					)
-				)
-			); 
-		
-		$t['landing'] = array(
+
+		$t[] = array(
 				'name'	=> 'Landing Page', 
 				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
 				'map'	=> array(

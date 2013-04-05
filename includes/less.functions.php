@@ -129,13 +129,16 @@ class PageLinesLess {
 	private function raw_parse( $pless, $type ) {
 	
 		$pless = $this->add_constants( '' ) . $this->add_bootstrap() . $pless;
+		
+		
 		try {
+			
 			$css = $this->lparser->compile( $pless );
-		} 
-			catch ( Exception $e) {		
-				plupop( "pl_less_error_{$type}", $e->getMessage() );
-				return sprintf( "/* LESS PARSE ERROR in your %s CSS: %s */\r\n", ucfirst( $type ), $e->getMessage() );
-			}
+			
+		} catch ( Exception $e) {		
+			plupop( "pl_less_error_{$type}", $e->getMessage() );
+			return sprintf( "/* LESS PARSE ERROR in your %s CSS: %s */\r\n", ucfirst( $type ), $e->getMessage() );
+		}
 			
 		// were good!
 		plupop( "pl_less_error_{$type}", false );

@@ -1051,7 +1051,7 @@
 				&.x-templates{
 					font-size: 13px;
 					line-height: 1.3em;
-					width: 430px;
+					width: 320px;
 					.img i {
 						color:#ddd;
 					}
@@ -1061,8 +1061,8 @@
 						border:1px solid #ccc;
 						border-right: 1px solid #aaa;
 						border-bottom: 1px solid #aaa; 
-						background: #f0f0f0; 
-						box-shadow: inset 1px 1px 0 #fff; 
+						#gradient > .vertical(#f7f7f7, #ddd);
+						box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 rgba(255,255,255,.5); 
 						text-shadow: 0 1px 0 #fff; 
 						.x-item-text{
 							padding: 0;
@@ -1075,6 +1075,7 @@
 							}
 							.x-item-sub{
 								margin: 5px 0;
+								color: #666;
 							}
 						}
 						.x-item-actions{

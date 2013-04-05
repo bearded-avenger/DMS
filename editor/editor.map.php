@@ -65,7 +65,7 @@ class EditorMap {
 		if( $map && isset($map['template']) ){
 			return $map['template']; 
 		} else 
-			return $this->tpl->default_template(); 
+			return $this->tpl->load_template(); 
 		
 	}
 	

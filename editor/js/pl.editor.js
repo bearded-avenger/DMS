@@ -95,7 +95,7 @@
 			if(selectedPanel.hasClass('current-panel'))
 				return
 			
-			$('.btn-toolbox').removeClass('active-tab')
+			$('.btn-toolbox:not(.btn-toggle-grid)').removeClass('active-tab')
 			
 			allPanels
 				.removeClass( 'current-panel' )
@@ -430,7 +430,7 @@
 
 				} else if ( btn.hasClass('section-offset-increase')){
 					
-					var sizes = $.pageBuilder.getOffsetSize( section )
+					var sizes = $.plMapping.getOffsetSize( section )
 
 					if (sizes[1])
 						section.removeClass(sizes[0]).addClass(sizes[1])
@@ -438,7 +438,7 @@
 
 				} else if ( btn.hasClass('section-offset-reduce')){
 
-					var sizes = $.pageBuilder.getOffsetSize( section )
+					var sizes = $.plMapping.getOffsetSize( section )
 
 					if (sizes[1])
 						section.removeClass(sizes[0]).addClass(sizes[2])
@@ -539,7 +539,7 @@
 				if(width > 12){
 					avail_offset = 12 - col_size[4]; 
 					section.removeClass( off_size[0] ).addClass( 'offset'+avail_offset )
-					off_size = $.pageBuilder.getOffsetSize( section )
+					off_size = $.plMapping.getOffsetSize( section )
 				}
 
                	// Set Numbers

@@ -444,13 +444,9 @@ class PageLinesTemplateHandler {
 			}
 			
 		}
-		
-		
-		
-		
-		
-		
-		return $d;
+	
+			
+		return ($d) ? $d : array();
 	}
 	
 

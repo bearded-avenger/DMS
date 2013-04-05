@@ -85,10 +85,11 @@ function pl_editor_actions(){
 			
 			$template_map = $post['map']['template'];
 
-			$name = (isset($post['template-name'])) ? $post['template-name'] : 'Template (No Name)';
-			$desc = (isset($post['template-desc'])) ? $post['template-desc'] : 'No description.';
+			$name = (isset($post['template-name'])) ? $post['template-name'] : false;
+			$desc = (isset($post['template-desc'])) ? $post['template-desc'] : '';
 
-			$tpl->create_template($name, $desc, $template_map);
+			if( $name )
+				$tpl->create_template($name, $desc, $template_map);
 			
 		} elseif( $run == 'set_type' ){
 
@@ -124,9 +125,9 @@ function pl_editor_actions(){
 			}
 			
 			$response['result'] = $storage->opt( $field );
-			
-
+		
 		}
+		
 	} elseif ( $mode == 'settings' ){
 		
 		$plpg = new PageLinesPage( array( 'mode' => 'ajax', 'pageID' => $pageID, 'typeID' => $typeID ) );
