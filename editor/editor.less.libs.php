@@ -44,7 +44,7 @@ class EditorLessHandler{
 	/**
 	 *
 	 * Enqueue special draft css.
-	 * 
+	 *
 	 *  @package PageLines Framework
 	 *  @since 3.0
 	 */
@@ -142,8 +142,60 @@ class EditorLessHandler{
 			'type'	=> $raw['type'],
 			'dynamic'	=> $raw['dynamic'],
 			'compiled_core'	=> $compiled_core,
-			'compiled_sections'	=> $compiled_sections
+			'compiled_sections'	=> $compiled_sections,
 			);
+	}
+
+	/**
+	 *
+	 *  Compare Less
+	 *  If PL_LESS_DEV is active compare cached draft with raw less, if different purge cache, this fires before the less is compiled.
+	 *
+	 *  @package PageLines Framework
+	 *  @since 3.0
+	 */
+	function compare_less() {
+
+		$flush = false;
+
+		if(pl_has_editor()){
+
+			$cached_constants = (array) pl_cache_get('pagelines_less_vars' );
+
+			$diff = array_diff( $this->pless->constants, $cached_constants );
+
+			if( ! empty( $diff ) ){
+
+plprint( $diff );
+				// cache new constants version
+				pl_cache_put( $this->pless->constants, 'pagelines_less_vars');
+
+				// force recompile
+				$flush = true;
+			}
+		}
+
+
+		$raw_cached = pl_cache_get( 'draft_core_raw', array( &$this, 'draft_core_data' ) );
+
+		// check if a cache exists. If not dont bother carrying on.
+		if( ! isset( $raw_cached['core'] ) )
+			return;
+
+		// Load all the less. Not compiled.
+		$raw = $this->draft_core_data();
+
+		if( $raw_cached['core'] != $raw['core'] )
+			$flush = true;
+
+		if( $raw_cached['dynamic'] != $raw['dynamic'] )
+			$flush = true;
+
+		if( $raw_cached['sections'] != $raw['sections'] )
+			$flush = true;
+
+		if( true == $flush )
+			pl_flush_draft_caches();
 	}
 
 	/**
