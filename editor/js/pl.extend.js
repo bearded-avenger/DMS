@@ -50,8 +50,13 @@ $.plExtend = {
 		,	InstallLink 	= sprintf('%sadmin.php?page=install-pl-extensions&tgmpa-install=install-plugin&slug=%s&_wpnonce=%s',adminURL, Slug, $.pl.config.nonce)
 		, 	Allowed			= (type != 'sections') ? true : false
 		,	Status			= ext.status || false
-		,	Activate 		= sprintf('%sadmin.php?page=install-pl-extensions&pl_installed=%s', adminURL, Slug)
-		,	Deactivate 		= sprintf('%s%s.php', adminURL, type)
+		,	Activate 		= sprintf('%sadmin.php?page=install-pl-extensions&plugin=%s&tgmpa-activate=activate-plugin&pl_type=plugin&_wpnonce=%s&front=1', adminURL, Slug, $.pl.config.nonce)
+		,	Deactivate 		= sprintf('%sadmin.php?page=install-pl-extensions&plugin=%s&tgmpa-deactivate=deactivate-plugin&pl_type=plugin&_wpnonce=%s&front=1', adminURL, Slug, $.pl.config.nonce)
+
+
+
+
+
 
 		if(!Owned && !Status && Allowed)
 			buttons = sprintf('<a href="https://www.pagelines.com/api/paypal/button.php?paypal=%s" class="btn btn-primary x-remove"><i class="icon-money"></i> Purchase</a> ', payLink)
