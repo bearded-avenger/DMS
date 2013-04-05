@@ -19,9 +19,8 @@ class PageLinesEditor {
 		// TEMPLATE ACTIONS
 
 		add_action( 'wp', array(&$this, 'load_libs' ), 5);
-		add_action( 'admin_init', array(&$this, 'load_libs' ), 5);
 
-		add_action( 'admin_init', array(&$this, 'admin_scripts' ), 9 );
+		add_action( 'init', array(&$this, 'installer_scripts' ), 9 );
 
 		add_action('wp_enqueue_scripts', array(&$this, 'process_styles' ));
 		add_action( 'wp_head', array(&$this, 'process_head' ) );
@@ -42,9 +41,6 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.layout.php' );
 		require_once( PL_EDITOR . '/editor.map.php' );
 		require_once( PL_EDITOR . '/editor.mapping.php' );
-
-		require_once (PL_EDITOR . '/editor.installer.libs.php');
-		require_once( PL_EDITOR . '/editor.installer.php' );
 
 		require_once( PL_EDITOR . '/editor.settings.config.php' );
 		require_once( PL_EDITOR . '/editor.typography.php' );
@@ -70,7 +66,10 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.api.php' );
 
 	}
-	function admin_scripts() {
+	function installer_scripts() {
+
+		require_once (PL_EDITOR . '/editor.installer.libs.php');
+		require_once( PL_EDITOR . '/editor.installer.php' );
 
 		$installer = new Editor_Plugin_Installer;
 		add_action( 'tgmpa_register', array( &$installer, 'register_plugins' ) );
