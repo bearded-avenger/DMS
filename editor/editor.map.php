@@ -36,13 +36,11 @@ class EditorMap {
 	}
 	
 	function map_global(){
-		return pl_opt( $this->map_option_slug, $this->map_default, true ); 
+		return pl_opt( $this->map_option_slug, pl_settings_default(), true ); 
 	}
 	
 	function map_local( $pageID ){
-	//	var_dump($pageID);
-		//var_dump(pl_meta( $pageID, $this->map_option_slug));
-		return pl_meta( $pageID, $this->map_option_slug, $this->map_default );
+		return pl_meta( $pageID, $this->map_option_slug, pl_settings_default() );
 	}
 	
 	function get_header( $map ){
@@ -67,7 +65,7 @@ class EditorMap {
 		if( $map && isset($map['template']) ){
 			return $map['template']; 
 		} else 
-			return $this->tpl->load_template(); 
+			return $this->tpl->load_template( $map); 
 		
 	}
 	
@@ -76,13 +74,13 @@ class EditorMap {
 	
 	function publish_map( $pageID ){
 	
-		$global_map = pl_opt( $this->map_option_slug, $this->map_default, true );
+		$global_map = pl_opt( $this->map_option_slug, pl_settings_default(), true );
 		
 		$global_map['live'] = $global_map['draft']; 
 		
 		pl_opt_update( $this->map_option_slug, $global_map );
 		
-		$local_map = pl_meta( $pageID, $this->map_option_slug, $this->map_default); 
+		$local_map = pl_meta( $pageID, $this->map_option_slug, pl_settings_default()); 
 		
 		$local_map['live'] = $local_map['draft']; 
 		
@@ -93,7 +91,7 @@ class EditorMap {
 	function revert_local( $pageID ){
 
 		
-		$local_map = pl_meta( $pageID, $this->map_option_slug, $this->map_default); 
+		$local_map = pl_meta( $pageID, $this->map_option_slug, pl_settings_default()); 
 		
 		$local_map['draft'] = $local_map['live']; 
 		
@@ -104,23 +102,14 @@ class EditorMap {
 	function revert_global(){
 		
 		
-		$global_map = pl_opt( $this->map_option_slug, $this->map_default, true );
+		$global_map = pl_opt( $this->map_option_slug, pl_settings_default(), true );
 		
 		$global_map['draft'] = $global_map['live']; 
 		
 		pl_opt_update( $this->map_option_slug, $global_map );
 	}
 	
-	function set_new_local_template( $pageID, $map ){
-			
-		$local_map = pl_meta( $pageID, $this->map_option_slug, $this->map_default); 
-		
-		$local_map['draft'] = array(
-			'template' => $map
-		);
-
-		$this->save_local_map( $pageID, $local_map );
-	}
+	
 	
 	function save_map_draft( $pageID, $the_map ){
 
@@ -128,22 +117,17 @@ class EditorMap {
 		$map = $the_map;
 	
 		// global
-		$global_map = pl_opt( $this->map_option_slug, $this->map_default, true );
+		$global_map = pl_opt( $this->map_option_slug, pl_settings_default(), true );
 		
 		$global_map['draft'] = array(
 			'header' => $map['header'],
 			'footer' => $map['footer']
 		);
 		
-		if( $global_map['live'] != $global_map['draft'] ){
-			$this->draft->set_global();		
-		} else {
-			$this->draft->set_global( false );
-		}
-		
+
 		pl_opt_update( $this->map_option_slug, $global_map );
 		
-		$local_map = pl_meta( $pageID, $this->map_option_slug, $this->map_default); 
+		$local_map = pl_meta( $pageID, $this->map_option_slug, pl_settings_default()); 
 		
 		$local_map['draft'] = array(
 			'template' => $map['template']
@@ -155,11 +139,6 @@ class EditorMap {
 	}
 
 	function save_local_map( $pageID, $map ){
-		
-		if( $map['live'] != $map['draft'] )
-			$this->draft->set_local( $pageID );
-		else
-			$this->draft->set_local( $pageID, false );
 		
 		pl_meta_update( $pageID, $this->map_option_slug, $map );
 	}

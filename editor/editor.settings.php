@@ -2,6 +2,9 @@
 
 
 define('PL_SETTINGS', 'pl-settings'); 
+function pl_settings_default(){
+	return array( 'draft' => array(), 'live' => array() ); 
+}
 
 function pl_setting( $key, $args = array() ){
 	global $plopts;
@@ -141,7 +144,7 @@ class PageLinesData {
 class PageLinesSettings extends PageLinesData {
 
 	var $pl_settings = PL_SETTINGS;
-	var $default = array( 'draft' => array(), 'live' => array() );
+	var $default = array( 'draft' => array(), 'live' => array() ); 
 
 	function global_settings(){
 		
@@ -591,6 +594,8 @@ function pl_publish_settings( $pageID, $typeID ){
 	$settings['local'] = pl_meta( $pageID, PL_SETTINGS );
 	$settings['type'] = pl_meta( $typeID, PL_SETTINGS );
 	$settings['global'] = pl_opt( PL_SETTINGS  );
+	$settings['local-map'] = pl_meta( $pageID, 'pl-template-map' );
+	$settings['global-map'] = pl_opt( 'pl-template-map' );
 	
 	
 	foreach($settings as $scope => $set){
@@ -606,6 +611,12 @@ function pl_publish_settings( $pageID, $typeID ){
 	pl_meta_update( $pageID, PL_SETTINGS, $settings['local'] );
 	pl_meta_update( $typeID, PL_SETTINGS, $settings['type'] );
 	pl_opt_update( PL_SETTINGS, $settings['global'] );
+	
+	pl_meta_update( $pageID, 'pl-template-map', $settings['local-map'] );
+	pl_opt_update( 'pl-template-map', $settings['global-map'] );
+	
+	// Flush less
+	do_action( 'extend_flush' );
 	
 }
 

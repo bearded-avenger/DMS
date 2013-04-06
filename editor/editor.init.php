@@ -18,7 +18,7 @@ class PageLinesEditor {
 
 		// TEMPLATE ACTIONS
 
-		add_action( 'wp', array(&$this, 'load_libs' ), 5);
+		add_action( 'wp', array(&$this, 'load_libs' ), 5); // !important - must load after $post variable
 		add_action( 'admin_init', array(&$this, 'load_libs' ), 5);
 
 		add_action( 'admin_init', array(&$this, 'admin_scripts' ), 9 );

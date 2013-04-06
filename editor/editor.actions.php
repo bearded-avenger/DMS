@@ -28,7 +28,8 @@ function pl_editor_actions(){
 		} elseif ( $run == 'publish' ) {
 			
 			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
-			$draft->publish( $pageID, $typeID, $map );
+			
+			pl_publish_settings( $pageID, $typeID );
 			
 		} elseif ( $run == 'revert' ){
 
@@ -68,12 +69,8 @@ function pl_editor_actions(){
 		$tpl = new EditorTemplates;
 
 		if ( $run == 'load' ){
-
-			$map = new EditorMap( $tpl, new EditorDraft );
-
-			$new_tpl_map = $tpl->get_map_from_template_key( $post['key'] );
-
-			$map->set_new_local_template( $pageID, $new_tpl_map );
+			
+			$response['loaded'] = $tpl->set_new_local_template( $pageID, $post['key'] );
 		
 		} elseif ( $run == 'delete'){
 			

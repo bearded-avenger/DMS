@@ -4,6 +4,7 @@ class EditorTemplates {
 	
 	var $template_slug = 'pl-user-templates';
 	var $default_template_slug = 'pl-default-tpl';
+	var $map_option_slug = 'pl-template-map';
 	
 	
 	function __construct( ){
@@ -25,7 +26,8 @@ class EditorTemplates {
 		add_filter('pl_toolbar_config', array(&$this, 'toolbar'));
 		add_filter('pagelines_editor_scripts', array(&$this, 'scripts'));
 		
-		add_action('admin_init', array(&$this, 'admin_page_meta_box'));
+		add_action( 'admin_init', array(&$this, 'admin_page_meta_box'));
+		add_action( 'post_updated', array(&$this, 'save_meta_options') );
 		
 	}
 	
@@ -34,19 +36,33 @@ class EditorTemplates {
 		add_meta_box('specialpagelines', __('Page Setup'), array(&$this, 'page_attributes_meta_box'), 'page', 'side');
 		
 	}
+	
+	function save_meta_options( $postID ){
+		$post = $_POST;
+		if((isset($post['update']) || isset($post['save']) || isset($post['publish']))){
+		
+		
+			$user_template = (isset($post['pagelines_template'])) ? $post['pagelines_template'] : '';
+			
+			if($user_template != ''){
+				
+				pl_meta_update($postID, $this->map_option_slug, array('live' => $user_template, 'draft' => $user_template));
+			}
+				
+		
+		}
+	}
 	function page_attributes_meta_box( $post ){
 		$post_type_object = get_post_type_object($post->post_type);
 
 		///// CUSTOM PAGE TEMPLATE STUFF ///// 
 
-			$options = ''; 
-			if( pl_meta($post->ID, 'pl-template-map') )
-				$options .= sprintf('<option value="custom-template" selected>%s</option>', 'Custom Template'); 
-
-			var_dump(get_post_custom($post->ID));
-
+			$options = '<option value="">Select Template</option>'; 
+			$loaded_user_template = pl_meta($post->ID, $this->load_template_slug, array('live' => '', 'draft' => '')); 
 			foreach($this->get_user_templates() as $index => $t){
-				$options .= sprintf('<option value="%s">%s</option>', $index, $t['name']); 
+				$sel = ($loaded_user_template['live'] === $index) ? 'selected' : '';
+				
+				$options .= sprintf('<option value="%s" %s>%s</option>', $index, $sel, $t['name']); 
 			}
 
 			
@@ -116,18 +132,40 @@ class EditorTemplates {
 		$this->xlist = new EditorXList; 
 		$templates = '';
 		$list = '';
+		$tpls = pl_meta( $this->page->id, $this->map_option_slug, pl_settings_default());
+		
 		foreach( $this->get_user_templates() as $index => $template){
 		
 			
 			$classes = array('x-templates'); 
 			$classes[] = sprintf('template_key_%s', $index); 
 			
+			// echo $index; 
+// 			print_r($tpls);
+		
+			if( $index == $tpls['live'] && $index == $tpls['draft'] ){
+				$main_btn_text = 'Active Template'; 
+				$main_btn_class = 'btn-success'; 
+			} elseif($index == $tpls['live']){
+				$main_btn_text = 'Active Template (Live)'; 
+				$main_btn_class = 'btn-success'; 
+			} elseif($index == $tpls['draft']){
+				$main_btn_text = 'Active Template (Draft)'; 
+				$main_btn_class = 'btn-success'; 
+			} else {
+				$main_btn_text = 'Load Template'; 
+				$main_btn_class = 'btn-primary load-template'; 
+			}
+			
+		
+			
 			
 			ob_start(); 
 			
 			?>
 			<div class="x-item-actions">
-				<button class="btn btn-mini btn-primary load-template">Load Template</button>
+				<?php printf('<button class="btn btn-mini %s">%s</button>', $main_btn_class, $main_btn_text); ?>
+				
 				<button class="btn btn-mini delete-template">Delete</button>
 				<?php if(!$this->page->is_special()): 
 	
@@ -208,11 +246,23 @@ class EditorTemplates {
 	function get_map_from_template_key( $key ){
 		
 		$templates = $this->get_user_templates();
-		
+		//var_dump($key);
 		if( isset($templates[ $key ]) && isset($templates[ $key ]['map'] ) )
 			return $templates[ $key ]['map'];
 		else
 			return false;
+	}
+	
+	function set_new_local_template( $pageID, $tpl_id ){
+			
+		$user_map = pl_meta( $pageID, $this->map_option_slug, pl_settings_default());
+		
+		$user_map['draft'] = $tpl_id;
+
+		pl_meta_update($pageID, $this->map_option_slug, $user_map);
+		
+		return $user_map;
+		
 	}
 	
 	
@@ -220,7 +270,7 @@ class EditorTemplates {
 		
 		$templates = $this->get_user_templates();
 		
-		$templates[] = array(
+		$templates[ pl_create_id( $name ) ] = array(
 			'name'	=> $name,
 			'desc'	=> $desc, 
 			'map'	=> $map
@@ -240,12 +290,14 @@ class EditorTemplates {
 		
 	}
 	
-	function load_template(){
+	function load_template( $tpl ){
 		
-		$d = $this->get_map_from_template_key( $this->default_tpl );
+		// if load user template
+		$tpl = ( isset( $tpl ) && !is_array( $tpl )) ? $tpl : $this->default_tpl;
+		
+		$d = $this->get_map_from_template_key( $tpl );
 		
 		if(!$d || $d == ''){
-			
 			$d = array( $this->default_template() );
 		}
 		
@@ -262,24 +314,30 @@ class EditorTemplates {
 					'object'	=> 'PLColumn',
 					'span' 	=> 8,
 					'content'	=> array( 
-						'PageLinesPostLoop' => array( ), 
-						'PageLinesComments' => array( ),	
+						array(
+							'object'	=> 'PageLinesPostLoop'
+						),
+						array(
+							'object'	=> 'PageLinesComments'
+						),
 					)
 				),
 				array(
 					'object'	=> 'PLColumn',
 					'span' 	=> 4,
 					'content'	=> array( 
-						'PrimarySidebar' => array( )
+						array(
+							'object'	=> 'PrimarySidebar'
+						),
 					)
 				),
 			)
 		);
 		
-		
 		return $t;
 		
 	}
+	
 	
 	function default_header(){
 		$d = array(
@@ -320,7 +378,7 @@ class EditorTemplates {
 		
 		$t = array();
 		
-		$t[] = array(
+		$t[ 'default' ] = array(
 				'name'	=> 'Default Template', 
 				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
 				'map'	=> array(
@@ -328,7 +386,7 @@ class EditorTemplates {
 				)
 			);
 		
-		$t[] = array(
+		$t[ 'feature' ] = array(
 			'name'	=> 'Feature Template', 
 			'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
 			'map'	=> array(
@@ -351,7 +409,7 @@ class EditorTemplates {
 			)
 		); 
 
-		$t[] = array(
+		$t[ 'landing' ] = array(
 				'name'	=> 'Landing Page', 
 				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.', 
 				'map'	=> array(

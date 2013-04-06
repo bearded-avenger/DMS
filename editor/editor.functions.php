@@ -100,3 +100,10 @@ function process_old_opt( $key, $old, $otop = array()){
 	
 	return $new;
 }
+
+function pl_create_id( $string ){
+	
+	$string = str_replace( ' ', '_', trim( strtolower( $string ) ) ); 
+	
+	return $string;
+}

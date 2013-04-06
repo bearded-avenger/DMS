@@ -57,16 +57,7 @@ class EditorDraft{
 
 	}
 
-	
 
-	function publish( $pageID, $typeID, EditorMap $map ){
-
-		pl_publish_settings($pageID, $typeID);
-
-		$map->publish_map( $pageID );
-		
-		do_action( 'extend_flush' );
-	}
 
 	function revert( $data, EditorMap $map ){
 		$revert = $data['revert'];
@@ -141,14 +132,6 @@ class EditorDraft{
 
 	}
 
-
-	function set_local( $pageID, $val = true ){
-		pl_meta_update( $pageID, $this->slug, $val );
-	}
-
-	function set_global( $val = true ){
-		pl_opt_update( $this->slug, $val );
-	}
 
 }
 
