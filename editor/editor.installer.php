@@ -63,6 +63,7 @@ class Editor_Plugin_Installer {
 	function get_plugins() {
 		global $storeapi;
 
+		$storeapi = new EditorStoreFront;
 		if( isset( $_GET['api_returned'] ) )
 			$storeapi->del( 'store_mixed' );
 

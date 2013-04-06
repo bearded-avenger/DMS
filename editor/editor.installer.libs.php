@@ -497,8 +497,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 				$url = add_query_arg( array( 'page' => $this->menu, 'pl_installed' => $plugin['slug'] ), admin_url( $this->parent_url_slug ) );
 
-				if( ! $error )
-					printf( '<script type="text/javascript">setTimeout(function(){ window.location.href = \'%s\';}, %s);</script>', $url, '3' );
+	//			if( ! $error )
+	//				printf( '<script type="text/javascript">setTimeout(function(){ window.location.href = \'%s\';}, %s);</script>', $url, '3' );
 
 				echo '<p><a href="' . $url . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( $this->strings['return'], $this->domain ) . '</a></p>';
 
@@ -506,12 +506,14 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			}
 			/** Checks for actions from hover links to process the activation */
 			elseif ( isset( $_GET[sanitize_key( 'plugin' )] ) && ( isset( $_GET[sanitize_key( 'tgmpa-activate' )] ) && 'activate-plugin' == $_GET[sanitize_key( 'tgmpa-activate' )] ) ) {
-				check_admin_referer( 'tgmpa-activate', 'tgmpa-activate-nonce' );
+				check_admin_referer( 'tgmpa-install' );
 
+				$front = false;
 				/** Populate $plugin array with necessary information */
-				$plugin['name']   = $_GET[sanitize_key( 'plugin_name' )];
 				$plugin['slug']   = $_GET[sanitize_key( 'plugin' )];
-				$plugin['source'] = $_GET[sanitize_key( 'plugin_source' )];
+
+				if( isset( $_GET['front'] ) )
+					$front = true;
 
 				$plugin_data = get_plugins( '/' . $plugin['slug'] ); // Retrieve all plugins
 				$plugin_file = array_keys( $plugin_data ); // Retrieve all plugin files from installed plugins
@@ -526,10 +528,47 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				else {
 					/** Make sure message doesn't display again if bulk activation is performed immediately after a single activation */
 					if ( ! isset( $_POST[sanitize_key( 'action' )] ) ) {
-						$msg = sprintf( __( 'The following plugin was activated successfully: %s.', $this->domain ), '<strong>' . $plugin['name'] . '</strong>' );
-						echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
+						if( true == $front && ! is_wp_error( $activate ) )
+							$front = sprintf( '<script type="text/javascript">setTimeout(function(){ window.location.href = \'%s\';}, %s);</script>', site_url(), '3' );
+				
+						$msg = sprintf( __( 'The following plugin was activated successfully: %s.', $this->domain ), '<strong>' . $plugin_data[ $plugin_file[0] ]['Name'] . '</strong>' );
+						echo $front . '<div id="message" class="updated"><p>' . $msg . '</p></div>';
 					}
 				}
+			} elseif( isset( $_GET[sanitize_key( 'plugin' )] ) && ( isset( $_GET[sanitize_key( 'tgmpa-deactivate' )] ) && 'deactivate-plugin' == $_GET[sanitize_key( 'tgmpa-deactivate' )] )) {
+
+
+				check_admin_referer( 'tgmpa-install' );
+
+				$front = false;
+				/** Populate $plugin array with necessary information */
+				$plugin['slug']   = $_GET[sanitize_key( 'plugin' )];
+
+				if( isset( $_GET['front'] ) )
+					$front = true;
+
+				$plugin_data = get_plugins( '/' . $plugin['slug'] ); // Retrieve all plugins
+				$plugin_file = array_keys( $plugin_data ); // Retrieve all plugin files from installed plugins
+				$plugin_to_activate = $plugin['slug'] . '/' . $plugin_file[0]; // Match plugin slug with appropriate plugin file
+				$activate = deactivate_plugins( $plugin_to_activate ); // Activate the plugin
+
+				if ( is_wp_error( $activate ) ) {
+					echo '<div id="message" class="error"><p>' . $activate->get_error_message() . '</p></div>';
+					echo '<p><a href="' . add_query_arg( 'page', $this->menu, admin_url( $this->parent_url_slug ) ) . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( $this->strings['return'], $this->domain ) . '</a></p>';
+					return true; // End it here if there is an error with activation
+				}
+				else {
+					/** Make sure message doesn't display again if bulk activation is performed immediately after a single activation */
+					if ( ! isset( $_POST[sanitize_key( 'action' )] ) ) {
+						if( true == $front && ! is_wp_error( $activate ) )
+							$front = sprintf( '<script type="text/javascript">setTimeout(function(){ window.location.href = \'%s\';}, %s);</script>', site_url(), '3' );
+				
+						$msg = sprintf( __( 'The following plugin was deactivated successfully: %s.', $this->domain ), '<strong>' . $plugin_data[ $plugin_file[0] ]['Name'] . '</strong>' );
+						echo $front . '<div id="message" class="updated"><p>' . $msg . '</p></div>';
+					}
+				}
+
+
 			}
 
 			return false;
@@ -1323,7 +1362,7 @@ return;
 								'plugin_source'        => $item['url'],
 								'tgmpa-activate'       => 'activate-plugin',
 								'pl_type'		=> $item['pl_type'],
-								'tgmpa-activate-nonce' => wp_create_nonce( 'tgmpa-activate' ),
+								'_wpnonce' => wp_create_nonce( 'tgmpa-install' ),
 							),
 							admin_url( TGM_Plugin_Activation::$instance->parent_url_slug )
 						),

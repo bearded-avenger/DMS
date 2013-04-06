@@ -136,8 +136,8 @@ function pagelines_print_js() {
 add_action( 'wp_enqueue_scripts', 'pagelines_supersize_bg' );
 
 if ( defined( 'PL_LESS_DEV' ) && PL_LESS_DEV && pl_has_editor()) {
-	PageLinesRenderCSS::flush_version( false );
-	pl_flush_draft_caches();
+//	PageLinesRenderCSS::flush_version( false );
+//	pl_flush_draft_caches();
 }
 add_filter( 'generate_rewrite_rules', array( 'PageLinesRenderCSS', 'pagelines_less_rewrite' ) );
 add_action( 'wp_loaded', array( 'PageLinesRenderCSS', 'check_rules') );

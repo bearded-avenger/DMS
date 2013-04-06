@@ -25,6 +25,9 @@ class EditorLess extends EditorLessHandler {
 
 		if( isset( $_GET['pagedraft'] ) ) {
 
+			if( $this->is_draft() && defined( 'PL_LESS_DEV' ) && true == PL_LESS_DEV )
+				$this->compare_less();
+
 			header( 'Content-type: text/css' );
 			header( 'Expires: ' );
 			header( 'Cache-Control: max-age=604100, public' );
