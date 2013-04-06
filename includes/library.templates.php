@@ -659,7 +659,7 @@ function pl_nav_callback( $args ){
 
 function pl_nav_fallback($class = '', $limit = 8){
 
-	$pages = wp_list_pages('echo=0&title_li=&sort_column=menu_order&depth=2');
+	$pages = wp_list_pages('echo=0&title_li=&sort_column=menu_order&depth=1');
 
 	$pages_arr = explode("\n", $pages);
 
