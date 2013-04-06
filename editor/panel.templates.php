@@ -58,7 +58,8 @@ class EditorTemplates {
 		///// CUSTOM PAGE TEMPLATE STUFF ///// 
 
 			$options = '<option value="">Select Template</option>'; 
-			$loaded_user_template = pl_meta($post->ID, $this->load_template_slug, array('live' => '', 'draft' => '')); 
+			$loaded_user_template = pl_meta($post->ID, $this->map_option_slug, pl_settings_default());
+			 
 			foreach($this->get_user_templates() as $index => $t){
 				$sel = ($loaded_user_template['live'] === $index) ? 'selected' : '';
 				
