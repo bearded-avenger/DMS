@@ -35,6 +35,7 @@ $.plTemplates = {
 					e.preventDefault()
 					
 					var key = $(this).closest('.x-item').data('key')
+					,	theIsotope = $(this).closest('.isotope')
 					,	args = {
 								mode: 'templates'
 							,	run: 'delete'
@@ -47,8 +48,13 @@ $.plTemplates = {
 							, 	beforeSend: function(){
 									$( '.template_key_'+key ).fadeOut(300, function() { 
 										$(this).remove()
+										
 									})
-								}
+									
+							}
+							,	postSuccess: function(){
+								theIsotope.isotope( 'reLayout' )
+							}
 						}
 
 					var response = $.plAJAX.run( args )

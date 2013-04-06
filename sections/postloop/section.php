@@ -30,6 +30,13 @@ class PageLinesPostLoop extends PageLinesSection {
 				'help'		=> 'This section uses WordPress posts. Edit post information using WordPress admin.',
 				'classes'	=> 'btn-primary'
 			),
+			array(
+				'key'		=> 'pagetitles',
+				'type'		=> 'check',
+				'case'		=> 'page',
+				'title'		=> 'Page Title',
+				'label'		=> 'Show page title?',
+			),
 			
 			array(
 				'case'		=> 'special',

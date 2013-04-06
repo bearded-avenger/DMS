@@ -280,6 +280,12 @@ class PageLinesTemplateHandler {
 							// Special Page Only Option (e.g. used in post loop)
 							if($opt['case'] == 'special' && !$this->page->is_special())
 								unset($opts[$index]);
+							
+							if($opt['case'] == 'page' && !is_page())
+								unset($opts[$index]);
+							
+							if($opt['case'] == 'post' && !is_post())
+								unset($opts[$index]);
 						}
 					}
 				}

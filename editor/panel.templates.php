@@ -61,7 +61,7 @@ class EditorTemplates {
 			$loaded_user_template = pl_meta($post->ID, $this->map_option_slug, pl_settings_default());
 			 
 			foreach($this->get_user_templates() as $index => $t){
-				$sel = ($loaded_user_template['live'] === $index) ? 'selected' : '';
+				$sel = '';
 				
 				$options .= sprintf('<option value="%s" %s>%s</option>', $index, $sel, $t['name']); 
 			}
@@ -136,8 +136,8 @@ class EditorTemplates {
 		$tpls = pl_meta( $this->page->id, $this->map_option_slug, pl_settings_default());
 		
 		foreach( $this->get_user_templates() as $index => $template){
-		
 			
+		
 			$classes = array('x-templates'); 
 			$classes[] = sprintf('template_key_%s', $index); 
 			
@@ -418,13 +418,13 @@ class EditorTemplates {
 						'area'	=> 'TemplateAreaID',
 						'content'	=> array(
 							array(
-								'object'	=> 'PLColumn',
-								'span' 	=> 12,
-								'content'	=> array( 
-									'PageLinesPostLoop' => array( ), 
-									'PageLinesComments' 	=> array( ),	
-								)
-							)
+								'object'	=> 'PageLinesHighlight',
+							),
+							array(
+								'object'	=> 'PageLinesPostLoop',
+					
+							),
+							
 						)
 					)
 				)
