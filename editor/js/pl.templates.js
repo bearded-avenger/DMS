@@ -18,7 +18,7 @@ $.plTemplates = {
 		$('.tpl-tag').tooltip({placement: 'top'})
 		
 		
-				$(".load-template").on("click.loadTemplate", function(e) {
+				$("body").delegate(".load-template", "click.loadTemplate", function(e) {
 
 					e.preventDefault()
 					

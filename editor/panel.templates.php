@@ -146,7 +146,7 @@ class EditorTemplates {
 		
 			if($index == $tpls['draft']){
 				$main_btn_text = 'Active Template'; 
-				$main_btn_class = 'btn-inverse'; 
+				$main_btn_class = 'btn-inverse the-active-template'; 
 			} else {
 				$main_btn_text = 'Load Template'; 
 				$main_btn_class = 'btn-primary load-template'; 

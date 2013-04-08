@@ -569,7 +569,26 @@
 			
 			$.pl.map = map
 			
-			$.plAJAX.saveData( { run: 'map' } )
+			$.plAJAX.saveData( { 
+				run: 'map' 
+				, postSuccess: function( rsp ){
+					
+					if(!rsp)
+						return 
+					
+						console.log(rsp)
+					
+					if(rsp.changes && rsp.changes.local == 1){
+						console.log(rsp.changes.local)
+						$('.the-active-template')
+						 	.removeClass('btn-inverse the-active-template')
+							.addClass('btn-primary load-template')
+							.text('Load Template')
+					}	
+					
+					
+				}
+			} )
 			
 			return map
 			

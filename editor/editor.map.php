@@ -129,13 +129,20 @@ class EditorMap {
 		
 		$local_map = pl_meta( $pageID, $this->map_option_slug, pl_settings_default()); 
 		
-		$local_map['draft'] = array(
+		$new_map = $local_map;
+		
+		$new_map['draft'] = array(
 			'template' => $map['template']
 		);
 		
-		$this->save_local_map( $pageID, $local_map );
+		if($new_map != $local_map){
+			$this->save_local_map( $pageID, $new_map );
+			$local = 1;
+		} else 
+			$local = 0;
+		
 
-
+		return array('local' => $local);
 	}
 
 	function save_local_map( $pageID, $map ){

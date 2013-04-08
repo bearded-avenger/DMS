@@ -32,12 +32,12 @@ function pl_editor_actions(){
 			pl_publish_settings( $pageID, $typeID );
 			
 		} elseif ( $run == 'revert' ){
-			$response['here'] = 'hello';
+			
 			$draft->revert( $post, $map );
 
 		} elseif ( $run == 'map' ){
 
-			$map->save_map_draft( $pageID, $post['map'] );
+			$response['changes'] = $map->save_map_draft( $pageID, $post['map'] );
 
 		} 
 		
