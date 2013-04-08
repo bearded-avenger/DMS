@@ -73,12 +73,11 @@ class EditorSettings {
 	}
 	
 	function cmp_by_position($a, $b) {
-	
-		if( isset($a["pos"]) && isset($b["pos"]) )
-			return $a["pos"] - $b["pos"];
-		else 
+
+		if( isset( $a['pos'] ) && is_int( $a['pos'] ) && isset( $b['pos'] ) && is_int( $b['pos'] ) )
+			return $a['pos'] - $b['pos'];
+		else
 			return 0;
-		
 	}
 	
 	function basic(){
