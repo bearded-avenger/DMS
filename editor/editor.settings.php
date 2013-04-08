@@ -557,7 +557,7 @@ function pl_settings_update( $new_settings, $mode = 'draft', $metaID = false ){
 	else 
 		$settings = pl_opt(PL_SETTINGS);
 	
-	$settings = wp_parse_args($settings, $default);
+	$settings = wp_parse_args($settings, pl_settings_default());
 
 	$settings[ $mode ] = wp_parse_args( $new_settings, $settings[ $mode ] ); 
 
@@ -572,10 +572,10 @@ function pl_settings_update( $new_settings, $mode = 'draft', $metaID = false ){
 function pl_revert_settings( $metaID = false ){
 	
 	if( $metaID ){
-		$set = pl_meta( $metaID, PL_SETTINGS, $default );
+		$set = pl_meta( $metaID, PL_SETTINGS, pl_settings_default() );
 		
 	} else {
-		$set = pl_opt(PL_SETTINGS, $default); 
+		$set = pl_opt(PL_SETTINGS, pl_settings_default()); 
 	}
 	
 	$set['draft'] = $set['live']; 

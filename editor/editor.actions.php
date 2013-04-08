@@ -32,7 +32,7 @@ function pl_editor_actions(){
 			pl_publish_settings( $pageID, $typeID );
 			
 		} elseif ( $run == 'revert' ){
-
+			$response['here'] = 'hello';
 			$draft->revert( $post, $map );
 
 		} elseif ( $run == 'map' ){
@@ -177,46 +177,6 @@ function pl_editor_mode(){
 
 	die();
 }
-
-add_action( 'wp_ajax_pl_save_page', 'pl_save_page' );
-function pl_save_page(){
-
-	$data = $_POST;
-
-	$mode = (isset($data['mode'])) ? $data['mode'] : 'draft';
-
-	$plpg = new PageLinesPage( array('mode' => 'ajax', 'pageID' => $data['pageID'], 'typeID' => $data['typeID']) );
-	$draft = new EditorDraft;
-	$tpl = new EditorTemplates;
-	$map = $data['map_object'] = new EditorMap( $tpl, $draft );
-	$settings = new PageLinesOpts( $plpg, $draft );
-
-	if( $mode == 'draft' ){
-
-		$draft->save_draft( $data );
-		pl_flush_draft_caches();
-
-	} elseif ( $mode == 'publish' ) {
-
-		$draft->save_draft( $data );
-		$draft->publish( $data, $map );
-
-	} elseif ( $mode == 'revert' ){
-
-		$draft->revert( $data, $map );
-
-	} elseif ( $mode == 'map' ){
-
-		$map->save_map_draft( $data );
-
-	} 
-	
-	//echo $draft->get_state( $data );
-
-	die(); // don't forget this, always returns 0 w/o
-
-}
-
 
 
 

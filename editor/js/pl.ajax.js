@@ -83,7 +83,7 @@
 					}
 				, 	success: function( response ){
 					
-						//console.debug(response)
+						console.debug(response)
 						
 						that.runSuccess( theData, response )
 
@@ -205,40 +205,22 @@
 
 			$('.btn-revert').on('click.revertbutton', function(e){
 					e.preventDefault()
-				
+					
 					var revert = $(this).data('revert')
-					,	theData = {
-							action: 'pl_save_page'
-						,	mode: 'revert'
-						,	revert: revert
-						,	pageID: $.pl.config.pageID
-						,	typeID: $.pl.config.typeID
-					}
-					, 	confirmText = "<h3>Are you sure?</h3><p>This will revert <strong>"+revert+"</strong> changes to your last published configuration.</p>"
-					
-					$('body').toolbox('hide')
-					
-					bootbox.confirm( confirmText, function( result ){
-						if(result == true){
-							
-							$.ajax( {
-								type: 'POST'
-								, url: ajaxurl
-								, data: theData	
-								, beforeSend: function(){
-									$('.btn-saving').addClass('active')
-								}
-								, success: function( response ){
-									that.ajaxSuccess(response)
-									
-									bootbox.dialog( that.dialogText('Reloading page.'), [], {animate: false, classes: 'bootbox-reloading'})
-									location.reload()
-								}
-							})
-							
+					,	args = {
+								mode: 'save'
+							,	run: 'revert'
+							,	confirm: true
+							,	confirmText: "<h3>Are you sure?</h3><p>This will revert <strong>"+revert+"</strong> changes to your last published configuration.</p>"
+							,	savingText: 'Reverting Draft'
+							,	refreshText: 'Template successfully updated!'
+							,	refresh: true
+							, 	log: true
+							,	revert: revert
 						}
 
-					})
+					var response = $.plAJAX.run( args )
+				
 				
 			})
 			
@@ -248,33 +230,6 @@
 			
 		}
 		
-		
-		
-		, switchThemes: function( ){
-		
-			var that = this
-			, 	interrupt = interrupt || false
-			,	saveData = {
-						action: 'pl_save_page'
-					, 	mode: 'map'
-					,	map: $.pl.map
-					,	pageID: $.pl.config.pageID
-					,	typeID: $.pl.config.typeID
-					, 	special: $.pl.config.isSpecial
-				}
-			
-			$.ajax( {
-				type: 'POST'
-				, url: ajaxurl
-				, data: saveData	
-				, beforeSend: function(){
-				}
-				, success: function( response ){
-				}
-			})
-		
-			
-		}
 		
 		, ajaxSuccess: function( response ){
 			
