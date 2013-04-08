@@ -1,3 +1,11 @@
+= 1.4.0 =
+
+* Various CSS and LESS tweaks.
+* Fix searchform CSS in IE.
+* Allow global login info in wp-config
+* Stop a rare PHP warning with Strict Mode.
+* Add a warning to wp-admin if installed in the wrong folder, tends to break things.
+
 = 1.3.9 =
 
 * Update Bootstrap.
