@@ -151,14 +151,22 @@ class PageLinesHighlight extends PageLinesSection {
 	function section_template( $clone_id ) { 
 
 		$h_head = $this->opt('_highlight_head', $this->tset);
+		
+		
 
 		$h_subhead = $this->opt('_highlight_subhead', $this->tset);
+		
 		$h_splash = $this->opt('_highlight_splash', $this->tset);
 		$h_splash_position = $this->opt('_highlight_splash_position', $this->oset);
 		
 		$frame_class = ($this->opt('_highlight_image_frame', $this->oset)) ? 'pl-imageframe' : '';
-	
-	if($h_head || $h_subhead || $h_splash){?>
+		
+		if(!$h_head && !$h_subhead && !$h_splash){
+			$h_head = __("Here's to the crazy ones...", 'pagelines');
+			$h_subhead = __("This is your Highlight section. Set up the options to configure.", 'pagelines');
+		}
+		
+		?>
 		<div class="highlight-area">
 			<?php 
 			
@@ -180,7 +188,6 @@ class PageLinesHighlight extends PageLinesSection {
 			?> 
 		</div>
 	<?php 
-		} else
-			echo setup_section_notify($this, __('Set highlight page options to activate.', 'pagelines') );
+	
 	}
 }

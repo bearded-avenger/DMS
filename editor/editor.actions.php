@@ -145,7 +145,7 @@ function pl_editor_actions(){
 
 		} elseif( $run == 'reset_local' ){
 
-			$settings->reset_local( $data['pageID'] );
+			$settings->reset_local( $pageID );
 
 		}
 		
