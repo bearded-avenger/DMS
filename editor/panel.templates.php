@@ -154,7 +154,7 @@ class EditorTemplates {
 			
 			
 			$global_class = ($index === $this->default_global_tpl) ? 'active-global' : '';
-			$type_class = ($index === $this->default_type_tpl) ? 'active-type' : '';
+			$type_class = ($index === $this->default_type_tpl && !$this->page->is_special()) ? 'active-type' : '';
 		
 			
 			ob_start(); 
