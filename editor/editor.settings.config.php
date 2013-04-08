@@ -268,14 +268,6 @@ class EditorSettings {
 					'title'		=> __( 'Reset Current Page Settings', 'pagelines' ),
 					'help'		=> __( "Use this button to reset all settings on the current page back to their default state. <br/><strong>Note:</strong> Once you've completed this action, you may want to publish these changes to your live site.", 'pagelines' )
 			),
-			array(
-					'key'		=> 'reset_map',
-					'type'		=> 'action_button',
-					'classes'	=> 'btn-important',
-					'label'		=> __( '<i class="icon-undo"></i> Reset Map to Default', 'pagelines' ),
-					'title'		=> __( 'Reset Map', 'pagelines' ),
-					'help'		=> __( "Using this option will reset the current page map to defaults.", 'pagelines' )
-			),
 		);	
 		return $settings;
 	}
