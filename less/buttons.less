@@ -201,9 +201,14 @@ input[type="submit"].btn {
 
 // Make the div behave like a button
 .btn-group {
-  position: relative;
-  .clearfix(); // clears the floated buttons
-  .ie7-restore-left-whitespace();
+    position: relative;
+    display: inline-block;
+    .ie7-inline-block();
+   
+    vertical-align: middle; // match .btn alignment given font-size hack above
+    white-space: nowrap; // prevent buttons from wrapping when in tight spaces (e.g., the table on the tests page)
+    .ie7-restore-left-whitespace();
+
 }
 
 // Space out series of button groups

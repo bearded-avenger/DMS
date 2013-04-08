@@ -1069,7 +1069,7 @@
 							font-size: 13px;
 							line-height: 1.4em;
 							.x-name{
-								font-size: 15px;
+								font-size: 16px;
 								line-height: 1.4em;
 								
 							}
@@ -1080,10 +1080,29 @@
 						}
 						.x-item-actions{
 							margin-top: 5px;
-							button{
+							button, 
+							.btn-group{
 								margin-bottom: 5px;
 								text-transform:capitalize;
 							}
+							.dropdown-menu a .badge{display: none;}
+							
+							.posttype-tag, .global-tag{display: none;}
+							&.active-global{
+								.global-tag{display: inline-block;}
+								.dropdown-menu a.global-link{
+									.badge{ display: inline; }
+									.not-active{display: none;}
+								} 
+							} 
+							&.active-type{
+								 .posttype-tag{display: inline-block;}
+								 .dropdown-menu a.posttype-link{
+								 	.badge{ display: inline; }
+									.not-active{display: none;}
+								 } 
+							}
+							
 						}
 					}
 				}

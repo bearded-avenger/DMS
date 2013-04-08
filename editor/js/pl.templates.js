@@ -9,6 +9,15 @@ $.plTemplates = {
 	, bindUIActions: function(){
 		var that = this
 		
+		// fix issue with drop down falling behind
+		$('.actions-toggle').on('click', function(){
+			$('.x-templates').css('z-index', 7); 
+			$(this).closest('.x-templates').css('z-index', 8)
+		})
+		
+		$('.tpl-tag').tooltip({placement: 'top'})
+		
+		
 				$(".load-template").on("click.loadTemplate", function(e) {
 
 					e.preventDefault()
@@ -17,7 +26,7 @@ $.plTemplates = {
 							mode: 'templates'
 						,	run: 'load'
 						,	confirm: true
-						,	confirmText: '<h3>Are you sure?</h3><p>Loading a new template will overwrite the current template configuration.</p>'
+						,	confirmText: '<h3>Are you sure?</h3><p>Loading a new template will overwrite the current pages configuration.</p>'
 						,	savingText: 'Loading Template'
 						,	refresh: true
 						,	refreshText: 'Successfully Loaded. Refreshing page'
@@ -40,7 +49,7 @@ $.plTemplates = {
 								mode: 'templates'
 							,	run: 'delete'
 							,	confirm: true
-							,	confirmText: '<h3>Are you sure?</h3><p>This will delete this template configuration.</p>'
+							,	confirmText: '<h3>Are you sure?</h3><p>This will delete this template. All pages using this template will be reverted to their default page configuration.</p>'
 							,	savingText: 'Deleting Template'
 							,	refresh: false
 							, 	log: true
@@ -85,6 +94,33 @@ $.plTemplates = {
 
 				})
 
+
+				$(".update-template").on("click", function(e) {
+
+					e.preventDefault()
+					
+					var key = $(this).closest('.x-item').data('key')
+					,	args = {
+								mode: 'templates'
+							,	run: 'update'
+							,	confirm: true
+							,	confirmText: '<h3>Are you sure?</h3><p>This action will overwrite this template and its configuration. All pages using this template will be updated with the new config as well.</p>'
+							,	savingText: 'Updating Template'
+							,	successNote: true
+							,	successText: 'Template successfully updated!'
+							,	refresh: false
+							, 	log: true
+							,	key: key
+							,	map: $.plMapping.getCurrentMap()
+						}
+
+					var response = $.plAJAX.run( args )
+					
+
+
+				})
+				
+
 				$(".set-tpl").on("click.defaultTemplate", function(e) {
 
 					e.preventDefault()
@@ -109,16 +145,27 @@ $.plTemplates = {
 									if(!response)
 										return 
 							
-									$(that)
-										.closest('.x-list')
-										.find('.set-tpl[data-run="'+run+'"]')
-										.removeClass('btn-inverse')
-										.html('Set '+run+' Default')
-
+									var theList = $(that).closest('.x-list')
+								
+										theList
+											.find('.set-tpl[data-run="'+run+'"]')
+											.removeClass('active')
+										
+										theList
+											.find('.active-'+run)
+											.removeClass('active-'+run)
+									
+									
 									if(response.result && response.result != false){
+									
 										$(that)
-											.addClass('btn-inverse')
-											.html('Active '+run+' Default')
+											.addClass('active')
+											.closest('.x-item-actions')
+											.addClass('active-'+run)
+										
+									}else {
+										console.log('Response was false.')
+										console.log( response )
 									}
 										
 									

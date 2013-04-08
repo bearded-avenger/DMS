@@ -144,47 +144,49 @@ class EditorTemplates {
 			// echo $index; 
 // 			print_r($tpls);
 		
-			if( $index == $tpls['live'] && $index == $tpls['draft'] ){
+			if($index == $tpls['draft']){
 				$main_btn_text = 'Active Template'; 
-				$main_btn_class = 'btn-success'; 
-			} elseif($index == $tpls['live']){
-				$main_btn_text = 'Active Template (Live)'; 
-				$main_btn_class = 'btn-success'; 
-			} elseif($index == $tpls['draft']){
-				$main_btn_text = 'Active Template (Draft)'; 
-				$main_btn_class = 'btn-success'; 
+				$main_btn_class = 'btn-inverse'; 
 			} else {
 				$main_btn_text = 'Load Template'; 
 				$main_btn_class = 'btn-primary load-template'; 
 			}
 			
-		
 			
+			$global_class = ($index === $this->default_global_tpl) ? 'active-global' : '';
+			$type_class = ($index === $this->default_type_tpl) ? 'active-type' : '';
+		
 			
 			ob_start(); 
 			
 			?>
-			<div class="x-item-actions">
-				<?php printf('<button class="btn btn-mini %s">%s</button>', $main_btn_class, $main_btn_text); ?>
-				
-				<button class="btn btn-mini delete-template">Delete</button>
-				<?php if(!$this->page->is_special()): 
-	
-			
-					$active = ($index === $this->default_type_tpl) ? 'btn-inverse' : '';
-					$text = ($index === $this->default_type_tpl) ? 'Active' : 'Set as';
-					
-					
-					?>
-					<button class="btn btn-mini set-tpl <?php echo $active;?>" data-run="type" data-field="<?php echo $slug;?>"><?php echo $text; ?> Post Type Default</button>
-				<?php endif;
-				
-				$active = ($index === $this->default_global_tpl) ? 'btn-inverse' : '';
-				$text = ($index === $this->default_global_tpl) ? 'Active' : 'Set as';
-				?>
-				
-				
-				<button class="btn btn-mini set-tpl <?php echo $active;?>" data-run="global" data-field="<?php echo $slug;?>"><?php echo $text; ?> Sitewide Default</button>
+			<div class="x-item-actions <?php echo $global_class;?> <?php echo $type_class;?>">
+				<button class="btn btn-mini <?php echo $main_btn_class; ?>"><?php echo $main_btn_text; ?></button>
+				<div class="btn-group dropup">
+				  <a class="btn btn-mini dropdown-toggle actions-toggle" data-toggle="dropdown" href="#">
+				    Actions	<i class="icon-caret-down"></i>
+				  </a>
+				  <ul class="dropdown-menu">
+					  <li ><a class="update-template">
+						  <i class="icon-edit"></i> Update Template with Current Configuration
+					  </a></li>
+					  
+					  <?php if(!$this->page->is_special()):?>
+				    	<li><a class="set-tpl posttype-link" data-run="type" data-field="<?php echo $slug;?>">
+							<i class="icon-pushpin"></i> <span class="not-active">Set as</span><span class="badge badge-info">Active</span> "<?php echo $this->page->type_name;?>" post type default
+						</a></li>
+					<?php endif; ?>
+						
+						<li><a class="set-tpl global-link" data-run="global" data-field="<?php echo $slug;?>">
+							<i class="icon-globe"></i> <span class="not-active">Set as</span><span class="badge badge-info">Active</span> sitewide default 
+						</a></li>
+						<li><a class="delete-template">
+							<i class="icon-remove"></i> Delete This Template
+						</a></li>
+				  </ul>
+				</div>
+				<button class="btn btn-mini tpl-tag global-tag" title="Current Sitewide Default"><i class="icon-globe"></i></button>
+				<button class="btn btn-mini tpl-tag posttype-tag" title="Current Post Type Default"><i class="icon-pushpin"></i></button>
 			</div>
 			
 			
@@ -193,14 +195,17 @@ class EditorTemplates {
 			$actions = ob_get_clean();
 			
 			
+			$name = $template['name'];
 			
+			
+		
 			
 			$args = array(
 				'class_array' 	=> $classes,
 				'data_array'	=> array(
 					'key' 	=> $index
 				),
-				'name'			=> $template['name'],
+				'name'			=> $name,
 				'sub'			=> $template['desc'],
 				'actions'		=> $actions,
 			);
@@ -276,6 +281,16 @@ class EditorTemplates {
 			'desc'	=> $desc, 
 			'map'	=> $map
 		);
+		
+		pl_opt_update( $this->template_slug, $templates );
+		
+	}
+	
+	function update_template( $key, $template_map ){
+		
+		$templates = $this->get_user_templates();
+		
+		$templates[$key]['map'] = $template_map;
 		
 		pl_opt_update( $this->template_slug, $templates );
 		

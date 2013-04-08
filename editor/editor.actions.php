@@ -72,6 +72,14 @@ function pl_editor_actions(){
 			
 			$response['loaded'] = $tpl->set_new_local_template( $pageID, $post['key'] );
 		
+		} elseif ( $run == 'update'){
+			
+			$key = ( isset($post['key']) ) ? $post['key'] : false;
+
+			$template_map = $post['map']['template'];
+
+			$tpl->update_template( $key, $template_map );
+			
 		} elseif ( $run == 'delete'){
 			
 			$key = ( isset($post['key']) ) ? $post['key'] : false;
@@ -97,7 +105,7 @@ function pl_editor_actions(){
 			
 			$previous_val = $storage->meta( $typeID, $field );
 			
-			if($previous_val == $value){
+			if( $previous_val == $value ){
 				$storage->meta_update( $typeID, $field, false );
 			} else {
 				$storage->meta_update( $typeID, $field, $value );
