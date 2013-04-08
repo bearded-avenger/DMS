@@ -204,9 +204,8 @@ class EditorInterface {
 		global $is_chrome; 
 
 		if($is_chrome){
-			
-			$endpoint = $_SERVER['REQUEST_URI'];
-			$activate_url = add_query_arg( array( 'edtr' => 'on' ), home_url( $endpoint ) );
+
+			$activate_url = pl_add_query_arg( array( 'edtr' => 'on' ) );
 			
 			$text = 'Activate PageLines Editor';
 			
@@ -217,8 +216,6 @@ class EditorInterface {
 			$text = 'Chrome is required to use PageLines Editor';
 			
 		}
-		
-		
 		?>
 			<a id="toolbox-activate" href="<?php echo $activate_url;?>" class="toolbox-activate" <?php echo $target;?>><i class="icon-off"></i> <span class="txt"><?php echo $text; ?></span></span></a>
 
