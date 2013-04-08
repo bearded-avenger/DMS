@@ -343,3 +343,17 @@ function pagelines_set_versions() {
 	set_theme_mod( 'pagelines_version', pl_get_theme_data( get_template_directory(), 'Version' ) );
 	set_theme_mod( 'pagelines_child_version', pl_get_theme_data( get_stylesheet_directory(), 'Version' ) );
 }
+
+// make sure were running out of 'pagelines' folder.
+add_action( 'admin_notices', 'pagelines_check_folders' );
+function pagelines_check_folders() {
+
+		$folder = basename( get_template_directory() );
+
+		if( 'pagelines' == $folder )
+			return;
+
+		echo '<div class="updated">';
+		printf( "<p><h3>Install Error!</h3><br />PageLines Framework must be installed in a folder called 'pagelines' to work with child themes and extensions.<br /><br />Current path: %s<br /></p>", get_template_directory() );
+		echo '</div>';
+}
