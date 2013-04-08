@@ -108,3 +108,10 @@ function pl_create_id( $string ){
 	
 	return $string;
 }
+
+function pl_add_query_arg( $args ) {
+
+	global $wp;
+	$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
+	return add_query_arg( $args, $current_url );
+}
