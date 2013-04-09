@@ -78,6 +78,9 @@ class EditorExtensions {
 
 			$purchased = ( isset( $s['purchased'] ) ) ? $s['purchased'] : '';
 
+			if( isset( $s['plus_product'] ) && defined( 'VPLUS' ) && VPLUS )
+				$purchased = 'purchased';
+
 			$this->ext[ $key ] = array(
 				'name'		=> $s['name'],
 				'desc'		=> $s['description'],
