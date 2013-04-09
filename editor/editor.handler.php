@@ -74,9 +74,9 @@ class PageLinesTemplateHandler {
 				
 				$.pl = {
 					data: {
-						local:  <?php echo json_encode($this->current_page_data('local'), JSON_FORCE_OBJECT); ?>
-						, type:  <?php echo json_encode($this->current_page_data('type'), JSON_FORCE_OBJECT); ?>
-						, global:  <?php echo json_encode($this->current_page_data('global'), JSON_FORCE_OBJECT); ?>
+						local:  <?php echo json_encode( (object) $this->current_page_data('local')); ?>
+						, type:  <?php echo json_encode( (object) $this->current_page_data('type')); ?>
+						, global:  <?php echo json_encode( (object) $this->current_page_data('global')); ?>
 					}
 					, map: {
 						header: {}
@@ -98,12 +98,12 @@ class PageLinesTemplateHandler {
 						, pageTypeID: '<?php echo $this->page->type;?>'
 						, pageTypeName: '<?php echo $this->page->type_name;?>'
 						, isSpecial: '<?php echo $this->page->is_special();?>'
-						, opts: <?php echo json_encode($this->get_options_config(), JSON_FORCE_OBJECT); ?>
-						, settings: <?php echo json_encode($this->siteset->get_set('site'), JSON_FORCE_OBJECT); ?>
-						, areaSettings: <?php echo json_encode($this->areas->settings(), JSON_FORCE_OBJECT); ?>
-						, fonts: <?php echo json_encode($this->foundry->get_foundry(), JSON_FORCE_OBJECT); ?>
-						, menus: <?php echo json_encode( $this->get_wp_menus(), JSON_FORCE_OBJECT); ?>
-						, extensions: <?php echo json_encode( $this->extensions->get_list(), JSON_FORCE_OBJECT); ?>
+						, opts: <?php echo json_encode( (object) $this->get_options_config() ); ?>
+						, settings: <?php echo json_encode( (object) $this->siteset->get_set('site') ); ?>
+						, areaSettings: <?php echo json_encode( (object) $this->areas->settings() ); ?>
+						, fonts: <?php echo json_encode( (object) $this->foundry->get_foundry() ); ?>
+						, menus: <?php echo json_encode( (object) $this->get_wp_menus()); ?>
+						, extensions: <?php echo json_encode( (object) $this->extensions->get_list()); ?>
 						, urls: {
 							adminURL: '<?php echo admin_url(); ?>'
 							, editPost: '<?php echo $this->edit_post_link(); ?>'

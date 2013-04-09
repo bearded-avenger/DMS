@@ -26,7 +26,7 @@ $.plTemplates = {
 					mode: 'templates'
 				,	run: 'load'
 				,	confirm: true
-				,	confirmText: '<h3>Are you sure?</h3><p>Loading a new template will overwrite the current pages configuration.</p>'
+				,	confirmText: "<h3>Are you sure?</h3><p>Loading a new template will overwrite the current page's configuration.</p>"
 				,	savingText: 'Loading Template'
 				,	refresh: true
 				,	refreshText: 'Successfully Loaded. Refreshing page'
