@@ -47,14 +47,14 @@ $.plExtend = {
 		,	InstallUrl 		= sprintf('%sadmin.php%s', adminURL, component)
 	//	,	PayUrl 		= sprintf('%sadmin.php%s', adminURL, encoded)
 		,	payLink			= sprintf('%s|%s|%s',ext.purchase, adminURL, Slug)
-		,	InstallLink 	= sprintf('%sadmin.php?page=install-pl-extensions&tgmpa-install=install-plugin&slug=%s&_wpnonce=%s',adminURL, Slug, $.pl.config.nonce)
+		,	InstallLink 	= sprintf('%sadmin.php?page=install-pl-extensions&tgmpa-install=install-plugin&slug=%s&_wpnonce=%s&front=1',adminURL, Slug, $.pl.config.nonce)
 		, 	Allowed			= (type != 'sections') ? true : false
 		,	Status			= ext.status || false
 		,	Activate 		= sprintf('%sadmin.php?page=install-pl-extensions&plugin=%s&tgmpa-activate=activate-plugin&pl_type=plugin&_wpnonce=%s&front=1', adminURL, Slug, $.pl.config.nonce)
 		,	Deactivate 		= sprintf('%sadmin.php?page=install-pl-extensions&plugin=%s&tgmpa-deactivate=deactivate-plugin&pl_type=plugin&_wpnonce=%s&front=1', adminURL, Slug, $.pl.config.nonce)
 
 
-
+console.debug( ext )
 
 
 

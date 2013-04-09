@@ -410,7 +410,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			/** All plugin information will be stored in an array for processing */
 			$plugin = array();
-
+			$front = false;
 			/** Checks for actions from hover links to process the installation */
 			if ( isset( $_GET[sanitize_key( 'tgmpa-install' )] ) && 'install-plugin' == $_GET[sanitize_key( 'tgmpa-install' )] ) {
 				check_admin_referer( 'tgmpa-install' );
@@ -494,13 +494,18 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 					echo '<div id="message" class="error"><p>Extension installed failed: <strong>' . $error_string . '</strong></p></div>';
 				}
 
-
+				if( isset( $_GET['front'] ) )
+					$front = true;
 				$url = add_query_arg( array( 'page' => $this->menu, 'pl_installed' => $plugin['slug'] ), admin_url( $this->parent_url_slug ) );
 
 	//			if( ! $error )
 	//				printf( '<script type="text/javascript">setTimeout(function(){ window.location.href = \'%s\';}, %s);</script>', $url, '3' );
 
-				echo '<p><a href="' . $url . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( $this->strings['return'], $this->domain ) . '</a></p>';
+
+				if( true == $front && ! is_wp_error( $upgrader->skin->result  ) )
+					$front = sprintf( '<script type="text/javascript">setTimeout(function(){ window.location.href = \'%s\';}, %s);</script>', site_url(), '3' );
+
+				echo $front . '<p><a href="' . $url . '" title="' . esc_attr( $this->strings['return'] ) . '" target="_parent">' . __( $this->strings['return'], $this->domain ) . '</a></p>';
 
 				return true;
 			}
