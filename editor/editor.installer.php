@@ -68,7 +68,7 @@ class Editor_Plugin_Installer {
 			$storeapi->del( 'store_mixed' );
 
 		$mixed = $storeapi->get_latest();
-		
+
 		$built = array();
 		// loop through and trash all non-plugins...
 
@@ -77,8 +77,13 @@ class Editor_Plugin_Installer {
 			$end = 'store';
 			if( 'sections' == $data['type'] )
 				continue;
+
+			if( isset( $data['plus_product'] ) && defined( 'VPLUS' ) && VPLUS )
+				$data['purchased'] = 'purchased';
+
 			if( ! isset( $data['purchased'] ) )
 				continue;
+
 			if( isset( $data['purchased'] ) && 'purchased' != $data['purchased'] )
 				continue;
 
@@ -102,6 +107,7 @@ class Editor_Plugin_Installer {
 				'overview'	=> $data['overview'],
 				'splash'	=> $data['splash'],
 				);
+
 		}
 		return $built;
 	}
