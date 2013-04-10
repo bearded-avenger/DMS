@@ -367,7 +367,7 @@ class PageLinesTemplateHandler {
 					$terms_array = get_terms( $o['taxonomy_id']); 
 					
 					if($o['taxonomy_id'] == 'category')
-						$o['opts'][ '' ] = array('name' => '*Show All*');
+						$o['opts'][] = array('name' => '*Show All*');
 
 					foreach($terms_array as $term){
 						if(is_object($term))
