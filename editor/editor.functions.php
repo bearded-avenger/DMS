@@ -128,19 +128,27 @@ function pl_arrays_to_objects( array $array ) {
 
 	$objects = new stdClass;
     
-    foreach ($array as $key => $val) {
-	
-        if (is_array($val)) {
-	
-            $objects->$key = pl_arrays_to_objects( $val );
+	if( is_array($array) ){
+		foreach ( $array as $key => $val ) {
+			
+			if($key === ''){
+				$key = 0;
+			}
+			
+	        if ( is_array( $val ) && !empty( $val )) {
 
-        } else {
-	
-            $objects->$key = $val;
+				
+				$objects->{$key} = pl_arrays_to_objects( $val );
 
-        }
-    }
+	        } else {
 
+	            $objects->{$key} = $val;
+
+	        }
+	    }
+		
+	}
+    
     return $objects;
 }
 
