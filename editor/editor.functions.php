@@ -109,9 +109,38 @@ function pl_create_id( $string ){
 	return $string;
 }
 
+
+/* 
+ * Lets document utility functions
+ */ 
 function pl_add_query_arg( $args ) {
 
 	global $wp;
 	$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
 	return add_query_arg( $args, $current_url );
 }
+
+/* 
+ * This function recursively converts an multi dimensional array into a multi layer object
+ * Needed for json conversion in < php 5.2
+ */ 
+function pl_arrays_to_objects( array $array ) {
+
+	$objects = new stdClass;
+    
+    foreach ($array as $key => $val) {
+	
+        if (is_array($val)) {
+	
+            $objects->$key = pl_arrays_to_objects( $val );
+
+        } else {
+	
+            $objects->$key = $val;
+
+        }
+    }
+
+    return $objects;
+}
+

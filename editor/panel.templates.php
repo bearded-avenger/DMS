@@ -141,17 +141,7 @@ class EditorTemplates {
 			$classes = array('x-templates'); 
 			$classes[] = sprintf('template_key_%s', $index); 
 			
-			// echo $index; 
-// 			print_r($tpls);
-		
-			if($index == $tpls['draft']){
-				$main_btn_text = 'Active Template'; 
-				$main_btn_class = 'btn-inverse the-active-template'; 
-			} else {
-				$main_btn_text = 'Load Template'; 
-				$main_btn_class = 'btn-primary load-template'; 
-			}
-			
+			$active_class = ($index === $tpls['draft']) ? 'active-template' : ''; 
 			
 			$global_class = ($index === $this->default_global_tpl) ? 'active-global' : '';
 			$type_class = ($index === $this->default_type_tpl && !$this->page->is_special()) ? 'active-type' : '';
@@ -160,8 +150,9 @@ class EditorTemplates {
 			ob_start(); 
 			
 			?>
-			<div class="x-item-actions <?php echo $global_class;?> <?php echo $type_class;?>">
-				<button class="btn btn-mini <?php echo $main_btn_class; ?>"><?php echo $main_btn_text; ?></button>
+			<div class="x-item-actions <?php echo $active_class;?> <?php echo $global_class;?> <?php echo $type_class;?>">
+				<button class="btn btn-mini btn-primary load-template">Load Template</button>
+				<button class="btn btn-mini btn-inverse the-active-template">Active Template</button>
 				<div class="btn-group dropup">
 				  <a class="btn btn-mini dropdown-toggle actions-toggle" data-toggle="dropdown" href="#">
 				    Actions	<i class="icon-caret-down"></i>
@@ -308,12 +299,13 @@ class EditorTemplates {
 	
 	function load_template( $tpl ){
 		
+	
 		// if load user template
 		$tpl = ( isset( $tpl ) && !is_array( $tpl )) ? $tpl : $this->default_tpl;
 		
 		$d = $this->get_map_from_template_key( $tpl );
 		
-		if(!$d || $d == ''){
+		if(!$d || $d == '' || !is_array($d)){
 			$d = array( $this->default_template() );
 		}
 		
