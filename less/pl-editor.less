@@ -1087,7 +1087,19 @@
 							}
 							.dropdown-menu a .badge{display: none; font-weight: normal;}
 							
-							.posttype-tag, .global-tag{display: none;}
+							.posttype-tag, 
+							.global-tag,
+							.the-active-template{
+								display: none;
+							}
+							&.active-template{
+								.load-template{
+									display: none; 
+								}
+								.the-active-template{
+									display: inline-block;
+								}
+							}
 							&.active-global{
 								.global-tag{display: inline-block;}
 								.dropdown-menu a.global-link{

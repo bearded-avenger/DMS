@@ -18,7 +18,7 @@ $.plTemplates = {
 		$('.tpl-tag').tooltip({placement: 'top'})
 		
 		
-		$("body").delegate(".load-template", "click.loadTemplate", function(e) {
+		$(".load-template").on("click.loadTemplate", function(e) {
 
 			e.preventDefault()
 			
@@ -33,7 +33,7 @@ $.plTemplates = {
 				, 	log: true
 				,	key: $(this).closest('.x-item').data('key')
 			}
-
+		
 			var response = $.plAJAX.run( args )
 
 			

@@ -62,10 +62,10 @@ class EditorMap {
 	
 	function get_template( $map ){
 	
-		if( $map && isset($map['template']) ){
+		if( $map && isset($map['template']) && is_array($map['template']) ){
 			return $map['template']; 
 		} else 
-			return $this->tpl->load_template( $map); 
+			return $this->tpl->load_template( $map ); 
 		
 	}
 	

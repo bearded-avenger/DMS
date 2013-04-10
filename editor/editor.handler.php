@@ -525,29 +525,33 @@ class PageLinesTemplateHandler {
 		if(pl_draft_mode())
 			$this->editor->region_start( $region, $this->area_number++ );
 		
-		foreach( $this->map[ $region ] as $area => $a ){
-			
-			$a['area_number'] = $this->area_number++; 
-			
-			$this->areas->area_start($a);
-			
-			if( isset($a['content']) && !empty($a['content'])){
-				
-				$section_count = 0;
-				$sections_total = count($a['content']); 
-				
-				foreach($a['content'] as $key => $meta){
-					
-					$section_count++;
-					$this->render_section( $meta, $section_count, $sections_total );
+		
+		if( is_array( $this->map[ $region ] ) ){
+			foreach( $this->map[ $region ] as $area => $a ){
+
+				$a['area_number'] = $this->area_number++; 
+
+				$this->areas->area_start($a);
+
+				if( isset($a['content']) && !empty($a['content'])){
+
+					$section_count = 0;
+					$sections_total = count($a['content']); 
+
+					foreach($a['content'] as $key => $meta){
+
+						$section_count++;
+						$this->render_section( $meta, $section_count, $sections_total );
+
+					}
 
 				}
-				
-			}
 
-			$this->areas->area_end($a);
-			
+				$this->areas->area_end($a);
+
+			}
 		}
+		
 	}
 	
 	function render_section( $meta, $count, $total, $level = 1 ){

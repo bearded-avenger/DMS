@@ -580,10 +580,10 @@
 					
 					if(rsp.changes && rsp.changes.local == 1){
 						console.log(rsp.changes.local)
-						$('.the-active-template')
-						 	.removeClass('btn-inverse the-active-template')
-							.addClass('btn-primary load-template')
-							.text('Load Template')
+						
+						$('.x-item-actions')
+						 	.removeClass('active-template')
+							
 					}	
 					
 					
