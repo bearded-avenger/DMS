@@ -14,6 +14,7 @@
 class PageLinesTemplateHandler {
 
 	var $section_list = array();
+	var $section_list_unique = array();
 	var $opts_list	= array();
 	var $area_number = 1;
 	var $row_width = array();

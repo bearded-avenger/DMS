@@ -101,13 +101,13 @@ class EditorColor{
 			array(
 				'key'		=> 'canvas_colors',
 				'type' 		=> 'multi',
-				'title' 	=> __( 'Website Base Color', 'pagelines' ),
+				'title' 	=> __( 'Content Base Color', 'pagelines' ),
 				'help' 		=> __( 'The "base" color is used as your background and as a basis for calculating contrast values in elements (like hover effects, etc.. ) Use it as your default background color and refine using custom CSS/LESS or a theme.' ),
 				'opts'		=> array(
 					array(
 						'key'			=> 'bodybg',
 						'type'			=> 'color',
-						'label' 		=> __( 'Base Color', 'pagelines' ),
+						'label' 		=> __( 'Content Base Color', 'pagelines' ),
 						'default'		=> $this->default_base,
 						'compile'		=> true,
 					),

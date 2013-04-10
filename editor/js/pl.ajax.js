@@ -33,7 +33,7 @@
 				
 			if( theData.confirm ){
 				
-				if( theData.toolboxOpen )
+				if( theData.toolboxOpen && ( theData.refresh || theData.confirm ) )
 					$.toolbox('hide')
 				
 				bootbox.confirm( theData.confirmText, function( result ){
@@ -42,7 +42,7 @@
 						that.runAction( theData )
 					} else {
 						
-						if( theData.toolboxOpen )
+						if( theData.toolboxOpen && ( theData.refresh || theData.confirm ) )
 							$('body').toolbox('show')
 					}
 					
@@ -98,7 +98,7 @@
 							
 						} else {
 							
-							if( theData.toolboxOpen && !$.pl.flags.refreshing )
+							if( theData.toolboxOpen && theData.confirm && !$.pl.flags.refreshing )
 								$('body').toolbox('show')
 							
 						}

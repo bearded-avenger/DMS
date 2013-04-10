@@ -26,12 +26,14 @@ $.plCode = {
 						$('#pl-custom-less').text(instance.getValue())
 						
 					}
-					
-					instance.on('blur', function(instance, changeObj){
-						$.plAJAX.saveData()
-					})
+				
 
 				}
+			})
+			
+			editor.on('blur', function(instance, changeObj){
+				
+				$.plAJAX.saveData(	)
 			})
 			
 			
@@ -57,12 +59,14 @@ $.plCode = {
 					var theCode = scriptsText.parent().formParams()
 					
 					$.pl.data.global = $.extend(true, $.pl.data.global, theCode)
-					
-					instance.on('blur', function(instance, changeObj){
-						$.plAJAX.saveData()
-					})
+				
 
 				}
+				
+			})
+			editor2.on('blur', function(instance, changeObj){
+
+				$.plAJAX.saveData(	)
 			})
 	
 		}
