@@ -153,7 +153,7 @@ function pl_editor_actions(){
 	
 
 	// RESPONSE
-	echo json_encode(  (object) $response );
+	echo json_encode(  pl_arrays_to_objects( $response ) );
 	
 	die(); // don't forget this, always returns 0 w/o
 }

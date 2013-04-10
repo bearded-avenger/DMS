@@ -74,9 +74,9 @@ class PageLinesTemplateHandler {
 				
 				$.pl = {
 					data: {
-						local:  <?php echo json_encode( (object) $this->current_page_data('local')); ?>
-						, type:  <?php echo json_encode( (object) $this->current_page_data('type')); ?>
-						, global:  <?php echo json_encode( (object) $this->current_page_data('global')); ?>
+						local:  <?php echo json_encode( pl_arrays_to_objects( $this->current_page_data('local') ) ); ?>
+						, type:  <?php echo json_encode( pl_arrays_to_objects( $this->current_page_data('type') ) ); ?>
+						, global:  <?php echo json_encode( pl_arrays_to_objects( $this->current_page_data('global') ) ); ?>
 					}
 					, map: {
 						header: {}
@@ -98,12 +98,12 @@ class PageLinesTemplateHandler {
 						, pageTypeID: '<?php echo $this->page->type;?>'
 						, pageTypeName: '<?php echo $this->page->type_name;?>'
 						, isSpecial: '<?php echo $this->page->is_special();?>'
-						, opts: <?php echo json_encode( (object) $this->get_options_config() ); ?>
-						, settings: <?php echo json_encode( (object) $this->siteset->get_set('site') ); ?>
-						, areaSettings: <?php echo json_encode( (object) $this->areas->settings() ); ?>
-						, fonts: <?php echo json_encode( (object) $this->foundry->get_foundry() ); ?>
-						, menus: <?php echo json_encode( (object) $this->get_wp_menus()); ?>
-						, extensions: <?php echo json_encode( (object) $this->extensions->get_list()); ?>
+						, opts: <?php echo json_encode( pl_arrays_to_objects( $this->get_options_config() ) ); ?>
+						, settings: <?php echo json_encode( pl_arrays_to_objects( $this->siteset->get_set('site') ) ); ?>
+						, areaSettings: <?php echo json_encode( pl_arrays_to_objects( $this->areas->settings() ) ); ?>
+						, fonts: <?php echo json_encode( pl_arrays_to_objects( $this->foundry->get_foundry() ) ); ?>
+						, menus: <?php echo json_encode( pl_arrays_to_objects( $this->get_wp_menus() ) ); ?>
+						, extensions: <?php echo json_encode( pl_arrays_to_objects( $this->extensions->get_list() ) ); ?>
 						, urls: {
 							adminURL: '<?php echo admin_url(); ?>'
 							, editPost: '<?php echo $this->edit_post_link(); ?>'

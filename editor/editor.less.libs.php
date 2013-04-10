@@ -166,7 +166,6 @@ class EditorLessHandler{
 
 			if( ! empty( $diff ) ){
 
-plprint( $diff );
 				// cache new constants version
 				pl_cache_put( $this->pless->constants, 'pagelines_less_vars');
 
@@ -175,24 +174,27 @@ plprint( $diff );
 			}
 		}
 
+		if( $this->is_draft() && defined( 'PL_LESS_DEV' ) && true == PL_LESS_DEV ){
+			
+			$raw_cached = pl_cache_get( 'draft_core_raw', array( &$this, 'draft_core_data' ) );
 
-		$raw_cached = pl_cache_get( 'draft_core_raw', array( &$this, 'draft_core_data' ) );
+			// check if a cache exists. If not dont bother carrying on.
+			if( isset( $raw_cached['core'] ) ){
+				// Load all the less. Not compiled.
+				$raw = $this->draft_core_data();
 
-		// check if a cache exists. If not dont bother carrying on.
-		if( ! isset( $raw_cached['core'] ) )
-			return;
+				if( $raw_cached['core'] != $raw['core'] )
+					$flush = true;
 
-		// Load all the less. Not compiled.
-		$raw = $this->draft_core_data();
+				if( $raw_cached['dynamic'] != $raw['dynamic'] )
+					$flush = true;
 
-		if( $raw_cached['core'] != $raw['core'] )
-			$flush = true;
-
-		if( $raw_cached['dynamic'] != $raw['dynamic'] )
-			$flush = true;
-
-		if( $raw_cached['sections'] != $raw['sections'] )
-			$flush = true;
+				if( $raw_cached['sections'] != $raw['sections'] )
+					$flush = true;
+			}
+			
+		}
+		
 
 		if( true == $flush )
 			pl_flush_draft_caches();
