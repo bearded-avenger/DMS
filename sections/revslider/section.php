@@ -29,14 +29,14 @@ class plRevSlider extends PageLinesSection {
 
 					jQuery('.fullwidthbanner').show().revolution(
 						{
-							delay:90000,
+							delay:9000,
 							startwidth:940,
 							startheight:480,
 							onHoverStop:"on",
-							thumbWidth:100,	
-							thumbHeight:50,
-							thumbAmount:3,
-							hideThumbs:0,
+							thumbWidth: 100,	
+							thumbHeight: 50,
+							thumbAmount: 3,
+							hideThumbs: 200,
 							navigationType:"bullet",
 							navigationArrows:"solo",
 							navigationStyle:"round",
@@ -90,13 +90,13 @@ class plRevSlider extends PageLinesSection {
 								<img src="<?php echo $this->base_url;?>/images/bg1.jpg" data-fullwidthcentering="on">
 
 								<!-- THE CAPTIONS IN THIS SLDIE -->
-								<div class="caption large_text sfb"
+								<div class="caption large_text fade"
 									 data-x="center"
-									 data-y="230"
-									 data-speed="500"
+									 data-y="140"
+									 data-speed="800"
 									 data-start="800"
 									 data-easing="easeOutExpo"  >
-									PageLines
+									<img src="<?php echo $this->base_url;?>/images/leaf.png">
 								</div>
 
 					</li>
