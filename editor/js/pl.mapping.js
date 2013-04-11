@@ -16,9 +16,6 @@
 
 					var area = $(this)
 					,	areaContent	= []
-					, 	areaName = area.data('name') || ''
-					,	areaClass = area.data('class') || ''
-					, 	areaID = area.attr('id') || ''
 					, 	areaSet = {}
 
 					$(this).find('.pl-section.level1').each( function(sectionIndex, o3) {
@@ -39,9 +36,12 @@
 					})
 
 					areaSet = {
-							name: areaName
-						,	class: areaClass
-						,	id: areaID
+							name: area.data('name') || ''
+						,	class: area.data('class') || ''
+						,	id: area.attr('id') || ''
+						, 	object: area.data('object') || ''
+						, 	sid: area.data('sid') || ''
+						,  	clone: area.data('clone') || 0
 						,	content: areaContent
 					}
 
@@ -64,8 +64,8 @@
 
 			set.object 	= section.data('object')
 			set.clone 	= section.data('clone')
-		
 			set.sid 	= section.data('sid')
+			
 			set.span 	= that.getColumnSize( section )[ 4 ]
 			set.offset 	= $.plMapping.getOffsetSize( section )[ 3 ]
 			set.newrow 	= (section.hasClass('force-start-row')) ? 'true' : 'false'

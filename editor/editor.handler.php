@@ -175,6 +175,13 @@ class PageLinesTemplateHandler {
 			
 			foreach($g as $area => &$a){
 				
+				if( isset( $a['object'] ) && $a['object'] ){
+					
+					$this->section_list[ ] = $a;
+					$this->section_list_unique[ $a['object'] ] = $a;
+					
+				}
+				
 				if( !isset($a['content']) || !is_array($a['content']) )
 					continue;
 				
@@ -528,40 +535,59 @@ class PageLinesTemplateHandler {
 		
 		
 		if( is_array( $this->map[ $region ] ) ){
+			
+			$area_count = 0;
+			$area_total = count( $this->map[ $region ] );
+			
 			foreach( $this->map[ $region ] as $area => $a ){
+			
+				if( isset($a['object']) && !empty($a['object']) ){
+					
+					$area_count++;
+					$this->render_section( $a, $area_count, $area_total, 0 ); 
+					
+				} else {
+					
+					// deprecated - this isnt used i dont think
+					$a['area_number'] = $this->area_number++; 
 
-				$a['area_number'] = $this->area_number++; 
+					$this->areas->area_start($a);
 
-				$this->areas->area_start($a);
+					if( isset($a['content']) && !empty($a['content'])){
 
-				if( isset($a['content']) && !empty($a['content'])){
+						$section_count = 0;
+						$sections_total = count($a['content']); 
 
-					$section_count = 0;
-					$sections_total = count($a['content']); 
+						foreach($a['content'] as $key => $meta){
 
-					foreach($a['content'] as $key => $meta){
+							$section_count++;
+							$this->render_section( $meta, $section_count, $sections_total );
 
-						$section_count++;
-						$this->render_section( $meta, $section_count, $sections_total );
+						}
 
 					}
 
+					$this->areas->area_end($a);
+					
 				}
 
-				$this->areas->area_end($a);
+				
 
 			}
 		}
 		
 	}
 	
-	function render_section( $meta, $count, $total, $level = 1 ){
+
+	
+	function render_section( $meta, $count = false, $total = false, $level = 1 ){
 		
 		if( $this->in_factory( $meta['object'] ) ){
 			
 			$s = $this->factory[ $meta['object'] ];
 
 			$s->meta = $meta;
+			$s->level = $level;
 
 			$s->setup_oset( $meta['clone'] ); // refactor
 			
@@ -574,7 +600,8 @@ class PageLinesTemplateHandler {
 		
 			$render = (!isset($output) || $output == '') ? false : true;
 			
-			$this->grid_row_start( $s, $count, $total, $render, $level );
+			if( $level >= 1 )
+				$this->grid_row_start( $s, $count, $total, $render, $level );
 			
 			if( $render ){
 				
@@ -589,7 +616,8 @@ class PageLinesTemplateHandler {
 				$s->after_section_template( );
 			}
 			
-			$this->grid_row_stop( $s, $count, $total, $render, $level );
+			if( $level >= 1 )
+				$this->grid_row_stop( $s, $count, $total, $render, $level );
 			
 	
 		
@@ -661,26 +689,39 @@ class PageLinesTemplateHandler {
 		else
 			$sid = $s->id;
 		
-
-		$span 	= (isset($s->meta['span'])) ? sprintf('span%s', $s->meta['span']) : 'span12';
-		$offset = (isset($s->meta['offset'])) ? sprintf('offset%s', $s->meta['offset']) : 'offset0';
-		$newrow = ( $s->meta['newrow'] == 'true' ) ? 'force-start-row' : '';
 		$clone 	= $s->meta['clone'];
 		
-		$class[] = sprintf("pl-section section-%s", $sid);
-		$class[] = $span;
-		$class[] = $offset;
-		$class[] = $newrow;
+		if($s->level == 0){
+			$class[] = 'pl-area pl-area-sortable area-tag'; 
+			$controls = $this->areas->area_controls( $s );
+			$pad_class = 'pl-area-pad';
+		} else {
+			// Content Section Stuff
+			$span 	= (isset($s->meta['span'])) ? sprintf('span%s', $s->meta['span']) : 'span12';
+			$offset = (isset($s->meta['offset'])) ? sprintf('offset%s', $s->meta['offset']) : 'offset0';
+			$newrow = ( isset($s->meta['newrow']) && $s->meta['newrow'] == 'true' ) ? 'force-start-row' : '';
+			$class[] = 'pl-section';
+			$class[] = $span;
+			$class[] = $offset;
+			$class[] = $newrow;
+			$controls = $this->editor->section_controls( $s );
+			$pad_class = 'pl-section-pad';
+		}
+		
+	
+		
 		$class = array_merge($class, $s->wrapper_classes); 
 		
 		printf(
-			'<section id="%s" data-object="%s" data-sid="%s" data-clone="%s" class="%s">%s<div class="pl-section-pad fix">', 
+			'<section id="%s" data-object="%s" data-sid="%s" data-clone="%s" class="%s section-%s">%s<div class="%s fix">', 
 			$s->id.$clone, 
 			$s->class_name,
 			$s->id, 
 			$clone, 
 			implode(" ", $class), 
-			$this->editor->section_controls( $s )
+			$sid,
+			$controls,
+			$pad_class
 		);
 
 		pagelines_register_hook('pagelines_outer_'.$s->id, $s->id); // hook
