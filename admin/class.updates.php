@@ -95,9 +95,9 @@ class PageLinesUpdateCheck {
 
 		}
 			
-		echo '<div class="updated fade update-nag">';
+		echo '<div class="updated">';
 		
-		printf( '%s Framework %s is available.', $this->theme, esc_html( $pagelines_update['new_version'] ) );
+		printf( '<p>%s Framework %s is available.', $this->theme, esc_html( $pagelines_update['new_version'] ) );
 		
 		printf( 
 			' %s', 
@@ -107,7 +107,7 @@ class PageLinesUpdateCheck {
 		);
 
 		echo ( $pagelines_update['extra'] ) ? sprintf('<br />%s', $pagelines_update['extra'] ) : '';
-		echo '</div>';
+		echo '</div></p>';
 		
 	}	
 	

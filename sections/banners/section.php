@@ -283,7 +283,7 @@ class PageLinesBanners extends PageLinesSection {
 		$media = pl_meta( $ID, 'the_banner_media' );
 			
 		if( $image )
-			$banner_media = sprintf('<img src="%s" alt="%s" />', $image, get_the_title( $ID ));
+			$banner_media = sprintf( '<img src="%s" alt="%s" />', $image, esc_attr( get_the_title( $ID ) ) );
 		elseif( $media )
 			$banner_media = do_shortcode( $media );
 		else 
