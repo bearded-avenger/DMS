@@ -282,20 +282,6 @@ class PageLinesPosts {
      *
      * Creates the post header information adding classes as required for clipped format and thumbnails images as required
      *
-     * @param   string $format
-     *
-     * @uses    pagelines_get_post_metabar
-     * @uses    pagelines_get_post_title
-     * @uses    pagelines_show_content
-     * @uses    pagelines_show_excerpt
-     * @uses    pagelines_show_thumb
-     * @uses    ploption() for excerpt mode
-     * @uses    post_excerpt_markup
-     * @uses    post_thumbnail_markup
-     *
-     * @internal uses filter 'pagelines_post_header'
-     *
-     * @return  mixed|string|void
      */
 	function post_header( $format = '' ){ 
 		
@@ -345,7 +331,7 @@ class PageLinesPosts {
 	 */
 	function show_post_header( ) {
 		
-		if( !is_page() || (is_page() && ploption('pagetitles')) )
+		if( !is_page() || (is_page() && pl_setting('pagetitles')) )
 			return true;
 		else
 			return false;
@@ -540,6 +526,10 @@ class PageLinesPosts {
 		 if( function_exists('the_post_thumbnail') && has_post_thumbnail($post) ){
 
 			if( pl_has_editor() ){
+				
+				if( is_page() || is_single() )
+					return false;
+					
 				if($this->section->opt('hide_thumb'))
 					return false;
 				else
@@ -596,7 +586,7 @@ class PageLinesPosts {
 	*/
 	function pagelines_show_excerpt( $post = null ){
 
-			if( is_page() )
+			if( is_page() || is_single() )
 				return false;
 
 			if( pl_has_editor() ){

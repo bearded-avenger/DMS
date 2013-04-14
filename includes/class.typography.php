@@ -137,6 +137,7 @@ class PageLinesFoundry {
 				'monospace' => false, 
 				'free'		=> true
 			),
+			
 			'droid_mono' => array(
 				'name' => 'Droid Sans Mono',
 				'family' => '"Droid Sans Mono", Consolas, Monaco, Courier, sans-serif',
@@ -265,6 +266,14 @@ class PageLinesFoundry {
 				'web_safe' => true,
 				'google' => array('regular', 'italic', 'bold'),
 				'monospace' => false
+			),
+			'source_sans_pro' => array(
+				'name' => 'Source Sans Pro',
+				'family' => '"Source Sans Pro", "Lucida Grande", Tahoma, sans-serif',
+				'web_safe' => true,
+				'google' => array('400','600','700','900','400italic'),
+				'monospace' => false, 
+				'free'		=> true
 			),
 			'reenie_beanie' => array(
 				'name' => 'Reenie Beanie',
@@ -482,7 +491,7 @@ class PageLinesFoundry {
 			)
 		);
 		
-	
+		ksort($thefoundry); 
 		return apply_filters('pagelines_foundry', $thefoundry);
 	}
 	

@@ -72,14 +72,13 @@ class EditorTypography{
 			array(
 				'type' 	=> 	'multi',
 				'title' 		=> __( 'Primary Text', 'pagelines' ),						
-				'help' 		=> __( 'Configure the typography for the text headers across your site. The base font size is a reference that will be scaled and used throughout the site.', 'pagelines' ),
 				'opts'	=> array(
 					array(
 						'key'			=> 'font_primary',
 						'type' 			=> 'type', 
 						'label' 		=> 'Header Font', 
 						'default'		=> 'helvetica',
-						'compile'		=> true,
+						'help' 		=> __( 'Configure the typography for the text headers across your site. The base font size is a reference that will be scaled and used throughout the site.', 'pagelines' ),
 					), 
 					array(
 						'key'			=> 'font_primary_weight',
@@ -87,8 +86,23 @@ class EditorTypography{
 						'classes'		=> 'font-weight',
 						'label'			=> 'Font Weight', 
 						'opts'			=> array(
+							'400'	=> array('name' => 'Normal (400)'),
+							'600'	=> array('name' => 'Semi-Bold (600)'),
+							'800'	=> array('name' => 'Bold (800)')
+						),
+						'default' 		=> 'normal',
+						'compile'		=> true,
+					),
+					array(
+						'key'			=> 'font_primary_style',
+						'type' 			=> 'select', 
+						'label'			=> 'Font Style', 
+						'classes'		=> 'font-style',
+						'opts'			=> array(
 							'normal'	=> array('name' => 'Normal'),
-							'bold'		=> array('name' => 'Bold')
+							'italic'	=> array('name' => 'Italic'),
+							'uc'		=> array('name' => 'Uppercase'),
+							'italic-uc'	=> array('name' => 'Italic/Uppercase')
 						),
 						'default' 		=> 'normal',
 						'compile'		=> true,
@@ -99,14 +113,14 @@ class EditorTypography{
 			array(
 				'type' 	=> 	'multi',
 				'title' 		=> __( 'Header Elements', 'pagelines' ),						
-				'help' 		=> __( 'Configure the typography for the text headers across your site. The base font size is a reference for &lt;H6&gt; that all text headers will use as a basis.', 'pagelines' ),
+				
 				'opts'	=> array(
 					array(
 						'key'			=> 'font_headers',
 						'type' 			=> 'type', 
 						'label' 		=> 'Header Font', 
 						'default'		=> 'helvetica',
-						'compile'		=> true,
+						'help' 		=> __( 'Configure the typography for the text headers across your site. The base font size is a reference for &lt;H6&gt; that all text headers will use as a basis.', 'pagelines' ),
 						
 					), 
 					array(
@@ -115,12 +129,27 @@ class EditorTypography{
 						'classes'			=> 'font-weight',
 						'label'			=> 'Font Weight', 
 						'opts'			=> array(
-							'normal'	=> array('name' => 'Normal'),
-							'bold'		=> array('name' => 'Bold')
+							'400'	=> array('name' => 'Normal (400)'),
+							'600'	=> array('name' => 'Semi-Bold (600)'),
+							'800'	=> array('name' => 'Bold (800)')
 						),
 						'default' 		=> 'bold',
 						'compile'		=> true,
-					)
+					),
+					array(
+						'key'			=> 'font_headers_style',
+						'type' 			=> 'select', 
+						'label'			=> 'Font Style', 
+						'classes'		=> 'font-style',
+						'opts'			=> array(
+							'normal'	=> array('name' => 'Normal'),
+							'italic'	=> array('name' => 'Italic'),
+							'uc'		=> array('name' => 'Uppercase'),
+							'italic-uc'	=> array('name' => 'Italic/Uppercase')
+						),
+						'default' 		=> 'normal',
+						'compile'		=> true,
+					),
 				),
 				
 			),
@@ -128,23 +157,38 @@ class EditorTypography{
 			array(
 				'type' 	=> 	'multi',
 				'title' 		=> __( 'Secondary Text', 'pagelines' ),						
-				'help' 		=> __( 'Configure the typography for secondary text throughout your site. This font may be used in sub headers, or other various elements to add contrast.', 'pagelines' ),
+				
 				'opts'	=> array(
 					array(
 						'key'			=> 'font_secondary',
 						'type' 			=> 'type', 
 						'label' 		=> 'Header Font', 
 						'default'		=> 'helvetica',
-						'compile'		=> true,
+						'help' 			=> __( 'Configure the typography for secondary text throughout your site. This font may be used in sub headers, or other various elements to add contrast.', 'pagelines' ),
 					), 
 					array(
 						'key'			=> 'font_secondary_weight',
 						'type' 			=> 'select', 
 						'label'			=> 'Font Weight', 
-						'classes'			=> 'font-weight',
+						'classes'		=> 'font-weight',
+						'opts'			=> array(
+							'400'	=> array('name' => 'Normal (400)'),
+							'600'	=> array('name' => 'Semi-Bold (600)'),
+							'800'	=> array('name' => 'Bold (800)')
+						),
+						'default' 		=> 'normal',
+						'compile'		=> true,
+					),
+					array(
+						'key'			=> 'font_secondary_style',
+						'type' 			=> 'select', 
+						'label'			=> 'Font Style', 
+						'classes'		=> 'font-style',
 						'opts'			=> array(
 							'normal'	=> array('name' => 'Normal'),
-							'bold'		=> array('name' => 'Bold')
+							'italic'	=> array('name' => 'Italic'),
+							'uc'		=> array('name' => 'Uppercase'),
+							'italic-uc'	=> array('name' => 'Italic/Uppercase')
 						),
 						'default' 		=> 'normal',
 						'compile'		=> true,

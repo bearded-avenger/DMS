@@ -591,6 +591,12 @@
 				that.loadFontPreview( selector )
 				
 			})
+			$('.font-selector, .font-style').on('change', function(){
+
+				var selector = $(this).closest('.opt').find('.font-selector')
+				that.loadFontPreview( selector )
+				
+			})
 		
 			// Image Uploader
 			$('.upload-input').on('change', function(){
@@ -639,6 +645,8 @@
 			, 	loader = 'loader'+key
 			, 	weight = selector.closest('.opt').find('.font-weight').val()
 			, 	weight = (weight) ? weight : 'normal'
+			, 	style = selector.closest('.opt').find('.font-style').val()
+			, 	style = (style) ? style : ''
 		
 			if(ggl){
 				if( $('#'+loader).length != 0 )
