@@ -7,7 +7,7 @@
 	Class Name: PageLinesQuickSlider	
 	Cloning: true
 	Workswith: main, templates, sidebar_wrap
-	Filter: feature
+	Filter: slider
 */
 
 /**

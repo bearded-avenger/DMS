@@ -3,7 +3,7 @@
 	Section: RevSlider
 	Author: PageLines
 	Author URI: http://www.pagelines.com
-	Description: A professional and versatile slider section. Can be customized with several transition and a large number of slides.
+	Description: A professional and versatile slider section. Can be customized with several transitions and a large number of slides.
 	Class Name: plRevSlider	
 	Filter: full-width
 */
@@ -29,6 +29,12 @@ class plRevSlider extends PageLinesSection {
 					'count_number'	=> 10,
 					'default'		=> '3',
 					'label' 	=> __( 'Number of Slides to Configure', 'pagelines' ),
+				),
+				array(
+					'key'			=> 'revslider_delay',
+					'type' 			=> 'text',
+					'default'		=> 9000, 
+					'label' 	=> __( 'Time Per Slide (in Milliseconds)', 'pagelines' ),
 				)
 			)
 
@@ -68,6 +74,11 @@ class plRevSlider extends PageLinesSection {
 							'centered'		=> array('name'=> 'Centered'),
 						)
 					),
+					'revslider_transition_'.$i 	=> array(
+						'label'		=> __( 'Slide Transition', 'pagelines' ), 
+						'type'		=> 'select_same', 
+						'opts'		=> $this->slider_transitions()
+					),
 				),
 				
 			);
@@ -75,6 +86,40 @@ class plRevSlider extends PageLinesSection {
 		}
 
 		return $options;
+	}
+	
+	function slider_transitions(){
+		
+		$transitions = array(
+			'boxslide',
+			'boxfade',
+			'slotzoom-horizontal',
+			'slotslide-horizontal',
+			'slotfade-horizontal',
+			'slotzoom-vertical',
+			'slotslide-vertical',
+			'slotfade-vertical',
+			'curtain-1',
+			'curtain-2',
+			'curtain-3',
+			'slideleft',
+			'slideright',
+			'slideup',
+			'slidedown',
+			'fade',
+			'random',
+			'slidehorizontal',
+			'slidevertical',
+			'papercut',
+			'flyin',
+			'turnoff',
+			'cube',
+			'3dcurtain-vertical',
+			'3dcurtain-horizontal',
+		);
+		
+		return $transitions;
+		
 	}
 	function section_styles(){
 		
@@ -90,9 +135,9 @@ class plRevSlider extends PageLinesSection {
 <script>
 				jQuery(document).ready(function() {
 
-					jQuery('.revslider-full').show().revolution(
+					jQuery('<?php echo $this->prefix();?> .revslider-full').show().revolution(
 						{
-							delay:9000,
+							delay:<?php echo $this->opt('revslider_delay', array('default' => 9000));?>,
 							startwidth:940,
 							startheight:480,
 							onHoverStop:"on",
@@ -149,6 +194,7 @@ class plRevSlider extends PageLinesSection {
 				$the_text = $this->opt('revslider_text_'.$i);
 				$the_link = $this->opt('revslider_link_'.$i);
 				$the_location = $this->opt('revslider_text_location_'.$i);
+				$transition = $this->opt('revslider_transition_'.$i, array('default' => 'fade'));
 				
 				if($the_location == 'centered'){
 					$the_x = 'center'; 
@@ -175,7 +221,9 @@ class plRevSlider extends PageLinesSection {
 						$link
 				); 
 				
-				$output .= sprintf('<li data-transition="fade" data-slotamount="10">%s %s</li>', $bg, $caption); 
+				
+				
+				$output .= sprintf('<li data-transition="%s" data-slotamount="7">%s %s</li>', $transition, $bg, $caption); 
 			}
 		}
 		return $output;

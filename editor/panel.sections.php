@@ -74,10 +74,10 @@ class PageLinesSectionsPanel{
 					'filter'=> '.nav',
 					'icon'	=> 'icon-circle-arrow-right'
 				),
-				'features'		=> array(
-					'name'	=> 'Features',
+				'sliders'		=> array(
+					'name'	=> 'Sliders',
 					'href'	=> '#add_section',
-					'filter'=> '.feature',
+					'filter'=> '.slider',
 					'icon'	=> 'icon-picture'
 				),
 				'social'	=> array(
