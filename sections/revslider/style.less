@@ -46,20 +46,35 @@
 			}
 		} 
 		a.slider-btn {
-			font-size: 12px;
+			font-size: 13px;
 			line-height: 1.3em;
-			text-transform: uppercase;
 			color: #eee;
 			background: rgba(0, 0, 0, 0.5);
 			left: -10px;
 			top: 10px;
 			position: relative;
 			padding: 10px 18px;
-			
 			.transition(all 0.3s linear);
 			&:hover{
 				color:#fff; 
 				background: @linkColor;
+			}
+		}
+		&.slider-black-text{
+			.slider-text{
+				background: rgba(255, 255, 255, 0.7);
+				box-shadow: 10px 0 0 rgba(255, 255, 255, 0.7), -10px 0 0 rgba(255, 255, 255, 0.7);
+				text-shadow: 0 1px 0 #fff;
+				color:#000;
+			}
+			a.slider-btn{
+				background: #fff;
+				color: #000; 
+					text-shadow: 0 1px 0 #fff;
+				opacity: .6;
+				&:hover{
+					opacity: 1;
+				}
 			}
 		}
 	}

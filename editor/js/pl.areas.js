@@ -69,14 +69,37 @@
 			var that = this
 			,	theArea = btn.closest('.pl-area')
 			,	theID = theArea.attr('id')
+			,	object = theArea.data('object') || false
 				
-			$('body').toolbox({
-				action: 'show'
-				, panel: 'area_settings'
-				, info: function(){
-					that.areaPanelRender(theID)
-				}
-			})
+			if( object ){
+				var config	= {
+						sid: theArea.data('sid')
+						, sobj: theArea.data('object')
+						, clone: theArea.data('clone')
+					}
+					
+				$('body').toolbox({
+					action: 'show'
+					, panel: 'section-options'
+					, info: function(){
+
+						$.optPanel.render( config )
+
+					}
+				})
+				
+			} else {
+				$('body').toolbox({
+					action: 'show'
+					, panel: 'area_settings'
+					, info: function(){
+						that.areaPanelRender(theID)
+					}
+				})
+			}
+			
+				
+			
 			
 			
 		}

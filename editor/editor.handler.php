@@ -321,13 +321,16 @@ class PageLinesTemplateHandler {
 				if(!empty($opts)){
 					foreach($opts as $okey => &$o){
 						if($o['type'] == 'multi'){
-							foreach($o['opts'] as $okeysub => &$osub){
-								if(!isset($osub['key']))
-									$osub['key'] = $okeysub;
-									
-								$this->opts_list[] = $osub['key']; 
+							if(isset($o['opts']) && is_array($o['opts'])){
+								foreach($o['opts'] as $okeysub => &$osub){
+									if(!isset($osub['key']))
+										$osub['key'] = $okeysub;
+
+									$this->opts_list[] = $osub['key']; 
+								}
+								unset($osub); // set by reference
 							}
-							unset($osub); // set by reference
+							
 						} else {
 							
 							if(!isset($o['key']))
@@ -362,37 +365,39 @@ class PageLinesTemplateHandler {
 	
 	function opts_add_values( $opts ){
 		
-		
-		foreach($opts as $index => &$o){
-			
-			if($o['type'] == 'multi'){
-				$o['opts'] = $this->opts_add_values( $o['opts'] );
-			} else {
-				
-				if($o['type'] == 'select_taxonomy'){
-					
-					$terms_array = get_terms( $o['taxonomy_id']); 
-					
-					if($o['taxonomy_id'] == 'category')
-						$o['opts'][] = array('name' => '*Show All*');
+		if( is_array($opts) ){
+			foreach($opts as $index => &$o){
 
-					foreach($terms_array as $term){
-						if(is_object($term))
-							$o['opts'][ $term->slug ] = array('name' => $term->name);
+				if($o['type'] == 'multi'){
+					$o['opts'] = $this->opts_add_values( $o['opts'] );
+				} else {
+
+					if($o['type'] == 'select_taxonomy'){
+
+						$terms_array = get_terms( $o['taxonomy_id']); 
+
+						if($o['taxonomy_id'] == 'category')
+							$o['opts'][] = array('name' => '*Show All*');
+
+						foreach($terms_array as $term){
+							if(is_object($term))
+								$o['opts'][ $term->slug ] = array('name' => $term->name);
+						}
+
+
+						$o['type'] = 'select'; 
+
 					}
-						
-					
-					$o['type'] = 'select'; 
-					
+
+					// Add the value
+					$o['val'] = ( isset($this->optset->set[ $o['key'] ]) ) ? $this->optset->set[ $o['key'] ] : array();
+
 				}
-				
-				// Add the value
-				$o['val'] = ( isset($this->optset->set[ $o['key'] ]) ) ? $this->optset->set[ $o['key'] ] : array();
-				
+
 			}
-				
+			unset($o);
 		}
-		unset($o); 
+		
 		
 		return $opts;
 	}

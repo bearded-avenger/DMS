@@ -45,6 +45,8 @@
 			else if ( mode == 'settings' || mode == 'object' )
 				that.settingsRender( that.config.settings )
 			
+			that.onceOffScripts()
+			
 			that.setPanel()
 			
 			that.setBinding()
@@ -67,6 +69,7 @@
 				that.runScriptEngine( index, o.opts )
 				
 			})
+			
 			
 				
 		}
@@ -533,15 +536,13 @@
 			
 			var that = this
 			
-			that.onceOffScripts( tabIndex, opts )
-			
 			$.each(opts, function(index, o){
 				that.scriptEngine(tabIndex, o)
 			})
 		
 		}
 		
-		, onceOffScripts: function( tabIndex, o ) {
+		, onceOffScripts: function() {
 			
 			var that = this
 			
@@ -600,6 +601,7 @@
 		
 			// Image Uploader
 			$('.upload-input').on('change', function(){
+			
 				var val = $(this).val()
 				,	closestOpt = $(this).closest('.opt')
 				
