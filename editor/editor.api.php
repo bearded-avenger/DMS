@@ -37,7 +37,10 @@ class EditorStoreFront extends PageLinesAPI {
 	function get_latest(){
 
 			$data = $this->get( 'store_mixed', array( $this, 'json_get' ), array( $this->data_url ) );
-			return $this->sort( $this->make_array( json_decode( $data ) ) );
+			$data = $this->sort( $this->make_array( json_decode( $data ) ) );
+			if( empty( $data ) )
+				$this->del( 'store_mixed' );
+			return $data;
 	}
 
 	/**
