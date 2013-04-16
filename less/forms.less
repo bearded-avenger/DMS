@@ -668,12 +668,12 @@ legend + .control-group {
 	margin: 3px 5px 3px 0;
 	display: inline-block;
 	.searchfield{
-		width: 125px;
+		width: 23px;
 		height: 23px;
-		padding: 5px 5px 5px 28px;
+		padding: 5px 5px 5px 12px;
 		margin: 0;
 		float:right;
-		background: @dark-base url(@{plRoot}/images/search-btn@2x.png) no-repeat 5px 50%;
+		background: @baseContrast url(@{plRoot}/images/search-btn@2x.png) no-repeat 4px 50%;
 		background-size: 16px 16px;
 		.border-radius(13px);
 		font-family: @buttonFontFamily;
@@ -681,8 +681,10 @@ legend + .control-group {
 		line-height: 1.2em;
 		border: 1px solid darken(@dark-base, 8);
 		.transition(all .7s);
+		text-indent: 30px;
 		&:focus{
-			
+			text-indent: 0;
+			padding-left: 28px;
 			background-color:#fff;
 			color:#000;
 			width: 150px;	
