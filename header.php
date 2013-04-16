@@ -45,8 +45,16 @@ if(has_action('override_pagelines_body_output')):
 
 else:  ?>
 <div id="site" class="site-wrap <?php echo pagelines_layout_mode();?>">
-<?php pagelines_register_hook('pagelines_before_page'); // Hook ?>
+	
+	<?php pagelines_register_hook('pagelines_before_page'); // Hook ?>
+
+	<div id="fixed-top" class="pl-fixed-top" data-region="fixed-top">
+		<?php pagelines_template_area('pagelines_fixed_top', 'fixed_top'); // Hook ?>
+	</div>
+	<div class="fixed-top-pusher"></div>
+	
 	<div id="page" class="thepage page-wrap">
+		
 		<?php pagelines_register_hook('pagelines_page'); // Hook ?>
 		<div class="page-canvas">
 			<?php pagelines_register_hook('pagelines_before_header');?>
