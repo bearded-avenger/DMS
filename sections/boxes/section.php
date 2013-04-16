@@ -151,7 +151,8 @@ class PageLinesBoxes extends PageLinesSection {
 						'box_set' => array(
 							'default'		=> 'default-boxes',
 							'type' 			=> 'select_taxonomy',
-							'taxonomy_id'	=> $this->taxID,				
+							'taxonomy_id'	=> $this->taxID,
+							'post_type'		=> $this->ptID,				
 							'inputlabel'	=> __( 'Box Set To Show', 'pagelines'),
 						), 
 						'box_col_number' => array(

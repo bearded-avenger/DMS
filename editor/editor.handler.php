@@ -385,7 +385,7 @@ class PageLinesTemplateHandler {
 						}
 
 
-						$o['type'] = 'select'; 
+							//$o['type'] = 'select'; 
 
 					}
 

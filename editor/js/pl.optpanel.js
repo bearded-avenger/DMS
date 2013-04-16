@@ -457,7 +457,7 @@
 			} 
 			
 			// Select Options
-			else if ( o.type == 'select' || o.type == 'count_select' || o.type == 'select_same'){
+			else if ( o.type == 'select' || o.type == 'count_select' || o.type == 'select_same' || o.type == 'select_taxonomy'){
 				
 				var select_opts = '<option value="" >&mdash; Select &mdash;</option>'
 				
@@ -487,8 +487,18 @@
 					})
 				}
 				
+				
+			
+				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
 				oHTML += sprintf('<select id="%s" name="%s" class="%s lstn">%s</select>', o.key, o.name, o.classes, select_opts)
+				
+				if(o.type == 'select_taxonomy' && o.post_type)
+					oHTML += sprintf(
+						'<div style="margin-bottom: 10px;"><a href="%sedit.php?post_type=%s" target="_blank" class="btn btn-mini btn-info"><i class="icon-edit"></i> Edit Sets</a></div>', 
+						$.pl.config.urls.adminURL, 
+						o.post_type
+					)
 				
 			}
 			

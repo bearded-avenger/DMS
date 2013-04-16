@@ -2,7 +2,7 @@
 
 @placeholderBG: #f1fcfd;
 
-@interfaceBG: rgba(0,0,0,.7);
+@interfaceBG: rgba(0,0,0,.6);
 
 @editorBorder: #35eafd;
 @editorText: #038196;
@@ -171,14 +171,18 @@
 	.pl-section{
 		.box-sizing(border-box);
 		position: relative;
-		
+		.transition(all 0.1s linear);
 		&:hover, 
 		&.ui-sortable-helper { 
+			
 			cursor: move;
 			background: fadeout(@baseContrast, 50%);
 			> .pl-section-controls{
 				display: block;
 			}
+		}
+		&.ui-sortable-helper{
+			.transition(none);
 		}
 		
 		
@@ -212,6 +216,7 @@
 				
 				a.s-control{
 					color: @editorText;
+					background: rgba(196, 235, 242, .4);
 					&:hover{
 						background:@editorBorder;
 						color:#000;
@@ -262,6 +267,7 @@
 			}
 			.s-control{
 				line-height: 16px;
+				
 				font-size: 11px;
 				display: inline-block;
 				text-align: center;
@@ -275,7 +281,9 @@
 				height: 16px;
 				
 				padding: 0 1px;
-				
+			
+				.border-radius(3px);
+				background: rgba(0,0,0,.3);
 				&:hover{
 					background: rgba(0,0,0,.6);
 					color:#eee;

@@ -68,6 +68,7 @@ function process_old_opt( $key, $old, $otop = array()){
 		'count_number'	=> '',
 		'selectvalues'	=> array(),
 		'taxonomy_id'	=> '',
+		'post_type'		=> '',
 		'span'			=> 1
 	);
 	
@@ -97,6 +98,9 @@ function process_old_opt( $key, $old, $otop = array()){
 	
 	if($old['taxonomy_id'] != '')
 		$new['taxonomy_id'] = $old['taxonomy_id'];
+		
+	if($old['post_type'] != '')
+		$new['post_type'] = $old['post_type'];
 	
 	return $new;
 }

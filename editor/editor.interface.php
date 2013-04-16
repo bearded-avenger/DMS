@@ -482,7 +482,7 @@ class EditorInterface {
 		<div class="pl-section-controls fix" >
 			<div class="controls-left">
 				<a title="Section Decrease Width" href="#" class="s-control s-control-icon section-decrease"><i class="icon-caret-left"></i></a>
-				<span title="Width" class="s-control section-size"></span>
+				<span title="Column Width" class="s-control section-size"></span>
 				<a title="Section Increase Width" href="#" class="s-control s-control-icon section-increase"><i class="icon-caret-right"></i></a>
 				<a title="Reduce Offset" href="#" class="s-control s-control-icon section-offset-reduce"><i class="icon-angle-left"></i></a>
 				<span title="Offset Size" class="s-control offset-size"></span>
