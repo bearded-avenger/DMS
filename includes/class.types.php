@@ -278,14 +278,14 @@ class PageLinesPostType {
  */
 function pl_is_cpt( $type = 'single' ){
 	
-	if( !get_post_type() )
+	if( false == ( $currenttype = get_post_type() ) )
 		return false;
 	
-	$std_pt = (get_post_type() == 'post' || get_post_type() == 'page' || get_post_type() == 'attachment') ? true : false;
+	$std_pt = ( 'post' == $currenttype || 'page' == $currenttype || 'attachment' == $currenttype ) ? true : false;
 	
-	$is_type = ( ($type == 'archive' && is_archive()) || $type == 'single') ? true : false;
+	$is_type = ( ( $type == 'archive' && is_archive() ) || $type == 'single' ) ? true : false;
 	
-	return ( $is_type && !$std_pt  ? true : false);
+	return ( $is_type && !$std_pt  ? true : false );
 
 }
 

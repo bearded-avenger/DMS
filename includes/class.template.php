@@ -113,7 +113,11 @@ class PageLinesTemplate {
 	public function page_type_breaker(){
 		global $post;
 		global $pl_integration;
-		
+		global $post_type_breaker;
+
+		if( isset( $post_type_breaker ) )
+			return apply_filters( 'pagelines_page_type', $post_type_breaker, $post );
+
 		if(pl_is_integration())
 			$type = pl_get_integration();
 		elseif(is_404())
@@ -144,7 +148,8 @@ class PageLinesTemplate {
 		else
 			$type = 'default';
 			
-		return apply_filters('pagelines_page_type', $type, $post);
+		$post_type_breaker = $type;
+		return apply_filters('pagelines_page_type', $post_type_breaker, $post);
 	}
 	
 	

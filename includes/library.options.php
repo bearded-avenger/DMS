@@ -78,7 +78,21 @@ function plmeta( $key, $args ){
 	);
 	
 	$o = wp_parse_args($args, $d);
-		
+
+	$pid = $o['post_id'];
+
+	if ( ! $pid )
+		return false;
+
+	$meta_global = "pl_meta_$pid";
+	
+	global ${$meta_global};
+	$meta_opts = ${$meta_global};
+	if( ! is_array( $meta_opts ) ) {
+		$meta_opts = get_post_meta( $pid );
+		${$meta_global} = $meta_opts;
+	}
+
 	// Deal with cloning options	
 	if( isset($args['clone_id']) && $args['clone_id'] != 1 && $args['clone_id'] != 0)
 		$id_key = $key.'_'.$args['clone_id'];	
@@ -90,9 +104,9 @@ function plmeta( $key, $args ){
 	
 	if( isset($o['post_id']) && !empty($o['post_id']) ) {
 		
-		$default_value = get_post_meta($o['post_id'], $id_key, true);
-		
-		$reverse = ( pldefault($key, $args, 'val') ) ? get_post_meta($o['post_id'], $key.'_reverse', true) : false;
+		$default_value = ( isset( $meta_opts[ $id_key ][0] ) ) ? $meta_opts[ $id_key ][0] : false;
+				
+		$reverse = ( pldefault($key, $args, 'val') && isset( $meta_opts[ $key.'_reverse' ][0] ) ) ? $meta_opts[ $key.'_reverse' ][0] : false;
 
 		if( (bool) $default_value && (bool) $reverse)
 			return false;
