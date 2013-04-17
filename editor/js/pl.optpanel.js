@@ -696,6 +696,7 @@
 			else if( o.type == 'color' ){
 			
 				$( '.color-'+o.key ).colorpicker({
+					  
 					beforeShow: function(input, inst){
 					
 					}

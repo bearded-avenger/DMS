@@ -105,6 +105,7 @@ class PageLinesTemplateHandler {
 						, fonts: <?php echo json_encode( pl_arrays_to_objects( $this->foundry->get_foundry() ) ); ?>
 						, menus: <?php echo json_encode( pl_arrays_to_objects( $this->get_wp_menus() ) ); ?>
 						, extensions: <?php echo json_encode( pl_arrays_to_objects( $this->extensions->get_list() ) ); ?>
+						, icons: <?php echo json_encode( pl_arrays_to_objects( pl_icon_array() ) ); ?>
 						, urls: {
 							adminURL: '<?php echo admin_url(); ?>'
 							, editPost: '<?php echo $this->edit_post_link(); ?>'

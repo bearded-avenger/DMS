@@ -19,27 +19,26 @@ class EditorColor{
 	}
 
 	function add_less_vars( $vars ){
-
-		$base = ( pl_setting('bodybg') ) ? pl_setting('bodybg') : $this->default_base;
+		$bg = pl_setting('bodybg');
+		$base = ( $bg && $bg != '' ) ? $bg : $this->default_base;		
+		
 		$text = ( pl_setting('text_primary') ) ? pl_setting('text_primary') : $this->default_text;
 		$link = ( pl_setting('linkcolor') ) ? pl_setting('linkcolor') : $this->default_link;
-		$hdrs = ( pl_setting('headercolor') ) ? pl_setting('headercolor') : $this->default_text;
 
-		$this->base = $vars['pl-base'] 	= $this->hash( $base );
+		$vars['pl-base'] 				= $this->hash( $base );
 		$vars['pl-text']				= $this->hash( $text );
 		$vars['pl-link']				= $this->hash( $link );
-		$vars['pl-header']				= $this->hash( $hdrs );
-		$vars['pl-background']			= $this->background();
+		$vars['pl-background']			= $this->background( $base );
 		return $vars;
 	}
 
-	function background(){
+	function background( $bg_color ){
 
 		$fit = pl_setting('supersize_bg');
 		$image = $this->background;
 
 		if($image && $fit){
-			$background = $this->base;
+			$background = $bg_color;
 		}
 		elseif($image && !$fit){
 			$repeat = pl_setting('page_background_image_repeat');
@@ -52,10 +51,10 @@ class EditorColor{
 			$pos_y = ($pos_y) ? $pos_y.'%' : '0%'; 
 			$attach = ($attach) ? $attach : 'fixed'; 
 			
-			$background = sprintf('%s url("%s") %s %s %s %s', $this->base, $image, $repeat, $pos_x, $pos_y, $attach);
+			$background = sprintf('%s url("%s") %s %s %s %s', $bg_color, $image, $repeat, $pos_x, $pos_y, $attach);
 		
 		} else
-			$background = $this->base;
+			$background = $bg_color;
 
 		return $background;
 	}
@@ -109,7 +108,6 @@ class EditorColor{
 						'type'			=> 'color',
 						'label' 		=> __( 'Content Base Color', 'pagelines' ),
 						'default'		=> $this->default_base,
-						'compile'		=> true,
 					),
 				)
 			),
@@ -129,13 +127,6 @@ class EditorColor{
 
 					),
 					array(
-						'key'			=> 'headercolor',
-						'type'			=> 'color',
-						'label' 		=> __( 'Text Headers Color', 'pagelines' ),
-						'default'		=> $this->default_text,
-						'compile'		=> true,
-						),
-					array(
 						'key'			=> 'linkcolor',
 						'type'			=> 'color',
 						'label' 		=> __( 'Link Color', 'pagelines' ),
@@ -145,10 +136,10 @@ class EditorColor{
 				)
 			),
 			array(
-				'key'		=> 'background_style',
+				'key'		=> 'background_image_settings',
 				'type' 		=> 'multi',
-				
-				'title' 	=> __( 'Background Image', 'pagelines' ),
+
+				'title' 	=> __( 'Background Image Settings', 'pagelines' ),
 				'help' 		=> __( '', 'pagelines' ),
 				'opts'		=> array(
 					array(
@@ -162,16 +153,6 @@ class EditorColor{
 						'compile'		=> true,
 
 					),
-					
-				)
-			),
-			array(
-				'key'		=> 'background_image_settings',
-				'type' 		=> 'multi',
-
-				'title' 	=> __( 'Background Image Settings', 'pagelines' ),
-				'help' 		=> __( '', 'pagelines' ),
-				'opts'		=> array(
 					array(
 						'key'			=> 'supersize_bg',
 						'type'			=> 'check',

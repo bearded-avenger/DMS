@@ -501,6 +501,8 @@ class EditorInterface {
 		return ob_get_clean();
 
 	}
+	
+	
 
 
 }
