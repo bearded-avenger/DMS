@@ -240,7 +240,10 @@ body.navbar_fixed {
 		color: @textColor;
 		.searchform .searchfield{
 			background-color: @baseContrastSlight;
-			
+			border:	1px solid transparent;
+			&:focus{
+				border-color:darken(@baseContrast, 10);
+			}
 		}
 		.navline{
 			> li{
