@@ -21,6 +21,15 @@ class PLNavBar extends PageLinesSection {
 
 	var $default_limit = 2;
 
+	
+	/**
+	 * Load styles and scripts
+	 */
+	function section_styles() {
+
+		wp_enqueue_script( 'navbar', $this->base_url.'/navbar.js', array( 'jquery' ), PL_CORE_VERSION, true );
+	}
+
 	function section_head() {
 		?>
 			<!--[if IE 8]>
@@ -47,10 +56,11 @@ class PLNavBar extends PageLinesSection {
 					
 					 array(
 							'key'			=> 'navbar_theme',
-							'default'		=> 'black-trans',
+							'default'		=> 'base',
 							'type' 			=> 'select',
 							'label' 	=> __( 'Standard NavBar - Select Theme', 'pagelines' ),
 							'opts'	=> array(
+								'base'			=> array( 'name'	=> __( 'Base Color', 'pagelines' ) ),
 								'black-trans'	=> array( 'name'	=> __( 'Black Transparent (Default)', 'pagelines' ) ),
 								'blue'			=> array( 'name'	=> __( 'Blue', 'pagelines' ) ),
 								'grey'			=> array( 'name'	=> __( 'Light Grey', 'pagelines' ) ),
@@ -104,7 +114,7 @@ class PLNavBar extends PageLinesSection {
 					array(
 						'key'			=> 'navbar_hidesearch',
 						'type'			=> 'check',
-						'label'		=> __(  'Hide Searchform?', 'pagelines' ),
+						'label'		=> __(  'Hide Search?', 'pagelines' ),
 					),
 				),
 			
@@ -225,13 +235,6 @@ class PLNavBar extends PageLinesSection {
 
 	}
 
-	/**
-	 * Load styles and scripts
-	 */
-	function section_styles() {
-
-		wp_enqueue_script( 'navbar', $this->base_url.'/navbar.js', array( 'jquery' ), PL_CORE_VERSION, true );
-	}
 
 	function before_section_template( $location = '' ) {
 
@@ -291,9 +294,7 @@ class PLNavBar extends PageLinesSection {
 				printf( '<span class="navbar-title">%s</span>',$navbartitle );
 			?>
 	      <a href="javascript:void(0)" class="nav-btn nav-btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
+	        <i class="icon-reorder"></i>
 	      </a>
 			<?php if($passive):
 				printf( '<a class="plbrand" href="%s" title="%s">%s</a>',
@@ -305,6 +306,7 @@ class PLNavBar extends PageLinesSection {
 	      		<div class="nav-collapse collapse">
 	       <?php 	if( !$hidesearch )
 						get_search_form();
+						
 					if ( is_array( wp_get_nav_menu_items( $menu ) ) || has_nav_menu( 'primary' ) ) {
 					wp_nav_menu( 
 						array(

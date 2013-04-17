@@ -30,12 +30,10 @@ jQuery(document).ready(function(){
 	})
 	
 	jQuery(".dropdown-toggle").dropdown()
+	
+	touchFix();
 
 })
-
-jQuery(document).ready(function(){
-	touchFix();
-}); 
 
 function touchFix(){
 	jQuery('body')

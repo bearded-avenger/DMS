@@ -210,6 +210,18 @@ class PageLinesTemplateHandler {
 			}
 			unset($a); // set by reference
 		}
+		
+		
+		// add passive sections (not in drag drop but added through options/hooks)
+		global $passive_sections;
+		
+		if(is_array($passive_sections) && !empty($passive_sections)){
+			foreach($passive_sections as $key){
+				$meta = wp_parse_args(array(), $this->meta_defaults($key));
+				$this->section_list[  ] = $meta;
+				$this->section_list_unique[ $meta['object'] ] = $meta;
+			}
+		}
 	}
 	
 	function setup_processing(){
