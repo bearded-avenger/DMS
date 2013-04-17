@@ -166,6 +166,53 @@ class PageLinesAPI {
 		}
 		return false;
 	}
+
+	/**
+	 *  Convert objects into arrays
+	 *
+	 *	@since 3.0
+	 */
+	public function object_to_array( $data ) {
+
+		if ( is_array( $data ) || is_object( $data ) ) {
+			$result = array();
+			foreach ( $data as $key => $value ) {
+				$result[$key] = self::object_to_array( $value );
+			}
+		return $result;
+		}
+	return $data;
+	}
+
+	/**
+	 *  Search keys in an array.
+	 *
+	 *	@since 3.0
+	 */
+	public function preg_grep_keys( $pattern, $input, $flags = 0 ) {
+		$keys = preg_grep( $pattern, array_keys( $input ), $flags );
+		$vals = array();
+		foreach ( $keys as $key ) {
+			$vals[$key] = $input[$key];
+		}
+	return $vals;
+	}
+
+	/**
+	 *  Fuzzy search keys in an array.
+	 *
+	 *	@since 3.0
+	 */
+	function api_search( $string, $data) {
+
+		$data = $this->object_to_array( $data );
+
+		$search = $this->preg_grep_keys( "/{$string}/i", $data );
+		return array(
+			'results'	=> count( $search),
+			'data'		=> $search
+			);
+	}
 }
 
 // API wrapper functions.
@@ -179,7 +226,7 @@ function pl_cache_get( $id, $callback = false, $args = array() ) {
 	global $storeapi;
 	if( ! is_object( $storeapi ) )
 		$storeapi = new EditorStoreFront;
-	
+
 	if( is_object( $storeapi ) )
 		return $storeapi->get( $id, $callback, $args );
 	else
@@ -219,4 +266,17 @@ function pl_flush_draft_caches() {
 	foreach( $caches as $key ) {
 		pl_cache_del( $key );
 	}
+}
+
+/**
+ *  Search the store.
+ *
+ *	@since 3.0
+ */
+function pl_store_search( $string ) {
+	global $storeapi;
+	if( ! is_object( $storeapi ) )
+		$storeapi = new EditorStoreFront;
+
+	return $storeapi->api_search( $string, $storeapi->get_latest() );
 }
