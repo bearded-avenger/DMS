@@ -328,11 +328,11 @@ class PageLinesTemplateHandler {
 					
 				}
 				
-				
-			
 				// deals with legacy special stuff
 				if(!empty($opts)){
 					foreach($opts as $okey => &$o){
+						
+							
 						if($o['type'] == 'multi'){
 							if(isset($o['opts']) && is_array($o['opts'])){
 								foreach($o['opts'] as $okeysub => &$osub){

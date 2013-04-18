@@ -111,9 +111,9 @@
 // Align Search Left In Widgets
 .widget {
 	margin: 0;
+	
 	.widget-title{
-		> a{ color: @textColorAlt; }
-		color: @textColorAlt;
+		> a{ color: inherit; }
 		text-align:left;
 		padding:3px 8px 3px 0px;
 		font-size: @h5Size;
@@ -140,14 +140,25 @@
 	}
 	.textwidget { 
 		padding: 5px 2px; 
+		
+		> p{
+			font-size: @fontSizeSmall;
+			&:first-child{
+				margin-top: 0;
+			}
+			&:last-child{
+				margin-bottom: 0;
+			}
+		}
 	}
 	ul { 
 		margin:0 0 10px .4em; 
+		font-size: @fontSizeSmall;
 		&.sub-menu{
 			margin:0px;
 		}
 		li{
-			font-size:.95em;
+			
 			list-style:none;
 			display: block;
 			padding: 0 2px;

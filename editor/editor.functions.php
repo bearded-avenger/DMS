@@ -413,3 +413,31 @@ function pl_icon_array(){
 	return $icons;
 }
 
+function get_sidebar_select(){
+
+
+	global $wp_registered_sidebars;		
+	$allsidebars = $wp_registered_sidebars;
+	ksort($allsidebars);
+	
+	$sidebar_select = array(); 
+	foreach($allsidebars as $key => $sb){
+		
+		$sidebar_select[ $sb['id'] ] = array( 'name' => $sb['name'] ); 
+	}
+	
+	return $sidebar_select;
+}
+
+function pl_count_sidebar_widgets( $sidebar_id ){
+	
+	$total_widgets = wp_get_sidebars_widgets();
+	
+	if(isset($total_widgets[ $sidebar_id ]))
+		return count( $total_widgets[ $sidebar_id ] );
+	else 
+		return false;
+}
+
+
+

@@ -25,7 +25,7 @@ class PageLinesWidgetizer extends PageLinesSection {
 			array(
 				'key'	=> 'widgetizer_area', 
 				'type'	=> 'select', 
-				'opts'	=> $this->get_sidebar_select(),
+				'opts'	=> get_sidebar_select(),
 				'title'	=> 'Select Widgetized Area', 
 				'label'		=>	'Select widgetized area',
 				'help'		=> "Select the widgetized area you would like to use with this instance of Widgetizer.",
@@ -54,21 +54,6 @@ class PageLinesWidgetizer extends PageLinesSection {
 		return $opts;
 	}
 
-	function get_sidebar_select(){
-
-
-		global $wp_registered_sidebars;		
-		$allsidebars = $wp_registered_sidebars;
-		ksort($allsidebars);
-		
-		$sidebar_select = array(); 
-		foreach($allsidebars as $key => $sb){
-			
-			$sidebar_select[ $sb['id'] ] = array( 'name' => $sb['name'] ); 
-		}
-		
-		return $sidebar_select;
-	}
 
 	/**
 	* Section template.

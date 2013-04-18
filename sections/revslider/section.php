@@ -242,7 +242,7 @@ class plRevSlider extends PageLinesSection {
 					 data-easing="easeOutExpo"  >
 					
 						<h2><span class="slider-text">
-						Welcome to PageLines.<br/>
+						Welcome to Designer.<br/>
 					 	A Drag <span class="spamp">&amp;</span> Drop Platform <br/> for Amazing Websites.
 						</span></h2>
 					 	<a href="#" class="slider-btn">Read More</a>
