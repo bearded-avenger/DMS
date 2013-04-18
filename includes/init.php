@@ -216,10 +216,6 @@ if(is_multisite())
  */
 require_once( PL_INCLUDES . '/class.themesupport.php' );
 
-/**
- * Add Less Extension
- */
-require_once( PL_INCLUDES . '/less.plugin.php' );
 
 /**
  * Add Less Functions
