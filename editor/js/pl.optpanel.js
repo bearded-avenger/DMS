@@ -457,7 +457,13 @@
 			} 
 			
 			// Select Options
-			else if ( o.type == 'select' || o.type == 'count_select' || o.type == 'select_same' || o.type == 'select_taxonomy'){
+			else if ( 
+				o.type == 'select' 
+				|| o.type == 'count_select' 
+				|| o.type == 'select_same' 
+				|| o.type == 'select_taxonomy'
+				|| o.type == 'select_icon'
+			){
 				
 				var select_opts = '<option value="" >&mdash; Select &mdash;</option>'
 				
@@ -473,6 +479,18 @@
 					
 				
 				} 
+				
+				if(o.type == 'select_icon'){
+					
+					var icons = $.pl.config.icons
+					
+					o.opts = {}
+					$.each(icons, function(key, s){
+						o.opts[ s ] = {name: s}
+					})
+					
+				
+				}
 				
 				if(o.opts){
 					
@@ -491,7 +509,7 @@
 			
 				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, o.label )
-				oHTML += sprintf('<select id="%s" name="%s" class="%s lstn">%s</select>', o.key, o.name, o.classes, select_opts)
+				oHTML += sprintf('<select id="%s" name="%s" class="%s lstn" data-type="%s">%s</select>', o.key, o.name, o.classes, o.type, select_opts)
 				
 				if(o.type == 'select_taxonomy' && o.post_type)
 					oHTML += sprintf(
