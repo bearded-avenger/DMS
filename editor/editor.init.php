@@ -71,8 +71,7 @@ class PageLinesEditor {
 		require_once (PL_EDITOR . '/editor.installer.libs.php');
 		require_once( PL_EDITOR . '/editor.installer.php' );
 
-		$installer = new Editor_Plugin_Installer;
-		add_action( 'tgmpa_register', array( &$installer, 'register_plugins' ) );
+		new Editor_Plugin_Installer;
 	}
 
 	function load_libs(){

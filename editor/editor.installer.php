@@ -2,6 +2,11 @@
 
 class Editor_Plugin_Installer {
 
+	function __construct() {
+		if( pl_draft_mode() || is_admin() )
+			add_action( 'tgmpa_register', array( &$this, 'register_plugins' ) );
+	}
+
 	function register_plugins() {
 
 		// we fetch all possible plugins, see which are purchased then pass result to installer class, it does the rest.
