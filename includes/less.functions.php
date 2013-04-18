@@ -12,7 +12,6 @@ class PageLinesLess {
 	
 	private $lparser = null;
 	public $constants = '';
-	
 
 	/**
      * Establish the default LESS constants and provides a filter to over-write them
@@ -23,10 +22,6 @@ class PageLinesLess {
 	function __construct() {
 		
 		global $less_vars;
-		
-		// The LESS Class
-		if( isset( $_GET['pageless'] ) || pl_draft_mode() )
-			$this->lparser = new lessc();
 		
 		$this->base_color = pl_hashify( pl_base_color() );
 		
@@ -65,7 +60,7 @@ class PageLinesLess {
 		
 		$this->constants = apply_filters('pless_vars', $constants);		
 	}
-	
+
 	/**
      * Grabs and Adds Typography Variables
      *
@@ -111,14 +106,17 @@ class PageLinesLess {
 	}
 
 	private function raw_parse( $pless, $type ) {
-	
+
+		if( ! class_exists( 'lessc' ) ) 
+			require_once( PL_INCLUDES . '/less.plugin.php' );
+
+		if( ! $this->lparser )
+			$this->lparser = new lessc();
+
 		$pless = $this->add_constants( '' ) . $this->add_bootstrap() . $pless;
 		
-		
-		try {
-			
+		try {			
 			$css = $this->lparser->compile( $pless );
-			
 		} catch ( Exception $e) {		
 			plupop( "pl_less_error_{$type}", $e->getMessage() );
 			return sprintf( "/* LESS PARSE ERROR in your %s CSS: %s */\r\n", ucfirst( $type ), $e->getMessage() );
@@ -160,8 +158,7 @@ class PageLinesLess {
 		
 		$add_color = (isset($disabled_settings['color_control'])) ? false : true;
 		$color = ($add_color) ? pl_get_core_less() : '';			
-		return $pless . $color;
-		
+		return $pless . $color;		
 	}
 
 	function add_constants( $pless ) {
@@ -171,8 +168,7 @@ class PageLinesLess {
 		foreach($this->constants as $key => $value)
 			$prepend .= sprintf('@%s:%s;%s', $key, $value, "\n");
 		
-		return $prepend . $pless;
-		
+		return $prepend . $pless;		
 	}
 	
 	private function invert( $mode = 'dark', $delta = 5 ){
@@ -195,7 +191,6 @@ class PageLinesLess {
 				return -$delta;
 			else
 				return $delta;
-
 		}
 	}
 
