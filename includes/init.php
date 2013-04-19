@@ -1,6 +1,6 @@
 <?php
 /**
- * This file initializes the PageLines framework 
+ * This file initializes the PageLines framework
  *
  * @package PageLines Framework
  *
@@ -34,7 +34,7 @@ if ( version_compare( $actual, $installed ) > 0 ) {
 		delete_transient( 'pagelines_extend_themes' );
 		delete_transient( 'pagelines_extend_sections' );
 		delete_transient( 'pagelines_extend_plugins' );
-		delete_transient( 'pagelines_extend_integrations' );		
+		delete_transient( 'pagelines_extend_integrations' );
 		delete_transient( 'pagelines_sections_cache' );
 		remove_theme_mod( 'available_updates' );
 		remove_theme_mod( 'pending_updates' );
@@ -60,14 +60,14 @@ require_once( PL_INCLUDES . '/library.functions.php');
 
 /**
  * Editor
- */	
+ */
 require_once( PL_EDITOR . '/editor.init.php' );
 
 // V3 Editor functions --- > always load
 require_once( PL_EDITOR . '/editor.functions.php' );
 
 /**
- * Load Options Functions 
+ * Load Options Functions
  */
 require_once( PL_INCLUDES . '/library.options.php' );
 
@@ -124,7 +124,7 @@ require_once( PL_INCLUDES . '/class.types.php' );
 
 /**
  * Posts Handling
- */	
+ */
 require_once( PL_INCLUDES . '/class.posts.php' );
 
 
@@ -132,15 +132,15 @@ require_once( PL_INCLUDES . '/class.posts.php' );
  * Load layout class and setup layout singleton
  * @global object $pagelines_layout
  */
-require_once( PL_INCLUDES . '/class.layout.php' ); 
+require_once( PL_INCLUDES . '/class.layout.php' );
 
-require_once( PL_INCLUDES . '/library.layout.php' ); 
+require_once( PL_INCLUDES . '/library.layout.php' );
 
 /**
  * Users Handling
- */	
+ */
 require_once( PL_INCLUDES . '/class.users.php' );
-	
+
 /**
  * Load sections handling class
  */
@@ -148,7 +148,7 @@ require_once( PL_INCLUDES . '/class.sections.php' );
 
 /**
  * Load template handling class
- */	
+ */
 require_once( PL_INCLUDES . '/class.template.php' );
 
 /**
@@ -184,14 +184,14 @@ require_once( PL_ADMIN . '/class.options.metapanel.php' );
 
 /**
  * Load Profile Handling
- */	
+ */
 require_once( PL_ADMIN . '/class.profiles.php' );
 
 
 include( PL_INCLUDES . '/library.upgrades.php' );
 /**
  * Load Singleton Globals
- */	
+ */
 require_once( PL_INCLUDES . '/init.singleton.php' );
 
 
@@ -239,15 +239,15 @@ pagelines_register_hook('pagelines_setup'); // Hook
 
 load_section_persistent(); // Load persistent section functions (e.g. custom post types)
 
-if(is_admin()) 
+if(is_admin())
 	load_section_admin(); // Load admin only functions from sections
 
 do_global_meta_options(); // Load the global meta settings tab
-	
+
 
 /**
  * Build Version
- */	
+ */
 require_once( PL_INCLUDES . '/version.php' );
 
 require_once( PL_INCLUDES . '/class.render.css.php' );
@@ -269,7 +269,7 @@ pagelines_register_hook('pagelines_hook_init'); // Hook
 
 if ( is_admin() )
 	include( PL_ADMIN . '/init.admin.php' );
-	
+
 /**
  * Load updater class
  */

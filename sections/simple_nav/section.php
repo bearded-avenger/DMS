@@ -24,13 +24,13 @@ class SimpleNav extends PageLinesSection {
 		register_nav_menus( array( 'simple_nav' => __( 'Simple Nav Section', 'pagelines' ) ) );
 
 	}
-	
+
 	function section_opts(){
 		$opts = array(
 			array(
 				'key'		=> 'simple_nav_menu_multi',
 				'type' 		=> 'multi',
-				'title'		=> __( 'Select Menu', 'pagelines' ),		
+				'title'		=> __( 'Select Menu', 'pagelines' ),
 				'help'		=> __( 'The SimpleNav uses WordPress menus. Select one for use.', 'pagelines' ),
 				'opts'		=> array(
 					array(
@@ -49,34 +49,34 @@ class SimpleNav extends PageLinesSection {
 				'label' 		=> 'Select Alignment',
 				'opts'=> array(
 					'center'	=> array( 'name' => 'Align Center (Default)' ),
-					'left'	 	=> array( 'name' => 'Align Left' ), 
+					'left'	 	=> array( 'name' => 'Align Left' ),
 					'right'	 	=> array( 'name' => 'Align Right' )
 				),
 			),
-		); 
-		
+		);
+
 		return $opts;
 	}
 
 	/**
 	* Section template.
 	*/
-   function section_template() { 
+   function section_template() {
 
 		$menu = ( $this->opt( 'simple_nav_menu' ) ) ? $this->opt( 'simple_nav_menu' ) : null;
-		
+
 		$align = ( $this->opt( 'simple_nav_align' ) ) ? 'align-'.$this->opt( 'simple_nav_align' ) : 'align-center';
-		
+
 		$classes = sprintf('inline-list simplenav font-sub %s', $align);
-		
+
 		$args = array(
-			'menu_class'  	=> $classes, 
+			'menu_class'  	=> $classes,
 			'menu'			=> $menu,
-			'depth' 		=> 1,  
+			'depth' 		=> 1,
 			'fallback_cb'	=> 'pl_nav_callback'
-		); 
+		);
 		wp_nav_menu( $args );
 
 	}
-	
+
 }

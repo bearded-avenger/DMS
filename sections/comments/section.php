@@ -7,7 +7,7 @@
 	Class Name: PageLinesComments
 	Workswith: main-single, main
 	Failswith: pagelines_special_pages()
-	Filter: social	
+	Filter: social
 */
 
 /**

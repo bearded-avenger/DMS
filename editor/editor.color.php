@@ -20,8 +20,8 @@ class EditorColor{
 
 	function add_less_vars( $vars ){
 		$bg = pl_setting('bodybg');
-		$base = ( $bg && $bg != '' ) ? $bg : $this->default_base;		
-		
+		$base = ( $bg && $bg != '' ) ? $bg : $this->default_base;
+
 		$text = ( pl_setting('text_primary') ) ? pl_setting('text_primary') : $this->default_text;
 		$link = ( pl_setting('linkcolor') ) ? pl_setting('linkcolor') : $this->default_link;
 
@@ -45,14 +45,14 @@ class EditorColor{
 			$pos_x = pl_setting('page_background_image_pos_hor');
 			$pos_y = pl_setting('page_background_image_pos_vert');
 			$attach = pl_setting('page_background_image_attach');
-			
-			$repeat = ($repeat) ? $repeat : 'no-repeat'; 
-			$pos_x = ($pos_x) ? $pos_x.'%' : '50%'; 
-			$pos_y = ($pos_y) ? $pos_y.'%' : '0%'; 
-			$attach = ($attach) ? $attach : 'fixed'; 
-			
+
+			$repeat = ($repeat) ? $repeat : 'no-repeat';
+			$pos_x = ($pos_x) ? $pos_x.'%' : '50%';
+			$pos_y = ($pos_y) ? $pos_y.'%' : '0%';
+			$attach = ($attach) ? $attach : 'fixed';
+
 			$background = sprintf('%s url("%s") %s %s %s %s', $bg_color, $image, $repeat, $pos_x, $pos_y, $attach);
-		
+
 		} else
 			$background = $bg_color;
 
@@ -180,7 +180,7 @@ class EditorColor{
 						'type'			=> 'count_select',
 						'label' 		=> __( 'Vertical Background Position in Percent', 'pagelines' ),
 						'default'		=> '0',
-						'count_start'	=> 0, 
+						'count_start'	=> 0,
 						'count_number'	=> 100,
 						'suffix'		=> '%',
 						'compile'		=> true,
@@ -191,7 +191,7 @@ class EditorColor{
 						'type'			=> 'count_select',
 						'label' 		=> __( 'Horizontal Background Position in Percent', 'pagelines' ),
 						'default'		=> '50',
-						'count_start'	=> 0, 
+						'count_start'	=> 0,
 						'count_number'	=> 100,
 						'suffix'		=> '%',
 						'compile'		=> true,
@@ -203,7 +203,7 @@ class EditorColor{
 						'label' 		=> __( 'Set Background Attachment', 'pagelines' ),
 						'default'		=> 'scroll',
 						'opts'	=> array(
-							'scroll'	=> array('name' => __( 'Scroll', 'pagelines' )), 
+							'scroll'	=> array('name' => __( 'Scroll', 'pagelines' )),
 							'fixed'		=> array('name' => __( 'Fixed', 'pagelines' )),
 						),
 						'compile'		=> true,

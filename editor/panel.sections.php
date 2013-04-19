@@ -1,21 +1,21 @@
-<?php 
+<?php
 
 
 
 class PageLinesSectionsPanel{
-	
+
 	function __construct(){
-		
+
 		add_filter('pl_toolbar_config', array(&$this, 'toolbar'));
 		add_action('pagelines_editor_scripts', array(&$this, 'scripts'));
-	
+
 		$this->url = PL_PARENT_URL . '/editor';
 	}
-	
+
 	function scripts(){
 		wp_enqueue_script( 'pl-js-sections', $this->url . '/js/pl.sections.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
-	
+
 	function toolbar( $toolbar ){
 		$toolbar['add-new'] = array(
 			'name'	=> 'Add New',
@@ -100,17 +100,17 @@ class PageLinesSectionsPanel{
 				),
 			)
 		);
-		
+
 		return $toolbar;
 	}
-	
+
 	function add_new_callback(){
-		$this->xlist = new EditorXList; 
+		$this->xlist = new EditorXList;
 		$this->extensions = new EditorExtensions;
 		$this->page = new PageLinesPage;
 
 		$sections = $this->extensions->get_available_sections();
-		
+
 		$list = '';
 		$count = 1;
 		foreach($sections as $key => $s){
@@ -127,15 +127,15 @@ class PageLinesSectionsPanel{
 
 			if($s->filter == 'deprecated')
 				continue;
-				
-				
+
+
 			if( $s->filter == 'full-width' ){
-				$section_classes = 'pl-area-sortable area-tag';	
+				$section_classes = 'pl-area-sortable area-tag';
 			} else {
-				$section_classes = 'pl-sortable span12 sortable-first sortable-last';	
+				$section_classes = 'pl-sortable span12 sortable-first sortable-last';
 			}
-			
-				
+
+
 			$class = array('x-add-new', $section_classes, $special_class, $s->filter);
 
 			$number = $count++;
@@ -149,13 +149,13 @@ class PageLinesSectionsPanel{
 						$disable = false;
 					}
 				}
-				
+
 				if( $disable ) {
 					$class[] = 'x-disable';
 					$number += 100;
 				}
-					
-				
+
+
 			}
 
 			$args = array(
@@ -186,5 +186,5 @@ class PageLinesSectionsPanel{
 
 	}
 
-	
+
 }

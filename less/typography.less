@@ -6,14 +6,14 @@
 // BODY TEXT
 // ---------
 body{
-	font-size: @baseFontSize; 
+	font-size: @baseFontSize;
 	font-family: @baseFontFamily;
 	font-weight: @baseFontWeight;
-	line-height: @propLineHeight; 
+	line-height: @propLineHeight;
 	color: @textColor;
 }
 
-// PARAGRAPH 
+// PARAGRAPH
 // ---------
 p {
 	margin: @propLineHeight 0;
@@ -23,8 +23,8 @@ p {
 		font-size: @baseFontSize - 2;
 		line-height: @baseLineHeight / 2;
 	}
-	
-	// SPECIAL FIXES 
+
+	// SPECIAL FIXES
 
 	// fix for minimum paragraph widths
 	&:before{
@@ -40,14 +40,14 @@ p {
 	orphans: 4;
 }
 
-// Links 
-// ---------	
+// Links
+// ---------
 a{
 	color: @linkColor;
 	&:hover{
 		color: @linkColorHover;
 	}
-}	
+}
 
 
 
@@ -74,20 +74,20 @@ big {
 	font-size: 1.3em;
 }
 
-abbr, 
-acronym{ 
-	border-bottom: .1em dotted; 
+abbr,
+acronym{
+	border-bottom: .1em dotted;
 	cursor: help;
 }
 
-q:before, 
-q:after{ 
+q:before,
+q:after{
 	content: "'";
 }
 
 // CODE / PRE
 // ----------
-code, 
+code,
 pre {
 	padding: 0 3px 2px;
 	font-family: @codeFont;
@@ -112,14 +112,14 @@ pre {
 		padding: 0;
 		color: inherit;
 		background-color: transparent;
-		border: 0; 
+		border: 0;
 	}
 	&.pre-scrollable {
 		max-height: 340px;
 		overflow-y: scroll;
 	}
 }
-	
+
 // HEADINGS
 // --------
 
@@ -127,7 +127,7 @@ h1, h2, h3, h4, h5, h6 {
 	margin: 0;
 	text-rendering: optimizelegibility; // Fix the character spacing for headings
 	font-family: @headingsFontFamily;
-	font-weight: @headingsFontWeight; 
+	font-weight: @headingsFontWeight;
 	line-height: 130%;
 	small {
 	  font-weight: normal;
@@ -141,13 +141,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 .subhead{
 	color: @textColorAlt;
-	font-size: @smallerText; 
+	font-size: @smallerText;
 }
 
 
 // HEADINGS SIZING
 // ---------------
-h1, 
+h1,
 .fpost .entry-title {
   font-size: @h1Size;
   small {
@@ -192,7 +192,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* @ Header Special Cases */
-h1 + img, 
+h1 + img,
 h2 + img{
 	margin-top:1em;
 }
@@ -231,7 +231,7 @@ ul{
 // HENTRY = Standard Long Form Text Formatting
 // -------------------------------------------------
 .hentry{
-	
+
 	ul, ol{
 		padding: 0;
 	//	margin: 0 0 @baseLineHeight / 2 25px;
@@ -249,7 +249,7 @@ ul{
 	ul{
 		list-style:disc;
 	}
-	
+
 	h1, h2{
 		margin: 1em 0;
 	}
@@ -360,14 +360,14 @@ em {
 
 // Special Ampersand
 .spamp{
-	font-family: 'Baskerville', Palatino, georgia; 
+	font-family: 'Baskerville', Palatino, georgia;
 	font-style: italic;
 	font-weight: normal;
 }
 
 // Serif Style
 .serifize{
-	font-family: georgia, times, serif; 
+	font-family: georgia, times, serif;
 	font-style: italic;
 	font-weight: normal;
 }

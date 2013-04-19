@@ -1,13 +1,13 @@
 <?php
 /**
- * 
+ *
  *
  *  PageLines Default/Standard Options Lib
  *
  *
  *  @package PageLines Framework
  *  @since 3.0.0
- *  
+ *
  *
  */
 class EditorSettings {
@@ -17,61 +17,61 @@ class EditorSettings {
 
 	function __construct(){
 		$this->settings['basic_settings'] = array(
-			'name' 	=> 'Site Images', 
+			'name' 	=> 'Site Images',
 			'icon'	=> 'icon-picture',
 			'pos'	=> 1,
 			'opts' 	=> $this->basic()
 		);
-		
+
 		$this->settings['layout'] = array(
-			'name' 	=> 'Layout Handling', 
-			'icon' 	=> 'icon-fullscreen', 
+			'name' 	=> 'Layout Handling',
+			'icon' 	=> 'icon-fullscreen',
 			'pos'	=> 2,
 			'opts' 	=> $this->layout()
 		);
 
-				
+
 		$this->settings['social_media'] = array(
-			'name' 	=> 'Social Media', 
+			'name' 	=> 'Social Media',
 			'icon'	=> 'icon-comments',
 			'pos'	=> 5,
 			'opts' 	=> $this->social()
-		);	
-		
+		);
+
 		$this->settings['advanced'] = array(
-			'name' 	=> 'Advanced', 
+			'name' 	=> 'Advanced',
 			'icon'	=> 'icon-wrench',
 			'pos'	=> 50,
 			'opts' 	=> $this->advanced()
 		);
-		
+
 		$this->settings['resets'] = array(
-			'name' 	=> 'Resets', 
+			'name' 	=> 'Resets',
 			'icon'	=> 'icon-undo',
 			'pos'	=> 55,
 			'opts' 	=> $this->resets()
 		);
 	}
-	
+
 	function get_set( ){
-		
+
 		$settings =  apply_filters('pl_settings_array', $this->settings);
-		
+
 		$default = array(
 			'icon'	=> 'icon-edit',
 			'pos'	=> 100
 		);
-		
+
 		foreach($settings as $key => &$info){
-			$info = wp_parse_args( $info, $default ); 
+			$info = wp_parse_args( $info, $default );
 		}
 		unset($info);
-				
+
 		uasort($settings, array(&$this, "cmp_by_position") );
 
 		return apply_filters('pl_sorted_settings_array', $settings);
 	}
-	
+
 	function cmp_by_position($a, $b) {
 
 		if( isset( $a['pos'] ) && is_int( $a['pos'] ) && isset( $b['pos'] ) && is_int( $b['pos'] ) )
@@ -79,22 +79,22 @@ class EditorSettings {
 		else
 			return 0;
 	}
-	
+
 	function basic(){
-		
+
 		$settings = array(
-		
+
 			array(
 				'key'			=> 'pagelines_favicon',
 				'label'			=> 'Upload Favicon (32px by 32px)',
 				'type' 			=> 	'image_upload',
 				'imgsize' 			=> 	'16',
-				'title' 		=> 	__( 'Favicon Image', 'pagelines' ),						
+				'title' 		=> 	__( 'Favicon Image', 'pagelines' ),
 				'help' 			=> 	__( 'Enter the full URL location of your custom <strong>favicon</strong> which is visible in browser favorites and tabs.<br/> <strong>Must be .png or .ico file - 32px by 32px</strong>.', 'pagelines' ),
 				'default'		=> PL_EDITOR_URL . '/images/default-favicon.png'
-			),		
-			
-			
+			),
+
+
 			array(
 				'key'			=> 'pl_login_image',
 				'type' 			=> 	'image_upload',
@@ -102,63 +102,63 @@ class EditorSettings {
 				'imgsize' 			=> 	'80',
 				'sizemode'		=> 'height',
 				'title' 		=> __( 'Login Page Image', 'pagelines' ),
-				'default'		=> PL_EDITOR_URL . '/images/default-login-image.png',						
+				'default'		=> PL_EDITOR_URL . '/images/default-login-image.png',
 				'help'			=> __( 'This image will be used on the login page to your admin. Use an image that is approximately <strong>80px</strong> in height.', 'pagelines' )
 			),
-			
+
 			array(
 				'key'			=> 'pagelines_touchicon',
 				'label'			=> 'Upload Touch Image (144px by 144px)',
 				'type' 			=> 	'image_upload',
 				'imgsize' 			=> 	'72',
-				'title' 		=> __( 'Mobile Touch Image', 'pagelines' ),	
+				'title' 		=> __( 'Mobile Touch Image', 'pagelines' ),
 				'default'		=> PL_EDITOR_URL . '/images/default-touch-icon.png',
 				'help'			=> __( 'Enter the full URL location of your Apple Touch Icon which is visible when your users set your site as a <strong>webclip</strong> in Apple Iphone and Touch Products. It is an image approximately 57px by 57px in either .jpg, .gif or .png format.', 'pagelines' )
-			), 
-			
+			),
+
 			array(
 				'type' 	=> 	'multi',
-				'title' 		=> __( 'Website Watermark', 'pagelines' ),						
+				'title' 		=> __( 'Website Watermark', 'pagelines' ),
 				'help' 		=> __( 'The website watermark is a small version of your logo for your footer. Recommended width/height is 90px.', 'pagelines' ),
-				
+
 				'opts'	=> array(
 					array(
 						'key'			=> 'watermark_image',
-						'type' 			=> 'image_upload', 
-						'label' 		=> 'Watermark Image', 
+						'type' 			=> 'image_upload',
+						'label' 		=> 'Watermark Image',
 						'default'		=> PL_EDITOR_URL . '/images/default-watermark.png',
 						'imgsize'			=> '44'
-					), 
+					),
 					array(
 						'key'			=> 'watermark_link',
-						'type' 			=> 'text', 
-						'label'			=> 'Watermark Link (Blank for None)', 
+						'type' 			=> 'text',
+						'label'			=> 'Watermark Link (Blank for None)',
 						'default' 		=> 'http://www.pagelines.com'
 					),
 					array(
 						'key'			=> 'watermark_alt',
-						'type' 			=> 'text', 
-						'label' 		=> 'Watermark Link alt text', 
-						'default' 		=> 'Build a website with PageLines' 
+						'type' 			=> 'text',
+						'label' 		=> 'Watermark Link alt text',
+						'default' 		=> 'Build a website with PageLines'
 					),
 					array(
 						'key'			=> 'watermark_hide',
-						'type' 			=> 'check', 
+						'type' 			=> 'check',
 						'label'		 	=> "Hide Watermark"
 					)
 				),
-				
+
 			),
 		);
-			
+
 		return $settings;
-		
+
 	}
-	
+
 	function layout(){
-		
-		
-		
+
+
+
 		$settings = array(
 			array(
 				'key'		=> 'disable_responsive',
@@ -182,19 +182,19 @@ class EditorSettings {
 
 
 		);
-	
-			
+
+
 		return $settings;
-		
+
 	}
-	
+
 	function social(){
-		
-		
-		
+
+
+
 		$settings = array(
 			array(
-				'key'		=> 'twittername', 
+				'key'		=> 'twittername',
 				'type' 		=> 'text',
 				'label' 	=> __( 'Your Twitter Username', 'pagelines' ),
 				'title' 	=> __( 'Twitter Integration', 'pagelines' ),
@@ -210,18 +210,18 @@ class EditorSettings {
 
 
 		);
-	
-			
+
+
 		return $settings;
-		
+
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	function advanced(){
-		
+
 		$settings = array(
 			array(
 					'key'		=> 'load_prettify_libs',
@@ -244,12 +244,12 @@ class EditorSettings {
 					'title'		=> __( 'Current Install Class', 'pagelines' ),
 					'help'		=> __( "Use this option to add a class to the &gt;body&lt; element of the website. This can be useful when using the same child theme on several installations or sub domains and can be used to control CSS customizations.", 'pagelines' )
 			)
-		);	
+		);
 		return $settings;
 	}
-	
+
 	function resets(){
-		
+
 		$settings = array(
 			array(
 					'key'		=> 'reset_global',
@@ -267,7 +267,7 @@ class EditorSettings {
 					'title'		=> __( 'Reset Current Page Settings', 'pagelines' ),
 					'help'		=> __( "Use this button to reset all settings on the current page back to their default state. <br/><strong>Note:</strong> Once you've completed this action, you may want to publish these changes to your live site.", 'pagelines' )
 			),
-		);	
+		);
 		return $settings;
 	}
 

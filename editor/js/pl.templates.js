@@ -1,27 +1,27 @@
 !function ($) {
 
 $.plTemplates = {
-	
+
 	init: function(){
 		this.bindUIActions()
 	}
-	
+
 	, bindUIActions: function(){
 		var that = this
-		
+
 		// fix issue with drop down falling behind
 		$('.actions-toggle').on('click', function(){
-			$('.x-templates').css('z-index', 7); 
+			$('.x-templates').css('z-index', 7);
 			$(this).closest('.x-templates').css('z-index', 8)
 		})
-		
+
 		$('.tpl-tag').tooltip({placement: 'top'})
-		
-		
+
+
 		$(".load-template").on("click.loadTemplate", function(e) {
 
 			e.preventDefault()
-			
+
 			var args = {
 					mode: 'templates'
 				,	run: 'load'
@@ -33,16 +33,16 @@ $.plTemplates = {
 				, 	log: true
 				,	key: $(this).closest('.x-item').data('key')
 			}
-		
+
 			var response = $.plAJAX.run( args )
 
-			
+
 		})
 
 		$(".delete-template").on("click.deleteTemplate", function(e) {
 
 			e.preventDefault()
-			
+
 			var key = $(this).closest('.x-item').data('key')
 			,	theIsotope = $(this).closest('.isotope')
 			,	args = {
@@ -55,11 +55,11 @@ $.plTemplates = {
 					, 	log: true
 					,	key: key
 					, 	beforeSend: function(){
-							$( '.template_key_'+key ).fadeOut(300, function() { 
+							$( '.template_key_'+key ).fadeOut(300, function() {
 								$(this).remove()
-								
+
 							})
-							
+
 					}
 					,	postSuccess: function(){
 						theIsotope.isotope( 'reLayout' )
@@ -87,7 +87,7 @@ $.plTemplates = {
 					,	map: $.plMapping.getCurrentMap()
 				}
 			,	args = $.extend({}, args, form) // add form fields to post
-				
+
 
 			var response = $.plAJAX.run( args )
 
@@ -98,7 +98,7 @@ $.plTemplates = {
 		$(".update-template").on("click", function(e) {
 
 			e.preventDefault()
-			
+
 			var key = $(this).closest('.x-item').data('key')
 			,	args = {
 						mode: 'templates'
@@ -115,11 +115,11 @@ $.plTemplates = {
 				}
 
 			var response = $.plAJAX.run( args )
-			
+
 
 
 		})
-		
+
 
 		$(".set-tpl").on("click.defaultTemplate", function(e) {
 
@@ -137,52 +137,52 @@ $.plTemplates = {
 					, 	field: $(this).data('field')
 					,	value: value
 					, 	postSuccess: function( response ){
-						
+
 							// console.log("caller is " + arguments.callee.caller.toString());
-						
-						
+
+
 							// $.Ajax parses argument values and calles this thing, probably supposed to do that a different way
 							if(!response)
-								return 
-					
+								return
+
 							var theList = $(that).closest('.x-list')
-						
+
 								theList
 									.find('.set-tpl[data-run="'+run+'"]')
 									.removeClass('active')
-								
+
 								theList
 									.find('.active-'+run)
 									.removeClass('active-'+run)
-							
-							
+
+
 							if(response.result && response.result != false){
-							
+
 								$(that)
 									.addClass('active')
 									.closest('.x-item-actions')
 									.addClass('active-'+run)
-								
+
 							}else {
 								console.log('Response was false.')
 								console.log( response )
 							}
-								
-							
-							
+
+
+
 
 						}
 				}
-				
+
 			var response = $.plAJAX.run( args )
 
 
 		})
-		
-	
-			
-		
-	
+
+
+
+
+
 	}
 
 

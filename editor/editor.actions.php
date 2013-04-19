@@ -3,10 +3,10 @@
 
 
 
-add_action('wp_ajax_pl_editor_actions', 'pl_editor_actions'); 
+add_action('wp_ajax_pl_editor_actions', 'pl_editor_actions');
 function pl_editor_actions(){
-	
-	$post = $_POST; 
+
+	$post = $_POST;
 	$response = array();
 	$response['post'] = $post;
 	$mode = $post['mode'];
@@ -15,7 +15,7 @@ function pl_editor_actions(){
 	$typeID = $post['typeID'];
 
 	if($mode == 'save'){
-		
+
 		$draft = new EditorDraft;
 		$tpl = new EditorTemplates;
 		$map = $post['map_object'] = new EditorMap( $tpl, $draft );
@@ -23,71 +23,71 @@ function pl_editor_actions(){
 		if( $run == 'draft' ){
 
 			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
-			
-			
+
+
 		} elseif ( $run == 'publish' ) {
-			
+
 			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
-			
+
 			pl_publish_settings( $pageID, $typeID );
-			
+
 		} elseif ( $run == 'revert' ){
-			
+
 			$draft->revert( $post, $map );
 
 		} elseif ( $run == 'map' ){
 
 			$response['changes'] = $map->save_map_draft( $pageID, $post['map'] );
 
-		} 
-		
+		}
+
 		$response['state'] = $draft->get_state( $pageID, $typeID, $map );
-		
-		
+
+
 	} elseif( $mode == 'sections'){
-		
+
 		if( $run == 'reload'){
-			
+
 			global $load_sections;
 			$available = $load_sections->pagelines_register_sections( true, false );
 			$response['result'] = $available;
 		}
-		
-		
+
+
 	} elseif( $mode == 'themes'){
-		
+
 		$theme = new EditorThemeHandler;
-		
+
 		if( $run == 'activate' ){
 			$response = $theme->activate( $response );
 			pl_flush_draft_caches();
 		}
-		
-		
+
+
 	} elseif ( $mode == 'templates' ){
-		
+
 		$tpl = new EditorTemplates;
 
 		if ( $run == 'load' ){
-			
+
 			$response['loaded'] = $tpl->set_new_local_template( $pageID, $post['key'] );
-		
+
 		} elseif ( $run == 'update'){
-			
+
 			$key = ( isset($post['key']) ) ? $post['key'] : false;
 
 			$template_map = $post['map']['template'];
 
 			$tpl->update_template( $key, $template_map );
-			
+
 		} elseif ( $run == 'delete'){
-			
+
 			$key = ( isset($post['key']) ) ? $post['key'] : false;
 
 			$tpl->delete_template( $key );
-			
+
 		} elseif ( $run == 'save' ){
-			
+
 			$template_map = $post['map']['template'];
 
 			$name = (isset($post['template-name'])) ? $post['template-name'] : false;
@@ -95,24 +95,24 @@ function pl_editor_actions(){
 
 			if( $name )
 				$tpl->create_template($name, $desc, $template_map);
-			
+
 		} elseif( $run == 'set_type' ){
 
 
 			$storage = new PageLinesData;
 			$field = $post['field'];
 			$value = $post['value'];
-			
+
 			$previous_val = $storage->meta( $typeID, $field );
-			
+
 			if( $previous_val == $value ){
 				$storage->meta_update( $typeID, $field, false );
 			} else {
 				$storage->meta_update( $typeID, $field, $value );
 			}
-			
+
 			$response['result'] = $storage->meta( $typeID, $field );
-			
+
 
 		} elseif( $run == 'set_global' ){
 
@@ -120,25 +120,25 @@ function pl_editor_actions(){
 			$storage = new PageLinesData;
 			$field = $post['field'];
 			$value = $post['value'];
-			
+
 			$previous_val = $storage->opt( $field );
-			
+
 			if($previous_val == $value){
 				$storage->opt_update( $field, false );
 			} else {
 				$storage->opt_update( $field, $value );
 			}
-			
+
 			$response['result'] = $storage->opt( $field );
-		
+
 		}
-		
+
 	} elseif ( $mode == 'settings' ){
-		
+
 		$plpg = new PageLinesPage( array( 'mode' => 'ajax', 'pageID' => $pageID, 'typeID' => $typeID ) );
 		$draft = new EditorDraft;
 		$settings = new PageLinesOpts( $plpg, $draft );
-		
+
 		if ($run == 'reset_global'){
 
 			$settings->reset_global();
@@ -148,13 +148,13 @@ function pl_editor_actions(){
 			$settings->reset_local( $pageID );
 
 		}
-		
+
 	}
-	
+
 
 	// RESPONSE
 	echo json_encode(  pl_arrays_to_objects( $response ) );
-	
+
 	die(); // don't forget this, always returns 0 w/o
 }
 

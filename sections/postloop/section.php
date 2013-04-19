@@ -4,7 +4,7 @@
 	Author: PageLines
 	Author URI: http://www.pagelines.com
 	Description: The Main Posts Loop. Includes content and post information.
-	Class Name: PageLinesPostLoop	
+	Class Name: PageLinesPostLoop
 	Workswith: main
 	Failswith: 404_page
 	Filter: component
@@ -19,9 +19,9 @@
 class PageLinesPostLoop extends PageLinesSection {
 
 	function section_opts(){
-		
+
 		$opts = array(
-			
+
 			array(
 				'key'		=> 'post_content',
 				'type'		=> 'edit_post',
@@ -37,7 +37,7 @@ class PageLinesPostLoop extends PageLinesSection {
 				'title'		=> 'Page Title',
 				'label'		=> 'Show page title?',
 			),
-			
+
 			array(
 				'case'		=> 'special',
 				'title' 	=> __( 'Layout <span class="spamp">&amp;</span> Config', 'pagelines' ),
@@ -50,9 +50,9 @@ class PageLinesPostLoop extends PageLinesSection {
 						'opts'	=> array(
 							'magazine'	=> array('name' => __( "Magazine Layout Mode", 'pagelines' )),
 							'blog'		=> array('name' => __( "List Layout Mode", 'pagelines' ))
-							), 
+							),
 						'label'		=> __( 'Posts Layout Mode', 'pagelines' ),
-						'title'		=> __( 'Posts Layout Mode', 'pagelines' ),						
+						'title'		=> __( 'Posts Layout Mode', 'pagelines' ),
 						'ref'		=> __( 'Choose between two magazine or blog layout mode. <br/><br/> <strong>Magazine Layout Mode</strong><br/> Magazine layout mode makes use of post <strong>clips</strong>. These are summarized excerpts shown at half the width of the main content column.<br/>  <strong>Note:</strong> There is an option for showing <strong>full-width</strong> posts on your main <strong>posts</strong> page.<br/><br/><strong>List Layout Mode</strong><br/> This is your classical post list layout. Posts span the entire width of the main content column.', 'pagelines' ),
 					),
 
@@ -63,7 +63,7 @@ class PageLinesPostLoop extends PageLinesSection {
 							'type'			=> 'count_select',
 							'count_number'	=> get_option('posts_per_page'),
 							'label'			=> __( 'Number of Full Width Posts? (Mag. Mode)', 'pagelines' ),
-							'title'			=> __( 'Full Width Posts (Magazine Layout Mode Only)', 'pagelines' ),						
+							'title'			=> __( 'Full Width Posts (Magazine Layout Mode Only)', 'pagelines' ),
 							'help'			=> __( 'Select the number of posts you would like shown at the full width of the main content column in magazine layout mode (the rest will be half-width post <strong>clips</strong>).', 'pagelines' )
 					),
 					array(
@@ -74,11 +74,11 @@ class PageLinesPostLoop extends PageLinesSection {
 							'title'		=> __( 'Show Full Post Content', 'pagelines' ),
 							'exp'		=> __( 'Optionally show full post content on special post listing pages.', 'pagelines' )
 					),
-					
+
 				)
 			),
-			
-			
+
+
 			array(
 				'case'		=> 'special',
 				'title' 	=> __( 'Metabar Config', 'pagelines' ),
@@ -105,7 +105,7 @@ class PageLinesPostLoop extends PageLinesSection {
 					),
 				)
 			),
-			
+
 			array(
 				'case'		=> 'special',
 				'title' 	=> __( 'Thumbs', 'pagelines' ),
@@ -119,19 +119,19 @@ class PageLinesPostLoop extends PageLinesSection {
 							'title'		=> __( 'Post Thumbnails', 'pagelines' ),
 							'help'		=> __( 'Use this option to hide or show thumbs for posts on pages.', 'pagelines' )
 					),
-					
+
 					array(
 						'case'		=> 'special',
 						'type'		=> 'select',
 						'key'		=> 'excerpt_mode_full',
 						'default'	=> 'left',
 						'opts'	=> array(
-							'left'			=> array( 'name' => __( 'Left Justified', 'pagelines' ), 'offset' => '0px -50px' ), 
-							'top'			=> array( 'name' => __( 'On Top', 'pagelines' ), 'offset' => '0px 0px', 'version' => 'pro' ), 
-							'left-excerpt'	=> array( 'name' => __( 'Left, In Excerpt', 'pagelines' ), 'offset' => '0px -100px' ), 
+							'left'			=> array( 'name' => __( 'Left Justified', 'pagelines' ), 'offset' => '0px -50px' ),
+							'top'			=> array( 'name' => __( 'On Top', 'pagelines' ), 'offset' => '0px 0px', 'version' => 'pro' ),
+							'left-excerpt'	=> array( 'name' => __( 'Left, In Excerpt', 'pagelines' ), 'offset' => '0px -100px' ),
 							'right-excerpt'	=> array( 'name' => __( 'Right, In Excerpt', 'pagelines' ), 'offset' => '0px -150px', 'version' => 'pro' ),
-						), 
-						'title'		=> __( 'Full Width Thumbs Layout', 'pagelines' ),						
+						),
+						'title'		=> __( 'Full Width Thumbs Layout', 'pagelines' ),
 						'help'		=> __( 'Use this option to configure how thumbs will be shown in full-width posts on your blog page.', 'pagelines' )
 
 					),
@@ -141,18 +141,18 @@ class PageLinesPostLoop extends PageLinesSection {
 						'key'		=> 'excerpt_mode_clip',
 						'default'	=> 'left',
 						'opts'	=> array(
-							'left'			=> array( 'name' => __( 'Left Justified', 'pagelines' ), 'offset' => '0px -50px' ), 
-							'top'			=> array( 'name' => __( 'On Top', 'pagelines' ), 'offset' => '0px 0px' ), 
-							'left-excerpt'	=> array( 'name' => __( 'Left, In Excerpt', 'pagelines' ), 'offset' => '0px -100px' ), 
+							'left'			=> array( 'name' => __( 'Left Justified', 'pagelines' ), 'offset' => '0px -50px' ),
+							'top'			=> array( 'name' => __( 'On Top', 'pagelines' ), 'offset' => '0px 0px' ),
+							'left-excerpt'	=> array( 'name' => __( 'Left, In Excerpt', 'pagelines' ), 'offset' => '0px -100px' ),
 							'right-excerpt'	=> array( 'name' => __( 'Right, In Excerpt', 'pagelines' ), 'offset' => '0px -150px' ),
-						), 
-						'title'		=> __( 'Clip Thumbs Layout', 'pagelines' ),						
+						),
+						'title'		=> __( 'Clip Thumbs Layout', 'pagelines' ),
 						'help'		=> __( 'Use this option to configure how thumbs will be shown in clips. These are the smaller <strong>magazine</strong> style excerpts on your blog page.', 'pagelines' )
 					),
 				)
 			),
-			
-		
+
+
 			array(
 				'case'		=> 'special',
 				'title' 	=> __( 'Excerpts', 'pagelines' ),
@@ -172,7 +172,7 @@ class PageLinesPostLoop extends PageLinesSection {
 							'default'	=> 'Read Full Article &rarr;',
 							'type'		=> 'text',
 							'label'		=> __( 'Continue Reading Link Text', 'pagelines' ),
-							'title'		=> __( 'Excerpts <strong>Continue Reading</strong> Text', 'pagelines' ),	
+							'title'		=> __( 'Excerpts <strong>Continue Reading</strong> Text', 'pagelines' ),
 							'help' 		=> __( "This text will be used as the link to your full article when viewing articles on your posts page (when excerpts are turned on).", 'pagelines' )
 					),
 					array(
@@ -195,26 +195,26 @@ class PageLinesPostLoop extends PageLinesSection {
 					)
 				)
 			)
-			
-			
+
+
 		);
-		
+
 		return $opts;
 	}
 
 	function before_section_template( $location = '' ) {
 
 		global $wp_query;
-		
-		if(isset($wp_query) && is_object($wp_query)) 
+
+		if(isset($wp_query) && is_object($wp_query))
 			$this->wrapper_classes[] = ( $wp_query->post_count >= 1 ) ? 'multi-post' : 'single-post';
-		
+
 	}
 
 	/**
 	* Section template.
 	*/
-   function section_template() { 
+   function section_template() {
 		//Included in theme root for easy editing.
 		$theposts = new PageLinesPosts( $this );
 		$theposts->load_loop();

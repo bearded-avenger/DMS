@@ -7,10 +7,10 @@ body.navbar_fixed {
 		padding-top: 50px;
 	}
 	.fixed_width #page .page-canvas{
-		margin-top: 42px; 
-		padding-top: 0; 
+		margin-top: 42px;
+		padding-top: 0;
 	}
-	
+
 	.section-navbar.fixed-top{
 		position: fixed;
 		z-index: @zindexFixedNavbar;
@@ -20,13 +20,13 @@ body.navbar_fixed {
 /*  Basic formatting
  ************************************************************/
 .section-navbar {
-	
-	
+
+
 	margin: 0 auto;
 	width: 100%;
 	font-family: @altFontFamily;
-	font-weight: @altFontWeight; 
-	
+	font-weight: @altFontWeight;
+
 	.content-pad,
 	.pl-section-pad{
 		padding-top: 5px;
@@ -35,7 +35,7 @@ body.navbar_fixed {
 			padding: 0 15px;
 		}
 	}
-	
+
 }
 // Dont nest, needs to be minimum specificity
 .pldrop ul{
@@ -71,7 +71,7 @@ body.navbar_fixed {
 		display: block;
 		margin: 0 10px 0 0;
 		font-size: .9em;
-		
+
 		> .dropdown > .dropdown-menu{
 			&:before {
 			  content: '';
@@ -124,14 +124,14 @@ body.navbar_fixed {
 					.border-radius(6px 0 6px 6px);
 				}
 			}
-			
+
 		}
-		
+
 
 		> li {
 			display: block;
 			float: left;
-			
+
 			> a {
 				text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 				&:hover{
@@ -167,7 +167,7 @@ body.navbar_fixed {
 			}
 		}
 	}
-	
+
 	.searchform{
 		float: right;
 		margin: 7px 0 5px;
@@ -175,13 +175,13 @@ body.navbar_fixed {
 		max-width: 190px;
 		.searchfield{
 			background-color:rgba(255,255,255,.35);
-			
+
 			box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15), 0 1px 0px rgba(255, 255, 255, 0.15);
 			&:focus{
 				box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 0px rgba(255, 255, 255, 0.15);
 				background-color:#fff;
 				color:#000;
-				
+
 			}
 		}
 	}
@@ -205,7 +205,7 @@ body.navbar_fixed {
 			max-height: 29px;
 		}
 	}
-	
+
 	&.pl-color-black-trans{
 		#gradient > .vertical(rgba(0,0,0,0.8), rgba(0,0,0,0.9));
 		border-top: 1px solid rgba(0,0,0,.9);
@@ -234,9 +234,9 @@ body.navbar_fixed {
 			border: 1px solid #f89406;
 		}
 	}
-	
+
 	&.pl-color-base{
-		background: @baseColor; 
+		background: @baseColor;
 		color: @textColor;
 		.searchform .searchfield{
 			background-color: @baseContrastSlight;
@@ -251,7 +251,7 @@ body.navbar_fixed {
 					.transition(all 0.1s linear);
 					color: fadeout(@textColor, 40%);
 					text-shadow: none;
-					
+
 				}
 				&:hover > a,
 				&.current-menu-item > a,
@@ -260,14 +260,14 @@ body.navbar_fixed {
 					background-color: @baseColor;
 					box-shadow: inset 0 -4px 0 @linkColor;
 				}
-				
+
 			}
 			.caret{
 				border-top-color: fadeout(@textColor, 40%);
 			}
 		}
 	}
-	
+
 	&.pl-color-grey{
 		#gradient > .vertical(#ffffff, #dcdcdc);
 		border-top: 1px solid #dcdcdc;
@@ -302,8 +302,8 @@ body.navbar_fixed {
 				border-top-color:  rgba(0,0,0,.5);
 			}
 		}
-	
-		
+
+
 		.nav-btn-navbar .icon-bar{
 			background:rgba(0,0,0,.7);
 			box-shadow: 0 1px 0 #fff;
@@ -313,10 +313,10 @@ body.navbar_fixed {
 
 
 // Hide Title on Fixed Crackbar
-#navbar.fixed-top { 
+#navbar.fixed-top {
 	.navbar-title {
 		display:none;
-	} 
+	}
 }
 
 // CrackBar Title Defaults
@@ -338,16 +338,16 @@ span.navbar-title {
 	li {
 		list-style:none;
 	}
-} 
-
-	
+}
 
 
 
-	
+
+
+
 
 /* Nav Toggle Responsive
- ************************************************************/	
+ ************************************************************/
 	.nav-btn-navbar {
 		display: none;
 		float: right;
@@ -391,7 +391,7 @@ span.navbar-title {
 .navbar-collapse{
 	height:auto;
 	overflow: visible;// IE8 FIx
-} 
+}
 .nav-collapse.collapse {
 	position: relative;
 	height: auto; // this was height:0; but testing height: auto for IE8
@@ -408,12 +408,12 @@ span.navbar-title {
 // * Responsive Handling
 // ************************************************************/
 @media (max-width: 400px) {
-	
+
 .navbar .plbrand img{
 	max-width: 210px;
 }
 
-}//-- End Media Query --// 	
+}//-- End Media Query --//
 
 @media (max-width: 600px) {
 
@@ -422,11 +422,11 @@ span.navbar-title {
 	margin:0 auto;
 }
 
-}//-- End Media Query --// 	
+}//-- End Media Query --//
 
 
 @media (max-width: @resPortraitTablet){
-	
+
 body.navbar_fixed {
 	.page-canvas  {
 	  padding-top: 0;
@@ -532,30 +532,30 @@ body.navbar_fixed {
 			box-shadow: none;
 		}
 		.dropdown-menu{
-			li > a:hover, 
+			li > a:hover,
 			.active > a,
 			.active > a:hover,
 			a:hover{
 				color:@textColor;
 				text-shadow: none;
-				
+
 			}
 		}
-		.current-menu-item > a, 
+		.current-menu-item > a,
 		.navline > li > a:hover{
 			box-shadow: none;
 			color: @textColor;
 			text-shadow: none;
 		}
 	}
-	
+
 	&.pl-color-grey{
 		.navline > li > a,
 		.dropdown-menu a{
 			color: #000;
 		}
 		.dropdown-menu{
-			li > a:hover, 
+			li > a:hover,
 			.active > a,
 			.active > a:hover,
 			a:hover{
@@ -563,7 +563,7 @@ body.navbar_fixed {
 				text-shadow: 0 1px 0 rgba(255,255,255,.5);
 			}
 		}
-		.current-menu-item > a, 
+		.current-menu-item > a,
 		.navline > li > a:hover{
 			color: #000;
 			text-shadow: 0 1px 0 rgba(255,255,255,.5);
@@ -575,7 +575,7 @@ body.navbar_fixed {
 
 }
 
-} //-- End Media Query --// 	
+} //-- End Media Query --//
 
 @media (min-width: @resPortraitTablet + 1) {
 

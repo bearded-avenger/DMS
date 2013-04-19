@@ -144,13 +144,13 @@ class PLheroUnit extends PageLinesSection {
 
 		if ( ! $hero_rt_width )
 			$hero_rt_width = 'span6';
-			
+
 		if ( ! $hero_lt_width )
 			$hero_lt_width = 'span6';
-			
-		$hero_title = ($hero_title) ? $hero_title : __('The Hero!', 'pagelines'); 
-		$hero_tag = ($hero_tag) ? $hero_tag : __('Now just set up your Hero section options', 'pagelines'); 
-			
+
+		$hero_title = ($hero_title) ? $hero_title : __('The Hero!', 'pagelines');
+		$hero_tag = ($hero_tag) ? $hero_tag : __('Now just set up your Hero section options', 'pagelines');
+
    	?>
 
 	   	<div class="pl-hero-wrap row">

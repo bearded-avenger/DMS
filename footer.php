@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * FOOTER
  *
@@ -21,14 +21,14 @@
  * @todo Define version
  */
 
-if(!has_action('override_pagelines_body_output')): 
+if(!has_action('override_pagelines_body_output')):
 		pagelines_register_hook('pagelines_start_footer'); // Hook ?>
 				</div>
 				<?php pagelines_register_hook('pagelines_after_main'); // Hook ?>
 				<div id="morefoot_area" class="container-group">
-					<?php 
-						pagelines_template_area('pagelines_morefoot', 'morefoot'); // Hook 
-						pagelines_template_area('pagelines_page_footer', 'morefoot'); // Hook 
+					<?php
+						pagelines_template_area('pagelines_morefoot', 'morefoot'); // Hook
+						pagelines_template_area('pagelines_page_footer', 'morefoot'); // Hook
 					?>
 				</div>
 				<div class="clear"></div>
@@ -39,20 +39,20 @@ if(!has_action('override_pagelines_body_output')):
 <?php pagelines_register_hook('pagelines_before_footer'); // Hook ?>
 	<footer id="footer" class="footer pl-region" data-region="footer">
 		<div class="page-area outline pl-area-container fix">
-		<?php 
-			pagelines_template_area('pagelines_footer', 'footer'); // Hook 
+		<?php
+			pagelines_template_area('pagelines_footer', 'footer'); // Hook
 			pagelines_register_hook('pagelines_after_footer'); // Hook
-			pagelines_cred(); 
+			pagelines_cred();
 		?>
 		</div>
 	</footer>
 </div>
-<?php 
+<?php
 
 endif;
 
-	print_pagelines_option('footerscripts'); // Load footer scripts option 	
-	wp_footer(); // Hook (WordPress) 
+	print_pagelines_option('footerscripts'); // Load footer scripts option
+	wp_footer(); // Hook (WordPress)
 ?>
 </body>
 </html>

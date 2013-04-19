@@ -12,7 +12,7 @@
 */
 
 /**
- * Carousel Section 
+ * Carousel Section
  *
  * @package PageLines Framework
  * @author PageLines

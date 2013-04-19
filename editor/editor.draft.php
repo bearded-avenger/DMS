@@ -109,7 +109,7 @@ class EditorDraft{
 			$settings['type'] = pl_meta( $typeID, PL_SETTINGS );
 
 		$settings['global'] = pl_opt( PL_SETTINGS );
-		
+
 		$settings['map-local'] = $map->map_local( $pageID );
 		$settings['map-global'] = $map->map_global();
 
@@ -124,10 +124,10 @@ class EditorDraft{
 			}
 
 		}
-		
+
 		if( count($state) > 1 )
 			$state[] = 'multi';
-		
+
 		return $state;
 
 	}
@@ -136,9 +136,9 @@ class EditorDraft{
 }
 
 function pl_draft_mode(){
-	
+
 	$draft = new EditorDraft;
-	
+
 	return ($draft->mode == 'draft') ? true : false;
-		
+
 }

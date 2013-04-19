@@ -26,7 +26,7 @@ class EditorInterface {
 
 		global $is_chrome;
 		if ( $this->draft->show_editor() && $is_chrome){
-			
+
 			add_action( 'wp_footer', array( &$this, 'pagelines_toolbox' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_scripts' ) );
 
@@ -46,10 +46,10 @@ class EditorInterface {
 
 		// UTILITIES ----------------------------
 		// --------------------------------------
-		
+
 			// Sprintf
 			wp_enqueue_script( 'js-sprintf', $this->url . '/js/utils.sprintf.js', array( 'jquery' ), PL_CORE_VERSION, true );
-		
+
 			// Forms handling
 			wp_enqueue_script( 'form-params', $this->url . '/js/form.params.js', array('jquery'), PL_CORE_VERSION, true );
 			wp_enqueue_script( 'form-store', $this->url . '/js/form.store.js', array('jquery'), PL_CORE_VERSION, true );
@@ -61,15 +61,15 @@ class EditorInterface {
 			wp_enqueue_script( 'imagesloaded', $this->url . '/js/utils.imagesloaded.js', array('jquery'), PL_CORE_VERSION, true);
 
 		// PAGELINES CODE -----------------------
-		// --------------------------------------		
+		// --------------------------------------
 			wp_enqueue_script( 'pl-editor-js', $this->url . '/js/pl.editor.js', array( 'jquery' ), PL_CORE_VERSION , true);
 			wp_enqueue_script( 'pl-toolbox-js', $this->url . '/js/pl.toolbox.js', array('pagelines-bootstrap-all' ), PL_CORE_VERSION, true );
 			wp_enqueue_script( 'pl-optpanel', $this->url . '/js/pl.optpanel.js', array( 'jquery' ), PL_CORE_VERSION, true );
 			wp_enqueue_script( 'pl-ajax', $this->url . '/js/pl.ajax.js', array( 'jquery' ), PL_CORE_VERSION, true );
 			wp_enqueue_script( 'pl-library', $this->url . '/js/pl.library.js', array( 'jquery' ), PL_CORE_VERSION, true );
 			wp_enqueue_script( 'pl-layout', $this->url . '/js/pl.layout.js', array( 'jquery' ), PL_CORE_VERSION, true );
-		
-		// Action in to scripts here... 
+
+		// Action in to scripts here...
 		pagelines_register_hook('pagelines_editor_scripts'); // Hook
 
 
@@ -97,7 +97,7 @@ class EditorInterface {
 			wp_enqueue_script( 'jquery-mousewheel', $this->url . '/js/utils.mousewheel.js', array('jquery'), PL_CORE_VERSION, true );
 
 
-		
+
 
 		// Global AjaxURL variable --> http://www.garyc40.com/2010/03/5-tips-for-using-ajax-in-wordpress/
 		wp_localize_script( 'pl-editor-js', 'ajaxurl', array( admin_url( 'admin-ajax.php' ) ) );
@@ -111,13 +111,13 @@ class EditorInterface {
 		$region_name = strtoupper($region);
 
 		if($region == 'header' || $region == 'footer'){
-			
-			$region_title = sprintf(__('Global Scope Region', 'pagelines'), $region_name); 
-			
+
+			$region_title = sprintf(__('Global Scope Region', 'pagelines'), $region_name);
+
 			$region_name .= ' <i class="icon-globe"></i>';
 		} else {
-			$region_title = sprintf(__('Local Scope Region', 'pagelines'), $region_name);  
-			
+			$region_title = sprintf(__('Local Scope Region', 'pagelines'), $region_name);
+
 			$region_name .= ' <i class="icon-map-marker"></i>';
 		}
 
@@ -133,7 +133,7 @@ class EditorInterface {
 
 
 	function toolbar_config(){
-		
+
 		// actions show up in a dropup
 		$actions = apply_filters('pl_toolbar_actions', array());
 
@@ -143,7 +143,7 @@ class EditorInterface {
 				'type'	=> 'btn',
 				'pos'	=> 1
 			),
-			
+
 			'pl-actions' => array(
 				'name'	=> '',
 				'icon'	=> '',
@@ -157,64 +157,64 @@ class EditorInterface {
 				'type'	=> 'btn',
 				'pos'	=> 199
 			),
-			
+
 		);
 
 		return $data;
 
 	}
-	
-	
+
+
 	function get_toolbar_config( ){
-		
-	
+
+
 		$toolbar_config =  apply_filters('pl_toolbar_config', $this->toolbar_config());
-		
+
 		$default = array(
 			'pos'	=> 100
 		);
-		
-		
+
+
 		foreach( $toolbar_config as $key => &$info ){
-			$info = wp_parse_args( $info, $default ); 
+			$info = wp_parse_args( $info, $default );
 		}
 		unset($info); // set by reference ^^
-				
+
 		uasort( $toolbar_config, array(&$this, "cmp_by_position") );
 
 		return apply_filters( 'pl_sorted_toolbar_config', $toolbar_config );
 	}
-	
-	function cmp_by_position($a, $b) {
-		
-	  return $a["pos"] - $b["pos"];
-	
-	}
-	
-	
-	
-	
 
-	
+	function cmp_by_position($a, $b) {
+
+	  return $a["pos"] - $b["pos"];
+
+	}
+
+
+
+
+
+
 
 
 
 	function pagelines_editor_activate(){
 		global $wp;
-		global $is_chrome; 
+		global $is_chrome;
 
 		if($is_chrome){
 
 			$activate_url = pl_add_query_arg( array( 'edtr' => 'on' ) );
-			
+
 			$text = 'Activate PageLines Editor';
-			
+
 			$target = "";
 		} else {
 			$target = "target='_blank'";
 			$activate_url = 'http://www.google.com/chrome';
 			$text = 'Chrome is required to use PageLines Editor';
-			
+
 		}
 		?>
 			<a id="toolbox-activate" href="<?php echo $activate_url;?>" class="toolbox-activate" <?php echo $target;?>><i class="icon-off"></i> <span class="txt"><?php echo $text; ?></span></span></a>
@@ -302,13 +302,13 @@ class EditorInterface {
 
 				<?php
 					$state = $this->draft->get_state( $this->page->id, $this->page->typeid, $this->map );
-					
+
 					$state_class = '';
 					foreach($state as $st){
 						$state_class .= ' '.$st;
 					}
-					
-					
+
+
 				?>
 				<li id="stateTool" class="dropup <?php echo $state_class;?>">
 					<span class="btn-toolbox btn-state " data-toggle="dropdown">
@@ -341,12 +341,12 @@ class EditorInterface {
 					<div class="toolbox-content-pad option-panel">
 						<?php
 						foreach($this->get_toolbar_config() as $key => $tab){
-							
+
 							if(isset($tab['panel']) && !empty($tab['panel']))
 								$this->panel($key, $tab['panel']);
 							else
 								printf('<div class="panel-%s tabbed-set error-panel"><i class="icon-spinner icon-spin"></i></div>', $key);
-						
+
 						}
 							 ?>
 					</div>
@@ -441,7 +441,7 @@ class EditorInterface {
 					}
 
 					$clip = ( isset($t['clip']) ) ? sprintf('<span class="clip-desc">%s</span>', $t['clip']) : '';
-					
+
 					$tools = ( isset($t['tools']) ) ? sprintf('<span class="clip-tools">%s</span>', $t['tools']) : '';
 
 
@@ -501,8 +501,8 @@ class EditorInterface {
 		return ob_get_clean();
 
 	}
-	
-	
+
+
 
 
 }

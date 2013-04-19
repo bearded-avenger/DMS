@@ -413,12 +413,12 @@ class PageLinesRenderCSS {
 	}
 	function check_draft() {
 		global $pldraft;
-		
+
 		if( is_object($pldraft) )
 			$mode = $pldraft->mode;
-		else 
+		else
 			$mode = false;
-			
+
 		return( 'draft' == $mode ) ? true : false;
 	}
 	/**

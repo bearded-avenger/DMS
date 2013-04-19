@@ -1,68 +1,68 @@
-<?php 
+<?php
 
 /*
  *	Editor functions - Always loaded
- */ 
+ */
 
 function pl_has_editor(){
-	
+
 	return (class_exists('PageLinesTemplateHandler')) ? true : false;
-	
+
 }
 
 
 // Function to be used w/ compabibility mode to de
 function pl_deprecate_v2(){
-	
+
 	return true;
-	
+
 }
 
 
 function pl_use_editor(){
-	
+
 	return true;
-	
+
 }
 
 
 // Process old function type to new format
 function process_to_new_option_format( $old_options ){
-	
+
 	$new_options = array();
-	
+
 	foreach($old_options as $key => $o){
-		
+
 		if($o['type'] == 'multi_option' || $o['type'] == 'text_multi'){
-		
+
 			$sub_options = array();
 			foreach($o['selectvalues'] as $sub_key => $sub_o){
-				$sub_options[ ] = process_old_opt($sub_key, $sub_o, $o); 
+				$sub_options[ ] = process_old_opt($sub_key, $sub_o, $o);
 			}
 			$new_options[ ] = array(
-				'type' 	=> 'multi', 
+				'type' 	=> 'multi',
 				'title'	=> $o['title'],
 				'opts'	=> $sub_options
 			);
 		} else {
-			$new_options[ ] = process_old_opt($key, $o);	
+			$new_options[ ] = process_old_opt($key, $o);
 		}
-		
+
 	}
-	
+
 	return $new_options;
 }
 
 function process_old_opt( $key, $old, $otop = array()){
-	
+
 	if(isset($otop['type']) && $otop['type'] == 'text_multi')
-		$old['type'] = 'text'; 
-		
+		$old['type'] = 'text';
+
 	$defaults = array(
         'type' 			=> 'check',
 		'title'			=> '',
-		'inputlabel'	=> '', 
-		'exp'			=> '', 
+		'inputlabel'	=> '',
+		'exp'			=> '',
 		'shortexp'		=> '',
 		'count_start'	=> 0,
 		'count_number'	=> '',
@@ -71,52 +71,52 @@ function process_old_opt( $key, $old, $otop = array()){
 		'post_type'		=> '',
 		'span'			=> 1
 	);
-	
+
 	$old = wp_parse_args($old, $defaults);
-	
+
 	$exp = ($old['exp'] == '' && $old['shortexp'] != '') ? $old['shortexp'] : $old['exp'];
-	
+
 	if($old['type'] == 'text_small'){
-		$type = 'text'; 
-	} else 
+		$type = 'text';
+	} else
 		$type = $old['type'];
-	
+
 	$new = array(
-		'key'			=> $key, 
+		'key'			=> $key,
 		'title'			=> $old['title'],
-		'label'			=> $old['inputlabel'], 
-		'type'			=> $type, 
-		'help'			=> $exp, 
+		'label'			=> $old['inputlabel'],
+		'type'			=> $type,
+		'help'			=> $exp,
 		'opts'			=> $old['selectvalues'],
 		'span'			=> $old['span']
-	); 
-	
+	);
+
 	if($old['type'] == 'count_select'){
 		$new['count_start'] = $old['count_start'];
 		$new['count_number'] = $old['count_number'];
 	}
-	
+
 	if($old['taxonomy_id'] != '')
 		$new['taxonomy_id'] = $old['taxonomy_id'];
-		
+
 	if($old['post_type'] != '')
 		$new['post_type'] = $old['post_type'];
-	
+
 	return $new;
 }
 
 function pl_create_id( $string ){
-	
-	$string = str_replace( ' ', '_', trim( strtolower( $string ) ) ); 
+
+	$string = str_replace( ' ', '_', trim( strtolower( $string ) ) );
 	$string = preg_replace('/[^A-Za-z0-9\-]/', '', $string);
-	
+
 	return $string;
 }
 
 
-/* 
+/*
  * Lets document utility functions
- */ 
+ */
 function pl_add_query_arg( $args ) {
 
 	global $wp;
@@ -124,24 +124,24 @@ function pl_add_query_arg( $args ) {
 	return add_query_arg( $args, $current_url );
 }
 
-/* 
+/*
  * This function recursively converts an multi dimensional array into a multi layer object
  * Needed for json conversion in < php 5.2
- */ 
+ */
 function pl_arrays_to_objects( array $array ) {
 
 	$objects = new stdClass;
-    
+
 	if( is_array($array) ){
 		foreach ( $array as $key => $val ) {
-			
+
 			if($key === ''){
 				$key = 0;
 			}
-			
+
 	        if ( is_array( $val ) && !empty( $val )) {
 
-				
+
 				$objects->{$key} = pl_arrays_to_objects( $val );
 
 	        } else {
@@ -150,14 +150,14 @@ function pl_arrays_to_objects( array $array ) {
 
 	        }
 	    }
-		
+
 	}
-    
+
     return $objects;
 }
 
 function pl_icon_array(){
-	
+
 	$icons = array(
 		'glass',
 		'music',
@@ -407,35 +407,35 @@ function pl_icon_array(){
 		'reply',
 		'github-alt',
 		'folder-close-alt',
-		'folder-open-alt',    
+		'folder-open-alt',
 	);
-	
+
 	return $icons;
 }
 
 function get_sidebar_select(){
 
 
-	global $wp_registered_sidebars;		
+	global $wp_registered_sidebars;
 	$allsidebars = $wp_registered_sidebars;
 	ksort($allsidebars);
-	
-	$sidebar_select = array(); 
+
+	$sidebar_select = array();
 	foreach($allsidebars as $key => $sb){
-		
-		$sidebar_select[ $sb['id'] ] = array( 'name' => $sb['name'] ); 
+
+		$sidebar_select[ $sb['id'] ] = array( 'name' => $sb['name'] );
 	}
-	
+
 	return $sidebar_select;
 }
 
 function pl_count_sidebar_widgets( $sidebar_id ){
-	
+
 	$total_widgets = wp_get_sidebars_widgets();
-	
+
 	if(isset($total_widgets[ $sidebar_id ]))
 		return count( $total_widgets[ $sidebar_id ] );
-	else 
+	else
 		return false;
 }
 
