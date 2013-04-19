@@ -61,9 +61,8 @@ class EditorCode{
 	
 	function draw_custom_styles(){
 		
-		printf('<style id="pl-custom-less" type="text/css">%s</style>', pl_setting('custom_less'));
-		
-		
+		if( true == ( $css = pl_setting( 'custom_less') ) )
+			printf('<style id="pl-custom-less" type="text/css">%s</style>', $css );	
 	}
 	
 	function draw_custom_scripts(){

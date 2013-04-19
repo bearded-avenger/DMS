@@ -20,7 +20,8 @@ class PageLinesEditor {
 		add_action( 'wp', array(&$this, 'load_libs' ), 5); // !important - must load after $post variable
 		add_action( 'admin_init', array(&$this, 'load_libs' ), 5);
 
-		add_action( 'init', array(&$this, 'installer_scripts' ), 9 );
+		if( pl_draft_mode() || is_admin() )
+			add_action( 'init', array(&$this, 'installer_scripts' ), 9 );
 
 		add_action('wp_enqueue_scripts', array(&$this, 'process_styles' ));
 		add_action( 'wp_head', array(&$this, 'process_head' ) );
