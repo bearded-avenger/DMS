@@ -136,8 +136,8 @@ function pledit( $id = '', $type = 'post' ){
 			$id = $post->ID;
 		}
 	
-		if ( !$p = &get_post( $id ) )
-			return '';
+		 if ( false == ( $p = get_post( $id ) ) )
+		 	return '';
 	
 		$post_type_object = get_post_type_object( $p->post_type );
 	

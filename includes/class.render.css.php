@@ -581,7 +581,7 @@ class PageLinesRenderCSS {
 	}
 
 	// flush_rules() if our rules are not yet included
-	function check_rules(){
+	public static function check_rules(){
 		$rules = get_option( 'rewrite_rules' );
 		if ( ! isset( $rules['(.*)pagelines-compiled-css'] ) ) {
 			global $wp_rewrite;

@@ -110,7 +110,7 @@ class PageLinesTemplate {
      *
      * @return mixed|void
      */
-	public function page_type_breaker(){
+	public static function page_type_breaker(){
 		global $post;
 		global $pl_integration;
 		global $post_type_breaker;
@@ -171,7 +171,7 @@ class PageLinesTemplate {
 	/**
 	 * Returns template type based on elements in WP admin
 	 */
-	public function admin_page_type_breaker(){
+	public static function admin_page_type_breaker(){
 		global $post;
 		
 		
@@ -201,7 +201,7 @@ class PageLinesTemplate {
 	/**
 	 * Get current post type, set as GET on 'add new' pages
 	 */
-	function current_admin_post_type(){
+	public static function current_admin_post_type(){
 		global $pagenow;
 		global $post;
 	
