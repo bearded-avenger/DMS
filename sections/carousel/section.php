@@ -116,7 +116,7 @@ class PageLinesCarousel extends PageLinesSection {
 	* @TODO document
 	*
 	*/
-	function section_head( $clone_id = null ) {
+	function section_head() {
 
 		$num_items		= ( $this->opt( 'carousel_display_items', $this->oset ) ) ? $this->opt( 'carousel_display_items', $this->oset ) : 9;
 		$scroll_items 	= ( $this->opt( 'carousel_scroll_items', $this->oset ) ) ? $this->opt( 'carousel_scroll_items', $this->oset ) : 6;
@@ -171,7 +171,7 @@ jQuery(document).ready(function () {
 
 	}
 
-   function section_template( $clone_id ) {
+   function section_template() {
 
 		// Set Up Variables
 		$carouselitems 			= ( $this->opt('carousel_items', $this->oset) ) ? $this->opt( 'carousel_items', $this->oset ) : 30;

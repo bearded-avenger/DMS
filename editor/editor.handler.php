@@ -765,7 +765,7 @@ class PageLinesTemplateHandler {
 		if( $override != false) 
 			require( $override );
 		else
-			$s->section_template( $s->meta['clone'] );
+			$s->section_template();
 		
 	}
 		

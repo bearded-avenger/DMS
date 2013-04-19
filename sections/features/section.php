@@ -59,11 +59,12 @@ class PageLinesFeatures extends PageLinesSection {
 	* @TODO document
 	*
 	*/
-	function section_head( $clone_id ) {   
-		
+	function section_head() {   
+
 		global $pagelines_ID;
 
-		$oset = array( 'post_id' => $pagelines_ID, 'clone_id' => $clone_id );
+		$oset = $this->oset;
+		$clone_id = $oset['clone_id'];
 
 		$f = $this->post_set[ $clone_id ] = $this->pagelines_features_set( $clone_id ); 	
 	
@@ -252,10 +253,10 @@ class PageLinesFeatures extends PageLinesSection {
 	* @TODO document
 	*
 	*/
-	function section_template( $clone_id ) {    
+	function section_template() {    
 
 		// $this->set set in pagelines_feature_set, better way to do this?
-		$this->draw_features( $this->post_set[ $clone_id ], $this->set, $clone_id );
+		$this->draw_features( $this->post_set[ $this->oset['clone_id'] ], $this->set, $clone_id );
 	}
 
 

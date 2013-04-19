@@ -172,7 +172,7 @@ class PLMasthead extends PageLinesSection {
 	/**
 	* Section template.
 	*/
-   function section_template( $clone_id ) { 
+   function section_template() { 
    		$mast_title = $this->opt('pagelines_masthead_title', $this->oset);
    		$mast_img = $this->opt('pagelines_masthead_img', $this->oset);
 		$mast_tag = $this->opt('pagelines_masthead_tagline', $this->oset);

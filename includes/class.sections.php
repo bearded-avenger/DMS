@@ -259,18 +259,17 @@ class PageLinesSection {
 		
 		$location = 'passive';
 		
-		$markup = (isset($this->settings['markup'])) ? $this->settings['markup'] : 'content';
+		$markup = ( isset( $this->settings['markup'] ) ) ? $this->settings['markup'] : 'content';
 		
 		$this->before_section_template( $location );
 	
 		$this->before_section( $markup );
 
-		$this->section_template('', $location);
+		$this->section_template( $location );
 	
 		$this->after_section( $markup );
 	
-		$this->after_section_template(  );
-		
+		$this->after_section_template();		
 	}
 
     /**
@@ -314,7 +313,7 @@ class PageLinesSection {
 
 		if( $override != false) require( $override );
 		else{
-			$this->section_template( $clone_id );
+			$this->section_template();
 		}
 		
 	}

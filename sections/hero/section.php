@@ -130,7 +130,7 @@ class PLheroUnit extends PageLinesSection {
 	/**
 	* Section template.
 	*/
-   function section_template( $clone_id ) {
+   function section_template() {
 
 		$hero_lt_width = $this->opt( 'herounit_left_width', $this->oset );
 		$hero_rt_width = $this->opt( 'herounit_right_width', $this->oset );

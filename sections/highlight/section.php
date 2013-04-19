@@ -148,7 +148,7 @@ class PageLinesHighlight extends PageLinesSection {
 	* @TODO document
 	*
 	*/
-	function section_template( $clone_id ) { 
+	function section_template() { 
 
 		$h_head = $this->opt('_highlight_head', $this->tset);
 		

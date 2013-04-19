@@ -27,14 +27,14 @@ class PageLinesQuickSlider extends PageLinesSection {
 		wp_enqueue_script( 'flexslider', $this->base_url.'/flexslider/jquery.flexslider-min.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
 	
-	function section_head($clone_id){
+	function section_head(){
 		
 		$animation = ($this->opt('quick_transition', $this->oset) == 'slide_v' || $this->opt('quick_transition', $this->oset) == 'slide_h') ? 'slide' : 'fade';
 		$transfer = ($this->opt('quick_transition', $this->oset) == 'slide_v') ? 'vertical' : 'horizontal';
 		
 		$slideshow = ($this->opt('quick_slideshow', $this->oset)) ? 'true' : 'false';
 		
-		$clone_class = 'pl-clone'.$clone_id;
+		$clone_class = 'pl-clone' . $this->oset['clone_id'];
 		
 		$control_nav = (!$this->opt('quick_nav', $this->oset) || $this->opt('quick_nav', $this->oset) == 'both' || $this->opt('quick_nav', $this->oset) == 'control_only') ? 'true' : 'false';
 		$direction_nav = (!$this->opt('quick_nav', $this->oset) || $this->opt('quick_nav', $this->oset) == 'both' || $this->opt('quick_nav', $this->oset) == 'arrow_only') ? 'true' : 'false';
@@ -57,15 +57,15 @@ jQuery(window).load(function() {
 	/**
 	* Section template.
 	*/
-   function section_template( $clone_id ) { 
-	
+   function section_template() { 
+
 	$control_nav = (!$this->opt('quick_nav', $this->oset) || $this->opt('quick_nav', $this->oset) == 'both' || $this->opt('quick_nav', $this->oset) == 'control_only') ? 'true' : 'false';
 	
 	$nav_class = ($control_nav) ? 'control-nav' : 'no-control-nav';
 	?>
 	<div class="flexwrap animated fadeIn <?php echo 'wrap-'.$nav_class;?>">
 		<div class="fslider">
-		<div class="flexslider <?php echo 'pl-clone'.$clone_id;?>">
+		<div class="flexslider <?php echo 'pl-clone' . $this->oset['clone_id'];?>">
 		  <ul class="slides">
 			
 			<?php

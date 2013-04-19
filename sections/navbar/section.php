@@ -247,9 +247,9 @@ class PLNavBar extends PageLinesSection {
 	/**
 	* Section template.
 	*/
-   function section_template( $clone_id, $location = '' ) {
+   function section_template( $location = false ) {
 
-	$passive = ( $location == 'passive' ) ? true : false;
+	$passive = ( 'passive' == $location ) ? true : false;
 	$class = array(); 
 	
 	// if fixed mode
