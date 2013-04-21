@@ -7,6 +7,8 @@
 
 		$('.pl-sortable-area .pl-section').addClass('pl-sortable')
 
+		$(".dropdown-toggle").dropdown()
+
 		$.pageTools.startUp()
 
 	})

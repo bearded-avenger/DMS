@@ -17,7 +17,15 @@
 
 		this.$element = $(element)
 
-		this.$panel = this.$element.find('.toolbox-panel').on('click', function(e){e.stopPropagation()})
+		this.$panel = this.$element.find('.toolbox-panel')
+			.on('click', function(e){
+				e.stopPropagation()
+				
+				var dropdowns = $(this).find('.dropdown-toggle')
+				dropdowns.parent().removeClass('open')
+			})
+
+		this.$panel.on()
 
 		this.$pusher =  $('.pl-toolbox-pusher')
 		this.$tabnav =  $('.tabs-nav')
