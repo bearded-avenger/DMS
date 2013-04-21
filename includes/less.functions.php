@@ -137,7 +137,7 @@ class PageLinesLess {
 		return $less;
 	}
 
-	function load_less_file( $file ) {
+	public static function load_less_file( $file ) {
 
 		$file 	= sprintf( '%s.less', $file );
 		$parent = sprintf( '%s/%s', PL_CORE_LESS, $file );
