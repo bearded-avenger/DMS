@@ -1,25 +1,25 @@
-<?php 
+<?php
 
 
 
 class PageLinesLivePanel{
-	
+
 	function __construct(){
-		
+
 		add_filter('pl_toolbar_config', array(&$this, 'toolbar'));
 		add_action('pagelines_editor_scripts', array(&$this, 'scripts'));
-	
+
 		$this->url = PL_PARENT_URL . '/editor';
-		
+
 		$this->chat_frame_url = 'http://pagelines.campfirenow.com/6cd04';
 	}
-	
+
 	function scripts(){
-		
+
 	}
-	
+
 	function toolbar( $toolbar ){
-		$toolbar['live'] = array(		
+		$toolbar['live'] = array(
 			'name'	=> 'Live',
 			'icon'	=> 'icon-comments',
 			'pos'	=> 70,
@@ -31,9 +31,9 @@ class PageLinesLivePanel{
 				),
 			)
 		);
-		
+
 		return $toolbar;
 	}
 
-	
+
 }

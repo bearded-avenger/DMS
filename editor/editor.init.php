@@ -6,8 +6,8 @@
  * @since 3.0.0
  *
  */
-	
-	
+
+
 $pagelines_editor = new PageLinesEditor;
 
 class PageLinesEditor {
@@ -76,10 +76,10 @@ class PageLinesEditor {
 	}
 
 	function load_libs(){
-		
+
 		if(!pl_use_editor())
-			return; 
-		
+			return;
+
 		global $plpg;
 		global $pldraft;
 		global $plopts;

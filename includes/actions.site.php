@@ -39,7 +39,7 @@ add_action( 'wp_print_styles', 'pagelines_get_childcss', 99);
 
 /**
  * Creates a global page ID for reference in editing and meta options (no unset warnings)
- * 
+ *
  * @since 1.0.0
  */
 add_action('pagelines_before_html', 'pagelines_id_setup', 5);
@@ -47,14 +47,14 @@ add_action('pagelines_before_html', 'pagelines_id_setup', 5);
 
 /**
  * Adds page templates from the child theme.
- * 
+ *
  * @since 1.0.0
  */
 add_filter('the_sub_templates', 'pagelines_add_page_callback', 10, 2);
 
 /**
  * Adds link to admin bar
- * 
+ *
  * @since 1.0.0
  */
 add_action( 'admin_bar_menu', 'pagelines_settings_menu_link', 100 );
@@ -65,7 +65,7 @@ add_action( 'admin_bar_menu', 'pagelines_settings_menu_link', 100 );
 
 /**
  * Add Main PageLines Header Information
- * 
+ *
  * @since 1.3.3
  */
 add_action('pagelines_head', 'pagelines_head_common');
@@ -86,7 +86,7 @@ add_filter( 'user_contactmethods', 'pagelines_add_google_profile', 10, 1);
  * ng gallery fix.
  *
  * @return gallery template path
- * 
+ *
  */
 
 add_filter( 'ngg_render_template', 'gallery_filter' , 10, 2);
@@ -118,29 +118,29 @@ function pl_comment_form_js() {
 add_action( 'wp_enqueue_scripts', 'pagelines_register_js' );
 function pagelines_register_js() {
 
-	
+
 	wp_register_script( 'pagelines-bootstrap-all', PL_JS . '/script.bootstrap.min.js', array( 'jquery' ), '2.2.1', true );
-	
+
 	wp_register_script( 'pagelines-supersize', PL_JS . '/script.supersize.js', array( 'jquery' ), '3.1.3', false );
-	
+
 	wp_register_script( 'pagelines-blocks', PL_JS . '/script.blocks.js', array('jquery'), '1.0.1', true );
-	
-	
+
+
 	wp_register_script( 'pagelines-resizer', PL_JS . '/script.resize.js', array( 'jquery' ), PL_CORE_VERSION, true );
-	
+
 	wp_register_script( 'pagelines-viewport', PL_JS . '/script.viewport.js', array( 'jquery' ), PL_CORE_VERSION, true );
-	
+
 	wp_register_script( 'pagelines-common', PL_JS . '/pl.common.js', array( 'jquery' ), PL_CORE_VERSION, true );
 }
 
 add_action( 'wp_print_scripts', 'pagelines_print_js' );
 function pagelines_print_js() {
-	
+
 	wp_enqueue_script( 'pagelines-bootstrap-all' );
 	wp_enqueue_script( 'pagelines-resizer' );
 	wp_enqueue_script( 'pagelines-viewport' );
 	wp_enqueue_script( 'pagelines-common' );
-	wp_enqueue_script( 'pagelines-blocks' );	
+	wp_enqueue_script( 'pagelines-blocks' );
 }
 
 // Load Supersize BG Script
@@ -169,8 +169,8 @@ add_action( 'template_redirect', 'pagelines_check_customizer' );
 
 function pagelines_check_customizer() {
 	global $wp_customize;
-	if ( isset( $wp_customize ) ) {		
-		die( 'Sorry preview is disabled, enable PageLines Framework.');  	
+	if ( isset( $wp_customize ) ) {
+		die( 'Sorry preview is disabled, enable PageLines Framework.');
 	}
 }
 

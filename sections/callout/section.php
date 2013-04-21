@@ -103,18 +103,18 @@ class PageLinesCallout extends PageLinesSection {
  	function section_template() {
 
 		$args = $this->tset;
-		
+
 		$call_title = $this->opt( 'pagelines_callout_header', $args );
 		$call_sub = $this->opt( 'pagelines_callout_subheader', $this->tset, __("Your callout section is activated, now set the options!", "pagelines"));
-		
-		
-		
+
+
+
 		$call_img = $this->opt( 'pagelines_callout_image', $this->oset );
 		$call_link = $this->opt( 'pagelines_callout_button_link', $this->tset );
 		$call_btext = $this->opt( 'pagelines_callout_button_text', $this->tset );
 		$call_btheme = $this->opt( 'pagelines_callout_button_theme', $this->tset );
 		$target = ( $this->opt( 'pagelines_callout_button_target', $this->oset ) ) ? 'target="_blank"' : '';
-		
+
 		$call_title = ($call_title) ? $call_title :  __("Here's to the crazy ones...", "pagelines");
 		$call_sub = ($call_sub) ? $call_sub :  __("Your callout section is activated, now set the options!", "pagelines");
 		$call_btext = ($call_btext) ? $call_btext :  __("Go &rarr;", "pagelines");

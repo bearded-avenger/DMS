@@ -135,8 +135,8 @@ class PageLinesAPI {
 				'password'	=>	( $this->password != '' ) ? $this->password : false,
 			)
 		);
-		$f  = wp_remote_retrieve_body( $this->try_api( $url, $options ) );
-		return $f;
+		$f  = $this->try_api( $url, $options );
+		return wp_remote_retrieve_body( $f );
 	}
 
 	/**

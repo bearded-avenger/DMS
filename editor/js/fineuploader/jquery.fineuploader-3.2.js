@@ -2522,7 +2522,7 @@ qq.UploadHandlerForm = function(o, uploadCompleteCallback, logCallback) {
 /*globals qq, File, XMLHttpRequest, FormData*/
 qq.UploadHandlerXhr = function(o, uploadCompleteCallback, logCallback) {
     "use strict";
-    
+
     var options = o,
         uploadComplete = uploadCompleteCallback,
         log = logCallback,

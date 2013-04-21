@@ -1,21 +1,21 @@
-<?php 
+<?php
 
 
 
 class PageLinesExtendPanel{
-	
+
 	function __construct(){
-		
+
 		add_filter('pl_toolbar_config', array(&$this, 'toolbar'));
 		add_action('pagelines_editor_scripts', array(&$this, 'scripts'));
-	
+
 		$this->url = PL_PARENT_URL . '/editor';
 	}
-	
+
 	function scripts(){
 		wp_enqueue_script( 'pl-js-extend', $this->url . '/js/pl.extend.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
-	
+
 	function toolbar( $toolbar ){
 		$toolbar['pl-extend'] = array(
 			'name'	=> 'Extend',
@@ -40,7 +40,7 @@ class PageLinesExtendPanel{
 				'featured'		=> array(
 					'name'	=> 'Featured',
 					'href'	=> '#store',
-					'filter'=> '.featured', 
+					'filter'=> '.featured',
 					'icon'	=> 'icon-star'
 				),
 				'sections'		=> array(
@@ -74,10 +74,10 @@ class PageLinesExtendPanel{
 				),
 			)
 		);
-		
+
 		return $toolbar;
 	}
-	
+
 	function upload_callback(){
 			?>
 
@@ -92,14 +92,14 @@ class PageLinesExtendPanel{
 
 			<?php
 	}
-	
+
 	function search_callback(){
 			?>
 
 			<form class="opt standard-form form-save-template">
 				<fieldset>
 					<span class="help-block">Search the PageLines store for extensions.</span>
-					
+
 					<input class="" id="appendedInputButton" type="text">
 					<button class="btn" type="button">Search!</button>
 
@@ -108,14 +108,14 @@ class PageLinesExtendPanel{
 
 			<?php
 	}
-	
-	
+
+
 	function the_store_callback(){
 
-		$this->xlist = new EditorXList; 
-		
+		$this->xlist = new EditorXList;
+
 		$list = '';
-		
+
 		global $storeapi;
 		$mixed_array = $storeapi->get_latest();
 //plprint($mixed_array);
@@ -148,6 +148,6 @@ class PageLinesExtendPanel{
 
 		printf('<div class="x-list x-store" data-panel="x-store">%s</div>', $list);
 	}
-	
-	
+
+
 }

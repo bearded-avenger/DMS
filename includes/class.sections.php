@@ -18,7 +18,7 @@ class PageLinesSection {
 	var $builder;  	// Show in section builder
 	var $format;	// <section> format.
 	var $classes;	// <section> classes.
-	
+
 	var $meta;
 
     /**
@@ -26,7 +26,7 @@ class PageLinesSection {
      * @param   array $settings
      */
 	function __construct( $settings = array() ) {
-	
+
 
 		/**
          * Assign default values for the section
@@ -35,14 +35,14 @@ class PageLinesSection {
 		$this->defaults = array(
 				'markup'			=> null, // needs to be null for overriding
 				'workswith'		 	=> array('content'),
-				'description' 		=> null, 
+				'description' 		=> null,
 				'isolate'			=> array(),
 				'required'			=> null,
-				'version'			=> 'all', 
+				'version'			=> 'all',
 				'base_url'			=> PL_SECTION_ROOT,
-				'dependence'		=> '', 
+				'dependence'		=> '',
 				'posttype'			=> '',
-				'failswith'			=> array(), 
+				'failswith'			=> array(),
 				'cloning'			=> false,
 				'map'				=> '',
 				'tax_id'			=> '',
@@ -53,15 +53,15 @@ class PageLinesSection {
 			);
 
 		$this->settings = wp_parse_args( $settings, $this->defaults );
-		
+
 		$this->hook_get_view();
-		
+
 		$this->hook_get_post_type();
 
 		$this->class_name = get_class($this);
-	
+
 		$this->set_section_info();
-		
+
 	}
 
 	/**
@@ -77,10 +77,10 @@ class PageLinesSection {
      * @uses    PL_ADMIN_IMAGES
      */
 	function set_section_info(){
-		
+
 		global $load_sections;
 		$available = $load_sections->pagelines_register_sections( false, true );
-		
+
 		$type = $this->section_install_type( $available );
 
 		global $load_sections;
@@ -91,12 +91,12 @@ class PageLinesSection {
 		$this->base_dir = $this->settings['base_dir'] = $this->sinfo['base_dir'];
 		$this->base_file = $this->settings['base_file'] = $this->sinfo['base_file'];
 		$this->base_url = $this->settings['base_url'] = $this->sinfo['base_url'];
-		
+
 		$this->images = $this->base_url . '/images';
 
 		// Reference information
 		$this->id = $this->settings['id'] = basename( $this->base_dir );
-		
+
 		$this->name = $this->settings['name'] = $this->sinfo['name'];
 		$this->description = $this->settings['description'] = $this->sinfo['description'];
 		$this->map = "";
@@ -124,15 +124,15 @@ class PageLinesSection {
 		 * STANDARD IMAGES
 		 */
 		$this->icon = $this->settings['icon'] = ( is_file( sprintf( '%s/icon.png', $this->base_dir ) ) ) ? sprintf( '%s/icon.png', $this->base_url ) : PL_ADMIN_ICONS . '/leaf.png';
-	
+
 		if( is_file( sprintf( '%s/thumb.png', $this->base_dir ) ) ){
 			$this->screenshot = $this->settings['screenshot'] = sprintf( '%s/thumb.png', $this->base_url );
 		} else {
 			$this->screenshot = $this->settings['screenshot'] = PL_IMAGES . '/thumb-missing.png';
 		}
-		
+
 		$this->thmb = $this->screenshot;
-		
+
 		if( is_file( sprintf( '%s/splash.png', $this->base_dir ) ) ){
 			$this->splash = $this->settings['splash'] = sprintf( '%s/splash.png', $this->base_url );
 		} else {
@@ -140,67 +140,67 @@ class PageLinesSection {
 		}
 
 		$this->deprecated_setup();
-		
+
 		load_plugin_textdomain($this->id, false, sprintf( 'pagelines-sections/%s/lang', $this->id ) );
-		
+
 
 	}
-	
+
 	function deprecated_setup(){
-		
+
 		$this->special_classes = ''; //--> deprecated in v3, used in NavBar
-		
+
 		$this->optionator_default = array(
 			'clone_id'	=> 1,
-			'active'	=> true, 
-			'mode'		=> null, 
+			'active'	=> true,
+			'mode'		=> null,
 			'type'		=> ''
 		);
-		
+
 	}
-	
+
 	function prefix( $clone_id = false ){
-		
+
 		if( pl_has_editor() && isset($this->meta[ 'clone' ]) )
 			$prefix = sprintf('.section-%s[data-clone="%s"]', $this->id, $this->meta[ 'clone' ]);
 		elseif( $clone_id && $clone_id != '')
 			$prefix = sprintf('.section-%s.clone_%s', $this->id, $clone_id);
-		else 
+		else
 			$prefix = '';
-			
+
 		return $prefix;
 	}
 
 	function opt( $key, $args = array() ){
-		
+
 		$d = array(
 			'default'	=> false
 		);
-		
+
 		$a = wp_parse_args($args, $d);
-		
-		if( 
-			property_exists($this, 'meta') 
+
+		if(
+			property_exists($this, 'meta')
 			&& isset($this->meta[ 'set' ])
 			&& isset($this->meta[ 'set' ][ $key ])
 			&& isset($this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ] )
 			&& $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ] != ''
 		)
-			$val = $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ]; 
+			$val = $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ];
 		elseif(ploption( $key, $args) && !pl_deprecate_v2())
 			$val = ploption( $key, $args); // LEGACY
 		else
 			$val = $a['default'];
-	 
+
 		return ($val == '') ? false : $val;
-		
+
 	}
 
 	function format_classes( $classes ) {
-		
+
 		$classes = str_replace( ',', ' ', str_replace( ' ', '', $classes ) );
-		
-		return $classes;		
+
+		return $classes;
 	}
 
     /**
@@ -213,23 +213,23 @@ class PageLinesSection {
      * @return  string
      */
 	function section_install_type( $available ){
-		
+
 		if ( isset( $available['custom'][$this->class_name] ) )
-			return 'custom';		
+			return 'custom';
 		elseif ( isset( $available['child'][$this->class_name] ) )
 			return 'child';
 		elseif ( isset( $available['parent'][$this->class_name] ) )
 			return 'parent';
 		else {
-			
-			/** 
+
+			/**
 			 * We dont know the type, could be a 3rd party plugin.
 			 */
 			$results = array_search_ext($available, $this->class_name, true);
 			if ( is_array( $results ) && isset( $results[0]['keys']))
 				return $results[0]['keys'][0];
 		}
-			
+
 	}
 
     /**
@@ -245,32 +245,31 @@ class PageLinesSection {
 	function section_template() {
 		die('function PageLinesSection::section_template() must be over-ridden in a sub-class.');
 	}
-	
+
 	/**
      * Passive Section Load Template
   	 * If a section is loaded through a hook use this builder instead of the one
      * inside of the template class.
- 	 * 
+ 	 *
      * @since   2.1.6
      */
 	function passive_section_template( $hook_name = false ){
-		
+
 		$this->passive_hook = $hook_name;
-		
+
 		$location = 'passive';
-		
-		$markup = (isset($this->settings['markup'])) ? $this->settings['markup'] : 'content';
-		
+
+		$markup = ( isset( $this->settings['markup'] ) ) ? $this->settings['markup'] : 'content';
+
 		$this->before_section_template( $location );
-	
+
 		$this->before_section( $markup );
 
-		$this->section_template('', $location);
-	
+		$this->section_template( $location );
+
 		$this->after_section( $markup );
-	
-		$this->after_section_template(  );
-		
+
+		$this->after_section_template();
 	}
 
     /**
@@ -307,16 +306,16 @@ class PageLinesSection {
      * @uses    section_template
      */
 	function section_template_load( $clone_id ) {
-		
+
 		// Variables for override
 		$override_template = 'template.' . $this->id .'.php';
 		$override = ( '' != locate_template(array( $override_template), false, false)) ? locate_template(array( $override_template )) : false;
 
 		if( $override != false) require( $override );
 		else{
-			$this->section_template( $clone_id );
+			$this->section_template();
 		}
-		
+
 	}
 
 
@@ -339,14 +338,14 @@ class PageLinesSection {
 	function before_section( $markup = 'content', $clone_id = null, $classes = ''){
 
 		$classes .= ( isset($clone_id) ) ? sprintf( ' clone_%s%s', $clone_id, $this->classes ) : sprintf( ' no_clone%s', $this->classes );
-		
+
 		if(isset($this->settings['markup']))
 			$set_markup = $this->settings['markup'];
-		else 
-			$set_markup = $markup;	
-		
+		else
+			$set_markup = $markup;
+
 		pagelines_register_hook('pagelines_before_'.$this->id, $this->id); // hook
-		
+
 		// Rename to prevent conflicts
 		if ( 'comments' == $this->id )
 			$section_id = 'wp-comments';
@@ -354,39 +353,39 @@ class PageLinesSection {
 			$section_id = 'content-area';
 		else
 			$section_id = $this->id;
-		
+
 		$classes .= sprintf(" section-%s %s", $section_id, $this->special_classes);
-		
-		if( $set_markup == 'copy' ) 
+
+		if( $set_markup == 'copy' )
 			printf('<section id="%s" class="copy %s"><div class="copy-pad">', $section_id, trim($classes));
 		elseif( $set_markup == 'content' ){
-			
+
 			// Draw wrapper unless using 'raw' format
 			if($this->settings['format'] != 'raw')
 				printf('<section id="%s" class="container %s fix">', $this->id, trim($classes));
-			
+
 			// Draw textured div for background texturing
 			if($this->settings['format'] == 'textured')
 				printf('<div class="texture">');
-			
+
 			pagelines_register_hook('pagelines_outer_'.$this->id, $this->id); // hook
-			
+
 			// Standard content width and padding divs
 			if($this->settings['format'] == 'textured' || $this->settings['format'] == 'standard')
 				printf('<div class="content"><div class="content-pad">');
 		} else {
-			
+
 			$span = (isset($this->meta['span'])) ? 'span'.$this->meta['span'] : 'span12';
 			$offset = (isset($this->meta['offset'])) ? 'offset'.$this->meta['span'] : 'offset0';
-			
+
 			$classes .= ' '.$span.' '.$offset;
-			
+
 			printf('<section id="%s" data-sid="%s" data-clone="%s" class="pl-section fix %s">', $this->id.$clone_id, $this->id, $clone_id, trim($classes));
 
 			pagelines_register_hook('pagelines_outer_'.$this->id, $this->id); // hook
 		}
-		
-		pagelines_register_hook('pagelines_inside_top_'.$this->id, $this->id); // hook 
+
+		pagelines_register_hook('pagelines_inside_top_'.$this->id, $this->id); // hook
  	}
 
 
@@ -406,30 +405,30 @@ class PageLinesSection {
 		if(isset($this->settings['markup']))
 			$set_markup = $this->settings['markup'];
 		else
-			$set_markup = $markup;	
-		
+			$set_markup = $markup;
+
 		pagelines_register_hook('pagelines_inside_bottom_'.$this->id, $this->id);
-	 	
+
 		if( $set_markup == 'copy' )
 			printf('<div class="clear"></div></div></section>');
 		elseif( $set_markup == 'content' ){
-			
+
 			// Standard content width and padding divs
 			if($this->settings['format'] == 'textured' || $this->settings['format'] == 'standard')
 				printf('</div></div>');
-				
+
 			// Draw textured div for background texturing
 			if($this->settings['format'] == 'textured')
 				printf('</div>');
-				
+
 			// Draw wrapper unless using 'raw' format
 			if($this->settings['format'] != 'raw')
 				printf('</section>');
-			
+
 		} else {
 			printf('</section>');
 		}
-		
+
 		pagelines_register_hook('pagelines_after_'.$this->id, $this->id);
 	}
 
@@ -443,7 +442,7 @@ class PageLinesSection {
      * @since   ...
      */
 	function section_persistent(){}
-	
+
 
     /**
      * Section Init
@@ -453,11 +452,11 @@ class PageLinesSection {
      * @TODO Add section varible defaults. Used in __consruct()
      */
 	function section_init() {
-		
+
 		$this->format	= ( $this->format ) ? $this->format : 'textured';
-		$this->classes	= ( $this->classes ) ? sprintf( ' %s', ltrim( $this->classes ) )  : '';		
+		$this->classes	= ( $this->classes ) ? sprintf( ' %s', ltrim( $this->classes ) )  : '';
 	}
-	
+
 	/**
      * Scripts to be loaded inline after page load
      *
@@ -471,7 +470,7 @@ class PageLinesSection {
      * @TODO document
      */
 	function section_admin(){}
-	
+
 
     /**
      * Section Head
@@ -484,7 +483,7 @@ class PageLinesSection {
      * @since   ...
      */
 	function section_head(){}
-	
+
 
     /**
      * Section Styles
@@ -493,7 +492,7 @@ class PageLinesSection {
      * @TODO document
      */
 	function section_styles(){}
-	
+
 
     /**
      * Section Options
@@ -507,20 +506,20 @@ class PageLinesSection {
      * Section Optionator
      *
      * Handles section options
-	 * 
+	 *
      */
 	function section_optionator( $settings ){}
-	
-	
+
+
 	/**
      * Section Opts
      *
      * Loads section options simply
-	 * 
+	 *
 	 * @since b3.0.0
      */
 	function section_opts(){ return array(); }
-	
+
 
     /**
      * Section Scripts
@@ -557,76 +556,76 @@ class PageLinesSection {
      * @TODO document
      */
 	function add_guide( $options ){
-		
-		
+
+
 		if( is_file( $this->base_dir . '/guide.php' ) ){
-			
+
 			ob_start();
 				include( $this->base_dir . '/guide.php' );
 			$guide = ob_get_clean();
-			
+
 			$key = sprintf('hide_guide_%s', $this->id);
-			
+
 			$opt = array(
 				$key => array(
-					'type' 			=> 'text_content',		
+					'type' 			=> 'text_content',
 					'title'	 		=> __( 'Getting Started', 'pagelines' ),
 					'shortexp' 		=> __( 'How to use this section', 'pagelines' ),
-					'exp'			=> $guide, 
+					'exp'			=> $guide,
 					'inputlabel'	=> __( 'Hide This Overview', 'pagelines')
 				)
 			);
-			
-			
+
+
 			// Has this been hidden?
-				
-		
+
+
 				$special_oset = array('setting' => PAGELINES_SPECIAL);
-		
+
 				$global_option = (bool) ploption( $key );
 				$special_option = (bool) ploption($key, $special_oset );
-			
+
 			//	var_dump( $special_option );
-					
+
 				if( $global_option && $special_option ){
 					$hide = true;
-					
+
 				}elseif( $special_option && !$global_option){
-			
+
 					plupop($key, true);
-	
+
 					$hide = true;
-			
+
 				}elseif( !$special_option && $global_option) {
-					
+
 					plupop($key, false);
-	
+
 					$hide = false;
-					
-				}else 
+
+				}else
 					$hide = false;
 
 			if( !$hide )
 				$options = array_merge($opt, $options);
 			else {
-			
+
 				$opt = array(
 					$key => array(
 						'type' 			=> 'text_content_reverse',
 						'inputlabel'	=> __( 'Hide Section Guide', 'pagelines' )
 					)
 				);
-				
+
 				$options = array_merge( $options, $opt);
 			}
-		
+
 		}
-		
+
 		return $options;
-		
-		
-	}	
-	
+
+
+	}
+
 	// Deprecated
 
     /**
@@ -640,9 +639,9 @@ class PageLinesSection {
      * @TODO document
      */
 	function add_getting_started( $tab_array ){
-		
+
 		return $this->add_guide($tab_array);
-		
+
 	}
 
 
@@ -665,7 +664,7 @@ class PageLinesSection {
      * @TODO document
      */
 	function get_view(){
-		
+
 		if(is_single())
 			$view = 'single';
 		elseif(is_archive())
@@ -674,10 +673,10 @@ class PageLinesSection {
 			$view = 'page';
 		else
 			$view = 'default';
-		
+
 		$this->view = $view;
 	}
-	
+
 
     /**
      * Hook Get Post Type
@@ -686,10 +685,10 @@ class PageLinesSection {
      * @TODO document
      */
 	function hook_get_post_type(){
-		
+
 		add_action('wp_head', array(&$this, 'get_post_type'), 10);
 	}
-	
+
 
     /**
      * Get Post Type
@@ -699,9 +698,9 @@ class PageLinesSection {
      */
 	function get_post_type(){
 		global $pagelines_template;
-	
+
 		$this->template_type = $pagelines_template->template_type;
-		
+
 	}
 
 
@@ -715,10 +714,10 @@ class PageLinesSection {
      * @param       $clone_id
      */
 	function setup_oset( $clone_id ){
-		
+
 		global $pagelines_ID;
-		
-		
+
+
 		// Setup common option configuration, considering clones and page ids
 		$this->oset = array(
 			'post_id'		=> $pagelines_ID,
@@ -765,14 +764,14 @@ class PageLinesSectionFactory {
      * @TODO document
      */
 	function register($section_class, $args) {
-		
+
 		if(class_exists($section_class))
 			$this->sections[$section_class] = new $section_class( $args );
-		
+
 		/** Unregisters version-controlled sections */
 		if(!VPRO && $this->sections[$section_class]->settings['version'] == 'pro') {
-			$this->unavailable_sections[] = $this->sections[$section_class];	
-			$this->unregister($section_class);	
+			$this->unavailable_sections[] = $this->sections[$section_class];
+			$this->unregister($section_class);
 		}
 	}
 
@@ -805,10 +804,10 @@ class PageLinesSectionFactory {
  */
 function load_section_persistent(){
 	global $pl_section_factory;
-	
+
 	foreach($pl_section_factory->sections as $section)
 		$section->section_persistent();
-			
+
 
 }
 
@@ -826,7 +825,7 @@ function load_section_persistent(){
 function load_section_admin(){
 
 	global $pl_section_factory;
-	
+
 	foreach($pl_section_factory->sections as $section)
 		$section->section_admin();
 
@@ -841,23 +840,23 @@ function load_section_admin(){
  * @TODO document
  */
 function get_unavailable_section_areas(){
-	
+
 	$unavailable_section_areas = array();
-	
+
 	foreach(the_template_map() as $top_section_area){
-		
+
 		if(isset($top_section_area['version']) && $top_section_area['version'] == 'pro') $unavailable_section_areas[] = $top_section_area['name'];
-		
+
 		if(isset($top_section_area['templates'])){
 			foreach ($top_section_area['templates'] as $section_area_template){
 				if(isset($section_area_template['version']) && $section_area_template['version'] == 'pro') $unavailable_section_areas[] = $section_area_template['name'];
 			}
 		}
-		
+
 	}
-	
+
 	return $unavailable_section_areas;
-	
+
 }
 
 
@@ -865,12 +864,12 @@ function get_unavailable_section_areas(){
  * Setup Section Notify
  */
 function setup_section_notify( $section, $text = '', $user_url = null, $ltext = null){
-	
-	
+
+
 	if(current_user_can('edit_themes')){
-	
+
 		$banner_title = sprintf('<strong><i class="icon-pencil"></i> %s</strong>', $section->name);
-		
+
 		if(pl_has_editor()){
 			$url = (isset($user_url)) ? $user_url : '#';
 			$class = (isset($user_url)) ? '' : 's-control section-edit';
@@ -878,32 +877,32 @@ function setup_section_notify( $section, $text = '', $user_url = null, $ltext = 
 			$class = '';
 			$url = (isset($url)) ? $url : pl_meta_set_url( $tab );
 		}
-		
-		
+
+
 		$link_text = (isset($ltext)) ? $ltext : sprintf(__('Configure %s <i class="icon-arrow-right"></i>', 'pagelines'), $section->name);
-		
+
 		$link = sprintf('</br><a href="%s" class="btn btn-mini %s">%s</a>', $url, $class, $link_text);
-		
+
 		$text = ($text != '') ? $text : __('Configure this section');
-		
+
 		return sprintf(
-			'<div class="setup-section"><div class="setup-section-pad">%s <br/><small class="banner_text subhead">%s %s</small></div></div>', 
-			$banner_title, 
-			$text, 
+			'<div class="setup-section"><div class="setup-section-pad">%s <br/><small class="banner_text subhead">%s %s</small></div></div>',
+			$banner_title,
+			$text,
 			$link
 		);
 	}
-	
+
 }
 
 /**
  * Splice Section Slug
  */
 function splice_section_slug( $slug ){
-	
-	$pieces = explode('ID', $slug);		
+
+	$pieces = explode('ID', $slug);
 	$section = (string) $pieces[0];
 	$clone_id = (isset($pieces[1])) ? $pieces[1] : 1;
-	
+
 	return array('section' => $section, 'clone_id' => $clone_id);
 }

@@ -6,13 +6,13 @@
 	padding:0;
 	max-height:480px !important;
 	overflow:hidden;
- 	.tp-thumbs { 
+ 	.tp-thumbs {
 		padding:3px;
 	}
-	
+
 	.text-center{
 		text-align: center;
-		
+
 	}
 	/* Text Sizing*/
 	.slider-content{
@@ -28,7 +28,7 @@
 		&.centered{
 			text-align: center;
 		}
-		
+
 		h2{
 			font-size: inherit;
 			line-height: inherit;
@@ -43,7 +43,7 @@
 				.transition(all 0.3s linear);
 				margin-bottom: 15px;
 			}
-		} 
+		}
 		a.slider-btn {
 			font-size: 13px;
 			line-height: 1.3em;
@@ -55,7 +55,7 @@
 			padding: 10px 18px;
 			.transition(all 0.3s linear);
 			&:hover{
-				color:#fff; 
+				color:#fff;
 				background: @linkColor;
 			}
 		}
@@ -68,7 +68,7 @@
 			}
 			a.slider-btn{
 				background: #fff;
-				color: #000; 
+				color: #000;
 					text-shadow: 0 1px 0 #fff;
 				opacity: .6;
 				&:hover{
@@ -77,15 +77,15 @@
 			}
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 }
 
 
 /* SLIDER STYLES */
- 
+
 
 
 .header-shadow{
@@ -105,7 +105,7 @@
 	display:none !important;
 }
 
-.tp-caption { 
+.tp-caption {
 	z-index:1;
 	&.boxshadow{
 		box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
@@ -114,7 +114,7 @@
 		text-shadow: none;
 	}
 	a {
-		.transition(all 0.2s ease-out); 
+		.transition(all 0.2s ease-out);
 	}
 }
 
@@ -131,15 +131,15 @@
 ******************************************************************/
 .tp-simpleresponsive{
 	.slotholder *,
-	.tp-simpleresponsive img{ 
+	.tp-simpleresponsive img{
 		-webkit-transform: translateZ(0);
 		-webkit-backface-visibility: hidden;
 		-webkit-perspective: 1000;
 	}
 	caption,
-	.tp-caption {	
+	.tp-caption {
 		opacity: 0;
-		position:absolute; 
+		position:absolute;
 		visibility: hidden;
 
 	}
@@ -181,14 +181,14 @@
 *********************************/
 .caption,
 .tp-caption{
-	&.fullscreenvideo {	
-		left:0px; 
-		top:0px; 
+	&.fullscreenvideo {
+		left:0px;
+		top:0px;
 		position:absolute;
 		width:100%;
 		height:100%;
 		iframe	{ width:100% !important; height:100% !important;}
-	}	
+	}
 }
 
 /************************
@@ -198,8 +198,8 @@
 
 .tpclear{clear:both;}
 
-.tp-bullets	{	
-	z-index:1000; 
+.tp-bullets	{
+	z-index:1000;
 	position:absolute;
 	opacity: 1;
 	.transition(all 0.2s ease-out);
@@ -208,7 +208,7 @@
 		margin-bottom: -10px;
 		opacity: 0;
 	}
-	&.simplebullets.round .bullet{	
+	&.simplebullets.round .bullet{
 		cursor: pointer;
 		position: relative;
 		background: rgba(0,0,0,.6);
@@ -222,10 +222,10 @@
 		border: 2px solid #fff;
 		opacity: .7;
 		.trans
-		&.last{	
+		&.last{
 			margin-right:3px;
 		}
-		&.selected, 
+		&.selected,
 		&:hover{
 			opacity: 1;
 		}
@@ -244,25 +244,25 @@
 }
 .tp-leftarrow,
 .tp-rightarrow{
-	cursor:pointer; 
+	cursor:pointer;
 	position:relative;
 	z-index:100;
-	width:40px;	
+	width:40px;
 	height:40px;
 	&:hover{
 		background-position:bottom left;
 		opacity: .7;
 	}
 	&.default{
-		
+
 	}
 }
-.tp-leftarrow{	
+.tp-leftarrow{
 	background:url(@{plRoot}/sections/revslider/assets/large_left.png) no-repeat top left;
 
 }
 .tp-rightarrow{
-	background:url(@{plRoot}/sections/revslider/assets/large_right.png) no-repeat top left;	
+	background:url(@{plRoot}/sections/revslider/assets/large_right.png) no-repeat top left;
 }
 
 
@@ -277,8 +277,8 @@
  *****************************************************************************************************/
 
 
-.tp-bullets.tp-thumbs{	
-	z-index:1000; 
+.tp-bullets.tp-thumbs{
+	z-index:1000;
 	position:absolute;
 	padding:3px;
 	background-color:#fff;
@@ -286,14 +286,14 @@
 	height:50px; 			/* THE DIMENSIONS OF THE THUMB CONTAINER */
 	margin-top:-50px;
 	.tp-mask{
-		width:500px; 
+		width:500px;
 		height:50px;  			/* THE DIMENSIONS OF THE THUMB CONTAINER */
-		overflow:hidden; 
+		overflow:hidden;
 		position:relative;
 		.tp-thumbcontainer	{	width:5000px; position:absolute;}
 	}
-	.bullet{   
-		width:100px; 
+	.bullet{
+		width:100px;
 		height:50px;
 		cursor:pointer;
 		overflow:hidden;
@@ -307,7 +307,7 @@
 			opacity: 1;
 		}
 	}
-	img{	
+	img{
 		max-width:100%;
 	}
 }
@@ -319,11 +319,11 @@
 /************************************
 		-	TP BANNER TIMER		-
 *************************************/
-.tp-bannertimer	{	
-	width:100%; 
-	height:10px; 
+.tp-bannertimer	{
+	width:100%;
+	height:10px;
 	background:url(@{plRoot}/sections/revslider/assets/timer.png);
-	position:absolute; 
+	position:absolute;
 	z-index:200;
 	&.tp-bottom{
 		bottom:0px !important;
@@ -333,7 +333,7 @@
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
 	.responsive .tp-bullets.tp-thumbs{
-		width:300px !important; 
+		width:300px !important;
 		height:30px !important;
 		.tp-mask{
 			width:300px !important; height:30px !important;
@@ -372,24 +372,24 @@
 		position:absolute;
 		visibility:hidden;
 	}
-	
+
 }
 
 /*  CAPTION SLIDELINK   **/
 .caption.slidelink a div,
 .tp-caption.slidelink a div {
-	width:10000px; 
-	height:10000px;  
+	width:10000px;
+	height:10000px;
 	background:url(@{plRoot}/sections/revslider/assets/coloredbg.png) repeat;
 }
 
 .tp-loader 	{
 	background:url(@{plRoot}/sections/revslider/assets/loader.gif) no-repeat 10px 10px;
-	background-color:#fff;  
-	margin:-22px -22px; 
-	top:50%; 
-	left:50%; 
-	z-index:10000; 
+	background-color:#fff;
+	margin:-22px -22px;
+	top:50%;
+	left:50%;
+	z-index:10000;
 	position:absolute;
 	width:44px;
 	height:44px;

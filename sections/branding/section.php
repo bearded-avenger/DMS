@@ -23,7 +23,7 @@ class PageLinesBranding extends PageLinesSection {
 			array(
 				'type' 			=> 'image_upload',
 				'title' 		=> 'Site Image',
-				'key'			=> 'pagelines_custom_logo' 
+				'key'			=> 'pagelines_custom_logo'
 			),
 
 
@@ -41,28 +41,28 @@ class PageLinesBranding extends PageLinesSection {
 							'key'			=> 'twitterlink',
 							'type' 			=> 'text',
 							'size'			=> 'big',
-							'label' 		=> 'Twitter URL' 
+							'label' 		=> 'Twitter URL'
 						),
 
 						array(
 							'key'			=> 'facebooklink',
 							'type' 			=> 'text',
 							'size'			=> 'big',
-							'label' 		=> 'Facebook URL' 
+							'label' 		=> 'Facebook URL'
 						),
 
 						array(
 							'key'			=> 'linkedinlink',
 							'type' 			=> 'text',
 							'size'			=> 'big',
-							'label' 		=> 'LinkedIn URL' 
+							'label' 		=> 'LinkedIn URL'
 						),
 
 						array(
 							'key'			=> 'youtubelink',
 							'type' 			=> 'text',
 							'size'			=> 'big',
-							'label' 		=> 'Youtube URL' 
+							'label' 		=> 'Youtube URL'
 						),
 
 						array(
@@ -83,19 +83,19 @@ class PageLinesBranding extends PageLinesSection {
 							'key'	=> 'icon_pos_bottom',
 							'type'	=> 'text',
 							'size'	=> 'small',
-							'label'	=> __( 'Distance From Bottom (in pixels)', 'pagelines' ), 
+							'label'	=> __( 'Distance From Bottom (in pixels)', 'pagelines' ),
 							'default'=> 12
 						),
 						array(
 							'key'	=> 'icon_pos_right',
 							'type'	=> 'text',
 							'size'	=> 'small',
-							'label'	=> __( 'Distance From Right (in pixels)', 'pagelines' ), 
+							'label'	=> __( 'Distance From Right (in pixels)', 'pagelines' ),
 							'default'=> 1
 						),
 					)
 				)
-				
+
 		);
 		return $opts;
 	}
@@ -106,7 +106,7 @@ class PageLinesBranding extends PageLinesSection {
    function section_template() {
 
 			echo '<div class="branding_wrap fix">';
-			
+
 				$this->logo();
 
 				pagelines_register_hook( 'pagelines_before_branding_icons', 'branding' ); // Hook
@@ -149,9 +149,9 @@ class PageLinesBranding extends PageLinesSection {
 <?php
 
 		}
-		
-		
-	function logo( ){ 
+
+
+	function logo( ){
 
 		$site_name = get_bloginfo('name');
 		$site_desc = get_bloginfo('description');
@@ -163,11 +163,11 @@ class PageLinesBranding extends PageLinesSection {
 
 			$logo_url = ( esc_url($this->opt('pagelines_custom_logo_url', $this->oset) ) ) ? esc_url($this->opt('pagelines_custom_logo_url', $oset) ) : home_url();
 
-			$site_logo = sprintf( 
-				'<a class="plbrand mainlogo-link" href="%s" title="%s"><img class="mainlogo-img" src="%s" alt="%s" /></a>', 
-				$logo_url, 
+			$site_logo = sprintf(
+				'<a class="plbrand mainlogo-link" href="%s" title="%s"><img class="mainlogo-img" src="%s" alt="%s" /></a>',
+				$logo_url,
 				$site_name,
-				$logo, 
+				$logo,
 				$site_name
 			);
 
@@ -175,15 +175,15 @@ class PageLinesBranding extends PageLinesSection {
 
 		} else {
 
-			$site_title = sprintf( 
-				'<div class="title-container"><a class="home site-title" href="%s" title="%s">%s</a><h6 class="site-description subhead">%s</h6></div>', 
-				esc_url(home_url()), 
-				__('Home','pagelines'), 
+			$site_title = sprintf(
+				'<div class="title-container"><a class="home site-title" href="%s" title="%s">%s</a><h6 class="site-description subhead">%s</h6></div>',
+				esc_url(home_url()),
+				__('Home','pagelines'),
 				$site_name,
 				$site_desc
 			);
 
-			echo apply_filters('pagelines_site_title', $site_title);	
-		}		
+			echo apply_filters('pagelines_site_title', $site_title);
+		}
 	}
 }

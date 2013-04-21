@@ -12,8 +12,8 @@
 		float: left;
 		margin-right: -230px;
 	}
-	
-	.main_nav {			
+
+	.main_nav {
 		margin-right: 230px;
 		text-align: left;
 		margin-top: 0px;
@@ -25,7 +25,7 @@
 
 // Both Nav and Brandnav
 .main_nav{
-	font-size: 86%; 
+	font-size: 86%;
 	ul{
 		list-style: none;
 		display: block;
@@ -38,13 +38,13 @@
 			padding: 0px;
 			float: left;
 			text-align: right;
-			a{	
+			a{
 				line-height: 1em;
 				padding: 10px 15px;
 				text-decoration: none;
 				display: block;
 				border: 1px solid transparent;
-				border-bottom:none;	
+				border-bottom:none;
 			}
 		}
 		ul {
@@ -56,9 +56,9 @@
 	}
 }
 /* No search adjustment */
-.main_nav_container.nosearch, 
-.nosearch .main_nav{ 
-	margin-right: 0; 
+.main_nav_container.nosearch,
+.nosearch .main_nav{
+	margin-right: 0;
 }
 
 // Superfish Drop Down
@@ -79,7 +79,7 @@
 .main-nav li.current_page_item a,
 .main-nav li.current-menu-item a,
 .main-nav li.current_page_parent a,
-.sf-menu li li, 
+.sf-menu li li,
 .sf-menu li li li{
 	background: @contrast;
 }
@@ -96,8 +96,8 @@ ul.sf-menu ul li{
 
 .main-nav{
 	li{
-		a:hover, 
-		&.current_page_item > a, 
+		a:hover,
+		&.current_page_item > a,
 		&.current-page-ancestor > a{
 			background-color: @dark-base;
 			&:hover{
@@ -105,7 +105,7 @@ ul.sf-menu ul li{
 			}
 		}
 	}
-	.current-menu-item a, 
+	.current-menu-item a,
 	li a:hover{
 		color: fadeout(@pl-text, 30%);
 	}
@@ -127,11 +127,11 @@ ul.sf-menu ul li{
 			border-color: @dark-base;
 		}
 	}
-	
+
 }
 
-@media screen and (max-width:600px) { 
-	
+@media screen and (max-width:600px) {
+
 	.responsive{
 		.navigation_wrap{
 			text-align: center;
@@ -148,16 +148,16 @@ ul.sf-menu ul li{
 
 	}
 }
-	
-@media screen and ( max-width : @resPhoneLandscape ) { 
 
-	
+@media screen and ( max-width : @resPhoneLandscape ) {
+
+
 	.responsive{
 		#page {
-			.main_nav .main-nav, 
+			.main_nav .main-nav,
 			.section-brandnav .brandnav-nav{
-				margin-top: 10px; 
-				width: 100%; 
+				margin-top: 10px;
+				width: 100%;
 				float: none;
 			}
 			.main_nav{
@@ -167,12 +167,12 @@ ul.sf-menu ul li{
 					ul, ul li{ width: 100%; }
 				}
 			}
-			
+
 		}
 		.navigation_wrap .searchfield{
 			display:inline-block;
 			float: none;
 		}
-	}	
+	}
 }
 

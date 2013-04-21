@@ -1,10 +1,10 @@
 !function ($) {
 
 $.plThemes = {
-	
+
 
 	btnActions: function(){
-		
+
 		$('.btn-theme-activate').on('click.paneAction', function(){
 			var args = {
 					mode: 'themes'
@@ -17,10 +17,10 @@ $.plThemes = {
 				, 	log: true
 				,	stylesheet: $(this).data('stylesheet')
 			}
-			
+
 			var response = $.plAJAX.run( args )
 		})
-		
+
 		$('.btn-theme-preview').on('click.paneAction', function(){
 			var args = {
 					mode: 'themes'
@@ -33,23 +33,23 @@ $.plThemes = {
 				, 	log: true
 				,	stylesheet: $(this).data('stylesheet')
 			}
-			
+
 			var response = $.plAJAX.run( args )
 		})
-	
+
 	}
 	, actionButtons: function( data ){
 		var buttons = ''
 		,	theme = sprintf('data-stylesheet="%s"', data.stylesheet)
-		
+
 		buttons += sprintf('<a href="#" class="btn btn-primary btn-theme-activate x-remove" %s><i class="icon-bolt"></i> Activate</a> ', theme)
-		
-		
+
+
 		// Can't get this to work because of a PHP loading issue
 		// Must move to a plugin that loads before the 'stylesheet' is set for a child theme.
-		// 
+		//
 		// buttons += sprintf('<a href="#" class="btn btn-theme-preview" %s><i class="icon-eye-open"></i> Preview</a> ', theme)
-		
+
 		return buttons
 	}
 }

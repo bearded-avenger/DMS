@@ -2,10 +2,10 @@
 function plIsset(variable){
 	if(typeof(variable) != "undefined" && variable !== null)
 		return true
-	else 
+	else
 		return false
 }
-	
+
 /* Data cleanup and handling
  * ============================================= */
 function pl_html_input( text ) {

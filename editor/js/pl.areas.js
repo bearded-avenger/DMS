@@ -1,55 +1,55 @@
 !function ($) {
 
 	$.areaControl = {
-	
+
         toggle: function(btn) {
-		
+
 			if(!jQuery.areaControl.isActive){
-				
+
 				$('body')
 					.addClass('area-controls')
 					.find('area-tag')
 					.effect('highlight')
-			
+
 				btn.addClass('active')
-			
+
 				jQuery.areaControl.isActive = true
-			
+
 				jQuery.areaControl.listen()
-				
+
 			} else {
 				btn.removeClass('active')
 				jQuery.areaControl.isActive = false
 				$('body').removeClass('area-controls')
-				
+
 			}
-		
+
 		}
 
 		, listen: function() {
 			$('.btn-region').tooltip({placement: 'right'})
-			
+
 			$('.area-control').on('click.areaControl', function(e){
 				e.preventDefault()
-				
+
 				var action = $(this).data('area-action')
-				
+
 				if(action == 'down' ){
 					$.areaControl.move($(this), 'down')
 				} else if (action == 'up' ){
 					$.areaControl.move($(this), 'up')
 				} else if (action == 'settings' ){
 					$.areaControl.areaSettings($(this))
-				
+
 				}else if (action == 'delete' ){
 					$.areaControl.deleteArea($(this))
 
 				}
 			})
-			
-			
-		} 
-		
+
+
+		}
+
 		, update: function() {
 			$('.area-tag').each( function(index) {
 
@@ -60,24 +60,24 @@
 					.attr('data-area-number', num)
 
 			})
-			
+
 			$.pageBuilder.storeMap()
 		}
-		
+
 		, areaSettings: function( btn ){
-			
+
 			var that = this
 			,	theArea = btn.closest('.pl-area')
 			,	theID = theArea.attr('id')
 			,	object = theArea.data('object') || false
-				
+
 			if( object ){
 				var config	= {
 						sid: theArea.data('sid')
 						, sobj: theArea.data('object')
 						, clone: theArea.data('clone')
 					}
-					
+
 				$('body').toolbox({
 					action: 'show'
 					, panel: 'section-options'
@@ -87,7 +87,7 @@
 
 					}
 				})
-				
+
 			} else {
 				$('body').toolbox({
 					action: 'show'
@@ -97,15 +97,15 @@
 					}
 				})
 			}
-			
-				
-			
-			
-			
+
+
+
+
+
 		}
-		
+
 		, areaPanelRender: function( theID ){
-			
+
 			var theID = theID || store.get('lastAreaConfig')
 			,	config = {
 						mode: 'object'
@@ -113,33 +113,33 @@
 					, 	settings: $.pl.config.areaSettings
 					, 	objectID: theID
 				}
-			
+
 			$.optPanel.render( config )
-			
+
 		}
-		
+
 		, deleteArea: function( btn ){
-			
+
 			var currentArea = btn.closest('.pl-area')
 			, 	confirmText = '<h3>Are you sure?</h3><p>This action will delete this area and all its elements from this page.</p>'
-		
+
 			bootbox.confirm( confirmText, function( result ){
 				if(result == true){
-					
+
 					currentArea.slideUp(500, function(){
 						$(this).remove()
 						$.areaControl.update()
 					})
-					
+
 
 				}
 
 			})
-				
-			
-			
+
+
+
 		}
-		
+
 		, move: function( button, direction ){
 
 
@@ -182,6 +182,6 @@
 			$.areaControl.update()
 
 		}
-		
+
 	}
 }(window.jQuery);

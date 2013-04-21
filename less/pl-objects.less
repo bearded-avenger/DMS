@@ -1,57 +1,57 @@
 /*
 	PAGELINES CSS OBJECTS
-  	CSS Objects for repeated use as utilities in other objects. 
+  	CSS Objects for repeated use as utilities in other objects.
 	Must be generalized and have wide usage capability.
 */
 
-/* 
+/*
  * @ Clearing Floats
  **********************************************************************/
 .fix{
 	.clearfix();
 }
-		
-/* 
+
+/*
  * @ Lists
  **********************************************************************/
 
 /* @ Inline List - Horizontal non-floated navigation/menu  */
-ul.inline-list { 
-	list-style-type: none; 
-	li { 
-		display: inline ; 
-		padding: 0px 3px; 
+ul.inline-list {
+	list-style-type: none;
+	li {
+		display: inline ;
+		padding: 0px 3px;
 	}
 }
 
 /* @ Tabbed List - Horizontal floated list, tab and navigation effects */
 ul.tabbed-list {
-	list-style-type: none; 
+	list-style-type: none;
 	margin:0;
 	width: 100%; /* clear IE 7 */
 	li, lh{
-		margin: 0; 
-		padding: 0; 
+		margin: 0;
+		padding: 0;
 		float: left;
 		a{
 			display: block;
 		}
 	}
 }
-/* 
+/*
  * @ Media / Image Format
  **********************************************************************/
 
 .media{
 	overflow:hidden;
-	overflow: visible; 
+	overflow: visible;
 	zoom: 1;
 	.bd{
-		display:table-cell; 
-		vertical-align: top; 
-		width: 10000px; 
-		*display:block; 
-		*width:auto; 
+		display:table-cell;
+		vertical-align: top;
+		width: 10000px;
+		*display:block;
+		*width:auto;
 		zoom:1;
 	}
 	.bd > :first-child{margin-top:0;}
@@ -61,17 +61,17 @@ ul.tabbed-list {
 		margin-right: 15px;
 		text-align: center;
 		&.rtimg{
-			float:right; 
+			float:right;
 			margin-left: 15px;
 		}
-		
+
 		img{
-			display: inline-block;  
+			display: inline-block;
 			vertical-align: bottom;
-			max-width: 100%; 
-			height: auto; 
+			max-width: 100%;
+			height: auto;
 			width: auto\9;
-			
+
 		}
 		.thumbnail{
 			display: inline-block;
@@ -80,14 +80,14 @@ ul.tabbed-list {
 			.border-radius(4px);
 			.box-shadow(0 1px 3px rgba(0,0,0,.055));
 			.transition(all .2s ease-in-out);
-			
+
 			&[href]:hover{
 					border-color: @linkColor;
 					.box-shadow(0 1px 4px rgba(0,105,214,.25));
 			}
 		}
 	}
-	
+
 }
 
 /*
@@ -116,13 +116,13 @@ ul.tabbed-list {
  *  @ Supplemental Percentage based GRID
  *******************************************/
 
-	.pprow { 
-		width: 100%; 
+	.pprow {
+		width: 100%;
 		margin: 0 auto;
 	}
-	.pp2, 
-	.pp3, 
-	.pp4, 
+	.pp2,
+	.pp3,
+	.pp4,
 	.pp5,
 	.pp6 {
 		margin: 0;
@@ -130,13 +130,13 @@ ul.tabbed-list {
 		margin-right: 4%;
 		float: left;
 		border: none;
-		.transition(all .2s linear); 
+		.transition(all .2s linear);
 	}
 	.pp3{
 		margin-right: 3%;
 	}
-	.pp4, 
-	.pp5, 
+	.pp4,
+	.pp5,
 	.pp6{
 		margin-right: 2%;
 	}
@@ -161,7 +161,7 @@ ul.tabbed-list {
 		.pp6 { width: 16.66666667%; }
 	}
 
-	@media screen and (max-width:650px) { 	
+	@media screen and (max-width:650px) {
 		.responsive #site{
 			.pp2, .pp3, .ppfree{
 				width: 100%;
@@ -178,7 +178,7 @@ ul.tabbed-list {
 		}
 
 	}
-	@media screen and (max-width:700px) { 	
+	@media screen and (max-width:700px) {
 		.responsive #site{
 			.pp4, .pp5, .pp6{
 				width: 100%;
@@ -189,24 +189,24 @@ ul.tabbed-list {
 
 
 
-/* 
+/*
  * @ Banners and Booming Text
  * TODO refactor to boomboard
  **********************************************************************/
-.boomboard{ 
-	padding: 100px; 
-	min-height: 350px; 
-	h2.hugetext { 
+.boomboard{
+	padding: 100px;
+	min-height: 350px;
+	h2.hugetext {
 		font-size: 8em;
 	}
 }
-.billboard { 
-	padding: 60px 15px; 
-	margin: 0 0 2.5em 0; 
+.billboard {
+	padding: 60px 15px;
+	margin: 0 0 2.5em 0;
 }
 
 	.banner_pad{
-		padding: 2em; 
+		padding: 2em;
 		text-align: center;
 	}
 		.banner_title.wicon{
@@ -215,15 +215,15 @@ ul.tabbed-list {
 			background-position: 0 4px;
 			background-repeat: no-repeat;
 		}
-	
+
 	.setup-section{
 		padding: 8px 0 10px;
 		background: @baseContrastSlight;
 		text-align: center;
 		line-height: 1.5em;
 	}
-	
-/* 
+
+/*
  * @ Printing Debug Information
  **********************************************************************/
 .plprint{
@@ -238,7 +238,7 @@ ul.tabbed-list {
 }
 
 
-/* 
+/*
  * @ Grid Formatting and Elements
  **********************************************************************/
 .grid-element, .media_overview{ margin-bottom: 12px; }
@@ -247,7 +247,7 @@ ul.tabbed-list {
 	}
 	.grid-img-pad{
 		width: 100%;
-		float:left; 
+		float:left;
 	}
 .vignette{position: relative;}
 
@@ -272,13 +272,13 @@ ul.tabbed-list {
 			padding: 3px 7px 4px;
 			line-height: 1em;
 		}
-		
-/* 
+
+/*
  * @ Hovercards
  **********************************************************************/
 .hovercard {
-	position: absolute; 
-	bottom: 20px; 
+	position: absolute;
+	bottom: 20px;
 	background: rgba(0,0,0, .6);
 	text-shadow: none;
 	color:#fff;
@@ -290,28 +290,28 @@ ul.tabbed-list {
 	bottom: 15px;
 }
 
-/* 
+/*
  * @ Supersized Backgrounds
  **********************************************************************/
 #supersized-loader { .hidden }
 
-#supersized { 
-	position:fixed; 
-	left:0; 
-	top:0; 
-	overflow:hidden; 
-	z-index:-999; 
-	height:100%; 
+#supersized {
+	position:fixed;
+	left:0;
+	top:0;
+	overflow:hidden;
+	z-index:-999;
+	height:100%;
 	width:100%;
 	background-size: cover;
-	img{ 
-		height:auto; 
-		width:auto; 
-		position:relative; 
-		outline:none; 
-		border:none; 
+	img{
+		height:auto;
+		width:auto;
+		position:relative;
+		outline:none;
+		border:none;
 		-ms-interpolation-mode:bicubic;
-		image-rendering: optimizeQuality; 
+		image-rendering: optimizeQuality;
 	}
 }
 

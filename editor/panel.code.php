@@ -1,26 +1,26 @@
-<?php 
+<?php
 
 
 
 class EditorCode{
-	
+
 	function __construct( ){
-		
+
 		add_filter('pl_toolbar_config', array(&$this, 'toolbar'));
 		add_action('pagelines_editor_scripts', array(&$this, 'scripts'));
-	
+
 		add_action( 'pagelines_head_last', array( &$this, 'draw_custom_styles' ), 200 );
 		add_action( 'pagelines_head_last', array( &$this, 'draw_custom_scripts' ) );
-	
+
 		$this->url = PL_PARENT_URL . '/editor';
 	}
-	
+
 	function scripts(){
-		
+
 		// Codemirror Styles
 		wp_enqueue_style( 'codemirror', PL_ADMIN_JS . '/codemirror/codemirror.css' );
 		wp_enqueue_style( 'css3colorpicker', $this->url . '/js/colorpicker/colorpicker.css');
-		
+
 		// CodeMirror Syntax Highlighting
 		wp_enqueue_script( 'codemirror', PL_ADMIN_JS . '/codemirror/codemirror.js', array( 'jquery' ), PL_CORE_VERSION, true );
 		wp_enqueue_script( 'codemirror-css', PL_ADMIN_JS . '/codemirror/css/css.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
@@ -28,11 +28,11 @@ class EditorCode{
 		wp_enqueue_script( 'codemirror-js', PL_ADMIN_JS . '/codemirror/javascript/javascript.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
 		wp_enqueue_script( 'codemirror-xml', PL_ADMIN_JS . '/codemirror/xml/xml.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
 		wp_enqueue_script( 'codemirror-html', PL_ADMIN_JS . '/codemirror/htmlmixed/htmlmixed.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
-		
+
 		// PageLines Specific JS @Code Stuff
 		wp_enqueue_script( 'pl-js-code', $this->url . '/js/pl.code.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
 	}
-	
+
 	function toolbar( $toolbar ){
 		$toolbar['pl-design'] = array(
 				'name'	=> 'Custom',
@@ -55,21 +55,21 @@ class EditorCode{
 					),
 				)
 			);
-		
+
 		return $toolbar;
 	}
-	
+
 	function draw_custom_styles(){
-		
+
 		if( true == ( $css = pl_setting( 'custom_less') ) )
-			printf('<style id="pl-custom-less" type="text/css">%s</style>', $css );	
+			printf('<style id="pl-custom-less" type="text/css">%s</style>', $css );
 	}
-	
+
 	function draw_custom_scripts(){
 		printf( pl_setting('custom_scripts') );
 	}
-	
-	
+
+
 	function custom_less(){
 		?>
 		<div class="opt codetext">
@@ -104,6 +104,6 @@ class EditorCode{
 
 		<?php
 	}
-	
-	
+
+
 }

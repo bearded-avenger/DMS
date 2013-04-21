@@ -175,7 +175,7 @@ class EditorLessHandler{
 		}
 
 		if( $this->is_draft() && defined( 'PL_LESS_DEV' ) && true == PL_LESS_DEV ){
-			
+
 			$raw_cached = pl_cache_get( 'draft_core_raw', array( &$this, 'draft_core_data' ) );
 
 			// check if a cache exists. If not dont bother carrying on.
@@ -192,9 +192,9 @@ class EditorLessHandler{
 				if( $raw_cached['sections'] != $raw['sections'] )
 					$flush = true;
 			}
-			
+
 		}
-		
+
 
 		if( true == $flush )
 			pl_flush_draft_caches();

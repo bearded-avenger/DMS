@@ -25,13 +25,13 @@ class PageLinesBoxes extends PageLinesSection {
 	* PHP that always loads no matter if section is added or not.
 	*/
 	function section_persistent(){
-		
+
 		$this->post_type_setup();
-		
+
 		$this->post_meta_setup();
-		
+
 	}
-	
+
 
 	/**
 	*
@@ -40,15 +40,15 @@ class PageLinesBoxes extends PageLinesSection {
 	*/
 	function post_type_setup(){
 			$args = array(
-					'label' 			=> __('Boxes', 'pagelines'),  
+					'label' 			=> __('Boxes', 'pagelines'),
 					'singular_label' 	=> __('Box', 'pagelines'),
 					'description' 		=> __( 'For creating boxes in box type layouts.', 'pagelines'),
 					'menu_icon'			=> $this->icon
 				);
 			$taxonomies = array(
-				$this->taxID => array(	
-						'label' => __('Box Sets', 'pagelines'), 
-						'singular_label' => __('Box Set', 'pagelines'), 
+				$this->taxID => array(
+						'label' => __('Box Sets', 'pagelines'),
+						'singular_label' => __('Box Set', 'pagelines'),
 					)
 			);
 			$columns = array(
@@ -58,10 +58,10 @@ class PageLinesBoxes extends PageLinesSection {
 				'bmedia' 		=> 'Media',
 				$this->taxID 	=> 'Box Sets'
 			);
-		
+
 			$this->post_type = new PageLinesPostType( $this->ptID, $args, $taxonomies, $columns, array(&$this, 'column_display'));
-		
-			$this->post_type->set_default_posts( 'pagelines_default_boxes', $this); // Default 
+
+			$this->post_type->set_default_posts( 'pagelines_default_boxes', $this); // Default
 	}
 
 
@@ -71,25 +71,25 @@ class PageLinesBoxes extends PageLinesSection {
 	*
 	*/
 	function post_meta_setup(){
-		
+
 			$type_meta_array = array(
-				
+
 				'box_setup' => array(
-					'type'		=> 'multi_option', 
-					'title'		=> __('Individual Box Options', 'pagelines'), 
+					'type'		=> 'multi_option',
+					'title'		=> __('Individual Box Options', 'pagelines'),
 					'shortexp'	=> __('Basic setup options for handling of this box', 'pagelines'),
 					'selectvalues'	=> array(
-						
+
 						'the_box_icon' 		=> array(
-								'type' 		=> 'image_upload',					
+								'type' 		=> 'image_upload',
 								'inputlabel' 	=> __( 'Box Image', 'pagelines'),
-							), 
+							),
 						'the_box_icon_link'		=> array(
-								'type' => 'text',					
+								'type' => 'text',
 								'inputlabel' => __( 'Box Link (Optional)', 'pagelines'),
-							), 
+							),
 						'the_box_icon_target'		=> array(
-								'type' => 'check',					
+								'type' => 'check',
 								'inputlabel' => __( 'Open link in New Window?', 'pagelines'),
 							),
 						'box_class' => array(
@@ -106,21 +106,21 @@ class PageLinesBoxes extends PageLinesSection {
 						),
 					),
 				),
-			
+
 			);
 
-			$post_types = array($this->id); 
-			
+			$post_types = array($this->id);
+
 			$type_metapanel_settings = array(
 					'id' 		=> 'boxes-metapanel',
 					'name' 		=> PL_THEMENAME . ' Box Options',
 					'posttype' 	=> $post_types,
 				);
-			
+
 			global $boxes_meta_panel;
-			
+
 			$boxes_meta_panel =  new PageLinesMetaPanel( $type_metapanel_settings );
-			
+
 			$type_metatab_settings = array(
 				'id' 		=> 'boxes-type-metatab',
 				'name' 		=> 'Box Setup Options',
@@ -128,7 +128,7 @@ class PageLinesBoxes extends PageLinesSection {
 			);
 
 			$boxes_meta_panel->register_tab( $type_metatab_settings, $type_meta_array );
-		
+
 	}
 
 
@@ -138,30 +138,30 @@ class PageLinesBoxes extends PageLinesSection {
 	*
 	*/
 	function section_optionator( $settings ){
-		
+
 		$settings = wp_parse_args($settings, $this->optionator_default);
-		
+
 			$tab = array(
 				'box_setup' => array(
-					'type'		=> 'multi_option', 
-					'title'		=> __('Box Setup Options', 'pagelines'), 
+					'type'		=> 'multi_option',
+					'title'		=> __('Box Setup Options', 'pagelines'),
 					'shortexp'	=> __('Basic setup options for handling of boxes.', 'pagelines'),
 					'selectvalues'	=> array(
-						
+
 						'box_set' => array(
 							'default'		=> 'default-boxes',
 							'type' 			=> 'select_taxonomy',
 							'taxonomy_id'	=> $this->taxID,
-							'post_type'		=> $this->ptID,				
+							'post_type'		=> $this->ptID,
 							'inputlabel'	=> __( 'Box Set To Show', 'pagelines'),
-						), 
+						),
 						'box_col_number' => array(
 							'type' 			=> 'count_select',
 							'default'		=> '3',
-							'count_number'	=> '5', 
+							'count_number'	=> '5',
 							'count_start'	=> '1',
 							'inputlabel' 		=> __( "Boxes Per Row", 'pagelines'),
-						), 
+						),
 						'box_items' => array(
 							'default'		=> '6',
 							'type' 			=> 'text_small',
@@ -170,23 +170,23 @@ class PageLinesBoxes extends PageLinesSection {
 						),
 					),
 				),
-					
+
 					'box_image_formatting' => array(
-						'type'		=> 'multi_option', 
-						'title'		=> __('Box Image Options', 'pagelines'), 
+						'type'		=> 'multi_option',
+						'title'		=> __('Box Image Options', 'pagelines'),
 						'shortexp'	=> __('Options for formatting box images.', 'pagelines'),
 						'exp'		=> __('', 'pagelines'),
 						'selectvalues'	=> array(
-							
+
 							'box_thumb_type' => array(
 								'type' 		=> 'select',
 								'default'	=> 'inline_thumbs',
 								'selectvalues'	=> array(
 										'inline_thumbs'	=> array('name' => __( 'Image At Left', 'pagelines') ),
-										'top_thumbs'	=> array('name' => __( 'Image On Top', 'pagelines') ), 
+										'top_thumbs'	=> array('name' => __( 'Image On Top', 'pagelines') ),
 										'only_thumbs'	=> array('name' => __( "Only The Image, No Text", 'pagelines') )
-									), 
-								'inputlabel' => __( 'Box Thumb Style (optional - defaults to Image At Left)', 'pagelines'),				
+									),
+								'inputlabel' => __( 'Box Thumb Style (optional - defaults to Image At Left)', 'pagelines'),
 
 							),
 							'box_thumb_size' => array(
@@ -203,15 +203,15 @@ class PageLinesBoxes extends PageLinesSection {
 							),
 						),
 					),
-					
-					
+
+
 					'box_ordering' => array(
-						'type'		=> 'multi_option', 
-						'title'		=> __('Box Ordering Options', 'pagelines'), 
+						'type'		=> 'multi_option',
+						'title'		=> __('Box Ordering Options', 'pagelines'),
 						'shortexp'	=> __('Optionally control the ordering of the boxes', 'pagelines'),
 						'exp'		=> __('The easiest way to order boxes is using a post type order plugin for WordPress. However, if you would like to do it algorithmically, we have provided these options for you.', 'pagelines'),
 						'selectvalues'	=> array(
-							
+
 							'box_orderby' => array(
 								'type'			=> 'select',
 								'default'		=> 'ID',
@@ -221,7 +221,7 @@ class PageLinesBoxes extends PageLinesSection {
 									'title' 	=> array('name' => __( 'Title', 'pagelines') ),
 									'date' 		=> array('name' => __( 'Date', 'pagelines') ),
 									'modified' 	=> array('name' => __( 'Last Modified', 'pagelines') ),
-									'rand' 		=> array('name' => __( 'Random', 'pagelines') ),							
+									'rand' 		=> array('name' => __( 'Random', 'pagelines') ),
 								)
 							),
 							'box_order' => array(
@@ -235,7 +235,7 @@ class PageLinesBoxes extends PageLinesSection {
 							),
 						),
 					),
-					
+
 					'box_more_text' => array(
 						'default'		=> '',
 						'type' 			=> 'text',
@@ -254,12 +254,12 @@ class PageLinesBoxes extends PageLinesSection {
 						'shortexp' 		=> __( 'Add a custom CSS class to this set of boxes.', 'pagelines'),
 					),
 			);
-		
+
 			$tab_settings = array(
 					'id' 		=> 'fboxes_meta',
 					'name' 		=> 'Boxes',
-					'icon' 		=> $this->icon, 
-					'clone_id'	=> $settings['clone_id'], 
+					'icon' 		=> $this->icon,
+					'clone_id'	=> $settings['clone_id'],
 					'active'	=> $settings['active']
 				);
 
@@ -269,20 +269,20 @@ class PageLinesBoxes extends PageLinesSection {
 	/**
 	* Section template.
 	*/
-   function section_template( $clone_id = null ) {    
-		
+   function section_template( $clone_id = null ) {
+
 		// Options
-			$per_row = ( $this->opt( 'box_col_number', $this->oset) ) ? $this->opt( 'box_col_number', $this->oset) : 3; 
+			$per_row = ( $this->opt( 'box_col_number', $this->oset) ) ? $this->opt( 'box_col_number', $this->oset) : 3;
 			$box_set = ( $this->opt( 'box_set', $this->oset ) ) ? $this->opt( 'box_set', $this->oset ) : null;
 			$box_limit = $this->opt( 'box_items', $this->oset );
-			$this->thumb_type = ( $this->opt( 'box_thumb_type', $this->oset) ) ? $this->opt( 'box_thumb_type', $this->oset) : 'inline_thumbs';	
+			$this->thumb_type = ( $this->opt( 'box_thumb_type', $this->oset) ) ? $this->opt( 'box_thumb_type', $this->oset) : 'inline_thumbs';
 			$this->thumb_size = $this->opt('box_thumb_size', $this->oset);
 			$this->framed = $this->opt('box_thumb_frame', $this->oset);
-			
-			
+
+
 			$class = ( $this->opt( 'box_class', $this->oset ) ) ? $this->opt( 'box_class', $this->oset ) : null;
-			
-		// Actions	
+
+		// Actions
 			// Set up the query for this page
 				$orderby = ( $this->opt('box_orderby', $this->oset) ) ? $this->opt('box_orderby', $this->oset) : 'ID';
 				$order = ( $this->opt('box_order', $this->oset) ) ? $this->opt('box_order', $this->oset) : 'DESC';
@@ -292,18 +292,18 @@ class PageLinesBoxes extends PageLinesSection {
 				$params[ 'no_found_rows' ] = 1;
 
 				$q = new WP_Query( $params );
-				
+
 				if(empty($q->posts)){
 					echo setup_section_notify( $this, 'Add Box Posts To Activate.', admin_url('edit.php?post_type='.$this->ptID), 'Add Posts' );
 					return;
 				}
-			
+
 			// Grid Args
 				$args = array( 'per_row' => $per_row, 'callback' => array(&$this, 'draw_boxes'), 'class' => $class );
 
 			// Call the Grid
 				printf('<div class="fboxes fix">%s</div>', grid( $q, $args ));
-		
+
 	}
 
 
@@ -312,51 +312,51 @@ class PageLinesBoxes extends PageLinesSection {
 	* @TODO document
 	*
 	*/
-	function draw_boxes($p, $args){ 
+	function draw_boxes($p, $args){
 
-		setup_postdata($p); 
-		
+		setup_postdata($p);
+
 		$oset = array('post_id' => $p->ID);
 		$ID = $p->ID;
 	 	$box_link = pl_meta( $ID, 'the_box_icon_link');
 		$box_icon = pl_meta( $ID, 'the_box_icon');
 		$box_target = (pl_meta( $ID, 'the_box_icon_target')) ? 'target="_blank"' : '';
-		
+
 		$class = ( pl_meta( $ID, 'box_class' ) ) ? pl_meta( $ID,  'box_class' ) : null;
-		
+
 		$image = ($box_icon) ? self::_get_box_image( $p, $box_icon, $box_link, $this->thumb_size, $box_target) : '';
-	
-		$title_text = ($box_link) ? sprintf('<a %s href="%s">%s</a>', $box_target, $box_link, $p->post_title ) : $p->post_title; 
-	
+
+		$title_text = ($box_link) ? sprintf('<a %s href="%s">%s</a>', $box_target, $box_link, $p->post_title ) : $p->post_title;
+
 		$title = do_shortcode(sprintf('<div class="fboxtitle"><h3>%s</h3></div>', $title_text));
 
 		if(pl_meta( $ID, 'box_more_text')){
 			$more_text = pl_meta( $ID, 'box_more_text');
 		} elseif($this->opt('box_more_text', $this->oset)){
 			$more_text = $this->opt('box_more_text', $this->oset);
-		}else 
+		}else
 			$more_text = false;
-		
+
 		$more_link = ($box_link && $more_text) ? sprintf('<span class="fboxmore-wrap"><a class="fboxmore" href="%s" %s>%s</a></span>', $box_link, $box_target, $more_text) : '';
-		
+
 		$more_link = apply_filters('box_more_link', $more_link);
-		
+
 		$content = sprintf('<div class="fboxtext">%s %s %s</div>', do_shortcode($p->post_content), pledit( $ID ), $more_link);
-			
-		$info = ($this->thumb_type != 'only_thumbs') ? sprintf('<div class="fboxinfo fix bd">%s%s</div>', $title, $content) : '';				
-				
+
+		$info = ($this->thumb_type != 'only_thumbs') ? sprintf('<div class="fboxinfo fix bd">%s%s</div>', $title, $content) : '';
+
 		return sprintf(
-			'<div id="%s" class="fbox %s"><div class="media box-media %s"><div class="blocks box-media-pad">%s%s</div></div></div>', 
-			'fbox_'.$p->ID, 
-			$class, 
-			$this->thumb_type, 
-			$image, 
+			'<div id="%s" class="fbox %s"><div class="media box-media %s"><div class="blocks box-media-pad">%s%s</div></div></div>',
+			'fbox_'.$p->ID,
+			$class,
+			$this->thumb_type,
+			$image,
 			$info
 		);
-	
+
 	}
 
-	
+
 
 	/**
 	*
@@ -365,9 +365,9 @@ class PageLinesBoxes extends PageLinesSection {
 	*/
 	function _get_box_image( $bpost, $box_icon, $box_link = false, $box_thumb_size = false, $box_target){
 			global $pagelines_ID;
-			
+
 			$frame = ($this->framed) ? 'pl-imageframe' : '';
-			
+
 			if($this->thumb_type == 'inline_thumbs'){
 				$max_width = ($box_thumb_size) ? $box_thumb_size : 65;
 				$image_style = 'max-width: 100%';
@@ -379,20 +379,20 @@ class PageLinesBoxes extends PageLinesSection {
 				$wrapper_style = sprintf('max-width:%s', $max_width);
 				$wrapper_class = sprintf('fboxgraphic %s', $frame);
 			}
-			
+
 			// Make the image's tag with url
 			$image_tag = sprintf('<img src="%s" alt="%s" style="%s" />', $box_icon, esc_html($bpost->post_title), $image_style);
-			
+
 			// If link for box is set, add it
 			$image_output = ( $box_link ) ? sprintf('<a href="%s" title="%s" %s>%s</a>', $box_link, esc_html($bpost->post_title), $box_target, $image_tag ) : $image_tag;
-			
+
 			$wrapper = sprintf('<div class="%s" style="%s">%s</div>', $wrapper_class, $wrapper_style, $image_output );
-			
+
 			// Filter output
 			return apply_filters('pl_box_image', $wrapper, $bpost->ID);
 	}
 
-	
+
 
 		/**
 		*
@@ -447,13 +447,13 @@ class PageLinesBoxes extends PageLinesSection {
 
 			$default_boxes[] = array(
 			        				'title'	=> 'Tons of Addons',
-			        				'text' 	=> "Load up your own sections, themes and plugins using PageLines' one of a kind extension marketplace.", 
+			        				'text' 	=> "Load up your own sections, themes and plugins using PageLines' one of a kind extension marketplace.",
 									'media' => $this->base_url.'/images/fbox1.png'
 			    				);
 
 			return apply_filters('pagelines_default_boxes', $default_boxes);
 		}
-	
+
 
 	/**
 	*
@@ -469,8 +469,8 @@ class PageLinesBoxes extends PageLinesSection {
 				break;
 			case 'bmedia':
 				if(get_post_meta($post->ID, 'the_box_icon', true ))
-					echo '<img src="'.get_post_meta($post->ID, 'the_box_icon', true ).'" style="max-width: 80px; margin: 10px; border: 1px solid #ccc; padding: 5px; background: #fff" />';	
-	
+					echo '<img src="'.get_post_meta($post->ID, 'the_box_icon', true ).'" style="max-width: 80px; margin: 10px; border: 1px solid #ccc; padding: 5px; background: #fff" />';
+
 				break;
 			case $this->taxID:
 				echo get_the_term_list($post->ID, 'box-sets', '', ', ','');
