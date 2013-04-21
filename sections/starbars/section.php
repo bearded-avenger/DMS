@@ -113,13 +113,18 @@ class PageLinesStarBars extends PageLinesSection {
 		$format = ($starbar_format) ? $starbar_format : 'append'; 
 		
 		$mod = ($starbar_mod) ? $starbar_mod : '%';
+		
 		$total = ($starbar_total) ? $starbar_total : 100;
+		
+		$total = apply_filters('starbars_total', $total);
 		
 		$output = '';
 		for($i = 1; $i <= $starbar_count; $i++){
 			
 			$descriptor = $this->opt('starbar_descriptor_'.$i); 
 			$value = (int) $this->opt('starbar_value_'.$i); 
+			
+			$value = apply_filters('starbar_value', $value, $i, $descriptor, $this); 
 			
 			$desc = ($descriptor) ? sprintf('<p>%s</p>', $descriptor) : '';
 			

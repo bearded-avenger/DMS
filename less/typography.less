@@ -219,22 +219,15 @@ h2 + img{
 // LISTS
 // -----
 
-// Unordered and Ordered lists
 
-
-
-ol,
-ul{
-	list-style-type:none
-}
 
 // HENTRY = Standard Long Form Text Formatting
 // -------------------------------------------------
 .hentry{
 	
-	ul, ol{
+	ul, 
+	ol{
 		padding: 0;
-	//	margin: 0 0 @baseLineHeight / 2 25px;
 		margin: 1.7em 0 1.7em 1.7em;
 	}
 	ol{
@@ -246,9 +239,20 @@ ul{
 			}
 		}
 	}
-	ul{
-		list-style:disc;
+	ul {
+	  list-style: disc;
 	}
+	ol {
+	  list-style: decimal;
+	}
+	
+	ul ul,
+	ul ol,
+	ol ol,
+	ol ul {
+	  margin-bottom: 0;
+	}
+	
 	
 	h1, h2{
 		margin: 1em 0;
@@ -263,17 +267,11 @@ ul{
 
 }
 
-ul ul,
-ul ol,
-ol ol,
-ol ul {
-  margin-bottom: 0;
-}
-ul {
-  list-style: disc;
-}
-ol {
-  list-style: decimal;
+// Unordered and Ordered lists
+
+ol,
+ul{
+	list-style-type:none
 }
 
 ul.unstyled,
