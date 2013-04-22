@@ -24,10 +24,10 @@ class PageLinesColumnizer extends PageLinesSection {
 
 		$cols = ($this->opt('columnizer_cols')) ? $this->opt('columnizer_cols') : 3;
 
-
+		
 		$params[0]['before_widget'] = sprintf('<div class="span%s">%s', $cols, $params[0]['before_widget']);
 		$params[0]['after_widget'] = sprintf('%s</div>', $params[0]['after_widget']);
-
+		
 		if($this->width == 0)
 			$params[0]['before_widget'] = sprintf('<div class="columnizer row fix">%s', $params[0]['before_widget']);
 
@@ -38,7 +38,7 @@ class PageLinesColumnizer extends PageLinesSection {
 		}
 
 		$this->count++;
-
+		
 		return $params;
 	}
 

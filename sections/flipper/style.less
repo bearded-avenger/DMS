@@ -7,6 +7,7 @@
 	.flipper-title{
 		text-transform: uppercase; 
 		font-weight: 600;
+		padding-top: 5px;
 	}
 	.flipper-next, 
 	.flipper-prev {
@@ -38,13 +39,20 @@
 	
 }
 
+.section-flipper .pl-section-pad{
+	overflow: hidden;
+	position: relative;
+}
 .flipper-wrap {
 	position: relative;
+	margin-left: -10px;
+	margin-right: -10px;
 	.flipper {
 		opacity: 0;
 	}
 	
 	.flipper-items {
+		overflow: hidden;
 		> li {
 			height: 100%;
 			position: relative;
@@ -65,7 +73,7 @@
 		}
 		.flipper-item{
 			position: relative;
-			margin-bottom: 15px;
+			margin-bottom: @baseLineHeight/2;
 			.flipper-info-bg {
 				opacity: 0;
 				height: 100%;
@@ -151,12 +159,9 @@
 			text-align: left;
 			float: left;
 			width: 70%;
-			font-size: 11px;
-			color: #999;
-			h4 {
-				margin-bottom: 1px;
+			.flipper-metabar{
+				font-size: @fontSizeSmall;
 			}
-
 		}
 	}
 }

@@ -2,8 +2,10 @@
 	$(window).load(function(){
 	
 		$('.flipper').each(function(){
-	    	var $that = $(this);
-	    	var scrollSpeed, easing;
+			
+	    	var $that = $(this)
+			,	scrollSpeed
+			, 	easing
 					
 			(parseInt($(this).attr('data-scroll-speed'))) ? scrollSpeed = parseInt($(this).attr('data-scroll-speed')) : scrollSpeed = 700;
 			($(this).attr('data-easing').length > 0) ? easing = $(this).attr('data-easing') : easing = 'linear';

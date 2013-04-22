@@ -1,6 +1,5 @@
 <?php
-
-/*
+ 	/*
 	Section: Flipper
 	Author: PageLines
 	Author URI: http://www.pagelines.com
@@ -11,13 +10,13 @@
 	Filter: post-format
 */
 
-class PageLinesFlipperDontLoad extends PageLinesSection {
+class PageLinesFlipper extends PageLinesSection {
 
 	
 	var $default_limit = 3;
 
 	function section_persistent(){
-		add_image_size( '3-2-thumb', 600, 400, true );
+		
 	}
 
 	function section_styles(){
@@ -128,8 +127,6 @@ class PageLinesFlipperDontLoad extends PageLinesSection {
 		global $post;
 		$post_type = 'post'; 
 		
-		$flipper_link = get_post_type_archive_link( $post_type );
-
 		$the_query = array(
 			'posts_per_page' => '10',
 			'post_type' => $post_type
@@ -141,7 +138,13 @@ class PageLinesFlipperDontLoad extends PageLinesSection {
 				<div class="flipper-heading">
 					<div class="flipper-title">
 						Whatever
-						<a href="<?php echo $portfolio_link; ?>" > / View All</a>
+						<?php 
+							printf(
+								'<a href="%s" > %s</a>', 
+								get_post_type_archive_link( $post_type ), 
+								__(' / View All', 'pagelines')
+							); ?>
+						
 					</div>
 					<a class="flipper-prev" href="#"><i class="icon-arrow-left"></i></a>
 			    	<a class="flipper-next" href="#"><i class="icon-arrow-right"></i></a>
@@ -160,7 +163,7 @@ class PageLinesFlipperDontLoad extends PageLinesSection {
 				<div class="flipper-item">
 					<?php 
 					if ( has_post_thumbnail() ) { 
-						echo get_the_post_thumbnail( $post->ID, 'portfolio-thumb', array('title' => '')); 
+						echo get_the_post_thumbnail( $post->ID, 'aspect-thumb', array('title' => '')); 
 					} else { 
 						echo '<img src="'.$this->base_url.'/no-portfolio-item-small.jpg" alt="no image added yet." />'; 				}
 						 ?>
@@ -186,10 +189,8 @@ class PageLinesFlipperDontLoad extends PageLinesSection {
 				</div><!--work-item-->
 				
 				<div class="flipper-meta">
-					<h4 class="title"><?php the_title(); ?></h4>
-					<?php $options = get_option('salient'); 
-						if(!empty($options['portfolio_date']) && $options['portfolio_date'] == 1) the_time('F d, Y');
-					?>
+					<h4 class="flipper-post-title"><?php the_title(); ?></h4>
+					<div class="flipper-metabar"><?php the_time('F d, Y');?></div>
 				</div>
 			
 				

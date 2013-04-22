@@ -54,6 +54,8 @@ add_action('after_setup_theme', 'pl_theme_support');
 function pl_theme_support(  ){
 
 	add_theme_support( 'post-thumbnails' );
+	add_image_size( 'aspect-thumb', 600, 400, true );
+	
 	add_theme_support( 'menus' );
 	add_theme_support( 'automatic-feed-links' );
 
