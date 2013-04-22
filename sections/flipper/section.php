@@ -1,21 +1,23 @@
 <?php
+
 /*
 	Section: Flipper
 	Author: PageLines
 	Author URI: http://www.pagelines.com
 	Description: A great way to flip through posts. Simply select a post type and done.
-	Class Name: PageLinesFlipper	
+	Class Name: PageLinesFlipper
 	Cloning: true
 	Workswith: main, templates, sidebar_wrap
 	Filter: post-format
 */
 
-class PageLinesFlipper extends PageLinesSection {
+class PageLinesFlipperDontLoad extends PageLinesSection {
 
+	
 	var $default_limit = 3;
 
 	function section_persistent(){
-		add_image_size( 'portfolio-thumb', 300, 200, true );
+		add_image_size( '3-2-thumb', 600, 400, true );
 	}
 
 	function section_styles(){
@@ -163,48 +165,27 @@ class PageLinesFlipper extends PageLinesSection {
 						echo '<img src="'.$this->base_url.'/no-portfolio-item-small.jpg" alt="no image added yet." />'; 				}
 						 ?>
 					
-					<div class="work-info-bg"></div>
-					<div class="work-info">
+					<div class="flipper-info-bg"></div>
+					<div class="flipper-info pl-center-inside">
 						
-						<div class="vert-center">
+						<div class="pl-center-me">
 
 						<?php 
 						
-						$featured_image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );  
-						$video_embed = get_post_meta($post->ID, '_nectar_video_embed', true);
-						$video_m4v = get_post_meta($post->ID, '_nectar_video_m4v', true);
-					
-						//video 
-					    if( !empty($video_embed) || !empty($video_m4v) ) {
-
-						    if( !empty( $video_embed ) ) {
-						    	
-						    	echo '<a href="#video-popup-'.$post->ID.'" class="pp">'.__("Watch Video", 'pagelines').' </a> ';
-								echo '<div id="video-popup-'.$post->ID.'">';
-						        echo '<div class="video-wrap">' . stripslashes(htmlspecialchars_decode($video_embed)) . '</div>';
-								echo '</div>';
-						    } 
-						    
-						    else {
-								 echo '<a href="'.get_template_directory_uri(). '/includes/portfolio-functions/video.php?post-id=' .$post->ID.'&iframe=true&width=854" class="pp" >Watch Video</a> ';	 
-						     }
-
-				        } 
+							$featured_image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );  
+				
+							printf('<a href="%s">%s</a>', get_permalink(), __("More Details", 'pagelines'));
 						
-						//image
-					    else {
-					       echo '<a href="'. $featured_image[0].'" class="pp">'.__("View Larger", 'pagelines').'</a> ';
-					    }
-
-						 echo '<a href="' . get_permalink() . '">'.__("More Details", 'pagelines').'</a>'; ?>
+						
+						?>
 							
 							
-						</div><!--/vert-center-->
+						</div>
 						
 					</div>
 				</div><!--work-item-->
 				
-				<div class="work-meta">
+				<div class="flipper-meta">
 					<h4 class="title"><?php the_title(); ?></h4>
 					<?php $options = get_option('salient'); 
 						if(!empty($options['portfolio_date']) && $options['portfolio_date'] == 1) the_time('F d, Y');

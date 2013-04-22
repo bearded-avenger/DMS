@@ -141,9 +141,9 @@ class PageLinesStarBars extends PageLinesSection {
 			$width = ($width > 100) ? 100 : $width;
 
 
-			$tag = ( $format == 'append' ) ? $value . $starbar_mod : $starbar_mod . $value;
+			$tag = ( $format == 'append' ) ? $value . $mod : $mod . $value;
 
-			$total_tag = ( $format == 'append' ) ? $starbar_total . $starbar_mod : $starbar_mod . $starbar_total;
+			$total_tag = ( $format == 'append' ) ? $starbar_total . $mod : $mod . $starbar_total;
 
 		//	$draw_total_tag = ($i == 1) ? sprintf('<strong>%s</strong>', $total_tag) : '';
 

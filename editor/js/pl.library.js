@@ -1,4 +1,16 @@
 
+
+function plVerticalCenter() {
+	jQuery('.pl-center-inside').each(function(){
+		var colHeight = jQuery(this).height()
+		,	centeredElement = jQuery(this).find('.pl-center-me')
+		,	infoHeight = centeredElement.height()
+		
+		//30px away from being centered so we can transition to center point on hover
+		centeredElement.css('margin-top', ((colHeight / 2) - (infoHeight / 2 )) )
+	});	
+}
+
 function plIsset(variable){
 	if(typeof(variable) != "undefined" && variable !== null)
 		return true
@@ -51,5 +63,6 @@ function basename (path, suffix) {
 
   return b;
 }
+
 
 
