@@ -19,20 +19,27 @@
 		function animateStarBar(){
 
 			$('.starbars li:in-viewport:not(".animated")').each(function(i){
-
-				var percent = $(this).find('span').attr('data-width')
-
+				
+				var percent = $(this).find('.the-bar').attr('data-width')
+	
 				$(this)
 					.addClass('animated')
 
-				$(this).find('span').animate({
-					'width' : percent + '%'
-				},1700, 'easeOutCirc',function(){
-				})
+				$(this)
+					.find('.the-bar')
+					.animate(
+						{ 'width' : percent }
+						, 1700
+						, 'easeOutCirc'
+						,function(){}
+					)
+				
+				
+				
 
 				$(this).find('span strong').animate({
 					'opacity' : 1
-				},1400)
+				}, 1400)
 
 				////100% progress bar
 				if(percent == '100'){

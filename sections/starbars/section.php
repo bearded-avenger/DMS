@@ -16,6 +16,9 @@ class PageLinesStarBars extends PageLinesSection {
 
 	function section_styles(){
 		wp_enqueue_script( 'starbar', $this->base_url.'/starbar.js', array( 'jquery' ), PL_CORE_VERSION, true );
+		
+		wp_enqueue_script( 'pagelines-viewport', PL_JS . '/script.viewport.js', array( 'jquery' ), PL_CORE_VERSION, true );
+		wp_enqueue_script( 'pagelines-easing', PL_JS . '/script.easing.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
 
 	function section_opts(){
@@ -148,7 +151,7 @@ class PageLinesStarBars extends PageLinesSection {
 		//	$draw_total_tag = ($i == 1) ? sprintf('<strong>%s</strong>', $total_tag) : '';
 
 			$output .= sprintf(
-				'<li>%s<div class="bar-wrap"><span data-width="%s"><strong>%s</strong></span></div></li>',
+				'<li>%s<div class="bar-wrap"><span class="the-bar" data-width="%s"><strong>%s</strong></span></div></li>',
 				$desc,
 				$width.'%',
 				$tag
@@ -159,7 +162,7 @@ class PageLinesStarBars extends PageLinesSection {
 		if($output == ''){
 			$this->do_defaults();
 		} else
-			printf('%s<ul class="starbars">%s</ul>', $starbar_title, $output);
+			printf('<div class="starbars-wrap">%s<ul class="starbars">%s</ul></div>', $starbar_title, $output);
 
 
 
@@ -173,13 +176,13 @@ class PageLinesStarBars extends PageLinesSection {
 			<li>
 				<p>Jack</p>
 				<div class="bar-wrap">
-					<span data-width="30%"><strong>30<i class="icon-star"></i></strong></span><strong>100<i class="icon-star"></i></strong>
+					<span data-width="30%" class="the-bar"><strong>30<i class="icon-star"></i></strong></span><strong>100<i class="icon-star"></i></strong>
 				</div>
 			</li>
 			<li>
 				<p>Jill</p>
 				<div class="bar-wrap">
-					<span data-width="60%"><strong>60<i class="icon-star"></i></strong></span>
+					<span class="the-bar" data-width="60%"><strong>60<i class="icon-star"></i></strong></span>
 				</div>
 			</li>
 		</ul>
