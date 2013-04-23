@@ -15,7 +15,7 @@ class PageLinesStarBars extends PageLinesSection {
 	var $default_limit = 3;
 
 	function section_styles(){
-		wp_enqueue_script( 'starbar', $this->base_url.'/starbar.js', array( 'jquery' ), PL_CORE_VERSION, true );
+		wp_enqueue_script( 'starbar', $this->base_url.'/starbar.js', array( 'jquery-effects-core' ), PL_CORE_VERSION, true );
 	}
 
 	function section_opts(){
