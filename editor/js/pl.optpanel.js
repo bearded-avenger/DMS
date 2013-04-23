@@ -260,13 +260,15 @@
 
 				var specialClass = ''
 				, 	number = index
+				,	theTitle = o.title || o.label || 'Option'
+				
 
 				if(o.span)
 					specialClass += 'opt-span-'+o.span
 
 				optionHTML = that.optEngine( tabKey, o )
 
-				out += sprintf( '<div class="opt opt-%s %s" data-number="%s"><div class="opt-name">%s</div><div class="opt-box">%s</div></div>', o.key, specialClass, number, o.title, optionHTML )
+				out += sprintf( '<div class="opt opt-%s %s" data-number="%s"><div class="opt-name">%s</div><div class="opt-box">%s</div></div>', o.key, specialClass, number, theTitle, optionHTML )
 
 			})
 

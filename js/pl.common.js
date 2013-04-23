@@ -33,6 +33,21 @@
 			$('.fixed-top-pusher').height(height)
 
 		}
+		
+		, plVerticalCenter: function( container, element, offset ) {
+
+			jQuery( container ).each(function(){
+
+				var colHeight = jQuery(this).height()
+				,	centeredElement = jQuery(this).find( element )
+				,	infoHeight = centeredElement.height()
+				, 	offCenter = offset || 0
+
+				centeredElement.css('margin-top', ((colHeight / 2) - (infoHeight / 2 )) + offCenter )
+			})
+
+		}
+		
 
 	}
 

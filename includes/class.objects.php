@@ -152,7 +152,7 @@ function pledit( $id = '', $type = 'post' ){
 	}
 
 	if( $link ){
-		$format = apply_filters( 'pagelines_pledit_filter', '(<em>%s</em>)' );
+		$format = apply_filters( 'pagelines_pledit_filter', '[%s]' );
 		$button = sprintf(" <a class='pledit' href='%s'><span class='pledit-pad'>{$format}</span></a> ",
 			$link,
 			__( 'edit', 'pagelines' )

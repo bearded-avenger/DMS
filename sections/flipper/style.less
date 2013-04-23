@@ -54,7 +54,7 @@
 	.flipper-items {
 		overflow: hidden;
 		> li {
-			height: 100%;
+			
 			position: relative;
 			display: block;
 			float: left;
@@ -66,9 +66,11 @@
 				margin-bottom: 10px;
 			}
 			img {
+				width: 100%;
 				display: block;
+				float: left;
 				margin-bottom: 0px;
-				width: auto;
+				
 			}
 		}
 		.flipper-item{
@@ -131,7 +133,7 @@
 					opacity: 0.8;
 					.transition(all 0.2s linear);
 				}
-				.pl-center-me {
+				.pl-center {
 					.transition(all 0.2s linear);
 					text-align: center;
 					margin-top: 60px;
@@ -144,8 +146,8 @@
 
 				.flipper-info {
 					opacity: 1;
-					.pl-center-me {
-						margin-top: 80px;
+					.pl-center {
+						padding-top: 20px;
 					}
 				}
 				.flipper-info-bg {
@@ -160,6 +162,7 @@
 			float: left;
 			width: 70%;
 			.flipper-metabar{
+				opacity: .6;
 				font-size: @fontSizeSmall;
 			}
 		}

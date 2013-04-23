@@ -7,7 +7,7 @@
 	Class Name: PageLinesFlipper
 	Cloning: true
 	Workswith: main, templates, sidebar_wrap
-	Filter: post-format
+	Filter: format
 */
 
 class PageLinesFlipper extends PageLinesSection {
@@ -26,110 +26,97 @@ class PageLinesFlipper extends PageLinesSection {
 	
 	function section_opts(){
 		
+		$pt_objects = get_post_types( array(), 'objects');
+		
+		$pts = array();
+		
+		foreach($pt_objects as $key => $pt){
+			
+			if(post_type_supports( $key, 'thumbnail' ) && $pt->public){
+				$pts[ $key ] = array(
+					'name' => $pt->label
+				);
+			}
+				
+		}
+		//plprint($pt_objects); 
+		
 		$options = array(); 
 
 		$options[] = array(
 			
-			'title' => __( 'StarBar Configuration', 'pagelines' ),
+			'title' => __( 'Flipper Setup', 'pagelines' ),
 			'type'	=> 'multi',
 			'opts'	=> array(
 				array(
-					'key'			=> 'starbar_count',
-					'type' 			=> 'count_select',
-					'count_start'	=> 1, 
-					'count_number'	=> 12,
+					'key'			=> 'flipper_post_type',
+					'type' 			=> 'select',
+					'opts'			=> $pts, 
 					'default'		=> 4,
-					'label' 	=> __( 'Number of StarBars to Configure', 'pagelines' ),
-				),
-				array(
-					'key'			=> 'starbar_total',
-					'type' 			=> 'text',
-					'default'		=> 100,
-					'label' 		=> __( 'Starbar Total Count (Number)', 'pagelines' ),
-					'help' 			=> __( 'This number will be used to calculate the percent of the bar filled. The StarBar values will be shown as a percentage of this value. Default is 100.', 'pagelines' ),
+					'label' 	=> __( 'Which WordPress post type should Flipper use?', 'pagelines' ),
+					'help'		=> __( 'Note: Post types for this section must have "featured images" enabled and be public.<br/>Tip: Use a plugin to create custom post types for use with Flipper.', 'pagelines' ),
 				),
 				
-				array(
-					'key'			=> 'starbar_modifier',
-					'type' 			=> 'text',
-					'default'		=> '%',
-					'label' 		=> __( 'Starbar Modifier (Text Added to Stats)', 'pagelines' ),
-					'help' 			=> __( 'This will be added to the stat number.', 'pagelines' ),
-				),
-				array(
-					'key'			=> 'starbar_format',
-					'type' 			=> 'select',
-					'opts'		=> array(
-						'append'		=> array( 'name' => 'Append Modifier (Default)' ),
-						'prepend'	 	=> array( 'name' => 'Prepend Modifier' ), 
-					),
-					'default'		=> 'append',
-					'label' 	=> __( 'Starbar Format', 'pagelines' ),
-				),
-				array(
-					'key'			=> 'starbar_container_title',
-					'type' 			=> 'text',
-					'default'		=> 'StarBar',
-					'label' 	=> __( 'StarBar Title (Optional)', 'pagelines' ),
-				),
+			
 			)
 
 		);
-
-		$slides = ($this->opt('starbar_count')) ? $this->opt('starbar_count') : $this->default_limit;
-
-		for($i = 1; $i <= $slides; $i++){
-
-			$opts = array(
-				
-				'starbar_descriptor_'.$i 	=> array(
-					'label'		=> __( 'Descriptor', 'pagelines' ), 
-					'type'		=> 'text'
-				),
-				'starbar_value_'.$i 	=> array(
-					'label'	=> __( 'Value', 'pagelines' ), 
-					'type'	=> 'text', 
-					'help'	=> __( 'Shown as a percentage of the StarBar total in the config.', 'pagelines' ), 
-				),	
-			);
+		$options[] = array(
+			'key'			=> 'flipper_shown',
+			'type' 			=> 'count_select',
+			'count_start'	=> 1,
+			'count_number'	=> 6,
+			'default'		=> 3,
+			'label' 		=> __( 'Max Number of Posts Shown', 'pagelines' ),
+			'help'		=> __( 'This controls the maximum number of posts shown. A smaller amount may be shown based on layout width.', 'pagelines' ),
+		);
+		
+		$options[] = array(
+			'key'			=> 'flipper_title',
+			'type' 			=> 'text',
+			'label' 		=> __( 'Flipper Title', 'pagelines' ),
+		);
+		
+		$options[] = array(
+			'key'			=> 'flipper_meta',
+			'type' 			=> 'text',
+			'label' 		=> __( 'Flipper Meta', 'pagelines' ),
+			'ref'			=> __( 'Use shortcodes to control the dynamic meta info. Example shortcodes you can use are: <ul><li><strong>[post_categories]</strong> - List of categories</li><li><strong>[post_edit]</strong> - Link for admins to edit the post</li><li><strong>[post_tags]</strong> - List of post tags</li><li><strong>[post_comments]</strong> - Link to post comments</li><li><strong>[post_author_posts_link]</strong> - Author and link to archive</li><li><strong>[post_author_link]</strong> - Link to author URL</li><li><strong>[post_author]</strong> - Post author with no link</li><li><strong>[post_time]</strong> - Time of post</li><li><strong>[post_date]</strong> - Date of post</li><li><strong>[post_type]</strong> - Type of post</li></ul>', 'pagelines' ),
+		);
+		$options[] = array(
+			'key'			=> 'flipper_total',
+			'type' 			=> 'count_select',
+			'count_start'	=> 5,
+			'count_number'	=> 20,
+			'default'		=> 10,
+			'label' 		=> __( 'Total Posts Loaded', 'pagelines' ),
 			
+		);
 
-			$options[] = array(
-				'title' 	=> __( '<i class="icon-star"></i> StarBar #', 'pagelines' ) . $i,
-				'type' 		=> 'multi',
-				'opts' 		=> $opts,
-				
-			);
-
-		}
-
+	
 		return $options;
 	}
 	
 	function section_template(  ) { 
-		
-		$starbar_title = $this->opt('starbar_container_title'); 
-		$starbar_mod = $this->opt('starbar_modifier'); 
-		$starbar_total = (int) $this->opt('starbar_total'); 
-		$starbar_count = $this->opt('starbar_count'); 
-		$starbar_format = $this->opt('starbar_format'); 
-		
-		$starbar_title = ($starbar_title) ? sprintf('<h2>%s</h2>', $starbar_title) : '';
-		
-		$format = ($starbar_format) ? $starbar_format : 'append'; 
-		
-		$mod = ($starbar_mod) ? $starbar_mod : '%';
-		
-		$total = ($starbar_total) ? $starbar_total : 100;
-		
-		$total = apply_filters('starbars_total', $total);
-		
+				
 		global $post;
-		$post_type = 'post'; 
+		$post_type = ($this->opt('flipper_post_type')) ? $this->opt('flipper_post_type') : 'post'; 
+		
+		$pt = get_post_type_object($post_type);
+
+		$shown = ($this->opt('flipper_shown')) ? $this->opt('flipper_shown') : '3'; 
+		
+		$total = ($this->opt('flipper_total')) ? $this->opt('flipper_total') : '10'; 
+		
+		$title = ($this->opt('flipper_title')) ? $this->opt('flipper_title') : $pt->label; 
+		
+		$meta = ($this->opt('flipper_meta')) ? $this->opt('flipper_meta') : '[post_date] [post_edit]'; 
+		
+		
 		
 		$the_query = array(
-			'posts_per_page' => '10',
-			'post_type' => $post_type
+			'posts_per_page' 	=> $total,
+			'post_type' 		=> $post_type
 		);
 		query_posts( $the_query ); 
 		
@@ -137,13 +124,19 @@ class PageLinesFlipper extends PageLinesSection {
 				
 				<div class="flipper-heading">
 					<div class="flipper-title">
-						Whatever
+						
 						<?php 
-							printf(
-								'<a href="%s" > %s</a>', 
-								get_post_type_archive_link( $post_type ), 
-								__(' / View All', 'pagelines')
-							); ?>
+							echo $title;
+							
+							
+							$archive_link = get_post_type_archive_link( $post_type );
+							
+							if( $archive_link )
+								printf( '<a href="%s" > %s</a>', 
+									$archive_link, 
+									__(' / View All', 'pagelines')
+								); 
+							?>
 						
 					</div>
 					<a class="flipper-prev" href="#"><i class="icon-arrow-left"></i></a>
@@ -152,32 +145,33 @@ class PageLinesFlipper extends PageLinesSection {
 	
 				<div class="flipper-wrap">
 				
-				<ul class="row flipper-items text-align-center flipper" data-scroll-speed="800" data-easing="easeInOutQuart">
+				<ul class="row flipper-items text-align-center flipper" data-scroll-speed="800" data-easing="easeInOutQuart" data-shown="<?php echo $shown;?>">
 		<?php } ?>
 			
 			<?php if(have_posts()) : while(have_posts()) : the_post(); ?>
 			
 				
-			<li>
+			<li style="">
 				
-				<div class="flipper-item">
+				<div class="flipper-item fix">
 					<?php 
 					if ( has_post_thumbnail() ) { 
 						echo get_the_post_thumbnail( $post->ID, 'aspect-thumb', array('title' => '')); 
 					} else { 
-						echo '<img src="'.$this->base_url.'/no-portfolio-item-small.jpg" alt="no image added yet." />'; 				}
+						echo '<img height="400" width="600" src="'.$this->base_url.'/missing-thumb.jpg" alt="no image added yet." />'; 				
+						}
 						 ?>
 					
 					<div class="flipper-info-bg"></div>
 					<div class="flipper-info pl-center-inside">
 						
-						<div class="pl-center-me">
+						<div class="pl-center">
 
 						<?php 
 						
 							$featured_image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );  
 				
-							printf('<a href="%s">%s</a>', get_permalink(), __("More Details", 'pagelines'));
+							printf('<a href="%s">%s</a>', get_permalink(), __("View", 'pagelines'));
 						
 						
 						?>
@@ -190,7 +184,7 @@ class PageLinesFlipper extends PageLinesSection {
 				
 				<div class="flipper-meta">
 					<h4 class="flipper-post-title"><?php the_title(); ?></h4>
-					<div class="flipper-metabar"><?php the_time('F d, Y');?></div>
+					<div class="flipper-metabar"><?php echo do_shortcode( $meta ); ?></div>
 				</div>
 			
 				

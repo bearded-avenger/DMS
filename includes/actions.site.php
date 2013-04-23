@@ -140,7 +140,6 @@ function pagelines_print_js() {
 	wp_enqueue_script( 'pagelines-resizer' );
 	wp_enqueue_script( 'pagelines-viewport' );
 	wp_enqueue_script( 'pagelines-common' );
-	wp_enqueue_script( 'pagelines-blocks' );
 }
 
 // Load Supersize BG Script

@@ -3,45 +3,53 @@
 	
 		$('.flipper').each(function(){
 			
-	    	var $that = $(this)
+	    	var flipper = $(this)
 			,	scrollSpeed
 			, 	easing
-					
-			(parseInt($(this).attr('data-scroll-speed'))) ? scrollSpeed = parseInt($(this).attr('data-scroll-speed')) : scrollSpeed = 700;
-			($(this).attr('data-easing').length > 0) ? easing = $(this).attr('data-easing') : easing = 'linear';
+			, 	shown = flipper.data('shown') || 3
+			,	scrollSpeed = flipper.data('scroll-speed') || 700
+			,	easing = flipper.data('easing') || 'linear'
 			
-	    	$(this).carouFredSel({
-	    		circular: true,
-	    		responsive: true,
-		        items       : {
+	    	flipper.carouFredSel({
+	    		circular: 	true
+	    		, responsive: true
+				, auto: true
+				, height: "variable"
+				, onCreate: function(){
+					
+				}
+				, items       : {
 					width : 353,
+					height: "variable",
 			        visible     : {
-			            min         : 1,
-			            max         : 3
+			            min         : 1
+			            , max         : shown
 			        }
-			    },
-			    swipe       : {
+			    }
+			    , swipe       : {
 			        onTouch     : true
-			    },
-			    scroll: {
-			    	easing          : easing,
-		            duration        : scrollSpeed
-			    },
-		        prev    : {
+			    }
+			    , scroll: {
+			    	easing          : easing
+		            , duration        : scrollSpeed
+			    }
+		        , prev    : {
 			        button  : function() {
-			           return $that.parents('.flipper-wrap').prev(".flipper-heading").find('.flipper-prev');
+			           return flipper.parents('.flipper-wrap').prev(".flipper-heading").find('.flipper-prev');
 			        }
-		    	},
-			    next    : {
+		    	}
+			    , next    : {
 		       		button  : function() {
-			           return $that.parents('.flipper-wrap').prev(".flipper-heading").find('.flipper-next');
+			           return flipper.parents('.flipper-wrap').prev(".flipper-heading").find('.flipper-next');
 			        }
-			    },
-			    auto    : {
+			    }
+			    , auto    : {
 			    	play: false
 			    }
+				
 		    }).animate({'opacity': 1},1300);
 		
+			$.plCommon.plVerticalCenter('.flipper-info', '.pl-center', -20)
 		
 	    });
 		
