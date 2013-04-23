@@ -17,8 +17,8 @@ class PageLinesStarBars extends PageLinesSection {
 	function section_styles(){
 		wp_enqueue_script( 'starbar', $this->base_url.'/starbar.js', array( 'jquery' ), PL_CORE_VERSION, true );
 		
-		wp_enqueue_script( 'pagelines-viewport', PL_JS . '/script.viewport.js', array( 'jquery' ), PL_CORE_VERSION, true );
-		wp_enqueue_script( 'pagelines-easing', PL_JS . '/script.easing.js', array( 'jquery' ), PL_CORE_VERSION, true );
+		wp_enqueue_script( 'pagelines-viewport', $this->base_url . '/script.viewport.js', array( 'jquery' ), PL_CORE_VERSION, true );
+		wp_enqueue_script( 'pagelines-easing', $this->base_url . '/script.easing.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
 
 	function section_opts(){
