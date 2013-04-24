@@ -30,11 +30,12 @@ class PageLinesTwitterBar extends PageLinesSection {
 
 
 		);
-
-
 		return $opts;
 	}
-
+    function section_styles() {
+ 
+        wp_enqueue_script( 'twitter', $this->base_url.'/twitter.js', array( 'pagelines-bootstrap-all' ), null, true );
+    }
 	/**
 	* Section template.
 	*/
