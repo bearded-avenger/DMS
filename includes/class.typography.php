@@ -271,7 +271,7 @@ class PageLinesFoundry {
 				'name' => 'Source Sans Pro',
 				'family' => '"Source Sans Pro", "Lucida Grande", Tahoma, sans-serif',
 				'web_safe' => true,
-				'google' => array('400','600','700','900','400italic'),
+				'google' => array('400','600','700','900'),
 				'monospace' => false,
 				'free'		=> true
 			),

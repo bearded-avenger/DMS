@@ -65,7 +65,7 @@ class EditorTypography{
 					array(
 						'key'			=> 'font_primary',
 						'type' 			=> 'type',
-						'label' 		=> 'Font Face',
+						'label' 		=> 'Select Font Face',
 						'default'		=> 'droid_sans',
 						
 					),
@@ -86,10 +86,9 @@ class EditorTypography{
 						'label'			=> 'Font Weight',
 						'opts'			=> array(
 							'400'	=> array('name' => 'Normal (400)'),
-							'600'	=> array('name' => 'Semi-Bold (600)'),
-							'800'	=> array('name' => 'Bold (800)')
+							'600'	=> array('name' => 'Bold (600)')
 						),
-						'default' 		=> 'normal',
+						'default' 		=> '400',
 					),
 					
 				),
@@ -116,7 +115,7 @@ class EditorTypography{
 						'count_number'	=> 30,
 						'suffix'		=> 'px',
 						'title'			=> __( 'Base Font Size', 'pagelines' ),
-						'default'		=> 14, 
+						'default'		=> 16, 
 					),
 					array(
 						'key'			=> 'font_headers_weight',
@@ -125,8 +124,7 @@ class EditorTypography{
 						'label'			=> 'Font Weight',
 						'opts'			=> array(
 							'400'	=> array('name' => 'Normal (400)'),
-							'600'	=> array('name' => 'Semi-Bold (600)'),
-							'800'	=> array('name' => 'Bold (800)')
+							'600'	=> array('name' => 'Bold (600)')
 						),
 						'default' 		=> '600',
 					),

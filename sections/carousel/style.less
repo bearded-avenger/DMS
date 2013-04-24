@@ -6,9 +6,7 @@
 
 .section-carousel{
 	.thecarousel{
-		#gradient > .vertical(lighten(@baseContrast, 6), @baseContrast);
-		border:1px solid @baseContrastDark;
-		box-shadow: inset 1px 1px 0 lighten(@baseContrast, 10);
+		
 		position: relative;
 		overflow: hidden;
 	    padding: 15px 67px 15px ;
@@ -55,8 +53,8 @@
 					}
 					img, 
 					&:hover img{
-						background: lighten(@baseContrast, 15 );
-						box-shadow: 0 1px 4px darken(@baseContrast, 25 );
+						background: @baseContrast;
+						
 					}
 				}
 
@@ -78,15 +76,25 @@
 	    width: 40px;
 	    height: 40px;
 		cursor: pointer;
-		opacity: .5;
+		opacity: .3;
+		.transition(all 0.2s ease-in-out);
+		&:hover{
+			opacity: .7;
+		}
 	}
 	.jcarousel-next { 
-	    right: 15px;
-	    background: transparent url(@{plSectionsRoot}/carousel/images/carousel_navright.png) no-repeat 0 0;
+	    width: 0; 
+		height: 0; 
+		border: 20px solid transparent;
+		border-left: 20px solid @textColor;
+		right: 15px;
 	}
 	.jcarousel-prev {
 	    left: 15px;
-	    background: transparent url(@{plSectionsRoot}/carousel/images/carousel_navleft.png) no-repeat 0 0;
+	    width: 0; 
+		height: 0; 
+		border: 20px solid transparent;
+		border-right: 20px solid @textColor;
 	}
 	
 }

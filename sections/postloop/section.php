@@ -171,7 +171,7 @@ class PageLinesPostLoop extends PageLinesSection {
 					array(
 							'case'		=> 'special',
 							'key'		=> 'continue_reading_text',
-							'default'	=> 'Read Full Article &rarr;',
+							'default'	=> 'Read More &raquo;',
 							'type'		=> 'text',
 							'label'		=> __( 'Continue Reading Link Text', 'pagelines' ),
 							'title'		=> __( 'Excerpts <strong>Continue Reading</strong> Text', 'pagelines' ),

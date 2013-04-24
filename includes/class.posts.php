@@ -27,7 +27,9 @@ class PageLinesPosts {
 
 		$this->thumb_space = get_option('thumbnail_size_w') + 33; // Space for thumb with padding
 
-		$this->continue_reading = apply_filters('continue_reading_link_text', load_pagelines_option('continue_reading_text', __('[Continue Reading...]', 'pagelines')));
+		
+		$cr_link = pl_setting('continue_reading_text');
+		$this->continue_reading = ($cr_link) ? $cr_link : __('Read More &raquo;', 'pagelines');
 
 		add_filter('pagelines_post_metabar', 'do_shortcode', 20);
 

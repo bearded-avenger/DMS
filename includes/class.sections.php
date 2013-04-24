@@ -187,7 +187,9 @@ class PageLinesSection {
 			&& $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ] != ''
 		)
 			$val = $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ];
-		elseif(ploption( $key, $args))
+		elseif(pl_setting( $key, $args))
+			$val = pl_setting( $key, $args); 
+		elseif(ploption( $key, $args) && !pl_deprecate_v2())
 			$val = ploption( $key, $args); // LEGACY
 		else
 			$val = $a['default'];

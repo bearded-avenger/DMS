@@ -44,8 +44,10 @@ p {
 // ---------
 a{
 	color: @linkColor;
+	.transition(color 0.2s linear);
 	&:hover{
 		color: @linkColorHover;
+		text-decoration: none;
 	}
 }
 
@@ -258,10 +260,6 @@ h2 + img{
 	}
 	h3, h4, h5, h6{
 		margin: 1.4em 0 .6em;
-	}
-
-	a:hover{
-		text-decoration: underline;
 	}
 
 }
