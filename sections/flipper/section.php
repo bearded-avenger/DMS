@@ -54,7 +54,7 @@ class PageLinesFlipper extends PageLinesSection {
 					'opts'			=> $pts, 
 					'default'		=> 4,
 					'label' 	=> __( 'Which WordPress post type should Flipper use?', 'pagelines' ),
-					'help'		=> __( 'Note: Post types for this section must have "featured images" enabled and be public.<br/>Tip: Use a plugin to create custom post types for use with Flipper.', 'pagelines' ),
+					'help'		=> __( '<strong>Note</strong><br/> Post types for this section must have "featured images" enabled and be public.<br/><strong>Tip</strong><br/> Use a plugin to create custom post types for use with Flipper.', 'pagelines' ),
 				),
 				
 			
