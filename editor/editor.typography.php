@@ -60,7 +60,7 @@ class EditorTypography{
 			array(
 				'type' 	=> 	'multi',
 				'title' => __( 'Primary Text', 'pagelines' ),
-				'help' 		=> __( 'The base font size is a reference that will be scaled for text used throughout the site.', 'pagelines' ),
+				'help' 		=> __( 'The base font size is a reference that will be scaled for text used throughout the site. ', 'pagelines' ),
 				'opts'	=> array(
 					array(
 						'key'			=> 'font_primary',
@@ -85,10 +85,13 @@ class EditorTypography{
 						'classes'		=> 'font-weight',
 						'label'			=> 'Font Weight',
 						'opts'			=> array(
+							'300'	=> array('name' => 'Light (300)*'),
 							'400'	=> array('name' => 'Normal (400)'),
-							'600'	=> array('name' => 'Bold (600)')
+							'600'	=> array('name' => 'Semi-Bold (600)*'),
+							'600'	=> array('name' => 'Bold (800)')
 						),
 						'default' 		=> '400',
+						'help'			=> __( '*These weights don\'t alwaye have an effect.', 'pagelines' ),
 					),
 					
 				),
@@ -123,8 +126,10 @@ class EditorTypography{
 						'classes'			=> 'font-weight',
 						'label'			=> 'Font Weight',
 						'opts'			=> array(
+							'300'	=> array('name' => 'Light (300)'),
 							'400'	=> array('name' => 'Normal (400)'),
-							'600'	=> array('name' => 'Bold (600)')
+							'600'	=> array('name' => 'Semi-Bold (600)'),
+							'600'	=> array('name' => 'Bold (800)')
 						),
 						'default' 		=> '600',
 					),

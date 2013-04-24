@@ -131,11 +131,18 @@ class PageLinesFlipper extends PageLinesSection {
 							
 							$archive_link = get_post_type_archive_link( $post_type );
 							
-							if( $archive_link )
+							if( $archive_link ){
 								printf( '<a href="%s" > %s</a>', 
 									$archive_link, 
 									__(' / View All', 'pagelines')
-								); 
+								);
+							} else if ($post_type == 'post' && get_option( 'page_for_posts')){
+								printf( '<a href="%s" > %s</a>', 
+									get_page_uri( get_option( 'page_for_posts') ), 
+									__(' / View Blog', 'pagelines')
+								);
+							}
+								
 							?>
 						
 					</div>

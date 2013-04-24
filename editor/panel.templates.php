@@ -398,18 +398,17 @@ class EditorTemplates {
 			'name'	=> 'Feature Template',
 			'desc'	=> 'Standard page configuration with right aligned sidebar and content area.',
 			'map'	=> array(
-				'template' => array(
-					'area'	=> 'TemplateAreaID',
+				array(
+					'object'	=> 'plRevSlider',
+				),
+				array(
 					'content'	=> array(
 						array(
-							'object'	=> 'PageLinesQuickSlider',
-						),
-						array(
-							'object'	=> 'PageLinesBoxes',
+							'object'	=> 'pliBox',
 
 						),
 						array(
-							'object'	=> 'PageLinesPostLoop',
+							'object'	=> 'PageLinesFlipper',
 
 						),
 					)

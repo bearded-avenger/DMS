@@ -169,15 +169,17 @@ class PageLinesTemplateHandler {
 	}
 
 	function parse_config(){
+		
 		foreach($this->map as $group => &$g){
 
 			if( !isset($g) || !is_array($g) )
 				continue;
 
 			foreach($g as $area => &$a){
-
+			
+			
 				if( isset( $a['object'] ) && $a['object'] ){
-
+					$a = wp_parse_args( $a, $this->meta_defaults( $area ) );
 					$this->section_list[ ] = $a;
 					$this->section_list_unique[ $a['object'] ] = $a;
 
@@ -526,7 +528,10 @@ class PageLinesTemplateHandler {
 				$s = $this->factory[ $meta['object'] ];
 
 				$s->meta = $meta;
-
+				
+				if(!isset($meta['clone']))
+					plprint($meta);
+			
 				$s->setup_oset( $meta['clone'] ); // refactor
 
 				ob_start();
