@@ -172,21 +172,24 @@ class PageLinesStarBars extends PageLinesSection {
 	function do_defaults(){
 
 		?>
-		<h2>StarBar</h2>
-		<ul class="starbars">
-			<li>
-				<p>Jack</p>
-				<div class="bar-wrap">
-					<span data-width="30%" class="the-bar"><strong>30<i class="icon-star"></i></strong></span><strong>100<i class="icon-star"></i></strong>
-				</div>
-			</li>
-			<li>
-				<p>Jill</p>
-				<div class="bar-wrap">
-					<span class="the-bar" data-width="60%"><strong>60<i class="icon-star"></i></strong></span>
-				</div>
-			</li>
-		</ul>
+		<div class="starbars-wrap">
+			<h2>StarBar</h2>
+			<ul class="starbars">
+				
+				<li>
+					<p>Ninja Ability</p>
+					<div class="bar-wrap">
+						<span class="the-bar" data-width="70%"><strong>70%</strong></span>
+					</div>
+				</li>
+				<li>
+					<p>Tree Climbing Skills</p>
+					<div class="bar-wrap">
+						<span class="the-bar" data-width="90%"><strong>90%</strong></span>
+					</div>
+				</li>
+			</ul>
+		</div>
 		<?php
 	}
 

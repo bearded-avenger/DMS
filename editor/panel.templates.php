@@ -428,7 +428,8 @@ class EditorTemplates {
 							),
 							array(
 								'object'	=> 'PageLinesPostLoop',
-
+								'span'		=> 8, 
+								'offset'	=> 2
 							),
 
 						)

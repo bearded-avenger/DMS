@@ -5,7 +5,10 @@
 	// --> Initialize
 	$(document).ready(function() {
 
-		$('.pl-sortable-area .pl-section').addClass('pl-sortable')
+		$('.pl-sortable-area')
+			.addClass('editor-row')
+			.find('.pl-section')
+			.addClass('pl-sortable')
 
 		$(".dropdown-toggle").dropdown()
 
@@ -464,7 +467,7 @@
 
 			console.log(source)
 
-			$('.editor-row').each(function () {
+			$('.pl-sortable-area').each(function () {
 				$.pageBuilder.alignGrid( this )
 			})
 
@@ -563,34 +566,43 @@
 
         }
 
-		, storeMap: function( interrupt ) {
+		, storeMap: function( refresh ) {
 
 			var that = this
-			, 	interrupt = interrupt || false
+			, 	refresh = refresh || false
 			,	map = $.plMapping.getCurrentMap()
 
 			$.pl.map = map
 
-			$.plAJAX.saveData( {
-				run: 'map'
-				, postSuccess: function( rsp ){
+			if( refresh ){
+				
+				$.plAJAX.saveData( {
+					run: 'map'
+					, refresh: true
+					, refreshText: 'New page setup saved! Refreshing page...'
+					
+				} )
+				
+			} else {
+				
+				$.plAJAX.saveData( {
+					run: 'map'
+					, postSuccess: function( rsp ){
 
-					if(!rsp)
-						return
+						if(!rsp)
+							return
 
-						console.log(rsp)
+						if(rsp.changes && rsp.changes.local == 1){
+							$('.x-item-actions')
+							 	.removeClass('active-template')
+						}
 
-					if(rsp.changes && rsp.changes.local == 1){
-						console.log(rsp.changes.local)
-
-						$('.x-item-actions')
-						 	.removeClass('active-template')
 
 					}
-
-
-				}
-			} )
+				} )
+			}
+			
+			
 
 			return map
 

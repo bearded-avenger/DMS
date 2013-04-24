@@ -124,13 +124,18 @@ $.plSections = {
 		// reload events
 		$('.s-control')
 			.off('click.sectionControls')
-
+			
+		// Store new page config
+		var map = $.pageBuilder.storeMap( true )
+		
 		$.pageBuilder.sectionControls()
 
 		$('.area-control')
 			.off('click.areaControl')
 
 		$.areaControl.listen()
+		
+		
 
 		$('.banner-refresh')
 			.off()
@@ -139,8 +144,7 @@ $.plSections = {
 				location.reload()
 			})
 
-		// Store new page config
-		$.pageBuilder.storeMap()
+		
 	}
 }
 
