@@ -78,6 +78,14 @@ function process_old_opt( $key, $old, $otop = array()){
 
 	if($old['type'] == 'text_small'){
 		$type = 'text';
+	} elseif($old['type'] == 'colorpicker'){
+		$type = 'color';
+	} elseif($old['type'] == 'check_multi'){
+		$type = 'multi';
+		
+		foreach($old['selectvalues'] as $key => &$info){
+			$info['type'] = 'check';
+		}
 	} else
 		$type = $old['type'];
 
@@ -88,7 +96,8 @@ function process_old_opt( $key, $old, $otop = array()){
 		'type'			=> $type,
 		'help'			=> $exp,
 		'opts'			=> $old['selectvalues'],
-		'span'			=> $old['span']
+		'span'			=> $old['span'],
+		
 	);
 
 	if($old['type'] == 'count_select'){
