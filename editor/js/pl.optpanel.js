@@ -262,6 +262,8 @@
 				, 	number = index
 				,	theTitle = o.title || o.label || 'Option'
 				
+				if(!o.key)
+					o.key = 'no-key'
 
 				if(o.span)
 					specialClass += 'opt-span-'+o.span
@@ -319,11 +321,12 @@
 
 		}
 
-		, optEngine: function( tabIndex, o ) {
+		, optEngine: function( tabIndex, o, optLevel ) {
 
 			var that = this
 			, 	oHTML = ''
 			, 	scope = (that.config.mode == 'settings') ? 'global' : tabIndex
+			, 	level = optLevel || 1
 
 
 			o.classes = o.classes || ''
@@ -340,7 +343,7 @@
 				if(o.opts){
 					$.each( o.opts , function(index, osub) {
 
-						oHTML += that.optEngine(tabIndex, osub) // recursive
+						oHTML += that.optEngine(tabIndex, osub, 2) // recursive
 
 					})
 				}
@@ -558,8 +561,11 @@
 			if ( o.ref )
 				oHTML += sprintf('<div class="opt-ref"><a href="#" class="btn btn-info btn-mini btn-ref"><i class="icon-info-sign"></i> More Info</a><div class="help-block">%s</div></div>', o.ref)
 
-
-			return oHTML
+			if(level == 2)
+				return sprintf('<div class="input-wrap">%s</div>', oHTML)
+			else 
+				return oHTML
+				
 		}
 
 		, runScriptEngine: function ( tabIndex, opts ) {

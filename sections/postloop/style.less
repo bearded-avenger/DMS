@@ -53,24 +53,6 @@ body .pl-area .pl-section .section-postloop > .pl-section-pad {
 .post-meta .c_img,
 .hentry .c_img{
 	display: block;
-	border: 1px solid transparent;
-	padding: 4px;
-	max-width: 98%;
-	line-height:1em;
-}
-
-
-
-/*
- * Thumbs and other images
- ***********************************/
-.post-meta .c_img{
-	background: @light-base;
-	border: 1px solid lighten(@light-base, 4);
-	box-shadow: 0 1px 2px rgba(0,0,0, .4);
-	img{
-		box-shadow: 0 1px 2px lighten(@light-base, 8);
-	}
 }
 
 .multi-post {
@@ -80,7 +62,8 @@ body .pl-area .pl-section .section-postloop > .pl-section-pad {
 			padding: 0 0 @baseLineHeight;
 		}
 	}
-
+	
+	
 	.clip_box{
 		margin: 0 0 @baseLineHeight;
 		border-color: @dark-base;
@@ -94,9 +77,6 @@ body .pl-area .pl-section .section-postloop > .pl-section-pad {
 			}
 			&.clip-right{
 				float: right;
-			}
-			.post-meta .c_img {
-				padding: 2px;
 			}
 			.clip-header {
 				padding: 4px 0 4px 0;
@@ -114,14 +94,11 @@ body .pl-area .pl-section .section-postloop > .pl-section-pad {
 					margin:0 0 0.4em;
 				}
 			}
+			
 			.post-excerpt{
 				font-size: 90%;
 				line-height: 1.6em;
 				margin-bottom:1.5em;
-				margin-top:.5em;
-				.post-thumb.img {
-					margin-right: 10px
-				}
 			}
 
 			.entry-title,
@@ -134,6 +111,12 @@ body .pl-area .pl-section .section-postloop > .pl-section-pad {
 }
 
 
+.post-header .post-thumb.img{
+	margin: 0 10px 5px 0;
+	&.alignright{
+		margin: 0 0 5px 10px
+	}
+}
 
 
 /* @ Posts */
@@ -141,17 +124,20 @@ body .pl-area .pl-section .section-postloop > .pl-section-pad {
 	.post-excerpt .post-thumb.img {
 		margin-right: 13px
 	}
-	.post-thumb.img {
-		margin-right: 20px;
+	.media {
+		.post-thumb.img {
+			margin-right: 20px;
+		}	
+		.img img{
+			max-width: 100%;
+			height: auto;
+			margin: 0 auto;
+		}
 	}
 	.textcontent {
 		margin: 20px 10px 0 0;
 	}
-	.media .img img{
-		max-width: 100%;
-		height: auto;
-		margin: 0 auto;
-	}
+	
 	.post-title h2 a:hover{
 		text-decoration: underline;
 	}
@@ -165,7 +151,8 @@ body .pl-area .pl-section .section-postloop > .pl-section-pad {
 }
 
 .full_img {
-	margin-bottom: .8em;
+	margin-top: 10px;
+	margin-bottom: 15px;
 }
 
 
@@ -178,23 +165,13 @@ body .pl-area .pl-section .section-postloop > .pl-section-pad {
 		padding-bottom: 6px;
 	}
 	.metabar{
-		font-size: 80%;
+		font-size: @fontSizeSmall;
 		line-height: 1.6em;
 		em{
+			opacity: .7;
 			font-style: normal;
-			color: @textColorAlt;
-			font-family: @altFontFamily;
-			font-weight: @altFontWeight;
-			a{
-				color: @textColorAlt;
-			}
-			a:hover{
-				text-decoration: none;
-				color: @pl-text;
-			}
+			
 		}
 	}
 }
 
-// Clips - Only used in blog listing
-// ------------------------------------

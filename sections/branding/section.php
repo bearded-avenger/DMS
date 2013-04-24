@@ -23,7 +23,8 @@ class PageLinesBranding extends PageLinesSection {
 			array(
 				'type' 			=> 'image_upload',
 				'title' 		=> 'Site Image',
-				'key'			=> 'pagelines_custom_logo'
+				'key'			=> 'pagelines_custom_logo',
+				'default'		=> PL_IMAGES.'/designer.png',
 			),
 
 

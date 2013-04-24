@@ -846,7 +846,7 @@ class PageLinesOptionsArray {
 		    ),
 			'continue_reading_text' => array(
 					'version'	=> 'pro',
-					'default'	=> 'Read Full Article &rarr;',
+					'default'	=> 'Read More',
 					'type'		=> 'text',
 					'inputlabel'=> __( 'Continue Reading Link Text', 'pagelines' ),
 					'title'		=> __( '<strong>Continue Reading</strong> Link Text (When Using Excerpts)', 'pagelines' ),						

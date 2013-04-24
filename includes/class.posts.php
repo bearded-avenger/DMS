@@ -405,7 +405,7 @@ class PageLinesPosts {
 
 		global $post;
 
-		$img = ( $mode == 'top' ) ? get_the_post_thumbnail( null, 'large' ) : get_the_post_thumbnail( null, 'thumbnail' );
+		$img = ( $mode == 'top' ) ? get_the_post_thumbnail( null, 'landscape-thumb' ) : get_the_post_thumbnail( null, 'thumbnail' );
 
 		$the_image = sprintf( '<span class="c_img">%s</span>', $img );
 

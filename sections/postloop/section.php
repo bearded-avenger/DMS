@@ -111,14 +111,7 @@ class PageLinesPostLoop extends PageLinesSection {
 				'title' 	=> __( 'Thumbs', 'pagelines' ),
 				'type'		=> 'multi',
 				'opts'		=> array(
-					array(
-							'key'		=> 'hide_thumb',
-							'case'		=> 'special',
-							'type'		=> 'check',
-							'label'		=> 'Hide thumbs?',
-							'title'		=> __( 'Post Thumbnails', 'pagelines' ),
-							'help'		=> __( 'Use this option to hide or show thumbs for posts on pages.', 'pagelines' )
-					),
+					
 
 					array(
 						'case'		=> 'special',
@@ -135,6 +128,7 @@ class PageLinesPostLoop extends PageLinesSection {
 						'help'		=> __( 'Use this option to configure how thumbs will be shown in full-width posts on your blog page.', 'pagelines' )
 
 					),
+					
 					array(
 						'case'		=> 'special',
 						'type'		=> 'select',
@@ -148,6 +142,14 @@ class PageLinesPostLoop extends PageLinesSection {
 						),
 						'title'		=> __( 'Clip Thumbs Layout', 'pagelines' ),
 						'help'		=> __( 'Use this option to configure how thumbs will be shown in clips. These are the smaller <strong>magazine</strong> style excerpts on your blog page.', 'pagelines' )
+					),
+					array(
+							'key'		=> 'hide_thumb',
+							'case'		=> 'special',
+							'type'		=> 'check',
+							'label'		=> 'Hide thumbs?',
+							'title'		=> __( 'Post Thumbnails', 'pagelines' ),
+							'help'		=> __( 'Use this option to hide or show thumbs for posts on pages.', 'pagelines' )
 					),
 				)
 			),

@@ -161,13 +161,6 @@ class EditorSettings {
 
 		$settings = array(
 			array(
-				'key'		=> 'disable_responsive',
-				'type' 		=> 'check',
-				'label' 	=> __( 'Disable Responsive Layout?', 'pagelines' ),
-				'title' 	=> __( 'Disable Responsive Layout', 'pagelines' ),
-				'help'	 	=> __( 'Check this option if you want to disable responsive/mobile layout on your website', 'pagelines' )
-			),
-			array(
 				'key'		=> 'layout_mode',
 				'type' 		=> 'select',
 				'label' 	=> __( 'Select Layout Mode', 'pagelines' ),
