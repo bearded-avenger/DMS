@@ -130,7 +130,7 @@ function pagelines_register_js() {
 
 	wp_register_script( 'pagelines-viewport', PL_JS . '/script.viewport.js', array( 'jquery' ), PL_CORE_VERSION, true );
 
-	wp_register_script( 'pagelines-common', PL_JS . '/pl.common.js', array( 'jquery' ), PL_CORE_VERSION, true );
+	wp_register_script( 'pagelines-common', PL_JS . '/pl.common.js', array( 'jquery', 'pagelines-viewport' ), PL_CORE_VERSION, true );
 }
 
 add_action( 'wp_print_scripts', 'pagelines_print_js' );

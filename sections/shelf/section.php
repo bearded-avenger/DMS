@@ -50,16 +50,30 @@ class PageLinesShelf extends PageLinesSection {
 
 
 	?>
-	<div class="shelf-wrap">
-		<div class="shelf-head">
-			<h1>PageLines Shelf</h1>
-			<div class=="subhead">A bunch of text</div>
+	<div class="shelf-wrap pl-viewport">
+		
+		<div class="pl-caption lft"
+			 data-x="560"
+			 data-y="130"
+			 data-speed="300"
+			 data-start="500"
+			 data-easing="easeOutExpo"  >
+
+				<h2><span class="slider-text">
+				Welcome to Designer.<br/>
+			 	A Drag <span class="spamp">&amp;</span> Drop Platform <br/> for Amazing Websites.
+				</span></h2>
+			 	<a href="#" class="slider-btn">Read More</a>
+
 		</div>
+		
+		
 		<div class="pl-content nested-section-area">
 			<div class="pl-inner area-region pl-sortable-area">
 				<?php render_nested_sections( $this->meta['content'] ); ?>
 			</div>
 		</div>
+		
 	</div>
 
 		<?php

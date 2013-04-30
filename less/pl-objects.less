@@ -12,6 +12,34 @@
 }
 
 /*
+ * @ Animation Stuff
+ **********************************************************************/
+
+.pl-viewport{
+	position: relative; 
+	overflow:hidden;
+	.pl-caption{
+		opacity: 0;
+		position: absolute; 
+		left: 0; 
+		top: 0;
+		.transition(all 0.8s ease-in-out);
+		&.lft{
+			top: -100%;
+		}
+	}
+
+	&.loaded .pl-caption{
+		opacity: 1;
+		&.lft{
+			top: 0;
+		}
+	}
+}
+
+
+
+/*
  * @ Lists
  **********************************************************************/
 
