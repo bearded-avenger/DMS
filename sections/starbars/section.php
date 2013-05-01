@@ -16,9 +16,7 @@ class PageLinesStarBars extends PageLinesSection {
 
 	function section_styles(){
 
-		wp_enqueue_script( 'pagelines-viewport', $this->base_url . '/script.viewport.js', array( 'jquery' ), PL_CORE_VERSION, true );
-
-		wp_enqueue_script( 'starbar', $this->base_url.'/starbar.js', array( 'jquery-effects-core' ), PL_CORE_VERSION, true );
+		wp_enqueue_script( 'starbar', $this->base_url.'/starbar.js', array( 'pagelines-viewport', 'pagelines-easing' ), PL_CORE_VERSION, true );
 
 	}
 
@@ -192,129 +190,86 @@ class PageLinesStarBars extends PageLinesSection {
 		</div>
 		<?php
 	}
-
-	/**
-	 *
-	 * Page-by-page options for PostPins
-	 *
-	 */
+	// Deprecated, but left here because were using it for a standalone v2 version of this section.
 	function section_optionator( $settings ){
+
 		$settings = wp_parse_args( $settings, $this->optionator_default );
 
-			$array = array();
+			$array = array(
 
-			$array['starbar_count'] = array(
-				'type' 			=> 'count_select',
-				'count_start'	=> 1,
-				'count_number'	=> 12,
-				'default'		=> '3',
-				'inputlabel' 	=> __( 'Number of Slides to Configure', 'pagelines' ),
-				'title' 		=> __( 'Number of Slides', 'pagelines' ),
-				'shortexp' 		=> __( 'Enter the number of QuickSlider slides. <strong>Default is 3</strong>', 'pagelines' ),
-				'exp' 			=> __( "This number will be used to generate slides and option setup.", 'pagelines' ),
+				'starbar_options'	=> array(
+					'type'	=> 'multi_option',
+					'title' => 'StarBar Configuration',
+					'selectvalues'	=> array(
 
+						'starbar_count' => array(
+							'type' 			=> 'count_select',
+							'count_start'	=> 1,
+							'count_number'	=> 12,
+							'default'		=> '3',
+							'inputlabel' 	=> __( 'Number of StarBars to Configure', 'starbar' )
+						),
+						'starbar_total'	=> array(
+							'type' 			=> 'text',
+							'default'		=> 100,
+							'inputlabel' 		=> __( 'Starbar Total Count (Number)', 'starbar' )
+						),
+						'starbar_modifier'	=> array(
+							'type' 			=> 'text',
+							'default'		=> '%',
+							'inputlabel' 		=> __( 'Starbar Modifier (Text Added to Stats)', 'starbar' )
+						),
+						'starbar_format'	=> array(
+							'type' 			=> 'select',
+							'selectvalues'		=> array(
+								'append'		=> array( 'name' => 'Append Modifier (Default)' ),
+								'prepend'	 	=> array( 'name' => 'Prepend Modifier' ),
+							),
+						'default'		=> 'append',
+						'inputlabel' 	=> __( 'Starbar Format', 'pagelines' ),
+						),
+						'starbar_container_title'	=> array(
+							'type' 			=> 'text',
+							'default'		=> 'StarBar',
+							'inputlabel' 	=> __( 'StarBar Title (Optional)', 'starbar' ),
+						)
+					)
+				)
 			);
 
-			$array['quick_transition'] = array(
-				'type' 			=> 'select',
-				'selectvalues' => array(
-					'fade' 			=> array('name' => __( 'Use Fading Transition', 'pagelines' ) ),
-					'slide_h' 		=> array('name' => __( 'Use Slide/Horizontal Transition', 'pagelines' ) ),
-				),
-				'inputlabel' 	=> __( 'Select Transition Type', 'pagelines' ),
-				'title' 		=> __( 'Slider Transition Type', 'pagelines' ),
-				'shortexp' 		=> __( 'Configure the way slides transfer to one another.', 'pagelines' ),
-				'exp' 			=> __( "", 'pagelines' ),
+		global $post_ID;
+
+		$oset = array('post_id' => $post_ID, 'clone_id' => $settings['clone_id'], 'type' => $settings['type']);
+
+		$slides = (ploption( 'starbar_count' , $oset )) ? ploption( 'starbar_count' , $oset ) : $this->default_limit;
+
+		$opts = array();
+
+		for($i = 1; $i <= $slides; $i++){
+
+			$opts[ 'starbar_descriptor_' . $i ]	= array(
+					'inputlabel'		=> sprintf( __( 'Starbar #%s Description', 'starbar' ), $i ),
+					'type'		=> 'text'
+			);
+			$opts['starbar_value_' . $i ] = array(
+					'inputlabel'	=> sprintf( __( 'Starbar #%s Value', 'starbar' ), $i ),
+					'type'	=> 'text',
 
 			);
-
-			$array['quick_nav'] = array(
-				'type' 			=> 'select',
-				'selectvalues' => array(
-					'both' 			=> array('name' => __( 'Use Both Arrow and Slide Control Navigation', 'pagelines' ) ),
-					'none'			=> array('name' => __( 'No Navigation', 'pagelines' ) ),
-					'control_only'	=> array('name' => __( 'Slide Controls Only', 'pagelines' ) ),
-					'arrow_only'	=> array('name' => __( 'Arrow Navigation Only', 'pagelines' ) ),
-				),
-				'inputlabel' 	=> __( 'Slider Navigation', 'pagelines' ),
-				'title' 		=> __( 'Slider Navigation mode', 'pagelines' ),
-				'shortexp' 		=> __( 'Configure the navigation for this slider.', 'pagelines' ),
-				'exp' 			=> __( "", 'pagelines' ),
-
-			);
-
-			$array['quick_slideshow'] = array(
-				'type' 			=> 'check',
-
-				'inputlabel' 	=> __( 'Animate Slideshow Automatically?', 'pagelines' ),
-				'title' 		=> __( 'Automatic Slideshow?', 'pagelines' ),
-				'shortexp' 		=> __( 'Autoplay the slides, transitioning every 7 seconds.', 'pagelines' ),
-				'exp' 			=> __( "", 'pagelines' ),
-
-			);
-
-			global $post_ID;
-
-			$oset = array(
-				'post_id' => $post_ID,
-				'clone_id' => $settings['clone_id'],
-				'type' => $settings['type']
-			);
-
-			$slides = ($this->opt('starbar_count', $oset)) ? $this->opt('starbar_count', $oset) : $this->default_limit;
-
-			for($i = 1; $i <= $slides; $i++){
-
-
-				$array['quick_slide_'.$i] = array(
-					'type' 			=> 'multi_option',
-					'selectvalues' => array(
-						'quick_image_'.$i 	=> array(
-							'inputlabel' 	=> __( 'Slide Image', 'pagelines' ),
-							'type'			=> 'image_upload'
-						),
-						'quick_img_alt_'.$i 	=> array(
-							'inputlabel' 	=> __( 'Image Alt', 'pagelines' ),
-							'type'			=> 'text'
-						),
-						'quick_text_'.$i 	=> array(
-							'inputlabel'	=> __( 'Slide Text', 'pagelines' ),
-							'type'			=> 'textarea'
-						),
-						'quick_link_'.$i 	=> array(
-							'inputlabel'	=> __( 'Slide Link URL', 'pagelines' ),
-							'type'			=> 'text'
-						),
-						'quick_text_location_'.$i 	=> array(
-							'inputlabel'	=> __( 'Slide Text Location', 'pagelines' ),
-							'type'			=> 'select',
-							'selectvalues'	=> array(
-								'right_bottom'	=> array('name'=> 'Right/Bottom'),
-								'right_top'		=> array('name'=> 'Right/Top'),
-								'left_bottom'	=> array('name'=> 'Left/Bottom'),
-								'left_top'		=> array('name'=> 'Left/Top')
-							)
-						),
-					),
-					'title' 		=> __( 'QuickSlider Slide ', 'pagelines' ) . $i,
-					'shortexp' 		=> __( 'Setup options for slide number ', 'pagelines' ) . $i,
-					'exp'			=> __( 'For best results all images in the slider should have the same dimensions.', 'pagelines')
+		}
+			$array['starbars_data'] = array(
+				'title' 	=> __( 'StarBar Values', 'starbar' ),
+				'type' 		=> 'multi_option',
+				'selectvalues' 		=> $opts
 				);
 
-			}
-
-
-
 			$metatab_settings = array(
-					'id' 		=> 'quickslider_options',
-					'name' 		=> __( 'QuickSlider', 'pagelines' ),
+					'id' 		=> 'starbar_options',
+					'name' 		=> __( 'Starbar', 'starbar' ),
 					'icon' 		=> $this->icon,
 					'clone_id'	=> $settings['clone_id'],
 					'active'	=> $settings['active']
 				);
-
 			register_metatab( $metatab_settings, $array );
-
 	}
-
 }
