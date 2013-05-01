@@ -117,7 +117,7 @@ class PageLinesCallout extends PageLinesSection {
 
 		$call_title = ($call_title) ? $call_title :  __("Here's to the crazy ones...", "pagelines");
 		$call_sub = ($call_sub) ? $call_sub :  __("Your callout section is activated, now set the options!", "pagelines");
-		$call_btext = ($call_btext) ? $call_btext :  __("Go &rarr;", "pagelines");
+		$call_btext = ($call_btext) ? $call_btext :  __("Learn More", "pagelines");
 
 		$styling_class = ($call_sub) ? 'with-callsub' : '';
 

@@ -153,7 +153,7 @@ class PageLinesTemplateHandler {
 			'id'		=> $key,
 			'object'	=> $key,
 			'offset'	=> 0,
-			'clone'		=> 0,
+			'clone'		=> substr(uniqid(), -6),
 			'content'	=> array(),
 			'span'		=> 12,
 			'newrow'	=> 'false',
@@ -178,12 +178,19 @@ class PageLinesTemplateHandler {
 			foreach($g as $area => &$a){
 			
 			
-				if( isset( $a['object'] ) && $a['object'] ){
-					$a = wp_parse_args( $a, $this->meta_defaults( $area ) );
-					$this->section_list[ ] = $a;
-					$this->section_list_unique[ $a['object'] ] = $a;
-
+				if( !isset( $a['object'] ) || !$a['object'] ){
+					$a['object'] = 'PLSectionArea';
 				}
+			
+				$a = wp_parse_args( $a, $this->meta_defaults( $area ) );
+				
+				// Lets get rid of the number based clone system
+				if( strlen( $a['clone'] ) < 3 ){
+					$a['clone'] = substr(uniqid(), -6);
+				}
+				
+				$this->section_list[ ] = $a;
+				$this->section_list_unique[ $a['object'] ] = $a;
 
 				if( !isset($a['content']) || !is_array($a['content']) )
 					continue;
@@ -563,8 +570,9 @@ class PageLinesTemplateHandler {
 			$area_total = count( $this->map[ $region ] );
 
 			foreach( $this->map[ $region ] as $area => $a ){
+			
 
-				if( isset($a['object']) && !empty($a['object']) ){
+				if( isset($a['object']) && !empty($a['object']) && $this->in_factory( $a['object'] ) ){
 
 					$area_count++;
 					$this->render_section( $a, $area_count, $area_total, 0 );

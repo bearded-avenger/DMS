@@ -319,19 +319,14 @@
 			, 	mode = ($.pl.config.isSpecial) ? 'type' : 'local'
 
 
-			var i = 0
-			while ( $( '.section-'+config.sid+'[data-clone="'+i+'"]' ).length != 0) {
-			    i++
-			}
+			var i = plUniqueID()
 
 			cloned
 				.attr('data-clone', i)
 				.data('clone', i)
 
-			// add clone icon
-			cloned.first('.section-controls').find('.title-desc').html(sprintf(" <i class='icon-copy'></i> %s", i))
-
 			console.log(config.clone)
+			
 			// set cloned item settings to new clone local settings
 			$.each(clonedSet, function(index, opt){
 				if( opt.type == 'multi'){

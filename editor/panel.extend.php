@@ -18,7 +18,7 @@ class PageLinesExtendPanel{
 
 	function toolbar( $toolbar ){
 		$toolbar['pl-extend'] = array(
-			'name'	=> 'Extend',
+			'name'	=> 'Store',
 			'icon'	=> 'icon-download',
 			'pos'	=> 80,
 			'panel'	=> array(
@@ -32,7 +32,7 @@ class PageLinesExtendPanel{
 				),
 				'heading2'	=> "<i class='icon-filter'></i> Filters",
 				'plus'		=> array(
-					'name'	=> 'Free with Plus',
+					'name'	=> 'Plus Extensions',
 					'href'	=> '#store',
 					'filter'=> '.plus',
 					'icon'	=> 'icon-plus-sign'
@@ -43,6 +43,7 @@ class PageLinesExtendPanel{
 					'filter'=> '.featured',
 					'icon'	=> 'icon-star'
 				),
+				
 				'sections'		=> array(
 					'name'	=> 'Sections',
 					'href'	=> '#store',
@@ -60,6 +61,18 @@ class PageLinesExtendPanel{
 					'href'	=> '#store',
 					'filter'=> '.themes',
 					'icon'	=> 'icon-picture'
+				),
+				'free'		=> array(
+					'name'	=> 'Free',
+					'href'	=> '#store',
+					'filter'=> '.free-item',
+					'icon'	=> 'icon-tag'
+				),
+				'premium'		=> array(
+					'name'	=> 'Premium',
+					'href'	=> '#store',
+					'filter'=> '.premium-item',
+					'icon'	=> 'icon-shopping-cart'
 				),
 				'heading3'	=> "Tools",
 				'upload'	=> array(
@@ -128,6 +141,8 @@ class PageLinesExtendPanel{
 			$img = sprintf('<img src="%s" style=""/>', $item['thumb']);
 
 			$sub = ($item['price'] == 'free') ? __('Free!', 'pagelines') : '$'.$item['price'];
+
+			$class[] = ($item['price'] == 'free') ? 'free-item' : 'premium-item';
 
 			$args = array(
 				'id'			=> $item['slug'],

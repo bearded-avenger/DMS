@@ -79,7 +79,7 @@
 			var that = this
 			, 	cascade = ['local', 'type', 'global']
 			, 	sid = that.config.sid
-			, 	clone_text = (that.config.clone != 0) ? sprintf('<i class="icon-copy"></i> Clone %s', that.config.clone) : sprintf('<i class="icon-file"></i> Original')
+			, 	clone_text = sprintf('<i class="icon-map-marker"></i> ID (%s)', that.config.clone)
 			, 	clone_desc = sprintf(' <span class="clip-desc"> &rarr; %s</span>', clone_text)
 
 			if( that.optConfig[sid] && !$.isEmptyObject( that.optConfig[sid].opts ) )

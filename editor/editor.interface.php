@@ -475,7 +475,6 @@ class EditorInterface {
 		if(!$this->draft->show_editor())
 			return;
 
-		$clone_desc = ($s->meta['clone'] != 0) ? sprintf(" <i class='icon-copy'></i> %s", $s->meta['clone']) : '';
 		$sid = $s->id;
 		ob_start();
 		?>
@@ -494,7 +493,7 @@ class EditorInterface {
 				<a title="Clone Section" href="#" class="s-control s-control-icon section-clone s-loaded"><i class="icon-copy"></i></a>
 				<a title="Delete Section" href="#" class="s-control s-control-icon section-delete"><i class="icon-remove"></i></a>
 			</div>
-			<div class="controls-title"><span class="ctitle"><?php echo $s->name;?></span> <span class="title-desc"><?php echo $clone_desc;?></span></div>
+			<div class="controls-title"><span class="ctitle"><?php echo $s->name;?></span></div>
 		</div>
 		<?php
 
