@@ -20,7 +20,8 @@
 			
 			$.plAnimate.animatedCount = 0
 			$.plAnimate.totalAnimations = 0
-			
+			console.log('yo')
+			console.log($('.pl-caption').length)
 			if( $('.pl-caption').length > 0 ){
 				
 				//store the total number of bars that need animating
@@ -76,9 +77,9 @@
 		, checkViewport: function(){
 			
 			var that = this
-		
+		console.log('check')
 			$('.pl-caption:in-viewport:not(".loaded")').each(function(i){
-				
+				console.log('run me')
 				var element = $(this)
 				,	action = $(this).data('action') || 'scale'
 

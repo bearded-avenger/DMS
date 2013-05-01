@@ -23,18 +23,20 @@ class PageLinesShelf extends PageLinesSection {
 			'type'	=> 'multi',
 			'opts'	=> array(
 				array(
-					'key'			=> 'revslider_count',
-					'type' 			=> 'count_select',
-					'count_start'	=> 1,
-					'count_number'	=> 10,
+					'key'			=> 'shelf_html',
+					'type' 			=> 'textarea',
 					'default'		=> '3',
-					'label' 	=> __( 'Number of Slides to Configure', 'pagelines' ),
+					'label' 	=> __( 'Shelf HTML', 'pagelines' ),
 				),
 				array(
-					'key'			=> 'revslider_delay',
-					'type' 			=> 'text',
-					'default'		=> 9000,
-					'label' 	=> __( 'Time Per Slide (in Milliseconds)', 'pagelines' ),
+					'key'			=> 'shelf_background',
+					'type' 			=> 'select',
+					'opts'	=> array(
+						'base'		=> array('name'=> 'Base Background (none - default)'),
+						'contrast'	=> array('name'=> 'Contast Color'),
+						'black'		=> array('name'=> 'Black'),
+					),
+					'label' 	=> __( 'Use Standard Background?', 'pagelines' ),
 				)
 			)
 
