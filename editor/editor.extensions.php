@@ -171,16 +171,6 @@ class EditorExtensions {
 									),
 								)
 			),
-			array(
-				'id'			=> 'pl_area',
-				'name'			=> 'Section Area',
-				'filter'		=> 'full-width',
-				'description'	=> 'Creates a full width area with a nested content width region for placing sections and columns.',
-				'screenshot'	=>  PL_EDITOR_URL . '/images/thumb-section-area.png',
-				'thumb'			=>  PL_EDITOR_URL . '/images/thumb-section-area.png',
-				'splash'		=>  PL_EDITOR_URL . '/images/splash-section-area.png'
-			)
-
 		);
 
 		foreach($the_layouts as $index => $l){

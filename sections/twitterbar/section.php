@@ -7,17 +7,9 @@
 	Class Name: PageLinesTwitterBar
 	Workswith: morefoot, footer
 	Edition: Pro
-	Filter: social
+	Filter: deprecated
 */
 
-/**
- * Twitter Feed Section
- *
- * Uses pagelines_get_tweets() to display the latest tweet in the morefoot area.
- *
- * @package PageLines Framework
- * @author PageLines
- */
 class PageLinesTwitterBar extends PageLinesSection {
 
 	function section_opts(){

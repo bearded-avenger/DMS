@@ -42,7 +42,6 @@ if(!has_action('override_pagelines_body_output')):
 		<?php
 			pagelines_template_area('pagelines_footer', 'footer'); // Hook
 			pagelines_register_hook('pagelines_after_footer'); // Hook
-			pagelines_cred();
 		?>
 		</div>
 	</footer>

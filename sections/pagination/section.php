@@ -7,6 +7,7 @@
 	Class Name: PageLinesPagination
 	Workswith: main
 	Filter: nav
+	Isolate: posts_pages
 */
 
 /**

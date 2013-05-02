@@ -1,21 +1,19 @@
-.pl-hero-wrap{
-	max-width:10	0%;
+.section-hero .pl-section-pad{
 	padding: 5%;
-	background-color: darken(@pl-base,4%);
-	border: 1px solid lighten(@pl-base,4%);
-	.box-sizing(border-box);
+}
 
+.pl-hero-wrap{
+	max-width:100%;
+	.box-sizing(border-box);
 	.pl-hero {
 
 		h1 {
 			font-size: 60px;
 			line-height: 1;
-			color: @HeroHeadingColor;
 			letter-spacing: -1px;
 			small{
 				display: block;
 				font-family: @plAltFont;
-				color: fadeout(@HeroHeadingColor, 70%);
 			}
 		}
 		p {
@@ -23,7 +21,6 @@
 			font-size: 18px;
 			font-weight: 200;
 			line-height: 1.5em;
-			color: @HeroLeadColor;
 		}
 	}
 	.pl-hero-image{

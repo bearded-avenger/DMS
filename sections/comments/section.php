@@ -8,6 +8,7 @@
 	Workswith: main-single, main
 	Failswith: pagelines_special_pages()
 	Filter: social
+	Isolate: single
 */
 
 /**

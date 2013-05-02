@@ -33,7 +33,7 @@
 		this.resizer = $('.resizer-handle')
 		this.closer = $('.btn-closer')
 		this.offBtn = $('.btn-pl-toggle')
-		this.handleHeight = 30
+		this.handleHeight = 29
 
 		this.resizePanel()
 		this.scrollPanel()

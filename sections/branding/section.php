@@ -6,7 +6,7 @@
 	Description: Shows the main site logo or the site title and description.
 	Class Name: PageLinesBranding
 	Workswith: header
-	Filter: component
+	Filter: deprecated
 */
 
 /**

@@ -147,6 +147,8 @@ class PageLinesSectionsPanel{
 						$disable = false;
 					} elseif ($isolation == '404_page' && is_404()){
 						$disable = false;
+					} elseif ( $isolation == 'single' && !$this->page->is_special() ){
+						$disable = false;
 					}
 				}
 
