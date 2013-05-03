@@ -4,12 +4,18 @@
 	$(document).ready(function() {
 		$.plCommon.init()
 	
-	
+		$(".fitvids").fitVids(); // fit videos
 	
 		$.plAnimate.initAnimation()
 		
 		
 		
+	})
+	$(window).load(function() {
+		$.plCommon.plVerticalCenter('.pl-centerer', '.pl-centered')
+		$('.pl-section').on('resize', function(){
+			$.plCommon.plVerticalCenter('.pl-centerer', '.pl-centered')
+		})
 	})
 
 	$.plAnimate = {
@@ -20,14 +26,14 @@
 			
 			$.plAnimate.animatedCount = 0
 			$.plAnimate.totalAnimations = 0
-			console.log('yo')
-			console.log($('.pl-caption').length)
-			if( $('.pl-caption').length > 0 ){
+			
+			console.log( $('.pl-animation').length+' animation' )
+			
+			if( $('.pl-animation').length > 0 ){
 				
 				//store the total number of bars that need animating
-				$.plAnimate.totalAnimations = $( '.pl-caption' ).length
+				$.plAnimate.totalAnimations = $( '.pl-animation' ).length
 
-				$.plAnimate.alignCaptions()
 
 				scrollAnimation = setInterval( that.checkViewport, 150)
 				
@@ -36,58 +42,20 @@
 			}
 		}
 		
-		, alignCaptions: function(){
-			$('.pl-caption').each( function(){
-				var cap = $(this)
-				,	xPos = cap.data('x') || 0
-				,	yPos = cap.data('y') || 0
-				,	loaded = cap.parent().hasClass('loaded')
-				, 	xOffset = 0
-				,	yOffset = 0
-				
-				if(!loaded){
-					
-					if(cap.hasClass('lfr'))
-						xOffset = 250
-					else if ( cap.hasClass('sfr') )
-						xOffset = 50
-					else if ( cap.hasClass('sfl') )
-						xOffset = -50
-					else if ( cap.hasClass('lfl') )
-						xOffset = -250
 
-					if ( cap.hasClass('sft') )
-						yOffset = -50
-					else if ( cap.hasClass('lft') )
-						yOffset = -250
-					else if ( cap.hasClass('sfb') )
-						yOffset = 50
-					else if ( cap.hasClass('lfb') )
-						yOffset = 250
-					
-					
-				}
-				
-				cap
-					.css('top', yPos + yOffset)
-					.css('left', xPos + xOffset)
-			})
-		}
 		
 		, checkViewport: function(){
 			
 			var that = this
-		console.log('check')
-			$('.pl-caption:in-viewport:not(".loaded")').each(function(i){
-				console.log('run me')
+	
+			$('.pl-animation:in-viewport:not(".loaded")').each(function(i){
+			
 				var element = $(this)
 				,	action = $(this).data('action') || 'scale'
 
 				$(this)
 					.addClass('loaded')
 
-				$.plAnimate.alignCaptions()
-					
 				$.plAnimate.animatedCount++
 
 				if( $.plAnimate.animatedCount == $.plAnimate.totalAnimations){

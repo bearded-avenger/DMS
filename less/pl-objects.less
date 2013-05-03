@@ -18,22 +18,42 @@
 .pl-viewport{
 	position: relative; 
 	overflow:hidden;
-	.pl-caption{
-		opacity: 0;
 	
-		.transition(all 0.8s ease-in-out);
-		&.lft{
-			top: -100%;
-		}
-		&.loaded {
-			opacity: 1;
-			&.lft{
-				top: 0;
-			}
-		}
-	}
 
 }
+
+
+.pla-scale, 
+.pla-fade, 
+.pla-from-left, 
+.pla-from-right, 
+.pla-from-top, 
+.pla-from-bottom{
+	opacity: 0;
+	.transition(all 1s ease);
+	&.loaded{
+		opacity: 1;
+		.translate3d(0,0,0);
+		.scale(1);
+	}
+} 
+.pla-scale{
+	.scale(.3);
+}
+.pla-from-left{
+	.translate3d(-100px, 0, 0);
+
+}
+.pla-from-right{
+	.translate3d(100px, 0, 0);
+}
+.pla-from-bottom{
+	.translate3d(0, 100px, 0);
+}
+.pla-from-top{
+	.translate3d(0, -100px, 0);
+}
+
 
 
 

@@ -165,6 +165,20 @@ function pl_arrays_to_objects( array $array ) {
     return $objects;
 }
 
+function pl_animation_array(){
+	$animations = array(
+		'no-anim'			=> 'No Animation',
+		'pla-fade'			=> 'Fade',
+		'pla-scale'			=> 'Scale',
+		'pla-from-left'		=> 'From Left',
+		'pla-from-right'	=> 'From Right', 
+		'pla-from-bottom'	=> 'From Bottom', 
+		'pla-from-top'		=> 'From Top', 
+	); 
+	
+	return $animations;
+}
+
 function pl_icon_array(){
 
 	$icons = array(

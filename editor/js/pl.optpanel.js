@@ -468,6 +468,7 @@
 				|| o.type == 'select_same'
 				|| o.type == 'select_taxonomy'
 				|| o.type == 'select_icon'
+				|| o.type == 'select_animation'
 			){
 
 				var select_opts = '<option value="" >&mdash; Select &mdash;</option>'
@@ -494,7 +495,15 @@
 						o.opts[ s ] = {name: s}
 					})
 
+				} else if( o.type == 'select_animation' ){
+					
+					var anims = $.pl.config.animations
 
+					o.opts = {}
+					$.each(anims, function(key, s){
+						o.opts[ key ] = {name: s}
+					})
+					
 				}
 
 				if(o.opts){

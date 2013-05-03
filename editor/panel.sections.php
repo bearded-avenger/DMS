@@ -18,8 +18,8 @@ class PageLinesSectionsPanel{
 
 	function toolbar( $toolbar ){
 		$toolbar['add-new'] = array(
-			'name'	=> 'Add New',
-			'icon'	=> 'icon-plus-sign',
+			'name'	=> 'Sections',
+			'icon'	=> 'icon-random',
 			'pos'	=> 20,
 			'panel'	=> array(
 				'heading'	=> "<i class='icon-random'></i> Drag to Add",
@@ -57,7 +57,7 @@ class PageLinesSectionsPanel{
 					'icon'	=> 'icon-resize-horizontal'
 				),
 				'formats'		=> array(
-					'name'	=> 'Post Formats',
+					'name'	=> 'Post Layouts',
 					'href'	=> '#add_section',
 					'filter'=> '.format',
 					'icon'	=> 'icon-th'

@@ -67,7 +67,7 @@ class PLSectionArea extends PageLinesSection {
 	$class .= ' '.$this->opt('pl_area_bg');
 	
 	?>
-	<div class="pl-area-wrap pl-viewport <?php echo $class;?>" style="<?php echo $pad_css;?>">
+	<div class="pl-area-wrap <?php echo $class;?>" style="<?php echo $pad_css;?>">
 		<div class="pl-content <?php echo $content_class;?>">
 			<div class="pl-inner area-region pl-sortable-area">
 				

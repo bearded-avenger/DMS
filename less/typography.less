@@ -432,6 +432,13 @@ cite {
   font-style: normal;
 }
 
+::selection {
+	background: @linkColor; /* Safari */
+	}
+::-moz-selection {
+	background: @linkColor; /* Firefox */
+}
+
 // -----------
 // Image Styles
 // styled images added from Bootstrap

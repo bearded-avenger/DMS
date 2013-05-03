@@ -153,7 +153,7 @@ class EditorInterface {
 
 			),
 			'toggle-grid' => array(
-				'icon'	=> 'icon-table',
+				'icon'	=> 'icon-bolt',
 				'type'	=> 'btn',
 				'pos'	=> 199
 			),

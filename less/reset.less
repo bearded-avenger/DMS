@@ -155,9 +155,7 @@ input[type="submit"] {
 }
 input[type="search"] { // Appearance in Safari/Chrome
   -webkit-appearance: textfield;
-  -webkit-box-sizing: content-box;
-     -moz-box-sizing: content-box;
-          box-sizing: content-box;
+  .box-sizing(content-box);
 }
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button {
@@ -170,15 +168,20 @@ textarea {
 
 // Floating and Alignmentorms
 // -------------------------
+
 .hidden {display: none;}
 .aligncenter,.alignnone {display: block;margin-left: auto;margin-right: auto;}
-.center, .textcenter {text-align: center;}
+.center {text-align: center;}
 .alignleft {float: left;margin:0 1.5em 1.5em 0;}
 .left {	float: left; }
-.textleft {text-align: left;}
+
 .alignright {float: right;margin:0 0 .4em 1.4em;}
 .right { float: right; }
+.textleft {text-align: left;}
 .textright {text-align:right;}
+.textjustify {text-align:justify;}
+.textcenter {text-align: center;}
+
 .clear {clear:both;}
 .block{display:block;}
 img.center, img[align="center"] {display: block;margin-left: auto;margin-right: auto;}
