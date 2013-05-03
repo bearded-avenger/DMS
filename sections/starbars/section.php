@@ -110,7 +110,7 @@ class PageLinesStarBars extends PageLinesSection {
 		$starbar_count = $this->opt('starbar_count');
 		$starbar_format = $this->opt('starbar_format');
 
-		$starbar_title = ($starbar_title) ? sprintf('<h2>%s</h2>', $starbar_title) : '';
+		$starbar_title = ($starbar_title) ? sprintf('<h3>%s</h3>', $starbar_title) : '';
 
 		$format = ($starbar_format) ? $starbar_format : 'append';
 
