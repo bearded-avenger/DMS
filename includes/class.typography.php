@@ -275,6 +275,14 @@ class PageLinesFoundry {
 				'monospace' => false,
 				'free'		=> true
 			),
+			'open_sans' => array(
+				'name' => 'Open Sans',
+				'family' => '"Open Sans", "Lucida Grande", Tahoma, sans-serif',
+				'web_safe' => true,
+				'google' => array('400','300','600','800'),
+				'monospace' => false,
+				'free'		=> true
+			),
 			'reenie_beanie' => array(
 				'name' => 'Reenie Beanie',
 				'family' => '"Reenie Beanie", Arial, sans-serif',

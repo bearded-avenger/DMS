@@ -169,7 +169,7 @@ class PageLinesSectionsPanel{
 					'name'		=> $s->name,
 					'image'		=> $s->screenshot,
 					'template'	=> $map,
-					'clone'		=> '0',
+					'clone'		=> pl_new_clone_id(),
 					'number' 	=> $number,
 				),
 				'thumb'			=> $s->screenshot,

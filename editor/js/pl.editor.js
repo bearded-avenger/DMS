@@ -388,6 +388,8 @@
 			            section.addClass('empty-column')
 						store.remove('toolboxShown')
 
+						$.plAJAX.deleteSettings( config.sid, config.clone )
+
 					}
 
 				} else if (btn.hasClass('section-clone')){

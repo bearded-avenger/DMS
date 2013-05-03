@@ -163,7 +163,7 @@ class pliBox extends PageLinesSection {
 						</a>
 					</div>
 					<div class="ibox-text bd">
-						<h3>%s</h3>
+						<h4>%s</h4>
 						<div class="ibox-desc">
 							%s
 							%s

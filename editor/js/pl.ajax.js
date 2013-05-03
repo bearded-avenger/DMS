@@ -83,7 +83,7 @@
 					}
 				, 	success: function( response ){
 
-						console.debug(response)
+					//	console.debug(response)
 
 						that.runSuccess( theData, response )
 
@@ -152,6 +152,23 @@
 
 		}
 
+		, deleteSettings: function( section, clone ){
+			
+			var args = {
+					mode: 'settings'
+				,	run: 'delete'
+				, 	log: true
+				,	pageData: $.pl.data
+				,	keys: $.pl.config.opts[section]
+				,	clone: clone
+				
+			}
+			
+			console.log(args.keys)
+
+			var response = $.plAJAX.run( args )
+			
+		}
 
 
 		, toggleEditor: function(){

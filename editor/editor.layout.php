@@ -17,7 +17,7 @@ class EditorLayout {
 		if( pl_setting( 'layout_mode' ) == 'percent' )
 			$value = (pl_setting( 'content_width_percent' )) ? pl_setting( 'content_width_percent' ) : '80%';
 		else
-			$value = (pl_setting( 'content_width_px' )) ? pl_setting( 'content_width_px' ) : '980px';
+			$value = (pl_setting( 'content_width_px' )) ? pl_setting( 'content_width_px' ) : '1100px';
 
 		// if percent mode assign percent option
 

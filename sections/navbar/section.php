@@ -109,6 +109,7 @@ class PLNavBar extends PageLinesSection {
 					array(
 						'key'			=> 'navbar_alignment',
 						'type'			=> 'check',
+						'default'		=> true,
 						'label'		=> __( 'Align Menu Right? (Defaults Left)', 'pagelines' ),
 					),
 					array(
@@ -145,7 +146,7 @@ class PLNavBar extends PageLinesSection {
 		$fixed_opts = array(
 			array(
 					'key'		=> 'navbar_fixed',
-					'default'	=> false,
+					'default'	=> true,
 					'version'	=> 'pro',
 					'type'		=> 'check',
 					'inputlabel'=> __( 'Enable Fixed Navigation Bar', 'pagelines' ),
@@ -154,7 +155,7 @@ class PLNavBar extends PageLinesSection {
 				),
 			array(
 					'key'		=> 'navbar_logo',
-					'default'	=> PL_IMAGES.'/designer.png',
+					'default'	=> PL_IMAGES.'/dms.png',
 					'version'	=> 'pro',
 					'type'		=> 'image_upload',
 					'label'		=> __( 'NavBar Image', 'pagelines' ),

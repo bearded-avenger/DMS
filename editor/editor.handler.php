@@ -187,7 +187,7 @@ class PageLinesTemplateHandler {
 				
 				// Lets get rid of the number based clone system
 				if( strlen( $a['clone'] ) < 3 ){
-					$a['clone'] = substr(uniqid(), -6);
+					$a['clone'] = pl_new_clone_id();
 				}
 				
 				$this->section_list[ ] = $a;
@@ -254,30 +254,30 @@ class PageLinesTemplateHandler {
 
 	}
 
-	function load_section_settings( $meta ){
-
-		$settings = array();
-
-		$sid = $meta['sid'];
-		$clone = $meta['clone'];
-
-		foreach( $this->opts_config[ $sid ]['opts'] as $index => $o ){
-
-			if( $o['type'] == 'multi' ){
-
-				foreach( $o['opts'] as $sub_index => $sub_o ){
-					$settings[ $sub_o['key'] ] = (  isset($sub_o['val'][$clone]) ) ? $sub_o['val'][$clone] : '';
-				}
-
-			} else {
-				$settings[ $o['key'] ] = (  isset($o['val'][$clone]) ) ? $o['val'][$clone] : '';
-			}
-
-		}
-
-
-		return $settings;
-	}
+	// function load_section_settings( $meta ){
+	// 
+	// 		$settings = array();
+	// 
+	// 		$sid = $meta['sid'];
+	// 		$clone = $meta['clone'];
+	// 
+	// 		foreach( $this->opts_config[ $sid ]['opts'] as $index => $o ){
+	// 
+	// 			if( $o['type'] == 'multi' ){
+	// 
+	// 				foreach( $o['opts'] as $sub_index => $sub_o ){
+	// 					$settings[ $sub_o['key'] ] = (  isset($sub_o['val'][$clone]) ) ? $sub_o['val'][$clone] : '';
+	// 				}
+	// 
+	// 			} else {
+	// 				$settings[ $o['key'] ] = (  isset($o['val'][$clone]) ) ? $o['val'][$clone] : '';
+	// 			}
+	// 
+	// 		}
+	// 
+	// 
+	// 		return $settings;
+	// 	}
 
 
 	function get_options_config(){

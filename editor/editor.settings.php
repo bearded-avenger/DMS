@@ -168,6 +168,10 @@ class PageLinesSettings extends PageLinesData {
 		$set['draft'] = $this->default['draft'];
 
 		$this->opt_update( PL_SETTINGS, $set );
+		
+		// why not run after we reset? 
+		// This is checked on page load, may not be necessary to do both
+		$this->set_default_settings();
 
 	}
 
@@ -410,7 +414,10 @@ class PageLinesOpts extends PageLinesSettings {
 
 		$not_set = (isset($args['default'])) ? $args['default'] : false;
 
-		return ( isset( $this->set[ $key ][0] ) ) ? $this->set[ $key ][0] : $not_set;
+
+		$index = ( isset( $args['clone_id']) ) ? $args['clone_id'] : 0;
+
+		return ( isset( $this->set[ $key ][ $index ] ) ) ? $this->set[ $key ][ $index ] : $not_set;
 
 	}
 

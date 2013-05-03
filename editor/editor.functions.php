@@ -122,6 +122,10 @@ function pl_create_id( $string ){
 	return $string;
 }
 
+function pl_new_clone_id(){
+	return substr(uniqid(), -6);
+}
+
 
 /*
  * Lets document utility functions

@@ -66,7 +66,7 @@ class EditorTypography{
 						'key'			=> 'font_primary',
 						'type' 			=> 'type',
 						'label' 		=> 'Select Font Face',
-						'default'		=> 'droid_sans',
+						'default'		=> 'open_sans',
 						
 					),
 					array(
@@ -88,9 +88,9 @@ class EditorTypography{
 							'300'	=> array('name' => 'Light (300)*'),
 							'400'	=> array('name' => 'Normal (400)'),
 							'600'	=> array('name' => 'Semi-Bold (600)*'),
-							'600'	=> array('name' => 'Bold (800)')
+							'800'	=> array('name' => 'Bold (800)')
 						),
-						'default' 		=> '400',
+						'default' 		=> '300',
 						'help'			=> __( '*These weights don\'t alwaye have an effect.', 'pagelines' ),
 					),
 					
@@ -113,7 +113,6 @@ class EditorTypography{
 					array(
 						'key'			=> 'header_base_size',
 						'type'			=> 'count_select',
-						'compile'		=> true,
 						'count_start'	=> 10,
 						'count_number'	=> 30,
 						'suffix'		=> 'px',
@@ -129,7 +128,7 @@ class EditorTypography{
 							'300'	=> array('name' => 'Light (300)'),
 							'400'	=> array('name' => 'Normal (400)'),
 							'600'	=> array('name' => 'Semi-Bold (600)'),
-							'600'	=> array('name' => 'Bold (800)')
+							'800'	=> array('name' => 'Bold (800)')
 						),
 						'default' 		=> '600',
 					),
@@ -137,48 +136,7 @@ class EditorTypography{
 
 			),
 
-			// array(
-			// 			'type' 	=> 	'multi',
-			// 			'title' 		=> __( 'Secondary Text', 'pagelines' ),
-			// 
-			// 			'opts'	=> array(
-			// 				array(
-			// 					'key'			=> 'font_secondary',
-			// 					'type' 			=> 'type',
-			// 					'label' 		=> 'Header Font',
-			// 					'default'		=> 'helvetica',
-			// 					'help' 			=> __( 'Configure the typography for secondary text throughout your site. This font may be used in sub headers, or other various elements to add contrast.', 'pagelines' ),
-			// 				),
-			// 				array(
-			// 					'key'			=> 'font_secondary_weight',
-			// 					'type' 			=> 'select',
-			// 					'label'			=> 'Font Weight',
-			// 					'classes'		=> 'font-weight',
-			// 					'opts'			=> array(
-			// 						'400'	=> array('name' => 'Normal (400)'),
-			// 						'600'	=> array('name' => 'Semi-Bold (600)'),
-			// 						'800'	=> array('name' => 'Bold (800)')
-			// 					),
-			// 					'default' 		=> 'normal',
-			// 					'compile'		=> true,
-			// 				),
-			// 				array(
-			// 					'key'			=> 'font_secondary_style',
-			// 					'type' 			=> 'select',
-			// 					'label'			=> 'Font Style',
-			// 					'classes'		=> 'font-style',
-			// 					'opts'			=> array(
-			// 						'normal'	=> array('name' => 'Normal'),
-			// 						'italic'	=> array('name' => 'Italic'),
-			// 						'uc'		=> array('name' => 'Uppercase'),
-			// 						'italic-uc'	=> array('name' => 'Italic/Uppercase')
-			// 					),
-			// 					'default' 		=> 'normal',
-			// 					'compile'		=> true,
-			// 				),
-			// 			),
-			// 
-			// 		),
+		
 
 		);
 
