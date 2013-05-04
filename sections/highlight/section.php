@@ -179,7 +179,7 @@ class PageLinesHighlight extends PageLinesSection {
 						printf('<h1 class="highlight-head">%s</h1>', __( $h_head, 'pagelines' ) );
 
 					if($h_subhead)
-						printf('<h3 class="highlight-subhead subhead">%s</h3>', __( $h_subhead, 'pagelines' ) );
+						printf('<div class="highlight-subhead">%s</div>', __( $h_subhead, 'pagelines' ) );
 
 				}
 

@@ -224,6 +224,9 @@
 					that.activeForm.imagesLoaded( function(){
 						that.activeForm.isotope({
 							itemSelector : '.opt'
+							, masonry: {
+								columnWidth: 315
+							  }
 							, layoutMode : 'masonry'
 							, sortBy: 'number'
 							, getSortData : {
