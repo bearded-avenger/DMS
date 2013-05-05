@@ -1,9 +1,11 @@
 .section-highlight {
 
 	text-align: center;
-
-	.content-pad .highlight-area {
-		padding: @baseLineHeight 0 @baseLineHeight/2;
+	
+	.pl-section-pad{padding: 0;}
+	
+	.highlight-area {
+		padding: @baseLineHeight*2 0 @baseLineHeight;
 	}
 
 	.copy-pad .highlight-area {
@@ -11,12 +13,9 @@
 	}
 
 	.highlight-head{
-		line-height: 1.3em;
-		font-size: @h1Size * 1.3;
 	}
 	.highlight-subhead{
-		font-size: @h3Size / 1.4;
-		opacity: .7;
+		opacity: .6;
 	}
 
 	.hl-image-bottom{

@@ -176,7 +176,7 @@ class PageLinesHighlight extends PageLinesSection {
 				if( $h_splash_position != 'notext' ){
 
 					if($h_head)
-						printf('<h1 class="highlight-head">%s</h1>', __( $h_head, 'pagelines' ) );
+						printf('<h2 class="highlight-head">%s</h2>', __( $h_head, 'pagelines' ) );
 
 					if($h_subhead)
 						printf('<div class="highlight-subhead">%s</div>', __( $h_subhead, 'pagelines' ) );

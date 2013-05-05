@@ -12,10 +12,11 @@ class PageLinesMediaBox extends PageLinesSection {
 
 	function section_opts(){
 		$opts = array(
-		
+	
 			array(
 				'title'	=> 'MediaBox Media', 
 				'type'	=> 'multi',
+				'span'	=> 2,
 				'opts'	=> array(
 					array(
 						'type' 			=> 'image_upload',
@@ -23,11 +24,17 @@ class PageLinesMediaBox extends PageLinesSection {
 						'label' 		=> 'MediaBox Image',
 					),
 					array(
+						'type' 			=> 'text',
+						'key'			=> 'mediabox_title',
+						'label' 		=> 'Title',
+					),
+					array(
 						'type' 			=> 'textarea',
 						'key'			=> 'mediabox_html',
-						'label' 		=> 'MediaBox Embed HTML (optional)',
-						'help'			=> 'Enter rich media embed HTML in this field to add videos, etc.. instead of an image.'
+						'label' 		=> 'Text and Embed HTML',
+						'help'			=> 'Enter rich media "embed" HTML in this field to add videos, etc.. instead of an image.'
 					),
+					
 				)
 			),
 			
@@ -37,12 +44,12 @@ class PageLinesMediaBox extends PageLinesSection {
 				'opts'	=> array(
 					array(
 						'type' 			=> 'select',
-						'key'			=> 'mediabox_mode',
-						'label' 		=> 'Media Alignment',
+						'key'			=> 'mediabox_align',
+						'label' 		=> 'Text/Media Alignment',
 						'opts'			=> array(
-							'center'		=> array('name' => 'Align Media Center (Default)'),
-							'alignleft'		=> array('name' => 'Align Media Left'),
-							'alignright'	=> array('name' => 'Align Media Right'),
+							'center'		=> array('name' => 'Align Center (Default)'),
+							'left'			=> array('name' => 'Align Left'),
+							'right'			=> array('name' => 'Align Right'),
 						)
 					),
 					array(
@@ -60,7 +67,7 @@ class PageLinesMediaBox extends PageLinesSection {
 				)
 			),
 			array(
-				'title'	=> 'MediaBox Background', 
+				'title'	=> 'MediaBox Background (Optional)', 
 				'type'	=> 'multi',
 				'opts'	=> array(
 					array(
@@ -88,10 +95,10 @@ class PageLinesMediaBox extends PageLinesSection {
 	function section_template() {
 
 		$image = $this->opt('mediabox_image');
-		$mode = $this->opt('mediabox_mode');
 		$media_html = $this->opt('mediabox_html');
 		$media_center = $this->opt('mediabox_centering');
 
+		$title = ( $this->opt('mediabox_title') ) ? sprintf('<h3>%s</h3>', $this->opt('mediabox_title')) : '';
 		$bg = ( $this->opt('mediabox_background') ) ? sprintf('background-image: url(%s);', $this->opt('mediabox_background')) : '';
 		$height = ( $this->opt('mediabox_height') ) ? sprintf('height: %spx', $this->opt('mediabox_height')) : '';
 
@@ -101,20 +108,33 @@ class PageLinesMediaBox extends PageLinesSection {
 			$img = sprintf('<img src="%s" />', $this->base_url.'/thumb.png'); // DEFAULT
 		
 		$classes = array(); 
+		$align_class = array(); 
 		
-		$mode = ($mode) ? $mode : 'center';
+		$align = $this->opt('mediabox_align');
+		
+		if($align == 'right'){
+			$align_class = 'textright alignright';
+		} elseif($align == 'left'){
+			$align_class = 'textleft alignleft';
+		} else {
+			$align_class = 'center';
+		}
+		
 		$classes[] = ($media_center) ? 'pl-centerer' : '';
 		$classes[] = ($this->opt('mediabox_animation')) ? $this->opt('mediabox_animation') : 'pla-fade';
 		
 		
+		$html = do_shortcode( wpautop( $media_html ) );
+		
 		printf(
-			'<div class="mediabox-wrap %s pl-animation fix" style="%s%s"><div class="the-media fitvids pl-centered %s">%s%s</div></div>', 
+			'<div class="mediabox-wrap %s pl-animation fix" style="%s%s"><div class="the-media fitvids pl-centered %s hentry">%s%s%s</div></div>', 
 			join(' ', $classes), 
 			$bg, 
 			$height, 
-			$mode,
+			$align_class,
 			$img, 
-			$media_html
+			$title,
+			$html
 		);
 	
 		
