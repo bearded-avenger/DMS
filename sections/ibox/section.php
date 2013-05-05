@@ -158,7 +158,7 @@ class pliBox extends PageLinesSection {
 			printf(
 				'<div class="span%s ibox %s fix">
 					<div class="ibox-media img">
-						<a class="ibox-icon-border %s" %s>
+						<a class="ibox-icon-border pl-animation pl-appear pl-contrast %s" %s>
 							%s
 						</a>
 					</div>

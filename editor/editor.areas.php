@@ -79,10 +79,10 @@ class PageLinesAreas {
 		<div class="pl-area-controls">
 			<a class="area-control" data-area-action="delete" >
 				<i class="icon-remove"></i>
-			</a><a class="area-control" data-area-action="settings" >
-				<i class="icon-pencil"></i>
 			</a><a class="area-control area-reorder" data-area-action="reorder" >
 				<i class="icon-reorder"></i>
+			</a><a class="area-control" data-area-action="settings" >
+				<i class="icon-pencil"></i>
 			</a>
 		</div>
 		<?php

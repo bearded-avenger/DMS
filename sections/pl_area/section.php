@@ -44,6 +44,7 @@ class PLSectionArea extends PageLinesSection {
 			'type' 			=> 'count_select',
 			'count_start'	=> 0,
 			'count_number'	=> 200,
+			'default'		=> 0,
 			'label' 	=> __( 'Area Padding (px)', 'pagelines' ),
 
 		);

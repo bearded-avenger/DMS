@@ -30,14 +30,15 @@
 .pla-from-top, 
 .pla-from-bottom{
 	opacity: 0;
-	.transition(all 1s ease);
-	&.loaded{
+	.transition(all 1s ease-in-out);
+	&.animation-loaded{
 		opacity: 1;
 		.translate3d(0,0,0);
 		.scale(1);
 	}
 } 
 .pla-scale{
+	opacity: .3;
 	.scale(.3);
 }
 .pla-from-left{
@@ -53,6 +54,36 @@
 .pla-from-top{
 	.translate3d(0, -100px, 0);
 }
+
+.pl-appear{
+	opacity: .1;
+	.scale(.5);
+	
+	&.animation-loaded{
+		opacity: 1;
+		.animate(pl_appear 1s 1 cubic-bezier(0.175, 0.885, 0.320, 1.275));
+		.scale(1);
+	}
+}
+
+/*pop up animation*/
+@-webkit-keyframes pl_appear {
+  0%   { -webkit-transform:scale(0.5); opacity: 0.1;  }
+  100% { -webkit-transform:scale(1); opacity: 1; }
+}
+@-moz-keyframes pl_appear {
+  0%   { -moz-transform:scale(0.5); opacity: 0.1;  }
+  100% { -moz-transform:scale(1);opacity: 1;  }
+}
+@-o-keyframes pl_appear {
+  0%   { -o-transform:scale(0.5); opacity: 0.1;  }
+  100% { -o-transform:scale(1);  opacity: 1; }
+}
+@keyframes pl_appear {
+  0%   { transform:scale(0.5); opacity: 0.1;  }
+  100% { transform:scale(1); opacity: 1;  }
+}
+
 
 
 
