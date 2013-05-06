@@ -46,7 +46,7 @@
 		, plWaypoints: function(options_passed){
 			
 			var defaults = { 
-					offset: '80%' // 'bottom-in-view' 
+					offset: '85%' // 'bottom-in-view' 
 					, triggerOnce: true
 				}
 				, options  = $.extend({}, defaults, options_passed)

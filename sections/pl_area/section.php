@@ -24,6 +24,7 @@ class PLSectionArea extends PageLinesSection {
 				'pl-trans'		=> array('name'=> 'Transparent (none - default)'),
 				'pl-contrast'	=> array('name'=> 'Contast Color'),
 				'pl-black'		=> array('name'=> 'Black'),
+				'pl-grey'		=> array('name'=> 'Dark Grey'),
 				'pl-base'		=> array('name'=> 'Base Background Color'),
 			),
 			'label' 	=> __( 'Area Background', 'pagelines' ),
@@ -52,6 +53,12 @@ class PLSectionArea extends PageLinesSection {
 
 		return $options;
 	}
+	
+	function before_section_template( $location = '' ) {
+
+		$this->wrapper_classes[] = $this->opt('pl_area_bg');
+
+	}
 
 	
 
@@ -65,7 +72,7 @@ class PLSectionArea extends PageLinesSection {
 	
 	$class = $this->opt('pl_area_class');
 	
-	$class .= ' '.$this->opt('pl_area_bg');
+//	$class .= ' '.$this->opt('pl_area_bg');
 	
 	?>
 	<div class="pl-area-wrap <?php echo $class;?>" style="<?php echo $pad_css;?>">

@@ -24,36 +24,41 @@
 			margin-bottom: @baseLineHeight/2;
 			display: inline-block;
 			text-align: center;
-		}
-		.ibox-icon-border.media-type-image {
-			max-width: 100%;
-		}
-		.ibox-icon-border.media-type-icon {
-			
-			width: 90px;
-			height: 90px;
-			line-height: 106px;
-			.border-radius(900px);
-
-
-
-			border: 1px solid transparent;
-			.transition(all 0.2s ease-in-out);
-			i{
-				font-size: 40px;
-				color: @linkColor;
-				display: inline-block;
+			overflow: hidden;
+			&.media-type-image {
+				max-width: 100%;
 			}
-			&:hover{
-				background: @linkColor;
+			&.media-type-icon {
+				.border-radius(500px);
+				width: 90px;
+				height: 90px;
+				line-height: 106px;
+
+				border: 1px solid transparent;
+				.transition(all 0.2s ease-in-out);
 				i{
-					color:#fff;
+					font-size: 40px;
+					color: @linkColor;
+					display: inline-block;
+				}
+				&:hover{
+					background: @linkColor;
+					i{
+						color:#fff;
+					}
 				}
 			}
 		}
+		
 	}
 	&.media{
 		text-align: left;
+		.ibox-icon-border{
+			.border-radius(500px);
+			img{
+				.border-radius(500px);
+			}
+		}
 		.ibox-icon-border.media-type-icon {
 
 			width: 70px;
@@ -65,9 +70,10 @@
 
 		}
 		.ibox-icon-border.media-type-image {
+			width: 80px;
+			height: 80px;
 			img{
-				max-width: 80px;
-				max-width: 80px;
+				width: 80px;
 			}
 
 		}

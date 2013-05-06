@@ -47,7 +47,7 @@
 			    	play: false
 			    }
 				
-		    }).animate({'opacity': 1},1300);
+		    }).addClass('flipper-loaded').animate({'opacity': 1},1300);
 		
 			$.plCommon.plVerticalCenter('.flipper-info', '.pl-center', -20)
 		

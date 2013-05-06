@@ -146,8 +146,8 @@ class PageLinesFlipper extends PageLinesSection {
 							?>
 						
 					</div>
-					<a class="flipper-prev" href="#"><i class="icon-arrow-left"></i></a>
-			    	<a class="flipper-next" href="#"><i class="icon-arrow-right"></i></a>
+					<a class="flipper-prev pl-contrast" href="#"><i class="icon-arrow-left"></i></a>
+			    	<a class="flipper-next pl-contrast" href="#"><i class="icon-arrow-right"></i></a>
 				</div>
 	
 				<div class="flipper-wrap">

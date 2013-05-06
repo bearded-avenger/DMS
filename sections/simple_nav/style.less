@@ -1,4 +1,6 @@
-/* @ Simple Nav */
+.section-simple_nav .pl-section-pad{
+	padding: 15px 0;
+}
 .simplenav {
 	text-align: center;
 	&.align-left{
@@ -8,7 +10,11 @@
 		text-align: right;
 	}
 	li a{
-		font-size: .95em;
+		font-size: @smallerText;
+		color: inherit;
+		&:hover{
+			opacity: .7;
+		}
 		display: inline-block;
 		margin: 0 5px;
 		padding: 2px 4px;

@@ -76,7 +76,7 @@ class pliBox extends PageLinesSection {
 				),
 				'ibox_text_'.$i 	=> array(
 					'label'	=> __( 'iBox Text', 'pagelines' ),
-					'type'	=> 'text'
+					'type'	=> 'textarea'
 				),
 				'ibox_link_'.$i 	=> array(
 					'label'		=> __( 'iBox Link (Optional)', 'pagelines' ),

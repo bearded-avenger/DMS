@@ -11,7 +11,7 @@
 	}
 	.flipper-next, 
 	.flipper-prev {
-	    background-color: @baseContrast;
+	    
 	    cursor: pointer;
 	    display: block;
 		text-align: center;
@@ -49,6 +49,10 @@
 	margin-right: -10px;
 	.flipper {
 		opacity: 0;
+		max-height: 400px;
+		&.flipper-loaded{
+			max-height: auto;
+		}
 	}
 	
 	.flipper-items {
