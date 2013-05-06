@@ -132,6 +132,12 @@ class pliBox extends PageLinesSection {
 			$text_link = ($link) ? sprintf('<div class="ibox-link"><a href="%s">%s <i class="icon-angle-right"></i></a></div>', $link, __('More', 'pagelines')) : '';
 
 
+			$format_class = ($media_format == 'left') ? 'media left-aligned' : 'top-aligned';
+			$media_class = 'media-type-'.$media_type;
+			
+			$media_bg = '';
+			$media_html = '';
+			
 			if( $media_type == 'icon' ){
 				$media = ($this->opt('ibox_icon_'.$i)) ? $this->opt('ibox_icon_'.$i) : false;
 				if(!$media){
@@ -143,22 +149,22 @@ class pliBox extends PageLinesSection {
 			} elseif( $media_type == 'image' ){
 
 				$media = ($this->opt('ibox_image_'.$i)) ? $this->opt('ibox_image_'.$i) : false;
-				$media_html = ($media) ? sprintf('<img src="%s" />', $media) : '';
+				
+				$media_html = '';
+				 
+				$media_bg = ($media) ? sprintf('background-image: url(%s);', $media) : '';
 
-			} else
-				$media_html = false;
-
+			} 
 
 			if($width == 0)
 				echo '<div class="row fix">';
 
-			$format_class = ($media_format == 'left') ? 'media' : '';
-			$media_class = 'media-type-'.$media_type;
+			
 
 			printf(
 				'<div class="span%s ibox %s fix">
 					<div class="ibox-media img">
-						<a class="ibox-icon-border pl-animation pl-appear pl-contrast %s" %s>
+						<a class="ibox-icon-border pl-animation pl-appear pl-contrast %s" style="%s" %s>
 							%s
 						</a>
 					</div>
@@ -173,6 +179,7 @@ class pliBox extends PageLinesSection {
 				$cols,
 				$format_class,
 				$media_class,
+				$media_bg,
 				$media_link,
 				$media_html,
 				$title,

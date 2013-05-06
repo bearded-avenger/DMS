@@ -20,13 +20,21 @@
 
 	.ibox-media{
 		text-align: center;
+		
 		.ibox-icon-border{
 			margin-bottom: @baseLineHeight/2;
 			display: inline-block;
 			text-align: center;
 			overflow: hidden;
+			.border-radius(500px);
+			img{
+				.border-radius(500px);
+			}
 			&.media-type-image {
-				max-width: 100%;
+				.background-size(cover);
+				display: block;
+				margin-right: auto;
+				margin-left: auto;
 			}
 			&.media-type-icon {
 				.border-radius(500px);
@@ -51,31 +59,40 @@
 		}
 		
 	}
-	&.media{
+	&.top-aligned{
+		.ibox-media{
+			max-width: 60%;
+			margin-right: auto;
+			margin-left: auto;
+			.media-type-image {
+			
+				height: 0; 
+				padding: 50% 0;
+			}
+		}
+	}
+	&.left-aligned{
 		text-align: left;
 		.ibox-icon-border{
-			.border-radius(500px);
-			img{
-				.border-radius(500px);
-			}
-		}
-		.ibox-icon-border.media-type-icon {
+			&.media-type-icon {
 
-			width: 70px;
-			height: 70px;
-			line-height: 85px;
-			i{
-				font-size: 35px;
-			}
+				width: 70px;
+				height: 70px;
+				line-height: 85px;
+				i{
+					font-size: 35px;
+				}
 
-		}
-		.ibox-icon-border.media-type-image {
-			width: 80px;
-			height: 80px;
-			img{
+			}
+			&.media-type-image {
+				padding: auto;
 				width: 80px;
-			}
+				height: 80px;
+				img{
+					width: 80px;
+				}
 
+			}
 		}
 	}
 }
