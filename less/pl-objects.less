@@ -134,6 +134,7 @@ ul.tabbed-list {
 	.bd > :first-child{margin-top:0;}
 	.bd > :last-child{margin-bottom:0;}
 	.img{
+		max-width: 25%;
 		float:left;
 		margin-right: 15px;
 		text-align: center;
@@ -165,6 +166,30 @@ ul.tabbed-list {
 		}
 	}
 
+}
+
+.media-list{
+	li{
+		line-height: 1.3em;
+		margin-bottom: .8em;
+		.title, 
+		.excerpt{
+			display: block;
+		}
+		.excerpt{
+			font-size: @smallerText;
+			
+		}
+	}
+	.img .the-media{
+		display: block;
+		width: 50px; 
+		height: 50px; 
+		.border-radius(200px);
+		.background-size(cover);
+	}
+	
+	
 }
 
 /*

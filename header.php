@@ -52,20 +52,21 @@ else:  ?>
 		<?php pagelines_template_area('pagelines_fixed_top', 'fixed_top'); // Hook ?>
 	</div>
 	<div class="fixed-top-pusher"></div>
+	
+	<div class="pl-region-wrap">
+		<div id="page" class="thepage page-wrap">
 
-	<div id="page" class="thepage page-wrap">
-
-		<?php pagelines_register_hook('pagelines_page'); // Hook ?>
-		<div class="page-canvas">
-			<?php pagelines_register_hook('pagelines_before_header');?>
-			<header id="header" class="header pl-region" data-region="header">
-				<div class="outline pl-area-container">
-					<?php pagelines_template_area('pagelines_header', 'header'); // Hook ?>
-				</div>
-			</header>
-			<?php pagelines_register_hook('pagelines_before_main'); // Hook ?>
-			<div id="page-main" class="pl-region" data-region="template">
-				<div id="dynamic-content" class="outline template-region-wrap pl-area-container">
+			<?php pagelines_register_hook('pagelines_page'); // Hook ?>
+			<div class="page-canvas">
+				<?php pagelines_register_hook('pagelines_before_header');?>
+				<header id="header" class="header pl-region" data-region="header">
+					<div class="outline pl-area-container">
+						<?php pagelines_template_area('pagelines_header', 'header'); // Hook ?>
+					</div>
+				</header>
+				<?php pagelines_register_hook('pagelines_before_main'); // Hook ?>
+				<div id="page-main" class="pl-region" data-region="template">
+					<div id="dynamic-content" class="outline template-region-wrap pl-area-container">
 <?php
 				pagelines_special_content_wrap_top();
 

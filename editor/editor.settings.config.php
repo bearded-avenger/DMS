@@ -32,7 +32,7 @@ class EditorSettings {
 
 
 		$this->settings['social_media'] = array(
-			'name' 	=> 'Social Media',
+			'name' 	=> 'Social &amp; Local',
 			'icon'	=> 'icon-comments',
 			'pos'	=> 5,
 			'opts' 	=> $this->social()
@@ -194,13 +194,19 @@ class EditorSettings {
 				'help' 		=> __( 'This places your Twitter feed on the site. Leave blank if you want to hide or not use.', 'pagelines' )
 			),
 			array(
+				'key'		=> 'facebook_name',
+				'type' 		=> 'text',
+				'label' 	=> __( 'Your Facebook Page Name', 'pagelines' ),
+				'title' 	=> __( 'Facebook Page', 'pagelines' ),
+				'help' 		=> __( 'Enter the name component of your Facebook page URL. (For example, what comes after the facebook url: www.facebook.com/[name])', 'pagelines' )
+			),
+			array(
 				'key'		=> 'site-hashtag',
 				'type' 		=> 'text',
 				'label' 	=> __( 'Your Website Hashtag', 'pagelines' ),
 				'title' 	=> __( 'Website Hashtag', 'pagelines' ),
 				'help'	 	=> __( 'This hashtag will be used in social media (e.g. Twitter) and elsewhere to create feeds.', 'pagelines' )
 			),
-
 
 		);
 

@@ -77,6 +77,14 @@ class PageLinesColumnizer extends PageLinesSection {
 				'title'	=> 'Widgetized Areas Help',
 				'label'		=>	'<i class="icon-retweet"></i> Edit Widgetized Areas',
 				'help'		=> "This section uses widgetized areas that are created and edited in inside your admin.",
+			),
+			array(
+				'key'	=> 'columnizer_description',
+				'type'	=> 'textarea',
+			
+				'title'	=> 'Column Site Description',
+				'label'		=>	'Column Site Description',
+				'help'		=> "If you use the default display of the columnizer, this field is used as a description of your company. You may want to add your address or links.",
 			)
 		);
 
@@ -124,21 +132,111 @@ class PageLinesColumnizer extends PageLinesSection {
 
 	function get_default(){
 		ob_start();
-		for($i = 1; $i <= 4;$i++):
+
+			
+		$twitter = $this->opt('twittername'); 
+		$facebook = $this->opt('facebook_name'); 
 		?>
 
 		<li id="the_default_widget" class="span3 widget">
 			<div class="widget-pad">
-				<h3 class="widget-title"><?php _e('Widget','pagelines'); ?></h3>
+				<h3 class="widget-title"><?php _e('Stay in Touch!','pagelines'); ?></h3>
 				<div class="textwidget">
-					<p>Lorem ipsum dolor sit amet elit, consectetur adipiscing. Vestibulum luctus ipsum id quam euismod a malesuada sapien euismot. Vesti bulum ultricies elementum interdum. </p>
-
+					<p>
+					Thanks for stopping by! Please make sure to stay in touch.
+					</p>
+					<ul>
+					<?php
+					if($twitter)
+						printf('<li><a href="http://www.twitter.com/%1$s"><i class="icon-twitter"></i> Twitter</i></a></li>', $twitter); 
+					
+					if($facebook)
+						printf('<li><a href="http://www.facebook.com/%1$s"><i class="icon-facebook-sign"></i> Facebook</i></a></li>', $twitter);
+					
+						printf('<li><a href="%s"><i class="icon-rss"></i> Subscribe</i></a></li>', get_bloginfo( 'rss2_url' ) );
+					?>
+					</ul>
+						
 				</div>
 			</div>
 		</li>
+		
+		<?php
+		
+		?>
+		<li id="the_default_widget" class="span3 widget">
+			<div class="widget-pad">
+				<h3 class="widget-title"><?php _e('The Latest','pagelines'); ?></h3>
+				<ul class="media-list">
+					<?php
+			
+					foreach( get_posts( array('numberposts' => 3) ) as $p ){
+						$img = (has_post_thumbnail( $p->ID )) ? sprintf('<div class="img"><a class="the-media" href="%s" style="background-image: url(%s)"></a></div>', get_permalink( $p->ID ), pl_the_thumbnail_url( $p->ID, 'thumbnail')) : '';
+						
+						printf(
+							'<li class="media fix">%s<div class="bd"><a class="title" href="%s">%s</a><span class="excerpt">%s</span></div></li>', 
+							$img,
+							get_permalink( $p->ID ), 
+							$p->post_title, 
+							pl_short_excerpt($p->ID)
+						);
+					
+					} ?>
+				
+						
+				</ul>
+			</div>
+		</li>
+		
+		<li id="the_default_widget" class="span3 widget">
+			<div class="widget-pad">
+				<h3 class="widget-title"><?php _e('Tags','pagelines'); ?></h3>
+				<div class="tags-list">
+					<?php
+			
+					wp_tag_cloud( array('number'=> 15, 'smallest' => 10, 'largest' => 10) );
+					 ?>
+				
+						
+				</div>
+			</div>
+			<div class="widget-pad">
+				<h3 class="widget-title"><?php _e('Categories','pagelines'); ?></h3>
+				<ul class="media-list">
+					<?php
+			
+					echo wp_list_categories( array( 'number' => 10, 'depth' => 1, 'title_li' => '' )); 
+					 ?>
+				
+						
+				</ul>
+			</div>
+		</li>
+
+		<li id="the_default_widget" class="span3 widget">
+			<div class="widget-pad">
+				<h3 class="widget-title"><?php _e('More Info','pagelines'); ?></h3>
+				<div class="textwidget">
+					<?php
+			
+					if($this->opt('columnizer_description')):
+						echo $this->opt('columnizer_description'); 
+					else: 
+					 ?>
+					<p>Lorem ipsum dolor sit amet elit, consectetur adipiscing. Vestibulum luctus ipsum id quam euismod a malesuada sapien euismot. Vesti bulum ultricies elementum interdum. </p>
+
+					<address>PageLines Inc.<br/>
+					200 Brannan St.<br/>
+					San Francisco, CA 94107</address>
+				<?php endif; ?>
+						
+				</div>
+			</div>
+		</li>
+		
 
 	<?php
-		endfor;
+
 
 		return ob_get_clean();
 	 }
