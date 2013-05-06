@@ -151,7 +151,7 @@ class PageLinesColumnizer extends PageLinesSection {
 						printf('<li><a href="http://www.twitter.com/%1$s"><i class="icon-twitter"></i> Twitter</i></a></li>', $twitter); 
 					
 					if($facebook)
-						printf('<li><a href="http://www.facebook.com/%1$s"><i class="icon-facebook-sign"></i> Facebook</i></a></li>', $twitter);
+						printf('<li><a href="http://www.facebook.com/%1$s"><i class="icon-facebook"></i> Facebook</i></a></li>', $twitter);
 					
 						printf('<li><a href="%s"><i class="icon-rss"></i> Subscribe</i></a></li>', get_bloginfo( 'rss2_url' ) );
 					?>
