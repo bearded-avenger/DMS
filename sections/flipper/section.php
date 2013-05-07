@@ -170,7 +170,7 @@ class PageLinesFlipper extends PageLinesSection {
 						 ?>
 					
 					<div class="flipper-info-bg"></div>
-					<div class="flipper-info pl-center-inside">
+					<a class="flipper-info pl-center-inside" href="<?php echo get_permalink();?>">
 						
 						<div class="pl-center">
 
@@ -178,7 +178,7 @@ class PageLinesFlipper extends PageLinesSection {
 						
 							$featured_image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );  
 				
-							printf('<a href="%s">%s</a>', get_permalink(), __("View", 'pagelines'));
+							printf('<div class="info-text">%s</div>', __("View", 'pagelines'));
 						
 						
 						?>
@@ -186,7 +186,7 @@ class PageLinesFlipper extends PageLinesSection {
 							
 						</div>
 						
-					</div>
+					</a>
 				</div><!--work-item-->
 				
 				<div class="flipper-meta">

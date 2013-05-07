@@ -294,12 +294,15 @@ class PageLinesPosts {
 			$id = get_the_ID();
 
 			$excerpt_mode = ( $format == 'clip' ) ? $this->section->opt( 'excerpt_mode_clip' ) : $this->section->opt( 'excerpt_mode_full' );
+			
+			$excerpt_mode = ( $excerpt_mode ) ? $excerpt_mode : 'top';
+			
 			$thumb = ( $this->pagelines_show_thumb( $id ) ) ? $this->post_thumbnail_markup( $excerpt_mode, $format ) : '';
 
 			$excerpt_thumb = ( $thumb && ( $excerpt_mode == 'left-excerpt' || $excerpt_mode == 'right-excerpt' ) ) ? '' : $thumb;
 
 			$excerpt = ( $this->pagelines_show_excerpt( $id ) ) ? $this->post_excerpt_markup( $excerpt_mode, $excerpt_thumb ) : '';
-
+			
 			$classes = 'post-meta fix ';
 			$classes .= ( ! $this->pagelines_show_thumb( $id ) ) ? 'post-nothumb ' : '';
 			$classes .= ( ! $this->pagelines_show_content( $id ) ) ? 'post-nocontent ' : '';
@@ -529,13 +532,14 @@ class PageLinesPosts {
 
 			if( pl_has_editor() ){
 
-				if( is_page() || is_single() )
+				if( is_page() )
 					return false;
 
 				if($this->section->opt('hide_thumb'))
 					return false;
 				else
 					return true;
+					
 			} else{
 
 				if( $location == 'clip' && ploption('thumb_clip') ) return true;
@@ -588,14 +592,16 @@ class PageLinesPosts {
 	*/
 	function pagelines_show_excerpt( $post = null ){
 
-			if( is_page() || is_single() )
+			if( is_page() )
 				return false;
+				
+		
 
 			if( pl_has_editor() ){
 
-				if( $this->section->opt('hide_excerpt'))
+				if( $this->section->opt('hide_excerpt')){
 					return false;
-				else
+				} else
 					return true;
 
 			} else {
