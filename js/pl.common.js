@@ -52,7 +52,7 @@
 						.find('.pl-animation')
 						.each(function(i){
 							var element = $(this);
-							setTimeout(function(){ element.addClass('animation-loaded') }, (i * 150));
+							setTimeout(function(){ element.addClass('animation-loaded') }, (i * 200));
 						})
 
 				}

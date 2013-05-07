@@ -71,7 +71,7 @@ class pliBox extends PageLinesSection {
 			$opts = array(
 
 				'ibox_title_'.$i 	=> array(
-					'label'		=> __( 'iBox Title', 'pagelines' ).$this->meta['clone'],
+					'label'		=> __( 'iBox Title', 'pagelines' ),
 					'type'		=> 'text'
 				),
 				'ibox_text_'.$i 	=> array(

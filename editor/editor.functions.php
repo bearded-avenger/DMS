@@ -436,7 +436,9 @@ function pl_icon_array(){
 		'folder-close-alt',
 		'folder-open-alt',
 	);
-
+	
+	$r = asort($icons);
+	$icons = array_values($icons);
 	return $icons;
 }
 
