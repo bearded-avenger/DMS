@@ -83,7 +83,7 @@
 					}
 				, 	success: function( response ){
 
-					//	console.debug(response)
+						console.debug(response)
 
 						that.runSuccess( theData, response )
 
@@ -159,7 +159,7 @@
 				,	run: 'delete'
 				, 	log: true
 				,	pageData: $.pl.data
-				,	keys: $.pl.config.opts[section]
+				,	keys: $.pl.config.opts[clone]
 				,	clone: clone
 				
 			}

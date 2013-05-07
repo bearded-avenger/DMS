@@ -79,12 +79,15 @@
 			var that = this
 			, 	cascade = ['local', 'type', 'global']
 			, 	sid = that.config.sid
-			, 	clone_text = sprintf('<i class="icon-map-marker"></i> ID (%s)', that.config.clone)
+			,	clone = that.config.clone
+			, 	clone_text = sprintf('<i class="icon-map-marker"></i> ID (%s)', clone)
 			, 	clone_desc = sprintf(' <span class="clip-desc"> &rarr; %s</span>', clone_text)
 
-			if( that.optConfig[sid] && !$.isEmptyObject( that.optConfig[sid].opts ) )
-				opt_array = that.optConfig[sid].opts
+			if( that.optConfig[clone] && !$.isEmptyObject( that.optConfig[clone].opts ) )
+				opt_array = that.optConfig[clone].opts
 			else{
+			console.log(that.optConfig)
+			console.log(clone)
 				opt_array = [{
 					help: "There are no options for this section."
 					, key: "no-opts"
@@ -101,8 +104,8 @@
 
 				opts = that.runEngine( opt_array, o )
 
-				if(that.optConfig[ sid ] && that.optConfig[ sid ].name)
-					tab.find('legend').html( that.optConfig[ sid ].name + clone_desc)
+				if(that.optConfig[ clone ] && that.optConfig[ clone ].name)
+					tab.find('legend').html( that.optConfig[ clone ].name + clone_desc)
 
 				tab.find('.panel-tab-content').html( opts )
 

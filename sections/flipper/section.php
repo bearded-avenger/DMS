@@ -136,7 +136,7 @@ class PageLinesFlipper extends PageLinesSection {
 									$archive_link, 
 									__(' / View All', 'pagelines')
 								);
-							} else if ($post_type == 'post' && get_option( 'page_for_posts')){
+							} else if ($post_type == 'post' && get_option( 'page_for_posts') && !is_home()){
 								printf( '<a href="%s" > %s</a>', 
 									get_page_uri( get_option( 'page_for_posts') ), 
 									__(' / View Blog', 'pagelines')

@@ -315,7 +315,7 @@
 					, sobj: cloned.data('object')
 					, clone: cloned.data('clone')
 				}
-			,	clonedSet = ($.pl.config.opts[config.sid] && $.pl.config.opts[config.sid].opts) || {}
+			,	clonedSet = ($.pl.config.opts[config.clone] && $.pl.config.opts[config.clone].opts) || {}
 			, 	mode = ($.pl.config.isSpecial) ? 'type' : 'local'
 
 

@@ -56,7 +56,7 @@ class PLSectionArea extends PageLinesSection {
 	
 	function before_section_template( $location = '' ) {
 
-		$this->wrapper_classes[] = $this->opt('pl_area_bg');
+		$this->wrapper_classes['background'] = $this->opt('pl_area_bg');
 
 	}
 

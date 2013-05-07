@@ -72,7 +72,6 @@ class EditorTypography{
 					array(
 						'key'			=> 'base_font_size',
 						'type'			=> 'count_select',
-						'compile'		=> true,
 						'count_start'	=> 10,
 						'count_number'	=> 30,
 						'suffix'		=> 'px',

@@ -48,7 +48,8 @@ class PageLinesTemplateHandler {
 		$this->optset = $opts;
 		$this->layout = $layout;
 		$this->extensions = $extensions;
-
+		
+		//plprint($this->optset);
 
 		$this->map = $map->get_map( $this->page );
 
@@ -288,16 +289,19 @@ class PageLinesTemplateHandler {
 		// BACKWARDS COMPATIBILITY
 		add_action('override_metatab_register', array(&$this, 'get_opts_from_optionator'), 10, 2);
 
-		foreach($this->section_list_unique as $key => $meta){
+		foreach($this->section_list as $key => $meta){
 
 			if($this->in_factory( $meta['object'] )) {
 
 				$s = $this->factory[ $meta['object'] ];
+				
+				$s->meta = $meta;
 
-				$opts_config[ $s->id ] = array(
+				$opts_config[ $s->meta['clone'] ] = array(
 					'name'	=> $s->name
 				);
 
+			
 				$opts = array();
 
 				// Grab the options
@@ -365,8 +369,10 @@ class PageLinesTemplateHandler {
 					unset($o); // set by reference
 				}
 
-				$opts_config[ $s->id ][ 'opts' ] = $opts;
+				$opts_config[ $s->meta['clone'] ][ 'opts' ] = $opts;
 
+			
+				
 			}
 
 
@@ -537,8 +543,6 @@ class PageLinesTemplateHandler {
 
 				$s->meta = $meta;
 				
-				if(!isset($meta['clone']))
-					plprint($meta);
 			
 				$s->setup_oset( $meta['clone'] ); // refactor
 

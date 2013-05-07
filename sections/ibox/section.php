@@ -65,13 +65,13 @@ class pliBox extends PageLinesSection {
 
 		$slides = ($this->opt('ibox_count')) ? $this->opt('ibox_count') : $this->default_limit;
 		$media = ($this->opt('ibox_media')) ? $this->opt('ibox_media') : 'icon';
-
+		
 		for($i = 1; $i <= $slides; $i++){
 
 			$opts = array(
 
 				'ibox_title_'.$i 	=> array(
-					'label'		=> __( 'iBox Title', 'pagelines' ),
+					'label'		=> __( 'iBox Title', 'pagelines' ).$this->meta['clone'],
 					'type'		=> 'text'
 				),
 				'ibox_text_'.$i 	=> array(

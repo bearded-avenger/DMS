@@ -186,10 +186,13 @@ class PageLinesSection {
 			&& isset($this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ] )
 			&& $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ] != ''
 		){
+			
 					
 			$val = $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ];
-				
+			
+			
 		} elseif( pl_setting( $key, $args) ){
+			
 			
 			$val = pl_setting( $key, $args);
 			 
