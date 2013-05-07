@@ -119,7 +119,8 @@ class pliBox extends PageLinesSection {
 		$media_format = ($this->opt('ibox_format')) ? $this->opt('ibox_format') : 'top';
 
 		$width = 0;
-
+		$output = '';
+		
 		for($i = 1; $i <= $boxes; $i++):
 
 			// TEXT
@@ -155,13 +156,15 @@ class pliBox extends PageLinesSection {
 				$media_bg = ($media) ? sprintf('background-image: url(%s);', $media) : '';
 
 			} 
+			
+		
 
 			if($width == 0)
-				echo '<div class="row fix">';
+				$output .= '<div class="row fix">';
 
 			
 
-			printf(
+			$output .= sprintf(
 				'<div class="span%s ibox %s fix">
 					<div class="ibox-media img">
 						<a class="ibox-icon-border pl-animation pl-appear pl-contrast %s" style="%s" %s>
@@ -191,11 +194,13 @@ class pliBox extends PageLinesSection {
 
 			if($width >= 12 || $i == $boxes){
 				$width = 0;
-				echo '</div>';
+				$output .= '</div>';
 			}
 
 
 		 endfor;
+		
+		printf('<div class="ibox-wrapper pl-animation-group">%s</div>', $output);
 
 	}
 

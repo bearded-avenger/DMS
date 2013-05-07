@@ -26,24 +26,11 @@
 			
 			$.plAnimate.animatedCount = 0
 			$.plAnimate.totalAnimations = 0
-						// 
-						// 
-						// if( $('.pl-animation').length > 0 ){
-						// 	
-						// 	//store the total number of bars that need animating
-						// 	$.plAnimate.totalAnimations = $( '.pl-animation' ).length
-						// 
-						// 
-						// 	scrollAnimation = setInterval( that.checkViewport, 150)
-						// 	
-						// 	$.plAnimate.checkViewport()
-						// 
-						// }
 						
 			$.plAnimate.plWaypoints()
 		}
 		
-		, plWaypoints: function(options_passed){
+		, plWaypoints: function(selector, options_passed){
 			
 			var defaults = { 
 					offset: '85%' // 'bottom-in-view' 
@@ -51,63 +38,52 @@
 				}
 				, options  = $.extend({}, defaults, options_passed)
 				, delay = 150
-
-			$('.pl-animation').each(function(){
+				
+			$('.pl-animation-group')
+				.find('.pl-animation')
+				.addClass('pla-group')
+				
+			$('.pl-animation-group').each(function(){
 				
 				var element = $(this)
 
-				setTimeout(function() {
-					element.waypoint(function(direction){
-						
+				element.waypoint(function(direction){
+				 	$(this)
+						.find('.pl-animation')
+						.each(function(i){
+							var element = $(this);
+							setTimeout(function(){ element.addClass('animation-loaded') }, (i * 150));
+						})
+
+				}
+				, { offset: '80%' 
+					, triggerOnce: true
+				})
+			})
+
+			$('.pl-animation:not(.pla-group)').each(function(){
+				
+				var element = $(this)
+
+				element.waypoint(function(direction){
+					
 					 	$(this)
 							.addClass('animation-loaded')
 							.trigger('animation_loaded')
 
-					}, options )
+					}
+					, { offset: '85%' 
+					, triggerOnce: true
+				})
 
-				} , 150 )
+			
 			})
 		}
 		
 		, checkViewport: function(){
 			
 			var that = this
-				// 
-				// $('.pl-animation:in-viewport:not(".loaded")').each(function(i){
-				// 
-				// 	var element = $(this)
-				// 	,	action = $(this).data('action') || 'scale'
-				// 
-				// 	$(this)
-				// 		.addClass('loaded')
-				// 
-				// 	$.plAnimate.animatedCount++
-				// 
-				// 	if( $.plAnimate.animatedCount == $.plAnimate.totalAnimations){
-				// 		
-				// 		clearInterval( scrollAnimation )
-				// 	}
-				// 
-				// })
-			
-			// $('.pl-animation:not(".loaded")').waypoint(function() {
-			// 		  
-			// 			var element = $(this)
-			// 			,	action = $(this).data('action') || 'scale'
-			// 
-			// 			$(this)
-			// 				.addClass('loaded')
-			// 
-			// 			$.plAnimate.animatedCount++
-			// 
-			// 			if( $.plAnimate.animatedCount == $.plAnimate.totalAnimations){
-			// 
-			// 				clearInterval( scrollAnimation )
-			// 			}
-			// 		
-			// 		}, { offset: '90%' });
-			
-			
+		
 		}
 	}
 
