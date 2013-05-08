@@ -111,10 +111,7 @@ class EditorMap {
 
 
 
-	function save_map_draft( $pageID, $the_map ){
-
-		$pageID =  $pageID;
-		$map = $the_map;
+	function save_map_draft( $pageID, $map ){
 
 		// global
 		$global_map = pl_opt( $this->map_option_slug, pl_settings_default(), true );

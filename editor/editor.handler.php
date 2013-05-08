@@ -48,10 +48,11 @@ class PageLinesTemplateHandler {
 		$this->optset = $opts;
 		$this->layout = $layout;
 		$this->extensions = $extensions;
+		$this->map_handler = $map;
 		
 		//plprint($this->optset);
 
-		$this->map = $map->get_map( $this->page );
+		$this->map = $this->map_handler->get_map( $this->page );
 
 		$this->parse_config();
 
@@ -187,9 +188,8 @@ class PageLinesTemplateHandler {
 				$a = wp_parse_args( $a, $this->meta_defaults( $area ) );
 				
 				// Lets get rid of the number based clone system
-				if( strlen( $a['clone'] ) < 3 ){
+				if( strlen( $a['clone'] ) < 3 )
 					$a['clone'] = pl_new_clone_id();
-				}
 				
 				$this->section_list[ ] = $a;
 				$this->section_list_unique[ $a['object'] ] = $a;
@@ -201,9 +201,19 @@ class PageLinesTemplateHandler {
 
 					$meta = wp_parse_args($meta, $this->meta_defaults($key));
 
+					if( strlen( $meta['clone'] ) < 3 )
+						$meta['clone'] = pl_new_clone_id();
+					
+
 					if(!empty($meta['content'])){
 						foreach($meta['content'] as $subkey => &$sub_meta){
+							
 							$sub_meta = wp_parse_args($sub_meta, $this->meta_defaults($subkey));
+							
+							if( strlen( $sub_meta['clone'] ) < 3 )
+								$sub_meta['clone'] = pl_new_clone_id();
+							
+							
 							$this->section_list[  ] = $sub_meta;
 							$this->section_list_unique[$sub_meta['object']] = $sub_meta;
 						}
@@ -221,6 +231,9 @@ class PageLinesTemplateHandler {
 			}
 			unset($a); // set by reference
 		}
+		
+		// update if clone id has changed.
+		$this->map_handler->save_map_draft( $this->page->id, $this->map ); 
 
 
 		// add passive sections (not in drag drop but added through options/hooks)
