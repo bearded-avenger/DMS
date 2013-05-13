@@ -143,13 +143,14 @@ class PageLinesRegister {
 						'base_file' => $section['base_file'],
 						'name'		=> $section['name']
 					);
+
 					if ( isset( $dep ) && $section['loadme'] ) { // do we have a dependency?
 						if ( !class_exists( $dep ) && is_file( $dep_data['base_file'] ) ) {
 							include( $dep_data['base_file'] );
 							$pl_section_factory->register( $dep, $dep_data );
 						}
 						// dep loaded...
-						if ( !class_exists( $section['class'] ) && is_file( $section['base_file'] ) ) {
+						if ( !class_exists( $section['class'] ) && class_exists( $dep ) && is_file( $section['base_file'] ) ) {
 							include( $section['base_file'] );
 							$pl_section_factory->register( $section['class'], $section_data );
 						}
@@ -258,6 +259,11 @@ class PageLinesRegister {
 					// Ok so were a plugin then.. if not active then bypass.
 					// prepare url
 
+					$pname = preg_match( '#\/sections\/([^\/]+)#', $fullFileName, $out );
+
+					if( ! isset( $out[1] ) )
+						continue;
+
 					$file = basename( $dir );
 
 					$pfile = sprintf( '%s/%s.php', $type, $type );
@@ -268,8 +274,9 @@ class PageLinesRegister {
 
 					$url = plugins_url( $type );
 
-					$base_url = sprintf( '%s/sections%s', untrailingslashit( $url ), stripslashes( $folder ) );
-					$base_dir = sprintf( '%s/%s', untrailingslashit( $dir ), stripslashes( $folder ) );
+					$base_url = sprintf( '%s/%s/%s', untrailingslashit( $url ), $file, $out[1]  );
+					$base_dir = sprintf( '%s/%s/', untrailingslashit( $dir ), $out[1] );
+
 				}
 				$base_dir = ( isset( $base_dir ) ) ? $base_dir : PL_SECTIONS . $folder;
 				$base_url = ( isset( $base_url ) ) ? $base_url : PL_SECTION_ROOT . $folder;
