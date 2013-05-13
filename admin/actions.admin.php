@@ -357,3 +357,9 @@ function pagelines_check_folders() {
 		printf( "<p><h3>Install Error!</h3><br />PageLines Framework must be installed in a folder called 'pagelines' to work with child themes and extensions.<br /><br />Current path: %s<br /></p>", get_template_directory() );
 		echo '</div>';
 }
+
+add_action( 'activate_plugin', 'pagelines_purge_sections_cache' );
+add_action( 'deactivate_plugin', 'pagelines_purge_sections_cache' );
+function pagelines_purge_sections_cache() {
+	delete_transient( 'pagelines_sections_cache' );
+}
