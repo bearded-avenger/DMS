@@ -80,8 +80,8 @@ class Editor_Plugin_Installer {
 		foreach( $mixed as $slug => $data ) {
 
 			$end = 'store';
-			if( 'sections' == $data['type'] )
-				continue;
+	//		if( 'sections' == $data['type'] )
+	//			continue;
 
 			if( isset( $data['plus_product'] ) && defined( 'VPLUS' ) && VPLUS )
 				$data['purchased'] = 'purchased';
@@ -99,6 +99,12 @@ class Editor_Plugin_Installer {
 			$type = rtrim( $data['type'], 's' );
 
 			$source = sprintf( 'http://www.pagelines.com/api/%s/%s-%s.zip', $end, $type, $slug );
+
+			if( 'section' == $type )
+				$source = sprintf( 'http://www.pagelines.com/api/%s/v3/%s.zip', $end, $slug );
+
+			if( 'section' == $type )
+				$type = 'plugin';
 
 			// ok must be for real then!
 			$built[] = array(

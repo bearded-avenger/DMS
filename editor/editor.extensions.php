@@ -197,7 +197,7 @@ class EditorExtensions {
 			if( 'themes' == $type )
 				return $this->theme_status( $slug );
 
-			if( 'plugins' == $type )
+			if( 'plugins' == $type || 'sections' == $type )
 				return $this->plugin_status( $slug );
 		}
 

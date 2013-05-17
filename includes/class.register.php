@@ -56,6 +56,23 @@ class PageLinesRegister {
 
 		$section_dirs = apply_filters( 'pagelines_sections_dirs', $section_dirs );
 
+		// load v3 section/plugins...
+		//
+
+	//	$storeapi = new EditorStoreFront;
+	//	$mixed = $storeapi->get_latest();
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		$plugins = get_plugins();
+
+		foreach( $plugins as $plugin => $data ) {
+
+			$path = trailingslashit( WP_PLUGIN_DIR ) . plugin_dir_path( $plugin ) . 'sections/';
+
+			if( is_dir( $path ) )
+				$section_dirs[ untrailingslashit( plugin_dir_path( $plugin ) ) ] = $path;
+
+		}
+//plprint( $section_dirs );
 		/**
 		* If cache exists load into $sections array
 		* If not populate array and prime cache
@@ -126,13 +143,14 @@ class PageLinesRegister {
 						'base_file' => $section['base_file'],
 						'name'		=> $section['name']
 					);
+
 					if ( isset( $dep ) && $section['loadme'] ) { // do we have a dependency?
 						if ( !class_exists( $dep ) && is_file( $dep_data['base_file'] ) ) {
 							include( $dep_data['base_file'] );
 							$pl_section_factory->register( $dep, $dep_data );
 						}
 						// dep loaded...
-						if ( !class_exists( $section['class'] ) && is_file( $section['base_file'] ) ) {
+						if ( !class_exists( $section['class'] ) && class_exists( $dep ) && is_file( $section['base_file'] ) ) {
 							include( $section['base_file'] );
 							$pl_section_factory->register( $section['class'], $section_data );
 						}
@@ -238,13 +256,26 @@ class PageLinesRegister {
 				*/
 				if ( 'custom' != $type && 'child' != $type && 'parent' != $type ) {
 
+					// Ok so were a plugin then.. if not active then bypass.
 					// prepare url
-					$file = basename( $dir );
-					$path = plugin_dir_path( $file );
-					$url = plugins_url( $file );
 
-					$base_url = sprintf( '%s/sections%s', $url, $folder );
-					$base_dir =  sprintf( '%ssections%s', $dir, $folder );
+					$pname = preg_match( '#\/sections\/([^\/]+)#', $fullFileName, $out );
+
+					if( ! isset( $out[1] ) )
+						continue;
+
+					$file = basename( $dir );
+
+					$pfile = sprintf( '%s/%s.php', $type, $type );
+
+					if( ! is_plugin_active( $pfile ) )
+						continue;
+					$path = plugin_dir_path( $file );
+
+					$url = plugins_url( $type );
+
+					$base_url = sprintf( '%s/%s/%s', untrailingslashit( $url ), $file, $out[1]  );
+					$base_dir = sprintf( '%s/%s/', untrailingslashit( $dir ), $out[1] );
 
 				}
 				$base_dir = ( isset( $base_dir ) ) ? $base_dir : PL_SECTIONS . $folder;
