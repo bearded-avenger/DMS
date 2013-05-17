@@ -25,7 +25,7 @@ class PageLinesSettingsPanel{
 	function toolbar( $toolbar ){
 
 		$toolbar[ 'settings' ] = array(
-			'name'	=> 'Global',
+			'name'	=> 'Site Settings',
 			'icon'	=> 'icon-cog',
 			'pos'	=> 60,
 			'panel'	=> $this->get_settings_tabs()
@@ -73,7 +73,7 @@ class PageLinesSettingsPanel{
 		$tabs = array();
 		$tabs['heading'] = "Section Options";
 
-		$tabs['global'] = array( 'name'	=> 'Section Defaults' );
+		$tabs['global'] = array( 'name'	=> 'Setting Defaults' );
 
 		if( !$plpg->is_special() )
 			$tabs['type'] = array( 'name'	=> 'Current Type <span class="label">'.$plpg->type_name.'</span>' );

@@ -85,6 +85,7 @@ $.plTemplates = {
 					,	refresh: true
 					, 	log: true
 					,	map: $.plMapping.getCurrentMap()
+					,	settings: $.pl.data.local
 				}
 			,	args = $.extend({}, args, form) // add form fields to post
 

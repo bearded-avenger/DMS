@@ -131,7 +131,7 @@ class PageLinesFoundry {
 			),
 			'droid_sans' => array(
 				'name' => 'Droid Sans',
-				'family' => '"Droid Sans", "Lucida Grande", Tahoma, sans-serif',
+				'family' => '"Droid Sans", "Helvetica Neue", Helvetica, sans-serif',
 				'web_safe' => true,
 				'google' => array('regular', 'bold'),
 				'monospace' => false,
@@ -269,7 +269,7 @@ class PageLinesFoundry {
 			),
 			'source_sans_pro' => array(
 				'name' => 'Source Sans Pro',
-				'family' => '"Source Sans Pro", "Lucida Grande", Tahoma, sans-serif',
+				'family' => '"Source Sans Pro", "Helvetica Neue", Helvetica, sans-serif',
 				'web_safe' => true,
 				'google' => array('400','600','700','900'),
 				'monospace' => false,
@@ -277,7 +277,7 @@ class PageLinesFoundry {
 			),
 			'open_sans' => array(
 				'name' => 'Open Sans',
-				'family' => '"Open Sans", "Lucida Grande", Tahoma, sans-serif',
+				'family' => '"Open Sans", "Helvetica Neue", Helvetica, sans-serif',
 				'web_safe' => true,
 				'google' => array('400','300','600','800'),
 				'monospace' => false,

@@ -5,6 +5,7 @@ class EditorTemplates {
 	var $template_slug = 'pl-user-templates';
 	var $default_template_slug = 'pl-default-tpl';
 	var $map_option_slug = 'pl-template-map';
+	var $template_id_slug = 'pl-template-id';
 
 
 	function __construct( ){
@@ -30,74 +31,22 @@ class EditorTemplates {
 		add_action( 'post_updated', array(&$this, 'save_meta_options') );
 
 	}
-
-	function admin_page_meta_box(){
-		remove_meta_box( 'pageparentdiv', 'page', 'side' );
-		add_meta_box('specialpagelines', __('Page Setup'), array(&$this, 'page_attributes_meta_box'), 'page', 'side');
-
+	
+	function get_template_id(){
+		
+		// if page map, then custom
+		
+		// else if, local template id then page only template
+		
+		// else if, type template id, then type only template
+		
+		// else if, global template id, then that
+		
+		// finally, a default fallback template id = default
+		
 	}
 
-	function save_meta_options( $postID ){
-		$post = $_POST;
-		if((isset($post['update']) || isset($post['save']) || isset($post['publish']))){
 
-
-			$user_template = (isset($post['pagelines_template'])) ? $post['pagelines_template'] : '';
-
-			if($user_template != ''){
-
-				pl_meta_update($postID, $this->map_option_slug, array('live' => $user_template, 'draft' => $user_template));
-			}
-
-
-		}
-	}
-	function page_attributes_meta_box( $post ){
-		$post_type_object = get_post_type_object($post->post_type);
-
-		///// CUSTOM PAGE TEMPLATE STUFF /////
-
-			$options = '<option value="">Select Template</option>';
-			$loaded_user_template = pl_meta($post->ID, $this->map_option_slug, pl_settings_default());
-
-			foreach($this->get_user_templates() as $index => $t){
-				$sel = '';
-
-				$options .= sprintf('<option value="%s" %s>%s</option>', $index, $sel, $t['name']);
-			}
-
-
-
-			printf('<p><strong>%1$s</strong></p>', __('Load PageLines Template', 'pagelines'));
-
-			printf('<select name="pagelines_template" id="pagelines_template">%s</select>', $options);
-
-		///// END TEMPLATE STUFF /////
-
-
-		if ( $post_type_object->hierarchical ) {
-			$dropdown_args = array(
-				'post_type'        => $post->post_type,
-				'exclude_tree'     => $post->ID,
-				'selected'         => $post->post_parent,
-				'name'             => 'parent_id',
-				'show_option_none' => __('(no parent)'),
-				'sort_column'      => 'menu_order, post_title',
-				'echo'             => 0,
-			);
-
-			$dropdown_args = apply_filters( 'page_attributes_dropdown_pages_args', $dropdown_args, $post );
-			$pages = wp_dropdown_pages( $dropdown_args );
-			if ( ! empty($pages) ) {
-				printf('<p><strong>%1$s</strong></p>', __('Parent Page'));
-				echo $pages;
-			}
-		}
-
-		printf('<p><strong>%1$s</strong></p>', __('Page Order'));
-		printf('<input name="menu_order" type="text" size="4" id="menu_order" value="%s" /></p>', esc_attr($post->menu_order) );
-
-	}
 
 	function scripts(){
 		wp_enqueue_script( 'pl-js-templates', $this->url . '/js/pl.templates.js', array( 'jquery' ), PL_CORE_VERSION, true );
@@ -120,6 +69,11 @@ class EditorTemplates {
 					'name'	=> 'Save New Template',
 					'call'	=> array(&$this, 'save_templates'),
 					'icon'	=> 'icon-paste'
+				),
+				'tmp_build' => array(
+					'name'	=> 'Export Templates',
+					'call'	=> array(&$this, 'save_templates'),
+					'icon'	=> 'icon-download'
 				)
 			)
 
@@ -217,12 +171,16 @@ class EditorTemplates {
 
 		<form class="opt standard-form form-save-template">
 			<fieldset>
-				<span class="help-block">Fill out this form and the current template configuration will be saved for use throughout your site.</span>
+				<span class="help-block">
+					Fill out this form and the current template will be saved for use throughout your site.<br/>
+					<strong>Note:</strong> The current pages local settings as well as its section configuration will be saved as well
+				</span>
 				<label for="template-name">Template Name (required)</label>
 				<input type="text" id="template-name" name="template-name" required />
 
 				<label for="template-desc">Template Description</label>
 				<textarea rows="4" id="template-desc" name="template-desc" ></textarea>
+				
 				<button type="submit" class="btn btn-primary btn-save-template">Save New Template</button>
 			</fieldset>
 		</form>
@@ -243,7 +201,7 @@ class EditorTemplates {
 	function get_map_from_template_key( $key ){
 
 		$templates = $this->get_user_templates();
-		//var_dump($key);
+	
 		if( isset($templates[ $key ]) && isset($templates[ $key ]['map'] ) )
 			return $templates[ $key ]['map'];
 		else
@@ -252,25 +210,40 @@ class EditorTemplates {
 
 	function set_new_local_template( $pageID, $tpl_id ){
 
-		$user_map = pl_meta( $pageID, $this->map_option_slug, pl_settings_default());
+
+		// Two approaches, this one sets the map field as the template id
+		// This works because the user map isn't needed if using a template
+		
+		$user_map = pl_meta( $pageID, $this->map_option_slug, pl_settings_default() );
 
 		$user_map['draft'] = $tpl_id;
 
 		pl_meta_update($pageID, $this->map_option_slug, $user_map);
+		
+		
+		// Lets set up another field for the template ID, just so we have it.
+		// Not sure if this is better yet... 
+		
+		$tid = pl_meta( $pageID, $this->template_id_slug, pl_settings_default() );
 
+		$tid['draft'] = $tpl_id;
+
+		pl_meta_update($pageID, $this->template_id_slug, $tid);
+		
 		return $user_map;
 
 	}
 
 
-	function create_template( $name, $desc, $map ){
+	function create_template( $name, $desc, $map, $settings ){
 
 		$templates = $this->get_user_templates();
 
 		$templates[ pl_create_id( $name ) ] = array(
-			'name'	=> $name,
-			'desc'	=> $desc,
-			'map'	=> $map
+			'name'		=> $name,
+			'desc'		=> $desc,
+			'map'		=> $map, 
+			'settings'	=> $settings
 		);
 
 		pl_opt_update( $this->template_slug, $templates );
@@ -438,6 +411,78 @@ class EditorTemplates {
 		);
 
 		return $t;
+	}
+
+	function admin_page_meta_box(){
+		remove_meta_box( 'pageparentdiv', 'page', 'side' );
+		add_meta_box('specialpagelines', __('Page Setup'), array(&$this, 'page_attributes_meta_box'), 'page', 'side');
+
+	}
+
+	/* 
+	 * Used for WordPress Post Saving of PageLines Template
+	 */ 
+	function save_meta_options( $postID ){
+		$post = $_POST;
+		if((isset($post['update']) || isset($post['save']) || isset($post['publish']))){
+
+
+			$user_template = (isset($post['pagelines_template'])) ? $post['pagelines_template'] : '';
+
+			if($user_template != ''){
+
+				pl_meta_update($postID, $this->map_option_slug, array('live' => $user_template, 'draft' => $user_template));
+			}
+
+
+		}
+	}
+	/* 
+	 * Adds PageLines Template selector when creating page/post
+	 */
+	function page_attributes_meta_box( $post ){
+		$post_type_object = get_post_type_object($post->post_type);
+
+		///// CUSTOM PAGE TEMPLATE STUFF /////
+
+			$options = '<option value="">Select Template</option>';
+			$loaded_user_template = pl_meta($post->ID, $this->map_option_slug, pl_settings_default());
+
+			foreach($this->get_user_templates() as $index => $t){
+				$sel = '';
+
+				$options .= sprintf('<option value="%s" %s>%s</option>', $index, $sel, $t['name']);
+			}
+
+			printf('<p><strong>%1$s</strong></p>', __('Load PageLines Template', 'pagelines'));
+
+			printf('<select name="pagelines_template" id="pagelines_template">%s</select>', $options);
+
+		///// END TEMPLATE STUFF /////
+
+
+		if ( $post_type_object->hierarchical ) {
+			$dropdown_args = array(
+				'post_type'        => $post->post_type,
+				'exclude_tree'     => $post->ID,
+				'selected'         => $post->post_parent,
+				'name'             => 'parent_id',
+				'show_option_none' => __('(no parent)'),
+				'sort_column'      => 'menu_order, post_title',
+				'echo'             => 0,
+			);
+
+			$dropdown_args = apply_filters( 'page_attributes_dropdown_pages_args', $dropdown_args, $post );
+			$pages = wp_dropdown_pages( $dropdown_args );
+			if ( ! empty($pages) ) {
+				printf('<p><strong>%1$s</strong></p>', __('Parent Page'));
+				echo $pages;
+			}
+		}
+
+		printf('<p><strong>%1$s</strong></p>', __('Page Order'));
+		printf('<input name="menu_order" type="text" size="4" id="menu_order" value="%s" /></p>', esc_attr($post->menu_order) );
+
 	}
 
 }

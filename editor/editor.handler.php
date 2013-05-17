@@ -125,6 +125,8 @@ class PageLinesTemplateHandler {
 		<?php
 
 	}
+	
+
 
 	function current_url(){
 		global $wp;
@@ -460,7 +462,7 @@ class PageLinesTemplateHandler {
 		if($scope == 'local'){
 
 			$d = pl_settings( $this->draft->mode, $this->page->id );
-
+			
 			// ** Backwards Compatible Stuff ** //
 			if(!is_pagelines_special()){
 				foreach($this->opts_list as $key => $opt){

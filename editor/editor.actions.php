@@ -89,12 +89,13 @@ function pl_editor_actions(){
 		} elseif ( $run == 'save' ){
 
 			$template_map = $post['map']['template'];
+			$settings = $post['settings'];
 
 			$name = (isset($post['template-name'])) ? $post['template-name'] : false;
 			$desc = (isset($post['template-desc'])) ? $post['template-desc'] : '';
 
 			if( $name )
-				$tpl->create_template($name, $desc, $template_map);
+				$tpl->create_template($name, $desc, $template_map, $settings);
 
 		} elseif( $run == 'set_type' ){
 
