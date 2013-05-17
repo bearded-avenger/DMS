@@ -30,7 +30,7 @@ class EditorMap {
 		$map['header'] = $this->get_header( $map_global[ $this->draft->mode ] );
 		$map['footer'] = $this->get_footer( $map_global[ $this->draft->mode ] );
 		$map['template'] = $this->get_template( $map_local[ $this->draft->mode ] );
-
+		
 		return $map;
 
 	}

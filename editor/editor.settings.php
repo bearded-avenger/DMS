@@ -201,10 +201,10 @@ class PageLinesSettings extends PageLinesData {
 			$set = $this->default;
 
 		if(empty($set['draft']))
-			$set['draft'] = $settings_defaults;
+			$set['draft']['settings'] = $settings_defaults;
 
 		if(empty($set['live']))
-			$set['live'] = $settings_defaults;
+			$set['live']['settings'] = $settings_defaults;
 
 		$this->opt_update( $this->pl_settings, $set);
 
@@ -225,12 +225,12 @@ class PageLinesSettings extends PageLinesData {
 				if($opt['type'] == 'multi'){
 					foreach($opt['opts'] as $subi => $sub_opt){
 						if(isset($sub_opt['default'])){
-							$defaults[ $sub_opt['key'] ] = array( $sub_opt['default'] );
+							$defaults[ $sub_opt['key'] ] = $sub_opt['default'];
 						}
 					}
 				}
 				if(isset($opt['default'])){
-					$defaults[ $opt['key'] ] = array( $opt['default'] );
+					$defaults[ $opt['key'] ] = $opt['default'];
 				}
 			}
 		}
@@ -368,31 +368,28 @@ class PageLinesOpts extends PageLinesSettings {
 		$this->set = $this->page_settings();
 
 	}
+	
+	function get_set( $uniqueID ){
+		
+		if( isset($this->set[ $uniqueID ]) )
+			return $this->set[ $uniqueID ]; 
+		else 	
+			return array();
+		
+	}
 
 
 	function page_settings(){
 
-		$set = $this->parse_settings( $this->local, $this->parse_settings($this->type, $this->global));
-
+		//$set = $this->parse_settings( $this->local, $this->parse_settings($this->type, $this->global));
+		
+		$set = wp_parse_args( $this->local, $this->global );
+		 
 		return $set;
 
 	}
 
-	function setting( $key ){
 
-		if( isset( $this->local[$key] ) )
-			return $this->local[$key];
-
-		elseif( isset( $this->type[$key] ) )
-			return $this->type[$key];
-
-		elseif( isset( $this->global[$key] ) )
-			return $this->global[$key];
-
-		else
-			return false;
-
-	}
 
 	function local_settings(){
 
@@ -415,9 +412,9 @@ class PageLinesOpts extends PageLinesSettings {
 		$not_set = (isset($args['default'])) ? $args['default'] : false;
 
 
-		$index = ( isset( $args['clone_id']) ) ? $args['clone_id'] : 0;
+		$index = ( isset( $args['clone_id']) ) ? $args['clone_id'] : 'settings';
 
-		return ( isset( $this->set[ $key ][ $index ] ) ) ? $this->set[ $key ][ $index ] : $not_set;
+		return ( isset( $this->set[ $index ][ $key ] ) ) ? $this->set[ $index ][ $key ] : $not_set;
 
 	}
 

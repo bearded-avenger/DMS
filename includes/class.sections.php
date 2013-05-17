@@ -178,18 +178,16 @@ class PageLinesSection {
 		);
 
 		$a = wp_parse_args($args, $d);
-
+				
 		if(
 			property_exists($this, 'meta')
 			&& isset($this->meta[ 'set' ])
-			&& isset($this->meta[ 'set' ][ $key ])
-			&& isset($this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ] )
-			&& $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ] != ''
+			&& isset($this->meta[ 'set' ])
+			&& isset($this->meta[ 'set' ][ $key ] )
+			&& $this->meta[ 'set' ][ $key ] != ''
 		){
-			
-					
-			$val = $this->meta[ 'set' ][ $key ][ $this->meta[ 'clone' ] ];
-			
+								
+			$val = $this->meta[ 'set' ][ $key ];
 			
 		} elseif( pl_setting( $key, $args) ){
 			

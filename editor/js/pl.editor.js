@@ -359,11 +359,16 @@
 
 				var btn = $(this)
 				,	section = btn.closest(".pl-sortable")
+				,	scope = ( section.parents(".template-region-wrap").length == 1 ) ? 'local' : 'global'
 				,	config	= {
 						sid: section.data('sid')
 						, sobj: section.data('object')
 						, clone: section.data('clone')
+						, uniqueID: section.data('clone')
+						, scope: scope
 					}
+					
+				console.log(config)
 
 				if(btn.hasClass('section-edit')){
 

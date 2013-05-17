@@ -6,10 +6,12 @@
 			mode: 'section-options'
 			, sid: ''
 			, sobj: ''
-			, clone: 0
+			, clone: 'settings'
+			, uniqueID: 'settings'
 			, panel: ''
 			, settings: {}
 			, objectID: ''
+			, scope: 'global'
 		}
 
 		, cascade: ['local', 'type', 'global']
@@ -32,9 +34,10 @@
 
 			that.sobj = that.config.sobj
 			that.sid = that.config.sid
-			that.clone = that.config.clone
+			that.uniqueID = that.config.clone
 			that.optConfig = $.pl.config.opts
 			that.data = $.pl.data
+			that.scope = that.config.scope || 'global'
 
 			that.panel = $('.panel-'+panel)
 
@@ -42,7 +45,7 @@
 
 			if( mode == 'section-options' )
 				that.sectionOptionRender()
-			else if ( mode == 'settings' || mode == 'object' )
+			else if ( mode == 'settings' )
 				that.settingsRender( that.config.settings )
 
 			that.onceOffScripts()
@@ -79,15 +82,15 @@
 			var that = this
 			, 	cascade = ['local', 'type', 'global']
 			, 	sid = that.config.sid
-			,	clone = that.config.clone
-			, 	clone_text = sprintf('<i class="icon-map-marker"></i> ID (%s)', clone)
+			,	uniqueID = that.config.clone
+			, 	clone_text = sprintf('<i class="icon-screenshot"></i> %s <i class="icon-map-marker"></i> %s', uniqueID, that.scope)
 			, 	clone_desc = sprintf(' <span class="clip-desc"> &rarr; %s</span>', clone_text)
+			, 	scope = that.scope
 
-			if( that.optConfig[clone] && !$.isEmptyObject( that.optConfig[clone].opts ) )
-				opt_array = that.optConfig[clone].opts
+			if( that.optConfig[ uniqueID ] && !$.isEmptyObject( that.optConfig[ uniqueID ].opts ) )
+				opt_array = that.optConfig[ uniqueID ].opts
 			else{
-			console.log(that.optConfig)
-			console.log(clone)
+	
 				opt_array = [{
 					help: "There are no options for this section."
 					, key: "no-opts"
@@ -97,21 +100,18 @@
 
 				}]
 			}
+			
+			tab = $("[data-panel='settings']")
 
-			$.each( cascade , function(index, o) {
+			opts = that.runEngine( opt_array, that.scope )
 
-				tab = $("[data-panel='"+o+"']")
+			if(that.optConfig[ uniqueID ] && that.optConfig[ uniqueID ].name)
+				tab.find('legend').html( that.optConfig[ uniqueID ].name + clone_desc)
 
-				opts = that.runEngine( opt_array, o )
+			tab.find('.panel-tab-content').html( opts )
 
-				if(that.optConfig[ clone ] && that.optConfig[ clone ].name)
-					tab.find('legend').html( that.optConfig[ clone ].name + clone_desc)
+			that.runScriptEngine( 0, opt_array )
 
-				tab.find('.panel-tab-content').html( opts )
-
-				that.runScriptEngine( index, opt_array )
-
-			})
 
 		}
 
@@ -177,7 +177,7 @@
 
 				} else {
 
-					var scope = (that.config.mode == 'section-options') ? that.activeForm.data('scope') : 'global'
+					var scope = that.scope
 
 					if($(this).hasClass('checkbox-input')){
 
@@ -251,7 +251,7 @@
 			$tab = that.panel
 				.find('.tabs-nav li')
 				.attr('data-sid', that.sid)
-				.attr('data-clone', that.clone)
+				.attr('data-clone', that.uniqueID)
 
 
 		}
@@ -289,30 +289,19 @@
 		, optValue: function( scope, key ){
 			var that = this
 
-			if(that.config.mode == 'object'){
+			var that = this
+			, 	pageData = $.pl.data
 
-				var theObject = $( '#'+that.config.objectID )
+			// global settings are always related to 'global'
+			if (that.config.mode == 'settings')
+				scope = 'global'
 
-				if(key == 'area_name'){
-					return theObject.data('name') || ''
-				} else if (key == 'area_class'){
-					return theObject.data('class') || ''
-				}
-
-			} else {
-				var that = this
-				, 	pageData = $.pl.data
-
-				// global settings are always related to 'global'
-				if (that.config.mode == 'settings')
-					scope = 'global'
-
-				// Set option value
-				if( pageData[ scope ] && pageData[ scope ][ key ] && pageData[ scope ][ key ][that.clone])
-					return pl_html_input( pageData[ scope ][ key ][that.clone] )
-				else
-					return ''
-			}
+	
+			// Set option value
+			if( pageData[ scope ] && pageData[ scope ][ that.uniqueID ] && pageData[ scope ][ that.uniqueID ][ key ])
+				return pl_html_input( pageData[ scope ][ that.uniqueID ][ key ] )
+			else
+				return ''
 
 
 		}
@@ -322,7 +311,7 @@
 			if(o.type == 'check'){
 
 			} else {
-				return sprintf('%s[%s]', key, that.clone)
+				return sprintf('%s[%s]', that.uniqueID,  key )
 			}
 
 		}
@@ -339,8 +328,7 @@
 
 			o.label = o.label || o.title
 			o.value =  that.optValue( tabIndex, o.key )
-
-			o.name = sprintf('%s[%s]', o.key, that.clone)
+			o.name = sprintf('%s[%s]', that.uniqueID, o.key )
 
 
 
@@ -450,7 +438,7 @@
 				,	valFlip =  that.optValue( tabIndex, keyFlip)
 				, 	checkedFlip = (!valFlip || valFlip == 0 || valFlip == '') ? '' : 'checked'
 				,	toggleValueFlip = (checkedFlip == 'checked') ? 1 : 0
-				, 	nameFlip = sprintf('%s[%s]', keyFlip, that.clone)
+				, 	nameFlip = sprintf('%s[%s]', that.uniqueID, keyFlip)
 				,	labelFlip = (o.fliplabel) ? o.fliplabel : '( <i class="icon-undo"></i> reverse ) ' + o.label
 				,	auxFlip = sprintf('<input name="%s" class="checkbox-toggle" type="hidden" value="%s" />', nameFlip, toggleValueFlip )
 				, 	showFlip = false

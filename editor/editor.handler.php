@@ -78,7 +78,11 @@ class PageLinesTemplateHandler {
 				$.pl = {
 					data: {
 						local:  <?php echo json_encode( pl_arrays_to_objects( $this->current_page_data('local') ) ); ?>
+						
+						
 						, type:  <?php echo json_encode( pl_arrays_to_objects( $this->current_page_data('type') ) ); ?>
+						
+						
 						, global:  <?php echo json_encode( pl_arrays_to_objects( $this->current_page_data('global') ) ); ?>
 					}
 					, map: {
@@ -153,16 +157,17 @@ class PageLinesTemplateHandler {
 	function meta_defaults($key){
 
 		$p = splice_section_slug($key);
-
+		
 		$defaults = array(
 			'id'		=> $key,
 			'object'	=> $key,
 			'offset'	=> 0,
 			'clone'		=> substr(uniqid(), -6),
+			'unique'	=> substr(uniqid(), -6),
 			'content'	=> array(),
 			'span'		=> 12,
 			'newrow'	=> 'false',
-			'set'		=> $this->optset->set
+		
 		);
 
 		return $defaults;
@@ -189,6 +194,8 @@ class PageLinesTemplateHandler {
 			
 				$a = wp_parse_args( $a, $this->meta_defaults( $area ) );
 				
+				$a['set'] = $this->optset->get_set( $a['clone'] ); 
+				
 				// Lets get rid of the number based clone system
 				if( strlen( $a['clone'] ) < 3 )
 					$a['clone'] = pl_new_clone_id();
@@ -202,6 +209,7 @@ class PageLinesTemplateHandler {
 				foreach($a['content'] as $key => &$meta){
 
 					$meta = wp_parse_args($meta, $this->meta_defaults($key));
+					$meta['set'] = $this->optset->get_set( $meta['clone'] ); 
 
 					if( strlen( $meta['clone'] ) < 3 )
 						$meta['clone'] = pl_new_clone_id();
@@ -211,6 +219,7 @@ class PageLinesTemplateHandler {
 						foreach($meta['content'] as $subkey => &$sub_meta){
 							
 							$sub_meta = wp_parse_args($sub_meta, $this->meta_defaults($subkey));
+							$sub_meta['set'] = $this->optset->get_set( $sub_meta['clone'] ); 
 							
 							if( strlen( $sub_meta['clone'] ) < 3 )
 								$sub_meta['clone'] = pl_new_clone_id();
@@ -243,7 +252,10 @@ class PageLinesTemplateHandler {
 
 		if(is_array($passive_sections) && !empty($passive_sections)){
 			foreach($passive_sections as $key){
+				
 				$meta = wp_parse_args(array(), $this->meta_defaults($key));
+				$meta['set'] = $this->optset->get_set( $meta['clone'] ); 
+				
 				$this->section_list[  ] = $meta;
 				$this->section_list_unique[ $meta['object'] ] = $meta;
 			}

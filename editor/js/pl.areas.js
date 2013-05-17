@@ -71,52 +71,26 @@
 			,	theID = theArea.attr('id')
 			,	object = theArea.data('object') || false
 
-			if( object ){
-				var config	= {
-						sid: theArea.data('sid')
-						, sobj: theArea.data('object')
-						, clone: theArea.data('clone')
-					}
-
-				$('body').toolbox({
-					action: 'show'
-					, panel: 'section-options'
-					, info: function(){
-
-						$.optPanel.render( config )
-
-					}
-				})
-
-			} else {
-				$('body').toolbox({
-					action: 'show'
-					, panel: 'area_settings'
-					, info: function(){
-						that.areaPanelRender(theID)
-					}
-				})
-			}
-
-
-
-
-
-		}
-
-		, areaPanelRender: function( theID ){
-
-			var theID = theID || store.get('lastAreaConfig')
-			,	config = {
-						mode: 'object'
-					,	panel: 'area_settings'
-					, 	settings: $.pl.config.areaSettings
-					, 	objectID: theID
+			var config	= {
+					sid: theArea.data('sid')
+					, sobj: theArea.data('object')
+					, clone: theArea.data('clone')
+					, uniqueID: theArea.data('clone')
+					, scope: ( theArea.parents(".template-region-wrap").length == 1 ) ? 'local' : 'global'
 				}
 
-			$.optPanel.render( config )
+			$('body').toolbox({
+				action: 'show'
+				, panel: 'section-options'
+				, info: function(){
+
+					$.optPanel.render( config )
+
+				}
+			})
 
 		}
+
 
 		, deleteArea: function( btn ){
 
