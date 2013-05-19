@@ -564,25 +564,17 @@ function pl_settings_update( $new_settings, $mode = 'draft', $metaID = false ){
 	// in case of empty, use live/draft default
 	$settings = wp_parse_args($settings, pl_settings_default());
 
-	// now compare new with old, prefering new.. 
-	$settings[ $mode ] = wp_parse_args( $new_settings, $settings[ $mode ] );
+	$settings[ $mode ] = $new_settings;
 
 	// lets do some clean up
 	// Gonna clear out all the empty values and arrays
 	// Also, needs to be array or... deletehammer
-	foreach($settings[$mode] as $key => $clones){
-		if(is_array($clones)){
-			foreach($clones as $clone_id => $val){
-				if( empty($val) || $val == '')
-					unset( $settings[$mode][$key][$clone_id] );
-			}
-			
-			if(empty($clones))
-				unset( $settings[$mode][$key] );
-		} else {
-			unset( $settings[$mode][$key] );	
-		}
+	foreach($settings[$mode] as $uniqueID => $the_settings){
 		
+		foreach($the_settings as $setting_key => $val){
+			if( empty($val) || $val == '')
+				unset( $settings[$mode][$uniqueID][$setting_key] );
+		}
 		
 	}
 

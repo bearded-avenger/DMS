@@ -317,34 +317,17 @@
 				}
 			,	clonedSet = ($.pl.config.opts[config.clone] && $.pl.config.opts[config.clone].opts) || {}
 			, 	mode = ($.pl.config.isSpecial) ? 'type' : 'local'
-
-
-			var i = plUniqueID()
+			, 	uniqueID = plUniqueID()
+			
 
 			cloned
-				.attr('data-clone', i)
-				.data('clone', i)
+				.attr('data-clone', uniqueID)
+				.data('clone', uniqueID)
 
-			console.log(config.clone)
+		
+			$.pl.data.local[ uniqueID ] = $.pl.data.local[ config.clone ]
 			
-			// set cloned item settings to new clone local settings
-			$.each(clonedSet, function(index, opt){
-				if( opt.type == 'multi'){
-					$.each( opt.opts, function(index2, opt2){
-
-						if( plIsset( $.pl.data.local[opt2.key]) ){
-							$.pl.data.local[opt2.key][i] = $.pl.data.local[opt2.key][config.clone]
-						}
-
-					})
-				} else {
-
-					if( plIsset($.pl.data.local[opt.key]) ){
-						$.pl.data.local[opt.key][i] = $.pl.data.local[opt.key][config.clone]
-					}
-
-				}
-			})
+			$.pl.config.opts[ uniqueID ] = $.pl.config.opts[ config.clone ]
 
 			// save settings data
 			$.plAJAX.saveData( )
@@ -386,16 +369,18 @@
 
 				} else if (btn.hasClass('section-delete')){
 
-					var answer = confirm ("Press OK to delete section or Cancel");
-					if (answer) {
+					bootbox.confirm("<h3>Are you sure?</h3><p>This will permanently delete this section and its settings.</p>", function( result ){
 
-						section.remove();
-			            section.addClass('empty-column')
-						store.remove('toolboxShown')
+						if(result == true){
+							section.remove();
+				            section.addClass('empty-column')
+							store.remove('toolboxShown')
 
-						$.plAJAX.deleteSettings( config.sid, config.clone )
+							delete $.pl.data[ scope ][ config.uniqueID ]
+							$.pageBuilder.reloadConfig( 'section-control' )
+						} 
 
-					}
+					})
 
 				} else if (btn.hasClass('section-clone')){
 
@@ -407,16 +392,6 @@
 						.fadeIn()
 
 					$.pageBuilder.handleCloneData( cloned )
-
-
-				} else if (btn.hasClass('column-popup')){
-
-					// Pop to top level
-
-					var answer = confirm ("Press OK to pop (move) section to the top level or cancel.")
-
-					if (answer)
-						section.appendTo('.pl_main_sortable') //insertBefore('.wpb_main_sortable div.wpb_clear:last');
 
 
 				} else if ( btn.hasClass('section-increase')){
@@ -467,7 +442,7 @@
 
         , reloadConfig: function( source ) {
 
-			console.log(source)
+			//console.log(source)
 
 			$('.pl-sortable-area').each(function () {
 				$.pageBuilder.alignGrid( this )
@@ -720,6 +695,11 @@
 
 						if(ui.item.hasClass('x-item'))
 							$.plSections.switchOnStop(ui.item)
+							
+					
+						// Move data when changing scopes
+						that.moveDataOnDrag( ui.item )
+						
 
 					}
 
@@ -740,7 +720,27 @@
 			return sortableSettings
 		}
 
-
+		// Moves data when changing scopes
+		, moveDataOnDrag: function( element ){
+			
+			var uniqueID = element.attr('data-clone')
+			,	newScope = (element.parents(".template-region-wrap").length == 1) ? 'local' : 'global'
+			, 	oldScope = (newScope == 'global') ? 'local' : 'global'
+				
+			// if data wasn't set or scope wasn't changed
+			if( !plIsset( $.pl.data[ oldScope ][ uniqueID ] ) ) 
+				return
+				
+		
+			//	console.log($.pl.data[ oldScope ])
+			// move scope, then delete from old scope
+			$.pl.data[ newScope ][ uniqueID ] = $.pl.data[ oldScope ][ uniqueID ]
+			delete $.pl.data[ oldScope ][ uniqueID ]
+			
+			$.plAJAX.saveData()
+			
+		
+		}
 
 
 

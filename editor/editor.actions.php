@@ -36,6 +36,8 @@ function pl_editor_actions(){
 			$draft->revert( $post, $map );
 
 		} elseif ( $run == 'map' ){
+			
+			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
 
 			$response['changes'] = $map->save_map_draft( $pageID, $post['map'] );
 

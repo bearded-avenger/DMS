@@ -252,7 +252,7 @@ class PageLinesTemplateHandler {
 
 		if(is_array($passive_sections) && !empty($passive_sections)){
 			foreach($passive_sections as $key){
-				
+				 
 				$meta = wp_parse_args(array(), $this->meta_defaults($key));
 				$meta['set'] = $this->optset->get_set( $meta['clone'] ); 
 				

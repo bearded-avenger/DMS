@@ -25,7 +25,7 @@ class PageLinesSettingsPanel{
 	function toolbar( $toolbar ){
 
 		$toolbar[ 'settings' ] = array(
-			'name'	=> 'Site Settings',
+			'name'	=> 'Config',
 			'icon'	=> 'icon-cog',
 			'pos'	=> 60,
 			'panel'	=> $this->get_settings_tabs()
