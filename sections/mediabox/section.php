@@ -55,13 +55,14 @@ class PageLinesMediaBox extends PageLinesSection {
 					array(
 						'type' 			=> 'text',
 						'key'			=> 'mediabox_height',
+						'default'		=> '300',
 						'label' 		=> 'MediaBox Height (px)',
 						'help'			=> 'Required for "cover" mode. Otherwise the mediabox will be drawn at the height of the media.'
 					),
 					array(
 						'type'			=> 'check',
-						'key'			=> 'mediabox_centering', 
-						'label'			=> 'Center Media Vertically?'
+						'key'			=> 'disable_centering', 
+						'label'			=> 'Disable Media Vertical Centering?'
 					),
 				
 				)
@@ -96,16 +97,20 @@ class PageLinesMediaBox extends PageLinesSection {
 
 		$image = $this->opt('mediabox_image');
 		$media_html = $this->opt('mediabox_html');
-		$media_center = $this->opt('mediabox_centering');
+		$disable_center = $this->opt('disable_centering');
 
 		$title = ( $this->opt('mediabox_title') ) ? sprintf('<h3>%s</h3>', $this->opt('mediabox_title')) : '';
 		$bg = ( $this->opt('mediabox_background') ) ? sprintf('background-image: url(%s);', $this->opt('mediabox_background')) : '';
-		$height = ( $this->opt('mediabox_height') ) ? sprintf('height: %spx', $this->opt('mediabox_height')) : '';
+		
+		$set_height = ( $this->opt('mediabox_height') )  ? $this->opt('mediabox_height') : 350;
+		$height = sprintf('height: %spx', $set_height);
+		
+
 
 		if( $image || $media_html )
 			$img = ($image) ? sprintf('<img src="%s" />', $image) : '';
 		else
-			$img = sprintf('<img src="%s" />', $this->base_url.'/thumb.png'); // DEFAULT
+			$img = sprintf('<img src="%s" />', $this->base_url.'/default.png'); // DEFAULT
 		
 		$classes = array(); 
 		$align_class = array(); 
@@ -120,7 +125,7 @@ class PageLinesMediaBox extends PageLinesSection {
 			$align_class = 'center';
 		}
 		
-		$classes[] = ($media_center) ? 'pl-centerer' : '';
+		$classes[] = ($disable_center) ? '' : 'pl-centerer';
 		$classes[] = ($this->opt('mediabox_animation')) ? $this->opt('mediabox_animation') : 'pla-fade';
 		
 		
