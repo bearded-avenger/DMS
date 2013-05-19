@@ -151,7 +151,7 @@
 
 
 		}
-
+		// DEPRECATED
 		, deleteSettings: function( section, clone ){
 			
 			var args = {

@@ -113,6 +113,7 @@ $.plTemplates = {
 					, 	log: true
 					,	key: key
 					,	map: $.plMapping.getCurrentMap()
+					,	settings: $.pl.data.local
 				}
 
 			var response = $.plAJAX.run( args )

@@ -207,9 +207,32 @@ class EditorTemplates {
 		else
 			return false;
 	}
+	
+	function get_template_data( $key ){
+		
+		$d = array(
+			'name'	=> 'No Name',
+			'desc'	=> '', 
+			'map'	=> array(),
+			'settings'	=> array()
+		); 
+		
+		
+		$templates = $this->get_user_templates();
+	
+		if( isset($templates[ $key ]) ){
+			
+			$t = wp_parse_args($templates[ $key ], $d); 
+			return $t;
+			
+		} else
+			return false;
+	}
 
 	function set_new_local_template( $pageID, $tpl_id ){
 
+		$t = $this->get_template_data( $tpl_id ); 
+	//	print_r($t);
 
 		// Two approaches, this one sets the map field as the template id
 		// This works because the user map isn't needed if using a template
@@ -221,14 +244,15 @@ class EditorTemplates {
 		pl_meta_update($pageID, $this->map_option_slug, $user_map);
 		
 		
-		// Lets set up another field for the template ID, just so we have it.
-		// Not sure if this is better yet... 
+		// SETTINGS
 		
-		$tid = pl_meta( $pageID, $this->template_id_slug, pl_settings_default() );
-
-		$tid['draft'] = $tpl_id;
-
-		pl_meta_update($pageID, $this->template_id_slug, $tid);
+		$page_settings = pl_meta( $pageID, PL_SETTINGS, pl_settings_default() );
+		
+		$page_settings['draft'] = $t['settings'];
+		
+		pl_meta_update($pageID, PL_SETTINGS, $page_settings);
+		
+		
 		
 		return $user_map;
 
@@ -250,11 +274,12 @@ class EditorTemplates {
 
 	}
 
-	function update_template( $key, $template_map ){
+	function update_template( $key, $template_map, $settings){
 
 		$templates = $this->get_user_templates();
 
 		$templates[$key]['map'] = $template_map;
+		$templates[$key]['settings'] = $settings;
 
 		pl_opt_update( $this->template_slug, $templates );
 
