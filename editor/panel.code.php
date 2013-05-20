@@ -81,7 +81,7 @@ class EditorCode{
 					<label class="codetext-label">Custom CSS</label>
 					<span class="codetext-help help-block"><span class="label label-info">Tip</span> Hit [Cmd&#8984;+Return ] or [Ctrl+Return] to Preview Live</span>
 				</div>
-				<form class="code-form"><textarea class="custom-less" name="custom_less[0]" placeholder=""><?php echo pl_setting('custom_less'); ?></textarea></form>
+				<form class="code-form"><textarea class="custom-less" name="settings[custom_less]" placeholder=""><?php echo pl_setting('custom_less'); ?></textarea></form>
 			</div>
 		</div>
 
@@ -98,7 +98,7 @@ class EditorCode{
 				<div class="codetext-meta fix">
 					<label class="codetext-label">Custom Javascript or Header HTML</label>
 				</div>
-				<form class="code-form"><textarea class="custom-scripts" name="custom_scripts[0]" placeholder=""><?php echo pl_setting('custom_scripts'); ?></textarea></form>
+				<form class="code-form"><textarea class="custom-scripts" name="settings[custom_scripts]" placeholder=""><?php echo pl_setting('custom_scripts'); ?></textarea></form>
 			</div>
 		</div>
 

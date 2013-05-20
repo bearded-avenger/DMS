@@ -61,8 +61,8 @@ $.widthResize = {
 				$.widthResize.checkWindowEdges(widthSel)
 
 				// always set options w/ arrays
-				$.pl.data.global.content_width_px = [pixelWidth]
-				$.pl.data.global.content_width_percent = [percentWidth]
+				$.pl.data.global.settings.content_width_px = pixelWidth
+				$.pl.data.global.settings.content_width_percent = percentWidth
 
 				$('.resize-px').html(pixelWidth)
 				$('.resize-percent').html(percentWidth)
