@@ -571,10 +571,13 @@ function pl_settings_update( $new_settings, $mode = 'draft', $metaID = false ){
 	// Also, needs to be array or... deletehammer
 	foreach($settings[$mode] as $uniqueID => $the_settings){
 		
-		foreach($the_settings as $setting_key => $val){
-			if( empty($val) || $val == '')
-				unset( $settings[$mode][$uniqueID][$setting_key] );
+		if(is_array($the_settings)){
+			foreach($the_settings as $setting_key => $val){
+				if( empty($val) || $val == '')
+					unset( $settings[$mode][$uniqueID][$setting_key] );
+			}
 		}
+		
 		
 	}
 
