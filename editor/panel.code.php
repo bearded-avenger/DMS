@@ -66,7 +66,15 @@ class EditorCode{
 	//	if( true == ( $css = pl_setting( 'custom_less') ) )
 		$css = pl_setting( 'custom_less' ) ;
 	
-		printf('<style id="pl-custom-less" type="text/less">%s</style>', $css );
+		printf(
+			'<style id="pl-custom-less" type="text/less" data-mixins="%1$s">
+				@import "%1$s";
+				
+				%2$s
+			</style>', 
+			PL_PARENT_URL.'/less/mixins.less',
+			$css 
+		);
 	}
 
 	function draw_custom_scripts(){
@@ -78,12 +86,12 @@ class EditorCode{
 		?>
 		<div class="opt codetext">
 			<div class="opt-name">
-				Custom CSS
+				Custom LESS/CSS
 			</div>
 			<div class="opt-box">
 				<div class="codetext-meta fix">
-					<label class="codetext-label">Custom CSS</label>
-					<span class="codetext-help help-block"><span class="label label-info">Tip</span> Hit [Cmd&#8984;+Return ] or [Ctrl+Return] to Preview Live</span>
+					<label class="codetext-label">Custom LESS/CSS</label>
+					<span class="codetext-help help-block"><span class="label label-info">Tip</span> Hit [Cmd&#8984;+Return] or [Ctrl+Return] to Preview Live</span>
 				</div>
 				<form class="code-form"><textarea class="custom-less" name="settings[custom_less]" placeholder=""><?php echo pl_setting('custom_less'); ?></textarea></form>
 			</div>

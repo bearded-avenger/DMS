@@ -23,8 +23,12 @@ $.plCode = {
 				
 					// Keyboard shortcut for live LESS previewing
 					if(e.type == 'keydown' && e.which == 13 && (e.metaKey || e.ctrlKey) ){
+						
+						var mixinsFile = $('#pl-custom-less').data('mixins')
+						
 						$('#pl-custom-less')
 							.text(instance.getValue())
+							.prepend( sprintf('@import "%s";', mixinsFile))
 							.attr('type', 'text/less')
 							
 						
