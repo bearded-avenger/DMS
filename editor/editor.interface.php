@@ -36,6 +36,7 @@ class EditorInterface {
 
 		}
 
+
 		$this->url = PL_PARENT_URL . '/editor';
 		$this->images = $this->url . '/images';
 
