@@ -435,7 +435,7 @@ function pagelines_supersize_bg(){
 	$oset = array('post_id' => $pagelines_ID);
 	$url = ploption('page_background_image_url', $oset);
 
-	if(ploption('supersize_bg') && $url && !pl_is_disabled('color_control')){
+	if(ploption('supersize_bg') && $url && !pl_is_disabled('color_control') && !pl_deprecate_v2()){
 
 		wp_enqueue_script('pagelines-supersize' );
 		add_action('wp_head', 'pagelines_runtime_supersize', 20);

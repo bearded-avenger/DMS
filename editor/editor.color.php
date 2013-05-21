@@ -28,12 +28,14 @@ class EditorColor{
 		$vars['pl-base'] 				= $this->hash( $base );
 		$vars['pl-text']				= $this->hash( $text );
 		$vars['pl-link']				= $this->hash( $link );
-		$vars['pl-background']			= $this->background( $base );
+		$vars['pl-background']			= $this->background( $vars['pl-base'] );
 		return $vars;
 	}
 
 	function background( $bg_color ){
 
+		
+		
 		$fit = pl_setting('supersize_bg');
 		$image = $this->background;
 
@@ -60,13 +62,18 @@ class EditorColor{
 	}
 
 	function background_fit(){
+		
+		if( !pl_setting('supersize_bg') )
+			return; 
+		
 		wp_enqueue_script( 'pagelines-supersize' );
 		add_action('pl_scripts_on_ready', array(&$this, 'run_background_fit'), 20);
 	}
 
 	function run_background_fit(){
-
-		$image = pl_setting('page_background_image');
+	
+		
+		$image = $this->background;
 		?>
 		jQuery.supersized({ slides: [{ image : '<?php echo $image; ?>' }]})
 <?php
@@ -76,6 +83,16 @@ class EditorColor{
 	function hash( $color ){
 
 		$clean = str_replace('#', '', $color);
+
+		if(preg_match('/^[a-f0-9]{6}$/i', $clean)){
+			// IS A COLOR
+		} elseif (preg_match('/^[a-f0-9]{3}$/i', $clean)){
+			$clean = $clean.$clean;
+		} else {
+			$clean = 'FFFFFF';
+		}
+
+		
 
 		return sprintf('#%s', $clean);
 
@@ -146,7 +163,7 @@ class EditorColor{
 						'key'			=> 'page_background_image_url',
 						'imgsize' 		=> 	'150',
 						'sizemode'		=> 'height',
-						'sizelimit'		=> 1024000,
+						'sizelimit'		=> 1224000,
 						'type'			=> 'image_upload',
 						'label' 		=> __( 'Page Background Image', 'pagelines' ),
 						'default'		=> '',

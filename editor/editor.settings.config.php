@@ -24,7 +24,7 @@ class EditorSettings {
 		);
 
 		$this->settings['social_media'] = array(
-			'name' 	=> 'Social &amp; Local',
+			'name' 	=> 'Social <span class="spamp">&amp;</span> Local',
 			'icon'	=> 'icon-comments',
 			'pos'	=> 5,
 			'opts' 	=> $this->social()

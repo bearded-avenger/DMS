@@ -30,6 +30,11 @@ class EditorThemeHandler {
 					'call'	=> array(&$this, 'themes_dashboard'),
 					'icon'	=> 'icon-picture'
 				),
+				'export_themes'	=> array(
+					'name'	=> 'Export / Import',
+					'call'	=> array(&$this, 'themes_dashboard'),
+					'icon'	=> 'icon-picture'
+				),
 				'more_themes'	=> array(
 					'name'	=> 'Get More Themes',
 					'flag'	=> 'link-storefront',
