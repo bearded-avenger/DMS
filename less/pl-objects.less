@@ -169,7 +169,8 @@ ul.tabbed-list {
 }
 
 .media-list{
-	li{
+	margin-bottom: 0;
+	> li{
 		line-height: 1.3em;
 		margin-bottom: .8em;
 		.title, 
@@ -179,6 +180,9 @@ ul.tabbed-list {
 		.excerpt{
 			font-size: @smallerText;
 			
+		}
+		&:last-child{
+			margin-bottom: 0;
 		}
 	}
 	.img .the-media{
