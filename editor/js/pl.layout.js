@@ -12,7 +12,7 @@ $.widthResize = {
 
 	, startUp: function(){
 
-		var	widthSel = $('.pl-content')
+		var	widthSel = ($('body').hasClass('display-boxed')) ? $('.boxed-wrap') : $('.pl-content')
 
 		$('body').addClass('width-resize')
 

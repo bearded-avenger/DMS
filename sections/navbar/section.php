@@ -257,7 +257,7 @@ class PLNavBar extends PageLinesSection {
 	if( $passive ){
 
 		$class[] = 'navbar-full-width';
-		$content_width_class = (pl_has_editor()) ? 'pl-content' : 'content';
+		$content_width_class = (pl_has_editor()) ? 'pl-content boxed-wrap' : 'content';
 		$theme = ( $this->opt('fixed_navbar_theme' ) ) ? $this->opt( 'fixed_navbar_theme' ) : false;
 		$align = ( $this->opt( 'fixed_navbar_alignment' ) ) ? $this->opt( 'fixed_navbar_alignment' ) : false;
 		$hidesearch = ( $this->opt( 'fixed_navbar_hidesearch' ) ) ? $this->opt( 'fixed_navbar_hidesearch' ) : false;

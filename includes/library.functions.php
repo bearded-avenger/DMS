@@ -131,21 +131,34 @@ function pagelines_body_classes(){
 
 	$special_body_class = (ploption('special_body_class')) ? ploption('special_body_class') : '';
 
-	$canvas_shadow = (ploption('canvas_shadow')) ? 'content-shadow' : '';
+	
+	
+	$classes = array();
+	
+	$classes[] = $special_body_class; 
+	$classes[] = strtolower( PL_CHILDTHEMENAME );
+	
+	$classes = apply_filters('pagelines_body_classes', $classes); 
+	
+	$body_classes = join(' ', $classes); 
+	
+	if(!pl_deprecate_v2()){
+		$canvas_shadow = (ploption('canvas_shadow')) ? 'content-shadow' : '';
 
-	$responsive = (ploption('layout_handling') == 'pixels' || ploption('layout_handling') == 'percent') ? 'responsive' : 'static';
+		$responsive = (ploption('layout_handling') == 'pixels' || ploption('layout_handling') == 'percent') ? 'responsive' : 'static';
 
-	$design_mode = (ploption('site_design_mode') && !pl_is_disabled('color_control')) ? ploption('site_design_mode') : 'full_width';
+		$design_mode = (ploption('site_design_mode') && !pl_is_disabled('color_control')) ? ploption('site_design_mode') : 'full_width';
 
-	$body_classes = sprintf(
-		'custom %s %s %s %s %s %s',
-		$canvas_shadow,
-		$responsive,
-		strtolower( PL_CHILDTHEMENAME ),
-		$pagelines_template->template_type,
-		$design_mode,
-		$special_body_class
-	);
+		$body_classes .= sprintf(
+			'custom %s %s %s %s',
+			$canvas_shadow,
+			$responsive,
+			$pagelines_template->template_type,
+			$design_mode
+		);
+	}
+
+	
 
 	global $pagelines_addclasses;
 

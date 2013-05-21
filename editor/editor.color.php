@@ -146,7 +146,7 @@ class EditorColor{
 						'key'			=> 'page_background_image_url',
 						'imgsize' 		=> 	'150',
 						'sizemode'		=> 'height',
-						'sizelimit'		=> 512000,
+						'sizelimit'		=> 1024000,
 						'type'			=> 'image_upload',
 						'label' 		=> __( 'Page Background Image', 'pagelines' ),
 						'default'		=> '',

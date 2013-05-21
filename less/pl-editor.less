@@ -9,8 +9,17 @@
 
 .pl-editor{
 
-
-	.pl-content{
+	&.display-boxed .boxed-wrap{
+		position: relative;
+		margin: 0 auto;
+		max-width:  @plContentWidth + 20;
+		background: @pl-base;
+		.pl-area-wrap > .pl-content {
+			padding-left: 12px;
+			padding-right: 12pxpx;
+		}
+	}
+	&.display-full .pl-content{
 		position: relative;
 		max-width: @plContentWidth;
 		margin: 0 auto;
@@ -110,28 +119,28 @@
 			left: 0;
 			top: 0px;
 			text-align: left;
-			width: 61px;
+			width: 52px;
 			line-height: 1em;
 			font-size: 9px;
 
 			#gradient > .vertical(rgba(182, 242, 253, .8), rgba(125, 233, 253, .8));
-			margin-left: -41px;
+		//	margin-left: -41px;
 
 			opacity: .4;
 			&:hover{
 				opacity: 1;
 				margin-left: 0;
 			}
-			&::after{
-				content: '';
-				display: block;
-				width: 200px;
-				height: 160%;
-				position: absolute;
-				top: -5%;
-				right: -50px;
-				z-index: -100;
-			}
+		/*	&::after{
+						content: '';
+						display: block;
+						width: 200px;
+						height: 160%;
+						position: absolute;
+						top: -5%;
+						right: -50px;
+						z-index: -100;
+					}*/
 
 
 			.area-control{
@@ -140,9 +149,9 @@
 				font-weight: bold;
 				color: #038196;
 				text-shadow: 0 1px 0 #fff; //rgba(255,255,255,.4);
-				height: 20px;
-				width: 20px;
-				line-height: 20px;
+				height: 17px;
+				width: 17px;
+				line-height: 17px;
 				text-align: center;
 				&.area-reorder:hover{
 					cursor: move;

@@ -23,14 +23,6 @@ class EditorSettings {
 			'opts' 	=> $this->basic()
 		);
 
-		$this->settings['layout'] = array(
-			'name' 	=> 'Layout Handling',
-			'icon' 	=> 'icon-fullscreen',
-			'pos'	=> 2,
-			'opts' 	=> $this->layout()
-		);
-
-
 		$this->settings['social_media'] = array(
 			'name' 	=> 'Social &amp; Local',
 			'icon'	=> 'icon-comments',
@@ -155,31 +147,6 @@ class EditorSettings {
 
 	}
 
-	function layout(){
-
-
-
-		$settings = array(
-			array(
-				'key'		=> 'layout_mode',
-				'type' 		=> 'select',
-				'label' 	=> __( 'Select Layout Mode', 'pagelines' ),
-				'title' 	=> __( 'Layout Mode', 'pagelines' ),
-				'opts' 		=> array(
-					'pixel' 	=> array('name' => 'Pixel Width Based Layout'),
-					'percent' 	=> array('name' => 'Percentage Width Based Layout')
-				),
-				'default'	=> 'pixel',
-				'help'	 	=> __( '', 'pagelines' )
-			),
-
-
-		);
-
-
-		return $settings;
-
-	}
 
 	function social(){
 
