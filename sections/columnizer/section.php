@@ -123,7 +123,7 @@ class PageLinesColumnizer extends PageLinesSection {
 			remove_filter('dynamic_sidebar_params', array(&$this, 'change_markup'));
 
 		} else {
-			printf ('<ul class="columnizer row fix sidebar_widgets">%s</ul>', $this->get_default() );
+			printf ('<ul class="columnizer row fix sidebar_widgets pl-animation-group">%s</ul>', $this->get_default() );
 		}
 
 
@@ -138,7 +138,7 @@ class PageLinesColumnizer extends PageLinesSection {
 		$facebook = $this->opt('facebook_name'); 
 		?>
 
-		<li id="the_default_widget" class="span3 widget">
+		<li id="the_default_widget" class="span3 widget pl-animation pl-appear">
 			<div class="widget-pad">
 				<h3 class="widget-title"><?php _e('Stay in Touch!','pagelines'); ?></h3>
 				<div class="textwidget">
@@ -164,7 +164,7 @@ class PageLinesColumnizer extends PageLinesSection {
 		<?php
 		
 		?>
-		<li id="the_default_widget" class="span3 widget">
+		<li id="the_default_widget" class="span3 widget pl-animation pl-appear">
 			<div class="widget-pad">
 				<h3 class="widget-title"><?php _e('The Latest','pagelines'); ?></h3>
 				<ul class="media-list">
@@ -188,13 +188,13 @@ class PageLinesColumnizer extends PageLinesSection {
 			</div>
 		</li>
 		
-		<li id="the_default_widget" class="span3 widget">
+		<li id="the_default_widget" class="span3 widget pl-animation pl-appear">
 			<div class="widget-pad">
 				<h3 class="widget-title"><?php _e('Tags','pagelines'); ?></h3>
 				<div class="tags-list">
 					<?php
 			
-					wp_tag_cloud( array('number'=> 15, 'smallest' => 10, 'largest' => 10) );
+					wp_tag_cloud( array('number'=> 6, 'smallest' => 10, 'largest' => 10) );
 					 ?>
 				
 						
@@ -205,7 +205,7 @@ class PageLinesColumnizer extends PageLinesSection {
 				<ul class="media-list">
 					<?php
 			
-					echo wp_list_categories( array( 'number' => 10, 'depth' => 1, 'title_li' => '' )); 
+					echo wp_list_categories( array( 'number' => 5, 'depth' => 1, 'title_li' => '', 'orderby' => 'count' )); 
 					 ?>
 				
 						
@@ -213,7 +213,7 @@ class PageLinesColumnizer extends PageLinesSection {
 			</div>
 		</li>
 
-		<li id="the_default_widget" class="span3 widget">
+		<li id="the_default_widget" class="span3 widget pl-animation pl-appear">
 			<div class="widget-pad">
 				<h3 class="widget-title"><?php _e('More Info','pagelines'); ?></h3>
 				<div class="textwidget">

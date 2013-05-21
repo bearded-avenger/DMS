@@ -333,6 +333,7 @@ class EditorTemplates {
 					'span' 	=> 4,
 					'content'	=> array(
 						array(
+							'object'	=> 'PLRapidTabs',
 							'object'	=> 'PrimarySidebar'
 						),
 					)
@@ -349,14 +350,7 @@ class EditorTemplates {
 		$d = array(
 			array(
 				'areaID'	=> 'HeaderArea',
-				'content'	=> array(
-					array(
-						'object'	=> 'PageLinesBranding'
-					),
-					array(
-						'object'	=> 'PLNavBar'
-					),
-				)
+				'content'	=> array( )
 			)
 
 		);

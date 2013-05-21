@@ -13,8 +13,8 @@ class EditorLayout {
 	
 	function add_body_classes($classes){
 		
-		$classes[] = ( pl_setting( 'layout_display_mode' ) ) ? pl_setting( 'layout_display_mode' ) : 'display-full';
-		
+		$classes[] = ( pl_setting( 'layout_display_mode' ) == 'display-boxed' ) ? 'display-boxed' : 'display-full';
+	
 		return $classes;
 		
 	}
@@ -58,7 +58,7 @@ class EditorLayout {
 					'display-full' 		=> array('name' => 'Full Width Display'),
 					'display-boxed' 	=> array('name' => 'Boxed Display')
 				),
-				'default'	=> 'full',
+				'default'	=> 'display-full',
 				'help'	 	=> __( '', 'pagelines' )
 			),
 
@@ -78,8 +78,9 @@ class EditorLayout {
 		if( pl_setting( 'layout_mode' ) == 'percent' )
 			$value = (pl_setting( 'content_width_percent' )) ? pl_setting( 'content_width_percent' ) : '80%';
 		else
-			$value = (pl_setting( 'content_width_px' )) ? pl_setting( 'content_width_px' ) : '1100px';
+			$value = (pl_setting( 'content_width_px' ) && pl_setting( 'content_width_px' ) != '') ? pl_setting( 'content_width_px' ) : '1100px';
 
+	
 		// if percent mode assign percent option
 
 		$less_vars['plContentWidth'] = $value;
