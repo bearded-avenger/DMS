@@ -23,7 +23,12 @@ $.plCode = {
 				
 					// Keyboard shortcut for live LESS previewing
 					if(e.type == 'keydown' && e.which == 13 && (e.metaKey || e.ctrlKey) ){
-						$('#pl-custom-less').text(instance.getValue())
+						$('#pl-custom-less')
+							.text(instance.getValue())
+							.attr('type', 'text/less')
+							
+						
+						less.refresh()
 
 					}
 

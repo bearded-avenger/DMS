@@ -31,6 +31,8 @@ class EditorCode{
 
 		// PageLines Specific JS @Code Stuff
 		wp_enqueue_script( 'pl-js-code', $this->url . '/js/pl.code.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
+		
+		wp_enqueue_script( 'pl-less-parser', $this->url . '/js/utils.less.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
 
 	function toolbar( $toolbar ){
@@ -61,8 +63,10 @@ class EditorCode{
 
 	function draw_custom_styles(){
 
-		if( true == ( $css = pl_setting( 'custom_less') ) )
-			printf('<style id="pl-custom-less" type="text/css">%s</style>', $css );
+	//	if( true == ( $css = pl_setting( 'custom_less') ) )
+		$css = pl_setting( 'custom_less' ) ;
+	
+		printf('<style id="pl-custom-less" type="text/less">%s</style>', $css );
 	}
 
 	function draw_custom_scripts(){
