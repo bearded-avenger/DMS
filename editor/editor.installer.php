@@ -75,22 +75,24 @@ class Editor_Plugin_Installer {
 		$mixed = $storeapi->get_latest();
 
 		$built = array();
-		// loop through and trash all non-plugins...
+		
 
+		// loop through and see if product is owned.
 		foreach( $mixed as $slug => $data ) {
-
-			$end = 'store';
-	//		if( 'sections' == $data['type'] )
-	//			continue;
 
 			if( isset( $data['plus_product'] ) && defined( 'VPLUS' ) && VPLUS )
 				$data['purchased'] = 'purchased';
 
 			if( ! isset( $data['purchased'] ) )
-				continue;
+				unset( $mixed[$slug] );
 
 			if( isset( $data['purchased'] ) && 'purchased' != $data['purchased'] )
-				continue;
+				unset( $mixed[$slug] );
+		}
+
+		foreach( $mixed as $slug => $data ) {
+
+			$end = 'store';
 
 			// calculate source
 			if( 'free' == $data['price'] )
