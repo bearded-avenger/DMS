@@ -47,7 +47,9 @@ if(!has_action('override_pagelines_body_output')):
 				</div>
 			</footer>
 		</div>
+		
 	</div>
+	<div id="supersized"></div>
 </div>
 <?php
 

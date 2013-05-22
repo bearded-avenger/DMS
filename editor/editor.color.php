@@ -14,8 +14,22 @@ class EditorColor{
 
  		add_filter('pl_settings_array', array(&$this, 'add_settings'));
 		add_filter('pless_vars', array(&$this, 'add_less_vars'));
-		if( $this->background );
-			add_action( 'wp_enqueue_scripts', array(&$this, 'background_fit'));
+		
+		if($this->background)
+			add_filter('wp_enqueue_scripts', array(&$this, 'background_fit'));
+		
+//		add_filter('pagelines_body_classes', array(&$this, 'add_body_classes'));
+		
+		
+	
+	}
+	
+	function add_body_classes($classes){
+		
+		$classes[] = ( pl_setting('supersize_bg') ) ? 'fit-bg' : '';
+	
+		return $classes;
+		
 	}
 
 	function add_less_vars( $vars ){
@@ -40,9 +54,11 @@ class EditorColor{
 		$image = $this->background;
 
 		if($image && $fit){
+			
 			$background = $bg_color;
-		}
-		elseif($image && !$fit){
+			
+		} elseif($image && !$fit){
+	
 			$repeat = pl_setting('page_background_image_repeat');
 			$pos_x = pl_setting('page_background_image_pos_hor');
 			$pos_y = pl_setting('page_background_image_pos_vert');
@@ -218,7 +234,7 @@ class EditorColor{
 						'key'			=> 'page_background_image_attach',
 						'type'			=> 'select',
 						'label' 		=> __( 'Set Background Attachment', 'pagelines' ),
-						'default'		=> 'scroll',
+						'default'		=> 'fixed',
 						'opts'	=> array(
 							'scroll'	=> array('name' => __( 'Scroll', 'pagelines' )),
 							'fixed'		=> array('name' => __( 'Fixed', 'pagelines' )),
