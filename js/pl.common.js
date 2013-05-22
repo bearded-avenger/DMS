@@ -34,6 +34,8 @@
 			,	siteWrap = $('.site-wrap')
 			, 	mobileMenu = $('.pl-mobile-menu')
 			
+			mobileMenu.css('max-height', siteWrap.height())
+			
 			menuToggle.on('click.mmToggle', function(e){
 				e.stopPropagation()
 				
@@ -42,8 +44,10 @@
 					siteWrap.addClass('show-mm')
 					
 					$('.site-wrap, .mm-close').one('click touchstart', function(){
+						
 						siteWrap.removeClass('show-mm')
 					})
+					
 					
 					
 					$('.mm-holder').waypoint(function() {
