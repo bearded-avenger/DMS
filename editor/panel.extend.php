@@ -75,11 +75,11 @@ class PageLinesExtendPanel{
 					'icon'	=> 'icon-shopping-cart'
 				),
 				'heading3'	=> "Tools",
-				'upload'	=> array(
-					'name'	=> 'Upload',
-					'icon'	=> 'icon-upload',
-					'call'	=> array(&$this, 'upload_callback'),
-				),
+		//		'upload'	=> array(
+		//			'name'	=> 'Upload',
+		//			'icon'	=> 'icon-upload',
+		//			'call'	=> array(&$this, 'upload_callback'),
+		//		),
 				'search'	=> array(
 					'name'	=> 'Search',
 					'icon'	=> 'icon-search',
@@ -102,7 +102,6 @@ class PageLinesExtendPanel{
 					<button type="submit" class="btn btn-primary btn-save-template">Upload Extension</button>
 				</fieldset>
 			</form>
-
 			<?php
 	}
 
@@ -114,11 +113,31 @@ class PageLinesExtendPanel{
 					<span class="help-block">Search the PageLines store for extensions.</span>
 
 					<input class="" id="appendedInputButton" type="text">
-					<button class="btn" type="button">Search!</button>
+					<button id="ssearch" class="btn" type="button">Search!</button>
 
 				</fieldset>
 			</form>
-
+			<ul id='results'>
+			</ul>
+		<script>
+		jQuery(document).ready(function(){
+			jQuery("#ssearch").click(function(){
+				jQuery('#results').empty()
+				jQuery.ajaxSetup({ cache: false });
+				var s = jQuery('#appendedInputButton').val()
+				var url = sprintf('http://api.pagelines.com/v4/search/?s=%s&callback=?',s)
+				console.debug(url)
+				jQuery.getJSON(url,function(result){
+					console.debug(result)
+					
+					jQuery("#results").append("<li>" + result.results + " results found for <strong>" + s + "</strong></li>");
+					jQuery.each(result.data, function(i, field){
+				    jQuery("#results").append("<li>" + field.description + "</li>");
+				      });
+		    });
+		  });
+		});
+		</script>
 			<?php
 	}
 
