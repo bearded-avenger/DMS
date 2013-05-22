@@ -106,7 +106,7 @@
 				.removeClass( 'current-panel' )
 				.hide()
 
-			$('.ui-tabs').tabs('destroy')
+			$('.pl-toolbox .ui-tabs').tabs('destroy')
 
 			selectedPanel.tabs({
 				create: function(event, ui){

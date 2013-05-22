@@ -155,7 +155,13 @@ class PLRapidTabs extends PageLinesSection {
 
 
 	function get_avatar_url( $avatar ){
+	
 	    preg_match("/src='(.*?)'/i", $avatar, $matches);
-	    return $matches[1];
+	
+	    return (isset($matches) && isset($matches[1])) ? $matches[1] : '';
+	
 	}
+	
 }
+
+
