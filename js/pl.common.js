@@ -37,7 +37,9 @@
 			mobileMenu.css('max-height', siteWrap.height())
 			
 			menuToggle.on('click.mmToggle', function(e){
+				
 				e.stopPropagation()
+				mobileMenu.css('max-height', siteWrap.height())
 				
 				if( !siteWrap.hasClass('show-mm') ){
 					
