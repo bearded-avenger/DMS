@@ -56,8 +56,22 @@ class PageLinesMobileMenu {
 				} 
 				
 				
+				$twitter = pl_setting('twittername'); 
+				$facebook = pl_setting('facebook_name');
 				
 				?>
+				<div class="social-menu">
+					
+					<?php 
+					
+						if($facebook)
+							printf('<a href="http://www.facebook.com/%s"><i class="mm-icon icon-large icon-facebook"></i></a>', $facebook);
+						
+						if($twitter)
+							printf('<a href="http://www.twitter.com/%s"><i class="mm-icon icon-large icon-twitter"></i></a>', $twitter); 
+							
+						printf('<a href="%s"><i class="mm-icon icon-large icon-rss"></i></a></li>', get_bloginfo( 'rss2_url' ) );?>
+				</div>
 			</div>
 		</div>
 		<?php 

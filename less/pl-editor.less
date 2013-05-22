@@ -28,7 +28,13 @@
 		height: 100%;
 		color: rgba(255,255,255,.5); 
 		ul.mobile-menu{
-			margin-bottom: 20px;
+			margin-bottom: 25px;
+		}
+		a{
+			color:inherit;
+			&:hover{
+				color: #fff; 
+			}
 		}
 		ul.primary-menu{
 			li{
@@ -41,12 +47,7 @@
 		}
 		ul li {
 			
-			a{
-				color: rgba(255,255,255,.5); 
-			
-			}
-			&.current_page_item a,
-			a:hover{
+			&.current_page_item a{
 				color: #fff; 
 			}
 		} 
@@ -60,6 +61,9 @@
 			&:hover, &:active{
 				opacity: 1;
 			}
+		}
+		.mm-icon{
+			margin-right: 10px;
 		}
 	}
 	
