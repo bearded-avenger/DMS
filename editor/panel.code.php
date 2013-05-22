@@ -71,7 +71,7 @@ class EditorCode{
 	function draw_custom_styles(){
 
 	//	if( true == ( $css = pl_setting( 'custom_less') ) )
-		$css = pl_setting( 'custom_less' ) ;
+		$css = pl_setting( 'custom_less' );
 	
 		printf(
 			'<style id="pl-custom-less" type="text/less" data-mixins="%1$s">
