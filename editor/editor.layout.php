@@ -13,8 +13,8 @@ class EditorLayout {
 	
 	function add_body_classes($classes){
 		
-		$classes[] = ( pl_setting( 'layout_display_mode' ) ) ? pl_setting( 'layout_display_mode' ) : 'display-full';
-		
+		$classes[] = ( pl_setting( 'layout_display_mode' ) == 'display-boxed' ) ? 'display-boxed' : 'display-full';
+	
 		return $classes;
 		
 	}
@@ -22,7 +22,7 @@ class EditorLayout {
 	function add_settings( $settings ){
 
 		$settings['layout'] = array(
-			'name' 	=> 'Layout Handling',
+			'name' 	=> 'Layout <span class="spamp">&amp;</span> Nav',
 			'icon' 	=> 'icon-fullscreen',
 			'pos'	=> 2,
 			'opts' 	=> $this->options()
@@ -47,7 +47,7 @@ class EditorLayout {
 					'percent' 	=> array('name' => 'Percentage Width Based Layout')
 				),
 				'default'	=> 'pixel',
-				'help'	 	=> __( '', 'pagelines' )
+				'help'	 	=> __( 'Select pixel width mode and your site maximum width will be controlled by pixels.<br/><br/> If you select "percent" width the width of your content will be a percentage of window size.', 'pagelines' )
 			),
 			array(
 				'key'		=> 'layout_display_mode',
@@ -58,8 +58,22 @@ class EditorLayout {
 					'display-full' 		=> array('name' => 'Full Width Display'),
 					'display-boxed' 	=> array('name' => 'Boxed Display')
 				),
-				'default'	=> 'full',
-				'help'	 	=> __( '', 'pagelines' )
+				'default'	=> 'display-full',
+				'help'	 	=> __( '"Full" display mode allows areas to be the full width of the window, with content width sections.<br/><br/> "Boxed" mode contains everything in a central content box. Boxed mode is ideal for use with backgtround images.', 'pagelines' )
+			),
+			array(
+				'key'		=> 'primary_navigation_menu',
+				'type' 		=> 'select_menu',
+				'label' 	=> __( 'Select Primary Navigation Menu', 'pagelines' ),
+				'title' 	=> __( 'Primary Navigation Menu', 'pagelines' ),
+				'help'	 	=> __( 'This will be used in mobile menus and optionally other places throughout your site.', 'pagelines' )
+			),
+			array(
+				'key'		=> 'secondary_navigation_menu',
+				'type' 		=> 'select_menu',
+				'label' 	=> __( 'Select Secondary Navigation Menu', 'pagelines' ),
+				'title' 	=> __( 'Secondary Navigation Menu', 'pagelines' ),
+				'help'	 	=> __( 'This will be shown subtly in areas throughout the site and in your mobile menu.', 'pagelines' )
 			),
 
 
@@ -78,8 +92,9 @@ class EditorLayout {
 		if( pl_setting( 'layout_mode' ) == 'percent' )
 			$value = (pl_setting( 'content_width_percent' )) ? pl_setting( 'content_width_percent' ) : '80%';
 		else
-			$value = (pl_setting( 'content_width_px' )) ? pl_setting( 'content_width_px' ) : '1100px';
+			$value = (pl_setting( 'content_width_px' ) && pl_setting( 'content_width_px' ) != '') ? pl_setting( 'content_width_px' ) : '1100px';
 
+	
 		// if percent mode assign percent option
 
 		$less_vars['plContentWidth'] = $value;

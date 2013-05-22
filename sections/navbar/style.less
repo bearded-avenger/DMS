@@ -349,6 +349,7 @@ span.navbar-title {
 /* Nav Toggle Responsive
  ************************************************************/
 	.nav-btn-navbar {
+		color: inherit;
 		display: none;
 		float: right;
 		position: relative;
@@ -366,24 +367,15 @@ span.navbar-title {
 		&.active,
 		&.disabled,
 		&[disabled] {
-		  	background-color: rgba(255,255,255,.3);
+		  	color: inherit; 
+			opacity: .7;
 		}
 		&:active,
 		&.active {
 			box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.3);
 		  	background-color: rgba(0,0,0,.1);
 		}
-		.icon-bar {
-			display: block;
-			width: 18px;
-			height: 2px;
-			background-color: #f5f5f5;
-			.border-radius(1px);
-			box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-			+ .icon-bar {
-				margin-top: 3px;
-			}
-		}
+		
 	}
 
 .navbar,
@@ -454,121 +446,15 @@ body.navbar_fixed {
 		float: none;
 		padding: 10px;
 	}
-	.navline{
-		float: none;
-		margin: 0 0 9px;
-		> li {
-			float: none;
-			> a {
-				margin-bottom: 2px;
-				padding: 6px 15px;
-				background:transparent;
-				text-shadow: none;
-				&:hover{
-					color: rgba(255,255,255,1);
-				    background-color: rgba(0,0,0,.15);
-					text-shadow: none;
-				}
-			}
-		}
-		.nav-header {
-			text-shadow: none;
-		}
-		&.pull-right {
-			float: none;
-			margin: 0 0 9px;
-		}
-		.caret{
-			display: none;
-		}
-	}
-	.dropdown-menu {
-		a {
-			padding: 6px 15px;
-			padding: 6px 15px;
-			background:transparent;
-			.border-radius(3px);
-		}
-		li + li a {
-			margin-bottom: 2px;
-		}
-		position: static;
-		top: auto;
-		left: auto;
-		float: none;
-		display: block;
-		max-width: none;
-		margin: 0 15px;
-		padding: 0;
-		background-color: transparent;
-		border: none;
-		.border-radius(0);
-		box-shadow: none;
-		&:before, &:after{
-			display: none;
-		}
-		li > a:hover,
-		.active > a,
-		.active > a:hover,
-		a:hover {
-		    background-color: rgba(0,0,0,.1);
-		}
-		visibility:visible;
-	}
+
+
 	.nav-collapse {
 		overflow: hidden;
 		height: 0;
 		clear: both;
 	}
-	.current-menu-item > a{
-		color: rgba(255,255,255,1);
-		background-color: rgba(0,0,0,.15);
-	}
-	&.pl-color-base{
-		.navline > li > a,
-		.dropdown-menu a{
-			color: @textColor;
-			text-shadow: none;
-			box-shadow: none;
-		}
-		.dropdown-menu{
-			li > a:hover,
-			.active > a,
-			.active > a:hover,
-			a:hover{
-				color:@textColor;
-				text-shadow: none;
 
-			}
-		}
-		.current-menu-item > a,
-		.navline > li > a:hover{
-			box-shadow: none;
-			color: @textColor;
-			text-shadow: none;
-		}
-	}
 
-	&.pl-color-grey{
-		.navline > li > a,
-		.dropdown-menu a{
-			color: #000;
-		}
-		.dropdown-menu{
-			li > a:hover,
-			.active > a,
-			.active > a:hover,
-			a:hover{
-				color: #000;
-				text-shadow: 0 1px 0 rgba(255,255,255,.5);
-			}
-		}
-		.current-menu-item > a,
-		.navline > li > a:hover{
-			color: #000;
-			text-shadow: 0 1px 0 rgba(255,255,255,.5);
-		}
-	}
 	.nav-btn-navbar {
 		display: inline-block;
 	}

@@ -4,21 +4,14 @@
  */
 
 /**
- * Show Options Panel after theme activation
- *
- * @package PageLines Framework
- * @subpackage Redirects
- * @since 1.0.0
+ * Move users to front end after activation
  */
 if( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
-	wp_redirect( admin_url( PL_DASH_URL.'&activated=true&pageaction=activated' ) );
+	wp_redirect( home_url() );
 
 /**
  * Add Javascript for Layout Controls from the Layout UI class
  *
- * @package PageLines Framework
- * @subpackage LayoutUI
- * @since 2.0.b3
  */
 $layout_control_js = new PageLinesLayoutControl();
 add_action( 'pagelines_admin_head', array(&$layout_control_js, 'layout_control_javascript' ) );

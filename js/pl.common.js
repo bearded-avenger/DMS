@@ -3,6 +3,7 @@
 	// --> Initialize
 	$(document).ready(function() {
 		$.plCommon.init()
+		$.plMobilizer.init()
 	
 		$(".fitvids").fitVids(); // fit videos
 	
@@ -17,15 +18,67 @@
 			$.plCommon.plVerticalCenter('.pl-centerer', '.pl-centered')
 		})
 	})
+	
+	$.plMobilizer = {
+		
+		init: function(){
+			var that = this
+			
+			that.mobileMenu()
+		}
+		
+		, mobileMenu: function(){
+			var that = this
+			, 	theBody = $('body')
+			, 	menuToggle = $('.mm-toggle')
+			,	siteWrap = $('.site-wrap')
+			, 	mobileMenu = $('.pl-mobile-menu')
+			
+			mobileMenu.css('max-height', siteWrap.height())
+			
+			menuToggle.on('click.mmToggle', function(e){
+				
+				e.stopPropagation()
+				mobileMenu.css('max-height', siteWrap.height())
+				
+				if( !siteWrap.hasClass('show-mm') ){
+					
+					siteWrap.addClass('show-mm')
+					
+					$('.site-wrap, .mm-close').one('click touchstart', function(){
+						
+						siteWrap.removeClass('show-mm')
+					})
+					
+					
+					
+					$('.mm-holder').waypoint(function() {
+						siteWrap.removeClass('show-mm')
+					}, {
+						offset: function() {
+							return -$(this).height();
+						}
+					})
+					
+				} else {
+					
+					siteWrap.removeClass('show-mm')
+					
+				}
+			
+			})
+			
+		
+			
+		}
+		
+	}
 
 	$.plAnimate = {
 		
 		initAnimation: function(){
 			
 			var that = this
-			
-			$.plAnimate.animatedCount = 0
-			$.plAnimate.totalAnimations = 0
 						
 			$.plAnimate.plWaypoints()
 		}
@@ -80,18 +133,6 @@
 			})
 		}
 		
-		, checkViewport: function(){
-			
-			var that = this
-		
-		}
-	}
-
-	$.plFixed = {
-
-		update: function(){
-
-		}
 	}
 
 	$.plCommon = {

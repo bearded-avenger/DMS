@@ -108,39 +108,6 @@ class EditorSettings {
 				'help'			=> __( 'Enter the full URL location of your Apple Touch Icon which is visible when your users set your site as a <strong>webclip</strong> in Apple Iphone and Touch Products. It is an image approximately 57px by 57px in either .jpg, .gif or .png format.', 'pagelines' )
 			),
 
-			array(
-				'type' 	=> 	'multi',
-				'title' 		=> __( 'Website Watermark', 'pagelines' ),
-				'help' 		=> __( 'The website watermark is a small version of your logo for your footer. Recommended width/height is 90px.', 'pagelines' ),
-
-				'opts'	=> array(
-					array(
-						'key'			=> 'watermark_image',
-						'type' 			=> 'image_upload',
-						'label' 		=> 'Watermark Image',
-						'default'		=> PL_EDITOR_URL . '/images/default-watermark.png',
-						'imgsize'			=> '44'
-					),
-					array(
-						'key'			=> 'watermark_link',
-						'type' 			=> 'text',
-						'label'			=> 'Watermark Link (Blank for None)',
-						'default' 		=> 'http://www.pagelines.com'
-					),
-					array(
-						'key'			=> 'watermark_alt',
-						'type' 			=> 'text',
-						'label' 		=> 'Watermark Link alt text',
-						'default' 		=> 'Build a website with PageLines'
-					),
-					array(
-						'key'			=> 'watermark_hide',
-						'type' 			=> 'check',
-						'label'		 	=> "Hide Watermark"
-					)
-				),
-
-			),
 		);
 
 		return $settings;

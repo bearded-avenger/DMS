@@ -5,7 +5,14 @@
 body {
 	position:relative;
 	zoom:1;
-	background: @bodyBackground;
+	
+	.site-wrap{
+		background: @bodyBackground;
+		position: relative; 
+		z-index: 0;
+	}
+
+	
 }
 
 
@@ -22,7 +29,7 @@ body .pl-area .pl-section{
 	margin-bottom: 0;
 	.pl-section {
 		> .pl-section-pad{
-			padding: 16px;
+			padding: 8px;
 		}
 	}
 	&.section-plcolumn {
@@ -48,8 +55,8 @@ body .pl-area .pl-section{
 	background: @baseColor;
 }
 
-.pl-black{
-	background:#000; 
+.pl-black,
+.pl-grey{
 	color: rgba(255,255,255,.7); 
 	h1, h2, h3, h4, h5, h6, a{
 		color:#fff; 
@@ -58,14 +65,16 @@ body .pl-area .pl-section{
 		opacity: .7;
 		color:inherit;
 	}
+}
+.pl-black{
+	background:#000; 
 	.pl-contrast{
-		background: #333; 
+		background: #222; 
 	}
 }
 
 .pl-grey{
-	background:#333; 
-	color: #fff; 
+	background:#222; 
 	.pl-contrast{
 		background: #000; 
 	}
@@ -95,17 +104,6 @@ body .pl-area .pl-section{
 
 }
 
-
-/*
- * PAGELINES LEAF
- ***********************************/
-#cred {
-	text-align: center;
-	padding: 15px;
-	a.plimage img{
-		max-width: 45px;
-	}
-}
 
 /*
  * RESPONSIVE: GLOBAL
