@@ -294,7 +294,7 @@ class PLNavBar extends PageLinesSection {
 	   			if($navbartitle)
 				printf( '<span class="navbar-title">%s</span>',$navbartitle );
 			?>
-	      <a href="javascript:void(0)" class="nav-btn nav-btn-navbar mm-toggle" data-toggle="collapse" data-target=".nav-collapse">
+	      <a href="javascript:void(0)" class="nav-btn nav-btn-navbar mm-toggle">
 	        <?php _e('MENU', 'pagelines'); ?> <i class="icon-reorder"></i>
 	      </a>
 			<?php if($passive):
