@@ -592,7 +592,7 @@ class PageLinesPosts {
 	*/
 	function pagelines_show_excerpt( $post = null ){
 
-			if( is_page() )
+			if( is_page() || is_single() )
 				return false;
 				
 		
