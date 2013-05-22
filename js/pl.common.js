@@ -41,7 +41,7 @@
 					
 					siteWrap.addClass('show-mm')
 					
-					$('body, .mm-close').on('click.moMenu touchstart.moMenu', function(){
+					$('.site-wrap, .mm-close').one('click touchstart', function(){
 						siteWrap.removeClass('show-mm')
 					})
 					
