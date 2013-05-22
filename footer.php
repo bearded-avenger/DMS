@@ -23,29 +23,30 @@
 
 if(!has_action('override_pagelines_body_output')):
 	
-		pagelines_register_hook('pagelines_start_footer'); // Hook ?>
+			pagelines_register_hook('pagelines_start_footer'); // Hook ?>
+						</div>
+						<?php pagelines_register_hook('pagelines_after_main'); // Hook ?>
+						<div id="morefoot_area" class="container-group">
+							<?php
+								pagelines_template_area('pagelines_morefoot', 'morefoot'); // Hook
+								pagelines_template_area('pagelines_page_footer', 'morefoot'); // Hook
+							?>
+						</div>
+						<div class="clear"></div>
 					</div>
-					<?php pagelines_register_hook('pagelines_after_main'); // Hook ?>
-					<div id="morefoot_area" class="container-group">
-						<?php
-							pagelines_template_area('pagelines_morefoot', 'morefoot'); // Hook
-							pagelines_template_area('pagelines_page_footer', 'morefoot'); // Hook
-						?>
-					</div>
-					<div class="clear"></div>
 				</div>
 			</div>
-		</div>
 
-<?php pagelines_register_hook('pagelines_before_footer'); // Hook ?>
-		<footer id="footer" class="footer pl-region" data-region="footer">
-			<div class="page-area outline pl-area-container fix">
-			<?php
-				pagelines_template_area('pagelines_footer', 'footer'); // Hook
-				pagelines_register_hook('pagelines_after_footer'); // Hook
-			?>
-			</div>
-		</footer>
+	<?php pagelines_register_hook('pagelines_before_footer'); // Hook ?>
+			<footer id="footer" class="footer pl-region" data-region="footer">
+				<div class="page-area outline pl-area-container fix">
+				<?php
+					pagelines_template_area('pagelines_footer', 'footer'); // Hook
+					pagelines_register_hook('pagelines_after_footer'); // Hook
+				?>
+				</div>
+			</footer>
+		</div>
 	</div>
 </div>
 <?php

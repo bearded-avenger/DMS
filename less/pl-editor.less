@@ -8,6 +8,61 @@
 @editorText: #038196;
 
 .pl-editor{
+	
+	.site-wrap{
+		
+		position: relative;
+		.transition(all .3s linear);
+		
+		&.show-mm {
+			.translate3d(-260px, 0, 0);
+		}
+		
+	}
+	.pl-mobile-menu{
+		position: absolute; 
+		width: 260px;
+		right: 0;
+		top: 0;
+		background:#0c0c0c;
+		height: 100%;
+		color: rgba(255,255,255,.5); 
+		ul.mobile-menu{
+			margin-bottom: 20px;
+		}
+		ul.primary-menu{
+			li{
+				margin-bottom: 5px;
+			}
+			a{
+				font-size: @fontSizeLarge; 
+				line-height: 1.4em;
+			}
+		}
+		ul li {
+			
+			a{
+				color: rgba(255,255,255,.5); 
+			
+			}
+			&.current_page_item a,
+			a:hover{
+				color: #fff; 
+			}
+		} 
+		.mm-holder{
+			padding: 20px 30px;
+		}
+		.mm-close{
+			float: right;
+			cursor: pointer;
+			opacity: .5;
+			&:hover, &:active{
+				opacity: 1;
+			}
+		}
+	}
+	
 
 	&.display-boxed .boxed-wrap{
 		position: relative;
