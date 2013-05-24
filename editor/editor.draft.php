@@ -142,3 +142,11 @@ function pl_draft_mode(){
 	return ($draft->mode == 'draft') ? true : false;
 
 }
+
+function pl_get_mode(){
+	
+	$mode = ( pl_draft_mode() ) ? 'draft' : 'live'; 
+	
+	return $mode;
+	
+}

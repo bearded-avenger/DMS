@@ -28,7 +28,7 @@ $.plTemplates = {
 				,	confirm: true
 				,	confirmText: "<h3>Are you sure?</h3><p>Loading a new template will overwrite the current page's configuration.</p>"
 				,	savingText: 'Loading Template'
-				,	refresh: false
+				,	refresh: true
 				,	refreshText: 'Successfully Loaded. Refreshing page'
 				, 	log: true
 				,	key: $(this).closest('.x-item').data('key')
@@ -36,7 +36,7 @@ $.plTemplates = {
 
 			var response = $.plAJAX.run( args )
 			
-			console.log(response)
+		
 		})
 
 		$(".delete-template").on("click.deleteTemplate", function(e) {

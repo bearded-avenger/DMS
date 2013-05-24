@@ -100,11 +100,12 @@ class PageLinesTemplateHandler {
 						userID: '<?php echo $this->get_user_id();?>'
 						, currentURL: '<?php echo $this->current_url();?>'
 						, nonce: '<?php echo wp_create_nonce( "tgmpa-install" ); ?>'
-						, pageID: '<?php echo $this->page->id;?>'
-						, typeID: '<?php echo $this->page->typeid;?>'
-						, pageTypeID: '<?php echo $this->page->type;?>'
-						, pageTypeName: '<?php echo $this->page->type_name;?>'
-						, isSpecial: '<?php echo $this->page->is_special();?>'
+						, pageTemplate: '<?php echo $this->page->template; ?>'
+						, pageID: '<?php echo $this->page->id; ?>'
+						, typeID: '<?php echo $this->page->typeid; ?>'
+						, pageTypeID: '<?php echo $this->page->type; ?>'
+						, pageTypeName: '<?php echo $this->page->type_name; ?>'
+						, isSpecial: '<?php echo $this->page->is_special(); ?>'
 						, opts: <?php echo json_encode( pl_arrays_to_objects( $this->get_options_config() ) ); ?>
 						, settings: <?php echo json_encode( pl_arrays_to_objects( $this->siteset->get_set('site') ) ); ?>
 						, areaSettings: <?php echo json_encode( pl_arrays_to_objects( $this->areas->settings() ) ); ?>
@@ -129,6 +130,8 @@ class PageLinesTemplateHandler {
 		<?php
 
 	}
+	
+	
 	
 
 

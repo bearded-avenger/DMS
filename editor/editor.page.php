@@ -29,8 +29,11 @@ class PageLinesPage {
 			$this->id = $this->id();
 
 			$this->type = $this->type();
-
+			
 			$this->typeid = $this->special_id();
+
+			$this->template = $this->template();
+			
 
 			$this->type_name = ucwords( str_replace('_', ' ', $this->type()) );
 
@@ -45,6 +48,25 @@ class PageLinesPage {
 			'typeID'	=> ''
 		);
 		return $d;
+	}
+	
+	function template(){
+		
+		$page = pl_local( $this->id, 'page-template' ); 
+		$type = pl_local( $this->typeid, 'page-template' ); 
+		$gbl = pl_global( 'page-template' ); 
+		
+		if( $page && $page != 'default' )
+			$tpl = $page;
+		elseif( $type && $type != 'default' )
+			$tpl = $type;
+		elseif( $gbl )
+			$tpl = $gbl;
+		else
+			$tpl = 'default';
+			
+		return $tpl;
+		
 	}
 
 	function id(){

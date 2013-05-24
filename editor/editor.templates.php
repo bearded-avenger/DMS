@@ -49,7 +49,7 @@ class PageLinesTemplates {
 			} elseif( $tpl ){
 				
 				$map = $this->get_map_from_template_key( $tpl ); 
-				
+			
 			} else 
 				$map = false;
 					
@@ -115,10 +115,13 @@ class PageLinesTemplates {
 
 		$templates = $this->tpl->get_user_templates();
 	
-		if( isset($templates[ $key ]) && isset($templates[ $key ]['map'] ) )
-			return $templates[ $key ]['map'];
-		else
+		$map = ( isset($templates[ $key ]) && isset($templates[ $key ]['map'] ) ) ? $templates[ $key ]['map'] : false;
+			
+		if($map)	
+			return array( 'template' => $map );
+		else 
 			return false;
+		
 	}
 	
 	function default_region( $region ){
@@ -280,15 +283,12 @@ class EditorTemplates {
 			$classes[] = sprintf('template_key_%s', $index);
 
 			$action_classes = array('x-item-actions'); 
-			$action_classes[] = ($index === $tpls['draft']) ? 'active-template' : '';
+			$action_classes[] = ($index === $this->page->template) ? 'active-template' : '';
 			$action_classes[] = ($index === $this->default_global_tpl) ? 'active-global' : '';
 			$action_classes[] = ($index === $this->default_type_tpl && !$this->page->is_special()) ? 'active-type' : '';
 			
 
 			ob_start();
-			echo $index;
-			echo $tpls['draft'];
-			
 			?>
 			<div class="<?php echo join(' ', $action_classes);?>">
 				
@@ -418,33 +418,13 @@ class EditorTemplates {
 
 		$page_settings = pl_meta( $pageID, PL_SETTINGS, pl_settings_default() ); 
 
+		$page_settings['draft'] = $t['settings'];
+		
 		$page_settings['draft']['page-template'] = $templateID;
 		
 		pl_meta_update($pageID, PL_SETTINGS, $page_settings);
-
-		// DEPRECATED SETTINGS
-				// Two approaches, this one sets the map field as the template id
-				// This works because the user map isn't needed if using a template
 		
-				$user_map = pl_meta( $pageID, $this->map_option_slug, pl_settings_default() );
-
-				$user_map['draft'] = $templateID;
-		
-
-				pl_meta_update($pageID, $this->map_option_slug, $user_map);
-		
-		
-				// SETTINGS
-		
-				$page_settings = pl_meta( $pageID, PL_SETTINGS, pl_settings_default() );
-		
-				$page_settings['draft'] = $t['settings'];
-		
-				pl_meta_update($pageID, PL_SETTINGS, $page_settings);
-		
-		
-		
-		return $user_map;
+		return $page_settings;
 
 	}
 

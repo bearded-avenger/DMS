@@ -41,6 +41,22 @@ function pl_setting_update( $args_or_key, $value = false, $mode = 'draft', $scop
 
 }
 
+function pl_global( $key ){
+	
+	$settings = pl_opt( PL_SETTINGS, pl_settings_default() );
+	
+ 	return (isset($settings[pl_get_mode()][$key])) ? $settings[pl_get_mode()][$key] : false;
+	
+}
+
+function pl_local( $metaID, $key ){
+	
+	$settings = pl_meta($metaID, PL_SETTINGS, pl_settings_default() );
+	
+ 	return (isset($settings[pl_get_mode()][$key])) ? $settings[pl_get_mode()][$key] : false;
+	
+}
+
 function pl_meta($id, $key, $default = false){
 
 	$data = new PageLinesData;
