@@ -68,7 +68,7 @@ class PLSectionArea extends PageLinesSection {
 		
 		if( $section_output ){
 			
-			$padding = ($this->opt('pl_area_pad')) ? $this->opt('pl_area_pad') : '15'; 
+			$padding = ($this->opt('pl_area_pad')) ? $this->opt('pl_area_pad') : '20'; 
 
 			$pad_css = sprintf('padding-top: %1$spx; padding-bottom: %1$spx', $padding);
 
