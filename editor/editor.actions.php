@@ -141,6 +141,7 @@ function pl_editor_actions(){
 		$plpg = new PageLinesPage( array( 'mode' => 'ajax', 'pageID' => $pageID, 'typeID' => $typeID ) );
 		$draft = new EditorDraft;
 		$settings = new PageLinesOpts( $plpg, $draft );
+		$fileOpts = new EditorFileOpts;
 
 		if ($run == 'reset_global'){
 
@@ -155,6 +156,8 @@ function pl_editor_actions(){
 			// delete clone index by keys
 			
 			
+		}elseif( $run == 'opt_dump' ) {
+			$fileOpts->dump();
 		}
 
 	}

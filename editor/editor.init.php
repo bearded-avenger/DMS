@@ -68,7 +68,7 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.less.libs.php' );
 		require_once( PL_EDITOR . '/editor.less.php' );
 		require_once( PL_EDITOR . '/editor.api.php' );
-
+		require_once( PL_EDITOR . '/editor.fileopts.php' );
 	}
 	function installer_scripts() {
 

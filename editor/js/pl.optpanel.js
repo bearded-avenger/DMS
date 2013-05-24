@@ -90,7 +90,7 @@
 			if( that.optConfig[ uniqueID ] && !$.isEmptyObject( that.optConfig[ uniqueID ].opts ) )
 				opt_array = that.optConfig[ uniqueID ].opts
 			else{
-	
+
 				opt_array = [{
 					help: "There are no options for this section."
 					, key: "no-opts"
@@ -100,7 +100,7 @@
 
 				}]
 			}
-			
+
 			tab = $("[data-panel='settings']")
 
 			opts = that.runEngine( opt_array, that.scope )
@@ -267,7 +267,7 @@
 				var specialClass = ''
 				, 	number = index
 				,	theTitle = o.title || o.label || 'Option'
-				
+
 				if(!o.key)
 					o.key = 'no-key'
 
@@ -296,7 +296,7 @@
 			if (that.config.mode == 'settings')
 				scope = 'global'
 
-	
+
 			// Set option value
 			if( pageData[ scope ] && pageData[ scope ][ that.uniqueID ] && pageData[ scope ][ that.uniqueID ][ key ])
 				return pl_html_input( pageData[ scope ][ that.uniqueID ][ key ] )
@@ -490,14 +490,14 @@
 					})
 
 				} else if( o.type == 'select_animation' ){
-					
+
 					var anims = $.pl.config.animations
 
 					o.opts = {}
 					$.each(anims, function(key, s){
 						o.opts[ key ] = {name: s}
 					})
-					
+
 				}
 
 				if(o.opts){
@@ -566,9 +566,9 @@
 
 			if(level == 2)
 				return sprintf('<div class="input-wrap">%s</div>', oHTML)
-			else 
+			else
 				return oHTML
-				
+
 		}
 
 		, runScriptEngine: function ( tabIndex, opts ) {
@@ -613,6 +613,22 @@
 					var response = $.plAJAX.run( args )
 
 				}
+				if( theAction == 'opt_dump' ){
+
+					var confirmText = "<h3>Are you sure?</h3><p>This will dump all settings to <strong>theme-options.dat</strong></p>"
+
+					var args = {
+								mode: 'settings'
+							,	run: theAction
+							,	confirm: true
+							,	confirmText: confirmText
+							,	savingText: 'Dumping Options'
+							,	refresh: false
+							,	refreshText: ''
+							, 	log: true
+						}
+					var response = $.plAJAX.run( args )
+					}
 
 			})
 

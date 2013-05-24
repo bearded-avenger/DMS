@@ -199,8 +199,18 @@ class EditorSettings {
 					'label'		=> __( '<i class="icon-undo"></i> Reset Current Page Settings', 'pagelines' ),
 					'title'		=> __( 'Reset Current Page Settings', 'pagelines' ),
 					'help'		=> __( "Use this button to reset all settings on the current page back to their default state. <br/><strong>Note:</strong> Once you've completed this action, you may want to publish these changes to your live site.", 'pagelines' )
-			),
+			)
 		);
+		if( defined( 'PL_LESS_DEV' ) )
+			$settings[] = array(
+					'key'		=> 'opt_dump',
+					'type'		=> 'action_button',
+					'classes'	=> 'btn-important',
+					'label'		=> __( '<i class="icon-undo"></i> Dump current settings', 'pagelines' ),
+					'title'		=> __( 'Dump settings to file.', 'pagelines' ),
+					'help'		=> __( "Use this button to dump settings to a dat file in current theme root.", 'pagelines' )
+			);
+
 		return $settings;
 	}
 
