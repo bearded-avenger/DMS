@@ -825,6 +825,8 @@ class PageLinesTemplateHandler {
  */
 function render_nested_sections( $sections ){
 
+	ob_start(); 
+	
 	global $pagelines_editor;
 
 	if( !empty( $sections ) ){
@@ -836,6 +838,8 @@ function render_nested_sections( $sections ){
 			$pagelines_editor->handler->render_section( $meta, ++$section_count, $sections_total, 2);
 
 	}
+	
+	return ob_get_clean();
 
 }
 

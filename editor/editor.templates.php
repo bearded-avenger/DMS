@@ -48,18 +48,18 @@ class PageLinesTemplates {
 				
 			} elseif( $tpl ){
 				
-				$map = $this->tpl->get_map_from_template_key( $tpl ); 
+				$map = $this->get_map_from_template_key( $tpl ); 
 				
 			} else 
 				$map = false;
 					
 							
 			if( !$map && isset( $this->set->type['page-template']) )
-				$map = $this->tpl->get_map_from_template_key( $this->set->type['page-template'] ); 
+				$map = $this->get_map_from_template_key( $this->set->type['page-template'] ); 
 				
 			
 			if( !$map && isset( $this->set->global['page-template']) )
-				$map = $this->tpl->get_map_from_template_key( $this->set->global['page-template'] ); 
+				$map = $this->get_map_from_template_key( $this->set->global['page-template'] ); 
 			
 		}
 		
@@ -109,6 +109,16 @@ class PageLinesTemplates {
 		}
 			
 		
+	}
+	
+	function get_map_from_template_key( $key ){
+
+		$templates = $this->tpl->get_user_templates();
+	
+		if( isset($templates[ $key ]) && isset($templates[ $key ]['map'] ) )
+			return $templates[ $key ]['map'];
+		else
+			return false;
 	}
 	
 	function default_region( $region ){
@@ -377,15 +387,7 @@ class EditorTemplates {
 
 	}
 
-	function get_map_from_template_key( $key ){
-
-		$templates = $this->get_user_templates();
 	
-		if( isset($templates[ $key ]) && isset($templates[ $key ]['map'] ) )
-			return $templates[ $key ]['map'];
-		else
-			return false;
-	}
 	
 	function get_template_data( $key ){
 		
@@ -483,21 +485,6 @@ class EditorTemplates {
 
 	}
 
-	function load_template( $tpl ){
-
-
-		// if load user template
-		$tpl = ( isset( $tpl ) && !is_array( $tpl )) ? $tpl : $this->default_tpl;
-
-		$d = $this->get_map_from_template_key( $tpl );
-
-		if(!$d || $d == '' || !is_array($d)){
-			$d = array( $this->default_template() );
-		}
-
-
-		return $d;
-	}
 
 	function default_template(){
 		$t = array(
