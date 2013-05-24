@@ -97,7 +97,7 @@ class PLWatermark extends PageLinesSection {
 		
 		
 	?>
-	<div class="pl-watermark pl-animation pla-fade">
+	<div class="pl-watermark">
 		<div class="pl_global_social stack-element">
 
 			<div class="fb-like" data-href="<?php echo $facebook_url;?>" data-send="false" data-layout="button_count" data-width="90" data-show-faces="false" data-font="arial" style="vertical-align: top"></div>
