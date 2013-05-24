@@ -57,6 +57,16 @@ function pl_local( $metaID, $key ){
 	
 }
 
+function pl_local_update( $metaID, $key, $value ){
+	
+	$settings = pl_meta($metaID, PL_SETTINGS, pl_settings_default() );
+	
+	$settings['draft'][$key] = $value; 
+	
+	pl_meta_update($metaID, PL_SETTINGS, $settings);
+		
+}
+
 function pl_meta($id, $key, $default = false){
 
 	$data = new PageLinesData;

@@ -444,14 +444,18 @@ class EditorTemplates {
 
 	}
 
-	function update_template( $key, $template_map, $settings){
+	function update_template( $key, $template_map, $settings, $pageID){
 
 		$templates = $this->get_user_templates();
 
-		$templates[$key]['map'] = $template_map;
-		$templates[$key]['settings'] = $settings;
+		$templates[ $key ][ 'map' ] = $template_map;
+		$templates[ $key ][ 'settings' ] = $settings;
 
 		pl_opt_update( $this->template_slug, $templates );
+		
+		pl_local_update( $pageID, 'page-template', $key );
+		
+		return $key;
 
 	}
 

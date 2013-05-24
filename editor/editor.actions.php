@@ -80,7 +80,7 @@ function pl_editor_actions(){
 
 			$template_map = $post['map']['template'];
 
-			$tpl->update_template( $key, $template_map, $post['settings'] );
+			$response['tpl'] = $tpl->update_template( $key, $template_map, $post['settings'], $pageID );
 
 		} elseif ( $run == 'delete'){
 

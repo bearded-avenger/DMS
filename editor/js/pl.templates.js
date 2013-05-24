@@ -100,7 +100,8 @@ $.plTemplates = {
 
 			e.preventDefault()
 
-			var key = $(this).closest('.x-item').data('key')
+			var that = this
+			,	key = $(this).closest('.x-item').data('key')
 			,	args = {
 						mode: 'templates'
 					,	run: 'update'
@@ -114,6 +115,29 @@ $.plTemplates = {
 					,	key: key
 					,	map: $.plMapping.getCurrentMap()
 					,	settings: $.pl.data.local
+					, 	postSuccess: function( response ){
+
+							// $.Ajax parses argument values and calles this thing, probably supposed to do that a different way
+							if(!response)
+								return
+
+							var theList = $(that).closest('.x-list')
+
+								theList
+									.find('.x-item-actions')
+									.removeClass('active-template')
+
+							if(response.tpl && response.tpl != false){
+
+								$(that)
+									.closest('.x-item-actions')
+									.addClass('active-template')
+
+							}else {
+								console.log('Response was false.')
+								console.log( response )
+							}
+						}
 				}
 
 			var response = $.plAJAX.run( args )
