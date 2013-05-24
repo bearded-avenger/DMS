@@ -77,7 +77,7 @@ class EditorDraft{
 	}
 
 	function revert_local( $pageID, $map ){
-		$map->revert_local( $pageID );
+	
 		pl_revert_settings( $pageID );
 		pl_meta_update( $pageID, $this->slug, false );
 	}
@@ -88,7 +88,7 @@ class EditorDraft{
 	}
 
 	function revert_global( $map ){
-		$map->revert_global( );
+	
 		pl_revert_settings( );
 		pl_opt_update( $this->slug, false );
 	}

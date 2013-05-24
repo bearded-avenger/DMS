@@ -150,45 +150,6 @@ class PageLinesTemplates {
 		
 	}
 
-	function publish_map( $pageID ){
-
-		$global_map = pl_opt( $this->map_option_slug, pl_settings_default(), true );
-
-		$global_map['live'] = $global_map['draft'];
-
-		pl_opt_update( $this->map_option_slug, $global_map );
-
-		$local_map = pl_meta( $pageID, $this->map_option_slug, pl_settings_default());
-
-		$local_map['live'] = $local_map['draft'];
-
-		pl_meta_update( $pageID, $this->map_option_slug, $local_map );
-
-	}
-
-	function revert_local( $pageID ){
-
-
-		$local_map = pl_meta( $pageID, $this->map_option_slug, pl_settings_default());
-
-		$local_map['draft'] = $local_map['live'];
-
-		pl_meta_update( $pageID, $this->map_option_slug, $local_map );
-
-	}
-
-	function revert_global(){
-
-
-		$global_map = pl_opt( $this->map_option_slug, pl_settings_default(), true );
-
-		$global_map['draft'] = $global_map['live'];
-
-		pl_opt_update( $this->map_option_slug, $global_map );
-	}
-
-
-
 	function save_map_draft( $pageID, $map ){
 
 		// global
