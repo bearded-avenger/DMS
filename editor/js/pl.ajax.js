@@ -83,7 +83,7 @@
 					}
 				, 	success: function( response ){
 
-						console.debug(response)
+						console.log(response)
 
 						that.runSuccess( theData, response )
 

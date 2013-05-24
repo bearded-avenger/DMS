@@ -40,12 +40,12 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/editor.actions.php' );
 		require_once( PL_EDITOR . '/editor.draft.php' );
 		require_once( PL_EDITOR . '/editor.layout.php' );
-		require_once( PL_EDITOR . '/editor.map.php' );
-		require_once( PL_EDITOR . '/editor.mapping.php' );
 
 		require_once( PL_EDITOR . '/editor.settings.config.php' );
 		require_once( PL_EDITOR . '/editor.typography.php' );
 		require_once( PL_EDITOR . '/editor.color.php' );
+		
+		require_once( PL_EDITOR . '/editor.templates.php' );
 
 		// Mobile
 		require_once( PL_EDITOR . '/mobile.menu.php' );
@@ -57,7 +57,7 @@ class PageLinesEditor {
 		require_once( PL_EDITOR . '/panel.sections.php' );
 		require_once( PL_EDITOR . '/panel.extend.php' );
 		require_once( PL_EDITOR . '/panel.themes.php' );
-		require_once( PL_EDITOR . '/panel.templates.php' );
+		
 		require_once( PL_EDITOR . '/panel.settings.php' );
 
 		require_once( PL_EDITOR . '/editor.extensions.php' );
@@ -97,8 +97,7 @@ class PageLinesEditor {
 		$this->templates = new EditorTemplates( $this->page );
 
 		// Mapping
-		$this->map = new EditorMap( $this->templates, $this->draft); // this needs to be rewritten and moved to mapping class
-		$this->mapping = new EditorMapping;
+		$this->map = new PageLinesTemplates( $this->templates ); // this needs to be rewritten and moved to mapping class
 
 		// Must come before settings
 		$this->foundry = new PageLinesFoundry;
@@ -110,7 +109,7 @@ class PageLinesEditor {
 		$this->editor_less = new EditorLess($pless);
 		pagelines_register_hook('pl_after_settings_load'); // hook
 
-		$plopts = $this->opts = new PageLinesOpts( $this->page, $this->draft );
+		$plopts = $this->opts = new PageLinesOpts;
 
 		// Mobile
 		$this->mobile_menu = new PageLinesMobileMenu; 

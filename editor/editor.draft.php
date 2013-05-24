@@ -59,7 +59,7 @@ class EditorDraft{
 
 
 
-	function revert( $data, EditorMap $map ){
+	function revert( $data, PageLinesTemplates $map ){
 		$revert = $data['revert'];
 		$pageID = $data['pageID'];
 		$typeID = $data['typeID'];
@@ -110,8 +110,8 @@ class EditorDraft{
 
 		$settings['global'] = pl_opt( PL_SETTINGS );
 
-		$settings['map-local'] = $map->map_local( $pageID );
-		$settings['map-global'] = $map->map_global();
+	//	$settings['map-local'] = $map->map_local( $pageID );
+	//	$settings['map-global'] = $map->map_global();
 
 		foreach( $settings as $scope => $set ){
 

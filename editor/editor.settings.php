@@ -12,7 +12,7 @@ function pl_setting( $key, $args = array() ){
 	if(!is_object($plopts)){
 		$plpg = new PageLinesPage;
 		$pldraft = new EditorDraft;
-		$plopts = new PageLinesOpts( $plpg, $pldraft );
+		$plopts = new PageLinesOpts;
 	}
 
 	$setting = $plopts->get_setting( $key, $args );
@@ -148,7 +148,7 @@ class PageLinesSettings extends PageLinesData {
 
 	function global_settings(){
 
-		$set = $this->opt( $this->pl_settings );
+		$set = $this->opt( PL_SETTINGS );
 
 		// Have to move this to an action because ploption calls pl_setting before all settings are loaded
 		if( !$set || empty($set['draft']) || empty($set['live']) )
@@ -357,14 +357,16 @@ class PageLinesSettings extends PageLinesData {
  */
 class PageLinesOpts extends PageLinesSettings {
 
-	function __construct( PageLinesPage $page, EditorDraft $draft ){
+	function __construct( ){
 
-		$this->page = $page;
-		$this->draft = $draft;
+		global $plpg; 
+		$this->page = (isset($plpg)) ? $plpg : new PageLinesPage;
+	
 
 		$this->local = $this->local_settings();
 		$this->type = $this->type_settings();
 		$this->global = $this->global_settings();
+		$this->regions = (isset($this->global['regions'])) ? $this->global['regions'] : array();
 		$this->set = $this->page_settings();
 
 	}
@@ -393,7 +395,7 @@ class PageLinesOpts extends PageLinesSettings {
 
 	function local_settings(){
 
-		$set = $this->meta( $this->page->id, $this->pl_settings );
+		$set = $this->meta( $this->page->id, PL_SETTINGS );
 
 		return $this->get_by_mode($set);
 
@@ -401,7 +403,7 @@ class PageLinesOpts extends PageLinesSettings {
 
 	function type_settings(){
 
-		$set = $this->meta( $this->page->typeid, $this->pl_settings );
+		$set = $this->meta( $this->page->typeid, PL_SETTINGS );
 
 		return $this->get_by_mode($set);
 
@@ -423,7 +425,9 @@ class PageLinesOpts extends PageLinesSettings {
 
 		$set = wp_parse_args( $set, $this->default );
 
-		return $set[ $this->draft->mode ];
+		$mode = (pl_draft_mode()) ? 'draft' : 'live';
+
+		return $set[ $mode ];
 	}
 
 

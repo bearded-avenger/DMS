@@ -18,10 +18,10 @@ function pl_editor_actions(){
 
 		$draft = new EditorDraft;
 		$tpl = new EditorTemplates;
-		$map = $post['map_object'] = new EditorMap( $tpl, $draft );
+		$map = $post['map_object'] = new PageLinesTemplates( $tpl );
 
 		if( $run == 'draft' ){
-
+			
 			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
 
 
@@ -140,7 +140,7 @@ function pl_editor_actions(){
 
 		$plpg = new PageLinesPage( array( 'mode' => 'ajax', 'pageID' => $pageID, 'typeID' => $typeID ) );
 		$draft = new EditorDraft;
-		$settings = new PageLinesOpts( $plpg, $draft );
+		$settings = new PageLinesOpts;
 
 		if ($run == 'reset_global'){
 

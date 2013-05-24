@@ -26,7 +26,7 @@ class PageLinesTemplateHandler {
 		PageLinesPage $pg,
 		EditorSettings $siteset,
 		PageLinesFoundry $foundry,
-		EditorMap $map,
+		PageLinesTemplates $map,
 		EditorDraft $draft,
 		PageLinesOpts $opts,
 		EditorLayout $layout,
@@ -242,10 +242,6 @@ class PageLinesTemplateHandler {
 			}
 			unset($a); // set by reference
 		}
-		
-		// update if clone id has changed.
-		$this->map_handler->save_map_draft( $this->page->id, $this->map ); 
-
 
 		// add passive sections (not in drag drop but added through options/hooks)
 		global $passive_sections;
