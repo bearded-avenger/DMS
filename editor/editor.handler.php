@@ -26,7 +26,7 @@ class PageLinesTemplateHandler {
 		PageLinesPage $pg,
 		EditorSettings $siteset,
 		PageLinesFoundry $foundry,
-		EditorMap $map,
+		PageLinesTemplates $map,
 		EditorDraft $draft,
 		PageLinesOpts $opts,
 		EditorLayout $layout,
@@ -100,11 +100,12 @@ class PageLinesTemplateHandler {
 						userID: '<?php echo $this->get_user_id();?>'
 						, currentURL: '<?php echo $this->current_url();?>'
 						, nonce: '<?php echo wp_create_nonce( "tgmpa-install" ); ?>'
-						, pageID: '<?php echo $this->page->id;?>'
-						, typeID: '<?php echo $this->page->typeid;?>'
-						, pageTypeID: '<?php echo $this->page->type;?>'
-						, pageTypeName: '<?php echo $this->page->type_name;?>'
-						, isSpecial: '<?php echo $this->page->is_special();?>'
+						, pageTemplate: '<?php echo $this->page->template; ?>'
+						, pageID: '<?php echo $this->page->id; ?>'
+						, typeID: '<?php echo $this->page->typeid; ?>'
+						, pageTypeID: '<?php echo $this->page->type; ?>'
+						, pageTypeName: '<?php echo $this->page->type_name; ?>'
+						, isSpecial: '<?php echo $this->page->is_special(); ?>'
 						, opts: <?php echo json_encode( pl_arrays_to_objects( $this->get_options_config() ) ); ?>
 						, settings: <?php echo json_encode( pl_arrays_to_objects( $this->siteset->get_set('site') ) ); ?>
 						, areaSettings: <?php echo json_encode( pl_arrays_to_objects( $this->areas->settings() ) ); ?>
@@ -129,6 +130,8 @@ class PageLinesTemplateHandler {
 		<?php
 
 	}
+	
+	
 	
 
 
@@ -242,10 +245,6 @@ class PageLinesTemplateHandler {
 			}
 			unset($a); // set by reference
 		}
-		
-		// update if clone id has changed.
-		$this->map_handler->save_map_draft( $this->page->id, $this->map ); 
-
 
 		// add passive sections (not in drag drop but added through options/hooks)
 		global $passive_sections;
@@ -829,6 +828,8 @@ class PageLinesTemplateHandler {
  */
 function render_nested_sections( $sections ){
 
+	ob_start(); 
+	
 	global $pagelines_editor;
 
 	if( !empty( $sections ) ){
@@ -840,6 +841,8 @@ function render_nested_sections( $sections ){
 			$pagelines_editor->handler->render_section( $meta, ++$section_count, $sections_total, 2);
 
 	}
+	
+	return ob_get_clean();
 
 }
 

@@ -62,29 +62,37 @@ class PLSectionArea extends PageLinesSection {
 
 	
 
-   function section_template( ) {
+	function section_template( ) {
+		
+		$section_output = render_nested_sections( $this->meta['content'] );
+		
+		if( $section_output ){
+			
+			$padding = ($this->opt('pl_area_pad')) ? $this->opt('pl_area_pad') : '20'; 
 
-	$padding = ($this->opt('pl_area_pad')) ? $this->opt('pl_area_pad') : '0'; 
-	
-	$pad_css = sprintf('padding-top: %1$spx; padding-bottom: %1$spx', $padding);
-	
-	$content_class = ($padding != '0') ? 'nested-section-area' : '';
-	
-	$class = $this->opt('pl_area_class');
-	
-//	$class .= ' '.$this->opt('pl_area_bg');
+			$pad_css = sprintf('padding-top: %1$spx; padding-bottom: %1$spx', $padding);
+
+			$content_class = ($padding != '0') ? 'nested-section-area' : '';
+			
+		} else {
+			
+			$pad_css = ''; 
+			$content_class = '';
+			
+		}
+		
+
+		$class = $this->opt('pl_area_class');
 	
 	?>
 	<div class="pl-area-wrap <?php echo $class;?>" style="<?php echo $pad_css;?>">
 		<div class="pl-content <?php echo $content_class;?>">
 			<div class="pl-inner area-region pl-sortable-area">
-				
-				<?php render_nested_sections( $this->meta['content'] ); ?>
+				<?php  echo $section_output; ?>
 			</div>
 		</div>
 	</div>
-
-		<?php
+	<?php
 	}
 
 

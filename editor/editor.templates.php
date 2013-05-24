@@ -1,5 +1,204 @@
 <?php
 
+class PageLinesTemplates {
+
+	var $map_option_slug = 'pl-template-map';
+
+	function __construct( EditorTemplates $tpl ){
+
+		$this->tpl = $tpl;
+		
+		$this->mode = pl_draft_mode() ? 'draft' : 'live';
+	
+		global $plpg; 
+		$this->page = $plpg;
+		
+		$this->set = new PageLinesOpts;
+	}
+
+	function get_map( PageLinesPage $page ){
+
+		$map['header'] = $this->get_region( 'header' );
+		$map['footer'] = $this->get_region( 'footer' );
+		$map['template'] = $this->get_region( 'template' );
+		
+		return $map;
+
+	}
+
+	function get_region( $region ){
+		
+		// TO DEPRECATE for UPGRADE
+		$this->upgrade_old_map_data( $region ); 
+		
+		if($region == 'header' || $region == 'footer'){
+			
+			$map = $this->set->regions; 
+				
+		} elseif( $region == 'template' ){
+			
+			
+			$set = $this->set->local; 
+			
+			$tpl = ( isset($set['page-template']) ) ? $set['page-template'] : false;
+			
+			if( (!$tpl || $tpl == 'custom') && isset( $set['custom-map'] ) && is_array( $set['custom-map'] ) ){
+				
+				$map = $set['custom-map'];
+				
+			} elseif( $tpl ){
+				
+				$map = $this->get_map_from_template_key( $tpl ); 
+			
+			} else 
+				$map = false;
+					
+							
+			if( !$map && isset( $this->set->type['page-template']) )
+				$map = $this->get_map_from_template_key( $this->set->type['page-template'] ); 
+				
+			
+			if( !$map && isset( $this->set->global['page-template']) )
+				$map = $this->get_map_from_template_key( $this->set->global['page-template'] ); 
+			
+		}
+		
+		// TO DEPRECATE for UPGRADE
+		$map = (isset($map['draft'])) ? $map['draft'] : $map;
+	
+		return ( $map && isset($map[ $region ]) ) ? $map[ $region ] : $this->default_region( $region );		
+		
+	}
+	
+	// TO DEPRECATE for BETA UPGRADE
+	function upgrade_old_map_data( $region ){
+		
+		if( ($region == 'header' || $region == 'footer') && !isset( $this->set->regions[ $region ]) ){
+		
+			$map_global = pl_opt( $this->map_option_slug, pl_settings_default(), true );
+			//	plprint($map_global);
+			if(isset($map_global['draft'][$region])){
+			
+				$this->set->regions[$region] = $map_global['draft'][$region]; 
+				
+				$set = pl_opt( PL_SETTINGS );
+				
+				$set['regions'] = $this->set->regions; 
+				
+				pl_opt_update( PL_SETTINGS, $set );
+				
+			}
+				
+				
+		} elseif ($region == 'template' && !isset($this->set->local['custom-map']) && !isset($this->set->local['page-template'])){
+			
+			
+			$map_local = pl_meta( $this->page->id, $this->map_option_slug, pl_settings_default() );
+		
+			if(isset($map_local['draft'][$region])){
+				
+				$this->set->local['custom-map'] = $map_local['draft'];
+				$this->set->local['page-template'] = 'custom';
+				
+				$set = pl_meta( $this->page->id, PL_SETTINGS );
+				
+				$set['custom-map'] = $this->set->local['custom-map']; 
+				
+				pl_meta_update( $this->page->id, PL_SETTINGS, $set );
+			}
+		}
+			
+		
+	}
+	
+	function get_map_from_template_key( $key ){
+
+		$templates = $this->tpl->get_user_templates();
+	
+		$map = ( isset($templates[ $key ]) && isset($templates[ $key ]['map'] ) ) ? $templates[ $key ]['map'] : false;
+			
+		if($map)	
+			return array( 'template' => $map );
+		else 
+			return false;
+		
+	}
+	
+	function default_region( $region ){
+		
+		
+		
+		if( $region == 'header' ){
+			
+			$d = array(
+				array(
+					'areaID'	=> 'HeaderArea',
+					'content'	=> array( )
+				)
+
+			);
+			
+		} elseif( $region == 'footer' ){
+			
+			$d = array(
+				array(
+					'areaID'	=> 'FooterArea',
+					'content'	=> array(
+						array(
+							'object' => 'SimpleNav'
+						)
+					)
+				)
+
+			);
+			
+		} elseif( $region == 'template' ){
+			
+			$d = array( $this->tpl->default_template() );
+			
+		}
+		
+		return $d;
+
+		
+	}
+
+	function save_map_draft( $pageID, $map ){
+
+		// global
+		$global_settings = pl_opt( PL_SETTINGS, pl_settings_default(), true );
+
+		$global_settings['draft']['regions'] = array(
+			'header' => $map['header'],
+			'footer' => $map['footer']
+		);
+
+		pl_opt_update( PL_SETTINGS, $global_settings );
+
+		$local_settings = pl_meta( $pageID, PL_SETTINGS, pl_settings_default());
+		
+		$new_settings = $local_settings;
+		
+		$new_settings['draft']['custom-map'] = array(
+			'template' => $map['template']
+		);
+
+		if($new_settings != $local_settings){
+			
+			$new_settings['draft']['page-template'] = 'custom'; 
+			
+			pl_meta_update( $pageID, PL_SETTINGS, $new_settings );
+			
+			$local = 1;
+		
+		} else
+			$local = 0;
+
+
+		return array('local' => $local);
+	}
+}
+
 class EditorTemplates {
 
 	var $template_slug = 'pl-user-templates';
@@ -7,6 +206,8 @@ class EditorTemplates {
 	var $map_option_slug = 'pl-template-map';
 	var $template_id_slug = 'pl-template-id';
 
+
+	var $page_template_slug = 'pl-page-template'; 
 
 	function __construct( ){
 		$this->data = new PageLinesData;
@@ -31,24 +232,10 @@ class EditorTemplates {
 		add_action( 'post_updated', array(&$this, 'save_meta_options') );
 
 	}
-	
-	function get_template_id(){
-		
-		// if page map, then custom
-		
-		// else if, local template id then page only template
-		
-		// else if, type template id, then type only template
-		
-		// else if, global template id, then that
-		
-		// finally, a default fallback template id = default
-		
-	}
-
 
 
 	function scripts(){
+		wp_enqueue_script( 'pl-js-mapping', $this->url . '/js/pl.mapping.js', array('jquery'), PL_CORE_VERSION, true);
 		wp_enqueue_script( 'pl-js-templates', $this->url . '/js/pl.templates.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
 
@@ -95,18 +282,20 @@ class EditorTemplates {
 			$classes = array('x-templates');
 			$classes[] = sprintf('template_key_%s', $index);
 
-			$active_class = ($index === $tpls['draft']) ? 'active-template' : '';
-
-			$global_class = ($index === $this->default_global_tpl) ? 'active-global' : '';
-			$type_class = ($index === $this->default_type_tpl && !$this->page->is_special()) ? 'active-type' : '';
-
+			$action_classes = array('x-item-actions'); 
+			$action_classes[] = ($index === $this->page->template) ? 'active-template' : '';
+			$action_classes[] = ($index === $this->default_global_tpl) ? 'active-global' : '';
+			$action_classes[] = ($index === $this->default_type_tpl && !$this->page->is_special()) ? 'active-type' : '';
+			
 
 			ob_start();
-
 			?>
-			<div class="x-item-actions <?php echo $active_class;?> <?php echo $global_class;?> <?php echo $type_class;?>">
+			<div class="<?php echo join(' ', $action_classes);?>">
+				
 				<button class="btn btn-mini btn-primary load-template">Load Template</button>
+				
 				<button class="btn btn-mini btn-inverse the-active-template">Active Template</button>
+				
 				<div class="btn-group dropup">
 				  <a class="btn btn-mini dropdown-toggle actions-toggle" data-toggle="dropdown" href="#">
 				    Actions	<i class="icon-caret-down"></i>
@@ -198,15 +387,7 @@ class EditorTemplates {
 
 	}
 
-	function get_map_from_template_key( $key ){
-
-		$templates = $this->get_user_templates();
 	
-		if( isset($templates[ $key ]) && isset($templates[ $key ]['map'] ) )
-			return $templates[ $key ]['map'];
-		else
-			return false;
-	}
 	
 	function get_template_data( $key ){
 		
@@ -229,32 +410,21 @@ class EditorTemplates {
 			return false;
 	}
 
-	function set_new_local_template( $pageID, $tpl_id ){
+	
 
-		$t = $this->get_template_data( $tpl_id ); 
-	//	print_r($t);
+	function set_new_local_template( $pageID, $templateID ){
 
-		// Two approaches, this one sets the map field as the template id
-		// This works because the user map isn't needed if using a template
-		
-		$user_map = pl_meta( $pageID, $this->map_option_slug, pl_settings_default() );
+		$t = $this->get_template_data( $templateID ); 
 
-		$user_map['draft'] = $tpl_id;
+		$page_settings = pl_meta( $pageID, PL_SETTINGS, pl_settings_default() ); 
 
-		pl_meta_update($pageID, $this->map_option_slug, $user_map);
-		
-		
-		// SETTINGS
-		
-		$page_settings = pl_meta( $pageID, PL_SETTINGS, pl_settings_default() );
-		
 		$page_settings['draft'] = $t['settings'];
+		
+		$page_settings['draft']['page-template'] = $templateID;
 		
 		pl_meta_update($pageID, PL_SETTINGS, $page_settings);
 		
-		
-		
-		return $user_map;
+		return $page_settings;
 
 	}
 
@@ -274,14 +444,18 @@ class EditorTemplates {
 
 	}
 
-	function update_template( $key, $template_map, $settings){
+	function update_template( $key, $template_map, $settings, $pageID){
 
 		$templates = $this->get_user_templates();
 
-		$templates[$key]['map'] = $template_map;
-		$templates[$key]['settings'] = $settings;
+		$templates[ $key ][ 'map' ] = $template_map;
+		$templates[ $key ][ 'settings' ] = $settings;
 
 		pl_opt_update( $this->template_slug, $templates );
+		
+		pl_local_update( $pageID, 'page-template', $key );
+		
+		return $key;
 
 	}
 
@@ -295,21 +469,6 @@ class EditorTemplates {
 
 	}
 
-	function load_template( $tpl ){
-
-
-		// if load user template
-		$tpl = ( isset( $tpl ) && !is_array( $tpl )) ? $tpl : $this->default_tpl;
-
-		$d = $this->get_map_from_template_key( $tpl );
-
-		if(!$d || $d == '' || !is_array($d)){
-			$d = array( $this->default_template() );
-		}
-
-
-		return $d;
-	}
 
 	function default_template(){
 		$t = array(
@@ -333,7 +492,9 @@ class EditorTemplates {
 					'span' 	=> 4,
 					'content'	=> array(
 						array(
-							'object'	=> 'PLRapidTabs',
+							'object'	=> 'PLRapidTabs'
+						),
+						array(
 							'object'	=> 'PrimarySidebar'
 						),
 					)
@@ -346,33 +507,7 @@ class EditorTemplates {
 	}
 
 
-	function default_header(){
-		$d = array(
-			array(
-				'areaID'	=> 'HeaderArea',
-				'content'	=> array( )
-			)
 
-		);
-
-		return $d;
-	}
-
-	function default_footer(){
-		$d = array(
-			array(
-				'areaID'	=> 'FooterArea',
-				'content'	=> array(
-					array(
-						'object'	=> 'SimpleNav'
-					)
-				)
-			)
-
-		);
-
-		return $d;
-	}
 
 	function default_user_templates(){
 
@@ -450,7 +585,12 @@ class EditorTemplates {
 
 			if($user_template != ''){
 
-				pl_meta_update($postID, $this->map_option_slug, array('live' => $user_template, 'draft' => $user_template));
+				$set = pl_meta($postID, PL_SETTINGS);
+				
+				$set['draft']['page-template'] = $user_template; 
+				$set['live']['page-template'] = $user_template; 
+				
+				pl_meta_update($postID, PL_SETTINGS, $set);
 			}
 
 
@@ -465,7 +605,8 @@ class EditorTemplates {
 		///// CUSTOM PAGE TEMPLATE STUFF /////
 
 			$options = '<option value="">Select Template</option>';
-			$loaded_user_template = pl_meta($post->ID, $this->map_option_slug, pl_settings_default());
+			
+			$set = pl_meta($postID, PL_SETTINGS);
 
 			foreach($this->get_user_templates() as $index => $t){
 				$sel = '';

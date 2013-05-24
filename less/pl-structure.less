@@ -23,6 +23,10 @@ body {
 
 .pl-section-pad{
 	padding: @baseLineHeight 0;
+	.row:last-child > [class*="span"]{
+		margin-bottom: 0;
+	}
+	
 }
 
 body .pl-area .pl-section{
@@ -74,7 +78,7 @@ body .pl-area .pl-section{
 }
 
 .pl-grey{
-	background:#222; 
+	background:#1c1c1c; 
 	.pl-contrast{
 		background: #000; 
 	}

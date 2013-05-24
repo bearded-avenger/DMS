@@ -18,10 +18,10 @@ function pl_editor_actions(){
 
 		$draft = new EditorDraft;
 		$tpl = new EditorTemplates;
-		$map = $post['map_object'] = new EditorMap( $tpl, $draft );
+		$map = $post['map_object'] = new PageLinesTemplates( $tpl );
 
 		if( $run == 'draft' ){
-
+			
 			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
 
 
@@ -80,7 +80,7 @@ function pl_editor_actions(){
 
 			$template_map = $post['map']['template'];
 
-			$tpl->update_template( $key, $template_map, $post['settings'] );
+			$response['tpl'] = $tpl->update_template( $key, $template_map, $post['settings'], $pageID );
 
 		} elseif ( $run == 'delete'){
 
@@ -140,9 +140,8 @@ function pl_editor_actions(){
 
 		$plpg = new PageLinesPage( array( 'mode' => 'ajax', 'pageID' => $pageID, 'typeID' => $typeID ) );
 		$draft = new EditorDraft;
-		$settings = new PageLinesOpts( $plpg, $draft );
+		$settings = new PageLinesOpts;
 		$fileOpts = new EditorFileOpts;
-
 		if ($run == 'reset_global'){
 
 			$settings->reset_global();

@@ -59,7 +59,7 @@ class EditorDraft{
 
 
 
-	function revert( $data, EditorMap $map ){
+	function revert( $data, PageLinesTemplates $map ){
 		$revert = $data['revert'];
 		$pageID = $data['pageID'];
 		$typeID = $data['typeID'];
@@ -77,7 +77,7 @@ class EditorDraft{
 	}
 
 	function revert_local( $pageID, $map ){
-		$map->revert_local( $pageID );
+	
 		pl_revert_settings( $pageID );
 		pl_meta_update( $pageID, $this->slug, false );
 	}
@@ -88,7 +88,7 @@ class EditorDraft{
 	}
 
 	function revert_global( $map ){
-		$map->revert_global( );
+	
 		pl_revert_settings( );
 		pl_opt_update( $this->slug, false );
 	}
@@ -110,8 +110,8 @@ class EditorDraft{
 
 		$settings['global'] = pl_opt( PL_SETTINGS );
 
-		$settings['map-local'] = $map->map_local( $pageID );
-		$settings['map-global'] = $map->map_global();
+	//	$settings['map-local'] = $map->map_local( $pageID );
+	//	$settings['map-global'] = $map->map_global();
 
 		foreach( $settings as $scope => $set ){
 
@@ -141,4 +141,12 @@ function pl_draft_mode(){
 
 	return ($draft->mode == 'draft') ? true : false;
 
+}
+
+function pl_get_mode(){
+	
+	$mode = ( pl_draft_mode() ) ? 'draft' : 'live'; 
+	
+	return $mode;
+	
 }
