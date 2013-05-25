@@ -111,7 +111,8 @@ class PageLinesPage {
 
 		$index = array_search( $this->type(), $lookup_array );
 
-		if( ! index && ! isset( $lookup_array[ $this->type ] ) ){
+		
+		if( !$index ){
 
 			$lookup_array[]  = $this->type();
 

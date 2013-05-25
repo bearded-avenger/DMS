@@ -644,9 +644,6 @@ class EditorTemplates {
 
 }
 
-function get_page_template(){
-	
-}
 
 
 
