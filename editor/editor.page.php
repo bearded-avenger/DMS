@@ -29,11 +29,11 @@ class PageLinesPage {
 			$this->id = $this->id();
 
 			$this->type = $this->type();
-			
+
 			$this->typeid = $this->special_id();
 
 			$this->template = $this->template();
-			
+
 
 			$this->type_name = ucwords( str_replace('_', ' ', $this->type()) );
 
@@ -49,13 +49,13 @@ class PageLinesPage {
 		);
 		return $d;
 	}
-	
+
 	function template(){
-		
-		$page = pl_local( $this->id, 'page-template' ); 
-		$type = pl_local( $this->typeid, 'page-template' ); 
-		$gbl = pl_global( 'page-template' ); 
-		
+
+		$page = pl_local( $this->id, 'page-template' );
+		$type = pl_local( $this->typeid, 'page-template' );
+		$gbl = pl_global( 'page-template' );
+
 		if( $page && $page != 'default' )
 			$tpl = $page;
 		elseif( $type && $type != 'default' )
@@ -64,9 +64,9 @@ class PageLinesPage {
 			$tpl = $gbl;
 		else
 			$tpl = 'default';
-			
+
 		return $tpl;
-		
+
 	}
 
 	function id(){
@@ -111,14 +111,14 @@ class PageLinesPage {
 
 		$index = array_search( $this->type(), $lookup_array );
 
-		
+
 		if( !$index ){
 
 			$lookup_array[]  = $this->type();
 
 			$index = array_search( $this->type(), $lookup_array );
 
-			pl_opt_update( $this->opt_special_lookup, $lookup_array );
+			pl_opt_update( $this->opt_special_lookup, array_unique( $lookup_array ) );
 
 		}
 
