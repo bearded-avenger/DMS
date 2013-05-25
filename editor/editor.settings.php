@@ -49,6 +49,16 @@ function pl_global( $key ){
 	
 }
 
+function pl_global_update( $key, $value ){
+	
+	$settings = pl_opt( PL_SETTINGS, pl_settings_default() );
+	
+	$settings[ pl_get_mode() ][$key] = $value; 
+	
+	pl_opt_update( PL_SETTINGS, $settings);
+	
+}
+
 function pl_local( $metaID, $key ){
 	
 	$settings = pl_meta($metaID, PL_SETTINGS, pl_settings_default() );
@@ -61,7 +71,7 @@ function pl_local_update( $metaID, $key, $value ){
 	
 	$settings = pl_meta($metaID, PL_SETTINGS, pl_settings_default() );
 	
-	$settings['draft'][$key] = $value; 
+	$settings[ pl_get_mode() ][$key] = $value; 
 	
 	pl_meta_update($metaID, PL_SETTINGS, $settings);
 		
@@ -421,8 +431,11 @@ class PageLinesOpts extends PageLinesSettings {
 
 	function local_settings(){
 
-		$set = $this->meta( $this->page->id, PL_SETTINGS );
 
+		// if a template is active, lets use that.
+		
+		$set = $this->meta( $this->page->id, PL_SETTINGS );
+		
 		return $this->get_by_mode($set);
 
 	}
@@ -644,9 +657,6 @@ function pl_publish_settings( $pageID, $typeID ){
 	$settings['local'] = pl_meta( $pageID, PL_SETTINGS );
 	$settings['type'] = pl_meta( $typeID, PL_SETTINGS );
 	$settings['global'] = pl_opt( PL_SETTINGS  );
-	$settings['local-map'] = pl_meta( $pageID, 'pl-template-map' );
-	$settings['global-map'] = pl_opt( 'pl-template-map' );
-
 
 	foreach($settings as $scope => $set){
 
@@ -661,9 +671,6 @@ function pl_publish_settings( $pageID, $typeID ){
 	pl_meta_update( $pageID, PL_SETTINGS, $settings['local'] );
 	pl_meta_update( $typeID, PL_SETTINGS, $settings['type'] );
 	pl_opt_update( PL_SETTINGS, $settings['global'] );
-
-	pl_meta_update( $pageID, 'pl-template-map', $settings['local-map'] );
-	pl_opt_update( 'pl-template-map', $settings['global-map'] );
 
 	// Flush less
 	do_action( 'extend_flush' );

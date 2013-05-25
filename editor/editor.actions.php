@@ -101,38 +101,33 @@ function pl_editor_actions(){
 
 		} elseif( $run == 'set_type' ){
 
-
-			$storage = new PageLinesData;
-			$field = $post['field'];
+			$field = 'page-template';
 			$value = $post['value'];
 
-			$previous_val = $storage->meta( $typeID, $field );
+			$previous_val = pl_local( $typeID, $field );
 
-			if( $previous_val == $value ){
-				$storage->meta_update( $typeID, $field, false );
-			} else {
-				$storage->meta_update( $typeID, $field, $value );
-			}
+			if( $previous_val == $value )
+				pl_local_update( $typeID, $field, false );
+			else
+				pl_local_update( $typeID, $field, $value );
 
-			$response['result'] = $storage->meta( $typeID, $field );
+			$response['result'] = pl_local( $typeID, $field );
 
 
 		} elseif( $run == 'set_global' ){
 
-
-			$storage = new PageLinesData;
-			$field = $post['field'];
+			$field = 'page-template';
 			$value = $post['value'];
 
-			$previous_val = $storage->opt( $field );
+			$previous_val = pl_global( $field );
 
-			if($previous_val == $value){
-				$storage->opt_update( $field, false );
-			} else {
-				$storage->opt_update( $field, $value );
-			}
+			if($previous_val == $value)
+				pl_global_update( $field, false );
+			else
+				pl_global_update( $field, $value );
+			
 
-			$response['result'] = $storage->opt( $field );
+			$response['result'] = pl_global( $field );
 
 		}
 

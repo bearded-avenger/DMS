@@ -210,18 +210,15 @@ class EditorTemplates {
 	var $page_template_slug = 'pl-page-template'; 
 
 	function __construct( ){
-		$this->data = new PageLinesData;
-
+	
 		global $plpg;
-
 		$this->page = $plpg;
 
+		$this->default_type_tpl = ($plpg && $plpg != '') ? pl_local( $plpg->typeid, 'page-template' ) : false;
 
-		$this->default_type_tpl = ($plpg && $plpg != '') ? $this->data->meta( $plpg->typeid, $this->default_template_slug ) : false;
+		$this->default_global_tpl = pl_global( 'page-template' );
 
-		$this->default_global_tpl = $this->data->opt( $this->default_template_slug );
-
-		$this->default_tpl = ($this->default_type_tpl) ? $this->default_type_tpl : $this->default_global_tpl;
+		$this->default_tpl = ( $this->default_type_tpl ) ? $this->default_type_tpl : $this->default_global_tpl;
 
 		$this->url = PL_PARENT_URL . '/editor';
 
@@ -250,7 +247,7 @@ class EditorTemplates {
 					'name'	=> 'Your Templates',
 					'call'	=> array(&$this, 'user_templates'),
 					'icon'	=> 'icon-copy',
-					'tools'	=> '<button class="btn btn-mini btn-restore-global-areas"><i class="icon-repeat"></i> Restore Header/Footer</button>',
+					//'tools'	=> '<button class="btn btn-mini btn-restore-global-areas"><i class="icon-repeat"></i> Restore Header/Footer</button>',
 				),
 				'tmp_save'	=> array(
 					'name'	=> 'Save New Template',
@@ -646,3 +643,12 @@ class EditorTemplates {
 	}
 
 }
+
+function get_page_template(){
+	
+}
+
+
+
+
+
