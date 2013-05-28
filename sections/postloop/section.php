@@ -209,7 +209,7 @@ class PageLinesPostLoop extends PageLinesSection {
 		global $wp_query;
 
 		if(isset($wp_query) && is_object($wp_query))
-			$this->wrapper_classes[] = ( $wp_query->post_count >= 1 ) ? 'multi-post' : 'single-post';
+			$this->wrapper_classes[] = ( $wp_query->post_count > 1 ) ? 'multi-post' : 'single-post';
 
 	}
 
