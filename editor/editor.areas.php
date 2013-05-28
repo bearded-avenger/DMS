@@ -79,6 +79,8 @@ class PageLinesAreas {
 		<div class="pl-area-controls">
 			<a class="area-control" data-area-action="delete" >
 				<i class="icon-remove"></i>
+			</a><a class="area-control area-clone" data-area-action="clone" >
+				<i class="icon-copy"></i>
 			</a><a class="area-control area-reorder" data-area-action="reorder" >
 				<i class="icon-reorder"></i>
 			</a><a class="area-control" data-area-action="settings" >

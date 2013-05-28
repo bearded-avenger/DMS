@@ -308,30 +308,67 @@
 
 		}
 
+		, handleElementDelete: function( deleted ){
+
+			$.pageBuilder.setElementDelete( deleted ) // recursive function
+			
+			$.plAJAX.storeAllData( ) // save everything
+
+		}
+		
+		, setElementDelete: function( deleted ){
+			
+			var uniqueID = deleted.data('clone')
+			
+			deleted.find("[data-clone]").each(function(){
+				$.pageBuilder.setElementDelete( $(this) )
+			})
+			
+			// recursive
+			deleted.remove()
+
+			if( plIsset($.pl.data.local[ uniqueID ]) )
+				delete $.pl.data.local[ uniqueID ]
+				
+			if( plIsset($.pl.data.global[ uniqueID ]) )
+				delete $.pl.data.global[ uniqueID ]
+		}
+		
 		, handleCloneData: function( cloned ){
 
-			var config	= {
-					sid: cloned.data('sid')
-					, sobj: cloned.data('object')
-					, clone: cloned.data('clone')
-				}
-			,	clonedSet = ($.pl.config.opts[config.clone] && $.pl.config.opts[config.clone].opts) || {}
-			, 	mode = ($.pl.config.isSpecial) ? 'type' : 'local'
-			, 	uniqueID = plUniqueID()
+			$.pageBuilder.setCloneData( cloned ) // recursive function
 			
+			$.plAJAX.storeAllData( ) // save everything
 
-			cloned
-				.attr('data-clone', uniqueID)
-				.data('clone', uniqueID)
-
+		}
 		
-			$.pl.data.local[ uniqueID ] = $.pl.data.local[ config.clone ]
+		, setCloneData: function( cloned ){
 			
-			$.pl.config.opts[ uniqueID ] = $.pl.config.opts[ config.clone ]
+			var oldUniqueID = cloned.data('clone')
+			, 	newUniqueID = plUniqueID()
+			
+			// Recursion
+			cloned.find("[data-clone]").each(function(){
+				$.pageBuilder.setCloneData( $(this) )
+			})
+			
+			// Set element meta for mapping
+			cloned
+				.attr('data-clone', newUniqueID)
+				.data('clone', newUniqueID)
 
-			// save settings data
-			$.plAJAX.saveData( )
+			var globalDat = (plIsset( $.pl.data.global[ oldUniqueID ] )) ? $.pl.data.global[ oldUniqueID ] : ''
+			,	localDat = (plIsset( $.pl.data.local[ oldUniqueID ])) ? $.pl.data.local[ oldUniqueID ] : ''
+			,	theOpts = (plIsset( $.pl.config.opts[ oldUniqueID ])) ? $.pl.config.opts[ oldUniqueID ] : ''
 
+			// Copy and move around meta data
+			$.pl.data.global[ newUniqueID ] = $.extend({}, globalDat) // must clone the element, not just assign as they stay connected
+				
+			$.pl.data.local[ newUniqueID ] = $.extend({}, localDat) // must clone the element, not just assign as they stay connected
+			
+			$.pl.config.opts[ newUniqueID ] = theOpts
+			
+			
 		}
 
 		, sectionControls: function() {
@@ -350,8 +387,9 @@
 						, uniqueID: section.data('clone')
 						, scope: scope
 					}
+				
+				
 					
-				console.log(config)
 
 				if(btn.hasClass('section-edit')){
 
@@ -372,12 +410,7 @@
 					bootbox.confirm("<h3>Are you sure?</h3><p>This will remove this section and its settings from this page.</p>", function( result ){
 
 						if(result == true){
-							section.remove();
-				            section.addClass('empty-column')
-							store.remove('toolboxShown')
-
-							delete $.pl.data[ scope ][ config.uniqueID ]
-							$.pageBuilder.reloadConfig( 'section-control' )
+							$.pageBuilder.handleElementDelete( section )
 						} 
 
 					})
@@ -543,6 +576,8 @@
 
         }
 
+		
+
 		, storeMap: function( refresh ) {
 
 			var that = this
@@ -557,13 +592,14 @@
 					run: 'map'
 					, refresh: true
 					, refreshText: 'New page setup saved! Refreshing page...'
-					
+					, map: map
 				} )
 				
 			} else {
 				
 				$.plAJAX.saveData( {
 					run: 'map'
+					, map: map
 					, postSuccess: function( rsp ){
 
 						if(!rsp)

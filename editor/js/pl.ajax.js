@@ -83,7 +83,7 @@
 					}
 				, 	success: function( response ){
 
-						console.log(response)
+						// console.log(response)
 
 						that.runSuccess( theData, response )
 
@@ -148,9 +148,36 @@
 
 			var response = $.plAJAX.run( args )
 
-
-
 		}
+		
+		, storeAllData: function( refresh, callback ){
+			
+			var that = this
+			, 	refresh = refresh || false
+			,	map = $.plMapping.getCurrentMap()
+
+			$.pl.map = map
+
+			$.plAJAX.saveData( {
+				run: 'all'
+				, refresh: refresh
+				, refreshText: 'Page information saved! Refreshing...'
+				, map: map
+				, postSuccess: function( rsp ){
+
+					if(!rsp)
+						return
+
+					if ( $.isFunction( callback ) )
+						callback.call( rsp )
+
+
+				}
+			} )
+			return map
+			
+		}
+		
 		// DEPRECATED
 		, deleteSettings: function( section, clone ){
 			

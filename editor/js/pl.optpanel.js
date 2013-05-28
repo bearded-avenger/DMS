@@ -195,10 +195,8 @@
 					}
 
 					$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
-
+			
 					$.pl.flags.refreshOnSave = true;
-
-
 
 					if(e.type == 'change' || e.type == 'blur'){
 						$.plAJAX.saveData( )

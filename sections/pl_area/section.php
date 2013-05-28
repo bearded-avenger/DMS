@@ -21,11 +21,11 @@ class PLSectionArea extends PageLinesSection {
 			'key'			=> 'pl_area_bg',
 			'type' 			=> 'select',
 			'opts'	=> array(
-				'pl-trans'		=> array('name'=> 'Transparent (none - default)'),
-				'pl-contrast'	=> array('name'=> 'Contast Color'),
-				'pl-black'		=> array('name'=> 'Black'),
-				'pl-grey'		=> array('name'=> 'Dark Grey'),
-				'pl-base'		=> array('name'=> 'Base Background Color'),
+				'pl-trans'		=> array('name'=> 'Transparent Background and Default Text Color'),
+				'pl-contrast'	=> array('name'=> 'Contast Color and Default Text Color'),
+				'pl-black'		=> array('name'=> 'Black Background &amp; White Text'),
+				'pl-grey'		=> array('name'=> 'Dark Grey Background &amp; White Text'),
+				'pl-base'		=> array('name'=> 'Base Background and Default Text Color'),
 			),
 			'label' 	=> __( 'Area Background', 'pagelines' ),
 

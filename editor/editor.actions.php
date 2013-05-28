@@ -20,28 +20,19 @@ function pl_editor_actions(){
 		$tpl = new EditorTemplates;
 		$map = $post['map_object'] = new PageLinesTemplates( $tpl );
 
-		if( $run == 'draft' ){
-			
-			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
-
-
-		} elseif ( $run == 'publish' ) {
-
-			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
-
-			pl_publish_settings( $pageID, $typeID );
-
-		} elseif ( $run == 'revert' ){
-
-			$draft->revert( $post, $map );
-
-		} elseif ( $run == 'map' ){
+		if ( $run == 'map' || $run == 'all' || $run == 'draft' || $run == 'publish'){
 			
 			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
 
 			$response['changes'] = $map->save_map_draft( $pageID, $post['map'] );
 
 		}
+
+		if ( $run == 'publish' )
+			pl_publish_settings( $pageID, $typeID );
+		
+		elseif ( $run == 'revert' )
+			$draft->revert( $post, $map );
 
 		$response['state'] = $draft->get_state( $pageID, $typeID, $map );
 

@@ -124,9 +124,6 @@ $.plSections = {
 		// reload events
 		$('.s-control')
 			.off('click.sectionControls')
-			
-		// Store new page config
-		var map = $.pageBuilder.storeMap( true )
 		
 		$.pageBuilder.sectionControls()
 
@@ -135,14 +132,15 @@ $.plSections = {
 
 		$.areaControl.listen()
 		
-		
-
 		$('.banner-refresh')
 			.off()
 			.on('click', function(e){
 				e.preventDefault()
 				location.reload()
 			})
+			
+		// Store new page config
+		var map = $.pageBuilder.storeMap( true )
 
 		
 	}
