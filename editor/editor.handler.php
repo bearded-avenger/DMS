@@ -183,6 +183,8 @@ class PageLinesTemplateHandler {
 
 	function parse_config(){
 		
+		$clone_was_set = false;
+		
 		foreach($this->map as $group => &$g){
 
 			if( !isset($g) || !is_array($g) )
@@ -200,8 +202,11 @@ class PageLinesTemplateHandler {
 				$a['set'] = $this->optset->get_set( $a['clone'] ); 
 				
 				// Lets get rid of the number based clone system
-				if( strlen( $a['clone'] ) < 3 )
+				if( strlen( $a['clone'] ) < 3 ){
 					$a['clone'] = pl_new_clone_id();
+					$clone_was_set = true;
+				}
+					
 				
 				$this->section_list[ ] = $a;
 				$this->section_list_unique[ $a['object'] ] = $a;
@@ -214,9 +219,10 @@ class PageLinesTemplateHandler {
 					$meta = wp_parse_args($meta, $this->meta_defaults($key));
 					$meta['set'] = $this->optset->get_set( $meta['clone'] ); 
 
-					if( strlen( $meta['clone'] ) < 3 )
+					if( strlen( $meta['clone'] ) < 3 ){
 						$meta['clone'] = pl_new_clone_id();
-					
+						$clone_was_set = true;
+					}
 
 					if(!empty($meta['content'])){
 						foreach($meta['content'] as $subkey => &$sub_meta){
@@ -224,9 +230,10 @@ class PageLinesTemplateHandler {
 							$sub_meta = wp_parse_args($sub_meta, $this->meta_defaults($subkey));
 							$sub_meta['set'] = $this->optset->get_set( $sub_meta['clone'] ); 
 							
-							if( strlen( $sub_meta['clone'] ) < 3 )
+							if( strlen( $sub_meta['clone'] ) < 3 ){
 								$sub_meta['clone'] = pl_new_clone_id();
-							
+								$clone_was_set = true;
+							}
 							
 							$this->section_list[  ] = $sub_meta;
 							$this->section_list_unique[$sub_meta['object']] = $sub_meta;
@@ -245,6 +252,13 @@ class PageLinesTemplateHandler {
 			}
 			unset($a); // set by reference
 		}
+
+		
+		// This sets a map for the page, if it isn't set with new clone IDs the options wont
+		// work until a user action causes the map to be saved, non-ideal
+		if( $clone_was_set )
+			$this->map_handler->save_map_draft( $this->page->id, $this->map ); 
+		
 
 		// add passive sections (not in drag drop but added through options/hooks)
 		global $passive_sections;
