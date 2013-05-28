@@ -18,6 +18,17 @@ class PLSectionArea extends PageLinesSection {
 
 		$options[] = array(
 
+			'key'			=> 'pl_area_pad',
+			'type' 			=> 'count_select',
+			'count_start'	=> 0,
+			'count_number'	=> 200,
+			'default'		=> 0,
+			'label' 	=> __( 'Area Padding (px)', 'pagelines' ),
+
+		);
+		
+		$options[] = array(
+
 			'key'			=> 'pl_area_bg',
 			'type' 			=> 'select',
 			'opts'	=> array(
@@ -25,10 +36,20 @@ class PLSectionArea extends PageLinesSection {
 				'pl-contrast'	=> array('name'=> 'Contast Color and Default Text Color'),
 				'pl-black'		=> array('name'=> 'Black Background &amp; White Text'),
 				'pl-grey'		=> array('name'=> 'Dark Grey Background &amp; White Text'),
+				'pl-dark-img'	=> array('name'=> 'Image-Dark: Embossed Light Text.'),
+				'pl-light-img'	=> array('name'=> 'Image-Light: Embossed Dark Text.'),
 				'pl-base'		=> array('name'=> 'Base Background and Default Text Color'),
 			),
-			'label' 	=> __( 'Area Background', 'pagelines' ),
+			'label' 	=> __( 'Area Theme', 'pagelines' ),
 
+		);
+		
+		$options[] = array(
+
+			'key'			=> 'pl_area_image',
+			'type' 			=> 'image_upload',
+			'sizelimit'		=> 800000,
+			'label' 	=> __( 'Background Image', 'pagelines' ),
 		);
 		
 		$options[] = array(
@@ -39,16 +60,7 @@ class PLSectionArea extends PageLinesSection {
 			'help'		=> __( 'Separate with a space " "', 'pagelines' ),
 		);
 		
-		$options[] = array(
-
-			'key'			=> 'pl_area_pad',
-			'type' 			=> 'count_select',
-			'count_start'	=> 0,
-			'count_number'	=> 200,
-			'default'		=> 0,
-			'label' 	=> __( 'Area Padding (px)', 'pagelines' ),
-
-		);
+		
 
 
 		return $options;
@@ -70,7 +82,12 @@ class PLSectionArea extends PageLinesSection {
 			
 			$padding = ($this->opt('pl_area_pad')) ? $this->opt('pl_area_pad') : '20'; 
 
-			$pad_css = sprintf('padding-top: %1$spx; padding-bottom: %1$spx', $padding);
+			$style = "";
+			
+			if($this->opt('pl_area_image'))
+				$style .= sprintf('background-image: url(%s);', $this->opt('pl_area_image')); 
+			
+			$style .= sprintf('padding-top: %1$spx; padding-bottom: %1$spx', $padding);
 
 			$content_class = ($padding != '0') ? 'nested-section-area' : '';
 			
@@ -89,7 +106,7 @@ class PLSectionArea extends PageLinesSection {
 		$class = $this->opt('pl_area_class');
 	
 	?>
-	<div class="pl-area-wrap <?php echo $class;?>" style="<?php echo $pad_css;?>">
+	<div class="pl-area-wrap <?php echo $class;?>" style="<?php echo $style;?>">
 		<div class="pl-content <?php echo $content_class;?>">
 			<div class="pl-inner area-region pl-sortable-area">
 				<?php  echo $section_output; ?>

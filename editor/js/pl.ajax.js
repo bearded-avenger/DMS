@@ -83,7 +83,7 @@
 					}
 				, 	success: function( response ){
 
-						// console.log(response)
+						console.log(response)
 
 						that.runSuccess( theData, response )
 
@@ -240,8 +240,10 @@
 				var btn = $(this)
 				,	run = (btn.data('mode')) ? btn.data('mode') : ''
 
-				console.log(run)
-				$.plAJAX.saveData( { run: run, refresh: true } )
+				$.plAJAX.saveData( { 
+					run: run, 
+					refresh: true 
+				} )
 
 
 			})

@@ -165,6 +165,9 @@ class PageLinesTemplates {
 
 	function save_map_draft( $pageID, $map ){
 
+		if(!$map)
+			return; 
+			
 		// global
 		$global_settings = pl_opt( PL_SETTINGS, pl_settings_default(), true );
 
