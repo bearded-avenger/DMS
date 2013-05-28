@@ -426,11 +426,13 @@ class EditorTemplates {
 	}
 
 
-	function create_template( $name, $desc, $map, $settings ){
+	function create_template( $name, $desc, $map, $settings, $pageID ){
 
 		$templates = $this->get_user_templates();
+		
+		$key = pl_create_id( $name );
 
-		$templates[ pl_create_id( $name ) ] = array(
+		$templates[ $key ] = array(
 			'name'		=> $name,
 			'desc'		=> $desc,
 			'map'		=> $map, 
@@ -438,6 +440,10 @@ class EditorTemplates {
 		);
 
 		pl_opt_update( $this->template_slug, $templates );
+		
+		pl_local_update( $pageID, 'page-template', $key );
+		
+		return $key;
 
 	}
 
@@ -468,36 +474,60 @@ class EditorTemplates {
 
 
 	function default_template(){
-		$t = array(
-			'name'	=> 'Content Area',
-			'class'	=> 'std-content',
-			'content'	=> array(
-				array(
-					'object'	=> 'PLColumn',
-					'span' 	=> 8,
-					'content'	=> array(
-						array(
-							'object'	=> 'PageLinesPostLoop'
-						),
-						array(
-							'object'	=> 'PageLinesComments'
-						),
+	
+		if( $this->page->type == '404_page' ){
+			
+				$t = array(
+					'content'	=> array( array( 'object' => 'PageLinesNoPosts' ) )
+				);
+			
+		} elseif( $this->page->type == 'page' ){
+			
+			$t = array(
+				'content'	=> array(
+					array(
+						'object'	=> 'PageLinesPostLoop',
+						'span' 		=> 8,
+						'offset'	=> 2
 					)
-				),
-				array(
-					'object'	=> 'PLColumn',
-					'span' 	=> 4,
-					'content'	=> array(
-						array(
-							'object'	=> 'PLRapidTabs'
-						),
-						array(
-							'object'	=> 'PrimarySidebar'
-						),
-					)
-				),
-			)
-		);
+				)
+			);
+			
+		} else {
+			
+			$t = array(
+				'name'	=> 'Content Area',
+				'class'	=> 'std-content',
+				'content'	=> array(
+					array(
+						'object'	=> 'PLColumn',
+						'span' 	=> 8,
+						'content'	=> array(
+							array(
+								'object'	=> 'PageLinesPostLoop'
+							),
+							array(
+								'object'	=> 'PageLinesComments'
+							),
+						)
+					),
+					array(
+						'object'	=> 'PLColumn',
+						'span' 	=> 4,
+						'content'	=> array(
+							array(
+								'object'	=> 'PLRapidTabs'
+							),
+							array(
+								'object'	=> 'PrimarySidebar'
+							),
+						)
+					),
+				)
+			);
+			
+		}
+		
 
 		return $t;
 

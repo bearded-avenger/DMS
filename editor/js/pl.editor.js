@@ -369,7 +369,7 @@
 
 				} else if (btn.hasClass('section-delete')){
 
-					bootbox.confirm("<h3>Are you sure?</h3><p>This will permanently delete this section and its settings.</p>", function( result ){
+					bootbox.confirm("<h3>Are you sure?</h3><p>This will remove this section and its settings from this page.</p>", function( result ){
 
 						if(result == true){
 							section.remove();

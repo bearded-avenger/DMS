@@ -97,7 +97,7 @@ function pl_editor_actions(){
 			$desc = (isset($post['template-desc'])) ? $post['template-desc'] : '';
 
 			if( $name )
-				$tpl->create_template($name, $desc, $template_map, $settings);
+				$tpl->create_template($name, $desc, $template_map, $settings, $pageID);
 
 		} elseif( $run == 'set_type' ){
 

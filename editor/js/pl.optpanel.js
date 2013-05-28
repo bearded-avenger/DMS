@@ -423,7 +423,7 @@
 
 			else if( o.type == 'link' ){
 
-				oHTML += sprintf('<a href="%s" class="btn %s" target="_blank" >%s</a>', o.url, o.classes, o.label )
+				oHTML += sprintf('<div class="center"><a href="%s" class="btn %s" target="_blank" >%s</a></div>', o.url, o.classes, o.label )
 
 			}
 

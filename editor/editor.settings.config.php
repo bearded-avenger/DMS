@@ -16,10 +16,17 @@ class EditorSettings {
 
 
 	function __construct(){
+		$this->settings['configuration'] = array(
+			'name' 	=> 'Admin Shortcuts',
+			'icon'	=> 'icon-cog',
+			'pos'	=> 1,
+			'opts' 	=> $this->config()
+		);
+	
 		$this->settings['basic_settings'] = array(
 			'name' 	=> 'Site Images',
 			'icon'	=> 'icon-picture',
-			'pos'	=> 1,
+			'pos'	=> 2,
 			'opts' 	=> $this->basic()
 		);
 
@@ -70,6 +77,79 @@ class EditorSettings {
 			return $a['pos'] - $b['pos'];
 		else
 			return 0;
+	}
+	
+	function config(){
+	
+			$settings = array(
+
+				array(
+					'key'			=> 'set_homepage',
+					'label'			=> '<i class="icon-home"></i> Set Site Homepage',
+					'type' 			=> 	'link',
+					'classes'		=> 'btn-primary btn-block',
+					'url'			=> admin_url( 'options-reading.php' ), 
+					'title' 		=> 	__( 'Site Homepage', 'pagelines' ),
+				),
+
+
+				array(
+					'key'			=> 'manage_menus',
+					'label'			=> '<i class="icon-reorder"></i> Manage Menus',
+					'type' 			=> 	'link',
+					'classes'		=> 'btn-primary btn-block',
+					'url'			=> admin_url( 'nav-menus.php' ), 
+					'title' 		=> 	__( 'Manage Menus', 'pagelines' ),
+				),
+				
+				array(
+					'key'			=> 'edit_widgets',
+					'label'			=> '<i class="icon-retweet"></i> Manage Widgets',
+					'type' 			=> 	'link',
+					'classes'		=> 'btn-primary btn-block',
+					'url'			=> admin_url( 'nav-menus.php' ), 
+					'title' 		=> 	__( 'Manage Widgetized Areas', 'pagelines' ),
+				),
+				
+				array(
+					'key'			=> 'manage_profile',
+					'label'			=> '<i class="icon-user"></i> User Profile',
+					'type' 			=> 	'link',
+					'classes'		=> 'btn-primary btn-block',
+					'url'			=> admin_url( 'profile.php' ), 
+					'title' 		=> 	__( 'Manage Your Profile', 'pagelines' ),
+				),
+				array(
+					'key'			=> 'site_settings_admin',
+					'label'			=> '<i class="icon-cog"></i> Site Settings',
+					'type' 			=> 	'link',
+					'classes'		=> 'btn-primary btn-block',
+					'url'			=> admin_url( 'options-general.php' ), 
+					'title' 		=> 	__( 'Site Settings', 'pagelines' ),
+				),
+				array(
+					'key'			=> 'plugins_management',
+					'label'			=> '<i class="icon-download"></i> Plugins Admin',
+					'type' 			=> 	'link',
+					'classes'		=> 'btn-primary btn-block',
+					'url'			=> admin_url( 'plugins.php' ), 
+					'title' 		=> 	__( 'Manage Extensions', 'pagelines' ),
+				),
+				
+				array(
+					'key'			=> 'perm_management',
+					'label'			=> '<i class="icon-link"></i> Permalinks',
+					'type' 			=> 	'link',
+					'classes'		=> 'btn-primary btn-block',
+					'url'			=> admin_url( 'options-permalink.php' ), 
+					'title' 		=> 	__( 'Manage Permalinks', 'pagelines' ),
+				),
+
+
+			);
+
+			return $settings;
+		
 	}
 
 	function basic(){

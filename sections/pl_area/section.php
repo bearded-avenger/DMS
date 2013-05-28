@@ -74,6 +74,10 @@ class PLSectionArea extends PageLinesSection {
 
 			$content_class = ($padding != '0') ? 'nested-section-area' : '';
 			
+			$buffer = sprintf('<div class="pl-sortable pl-sortable-buffer span12 offset0"></div>');
+			
+			$section_output = $buffer . $section_output . $buffer;
+			
 		} else {
 			
 			$pad_css = ''; 
