@@ -28,71 +28,12 @@ class PageLinesPosts {
 		$this->thumb_space = get_option('thumbnail_size_w') + 33; // Space for thumb with padding
 
 		
-		$cr_link = pl_setting('continue_reading_text');
+		$cr_link = $this->section->opt('continue_reading_text');
 		$this->continue_reading = ($cr_link) ? $cr_link : __('Read More &raquo;', 'pagelines');
 
 		add_filter('pagelines_post_metabar', 'do_shortcode', 20);
 
-		if( has_action( 'add_social_under_meta' ) || ploption( 'share_under_meta' ) )
-			add_filter( 'pagelines_post_metabar', array( &$this,'add_social_share' ), 10, 2 );
 
-		if( has_action( 'add_social_under_excerpt' ) )
-			add_filter( 'pagelines_post_header', array( &$this,'add_social' ), 10, 2 );
-
-	}
-
-
-    /**
-     * Add Social Share
-     *
-     * Adds the information from the ShareBar Section to the input information and returns it
-     *
-     * @uses    section PageLinesShareBar
-     * #uses    get_shares from PageLinesShareBar class
-     *
-     * @param   $input
-     * @param   $format
-     *
-     * @return  string
-     */
-	function add_social_share( $input, $format ){
-
-		if ( ! class_exists( 'PageLinesShareBar' ) || $format == 'clip' )
-			return $input;
-		global $post;
-
-		$share = PageLinesShareBar::get_shares();
-		$meta_share = sprintf( '<div class="meta-share">%s</div>', $share );
-
-		return $input.$meta_share;
-	}
-
-
-    /**
-     * Add Social
-     *
-     * Adds Facebook and Twitter sharing options with details relevant to the post
-     *
-     * @uses    section PageLinesShareBar
-     * @uses    facebook from PageLinesShareBar class
-     * @uses    twitter from PageLinesShareBar class
-     *
-     * @param $input
-     * @param $format
-     * @return string
-     */
-	function add_social($input, $format){
-
-		if ( ! class_exists( 'PageLinesShareBar' ) || $format == 'clip' )
-			return $input;
-		global $post;
-
-		$args = array( 'permalink' => get_permalink( $post->ID ), 'width'=>'50', 'title' => wp_strip_all_tags( get_the_title( $post->ID ) ) );
-		$share = PageLinesShareBar::facebook( $args );
-		$share .= PageLinesShareBar::twitter( $args );
-		$meta_share = sprintf( '<div class="meta-share">%s</div>', $share );
-
-		return $input.$meta_share;
 	}
 
 
@@ -287,7 +228,9 @@ class PageLinesPosts {
      */
 	function post_header( $format = '' ){
 
+		
 		if( $this->show_post_header() ){
+
 
 			global $post;
 
@@ -336,7 +279,7 @@ class PageLinesPosts {
 	 */
 	function show_post_header( ) {
 
-		if( !is_page() || (is_page() && pl_setting('pagetitles')) )
+		if( !is_page() || (is_page() && $this->section->opt('pagetitles')) )
 			return true;
 		else
 			return false;
@@ -478,8 +421,11 @@ class PageLinesPosts {
 		global $pagelines_ID;
 
 		/** Check if page and show page title option is set to true */
-        if( is_page() && pl_setting('pagetitles') && ! has_filter( "pagelines_no_page_title_{$pagelines_ID}" ) ) {
+        if( is_page() && $this->section->opt('pagetitles') && ! has_filter( "pagelines_no_page_title_{$pagelines_ID}" ) ) {
+	
+	
 			$title = sprintf( '<h1 class="entry-title pagetitle">%s</h1>', apply_filters( 'pagelines_post_title_text', get_the_title() ) );
+			
 		} elseif(!is_page()) {
 
 			if ( is_singular() )
