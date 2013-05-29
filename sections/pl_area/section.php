@@ -19,9 +19,10 @@ class PLSectionArea extends PageLinesSection {
 		$options[] = array(
 
 			'key'			=> 'pl_area_pad',
-			'type' 			=> 'count_select',
+			'type' 			=> 'count_select_same',
 			'count_start'	=> 0,
 			'count_number'	=> 200,
+			'suffix'		=> 'px',
 			'default'		=> 0,
 			'label' 	=> __( 'Area Padding (px)', 'pagelines' ),
 
@@ -80,16 +81,20 @@ class PLSectionArea extends PageLinesSection {
 		
 		if( $section_output ){
 			
-			$padding = ($this->opt('pl_area_pad')) ? $this->opt('pl_area_pad') : '20'; 
-
 			$style = "";
+			
+			$padding = ($this->opt('pl_area_pad')) ? $this->opt('pl_area_pad') : '20px'; 
+			
+			$padding = ( strpos($padding, 'px') ) ? $padding : $padding.'px';
+			
+			$style .= sprintf('padding-top: %1$s; padding-bottom: %1$s;', $padding);
+			
+			
 			
 			if($this->opt('pl_area_image'))
 				$style .= sprintf('background-image: url(%s);', $this->opt('pl_area_image')); 
-			
-			$style .= sprintf('padding-top: %1$spx; padding-bottom: %1$spx', $padding);
-
-			$content_class = ($padding != '0') ? 'nested-section-area' : '';
+		
+			$content_class = ( $padding != '0px	' ) ? 'nested-section-area' : '';
 			
 			$buffer = sprintf('<div class="pl-sortable pl-sortable-buffer span12 offset0"></div>');
 			

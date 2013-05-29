@@ -457,6 +457,7 @@
 			else if (
 				o.type == 'select'
 				|| o.type == 'count_select'
+				|| o.type == 'count_select_same'
 				|| o.type == 'select_same'
 				|| o.type == 'select_taxonomy'
 				|| o.type == 'select_icon'
@@ -465,15 +466,26 @@
 
 				var select_opts = '<option value="" >&mdash; Select &mdash;</option>'
 
-				if(o.type == 'count_select'){
+				if(o.type == 'count_select' || o.type == 'count_select_same'){
 
 					var cnt_start = (o.count_start) ? o.count_start : 0
 					,	cnt_num = (o.count_number) ? o.count_number : 10
 					,	suffix = (o.suffix) ? o.suffix : ''
 
 					o.opts = {}
-					for(i = cnt_start; i <= cnt_num; i++)
-						o.opts[i] = {name: i+suffix}
+					
+					if( o.type == 'count_select_same' ){
+						
+						for(i = cnt_start; i <= cnt_num; i++)
+							o.opts[i+suffix] = {name: i+suffix}
+							
+					} else {
+						
+						for(i = cnt_start; i <= cnt_num; i++)
+							o.opts[i] = {name: i+suffix}
+							
+					}
+					
 
 
 				}

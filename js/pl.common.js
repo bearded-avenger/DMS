@@ -34,7 +34,7 @@
 			,	siteWrap = $('.site-wrap')
 			, 	mobileMenu = $('.pl-mobile-menu')
 			
-			mobileMenu.css('max-height', siteWrap.height())
+			mobileMenu.css('max-height', siteWrap.height()-10)
 			
 			menuToggle.on('click.mmToggle', function(e){
 				

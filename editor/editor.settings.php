@@ -623,8 +623,8 @@ function pl_settings_update( $new_settings, $mode = 'draft', $metaID = false ){
 		
 		if(is_array($the_settings)){
 			foreach($the_settings as $setting_key => $val){
-				if( empty($val) || $val == '')
-					unset( $settings[$mode][$uniqueID][$setting_key] );
+				if( $val === '' && $val !== 0 )
+					unset( $settings[ $mode ][ $uniqueID ][ $setting_key ] );
 			}
 		}
 		
