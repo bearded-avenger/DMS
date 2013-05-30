@@ -14,6 +14,11 @@ function plIsset(variable){
 		return false
 }
 
+function plPrint(variable){
+	if(jQuery.pl.config.devMode == 1	)
+		console.log( variable )
+}
+
 /* Data cleanup and handling
  * ============================================= */
 function pl_html_input( text ) {

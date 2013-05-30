@@ -215,7 +215,7 @@
 		$(window).resize(function() {
 			var fromTop = $('.pl-toolbox').position().top
 			, 	startHeight = obj.$panel.outerHeight()
-			, 	minHeight = 80
+			, 	minHeight = 120
 
 			if( fromTop < minHeight ){
 				var adjust = startHeight - (minHeight - fromTop)

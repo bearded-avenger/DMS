@@ -14,7 +14,6 @@ function pl_editor_actions(){
 	$pageID = $post['pageID'];
 	$typeID = $post['typeID'];
 
-echo 'stop';
 	if($mode == 'save'){
 
 		$draft = new EditorDraft;

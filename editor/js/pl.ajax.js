@@ -83,7 +83,7 @@
 					}
 				, 	success: function( response ){
 
-						//console.log(response)
+						plPrint(response)
 
 						that.runSuccess( theData, response )
 
