@@ -79,10 +79,10 @@ class PLSectionArea extends PageLinesSection {
 		
 		$section_output = render_nested_sections( $this->meta['content'] );
 		
+		$style = '';
+		
 		if( $section_output ){
-			
-			$style = "";
-			
+						
 			$padding = ($this->opt('pl_area_pad')) ? $this->opt('pl_area_pad') : '20px'; 
 			
 			$padding = ( strpos($padding, 'px') ) ? $padding : $padding.'px';
