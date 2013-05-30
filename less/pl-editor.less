@@ -1114,6 +1114,42 @@
 						padding-left: 16px;
 					}
 				}
+				.checklist-label{
+					background: #f5f5f5;
+					margin: 10px 0;
+					padding: 10px 15px;
+					line-height: 1.6em;
+					input[type="checkbox"]{
+						margin-top: 0;
+					}
+					p{
+						opacity: .6;
+						font-weight: normal;
+						margin: 0;
+					}
+					&.disabled{
+						opacity: .6;
+					}
+				}
+				.publish-button{
+					margin: 15px 0;
+				}
+				.fileinput-button {
+				  	position: relative;
+					overflow: hidden;
+					input {
+						position: absolute;
+						top: 0;
+						right: 0;
+						margin: 0;
+						opacity: 0;
+						filter: alpha(opacity=0);
+						transform: translate(-300px, 0) scale(4);
+						font-size: 23px;
+						direction: ltr;
+						cursor: pointer;
+					}
+				}
 				.opt-ref{
 					margin-bottom: 1em;
 					.help-block{

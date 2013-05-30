@@ -560,10 +560,16 @@
 				oHTML += sprintf('<textarea class="type-preview" id="preview-%s" style="">The quick brown fox jumps over the lazy dog.</textarea>', o.key)
 			}
 
+			else if( o.type == 'template' ){
+				oHTML += o.template
+			}
+
 			else if( o.type == 'help' ){
 
 			} else {
+				
 				oHTML += sprintf('<div class="needed">%s Type Still Needed</div>', o.type)
+			
 			}
 
 			// Add help block
@@ -623,6 +629,8 @@
 					var response = $.plAJAX.run( args )
 
 				}
+				
+				
 				if( theAction == 'opt_dump' ){
 
 					var confirmText = "<h3>Are you sure?</h3><p>This will dump all settings to <strong>theme-options.dat</strong></p>"
@@ -641,6 +649,37 @@
 					}
 
 			})
+			
+			$('.checklist-tool').on('click', function (e) {
+				e.preventDefault();
+				var action = $(this).data('action')
+				,	field = $(this).closest('fieldset')
+				
+				if(action == 'checkall'){
+					
+					field.find(':checkbox').prop('checked', true)
+					
+				} else if (action == 'uncheckall'){
+					
+					field.find(':checkbox').prop('checked', false)
+					
+				}
+				
+		    });
+		
+			$('#fileupload').fileupload({
+				url: ajaxurl
+				, dataType: 'json'
+				, formData: {
+					action: 'upload_config_file'
+					, mode: 'fileupload'
+					, run: 'upload_config'
+				}
+				, complete: function (response) {
+					console.log('success!')
+					console.log( $.parseJSON( response.responseText) )
+				}
+			});
 
 			// Color picker buttons
 			$('.trigger-color').on('click', function(){

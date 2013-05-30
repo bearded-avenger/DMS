@@ -43,6 +43,7 @@ class PageLinesEditor {
 
 		require_once( PL_EDITOR . '/editor.settings.config.php' );
 		require_once( PL_EDITOR . '/editor.typography.php' );
+		require_once( PL_EDITOR . '/editor.importexport.php' );
 		require_once( PL_EDITOR . '/editor.color.php' );
 		
 		require_once( PL_EDITOR . '/editor.templates.php' );
@@ -102,6 +103,7 @@ class PageLinesEditor {
 		// Must come before settings
 		$this->foundry = new PageLinesFoundry;
 		$this->typography = new EditorTypography( $this->foundry );
+		$this->importexport = new PLImportExport;
 		$this->color = new EditorColor;
 		$this->siteset = new EditorSettings;
 		$this->extensions = new EditorExtensions;

@@ -54,6 +54,8 @@ class EditorInterface {
 			// Forms handling
 			wp_enqueue_script( 'form-params', $this->url . '/js/form.params.js', array('jquery'), PL_CORE_VERSION, true );
 			wp_enqueue_script( 'form-store', $this->url . '/js/form.store.js', array('jquery'), PL_CORE_VERSION, true );
+			
+			wp_enqueue_script( 'form-fileupload', $this->url . '/js/utils.fileupload.js', array('jquery', 'jquery-ui-widget'), PL_CORE_VERSION, true );
 
 
 			// Bootbox Dialogs

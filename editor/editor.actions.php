@@ -14,6 +14,7 @@ function pl_editor_actions(){
 	$pageID = $post['pageID'];
 	$typeID = $post['typeID'];
 
+echo 'stop';
 	if($mode == 'save'){
 
 		$draft = new EditorDraft;
@@ -146,6 +147,8 @@ function pl_editor_actions(){
 			$fileOpts->dump();
 		}
 
+	} elseif ( $mode == 'fileupload' ){
+		$response['hello'] = 'we got here!';
 	}
 
 
@@ -156,6 +159,16 @@ function pl_editor_actions(){
 }
 
 
+add_action('wp_ajax_upload_config_file', 'pl_upload_config_file');
+function pl_upload_config_file(){
+	$response['post'] = $_POST;
+	$response['get'] = $_GET;
+	$response['files'] = $_FILES['files'];
+	
+	echo json_encode(  pl_arrays_to_objects( $response ) );
+
+	die();
+}
 
 add_action('wp_ajax_pl_editor_mode', 'pl_editor_mode');
 function pl_editor_mode(){

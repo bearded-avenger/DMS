@@ -36,6 +36,8 @@ class EditorSettings {
 			'pos'	=> 5,
 			'opts' 	=> $this->social()
 		);
+		
+	
 
 		$this->settings['advanced'] = array(
 			'name' 	=> 'Advanced',
