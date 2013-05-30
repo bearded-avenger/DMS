@@ -109,7 +109,7 @@ class EditorSettings {
 					'label'			=> '<i class="icon-retweet"></i> Manage Widgets',
 					'type' 			=> 	'link',
 					'classes'		=> 'btn-primary btn-block',
-					'url'			=> admin_url( 'nav-menus.php' ), 
+					'url'			=> admin_url( 'widgets.php' ), 
 					'title' 		=> 	__( 'Manage Widgetized Areas', 'pagelines' ),
 				),
 				
