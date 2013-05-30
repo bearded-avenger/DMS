@@ -636,11 +636,18 @@ class EditorTemplates {
 
 			$options = '<option value="">Select Template</option>';
 			
-			$set = pl_meta($postID, PL_SETTINGS);
+			$set = pl_meta($post->ID, PL_SETTINGS);
+
+			$current = ( is_array( $set ) && isset( $set['live']['page-template'] ) ) ? $set['live']['page-template'] : '';
 
 			foreach($this->get_user_templates() as $index => $t){
-				$sel = '';
 
+				$sel = '';
+				
+				$template = explode( ' ', $t['name'] );
+				
+				$sel = ( $current === strtolower( $template[0] ) ) ? 'selected' : '';
+				
 				$options .= sprintf('<option value="%s" %s>%s</option>', $index, $sel, $t['name']);
 			}
 
