@@ -2131,7 +2131,7 @@ class OverLoad_Theme extends Theme_Upgrader {
 	 		 *
 	 		 * @since 2.2.0
 	 		 */
-			public function before() {
+			public function before($title = '') {
 
 				/** We are currently in the plugin installation loop, so set to true */
 				$this->in_loop = true;
@@ -2153,7 +2153,7 @@ class OverLoad_Theme extends Theme_Upgrader {
 	 		 *
 	 		 * @since 2.2.0
 	 		 */
-			public function after() {
+			public function after($title = '') {
 
 				/** Close install strings */
 				echo '</p></div>';
