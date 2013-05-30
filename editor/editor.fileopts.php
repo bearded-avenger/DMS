@@ -72,7 +72,7 @@ class EditorFileOpts {
 	
 	function file_exists() {
 		
-		if( trailingslashit( $this->dir ) . $this->configfile )
+		if( is_file( trailingslashit( $this->dir ) . $this->configfile ) )
 			return true;
 			
 	}
