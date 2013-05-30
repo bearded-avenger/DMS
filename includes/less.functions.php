@@ -107,11 +107,10 @@ class PageLinesLess {
 
 	private function raw_parse( $pless, $type ) {
 
-		if( ! class_exists( 'lessc' ) )
-			require_once( PL_INCLUDES . '/less.plugin.php' );
+		require_once( PL_INCLUDES . '/less.plugin.php' );
 
 		if( ! $this->lparser )
-			$this->lparser = new lessc();
+			$this->lparser = new plessc();
 
 		$pless = $this->add_constants( '' ) . $this->add_bootstrap() . $pless;
 

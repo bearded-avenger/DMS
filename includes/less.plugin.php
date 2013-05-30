@@ -1,7 +1,7 @@
 <?php
 
 /**
- * lessphp v0.3.8
+ * lessphp v0.3.9
  * http://leafo.net/lessphp
  *
  * LESS css compiler, adapted from http://lesscss.org
@@ -37,8 +37,7 @@
  * The `lessc_formatter` takes a CSS tree, and dumps it to a formatted string,
  * handling things like indentation.
  */
-if( ! class_exists( 'lessc' ) ) {
-	class lessc {
+class plessc {
 	static public $VERSION = "v0.3.9";
 	static protected $TRUE = array("keyword", "true");
 	static protected $FALSE = array("keyword", "false");
@@ -112,7 +111,7 @@ if( ! class_exists( 'lessc' ) ) {
 
 		$this->addParsedFile($realPath);
 		$parser = $this->makeParser($realPath);
-		$root = $parser->parse( pl_file_get_contents( $realPath ) );
+		$root = $parser->parse(pl_file_get_contents($realPath));
 
 		// set the parents of all the block props
 		foreach ($root->props as $prop) {
@@ -634,6 +633,10 @@ if( ! class_exists( 'lessc' ) ) {
 			}
 
 			foreach ($mixins as $mixin) {
+				if ($mixin === $block && !$args) {
+					continue;
+				}
+
 				$haveScope = false;
 				if (isset($mixin->parent->scope)) {
 					$haveScope = true;
@@ -1014,19 +1017,24 @@ if( ! class_exists( 'lessc' ) ) {
 	}
 
 	// mixes two colors by weight
-	// mix(@color1, @color2, @weight);
+	// mix(@color1, @color2, [@weight: 50%]);
 	// http://sass-lang.com/docs/yardoc/Sass/Script/Functions.html#mix-instance_method
 	protected function lib_mix($args) {
-		if ($args[0] != "list" || count($args[2]) < 3)
+		if ($args[0] != "list" || count($args[2]) < 2)
 			$this->throwError("mix expects (color1, color2, weight)");
 
-		list($first, $second, $weight) = $args[2];
+		list($first, $second) = $args[2];
 		$first = $this->assertColor($first);
 		$second = $this->assertColor($second);
 
 		$first_a = $this->lib_alpha($first);
 		$second_a = $this->lib_alpha($second);
-		$weight = $weight[1] / 100.0;
+
+		if (isset($args[2][2])) {
+			$weight = $args[2][2][1] / 100.0;
+		} else {
+			$weight = 0.5;
+		}
 
 		$w = $weight * 2 - 1;
 		$a = $first_a - $second_a;
@@ -1620,7 +1628,7 @@ if( ! class_exists( 'lessc' ) ) {
 	// inject array of unparsed strings into environment as variables
 	protected function injectVariables($args) {
 		$this->pushEnv();
-		$parser = new lessc_parser($this, __METHOD__);
+		$parser = new plessc_parser($this, __METHOD__);
 		foreach ($args as $name => $strValue) {
 			if ($name{0} != '@') $name = '@'.$name;
 			$parser->count = 0;
@@ -1685,9 +1693,13 @@ if( ! class_exists( 'lessc' ) ) {
 		$this->allParsedFiles = array();
 		$this->addParsedFile($fname);
 
-		$out = $this->compile( pl_file_get_contents($fname), $fname );
+		$out = $this->compile(pl_file_get_contents($fname), $fname);
 
 		$this->importDir = $oldImport;
+
+		if ($outFname !== null) {
+			return true;
+		}
 
 		return $out;
 	}
@@ -1793,7 +1805,7 @@ if( ! class_exists( 'lessc' ) ) {
 	}
 
 	protected function makeParser($name) {
-		$parser = new lessc_parser($this, $name);
+		$parser = new plessc_parser($this, $name);
 		$parser->writeComments = $this->preserveComments;
 
 		return $parser;
@@ -1804,11 +1816,11 @@ if( ! class_exists( 'lessc' ) ) {
 	}
 
 	protected function newFormatter() {
-		$className = "lessc_formatter_lessjs";
+		$className = "plessc_formatter_lessjs";
 		if (!empty($this->formatterName)) {
 			if (!is_string($this->formatterName))
 				return $this->formatterName;
-			$className = "lessc_formatter_$this->formatterName";
+			$className = "plessc_formatter_$this->formatterName";
 		}
 
 		return new $className;
@@ -2027,13 +2039,11 @@ if( ! class_exists( 'lessc' ) ) {
 		'yellow' => '255,255,0',
 		'yellowgreen' => '154,205,50'
 	);
-	}
 }
 
 // responsible for taking a string of LESS code and converting it into a
 // syntax tree
-if( ! class_exists( 'lessc_parser' ) ) {
-class lessc_parser {
+class plessc_parser {
 	static protected $nextBlockId = 0; // used to uniquely identify blocks
 
 	static protected $precedence = array(
@@ -2064,7 +2074,7 @@ class lessc_parser {
 	static protected $supressDivisionProps =
 		array('/border-radius$/i', '/^font$/i');
 
-	protected $blockDirectives = array("font-face", "keyframes", "page", "-moz-document");
+	protected $blockDirectives = array("font-face", "keyframes", "page", "-moz-document", "viewport", "-moz-viewport", "-o-viewport", "-ms-viewport");
 	protected $lineDirectives = array("charset");
 
 	/**
@@ -2081,10 +2091,10 @@ class lessc_parser {
 	// caches preg escaped literals
 	static protected $literalCache = array();
 
-	public function __construct($lessc, $sourceName = null) {
+	public function __construct($plessc, $sourceName = null) {
 		$this->eatWhiteDefault = true;
 		// reference to less needed for vPrefix, mPrefix, and parentSelector
-		$this->lessc = $lessc;
+		$this->plessc = $plessc;
 
 		$this->sourceName = $sourceName; // name used for error messages
 
@@ -2092,12 +2102,12 @@ class lessc_parser {
 
 		if (!self::$operatorString) {
 			self::$operatorString =
-				'('.implode('|', array_map(array('lessc', 'preg_quote'),
+				'('.implode('|', array_map(array('plessc', 'preg_quote'),
 					array_keys(self::$precedence))).')';
 
-			$commentSingle = lessc::preg_quote(self::$commentSingle);
-			$commentMultiLeft = lessc::preg_quote(self::$commentMultiLeft);
-			$commentMultiRight = lessc::preg_quote(self::$commentMultiRight);
+			$commentSingle = plessc::preg_quote(self::$commentSingle);
+			$commentMultiLeft = plessc::preg_quote(self::$commentMultiLeft);
+			$commentMultiRight = plessc::preg_quote(self::$commentMultiRight);
 
 			self::$commentMulti = $commentMultiLeft.'.*?'.$commentMultiRight;
 			self::$whitePattern = '/'.$commentSingle.'[^\n]*\s*|('.self::$commentMulti.')\s*|\s+/Ais';
@@ -2277,7 +2287,7 @@ class lessc_parser {
 				$hidden = true;
 				if (!isset($block->args)) {
 					foreach ($block->tags as $tag) {
-						if (!is_string($tag) || $tag{0} != $this->lessc->mPrefix) {
+						if (!is_string($tag) || $tag{0} != $this->plessc->mPrefix) {
 							$hidden = false;
 							break;
 						}
@@ -2322,7 +2332,7 @@ class lessc_parser {
 	protected function isDirective($dirname, $directives) {
 		// TODO: cache pattern in parser
 		$pattern = implode("|",
-			array_map(array("lessc", "preg_quote"), $directives));
+			array_map(array("plessc", "preg_quote"), $directives));
 		$pattern = '/^(-[a-z-]+-)?(' . $pattern . ')$/i';
 
 		return preg_match($pattern, $dirname);
@@ -2331,8 +2341,8 @@ class lessc_parser {
 	protected function fixTags($tags) {
 		// move @ tags out of variable namespace
 		foreach ($tags as &$tag) {
-			if ($tag{0} == $this->lessc->vPrefix)
-				$tag[0] = $this->lessc->mPrefix;
+			if ($tag{0} == $this->plessc->vPrefix)
+				$tag[0] = $this->plessc->mPrefix;
 		}
 		return $tags;
 	}
@@ -2347,7 +2357,7 @@ class lessc_parser {
 
 		if (count($values) == 0) return false;
 
-		$exps = lessc::compressList($values, ' ');
+		$exps = plessc::compressList($values, ' ');
 		return true;
 	}
 
@@ -2445,7 +2455,7 @@ class lessc_parser {
 
 		if (count($values) == 0) return false;
 
-		$value = lessc::compressList($values, ', ');
+		$value = plessc::compressList($values, ', ');
 		return true;
 	}
 
@@ -2610,7 +2620,7 @@ class lessc_parser {
 		$this->eatWhiteDefault = false;
 
 		$stop = array("'", '"', "@{", $end);
-		$stop = array_map(array("lessc", "preg_quote"), $stop);
+		$stop = array_map(array("plessc", "preg_quote"), $stop);
 		// $stop[] = self::$commentMulti;
 
 		if (!is_null($rejectStrs)) {
@@ -2652,7 +2662,6 @@ class lessc_parser {
 			}
 
 			if (!empty($rejectStrs) && in_array($tok, $rejectStrs)) {
-				$ount = null;
 				break;
 			}
 
@@ -2687,7 +2696,7 @@ class lessc_parser {
 
 		// look for either ending delim , escape, or string interpolation
 		$patt = '([^\n]*?)(@\{|\\\\|' .
-			lessc::preg_quote($delim).')';
+			plessc::preg_quote($delim).')';
 
 		$oldWhite = $this->eatWhiteDefault;
 		$this->eatWhiteDefault = false;
@@ -2888,7 +2897,7 @@ class lessc_parser {
 			if ($this->whitespace()) $value .= " ";
 
 			// escape parent selector, (yuck)
-			$value = str_replace($this->lessc->parentSelector, "$&$", $value);
+			$value = str_replace($this->plessc->parentSelector, "$&$", $value);
 			return true;
 		}
 
@@ -3023,13 +3032,13 @@ class lessc_parser {
 	// consume a less variable
 	protected function variable(&$name) {
 		$s = $this->seek();
-		if ($this->literal($this->lessc->vPrefix, false) &&
+		if ($this->literal($this->plessc->vPrefix, false) &&
 			($this->variable($sub) || $this->keyword($name)))
 		{
 			if (!empty($sub)) {
 				$name = array('variable', $sub);
 			} else {
-				$name = $this->lessc->vPrefix.$name;
+				$name = $this->plessc->vPrefix.$name;
 			}
 			return true;
 		}
@@ -3061,7 +3070,7 @@ class lessc_parser {
 	protected function end() {
 		if ($this->literal(';')) {
 			return true;
-		} elseif ($this->count == strlen($this->buffer) || $this->buffer{$this->count} == '}') {
+		} elseif ($this->count == strlen($this->buffer) || $this->buffer[$this->count] == '}') {
 			// if there is end of file or a closing block next then we don't need a ;
 			return true;
 		}
@@ -3144,7 +3153,7 @@ class lessc_parser {
 		}
 
 		if (!isset(self::$literalCache[$what])) {
-			self::$literalCache[$what] = lessc::preg_quote($what);
+			self::$literalCache[$what] = plessc::preg_quote($what);
 		}
 
 		return $this->match(self::$literalCache[$what], $m, $eatWhitespace);
@@ -3184,7 +3193,7 @@ class lessc_parser {
 		} else {
 			$validChars = $allowNewline ? "." : "[^\n]";
 		}
-		if (!$this->match('('.$validChars.'*?)'.lessc::preg_quote($what), $m, !$until)) return false;
+		if (!$this->match('('.$validChars.'*?)'.plessc::preg_quote($what), $m, !$until)) return false;
 		if ($until) $this->count -= strlen($what); // give back $what
 		$out = $m[1];
 		return true;
@@ -3353,9 +3362,8 @@ class lessc_parser {
 	}
 
 }
-}
-if ( ! class_exists( 'lessc_formatter_classic' ) ) {
-class lessc_formatter_classic {
+
+class plessc_formatter_classic {
 	public $indentChar = "  ";
 
 	public $break = "\n";
@@ -3449,9 +3457,8 @@ class lessc_formatter_classic {
 		}
 	}
 }
-}
-if( ! class_exists( 'lessc_formatter_compressed' ) ) {
-	class lessc_formatter_compressed extends lessc_formatter_classic {
+
+class plessc_formatter_compressed extends plessc_formatter_classic {
 		public $disableSingle = true;
 		public $open = "{";
 		public $selectorSeparator = ",";
@@ -3461,14 +3468,11 @@ if( ! class_exists( 'lessc_formatter_compressed' ) ) {
 		public function indentStr($n = 0) {
 			return "";
 		}
-	}
 }
 
-if( ! class_exists( 'lessc_formatter_lessjs' ) ) {
-	class lessc_formatter_lessjs extends lessc_formatter_classic {
+class plessc_formatter_lessjs extends plessc_formatter_classic {
 		public $disableSingle = true;
 		public $breakSelectors = true;
 		public $assignSeparator = ": ";
 		public $selectorSeparator = ",";
 	}
-}
