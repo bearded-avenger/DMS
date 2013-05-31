@@ -535,7 +535,7 @@ class PageLinesFoundry {
 
 			$this->gfont_uri = $this->gfont_base_uri . $this->gfont_key;
 
-			if( 'import' == type )
+			if( 'import' == $type )
 				$this->gfont_import = sprintf('@import url(%s);%s', $this->gfont_uri, "\n");
 			else
 				return $this->gfont_uri;
