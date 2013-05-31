@@ -18,16 +18,31 @@ class PLSectionArea extends PageLinesSection {
 
 		$options[] = array(
 
-			'key'			=> 'pl_area_pad',
-			'type' 			=> 'count_select_same',
-			'count_start'	=> 0,
-			'count_number'	=> 200,
-			'suffix'		=> 'px',
-			'default'		=> 0,
-			'label' 	=> __( 'Area Padding (px)', 'pagelines' ),
+			'key'			=> 'pl_area_pad_selects',
+			'type' 			=> 'multi',
+			'label' 	=> __( 'Set Area Padding', 'pagelines' ),
+			'opts'	=> array(
+				array(
+					'key'			=> 'pl_area_pad',
+					'type' 			=> 'count_select_same',
+					'count_start'	=> 0,
+					'count_number'	=> 200,
+					'suffix'		=> 'px',
+					'label' 	=> __( 'Area Padding (px)', 'pagelines' ),
+				),
+				array(
+					'key'			=> 'pl_area_pad_bottom',
+					'type' 			=> 'count_select_same',
+					'count_start'	=> 0,
+					'count_number'	=> 200,
+					'suffix'		=> 'px',
+					'label' 	=> __( 'Area Padding Bottom (if different)', 'pagelines' ),
+				)
+			),
+			
 
 		);
-		
+
 		$options[] = array(
 
 			'key'			=> 'pl_area_bg',
@@ -87,8 +102,9 @@ class PLSectionArea extends PageLinesSection {
 			
 			$padding = ( strpos($padding, 'px') ) ? $padding : $padding.'px';
 			
-			$style .= sprintf('padding-top: %1$s; padding-bottom: %1$s;', $padding);
+			$padding_bottom = ($this->opt('pl_area_pad_bottom')) ? $this->opt('pl_area_pad_bottom') : $padding; 
 			
+			$style .= sprintf('padding-top: %s; padding-bottom: %s;', $padding, $padding_bottom);
 			
 			
 			if($this->opt('pl_area_image'))
