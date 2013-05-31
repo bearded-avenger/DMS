@@ -11,11 +11,12 @@ class PageLinesCoreExtensions {
 	function draw(){
 
 		$dash = new PageLinesDashboard;
+		$rss = new PageLines_RSS;
 
 		// PageLines Plus
 		$args = array(
 			'title'			=> __( 'Available Plus Extensions', 'pagelines' ),
-			'data'			=> PageLines_RSS::get_dash_rss( array( 'feed' => 'http://api.pagelines.com/rss/plus.php', 'items' => 50 ) ),
+			'data'			=> $rss->get_dash_rss( array( 'feed' => 'http://api.pagelines.com/rss/plus.php', 'items' => 50 ) ),
 			'icon'			=> PL_ADMIN_ICONS . '/plusbtn.png',
 			'excerpt-trim'	=> false,
 			'format'		=> 'plus-extensions'

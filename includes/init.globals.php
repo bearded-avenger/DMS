@@ -27,6 +27,9 @@ define('PL_PARENT_URL', get_template_directory_uri());
 define('PL_CHILD_URL', get_stylesheet_directory_uri());
 define('PL_CHILD_IMAGES', PL_CHILD_URL . '/images' );
 
+if( ! defined( 'PL_LESS_DEV' ) )
+	define( 'PL_LESS_DEV', false );
+
 /**
  * Define Settings Constants for option DB storage
  */

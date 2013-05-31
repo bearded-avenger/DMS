@@ -11,7 +11,7 @@ class PageLinesDashboard {
 		// Updates Dashboard
 
 		$dashboards = '';
-
+		$rss = new PageLines_RSS;
 		$updates = $this->get_updates();
 
 		$args = array(
@@ -28,7 +28,7 @@ class PageLinesDashboard {
 
 		$args = array(
 			'title'		=> __( 'News from the PageLines Blog', 'pagelines' ),
-			'data'		=> PageLines_RSS::get_dash_rss( array( 'feed' => 'http://www.pagelines.com/feed/' ) ),
+			'data'		=> $rss->get_dash_rss( array( 'feed' => 'http://www.pagelines.com/feed/' ) ),
 			'classes'	=> 'news-dash pl-dash-half pl-dash-space',
 			'icon'		=> PL_ADMIN_ICONS . '/welcome.png',
 			'footer'	=> sprintf('Visit <a href="%s">PageLines Blog</a>', 'http://www.pagelines.com/blog')
@@ -39,7 +39,7 @@ class PageLinesDashboard {
 		// Latest from the Community
 		$args = array(
 			'title'	=> __( 'From the Community', 'pagelines' ),
-			'data'	=> PageLines_RSS::get_dash_rss( array( 'feed' => 'http://www.pagelines.com/type/link/feed/', 'community' => true ) ),
+			'data'	=> $rss->get_dash_rss( array( 'feed' => 'http://www.pagelines.com/type/link/feed/', 'community' => true ) ),
 			'classes'	=> 'news-dash pl-dash-half',
 			'icon'	=> PL_ADMIN_ICONS . '/users.png',
 			'footer' => sprintf('<a href="%s">Submit</a> a community article', 'mailto:hello@pagelines.com')
@@ -51,7 +51,7 @@ class PageLinesDashboard {
 
 		$args = array(
 			'title'		=> __( 'Updates on PageLines Store', 'pagelines' ),
-			'data'		=> PageLines_RSS::get_dash_rss(),
+			'data'		=> $rss->get_dash_rss(),
 			'classes'	=> 'news-dash pl-dash-half pl-dash-space',
 			'icon'		=> PL_ADMIN_ICONS . '/store.png',
 			'footer' 	=> sprintf('Visit <a href="%s">PageLines Store</a>', 'http://www.pagelines.com/store/')
@@ -62,7 +62,7 @@ class PageLinesDashboard {
 		// PageLines Plus
 		$args = array(
 			'title'		=> __( 'Latest Extensions', 'pagelines' ),
-			'data'		=> PageLines_RSS::get_dash_rss( array( 'feed' => 'http://api.pagelines.com/rss/plus.php' ) ),
+			'data'		=> $rss->get_dash_rss( array( 'feed' => 'http://api.pagelines.com/rss/plus.php' ) ),
 			'classes'	=> 'news-dash pl-dash-half',
 			'icon'		=> PL_ADMIN_ICONS . '/plusbtn.png',
 			'footer' 	=> sprintf('Visit <a href="%s">Plus Overview</a>', 'http://www.pagelines.com/plus/')
