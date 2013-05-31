@@ -145,10 +145,19 @@ class EditorSettings {
 					'classes'		=> 'btn-primary btn-block',
 					'url'			=> admin_url( 'options-permalink.php' ), 
 					'title' 		=> 	__( 'Manage Permalinks', 'pagelines' ),
-				),
-
-
+				)
 			);
+
+			if( pl_setting( 'enable_debug' ) ) {
+				$settings[] = array(
+						'key'			=> 'debug_info',
+						'label'			=> '<i class="icon-ambulance"></i> View Debug Info',
+						'type' 			=> 	'link',
+						'classes'		=> 'btn-important btn-block',
+						'url'			=> site_url( '?pldebug=1' ), 
+						'title' 		=> 	__( 'Debug Enabled', 'pagelines' ),
+				);
+			}
 
 			return $settings;
 		
@@ -258,6 +267,15 @@ class EditorSettings {
 					'label'		=> __( 'Install Class', 'pagelines' ),
 					'title'		=> __( 'Current Install Class', 'pagelines' ),
 					'help'		=> __( "Use this option to add a class to the &gt;body&lt; element of the website. This can be useful when using the same child theme on several installations or sub domains and can be used to control CSS customizations.", 'pagelines' )
+			),
+			array(
+					'key'		=> 'enable_debug',
+					'type'		=> 'check',
+					'label'		=> __( 'Enable debug?', 'pagelines' ),
+					'title'		=> __( 'PageLines debug', 'pagelines' ),
+					'help'		=> sprintf( __( 'This information can be useful in the forums if you have a problem. %s', 'pagelines' ),
+								   sprintf( '%s', ( pl_setting( 'enable_debug' ) ) ?
+								   sprintf( '<br /><a href="%s">Click here</a> for your debug info.', site_url( '?pldebug=1' ) ) : '' ) )								  
 			)
 		);
 		return $settings;

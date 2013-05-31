@@ -511,7 +511,7 @@ class PageLinesFoundry {
 	 * Creates the import URL for google fonts
 	 *
 	 */
-	function google_import( $gfonts ) {
+	function google_import( $gfonts, $type = 'import' ) {
 		$family = array();
 		if( is_array($gfonts) && !empty($gfonts) ){
 
@@ -535,8 +535,10 @@ class PageLinesFoundry {
 
 			$this->gfont_uri = $this->gfont_base_uri . $this->gfont_key;
 
-			$this->gfont_import = sprintf('@import url(%s);%s', $this->gfont_uri, "\n");
-
+			if( 'import' == type )
+				$this->gfont_import = sprintf('@import url(%s);%s', $this->gfont_uri, "\n");
+			else
+				return $this->gfont_uri;
 			return $this->gfont_import;
 
 		} else

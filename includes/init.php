@@ -257,7 +257,7 @@ require_once( PL_INCLUDES . '/class.render.css.php' );
  */
 require_once (PL_INCLUDES.'/actions.site.php');
 
-if ( ploption( 'enable_debug' ) )
+if ( pl_setting( 'enable_debug' ) )
 	require_once ( PL_ADMIN . '/class.debug.php');
 
 

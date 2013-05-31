@@ -12,7 +12,7 @@ class EditorTypography{
 
  		add_filter('pl_settings_array', array(&$this, 'add_settings'));
 		add_filter('pless_vars', array(&$this, 'add_less_vars'));
-		add_action('wp_head', array(&$this, 'add_google_imports'));
+		add_action('wp_print_styles', array(&$this, 'add_google_imports'));
 	}
 
 	function add_less_vars( $vars ){
@@ -36,9 +36,8 @@ class EditorTypography{
 
 	function add_google_imports(){
 
-		$import = $this->foundry->google_import( $this->import_fonts );
-
-		printf('<style id="master_font_import" type="text/css">%2$s%1$s</style>%2$s', $import, "\n");
+		$gcss = $this->foundry->google_import( $this->import_fonts, 'link' );
+		printf( "<link rel='stylesheet' id='master_font_import' type='text/css' href='%s' media='screen'>\n", $gcss );
 	}
 
 	function add_settings( $settings ){
