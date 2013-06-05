@@ -225,9 +225,15 @@
 		}
 	}
 
-
-
-
+	&.display-boxed .pl-area .pl-area-controls{
+		opacity: .5;
+		margin-left: -70px;
+	
+		&:hover{
+			opacity: 1;
+			margin-left: -70px;
+		}
+	}
 
 	.pl-section{
 		.box-sizing(border-box);
@@ -237,7 +243,7 @@
 		&.ui-sortable-helper {
 
 			cursor: move;
-			background: fadeout(@baseContrast, 50%);
+			background: fadeout(@baseContrast, 60%);
 			> .pl-section-controls{
 				display: block;
 			}

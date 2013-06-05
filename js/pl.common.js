@@ -9,15 +9,58 @@
 	
 		$.plAnimate.initAnimation()
 		
-		
+		$.plNavigation.init()
 		
 	})
+	
 	$(window).load(function() {
 		$.plCommon.plVerticalCenter('.pl-centerer', '.pl-centered')
 		$('.pl-section').on('resize', function(){
 			$.plCommon.plVerticalCenter('.pl-centerer', '.pl-centered')
 		})
 	})
+	
+	$.plNavigation = {
+		init: function(){
+			
+			var that = this
+			
+			that.initDrops()
+		}
+		, initDrops: function(){
+			
+			var a = 1
+			
+			$(".pl-dropdown > li > ul").each(function(){
+
+				var b = ""
+
+				$(this).addClass("dropdown-menu");
+
+				if( $(this).siblings("a").children("i").length===0 ){
+					b = ' <i class="icon-caret-down"></i>'
+				}
+
+				$(this).siblings("a")
+					.addClass("dropdown-toggle")
+					.attr( "href", "#m" + a )
+					.attr("data-toggle","dropdown")
+					.append(b)
+					.parent()
+					.attr( "id", "m" + a++ )
+					.addClass("dropdown")
+
+				$(this)
+					.find('.sub-menu')
+					.addClass("dropdown-menu")
+					.parent()
+					.addClass('dropdown-submenu')
+			})
+
+			$(".dropdown-toggle").dropdown()
+
+		}
+	}
 	
 	$.plMobilizer = {
 		
