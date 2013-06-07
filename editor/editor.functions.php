@@ -127,6 +127,12 @@ function pl_new_clone_id(){
 }
 
 
+function pl_create_int_from_string( $str ){
+	
+	return (int) substr( preg_replace("/[^0-9,.]/", "", md5( $str )), -6);
+}
+
+
 /*
  * Lets document utility functions
  */

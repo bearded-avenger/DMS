@@ -37,21 +37,30 @@ class PageLinesTemplates {
 				
 		} elseif( $region == 'template' ){
 			
+			// global $post;
+			// plprint(get_post_type_object( get_post_type( $post->ID ) ));
 			
-			$set = $this->set->local; 
+			$map = false;
 			
-			$tpl = ( isset($set['page-template']) ) ? $set['page-template'] : false;
-			
-			if( (!$tpl || $tpl == 'custom') && isset( $set['custom-map'] ) && is_array( $set['custom-map'] ) ){
+			if(is_page()){
 				
-				$map = $set['custom-map'];
+				$set = $this->set->local; 
+
+				$tpl = ( isset($set['page-template']) ) ? $set['page-template'] : false;
+
+				if( (!$tpl || $tpl == 'custom') && isset( $set['custom-map'] ) && is_array( $set['custom-map'] ) ){
+
+					$map = $set['custom-map'];
+
+				} elseif( $tpl ){
+
+					$map = $this->get_map_from_template_key( $tpl ); 
+
+				}
 				
-			} elseif( $tpl ){
-				
-				$map = $this->get_map_from_template_key( $tpl ); 
+			}
 			
-			} else 
-				$map = false;
+				
 					
 							
 			if( !$map && isset( $this->set->type['page-template']) )
@@ -163,7 +172,7 @@ class PageLinesTemplates {
 		
 	}
 
-	function save_map_draft( $pageID, $map ){
+	function save_map_draft( $pageID, $typeID, $map ){
 
 		if(!$map)
 			return; 

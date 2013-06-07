@@ -9,7 +9,6 @@
 class PageLinesPage {
 
 	var $special_base = 70000000;
-	var $opt_special_lookup = 'pl-special-lookup';
 	var $opt_type_info = 'pl-type-info';
 
 	function __construct( $args = array() ) {
@@ -90,37 +89,22 @@ class PageLinesPage {
 
 	function special_index_lookup(){
 
-		$lookup_array = pl_opt( $this->opt_special_lookup );
-
-		if( !$lookup_array ){
-
-			$lookup_array = array(
-				'blog',
-				'category',
-				'search',
-				'tag',
-				'author',
-				'archive',
-				'page',
-				'post',
-				'404_page'
-			);
-
-			pl_opt_update( $this->opt_special_lookup, $lookup_array );
-		}
-
+		$lookup_array = array(
+			'blog',
+			'category',
+			'search',
+			'tag',
+			'author',
+			'archive',
+			'page',
+			'post',
+			'404_page'
+		);
+		
 		$index = array_search( $this->type(), $lookup_array );
-
-
-		if( !$index ){
-
-			$lookup_array[]  = $this->type();
-
-			$index = array_search( $this->type(), $lookup_array );
-
-			pl_opt_update( $this->opt_special_lookup, array_unique( $lookup_array ) );
-
-		}
+		
+		if( !$index )
+			$index = pl_create_int_from_string( $this->type() ); 
 
 		return $index;
 

@@ -25,7 +25,7 @@ function pl_editor_actions(){
 			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
 
 			if(isset($post['map']))
-				$response['changes'] = $map->save_map_draft( $pageID, $post['map'] );
+				$response['changes'] = $map->save_map_draft( $pageID, $typeID, $post['map'] );
 
 		}
 

@@ -260,7 +260,7 @@ class PageLinesTemplateHandler {
 		// This sets a map for the page, if it isn't set with new clone IDs the options wont
 		// work until a user action causes the map to be saved, non-ideal
 		if( $clone_was_set )
-			$this->map_handler->save_map_draft( $this->page->id, $this->map ); 
+			$this->map_handler->save_map_draft( $this->page->id, $this->page->typeid, $this->map ); 
 		
 
 		// add passive sections (not in drag drop but added through options/hooks)
