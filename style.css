@@ -48,5 +48,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 *  http://www.gnu.org/licenses/gpl-2.0.html
 *
 ********************************************************************************************************************************/
-
-
+/******************************************
+*     Required classes for .org repo.     *
+*                                         *
+* .wp-caption .wp-caption-text            *
+* .sticky .gallery-caption .bypostauthor  *
+* .alignright .alignleft .aligncenter     *
+******************************************/
