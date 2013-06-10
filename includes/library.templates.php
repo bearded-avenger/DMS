@@ -38,11 +38,9 @@ function pagelines_special_content_wrap_top(){
 			
 		} else {
 			
-		
-		
-		add_action('pagelines_after_sidebar_wrap', 'pagelines_special_content_wrap_finish_after_sidebar');
-		add_action('pagelines_before_sidebar_wrap', 'pagelines_special_content_wrap_finish_before_sidebar');
-		add_action('pagelines_start_footer', 'pagelines_special_content_wrap_finish_after_content');
+			add_action('pagelines_after_sidebar_wrap', 'pagelines_special_content_wrap_finish_after_sidebar');
+			add_action('pagelines_before_sidebar_wrap', 'pagelines_special_content_wrap_finish_before_sidebar');
+			add_action('pagelines_start_footer', 'pagelines_special_content_wrap_finish_after_content');
 	?>
 		<section id="content" class="container fix">
 				<div class="content">

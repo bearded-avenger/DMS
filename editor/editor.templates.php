@@ -42,26 +42,24 @@ class PageLinesTemplates {
 			
 			$map = false;
 			
-			if(is_page()){
-				
+			if(is_page())
 				$set = $this->set->local; 
+			else 
+				$set = $this->set->type;
+	
+			
+			$tpl = ( isset($set['page-template']) ) ? $set['page-template'] : false;
 
-				$tpl = ( isset($set['page-template']) ) ? $set['page-template'] : false;
+			if( (!$tpl || $tpl == 'custom') && isset( $set['custom-map'] ) && is_array( $set['custom-map'] ) ){
 
-				if( (!$tpl || $tpl == 'custom') && isset( $set['custom-map'] ) && is_array( $set['custom-map'] ) ){
+				$map = $set['custom-map'];
 
-					$map = $set['custom-map'];
+			} elseif( $tpl ){
 
-				} elseif( $tpl ){
+				$map = $this->get_map_from_template_key( $tpl ); 
 
-					$map = $this->get_map_from_template_key( $tpl ); 
-
-				}
-				
 			}
 			
-				
-					
 							
 			if( !$map && isset( $this->set->type['page-template']) )
 				$map = $this->get_map_from_template_key( $this->set->type['page-template'] ); 
@@ -172,34 +170,37 @@ class PageLinesTemplates {
 		
 	}
 
-	function save_map_draft( $pageID, $typeID, $map ){
+	function save_map_draft( $pageID, $typeID, $map, $mode){
 
 		if(!$map)
 			return; 
 			
-		// global
-		$global_settings = pl_opt( PL_SETTINGS, pl_settings_default(), true );
+		// GLOBAL //
+			$global_settings = pl_opt( PL_SETTINGS, pl_settings_default(), true );
 
-		$global_settings['draft']['regions'] = array(
-			'header' => $map['header'],
-			'footer' => $map['footer']
-		);
+			$global_settings['draft']['regions'] = array(
+				'header' => $map['header'],
+				'footer' => $map['footer']
+			);
 
-		pl_opt_update( PL_SETTINGS, $global_settings );
+			pl_opt_update( PL_SETTINGS, $global_settings );
 
-		$local_settings = pl_meta( $pageID, PL_SETTINGS, pl_settings_default());
+		// LOCAL OR TYPE //	
+			$updateID = ($mode == 'local') ? $pageID : $typeID;
 		
-		$new_settings = $local_settings;
+			$template_settings = pl_meta( $updateID, PL_SETTINGS, pl_settings_default());
 		
-		$new_settings['draft']['custom-map'] = array(
-			'template' => $map['template']
-		);
+			$new_settings = $template_settings;
+		
+			$new_settings['draft']['custom-map'] = array(
+				'template' => $map['template']
+			);
 
-		if($new_settings != $local_settings){
+		if($new_settings != $template_settings){
 			
 			$new_settings['draft']['page-template'] = 'custom'; 
 			
-			pl_meta_update( $pageID, PL_SETTINGS, $new_settings );
+			pl_meta_update( $updateID, PL_SETTINGS, $new_settings );
 			
 			$local = 1;
 		

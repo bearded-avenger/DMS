@@ -24,8 +24,14 @@ function pl_editor_actions(){
 			
 			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
 
-			if(isset($post['map']))
-				$response['changes'] = $map->save_map_draft( $pageID, $typeID, $post['map'] );
+			if(isset($post['map'])){
+				
+				$template_mode = (isset($post['templateMode'])) ? $post['templateMode'] : 'type';
+				
+				$response['changes'] = $map->save_map_draft( $pageID, $typeID, $post['map'], $template_mode );
+				
+			}
+			
 
 		}
 

@@ -102,6 +102,7 @@ class PageLinesTemplateHandler {
 						, currentURL: '<?php echo $this->current_url();?>'
 						, nonce: '<?php echo wp_create_nonce( "tgmpa-install" ); ?>'
 						, pageTemplate: '<?php echo $this->page->template; ?>'
+						, templateMode: '<?php echo $this->get_template_mode(); ?>'
 						, pageID: '<?php echo $this->page->id; ?>'
 						, typeID: '<?php echo $this->page->typeid; ?>'
 						, pageTypeID: '<?php echo $this->page->type; ?>'
@@ -133,6 +134,16 @@ class PageLinesTemplateHandler {
 
 	}
 	
+	
+	function get_template_mode(){
+		
+		if(is_page()){
+			return 'local';
+		} else {
+			return 'type';
+		}
+		
+	}
 	
 	function get_dev_mode(){
 		return ( defined( 'PL_LESS_DEV' ) && PL_LESS_DEV ) ? 'true' : 'false';
