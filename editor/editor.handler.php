@@ -50,7 +50,8 @@ class PageLinesTemplateHandler {
 		$this->extensions = $extensions;
 		$this->map_handler = $map;
 		
-		//plprint($this->optset);
+		$this->regions = new PageLinesRegions;
+		
 
 		$this->map = $this->map_handler->get_map( $this->page );
 
@@ -609,7 +610,7 @@ class PageLinesTemplateHandler {
 			return;
 
 		if(pl_draft_mode())
-			$this->editor->region_start( $region, $this->area_number++ );
+			$this->regions->region_start( $region );
 
 
 		if( is_array( $this->map[ $region ] ) ){

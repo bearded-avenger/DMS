@@ -29,6 +29,17 @@ function do_special_content_wrap(){
 function pagelines_special_content_wrap_top(){
 
 	if(do_special_content_wrap()):
+		
+		if(pl_has_editor()){
+			
+			$integration = new PageLinesIntegrationHandler;
+			
+			$integration->start_new_integration();
+			
+		} else {
+			
+		
+		
 		add_action('pagelines_after_sidebar_wrap', 'pagelines_special_content_wrap_finish_after_sidebar');
 		add_action('pagelines_before_sidebar_wrap', 'pagelines_special_content_wrap_finish_before_sidebar');
 		add_action('pagelines_start_footer', 'pagelines_special_content_wrap_finish_after_content');
@@ -41,7 +52,9 @@ function pagelines_special_content_wrap_top(){
 							<div id="column-wrap" class="fix">
 								<div id="column-main" class="mcolumn fix">
 									<div class="mcolumn-pad">
-	<?php endif;
+	<?php 
+		}
+	endif;
 
 
 }

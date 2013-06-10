@@ -63,6 +63,8 @@ class PageLinesEditor {
 
 		require_once( PL_EDITOR . '/editor.extensions.php' );
 		require_once( PL_EDITOR . '/editor.interface.php' );
+		require_once( PL_EDITOR . '/editor.integrations.php' );
+		require_once( PL_EDITOR . '/editor.regions.php' );
 		require_once( PL_EDITOR . '/editor.areas.php' );
 		require_once( PL_EDITOR . '/editor.page.php' );
 		require_once( PL_EDITOR . '/editor.handler.php' );

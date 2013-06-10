@@ -109,33 +109,6 @@ class EditorInterface {
 	}
 
 
-
-	function region_start( $region, $area_number ){
-
-		$region_name = strtoupper($region);
-
-		if($region == 'header' || $region == 'footer'){
-
-			$region_title = sprintf(__('Global Scope Region', 'pagelines'), $region_name);
-
-			$region_name .= ' <i class="icon-globe"></i>';
-		} else {
-			$region_title = sprintf(__('Local Scope Region', 'pagelines'), $region_name);
-
-			$region_name .= ' <i class="icon-map-marker"></i>';
-		}
-
-		printf(
-			'<div class="pl-region-bar area-tag" data-area-number="%s"><a class="btn-region" title="%s">%s</a></div>',
-			$area_number,
-			$region_title,
-			$region_name
-		);
-
-	}
-
-
-
 	function toolbar_config(){
 
 		// actions show up in a dropup
@@ -194,14 +167,6 @@ class EditorInterface {
 	  return $a["pos"] - $b["pos"];
 
 	}
-
-
-
-
-
-
-
-
 
 	function pagelines_editor_activate(){
 		global $wp;

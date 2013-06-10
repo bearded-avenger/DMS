@@ -1,9 +1,9 @@
 <?php
 /*
-	Section: PostLoop
+	Section: Content/PostLoop
 	Author: PageLines
 	Author URI: http://www.pagelines.com
-	Description: The Main Posts Loop. Includes content and post information.
+	Description: The Main Content area (Post Loop in WP speak). Includes content and post information.
 	Class Name: PageLinesPostLoop
 	Workswith: main
 	Failswith: 404_page
@@ -217,9 +217,21 @@ class PageLinesPostLoop extends PageLinesSection {
 	* Section template.
 	*/
    function section_template() {
-		//Included in theme root for easy editing.
-		$theposts = new PageLinesPosts( $this );
-		$theposts->load_loop();
+	
+		global $pagelines_render;
+		
+		if(do_special_content_wrap()){
+			 global $integration_out;
+			echo $integration_out;
+			
+		} else {	
+		
+			//Included in theme root for easy editing.
+			$theposts = new PageLinesPosts( $this );
+			$theposts->load_loop();
+			
+		}
+	
 	}
 
 }
