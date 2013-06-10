@@ -387,8 +387,6 @@
 						, uniqueID: section.data('clone')
 						, scope: scope
 					}
-				
-				
 					
 
 				if(btn.hasClass('section-edit')){

@@ -406,7 +406,7 @@ class EditorInterface {
 						call_user_func($t['call']);
 						$content = ob_get_clean();
 					} else {
-						$content = sprintf('<div class="error-panel"><i class="icon-refresh icon-spin"></i> Loading Panel</div>', rand());
+						$content = sprintf('<div class="error-panel"><i class="icon-refresh icon-spin"></i> Panel Error</div>', rand());
 					}
 
 					$clip = ( isset($t['clip']) ) ? sprintf('<span class="clip-desc">%s</span>', $t['clip']) : '';

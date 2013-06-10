@@ -257,12 +257,7 @@ class EditorTemplates {
 			'icon'	=> 'icon-map-marker',
 			'pos'	=> 30,
 			'panel'	=> array(
-				'heading'	=> "Configuration",
-				'pg_config'	=> array(
-					'name'	=> $this->page->type_name.' Config',
-					'call'	=> array(&$this, 'user_templates'),
-					'icon'	=> 'icon-copy',
-				),
+				
 				'heading2'	=> "Page Templates",
 				'tmp_load'	=> array(
 					'name'	=> 'Your Templates',
@@ -275,11 +270,22 @@ class EditorTemplates {
 					'call'	=> array(&$this, 'save_templates'),
 					'icon'	=> 'icon-paste'
 				),
+				'heading'	=> "Configuration",
+				'pg_config'	=> array(
+					'name'	=> sprintf('"%s" Setup', $this->page->type_name),
+					'call'	=> array(&$this, 'post_type_config'),
+					'icon'	=> 'icon-cog',
+				),
 			)
 
 		);
 
 		return $toolbar;
+	}
+
+	function post_type_config(){
+		echo 'working on this still';
+		
 	}
 
 	function user_templates(){
