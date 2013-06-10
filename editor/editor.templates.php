@@ -250,12 +250,20 @@ class EditorTemplates {
 	}
 
 	function toolbar( $toolbar ){
+		
+		
 		$toolbar['page-setup'] = array(
-			'name'	=> 'Templates',
-			'icon'	=> 'icon-paste',
+			'name'	=> 'Page Options',
+			'icon'	=> 'icon-map-marker',
 			'pos'	=> 30,
 			'panel'	=> array(
-				'heading'	=> "Page Templates",
+				'heading'	=> "Configuration",
+				'pg_config'	=> array(
+					'name'	=> $this->page->type_name.' Config',
+					'call'	=> array(&$this, 'user_templates'),
+					'icon'	=> 'icon-copy',
+				),
+				'heading2'	=> "Page Templates",
 				'tmp_load'	=> array(
 					'name'	=> 'Your Templates',
 					'call'	=> array(&$this, 'user_templates'),
@@ -267,11 +275,6 @@ class EditorTemplates {
 					'call'	=> array(&$this, 'save_templates'),
 					'icon'	=> 'icon-paste'
 				),
-				'tmp_build' => array(
-					'name'	=> 'Export Templates',
-					'call'	=> array(&$this, 'save_templates'),
-					'icon'	=> 'icon-download'
-				)
 			)
 
 		);

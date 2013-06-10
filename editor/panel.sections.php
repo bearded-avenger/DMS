@@ -18,7 +18,7 @@ class PageLinesSectionsPanel{
 
 	function toolbar( $toolbar ){
 		$toolbar['add-new'] = array(
-			'name'	=> 'Sections',
+			'name'	=> 'Add Sections',
 			'icon'	=> 'icon-random',
 			'pos'	=> 20,
 			'panel'	=> array(

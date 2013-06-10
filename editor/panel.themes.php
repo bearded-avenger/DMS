@@ -22,7 +22,7 @@ class EditorThemeHandler {
 		$toolbar['theme'] = array(
 			'name'	=> 'Theme',
 			'icon'	=> 'icon-picture',
-			'pos'	=> 40,
+			'pos'	=> 50,
 			'panel'	=> array(
 				'heading'	=> "Select Theme",
 				'avail_themes'	=> array(

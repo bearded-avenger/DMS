@@ -25,9 +25,9 @@ class PageLinesSettingsPanel{
 	function toolbar( $toolbar ){
 
 		$toolbar[ 'settings' ] = array(
-			'name'	=> 'Options',
-			'icon'	=> 'icon-cog',
-			'pos'	=> 60,
+			'name'	=> 'Global Options',
+			'icon'	=> 'icon-globe',
+			'pos'	=> 35,
 			'panel'	=> $this->get_settings_tabs()
 		);
 

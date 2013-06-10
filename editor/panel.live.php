@@ -20,7 +20,7 @@ class PageLinesLivePanel{
 
 	function toolbar( $toolbar ){
 		$toolbar['live'] = array(
-			'name'	=> 'Live',
+			'name'	=> 'Support',
 			'icon'	=> 'icon-comments',
 			'pos'	=> 70,
 			'panel'	=> array(
