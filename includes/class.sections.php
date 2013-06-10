@@ -730,7 +730,8 @@ class PageLinesSection {
 		$this->oset = array(
 			'post_id'		=> $pagelines_ID,
 			'clone_id'		=> $clone_id,
-			'group'			=> $this->id
+			'group'			=> $this->id,
+			'view'			=> $this->view
 			);
 		$this->tset = $this->oset;
 		$this->tset['translate'] = true;
