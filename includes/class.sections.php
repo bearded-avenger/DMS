@@ -725,13 +725,13 @@ class PageLinesSection {
 
 		global $pagelines_ID;
 
-
+		$view = ( isset( $this->view ) ) ? $this->view : '';
 		// Setup common option configuration, considering clones and page ids
 		$this->oset = array(
 			'post_id'		=> $pagelines_ID,
 			'clone_id'		=> $clone_id,
 			'group'			=> $this->id,
-			'view'			=> $this->view
+			'view'			=> $view
 			);
 		$this->tset = $this->oset;
 		$this->tset['translate'] = true;
