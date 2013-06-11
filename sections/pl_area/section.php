@@ -6,6 +6,7 @@
 	Description: Creates a full width area with a nested content width region for placing sections and columns.
 	Class Name: PLSectionArea
 	Filter: full-width
+	Loading: active
 */
 
 

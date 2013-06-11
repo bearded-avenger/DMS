@@ -8,6 +8,7 @@
 	Workswith: main
 	Filter: nav
 	Isolate: posts_pages
+	Loading: active
 */
 
 /**
