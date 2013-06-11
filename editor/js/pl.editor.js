@@ -587,17 +587,19 @@
 			if( refresh ){
 				
 				$.plAJAX.saveData( {
-					run: 'map'
+					  run: 'map'
 					, refresh: true
 					, refreshText: 'New page setup saved! Refreshing page...'
 					, map: map
+					, templateMode: $.pl.config.templateMode
 				} )
 				
 			} else {
 				
 				$.plAJAX.saveData( {
-					run: 'map'
+					  run: 'map'
 					, map: map
+					, templateMode: $.pl.config.templateMode
 					, postSuccess: function( rsp ){
 
 						if(!rsp)
