@@ -155,6 +155,8 @@ $.plSections = {
 							.off('click.areaControl')
 
 						$.areaControl.listen()
+						
+						$.pageBuilder.storeMap( )
 				
 					}
 				,	beforeSend: function( ){

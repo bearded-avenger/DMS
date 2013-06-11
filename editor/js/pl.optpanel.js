@@ -192,9 +192,14 @@
 
 					$( sel ).each(function(i){
 						var el = $(this)
+						,	syncMode = el.data('sync-mode') || ''
+						,	syncPrepend = el.data('sync-pre') || ''
+						,	tagName = el.prop('tagName')
 
-						if(el.prop('tagName') == 'IMG'){
+						if( tagName == 'IMG'){
+							
 							el.attr('src', theInput.val())
+							
 						} else {
 							el.html(theInput.val())
 						}
