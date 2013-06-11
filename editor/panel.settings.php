@@ -73,14 +73,19 @@ class PageLinesSettingsPanel{
 		$tabs = array();
 		$tabs['heading'] = "Section Options";
 
-		$tabs['settings'] = array( 'name'	=> 'Section Options' );
+		$tabs['type'] = array( 
+							'name'	=> 'Section Options', 
+							'scope' => 'type' 
+						);
 	
-		if( !$plpg->is_special() )
-			$tabs['type'] = array( 'name'	=> 'Type Defaults <span class="label">'.$plpg->type_name.'</span>' );
+		if( !$plpg->is_special() && !is_page() ){
+			
+			$tabs['local'] = array( 
+								'name'	=> 'Current Page <span class="label">'.$plpg->id.'</span>',
+								'scope' => 'local'
+							);
 
-	//	$tabs['global'] = array( 'name'	=> 'Setting Defaults' );
-
-
+		}
 
 		return $tabs;
 

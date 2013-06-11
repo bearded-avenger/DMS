@@ -83,8 +83,6 @@
 			, 	cascade = ['local', 'type', 'global']
 			, 	sid = that.config.sid
 			,	uniqueID = that.config.clone
-			, 	clone_text = sprintf('<i class="icon-screenshot"></i> %s <i class="icon-map-marker"></i> %s', uniqueID, that.scope)
-			, 	clone_desc = sprintf(' <span class="clip-desc"> &rarr; %s</span>', clone_text)
 			, 	scope = that.scope
 
 			if( that.optConfig[ uniqueID ] && !$.isEmptyObject( that.optConfig[ uniqueID ].opts ) )
@@ -101,17 +99,25 @@
 				}]
 			}
 
-			tab = $("[data-panel='settings']")
+			$.each(cascade, function( i, scope ){
+		
+				var sel = sprintf("[data-panel='%s']", scope)
+				, 	clone_text = sprintf('<i class="icon-screenshot"></i> %s <i class="icon-map-marker"></i> %s scope', uniqueID, scope)
+				, 	clone_desc = sprintf(' <span class="clip-desc"> &rarr; %s</span>', clone_text)
+				
+				tab = $(sel)
 
-			opts = that.runEngine( opt_array, that.scope )
+				opts = that.runEngine( opt_array, scope )
 
-			if(that.optConfig[ uniqueID ] && that.optConfig[ uniqueID ].name)
-				tab.find('legend').html( that.optConfig[ uniqueID ].name + clone_desc)
+				if(that.optConfig[ uniqueID ] && that.optConfig[ uniqueID ].name)
+					tab.find('legend').html( that.optConfig[ uniqueID ].name + clone_desc)
 
-			tab.find('.panel-tab-content').html( opts )
+				tab.find('.panel-tab-content').html( opts )
 
-			that.runScriptEngine( 0, opt_array )
-
+				that.runScriptEngine( 0, opt_array )
+			
+			})
+		
 
 		}
 
@@ -155,54 +161,33 @@
 			$('.lstn').on('keypress blur change', function( e ){
 
 				var theInput = $(this)
+				,	thePanel = theInput.closest('.tab-panel')
+				, 	panelScope = thePanel.data('scope')
+				,	scope = (panelScope) ? panelScope : that.scope
 
-				if( that.config.mode == 'object' ){
-
-					var theObject = $( '#'+that.config.objectID )
-					,	theValue = theInput.val()
-
-					if( theInput.attr('id') == 'area_class' ){
-						theObject.attr('data-class', theValue).data('class', theValue)
-						theObject.removeClass().addClass('pl-area area-tag '+theValue)
-					}
-
-					if( theInput.attr('id') == 'area_name' ){
-						theObject.attr('data-name', theValue).data('name',theValue)
-					}
-
-					if(e.type == 'change' || e.type == 'blur'){
-						$.pageBuilder.storeMap()
-					}
-
-
-				} else {
-
-					var scope = that.scope
-
-					if($(this).hasClass('checkbox-input')){
-
-						var checkToggle = $(this).prev()
-						,	checkGroup = $(this).closest('.checkbox-group').data('checkgroup')
-
-						if ($(this).is(':checked'))
-						    checkToggle.val(1)
-						else
-						    checkToggle.val(0)
-
-
-						that.checkboxDisplay( checkGroup )
-
-					}
-
-					$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
 			
-					$.pl.flags.refreshOnSave = true;
+				if($(this).hasClass('checkbox-input')){
 
-					if(e.type == 'change' || e.type == 'blur'){
-						$.plAJAX.saveData( )
-					}
+					var checkToggle = $(this).prev()
+					,	checkGroup = $(this).closest('.checkbox-group').data('checkgroup')
+
+					if( $(this).is(':checked') )
+					    checkToggle.val(1)
+					else
+					    checkToggle.val(0)
+
+					that.checkboxDisplay( checkGroup )
 
 				}
+
+				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
+		
+				$.pl.flags.refreshOnSave = true;
+
+				if(e.type == 'change' || e.type == 'blur'){
+					$.plAJAX.saveData( )
+				}
+
 
 
 			})

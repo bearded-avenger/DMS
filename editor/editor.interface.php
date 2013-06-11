@@ -332,6 +332,7 @@ class EditorInterface {
 	function defaults(){
 		$d = array(
 			'name'		=> '',
+			'scope'		=> 'global',
 			'icon'		=> '',
 			'hook'		=> '',
 			'href'		=> '',
@@ -415,7 +416,7 @@ class EditorInterface {
 
 
 					printf(
-						'<div id="%s" class="tab-panel" data-panel="%s" data-type="%s">
+						'<div id="%s" class="tab-panel" data-panel="%s" data-type="%s" data-scope="%s">
 							<div class="tab-panel-inner">
 								<legend>%s %s %s</legend>
 								<div class="panel-tab-content">%s</div>
@@ -424,6 +425,7 @@ class EditorInterface {
 						$tab_key,
 						$tab_key,
 						$t['type'],
+						$t['scope'],
 						$t['name'],
 						$clip,
 						$tools,

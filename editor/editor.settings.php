@@ -389,6 +389,76 @@ class PageLinesSettings extends PageLinesData {
 
 		return $parsed_args;
 	}
+	
+	/*
+	 *  Parse settings taking the top values over the bottom
+	 * 	Deep parsing: Parses arguments on nested arrays then deals with overriding
+	 *  Checkboxes: Handles checkboxes by using 'flip' value settings to toggle the value
+	 */
+	function settings_cascade( $top, $bottom ){
+
+
+		if(!is_array( $bottom ))
+			return $top;
+
+		// Parse Args Deep
+		foreach($bottom as $id => $settings){
+
+			if( !isset( $top[ $id ]) )
+				$top[ $id ] = $settings;
+
+			elseif( is_array($settings) ){
+				
+				foreach( $settings as $key => $value ){
+					
+					if( !isset( $top[ $id ][ $key ] ) )
+						$top[ $id ][ $key ] = $value;
+						
+				}
+				
+			}
+
+		}
+
+		$parsed_args = $top;
+
+		foreach($parsed_args as $id => &$settings){
+
+			if( is_array($settings) ){
+				foreach($settings as $key => &$value){
+
+					if(
+						( !isset($value) || $value == '' || !$value )
+						&& isset( $bottom[ $id ][ $key ] )
+					)
+						$value = $bottom[ $id ][ $key ];
+
+					$flipkey = $key.'-flip';
+
+					// flipping checkboxes
+					if( isset( $parsed_args[$id] ) && isset( $parsed_args[$id][$flipkey] ) && isset( $bottom[$id][$key] ) ){
+
+						$flip_val = $parsed_args[ $id ][ $flipkey ];
+						$bottom_val = $bottom[ $id ][ $key ];
+
+						if( $flip_val && $bottom_val ){
+							$value = '';
+						}
+
+
+					}
+
+
+
+				}
+			}
+
+		}
+		unset($set);
+		unset($value);
+
+		return $parsed_args;
+	}
 
 }
 
@@ -426,9 +496,9 @@ class PageLinesOpts extends PageLinesSettings {
 
 	function page_settings(){
 
-		//$set = $this->parse_settings( $this->local, $this->parse_settings($this->type, $this->global));
+		$set = $this->settings_cascade( $this->local, $this->parse_settings($this->type, $this->global));
 		
-		$set = wp_parse_args( $this->local, $this->global );
+		//$set = wp_parse_args( $this->local, $this->global );
 		 
 		return $set;
 
