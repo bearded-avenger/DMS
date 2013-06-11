@@ -7,6 +7,7 @@
 	Class Name: PLMasthead
 	Workswith: templates, main, header, morefoot
 	Filter: component
+	Loading: active
 */
 
 /**
@@ -181,6 +182,7 @@ class PLMasthead extends PageLinesSection {
 
 		$masthtmlwidth = ($this->opt('masthead_html_width',$this->oset)) ? $this->opt('masthead_html_width',$this->oset).'px' : '';
 
+		$mast_title = (!$mast_title) ? 'Masthead' : false;
 
 		// A Responsive, Drag &amp; Drop Platform for Beautiful Websites
 

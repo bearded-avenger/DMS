@@ -15,7 +15,7 @@ class PLRapidTabs extends PageLinesSection {
 	}
 	
 	function section_styles(){
-		wp_enqueue_script( 'jquery-ui-tabs' );
+		pl_enqueue_script( 'jquery-ui-tabs' );
 	}
 	
 
@@ -24,8 +24,8 @@ class PLRapidTabs extends PageLinesSection {
 		?>
 		<script>
 		!function ($) {
-			$(document).ready(function() {
-				jQuery('.the-rapid-tabs').tabs({
+			$(document).on('sectionStart', function( e ) {
+				$('.the-rapid-tabs').tabs({
 					show: true
 				})
 			})

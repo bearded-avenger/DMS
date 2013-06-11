@@ -6,6 +6,7 @@
 	Description: A simple box for text and HTML.
 	Class Name: PageLinesTextBox
 	Filter: component
+	Loading: active
 */
 
 class PageLinesTextBox extends PageLinesSection {

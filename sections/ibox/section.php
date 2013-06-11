@@ -6,6 +6,7 @@
 	Description: An easy way to create and configure several box type sections at once.
 	Class Name: pliBox
 	Filter: post-formats
+	Loading: active
 */
 
 

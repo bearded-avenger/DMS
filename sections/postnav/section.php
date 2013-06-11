@@ -10,6 +10,7 @@
 	Failswith: pagelines_special_pages()
 	Filter: component
 	Isolate: single
+	Loading: active
 */
 
 /**

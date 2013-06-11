@@ -159,6 +159,14 @@ class PageLinesSectionsPanel{
 
 
 			}
+			
+			if( !empty($s->loading) ){
+				
+				$class[] = 'loading-'.$s->loading;
+
+			}
+			
+			
 
 			$args = array(
 				'id'			=> $s->id,
@@ -168,6 +176,7 @@ class PageLinesSectionsPanel{
 					'sid'		=> $s->id,
 					'name'		=> $s->name,
 					'image'		=> $s->screenshot,
+					
 					'template'	=> $map,
 					'clone'		=> pl_new_clone_id(),
 					'number' 	=> $number,
@@ -186,6 +195,10 @@ class PageLinesSectionsPanel{
 
 		printf('<div class="x-list x-sections" data-panel="x-sections">%s</div>', $list);
 
+	}
+	
+	function load_section_data( $object ){
+		
 	}
 
 

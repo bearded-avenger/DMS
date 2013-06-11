@@ -6,29 +6,29 @@
 add_action('wp_ajax_pl_editor_actions', 'pl_editor_actions');
 function pl_editor_actions(){
 
-	$post = $_POST;
+	$postdata = $_POST;
 	$response = array();
-	$response['post'] = $post;
-	$mode = $post['mode'];
-	$run = $post['run'];
-	$pageID = $post['pageID'];
-	$typeID = $post['typeID'];
+	$response['post'] = $postdata;
+	$mode = $postdata['mode'];
+	$run = $postdata['run'];
+	$pageID = $postdata['pageID'];
+	$typeID = $postdata['typeID'];
 
 	if($mode == 'save'){
 
 		$draft = new EditorDraft;
 		$tpl = new EditorTemplates;
-		$map = $post['map_object'] = new PageLinesTemplates( $tpl );
+		$map = $postdata['map_object'] = new PageLinesTemplates( $tpl );
 
 		if ( $run == 'map' || $run == 'all' || $run == 'draft' || $run == 'publish'){
 			
-			$draft->save_draft( $pageID, $typeID, $post['pageData'] );
+			$draft->save_draft( $pageID, $typeID, $postdata['pageData'] );
 
-			if(isset($post['map'])){
+			if(isset($postdata['map'])){
 				
-				$template_mode = (isset($post['templateMode'])) ? $post['templateMode'] : 'type';
+				$template_mode = (isset($postdata['templateMode'])) ? $postdata['templateMode'] : 'type';
 				
-				$response['changes'] = $map->save_map_draft( $pageID, $typeID, $post['map'], $template_mode );
+				$response['changes'] = $map->save_map_draft( $pageID, $typeID, $postdata['map'], $template_mode );
 				
 			}
 			
@@ -39,7 +39,7 @@ function pl_editor_actions(){
 			pl_publish_settings( $pageID, $typeID );
 		
 		elseif ( $run == 'revert' )
-			$draft->revert( $post, $map );
+			$draft->revert( $postdata, $map );
 
 		$response['state'] = $draft->get_state( $pageID, $typeID, $map );
 
@@ -51,6 +51,32 @@ function pl_editor_actions(){
 			global $load_sections;
 			$available = $load_sections->pagelines_register_sections( true, false );
 			$response['result'] = $available;
+		} elseif( $run == 'load' ){
+			
+			$section_object = $postdata['object'];
+			$section_unique_id = $postdata['uniqueID'];
+			
+			global $pl_section_factory;
+			
+			if( is_object($pl_section_factory->sections[ $section_object ]) ){
+				
+				global $post; 
+				$post = get_post($postdata['pageID']);
+				
+				$s = $pl_section_factory->sections[ $section_object ];
+				
+				$response['opts'] = $s->section_opts();
+				
+				ob_start();
+					$s->section_template();
+				$section_template = ob_get_clean();
+				
+				$response['template'] = $section_template;
+			
+			}
+			
+			
+			
 		}
 
 
@@ -70,29 +96,29 @@ function pl_editor_actions(){
 
 		if ( $run == 'load' ){
 
-			$response['loaded'] = $tpl->set_new_local_template( $pageID, $post['key'] );
+			$response['loaded'] = $tpl->set_new_local_template( $pageID, $postdata['key'] );
 
 		} elseif ( $run == 'update'){
 
-			$key = ( isset($post['key']) ) ? $post['key'] : false;
+			$key = ( isset($postdata['key']) ) ? $postdata['key'] : false;
 
-			$template_map = $post['map']['template'];
+			$template_map = $postdata['map']['template'];
 
-			$response['tpl'] = $tpl->update_template( $key, $template_map, $post['settings'], $pageID );
+			$response['tpl'] = $tpl->update_template( $key, $template_map, $postdata['settings'], $pageID );
 
 		} elseif ( $run == 'delete'){
 
-			$key = ( isset($post['key']) ) ? $post['key'] : false;
+			$key = ( isset($postdata['key']) ) ? $postdata['key'] : false;
 
 			$tpl->delete_template( $key );
 
 		} elseif ( $run == 'save' ){
 
-			$template_map = $post['map']['template'];
-			$settings = $post['settings'];
+			$template_map = $postdata['map']['template'];
+			$settings = $postdata['settings'];
 
-			$name = (isset($post['template-name'])) ? $post['template-name'] : false;
-			$desc = (isset($post['template-desc'])) ? $post['template-desc'] : '';
+			$name = (isset($postdata['template-name'])) ? $postdata['template-name'] : false;
+			$desc = (isset($postdata['template-desc'])) ? $postdata['template-desc'] : '';
 
 			if( $name )
 				$tpl->create_template($name, $desc, $template_map, $settings, $pageID);
@@ -100,7 +126,7 @@ function pl_editor_actions(){
 		} elseif( $run == 'set_type' ){
 
 			$field = 'page-template';
-			$value = $post['value'];
+			$value = $postdata['value'];
 
 			$previous_val = pl_local( $typeID, $field );
 
@@ -115,7 +141,7 @@ function pl_editor_actions(){
 		} elseif( $run == 'set_global' ){
 
 			$field = 'page-template';
-			$value = $post['value'];
+			$value = $postdata['value'];
 
 			$previous_val = pl_global( $field );
 

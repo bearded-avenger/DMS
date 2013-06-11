@@ -6,6 +6,7 @@
 	Description: A simple box for text and HTML.
 	Class Name: PageLinesMediaBox
 	Filter: component
+	Loading: active
 */
 
 class PageLinesMediaBox extends PageLinesSection {

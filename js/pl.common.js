@@ -2,6 +2,9 @@
 
 	// --> Initialize
 	$(document).ready(function() {
+		
+		$(document).trigger( 'sectionStart' )
+		
 		$.plCommon.init()
 		$.plMobilizer.init()
 	

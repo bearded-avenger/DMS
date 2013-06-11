@@ -6,6 +6,7 @@
 	Description: Place this section wherever you like and use WordPress widgets and a desired number of columns, to create an instant columnized widget section.
 	Class Name: PageLinesColumnizer
 	Filter: widgetized
+	Loading: active
 */
 
 class PageLinesColumnizer extends PageLinesSection {

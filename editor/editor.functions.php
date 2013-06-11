@@ -474,5 +474,17 @@ function pl_count_sidebar_widgets( $sidebar_id ){
 		return false;
 }
 
+function pl_enqueue_script(  $handle, $src = false, $deps = array(), $ver = false, $in_footer = false ){
+	
+	global $wp_scripts;
+	
+	if(!$src && is_object( $wp_scripts->registered[ $handle ] )){
+		
+	}
+	
+	wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false );
+	
+}
+
 
 

@@ -9,6 +9,7 @@
 	Edition: pro
 	Cloning: true
 	Filter: component
+	Loading: active
 */
 
 /**

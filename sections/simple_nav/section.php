@@ -7,6 +7,7 @@
 	Class Name: SimpleNav
 	Workswith: footer
 	Filter: nav
+	Loading: active
 */
 
 /**

@@ -92,57 +92,106 @@ $.plSections = {
 	}
 	, switchOnStop: function( element ){
 
-		var type = (element.hasClass('pl-area-sortable')) ? 'area' : 'section'
+		var that = this
+		,	type = (element.hasClass('pl-area-sortable')) ? 'area' : 'section'
+		,	activeLoad = (element.hasClass('loading-active')) ? true : false
 		,	name = element.data('name')
+		,	sid = element.data('sid')
+		,	object = element.data('object')
+		,	sectionClass = 'section-'+sid
 		,	classToAdd = (type == 'section') ? 'pl-section' : 'pl-area'
-		,	controlType = (type == 'section') ? '.pl-section-controls' : '.pl-area-controls'
-		,	controls = $( controlType ).first().clone()
-		, 	btns = sprintf('<div class="btns"><a href="#" class="btn btn-mini btn-block banner-refresh"><i class="icon-repeat"></i> Refresh to Load</a></div>')
+		
 
-		// Set controls name from new
-		controls
-			.find('.ctitle')
-			.html(name)
 
-		// Remove controls that only work once section fully loaded
-		controls
-			.find('.s-loaded')
-			.hide()
+
 
 		element
 			.removeClass('x-item isotope-item x-add-new x-extension')
 			.addClass( classToAdd )
-			.prepend( controls )
-			.find('.banner-content')
-			.append( btns )
+			.addClass( sectionClass )
+			
 
-		$.pageBuilder.handleCloneData( element )
+		var newUniqueID = $.pageBuilder.handleCloneData( element )
+
+
+		if(activeLoad){
+			
+			var args = {
+					run: 'load'
+				,	mode: 'sections'
+				,	object: object
+				, 	uniqueID: newUniqueID
+				, 	postSuccess: function(response){
+					
+						if(!response)
+							return
+						
+						var controlType = (type == 'section') ? '.pl-section-controls' : '.pl-area-controls'
+						,	controls = $( controlType ).first().clone()	
+					
+						controls
+							.find('.ctitle')
+							.html(name)
+
+						element
+							.html( sprintf('<div class="pl-section-pad">%s</div>', response.template) )
+							.prepend( controls )
+						
+						var newOpts = {}
+						
+						newOpts[newUniqueID] = {
+							opts: response.opts
+							, name: name
+						}
+						
+						$.extend($.pl.config.opts, newOpts)
+						// reload events
+						$('.s-control')
+							.off('click.sectionControls')
+
+						$.pageBuilder.sectionControls()
+
+						$('.area-control')
+							.off('click.areaControl')
+
+						$.areaControl.listen()
+				
+					}
+				,	beforeSend: function( ){
+						element
+							.html('<div class="pl-refresh-banner"><i class="icon-spinner icon-spin"></i> Loading</div>')
+					}
+			}
+
+			$.plAJAX.run( args )
+			
+		} else {
+			
+			$.pageBuilder.storeMap( true )
+			
+		}
+		
 
 		if(!element.hasClass('ui-draggable-dragging'))
 			element.show()
 
-		// reload events
-		$('.s-control')
-			.off('click.sectionControls')
-		
-		$.pageBuilder.sectionControls()
-
-		$('.area-control')
-			.off('click.areaControl')
-
-		$.areaControl.listen()
-		
-		$('.banner-refresh')
-			.off()
-			.on('click', function(e){
-				e.preventDefault()
-				location.reload()
-			})
-			
-		// Store new page config
-		var map = $.pageBuilder.storeMap( true )
 
 		
+	}
+	
+	, sectionLoader: function( obj ){
+	
+		var object = obj.element.data('object')
+		
+		var args = {
+				run: 'load'
+			,	mode: 'sections'
+			,	object: object
+			, 	postSuccess: obj.postSuccess
+			,	beforeSend: obj.beforeSend
+		}
+
+		$.plAJAX.run( args )
 	}
 }
 

@@ -336,9 +336,11 @@
 		
 		, handleCloneData: function( cloned ){
 
-			$.pageBuilder.setCloneData( cloned ) // recursive function
+			var newUniqueID = $.pageBuilder.setCloneData( cloned ) // recursive function
 			
 			$.plAJAX.storeAllData( ) // save everything
+			
+			return newUniqueID
 
 		}
 		
@@ -368,7 +370,7 @@
 			
 			$.pl.config.opts[ newUniqueID ] = theOpts
 			
-			
+			return newUniqueID
 		}
 
 		, sectionControls: function() {

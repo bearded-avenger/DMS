@@ -49,7 +49,8 @@ class PageLinesSection {
 				'format'			=> 'textured',
 				'classes'			=> '',
 				'less'				=> false,
-				'filter'			=> 'misc'
+				'filter'			=> 'misc',
+				'loading'			=> 'reload'
 			);
 
 		$this->settings = wp_parse_args( $settings, $this->defaults );
@@ -101,6 +102,7 @@ class PageLinesSection {
 		$this->description = $this->settings['description'] = $this->sinfo['description'];
 		$this->map = "";
 		$this->filter = $this->settings['filter'] = ( !empty( $this->sinfo['filter'] ) ) ? $this->sinfo['filter'] : $this->settings['filter'];
+		$this->loading = $this->settings['loading'] = ( !empty( $this->sinfo['loading'] ) ) ? $this->sinfo['loading'] : $this->settings['loading'];
 		$this->settings['cloning'] = ( !empty( $this->sinfo['cloning'] ) ) ? $this->sinfo['cloning'] : $this->settings['cloning'];
 		$this->settings['workswith'] = ( !empty( $this->sinfo['workswith'] ) ) ? $this->sinfo['workswith'] : $this->settings['workswith'];
 		$this->settings['version'] = ( !empty( $this->sinfo['edition'] ) ) ? $this->sinfo['edition'] : $this->settings['version'];
@@ -156,6 +158,9 @@ class PageLinesSection {
 			'mode'		=> null,
 			'type'		=> ''
 		);
+		
+		$this->oset = '';
+		$this->tset = '';
 
 	}
 
