@@ -106,6 +106,8 @@
 				, 	clone_desc = sprintf(' <span class="clip-desc"> &rarr; %s</span>', clone_text)
 				
 				tab = $(sel)
+				
+				tab.attr('data-clone', uniqueID)
 
 				opts = that.runEngine( opt_array, scope )
 
@@ -164,6 +166,7 @@
 				,	thePanel = theInput.closest('.tab-panel')
 				, 	panelScope = thePanel.data('scope')
 				,	scope = (panelScope) ? panelScope : that.scope
+				,	uniqueID = (thePanel.attr('data-clone')) ? thePanel.attr('data-clone') : false
 
 			
 				if($(this).hasClass('checkbox-input')){
@@ -184,7 +187,23 @@
 		
 				$.pl.flags.refreshOnSave = true;
 
+				if(uniqueID){
+					var sel = sprintf('[data-clone="%s"] [data-sync="%s"]', uniqueID, theInput.attr('id'))
+
+					$( sel ).each(function(i){
+						var el = $(this)
+
+						if(el.prop('tagName') == 'IMG'){
+							el.attr('src', theInput.val())
+						} else {
+							el.html(theInput.val())
+						}
+
+					})
+				}
+
 				if(e.type == 'change' || e.type == 'blur'){
+					
 					$.plAJAX.saveData( )
 				}
 

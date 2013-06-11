@@ -33,6 +33,8 @@
 
 			this.bindUIActions()
 
+
+
 		}
 
 		, bindUIActions: function() {
@@ -70,7 +72,7 @@
 					that.toggleGrid()
 
 			})
-
+			
 
         }
 

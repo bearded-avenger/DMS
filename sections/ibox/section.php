@@ -126,8 +126,12 @@ class pliBox extends PageLinesSection {
 
 			// TEXT
 			$text = ($this->opt('ibox_text_'.$i)) ? $this->opt('ibox_text_'.$i) : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean id lectus sem. Cras consequat lorem.';
+			
+			$text = sprintf('<div data-sync="ibox_text_%s">%s</div>', $i, $text );
+			
 			$title = ($this->opt('ibox_title_'.$i)) ? $this->opt('ibox_title_'.$i) : __('iBox '.$i, 'pagelines');
-
+			$title = sprintf('<h4 data-sync="ibox_title_%s">%s</h4>', $i, $title );
+			
 			// LINK
 			$link = $this->opt('ibox_link_'.$i);
 			$media_link = ($link) ? sprintf('href="%s"', $link) : '';
@@ -173,7 +177,7 @@ class pliBox extends PageLinesSection {
 						</a>
 					</div>
 					<div class="ibox-text bd">
-						<h4>%s</h4>
+						%s
 						<div class="ibox-desc">
 							%s
 							%s

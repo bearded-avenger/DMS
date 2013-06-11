@@ -172,20 +172,20 @@ class PageLinesHighlight extends PageLinesSection {
 			<?php
 
 				if( $h_splash_position == 'top' && $h_splash)
-					printf('<div class="highlight-splash hl-image-top %s"><img src="%s" alt="" /></div>', $frame_class, $h_splash);
+					printf('<div class="highlight-splash hl-image-top %s"><img data-sync="_highlight_splash" src="%s" alt="" /></div>', $frame_class, $h_splash);
 
 				if( $h_splash_position != 'notext' ){
 
 					if($h_head)
-						printf('<h2 class="highlight-head">%s</h2>', __( $h_head, 'pagelines' ) );
+						printf('<h2 class="highlight-head" data-sync="_highlight_head">%s</h2>', __( $h_head, 'pagelines' ) );
 
 					if($h_subhead)
-						printf('<div class="highlight-subhead">%s</div>', __( $h_subhead, 'pagelines' ) );
+						printf('<div class="highlight-subhead" data-sync="_highlight_subhead">%s</div>', __( $h_subhead, 'pagelines' ) );
 
 				}
 
 				if( $h_splash_position != 'top' && $h_splash)
-					printf('<div class="highlight-splash hl-image-bottom %s"><img src="%s" alt="" /></div>', $frame_class, apply_filters( 'pl_highlight_splash', $h_splash ) );
+					printf('<div class="highlight-splash hl-image-bottom %s"><img data-sync="_highlight_splash" src="%s" alt="" /></div>', $frame_class, apply_filters( 'pl_highlight_splash', $h_splash ) );
 			?>
 		</div>
 	<?php

@@ -100,7 +100,7 @@ class PageLinesMediaBox extends PageLinesSection {
 		$media_html = $this->opt('mediabox_html');
 		$disable_center = $this->opt('disable_centering');
 
-		$title = ( $this->opt('mediabox_title') ) ? sprintf('<h3>%s</h3>', $this->opt('mediabox_title')) : '';
+		$title = ( $this->opt('mediabox_title') ) ? sprintf('<h3 data-sync="mediabox_title">%s</h3>', $this->opt('mediabox_title')) : '';
 		$bg = ( $this->opt('mediabox_background') ) ? sprintf('background-image: url(%s);', $this->opt('mediabox_background')) : '';
 		
 		$set_height = ( $this->opt('mediabox_height') )  ? $this->opt('mediabox_height') : 350;
@@ -109,9 +109,9 @@ class PageLinesMediaBox extends PageLinesSection {
 
 
 		if( $image || $media_html )
-			$img = ($image) ? sprintf('<img src="%s" />', $image) : '';
+			$img = ($image) ? sprintf('<img data-sync="mediabox_image" src="%s" />', $image) : '';
 		else
-			$img = sprintf('<img src="%s" />', $this->base_url.'/default.png'); // DEFAULT
+			$img = sprintf('<img data-sync="mediabox_image" src="%s" />', $this->base_url.'/default.png'); // DEFAULT
 		
 		$classes = array(); 
 		$align_class = array(); 
