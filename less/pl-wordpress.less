@@ -207,19 +207,12 @@ ul.sidebar_widgets{
 }
 
 #respond{
-	margin: 20px 0;
+	margin: @baseLineHeight;
 	text-align: left;
-	form{
-		margin-left: 27px;
-	}
+	
 	#reply-title {
-		padding-left: 25px;
-		background:url(@{plRoot}/sections/comments/icon-reply@2x.png) no-repeat  0 50%;
-		background-size: 17px;
-		small{
-			font-size: @miniFontSize;
-			a{color: @pl-link;}
-		}
+		font-size: 25px;
+
 	}
 	#commentform {
 		margin-top: 10px;
@@ -277,39 +270,42 @@ p.form-allowed-tags{
 
 /* List of Comments */
 #comments-title {
-	padding-left: 22px;
-	background:url(@{plRoot}/sections/comments/icon-comment@2x.png) no-repeat 0 30%;
-	background-size: 17px 17px;
+	font-size: 25px;
 }
 
+.wp-comments{
+	h3{
+		font-size: 25px;
+	}
+}
 
-.commentlist {
+.wp-comments .commentlist {
 	list-style-type:none;
 	margin: 10px 0px 10px 18px;
 	line-height: 1.6em;
-	padding-left: 75px;
-
+	> .comment {
+		padding-left: 80px;
+		border-bottom: 1px dashed @baseContrast;
+	}
+	.comment-body{
+		
+	}
 	p{
-		margin: 0px 0 1em 5px;
+		margin: 0 0 1em;
 	}
-	> li {
-		margin-bottom: 1em;
-	}
-	li{
-		padding: 10px 20px 10px 10px;
-		background: @baseContrastSlight;
-
-		li.alt{
-			background: lighten(@baseContrastSlight, 3);
+	li {
+		padding: 20px;
+		ul li{
+			padding: 15px 0
 		}
 	}
+
 	img.avatar {
-		box-shadow: 0 1px 2px rgba(0,0,0,.2);
-		background: @baseContrastSlight;
+		.border-radius(500px);
 		float: left;
-		margin: -5px 5px 5px -85px;
+		margin-left: -75px;
 		position: relative;
-		padding: 2px;
+
 		.box-sizing(border-box);
 	}
 	cite {
@@ -320,8 +316,7 @@ p.form-allowed-tags{
 		font-size: 1.1em;
 	}
 	.comment-awaiting-moderation{
-		background: @baseContrast;
-		color: @textColorSubtle;
+		opacity: .7;
 		padding: 0 5px;
 		display: inline-block;
 		margin: 4px 0 8px 0;
@@ -331,41 +326,29 @@ p.form-allowed-tags{
 		display: block;
 		font-size: 11px;
 		line-height: 14px;
-		font-family: @buttonFontFamily;
+		
 		a{
-			color: @textColorSubtle;
+			color: inherit;
+			opacity: .7;
 		}
 	}
-	.reply{
-		margin-top: @baseLineHeight;
-		a{
-			display: inline-block;
-			font-size: 10px;
-			line-height: 15px;
-			background: @baseContrast;
-			color: @textColorSubtle;
-			padding: 1px 8px;
-			opacity: .8;
-			&:hover{
-				opacity: 1;
-			}
-			&:active{
-				opacity: .8;
-			}
-		}
-	}
-	ul.children {
+ 	ul.children {
 		list-style-type: none;
-		margin: 1em 0;
 		.comment-body{
 			padding-left: 50px;
 		}
 		img.avatar {
-			width: 40px;
-			margin-top: 0;
-			margin-left: -50px;
+		width: 40px;
+		margin-top: 0;
+		margin-left: -50px;
+		color: inherit;
+		opacity: .7;
 		}
+		
 	}
+	
+	
+
 }
 
 // ----------------------------------------------------------------------
@@ -397,3 +380,4 @@ p.form-allowed-tags{
 	height:0px;
 	overflow:hidden;
 }
+

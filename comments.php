@@ -17,6 +17,7 @@
  * @version     2.1.1
  */
 
+
 if(!have_comments() && !comments_open()){
 	
 	printf('<p class="nocomments">%s</p>', __('Comments are closed.', 'pagelines'));
@@ -39,12 +40,12 @@ if(!have_comments() && !comments_open()){
 		}
 
 		if ( have_comments() ) : ?>
-			<h3 id="comments-title"><?php
+			<h5 id="comments-title"><?php
 			printf( _n( 'One Response to %2$s', '%1$s Responses to %2$s', get_comments_number(), 'pagelines' ),
-			number_format_i18n( get_comments_number() ), '<em>' . get_the_title() . '</em>' );
-			?></h3>
+			number_format_i18n( get_comments_number() ), '"' . get_the_title() . '"' );
+			?></h5>
 		<ol class="commentlist">
-			<?php wp_list_comments(array('avatar_size' => 65)); ?>
+			<?php wp_list_comments( array( 'type'=> 'comment', 'avatar_size' => '60' ) ); ?>
 		</ol>
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // Are there comments to navigate through? ?>
 			<div class="navigation fix">
