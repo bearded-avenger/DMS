@@ -8,6 +8,7 @@
 	Workswith: templates, main, header, morefoot, content
 	Cloning: true
 	Filter: component
+	Loading: active
 */
 
 /*
@@ -157,15 +158,15 @@ class PLheroUnit extends PageLinesSection {
 
 	   	<?php
 	   	if( $hero_lt_width )
-			printf( '<div class="pl-hero %s">', $hero_lt_width );
+			printf( '<div class="pl-hero %s" >', $hero_lt_width );
 			?>
 				<?php
 
 					if( $hero_title )
-						printf( '<h1 class="m-bottom">%s</h1>', $hero_title );
+						printf( '<h1 class="m-bottom" data-sync="pagelines_herounit_title">%s</h1>', $hero_title );
 
 					if( $hero_tag )
-		  				printf( '<p>%s</p>', $hero_tag );
+		  				printf( '<p data-sync="pagelines_herounit_tagline">%s</p>', $hero_tag );
 
 	  			    if( $hero_butt_link )
 					printf( '<a %s class="btn btn-%s btn-large" href="%s">%s</a> ', $hero_butt_target, $hero_butt_theme, $hero_butt_link, $hero_butt_text );
@@ -177,7 +178,7 @@ class PLheroUnit extends PageLinesSection {
 			printf( '<div class="pl-hero-image %s">', $hero_rt_width );
 
 		if( $hero_img )
-			printf( '<div class="hero_image"><img class="pl-imageframe" src="%s" /></div>', apply_filters( 'pl_hero_image', $hero_img ) );
+			printf( '<div class="hero_image"><img class="pl-imageframe" data-sync="pagelines_herounit_image" src="%s" /></div>', apply_filters( 'pl_hero_image', $hero_img ) );
 
 		?>
 			</div>
