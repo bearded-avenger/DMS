@@ -200,6 +200,7 @@ class PageLinesTemplateHandler {
 		
 		$clone_was_set = false;
 		
+		
 		foreach($this->map as $group => &$g){
 
 			if( !isset($g) || !is_array($g) )
@@ -274,6 +275,7 @@ class PageLinesTemplateHandler {
 		if( $clone_was_set )
 			$this->map_handler->save_map_draft( $this->page->id, $this->page->typeid, $this->map ); 
 		
+	
 
 		// add passive sections (not in drag drop but added through options/hooks)
 		global $passive_sections;
@@ -306,6 +308,8 @@ class PageLinesTemplateHandler {
 
 		}
 		unset($meta);
+		
+		
 
 
 	}
@@ -636,8 +640,10 @@ class PageLinesTemplateHandler {
 
 					$area_count++;
 					$this->render_section( $a, $area_count, $area_total, 0 );
-
+					
 				} else {
+					
+					// THIS MIGHT NOT BE USED ANYMORE AS ALL SECTIONS USED A NESTED FUNCTION
 
 					// deprecated - this isnt used i dont think
 					$a['area_number'] = $this->area_number++;
@@ -650,7 +656,7 @@ class PageLinesTemplateHandler {
 						$sections_total = count($a['content']);
 
 						foreach($a['content'] as $key => $meta){
-
+							
 							$section_count++;
 							$this->render_section( $meta, $section_count, $sections_total );
 
@@ -673,8 +679,10 @@ class PageLinesTemplateHandler {
 
 	function render_section( $meta, $count = false, $total = false, $level = 1 ){
 
+		
+			
 		if( $this->in_factory( $meta['object'] ) ){
-
+			
 			$s = $this->factory[ $meta['object'] ];
 
 			$s->meta = $meta;
@@ -688,7 +696,8 @@ class PageLinesTemplateHandler {
 
 			$output =  ob_get_clean(); // Load in buffer, so we can check if empty
 
-
+			
+				
 			$render = (!isset($output) || $output == '') ? false : true;
 
 			if( $level >= 1 )
@@ -839,6 +848,8 @@ class PageLinesTemplateHandler {
 			require( $override );
 		else
 			$s->section_template();
+			
+			
 
 	}
 
@@ -856,7 +867,6 @@ class PageLinesTemplateHandler {
  * For use inside of sections
  */
 function render_nested_sections( $sections ){
-
 	ob_start(); 
 	
 	global $pagelines_editor;

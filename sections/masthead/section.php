@@ -162,13 +162,11 @@ class PLMasthead extends PageLinesSection {
 
 		$masthtmlwidth = ($this->opt('masthead_html_width',$this->oset)) ? $this->opt('masthead_html_width',$this->oset).'px' : '';
 
-		$mast_title = (!$mast_title) ? 'Masthead' : false;
-
-		// A Responsive, Drag &amp; Drop Platform for Beautiful Websites
+		$mast_title = (!$mast_title) ? 'Masthead' : $mast_title;
 
 		$classes = ($mast_img) ? 'with-splash' : '';
-
-	if($mast_title){ ?>
+		
+	?>
 
 	<header class="jumbotron masthead <?php echo $classes;?>">
 	  	<?php
@@ -238,7 +236,7 @@ class PLMasthead extends PageLinesSection {
 
 		<?php
 
-		}
+	
 
 	}
 

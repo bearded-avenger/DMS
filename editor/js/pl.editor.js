@@ -581,6 +581,7 @@
 
         }
 
+
 		, storeMap: function( refresh ) {
 
 			var that = this
