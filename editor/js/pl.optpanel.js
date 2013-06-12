@@ -194,12 +194,16 @@
 						var el = $(this)
 						,	syncMode = el.data('sync-mode') || ''
 						,	syncPrepend = el.data('sync-pre') || ''
+						,	syncPost = el.data('sync-post') || ''
+						,	syncTarget = el.data('sync-target') || ''
 						,	tagName = el.prop('tagName')
 
 						if( tagName == 'IMG'){
 							
 							el.attr('src', theInput.val())
 							
+						} else if(syncMode == 'css') {
+							el.css( syncTarget, theInput.val() + syncPost)
 						} else {
 							el.html(theInput.val())
 						}

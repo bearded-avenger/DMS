@@ -133,6 +133,10 @@ $.plSections = {
 							.html( sprintf('<div class="pl-section-pad">%s</div>', response.template) )
 							.prepend( controls )
 						
+						element
+							.find('.pl-animation')
+							.addClass('animation-loaded')
+						
 						var newOpts = {}
 						
 						newOpts[newUniqueID] = {

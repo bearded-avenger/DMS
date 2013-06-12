@@ -132,9 +132,16 @@ class PageLinesMediaBox extends PageLinesSection {
 		
 		$html = do_shortcode( wpautop( $media_html ) );
 		
+		$height_sync_data = (pl_draft_mode()) ? 'data-sync="mediabox_height" data-sync-mode="css" data-sync-target="height" data-sync-post="px"' : '';
+		
 		printf(
-			'<div class="mediabox-wrap %s pl-animation fix" style="%s%s"><div class="the-media fitvids pl-centered %s hentry">%s%s%s</div></div>', 
+			'<div class="mediabox-wrap %s pl-animation fix" %s style="%s%s">
+				<div class="the-media fitvids pl-centered %s hentry">
+					%s%s%s
+				</div>
+			</div>', 
 			join(' ', $classes), 
+			$height_sync_data,
 			$bg, 
 			$height, 
 			$align_class,
