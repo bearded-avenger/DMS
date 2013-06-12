@@ -36,6 +36,216 @@ class PLMasthead extends PageLinesSection {
     	wp_enqueue_script('fitvid',$this->base_url.'/jquery.fitvids.js',array('jquery'));
     }
 
+	
+	function section_opts(  ){
+
+		$options = array(
+				array(
+					'key'	=> 'pagelines_masthead_splash_multi',
+					'type' 	=> 'multi',
+					'title' => __('Masthead Splash Options','pagelines'),
+					'opts'	=> array(
+						array(
+							'key'			=> 'pagelines_masthead_img',
+							'type' 			=> 'image_upload',
+							'imagepreview' 	=> '270',
+							'label' 	=> 'Upload custom image',
+						),
+						array(
+							'key'			=> 'pagelines_masthead_html',
+							'type' 			=> 'textarea',
+							'label' 	=> 'Masthead Video (optional, to be used instead of image)',
+						),
+						array(
+							'key'			=> 'masthead_html_width',
+							'type' 			=> 'text',
+							'label' 	=> 'Maximum width of splash in px (default is full width)',
+						),
+					),
+					'help'                   => 'Upload an image to serve as a splash image, or use an embed code for full width video.',
+				),
+				array(
+						'key'				=> 'pagelines_masthead_text',
+						'type' 				=> 'multi',
+						'label' 		=> 'Masthead Text',
+						'title' 			=> $this->name.' Text',
+						'opts'	=> array(
+							array(
+								'key'		=> 'pagelines_masthead_title',
+								'type'		=> 'text',
+								'label'		=> 'Title', 
+							),
+							array(
+								'key'	=> 'pagelines_masthead_tagline',
+								'type'	=> 'text',
+								'label'	=>'Tagline', 
+							)
+						),
+
+				),
+		); 
+			
+		for($i = 1; $i <= 2; $i++){
+
+			$options[] = array(
+				'key'		=> 'masthead_button_multi_'.$i,
+				'type'		=> 'multi',
+				'title'		=> __('Masthead Action Button '.$i, 'pagelines'),
+				'opts'	=> array(
+					array(
+						'key'		=> 'masthead_button_link_'.$i,
+						'type' => 'text',
+						'label' => 'Enter the link destination (URL - Required)',
+
+					),
+					array(
+						'key'		=> 'masthead_button_text_'.$i,
+						'type' 			=> 'text',
+						'label' 	=> 'Masthead Button Text',
+					 ),
+
+					array(
+						'key'		=> 'masthead_button_target_'.$i,
+						'type'			=> 'check',
+						'default'		=> false,
+						'label'	=> 'Open link in new window.',
+					),
+					array(
+						'key'		=> 'masthead_button_theme_'.$i,
+						'type'			=> 'select',
+						'default'		=> false,
+						'label'		=> 'Select Button Color',
+						'opts'	=> array(
+							'primary'	=> array('name' => 'Blue'),
+							'warning'	=> array('name' => 'Orange'),
+							'important'	=> array('name' => 'Red'),
+							'success'	=> array('name' => 'Green'),
+							'info'		=> array('name' => 'Light Blue'),
+							'reverse'	=> array('name' => 'Grey'),
+						),
+					),
+				)
+			);
+
+		}
+			
+				
+		$options[] = array(
+					'key'		=> 'masthead_menu',
+					'type' 			=> 'select_menu',
+					'title'			=> 'Masthead Menu',
+					'inputlabel' 	=> 'Select Masthead Menu',
+				); 
+		$options[] = array(
+					'key'		=> 'masthead_meta',
+					'type' 			=> 'text',
+					'title'			=> 'Masthead Meta',
+					'inputlabel' 	=> 'Enter Masthead Meta Text',
+				); 
+
+		
+
+		return $options;
+	}
+	
+	
+
+	/**
+	* Section template.
+	*/
+   function section_template() {
+   		$mast_title = $this->opt('pagelines_masthead_title', $this->oset);
+   		$mast_img = $this->opt('pagelines_masthead_img', $this->oset);
+		$mast_tag = $this->opt('pagelines_masthead_tagline', $this->oset);
+		$mast_menu = ($this->opt('masthead_menu', $this->oset)) ? $this->opt('masthead_menu', $this->oset) : null;
+		$masthead_meta = $this->opt('masthead_meta', $this->oset);
+
+		$masthtmlwidth = ($this->opt('masthead_html_width',$this->oset)) ? $this->opt('masthead_html_width',$this->oset).'px' : '';
+
+		$mast_title = (!$mast_title) ? 'Masthead' : false;
+
+		// A Responsive, Drag &amp; Drop Platform for Beautiful Websites
+
+		$classes = ($mast_img) ? 'with-splash' : '';
+
+	if($mast_title){ ?>
+
+	<header class="jumbotron masthead <?php echo $classes;?>">
+	  	<?php
+
+	  		$theimg = sprintf('<img class="masthead-img" data-sync="pagelines_masthead_img" src="%s" />',$mast_img);
+	  		$masthtml = $this->opt('pagelines_masthead_html',$this->oset);
+
+	  		if($mast_img)
+	  			printf('<div class="splash" style="max-width:%s;margin:0 auto;">%s</div>',$masthtmlwidth,$theimg);
+
+	  		if($masthtml)
+	  			printf('<div class="video-splash" style="max-width:%s;margin:0 auto;">%s</div>',$masthtmlwidth,$masthtml);
+
+	  	?>
+
+	  <div class="inner">
+	  	<?php
+
+	  		if($mast_title)
+	  			printf('<h1 class="masthead-title" data-sync="pagelines_masthead_title">%s</h1>',$mast_title);
+
+			if($mast_tag)
+	  			printf('<p class="masthead-tag" data-sync="pagelines_masthead_tagline">%s</p>',$mast_tag);
+
+	  	?>
+
+	    <p class="download-info">
+
+	    <?php
+			for ($i = 1; $i <= 2; $i++){
+				$btn_link = $this->opt('masthead_button_link_'.$i, $this->oset); // Flag
+
+				$btn_text = ($this->opt('masthead_button_text_'.$i, $this->oset)) ? $this->opt('masthead_button_text_'.$i, $this->oset) : __('Start Here', 'pagelines');
+
+				$target = ( $this->opt( 'masthead_button_target_'.$i, $this->oset ) ) ? 'target="_blank"' : '';
+				$btheme = ( $this->opt( 'masthead_button_theme_'.$i, $this->oset ) ) ? $this->opt( 'masthead_button_theme_'.$i, $this->oset ) : 'primary';
+
+				if($btn_link)
+					printf('<a %s class="btn btn-%s btn-large" href="%s" data-sync="masthead_button_text_%s">%s</a> ', $target, $btheme, $btn_link, $i, $btn_text);
+			}
+
+	    ?>
+
+	    </p>
+	  </div>
+		<div class="mastlinks">
+			<?php
+			if( is_array( wp_get_nav_menu_items( $mast_menu ) ) )
+				wp_nav_menu(
+					array(
+						'menu_class'  => 'quick-links',
+						'menu' => $mast_menu,
+						'container' => null,
+						'container_class' => '',
+						'depth' => 1,
+						'fallback_cb'=>''
+					)
+				);
+
+
+			if($masthead_meta)
+				printf( '<div class="quick-links mastmeta">%s</div>', do_shortcode($masthead_meta) );
+
+			?>
+
+
+		</div>
+	</header>
+
+		<?php
+
+		}
+
+	}
+
+
+	
 	function section_optionator( $settings ){
 
 		$settings = wp_parse_args($settings, $this->optionator_default);
@@ -56,7 +266,7 @@ class PLMasthead extends PageLinesSection {
 							'inputlabel' 	=> 'Masthead Video (optional, to be used instead of image)',
 						),
 						'masthead_html_width'   => array(
-							'type' 			=> 'text_small',
+							'type' 			=> 'text',
 							'inputlabel' 	=> 'Maximum width of splash in px (default is full width)',
 						),
 					),
@@ -169,103 +379,5 @@ class PLMasthead extends PageLinesSection {
 
 		register_metatab($metatab_settings, $option_array);
 	}
-
-	/**
-	* Section template.
-	*/
-   function section_template() {
-   		$mast_title = $this->opt('pagelines_masthead_title', $this->oset);
-   		$mast_img = $this->opt('pagelines_masthead_img', $this->oset);
-		$mast_tag = $this->opt('pagelines_masthead_tagline', $this->oset);
-		$mast_menu = ($this->opt('masthead_menu', $this->oset)) ? $this->opt('masthead_menu', $this->oset) : null;
-		$masthead_meta = $this->opt('masthead_meta', $this->oset);
-
-		$masthtmlwidth = ($this->opt('masthead_html_width',$this->oset)) ? $this->opt('masthead_html_width',$this->oset).'px' : '';
-
-		$mast_title = (!$mast_title) ? 'Masthead' : false;
-
-		// A Responsive, Drag &amp; Drop Platform for Beautiful Websites
-
-		$classes = ($mast_img) ? 'with-splash' : '';
-
-	if($mast_title){ ?>
-
-	<header class="jumbotron masthead <?php echo $classes;?>">
-	  	<?php
-
-	  		$theimg = sprintf('<img class="masthead-img" src="%s" />',$mast_img);
-	  		$masthtml = $this->opt('pagelines_masthead_html',$this->oset);
-
-	  		if($mast_img)
-	  			printf('<div class="splash" style="max-width:%s;margin:0 auto;">%s</div>',$masthtmlwidth,$theimg);
-
-	  		if($masthtml)
-	  			printf('<div class="video-splash" style="max-width:%s;margin:0 auto;">%s</div>',$masthtmlwidth,$masthtml);
-
-	  	?>
-
-	  <div class="inner">
-	  	<?php
-
-	  		if($mast_title)
-	  			printf('<h1 class="masthead-title">%s</h1>',$mast_title);
-
-			if($mast_tag)
-	  			printf('<p class="masthead-tag">%s</p>',$mast_tag);
-
-	  	?>
-
-	    <p class="download-info">
-
-	    <?php
-			for ($i = 1; $i <= 2; $i++){
-				$butt_link = $this->opt('masthead_button_link_'.$i, $this->oset); // Flag
-
-				$butt_text = ($this->opt('masthead_button_text_'.$i, $this->oset)) ? $this->opt('masthead_button_text_'.$i, $this->oset) : __('Start Here', 'pagelines');
-
-				$target = ( $this->opt( 'masthead_button_target_'.$i, $this->oset ) ) ? 'target="_blank"' : '';
-				$btheme = ( $this->opt( 'masthead_button_theme_'.$i, $this->oset ) ) ? $this->opt( 'masthead_button_theme_'.$i, $this->oset ) : 'primary';
-
-				if($butt_link)
-					printf('<a %s class="btn btn-%s btn-large" href="%s">%s</a> ', $target, $btheme, $butt_link, $butt_text);
-			}
-
-	    ?>
-
-	    </p>
-	  </div>
-		<div class="mastlinks">
-			<?php
-
-			if($mast_menu)
-				wp_nav_menu(
-					array(
-						'menu_class'  => 'quick-links',
-						'menu' => $mast_menu,
-						'container' => null,
-						'container_class' => '',
-						'depth' => 1,
-						'fallback_cb'=>''
-					)
-				);
-
-
-			if($masthead_meta)
-				printf( '<div class="quick-links mastmeta">%s</div>', do_shortcode($masthead_meta) );
-
-			?>
-
-
-		</div>
-	</header>
-	<hr class="soften" />
-
-		<?php
-
-		} else
-			echo setup_section_notify($this, __('Set Masthead page options to activate.', 'pagelines') );
-
-	}
-
 
 }
