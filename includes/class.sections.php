@@ -130,7 +130,11 @@ class PageLinesSection {
 		if( is_file( sprintf( '%s/thumb.png', $this->base_dir ) ) ){
 			$this->screenshot = $this->settings['screenshot'] = sprintf( '%s/thumb.png', $this->base_url );
 		} else {
-			$this->screenshot = $this->settings['screenshot'] = PL_IMAGES . '/thumb-missing.png';
+		
+			$scrn_url = ($this->sinfo['type'] == 'custom' && is_child_theme()) ? PL_CHILD_URL : PL_PARENT_URL; 
+			
+			$this->screenshot = $this->settings['screenshot'] = sprintf( '%s/screenshot.png', $scrn_url );
+		
 		}
 
 		$this->thmb = $this->screenshot;

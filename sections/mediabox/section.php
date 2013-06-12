@@ -57,7 +57,7 @@ class PageLinesMediaBox extends PageLinesSection {
 						'type' 			=> 'text',
 						'key'			=> 'mediabox_height',
 						'default'		=> '300',
-						'label' 		=> 'MediaBox Height (px)',
+						'label' 		=> 'MediaBox Min Height (px)',
 						'help'			=> 'Required for "cover" mode. Otherwise the mediabox will be drawn at the height of the media.'
 					),
 					array(
@@ -104,7 +104,7 @@ class PageLinesMediaBox extends PageLinesSection {
 		$bg = ( $this->opt('mediabox_background') ) ? sprintf('background-image: url(%s);', $this->opt('mediabox_background')) : '';
 		
 		$set_height = ( $this->opt('mediabox_height') )  ? $this->opt('mediabox_height') : 350;
-		$height = sprintf('height: %spx', $set_height);
+		$height = sprintf('min-height: %spx', $set_height);
 		
 
 
@@ -132,7 +132,7 @@ class PageLinesMediaBox extends PageLinesSection {
 		
 		$html = do_shortcode( wpautop( $media_html ) );
 		
-		$height_sync_data = (pl_draft_mode()) ? 'data-sync="mediabox_height" data-sync-mode="css" data-sync-target="height" data-sync-post="px"' : '';
+		$height_sync_data = (pl_draft_mode()) ? 'data-sync="mediabox_height" data-sync-mode="css" data-sync-target="min-height" data-sync-post="px"' : '';
 		
 		printf(
 			'<div class="mediabox-wrap %s pl-animation fix" %s style="%s%s">

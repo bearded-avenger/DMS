@@ -253,7 +253,7 @@ class EditorTemplates {
 		
 		
 		$toolbar['page-setup'] = array(
-			'name'	=> 'Page Options',
+			'name'	=> 'Page Templates',
 			'icon'	=> 'icon-map-marker',
 			'pos'	=> 30,
 			'panel'	=> array(
@@ -269,12 +269,6 @@ class EditorTemplates {
 					'name'	=> 'Save New Template',
 					'call'	=> array(&$this, 'save_templates'),
 					'icon'	=> 'icon-paste'
-				),
-				'heading'	=> "Configuration",
-				'pg_config'	=> array(
-					'name'	=> sprintf('"%s" Setup', $this->page->type_name),
-					'call'	=> array(&$this, 'post_type_config'),
-					'icon'	=> 'icon-cog',
 				),
 			)
 

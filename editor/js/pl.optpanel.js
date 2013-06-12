@@ -334,14 +334,16 @@
 			, 	scope = (that.config.mode == 'settings') ? 'global' : tabIndex
 			, 	level = optLevel || 1
 			,	optLabel = o.label || o.title
-			,	syncType = (o.type != 'multi' && $('[data-sync="'+o.key+'"]').length > 0) ? 'exchange' : 'refresh'
-			,	syncTooltip = (syncType == 'refresh') ? 'Refresh for preview.' : 'Syncs with page.'
+			,	sel = sprintf('[data-clone="%s"] [data-sync="%s"]', that.uniqueID, o.key)
+			,	syncType = (o.type != 'multi' && $(sel).length > 0) ? 'exchange' : 'refresh'
+			,	syncTooltip = (syncType == 'refresh') ? 'Refresh for preview.' : 'Syncs with element.'
+			,	syncIcon = (syncType == 'refresh') ? 'refresh' : 'exchange' 
 
 
 			o.classes = o.classes || ''
 			o.label = o.label || o.title
 			
-			optLabel += sprintf(' <span class="pl-help-text pl-tooltip sp" title="%s"><i class="icon-%s"></i></span>', syncTooltip, syncType)
+			optLabel += sprintf(' <span data-key="%s" class="pl-help-text btn btn-mini pl-tooltip sync-btn-%s" title="%s"><i class="icon-%s"></i></span>', o.key, syncType, syncTooltip, syncIcon)
 				
 				
 			o.value =  that.optValue( tabIndex, o.key )
@@ -743,7 +745,43 @@
 			})
 			
 			// Tooltips inside of options
-			$('.pl-tooltip').tooltip({placement: 'top'})
+			$('.pl-tooltip')
+				.tooltip({placement: 'top'})
+				
+			// Syncing buttons
+			$('.sync-btn-exchange').on('click', function(e){
+				
+				e.preventDefault()
+				
+				var btn = $(this)
+				,	key = btn.data('key')
+				,	sel = sprintf('[data-clone="%s"] [data-sync="%s"]', that.uniqueID, key)
+				,	el = $( sel )
+				, 	offTop = el.offset().top - 120
+				
+				
+				// Add Actions
+				btn.find('i').addClass('icon-spin')
+				el.removeClass('stop-focus').addClass('pl-focus')
+				
+				// Remove Actions
+				setTimeout(function () {
+				    el.addClass('stop-focus')
+					btn.find('i').removeClass('icon-spin')
+				}, 1000);
+				
+				// Scroll Page
+				jQuery('html,body').animate({scrollTop: offTop}, 500);
+				
+				
+			})
+			
+			$('.sync-btn-refresh').on('click', function(e){
+			
+				e.preventDefault()
+				$(this).find('i').addClass('icon-spin')
+				location.reload()
+			})
 
 			// Reference Help Toggle
 			$('.btn-ref').on('click.ref', function(){
