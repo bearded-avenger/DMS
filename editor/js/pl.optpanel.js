@@ -341,9 +341,12 @@
 
 
 			o.classes = o.classes || ''
-			o.label = o.label || o.title
+			//o.label = o.label || o.title
 			
-			optLabel += sprintf(' <span data-key="%s" class="pl-help-text btn btn-mini pl-tooltip sync-btn-%s" title="%s"><i class="icon-%s"></i></span>', o.key, syncType, syncTooltip, syncIcon)
+			if(o.type != 'edit_post' && o.type != 'link'){
+				optLabel += sprintf(' <span data-key="%s" class="pl-help-text btn btn-mini pl-tooltip sync-btn-%s" title="%s"><i class="icon-%s"></i></span>', o.key, syncType, syncTooltip, syncIcon)
+			}
+				
 				
 				
 			o.value =  that.optValue( tabIndex, o.key )
