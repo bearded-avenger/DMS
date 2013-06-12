@@ -187,11 +187,9 @@ class PLMasthead extends PageLinesSection {
 	  <div class="inner">
 	  	<?php
 
-	  		if($mast_title)
-	  			printf('<h1 class="masthead-title" data-sync="pagelines_masthead_title">%s</h1>',$mast_title);
+	  		printf('<h1 class="masthead-title" data-sync="pagelines_masthead_title">%s</h1>',$mast_title);
 
-			if($mast_tag)
-	  			printf('<p class="masthead-tag" data-sync="pagelines_masthead_tagline">%s</p>',$mast_tag);
+			printf('<p class="masthead-tag" data-sync="pagelines_masthead_tagline">%s</p>',$mast_tag);
 
 	  	?>
 
