@@ -21,7 +21,7 @@
 
 		startUp: function(){
 
-			$.pageBuilder.reloadConfig( 'start' )
+			$.pageBuilder.reloadConfig({ location: 'start'})
 
 			this.theToolBox = $('body').toolbox()
 
@@ -309,14 +309,6 @@
 			$.widthResize.shutDown()
 
 		}
-
-		, handleElementDelete: function( deleted ){
-
-			$.pageBuilder.setElementDelete( deleted ) // recursive function
-			
-			$.plAJAX.storeAllData( ) // save everything
-
-		}
 		
 		, setElementDelete: function( deleted ){
 			
@@ -339,8 +331,6 @@
 		, handleCloneData: function( cloned ){
 
 			var newUniqueID = $.pageBuilder.setCloneData( cloned ) // recursive function
-			
-			$.plAJAX.storeAllData( ) // save everything
 			
 			return newUniqueID
 
@@ -391,6 +381,7 @@
 						, uniqueID: section.data('clone')
 						, scope: scope
 					}
+				,	storeData = true
 					
 
 				if(btn.hasClass('section-edit')){
@@ -409,10 +400,15 @@
 
 				} else if (btn.hasClass('section-delete')){
 
+					storeData = false
+					
 					bootbox.confirm("<h3>Are you sure?</h3><p>This will remove this section and its settings from this page.</p>", function( result ){
 
 						if(result == true){
-							$.pageBuilder.handleElementDelete( section )
+							$.pageBuilder.setElementDelete( section ) // recursive function
+
+							$.pageBuilder.reloadConfig( {location: 'section-delete'} )
+					
 						} 
 
 					})
@@ -467,7 +463,9 @@
 
 				}
 
-				$.pageBuilder.reloadConfig( 'section-control' )
+				// "delete" has a confirm, so doesn't need this
+				if( storeData )
+					$.pageBuilder.reloadConfig( { location: 'section-control' } )
 
 			})
 
@@ -475,16 +473,18 @@
 
 
 
-        , reloadConfig: function( source ) {
+        , reloadConfig: function( obj ) {
 
-			//console.log(source)
+			var obj = obj || {}
+			, 	location = obj.location || 'none'
+			, 	refresh  = obj.refresh || false
 
 			$('.pl-sortable-area').each(function () {
 				$.pageBuilder.alignGrid( this )
 			})
 
-			if( source !== 'start' )
-				$.pageBuilder.storeMap()
+			if( location !== 'start' )
+				$.pageBuilder.storeMap( refresh )
 
         }
 
@@ -585,7 +585,8 @@
 			var that = this
 			, 	refresh = refresh || false
 			,	map = $.plMapping.getCurrentMap()
-
+			, 	templateMode = $.pl.config.templateMode || 'local'
+			
 			$.pl.map = map
 
 			if( refresh ){
@@ -593,9 +594,9 @@
 				$.plAJAX.saveData( {
 					  run: 'map'
 					, refresh: true
-					, refreshText: 'New page setup saved! Refreshing page...'
+					, refreshText: 'Saved! Refreshing page...'
 					, map: map
-					, templateMode: $.pl.config.templateMode
+					, templateMode: templateMode
 				} )
 				
 			} else {
@@ -603,7 +604,7 @@
 				$.plAJAX.saveData( {
 					  run: 'map'
 					, map: map
-					, templateMode: $.pl.config.templateMode
+					, templateMode: templateMode
 					, postSuccess: function( rsp ){
 
 						if(!rsp)
@@ -752,8 +753,11 @@
 						})
 
 			        }
-					, update: function() {
-						that.reloadConfig( 'update-sortable' )
+					, update: function( event, ui ) {
+						
+						// the x-item draggables have to make adjustments before they are recognized
+						// Saving twice creates a race condition
+						that.reloadConfig( {location: 'update sortable'} )
 					}
 				}
 

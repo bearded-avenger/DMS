@@ -73,6 +73,8 @@
 					.slideDown()
 
 				$.pageBuilder.handleCloneData( cloned )
+				
+				$.pageBuilder.reloadConfig( {location: 'area clone'} )
 			}
 
 		}

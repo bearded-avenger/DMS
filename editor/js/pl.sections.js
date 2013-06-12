@@ -101,10 +101,6 @@ $.plSections = {
 		,	sectionClass = 'section-'+sid
 		,	classToAdd = (type == 'section') ? 'pl-section' : 'pl-area'
 		
-
-
-
-
 		element
 			.removeClass('x-item isotope-item x-add-new x-extension')
 			.addClass( classToAdd )
@@ -156,7 +152,7 @@ $.plSections = {
 
 						$.areaControl.listen()
 						
-						$.pageBuilder.storeMap( )
+						$.pageBuilder.reloadConfig( {location: 'active load'} )
 				
 					}
 				,	beforeSend: function( ){
@@ -169,7 +165,7 @@ $.plSections = {
 			
 		} else {
 			
-			$.pageBuilder.storeMap( true )
+			$.pageBuilder.reloadConfig( {location: 'passive load', refresh: true} )
 			
 		}
 		
