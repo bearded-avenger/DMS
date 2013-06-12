@@ -160,7 +160,7 @@
 		, setBinding: function(){
 			var that = this
 
-			$('.lstn').on('keypress blur change', function( e ){
+			$('.lstn').on('keyup blur change', function( e ){
 
 				var theInput = $(this)
 				,	thePanel = theInput.closest('.tab-panel')

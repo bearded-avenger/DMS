@@ -385,7 +385,8 @@
 					
 
 				if(btn.hasClass('section-edit')){
-
+					
+					storeData = false
 					// TODO Open up and load options panel
 
 					$('body').toolbox({
@@ -482,6 +483,8 @@
 			$('.pl-sortable-area').each(function () {
 				$.pageBuilder.alignGrid( this )
 			})
+			
+			console.log(location)
 
 			if( location !== 'start' )
 				$.pageBuilder.storeMap( refresh )
@@ -578,8 +581,6 @@
 
         }
 
-		
-
 		, storeMap: function( refresh ) {
 
 			var that = this
@@ -588,6 +589,11 @@
 			, 	templateMode = $.pl.config.templateMode || 'local'
 			
 			$.pl.map = map
+			
+			console.log($.pl.data[templateMode])
+			
+			$.pl.data[templateMode]['custom-map'] = map
+		
 
 			if( refresh ){
 				
@@ -626,6 +632,9 @@
 
 
 		}
+		
+
+		
 
 
 
@@ -757,7 +766,8 @@
 						
 						// the x-item draggables have to make adjustments before they are recognized
 						// Saving twice creates a race condition
-						that.reloadConfig( {location: 'update sortable'} )
+						if(!ui.item.hasClass('loading-active'))
+							that.reloadConfig( {location: 'update sortable'} )
 					}
 				}
 

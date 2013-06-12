@@ -132,7 +132,7 @@
 		}
 
 		, saveData: function( opts ){
-
+			console.log('---- data saved ----')
 			var args = {
 					mode: 'save'
 				,	savingText: 'Saving Settings'
@@ -141,7 +141,6 @@
 				, 	log: true
 				,	pageData: $.pl.data
 				,	run: 'draft'
-				,	map: $.pl.map
 			}
 
 			$.extend( args, opts )
@@ -149,53 +148,7 @@
 			var response = $.plAJAX.run( args )
 
 		}
-		
-		, storeAllData: function( refresh, callback ){
-			
-			var that = this
-			, 	refresh = refresh || false
-			,	map = $.plMapping.getCurrentMap()
 
-			$.pl.map = map
-
-			$.plAJAX.saveData( {
-				run: 'all'
-				, refresh: refresh
-				, refreshText: 'Page information saved! Refreshing...'
-				, map: map
-				, postSuccess: function( rsp ){
-
-					if(!rsp)
-						return
-
-					if ( $.isFunction( callback ) )
-						callback.call( rsp )
-
-
-				}
-			} )
-			return map
-			
-		}
-		
-		// DEPRECATED
-		, deleteSettings: function( section, clone ){
-			
-			var args = {
-					mode: 'settings'
-				,	run: 'delete'
-				, 	log: true
-				,	pageData: $.pl.data
-				,	keys: $.pl.config.opts[clone]
-				,	clone: clone
-				
-			}
-			
-			console.log(args.keys)
-
-			var response = $.plAJAX.run( args )
-			
-		}
 
 
 		, toggleEditor: function(){

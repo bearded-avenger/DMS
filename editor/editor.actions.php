@@ -24,7 +24,7 @@ function pl_editor_actions(){
 			
 			$draft->save_draft( $pageID, $typeID, $postdata['pageData'] );
 
-			if(isset($postdata['map'])){
+			if( ($run == 'map' || $run == 'all') && isset($postdata['map']) ){
 				
 				$template_mode = (isset($postdata['templateMode'])) ? $postdata['templateMode'] : 'type';
 				

@@ -684,6 +684,7 @@ function pl_settings_update( $new_settings, $mode = 'draft', $metaID = false ){
 	// in case of empty, use live/draft default
 	$settings = wp_parse_args($settings, pl_settings_default());
 
+
 	$settings[ $mode ] = $new_settings;
 
 	// lets do some clean up
