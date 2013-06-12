@@ -5,7 +5,7 @@
 	Author URI: http://www.pagelines.com
 	Description: An easy way to create and configure several box type sections at once.
 	Class Name: pliBox
-	Filter: post-formats
+	Filter: component
 	Loading: active
 */
 
@@ -71,27 +71,32 @@ class pliBox extends PageLinesSection {
 
 			$opts = array(
 
-				'ibox_title_'.$i 	=> array(
+				array(
+					'key'		=> 'ibox_title_'.$i,
 					'label'		=> __( 'iBox Title', 'pagelines' ),
 					'type'		=> 'text'
 				),
-				'ibox_text_'.$i 	=> array(
+				array(
+					'key'		=> 'ibox_text_'.$i,
 					'label'	=> __( 'iBox Text', 'pagelines' ),
 					'type'	=> 'textarea'
 				),
-				'ibox_link_'.$i 	=> array(
+				array(
+					'key'		=> 'ibox_link_'.$i,
 					'label'		=> __( 'iBox Link (Optional)', 'pagelines' ),
 					'type'		=> 'text'
 				),
 			);
 
 			if($media == 'icon'){
-				$opts['ibox_icon_'.$i] = array(
+				$opts[] = array(
+					'key'		=> 'ibox_icon_'.$i,
 					'label'		=> __( 'iBox Icon', 'pagelines' ),
 					'type'		=> 'select_icon',
 				);
 			} elseif($media == 'image'){
-				$opts['ibox_image_'.$i] = array(
+				$opts[] = array(
+					'key'		=> 'ibox_image_'.$i,
 					'label'		=> __( 'iBox Image', 'pagelines' ),
 					'type'		=> 'image_upload',
 				);
