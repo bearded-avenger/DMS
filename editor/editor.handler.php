@@ -100,6 +100,7 @@ class PageLinesTemplateHandler {
 					, config: {
 						userID: '<?php echo $this->get_user_id();?>'
 						, currentURL: '<?php echo $this->current_url();?>'
+						, siteURL: '<?php echo site_url();?>'
 						, nonce: '<?php echo wp_create_nonce( "tgmpa-install" ); ?>'
 						, pageTemplate: '<?php echo $this->page->template; ?>'
 						, templateMode: '<?php echo $this->get_template_mode(); ?>'

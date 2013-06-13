@@ -91,7 +91,8 @@ class PageLinesEditor {
 		global $plopts;
 		global $editorless;
 		global $storeapi;
-
+		global $fileopts;
+		
 		$plpg = $this->page = new PageLinesPage;
 		$pldraft = $this->draft = new EditorDraft( $this->page );
 		$storeapi = $this->storeapi = new EditorStoreFront;
@@ -110,6 +111,7 @@ class PageLinesEditor {
 		$this->siteset = new EditorSettings;
 		$this->extensions = new EditorExtensions;
 		$pless = new PageLinesLess;
+		$fileOpts = new EditorFileOpts;
 		$this->editor_less = new EditorLess($pless);
 		pagelines_register_hook('pl_after_settings_load'); // hook
 

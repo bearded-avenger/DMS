@@ -199,22 +199,18 @@ class PageLinesSettings extends PageLinesData {
 	 */
 	function reset_global(  ){
 
-		$fileOpts = new EditorFileOpts;
-		
-		if( true == $fileOpts->file_exists() ) {
-			$options = $fileOpts->read_file();
-			
-			// ok import settings
-			
-			foreach( $options as $opt => $data )
-				$this->opt_update( $opt, $data );
+		$fileOpts = new EditorFileOpts;		
+		if( $fileOpts->file_exists() ) {
+			$fileOpts->import( $fileOpts->file_exists() );
+			die( json_encode( 'YES' ) );
 		} else {
 			$set = $this->opt( PL_SETTINGS, $this->default );
-
+		
 			$set['draft'] = $this->default['draft'];
-
+		
 			$this->opt_update( PL_SETTINGS, $set );
 			$this->set_default_settings();
+			die( json_encode( 'NO' ) );
 		}
 	}
 
