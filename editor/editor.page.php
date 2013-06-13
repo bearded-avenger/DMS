@@ -152,6 +152,14 @@ class PageLinesPage {
 		return $type;
 
 	}
+	
+	function page_scope(){
+		if(is_page() || $this->page->is_special()){
+			return 'local';
+		} else {
+			return 'type';
+		}
+	}
 
 	function is_special(){
 

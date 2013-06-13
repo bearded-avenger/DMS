@@ -324,6 +324,9 @@
 			if( plIsset($.pl.data.local[ uniqueID ]) )
 				delete $.pl.data.local[ uniqueID ]
 				
+			if( plIsset($.pl.data.type[ uniqueID ]) )
+				delete $.pl.data.type[ uniqueID ]
+				
 			if( plIsset($.pl.data.global[ uniqueID ]) )
 				delete $.pl.data.global[ uniqueID ]
 		}

@@ -117,7 +117,8 @@
 				if(result == true){
 
 					currentArea.slideUp(500, function(){
-						$.pageBuilder.handleElementDelete( currentArea )
+						$.pageBuilder.setElementDelete( currentArea )
+						$.pageBuilder.reloadConfig( {location: 'area-delete'} )
 					
 					})
 
