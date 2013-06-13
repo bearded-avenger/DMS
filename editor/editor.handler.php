@@ -580,6 +580,8 @@ class PageLinesTemplateHandler {
 				$s->meta = $meta;
 
 				$s->section_styles();
+				
+				$s->section_scripts();
 
 				// Auto load style.css for simplicity if its there.
 				if( is_file( $s->base_dir . '/style.css' ) ){
