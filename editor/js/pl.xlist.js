@@ -105,9 +105,9 @@
 				,	filterClass = '.'+filterID
 				,	ext = $.pl.config.extensions[theID] || false
 				,	panel = theIsotope.data('panel') || false
-				console.log('before condition')
+			
 				if(!theIsotope.hasClass('x-pane-mode') && ext){
-					console.log('after condition')
+				
 
 					var splash	= sprintf('<div class="x-pane-frame"><img src="%s" /></div>', ext.splash)
 					,	btnClose = sprintf('<div class="x-item x-close x-remove %s"><a href="#" class="btn btn-close"><i class="icon-remove"></i></a></div>', filterID)
