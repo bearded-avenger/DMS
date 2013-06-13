@@ -202,7 +202,6 @@ class PageLinesSettings extends PageLinesData {
 		$fileOpts = new EditorFileOpts;		
 		if( $fileOpts->file_exists() ) {
 			$fileOpts->import( $fileOpts->file_exists() );
-			die( json_encode( 'YES' ) );
 		} else {
 			$set = $this->opt( PL_SETTINGS, $this->default );
 		
@@ -210,7 +209,6 @@ class PageLinesSettings extends PageLinesData {
 		
 			$this->opt_update( PL_SETTINGS, $set );
 			$this->set_default_settings();
-			die( json_encode( 'NO' ) );
 		}
 	}
 
