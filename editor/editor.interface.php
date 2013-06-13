@@ -54,7 +54,7 @@ class EditorInterface {
 			// Forms handling
 			wp_enqueue_script( 'form-params', $this->url . '/js/form.params.js', array('jquery'), PL_CORE_VERSION, true );
 			wp_enqueue_script( 'form-store', $this->url . '/js/form.store.js', array('jquery'), PL_CORE_VERSION, true );
-			
+
 			wp_enqueue_script( 'form-fileupload', $this->url . '/js/utils.fileupload.js', array('jquery', 'jquery-ui-widget'), PL_CORE_VERSION, true );
 
 
@@ -130,7 +130,7 @@ class EditorInterface {
 
 			),
 			'toggle-grid' => array(
-				'icon'	=> 'icon-bolt',
+				'icon'	=> 'icon-screenshot',
 				'type'	=> 'btn',
 				'pos'	=> 199
 			),
@@ -193,7 +193,12 @@ class EditorInterface {
 
 	function pagelines_toolbox(){
 
+		$state = $this->draft->get_state( $this->page->id, $this->page->typeid, $this->map );
 
+		$state_class = '';
+		foreach($state as $st){
+			$state_class .= ' '.$st;
+		}
 	?>
 
 	<div class="pl-toolbox-pusher">
@@ -262,23 +267,8 @@ class EditorInterface {
 
 					}
 				?>
-
 			</ul>
-
-
-
 			<ul class="unstyled controls send-right">
-
-				<?php
-					$state = $this->draft->get_state( $this->page->id, $this->page->typeid, $this->map );
-
-					$state_class = '';
-					foreach($state as $st){
-						$state_class .= ' '.$st;
-					}
-
-
-				?>
 				<li id="stateTool" class="dropup <?php echo $state_class;?>">
 					<span class="btn-toolbox btn-state " data-toggle="dropdown">
 						<span id="update-state" class="state-draft state-tag">&nbsp;</span>
@@ -292,7 +282,7 @@ class EditorInterface {
 						<li class="li-state-clean disabled"><a class="txt"><span class="update-state state-draft clean">&nbsp;</span>&nbsp; No Unpublished Changes</a></li>
 					</ul>
 				</li>
-				<li class="li-draft"><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-save"></i> <span class="txt">Preview</span></li>
+				<!--<li class="li-draft"><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-save"></i> <span class="txt">Preview</span></li>-->
 				<li class="li-publish"><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-ok"></i> <span class="txt">Publish</span></li>
 
 			</ul>
