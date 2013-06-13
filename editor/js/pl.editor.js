@@ -21,7 +21,7 @@
 
 		startUp: function(){
 
-			$.pageBuilder.reloadConfig({ location: 'start'})
+			$.pageBuilder.reloadConfig({ location: 'start', storeMap: false})
 
 			this.theToolBox = $('body').toolbox()
 
@@ -475,22 +475,74 @@
 
 		}
 
-
-
-        , reloadConfig: function( obj ) {
-
-			var obj = obj || {}
-			, 	location = obj.location || 'none'
-			, 	refresh  = obj.refresh || false
-
+		, updatePage: function( obj ){
+			
+			var templateMode = $.pl.config.templateMode || 'local'
+			
 			$('.pl-sortable-area').each(function () {
 				$.pageBuilder.alignGrid( this )
 			})
 			
-			console.log(location)
+			var map = $.plMapping.getCurrentMap()
+			
+			$.pl.data[templateMode]['custom-map'] = {
+				template: map.template
+			}
+			
+			$.pl.data.global.regions = {
+				header: map.header
+				, footer: map.footer
+			}
+			
+			return map
+			
+		} 
 
-			if( location !== 'start' )
-				$.pageBuilder.storeMap( refresh )
+        , reloadConfig: function( obj ) {
+
+			var that = this
+			,	obj = obj || {}
+			, 	location = obj.location || 'none'
+			, 	refresh  = obj.refresh || false
+			,	storeMap = obj.storeMap || true
+			,	templateMode = $.pl.config.templateMode || 'local'
+			,	map = that.updatePage( obj )
+
+			if( storeMap ){
+
+				if( refresh ){
+
+					$.plAJAX.saveData( {
+						  run: 'map'
+						, refresh: true
+						, refreshText: 'Saved! Page refresh required. Refreshing...'
+						, map: map
+						, templateMode: templateMode
+					} )
+
+				} else {
+
+					$.plAJAX.saveData( {
+						  run: 'map'
+						, map: map
+						, templateMode: templateMode
+						, postSuccess: function( rsp ){
+
+							if(!rsp)
+								return
+
+							if(rsp.changes && rsp.changes.local == 1){
+								$('.x-item-actions')
+								 	.removeClass('active-template')
+							}
+
+
+						}
+					} )
+				}
+
+
+			}
 
         }
 
@@ -587,51 +639,7 @@
 
 		, storeMap: function( refresh ) {
 
-			var that = this
-			, 	refresh = refresh || false
-			,	map = $.plMapping.getCurrentMap()
-			, 	templateMode = $.pl.config.templateMode || 'local'
 			
-			$.pl.map = map
-			
-			$.pl.data[templateMode]['custom-map'] = map
-		
-
-			if( refresh ){
-				
-				$.plAJAX.saveData( {
-					  run: 'map'
-					, refresh: true
-					, refreshText: 'Saved! Page refresh required. Refreshing...'
-					, map: map
-					, templateMode: templateMode
-				} )
-				
-			} else {
-				
-				$.plAJAX.saveData( {
-					  run: 'map'
-					, map: map
-					, templateMode: templateMode
-					, postSuccess: function( rsp ){
-
-						if(!rsp)
-							return
-
-						if(rsp.changes && rsp.changes.local == 1){
-							$('.x-item-actions')
-							 	.removeClass('active-template')
-						}
-
-
-					}
-				} )
-			}
-			
-			
-
-			return map
-
 
 		}
 		

@@ -132,6 +132,7 @@
 		}
 
 		, saveData: function( opts ){
+			
 			var args = {
 					mode: 'save'
 				,	savingText: 'Saving Settings'
@@ -141,6 +142,8 @@
 				,	pageData: $.pl.data
 				,	run: 'draft'
 			}
+			
+			$.pageBuilder.updatePage({ location: 'save-data' })
 
 			$.extend( args, opts )
 
