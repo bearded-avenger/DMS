@@ -711,6 +711,9 @@
 				, complete: function (response) {
 					console.log('success!')
 					console.log( $.parseJSON( response.responseText) )
+					var url = $.pl.config.siteURL
+					window.location.href = url
+					
 				}
 			});
 
