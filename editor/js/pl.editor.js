@@ -93,6 +93,7 @@
 			var selectedPanel = $('.panel-'+key)
 			, 	selectedTab = $('[data-action="'+key+'"]')
 			, 	allPanels = $('.tabbed-set')
+			
 
 			$('body')
 				.toolbox('show')
@@ -110,6 +111,8 @@
 
 			$('.pl-toolbox .ui-tabs').tabs('destroy')
 
+			
+	
 			selectedPanel.tabs({
 				create: function(event, ui){
 
@@ -391,7 +394,12 @@
 					
 					storeData = false
 					// TODO Open up and load options panel
-
+					
+					// This is needed so we can control which scope tabs are shown
+					$('[data-key="section-options"]')
+						.data('section-uid', config.uniqueID)
+						.attr('data-section-uid', config.uniqueID)
+						
 					$('body').toolbox({
 						action: 'show'
 						, panel: 'section-options'
