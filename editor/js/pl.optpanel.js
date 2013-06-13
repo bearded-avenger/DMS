@@ -119,7 +119,42 @@
 				that.runScriptEngine( 0, opt_array )
 			
 			})
+			
+			var theTabs = $('[data-key="section-options"]')
 		
+			var section = $('section[data-clone="'+uniqueID+'"]')
+			,	panelScope
+			
+			if( section.closest('[data-region="header"]').length || section.closest('[data-region="footer"]').length )
+				panelScope = 'global'
+			else 
+				panelScope = $.pl.config.templateMode
+				
+			console.log(panelScope)
+			
+			$('[data-tab-action]').show()
+			
+			if(panelScope == 'global'){
+				theTabs.tabs("option", {
+				    "selected": 0,
+				    "disabled": [1, 2]
+				})
+				$('[data-tab-action="type"], [data-tab-action="local"]').hide()
+			} else if(panelScope == 'local'){
+				
+				theTabs.tabs("option", {
+				    "selected": 2,
+				    "disabled": [0, 1]
+				})
+				$('[data-tab-action="global"], [data-tab-action="type"]').hide()
+			} else {
+				theTabs.tabs("option", {
+				    "selected": 1,
+				    "disabled": [0]
+				})
+				$('[data-tab-action="global"]').hide()
+			}
+			
 
 		}
 
