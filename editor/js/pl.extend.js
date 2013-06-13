@@ -17,10 +17,10 @@ $.plExtend = {
 			bootbox.confirm( theModal, function( result ){
 
 				if(result == true){
-					console.log('yes!')
+				
 
 				} else {
-					console.log('no!')
+					
 
 					if( tbOpen )
 						$.toolbox('show')

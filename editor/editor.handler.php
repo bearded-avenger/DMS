@@ -137,7 +137,7 @@ class PageLinesTemplateHandler {
 	
 	function get_template_mode(){
 		
-		if(is_page()){
+		if(is_page() || $this->page->is_special()){
 			return 'local';
 		} else {
 			return 'type';

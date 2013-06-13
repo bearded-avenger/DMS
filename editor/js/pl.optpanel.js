@@ -101,7 +101,7 @@
 
 			$.each(cascade, function( i, scope ){
 		
-				var sel = sprintf("[data-scope='%s']", scope)
+				var sel = sprintf("[data-panel='%s']", scope)
 				, 	clone_text = sprintf('<i class="icon-screenshot"></i> %s <i class="icon-map-marker"></i> %s scope', uniqueID, scope)
 				, 	clone_desc = sprintf(' <span class="clip-desc"> &rarr; %s</span>', clone_text)
 				

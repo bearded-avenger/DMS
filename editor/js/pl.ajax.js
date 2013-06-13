@@ -242,7 +242,7 @@
 					.addClass('dropup')
 
 				$.each(state, function(index, el){
-					console.log(el)
+					
 					$('#stateTool').addClass(el)
 				})
 

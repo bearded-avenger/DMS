@@ -73,16 +73,16 @@ class PageLinesSettingsPanel{
 		$tabs = array();
 		$tabs['heading'] = "Section Options";
 
-		$basic_scope = (is_page()) ? 'local' : 'type';
+		$basic_scope = (is_page() || $plpg->is_special()) ? 'local' : 'type';
 		
-		$tabs['opts'] = array( 
-							'name'	=> 'Section Options', 
+		$tabs[ $basic_scope ] = array( 
+							'name'	=> 'Section Options <span class="label">'.$basic_scope.'</span>', 
 							'scope' => $basic_scope
 						);
 
 		if( !$plpg->is_special() && !is_page() ){
 
-			$tabs['opts_local'] = array( 
+			$tabs['local'] = array( 
 								'name'	=> 'Current Page <span class="label">'.$plpg->id.'</span>',
 								'scope' => 'local'
 							);
