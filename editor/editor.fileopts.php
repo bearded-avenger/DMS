@@ -12,8 +12,24 @@ class EditorFileOpts {
 	
 	function __construct() {
 
-		if( isset( $_GET['pl_exp'] ) )
+		if( isset( $_GET['pl_exp'] ) ) {
+			$this->data = new stdClass;
+			
+			if( isset( $_GET['export_types'] ) )
+				$this->data->export_types = 1;
+		
+			if( isset( $_GET['export_global'] ) )
+				$this->data->export_global = 1;
+				
+			if( isset( $_GET['templates'] ) ) {
+				
+				$t = explode( '|', $_GET['templates'] );
+						
+				foreach( $t as $k =>$template)
+					$this->data->templates->$template = 'on';
+			}
 			$this->make_download();
+		}
 
 		// setup some vars...			
 		$this->child_dir = trailingslashit( get_stylesheet_directory() );
