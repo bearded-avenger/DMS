@@ -160,7 +160,7 @@ function pl_editor_actions(){
 		$plpg = new PageLinesPage( array( 'mode' => 'ajax', 'pageID' => $pageID, 'typeID' => $typeID ) );
 		$draft = new EditorDraft;
 		$settings = new PageLinesOpts;
-		$fileOpts = new EditorFileOpts;
+
 		if ($run == 'reset_global'){
 
 			$settings->reset_global();
@@ -174,8 +174,12 @@ function pl_editor_actions(){
 			// delete clone index by keys
 			
 			
-		}elseif( $run == 'opt_dump' ) {
-			$fileOpts->dump();
+		}elseif( $run == 'exporter' ) {
+			$data = $postdata['formData'];
+			$data = stripslashes_deep( $data );
+			$fileOpts = new EditorFileOpts;		
+			$response['export'] = $fileOpts->init( $data );
+			$response['export_data'] = $data;
 		}
 
 	} elseif ( $mode == 'fileupload' ){
@@ -192,9 +196,20 @@ function pl_editor_actions(){
 
 add_action('wp_ajax_upload_config_file', 'pl_upload_config_file');
 function pl_upload_config_file(){
-	$response['post'] = $_POST;
-	$response['get'] = $_GET;
-	$response['files'] = $_FILES['files'];
+	
+	$fileOpts = new EditorFileOpts;
+	$response['files'] = $_FILES['files'];	
+
+	// 
+	if( $_FILES['files']['name'][0] == $fileOpts->configfile )
+		$file = $_FILES['files']['tmp_name'][0];
+		
+	$response['file'] = $file;
+	// 
+	// 
+	// 
+	if( isset( $file ) )
+		$response['out'] = $fileOpts->import( $file );
 	
 	echo json_encode(  pl_arrays_to_objects( $response ) );
 

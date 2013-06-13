@@ -656,22 +656,30 @@
 				
 				
 				if( theAction == 'opt_dump' ){
-
-					var confirmText = "<h3>Are you sure?</h3><p>This will dump all settings to <strong>theme-options.dat</strong></p>"
-
+				
+					var formDataObject = $('[data-scope="importexport"]').formParams()
+					var dump = formDataObject.publish_config || false
+					var confirmText = ( dump ) ? "<h3>Are you sure?</h3><p>This will dump all settings to a config file in your child theme</p>" : '<h3>Download settings?</h3>'
+					
 					var args = {
 								mode: 'settings'
-							,	run: theAction
-							,	confirm: true
+							,	run: 'exporter'
+							,	confirm: false
 							,	confirmText: confirmText
-							,	savingText: 'Dumping Options'
+							,	savingText: 'Exporting Options'
 							,	refresh: false
 							,	refreshText: ''
 							, 	log: true
+							,	formData: JSON.stringify(formDataObject)
 						}
 					var response = $.plAJAX.run( args )
-					}
 
+					var url = $.pl.config.siteURL + '?pl_exp'
+					
+					if( ! dump) {
+						window.location.href = url
+					}
+				}
 			})
 			
 			$('.checklist-tool').on('click', function (e) {
@@ -697,6 +705,7 @@
 				, formData: {
 					action: 'upload_config_file'
 					, mode: 'fileupload'
+					, refresh: true
 					, run: 'upload_config'
 				}
 				, complete: function (response) {

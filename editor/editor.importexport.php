@@ -10,7 +10,6 @@ class PLImportExport{
 
 		$this->url = PL_PARENT_URL . '/editor';
 
-		$this->chat_frame_url = 'http://pagelines.campfirenow.com/6cd04';
 	}
 
 	function add_settings( $settings ){
@@ -64,10 +63,11 @@ class PLImportExport{
 			
 			$tpl_selects .= sprintf(
 				'<label class="checklist-label media" for="%s">
-					<div class="img"><input id="%s" type="checkbox" checked /></div>
+					<div class="img"><input name="templates[]%s" id="%s" type="checkbox" checked /></div>
 					<div class="bd"><div class="ttl">%s</div><p>%s</p></div>
 				</label>', 
-				$index, 
+				$index,
+				$index,
 				$index, 
 				$template['name'], 
 				$template['desc']
@@ -78,8 +78,8 @@ class PLImportExport{
 		
 		?>
 		<label>Global Settings</label>
-		<label class="checklist-label media" for="export_global">
-			<div class="img"><input id="export_global" type="checkbox" checked /></div>
+		<label class="checklist-label media" for="export_global" name="export_global">
+			<div class="img"><input name="export_global" id="export_global" type="checkbox" checked /></div>
 			<div class="bd">
 				<div class="ttl">Export Site Global Settings</div>
 				<p>This will export your sites global settings. This includes everything in the options panel, as well as settings directed at sections in your "global" regions like your header and footer.</p>
@@ -88,7 +88,7 @@ class PLImportExport{
 		
 		<label>Post Type Settings</label>
 		<label class="checklist-label media" for="export_types">
-			<div class="img"><input id="export_types" type="checkbox" checked /></div>
+			<div class="img"><input name="export_types" id="export_types" type="checkbox" checked /></div>
 			<div class="bd">
 				<div class="ttl">Export Post Type Settings</div>
 				<p>This exports settings such as the template defaults for various post types.</p>
@@ -102,7 +102,7 @@ class PLImportExport{
 		
 		?>
 		<label class="checklist-label media <?php echo (!$publish_active) ? 'disabled': '';?>" for="publish_config">
-			<div class="img"><input id="publish_config" type="checkbox" <?php echo (!$publish_active) ? 'disabled="disabled"': '';?> /></div>
+			<div class="img"><input id="publish_config" name="publish_config" type="checkbox" <?php echo (!$publish_active) ? 'disabled="disabled"': '';?> /></div>
 			<div class="bd">
 				<div class="ttl"><?php echo (!$publish_active) ? '(Disabled! No child theme active)': '';?> Publish Configuration to Child Theme</div>
 				<p>Check this to publish your site configuration as a theme configuration file in your theme's root directory. When a user activates your theme it will ask if it can overwrite their settings to attain a desired initial experience to the theme.</p>
@@ -110,9 +110,10 @@ class PLImportExport{
 		</label>
 		
 		<div class="center publish-button">
-			<button class="btn btn-primary btn-large">Publish <span class="spamp">&amp;</span> Download DMS Config</button>
+			<button class="btn btn-primary btn-large settings-action" data-action="opt_dump">Publish <span class="spamp">&amp;</span> Download DMS Config</button>
 		</div>
-		<?
+
+		<?php
 		
 		return ob_get_clean();
 	}
@@ -144,6 +145,9 @@ class PLImportExport{
 		
 	}
 	
-
+	// we want to get all the meta from our special posts settings.
+	function get_special_settings() {
+		
+	}
 
 }
