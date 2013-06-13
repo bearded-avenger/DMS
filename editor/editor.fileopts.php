@@ -26,7 +26,7 @@ class EditorFileOpts {
 				$t = explode( '|', $_GET['templates'] );
 						
 				foreach( $t as $k =>$template)
-					$this->data->templates->$template = 'on';
+					$this->data->templates[$template] = 'on';
 			}
 			$this->make_download();
 		}
