@@ -159,7 +159,8 @@ class EditorFileOpts {
 			$templates =  get_option( 'pl-user-templates', array() );
 			
 			foreach( $this->data->templates as $t => $s ) {
-				$option['pl-user-templates'][$t] = $templates[$t];
+				if( isset( $templates[$t] ) )
+					$option['pl-user-templates'][$t] = $templates[$t];
 			}		
 		}
 
