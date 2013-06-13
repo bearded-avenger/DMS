@@ -594,8 +594,6 @@
 			
 			$.pl.map = map
 			
-			console.log($.pl.data[templateMode])
-			
 			$.pl.data[templateMode]['custom-map'] = map
 		
 
@@ -604,7 +602,7 @@
 				$.plAJAX.saveData( {
 					  run: 'map'
 					, refresh: true
-					, refreshText: 'Saved! Refreshing page...'
+					, refreshText: 'Saved! Page refresh required. Refreshing...'
 					, map: map
 					, templateMode: templateMode
 				} )

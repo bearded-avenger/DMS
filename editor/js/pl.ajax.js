@@ -132,7 +132,6 @@
 		}
 
 		, saveData: function( opts ){
-			console.log('---- data saved ----')
 			var args = {
 					mode: 'save'
 				,	savingText: 'Saving Settings'
