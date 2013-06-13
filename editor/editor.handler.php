@@ -704,7 +704,7 @@ class PageLinesTemplateHandler {
 				$this->grid_row_start( $s, $count, $total, $render, $level );
 
 			if( $render ){
-
+				
 				$s->before_section_template( );
 
 				$this->before_section( $s );
