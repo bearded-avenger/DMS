@@ -318,15 +318,6 @@ class EditorTemplates {
 						  <i class="icon-edit"></i> Update Template with Current Configuration
 					  </a></li>
 
-					  <?php if(!$this->page->is_special()):?>
-				    	<li><a class="set-tpl posttype-link" data-run="type" data-field="<?php echo $slug;?>">
-							<i class="icon-pushpin"></i> <span class="not-active">Set as</span><span class="badge badge-info">Active</span> "<?php echo $this->page->type_name;?>" post type default
-						</a></li>
-					<?php endif; ?>
-
-						<li><a class="set-tpl global-link" data-run="global" data-field="<?php echo $slug;?>">
-							<i class="icon-globe"></i> <span class="not-active">Set as</span><span class="badge badge-info">Active</span> sitewide default
-						</a></li>
 						<li><a class="delete-template">
 							<i class="icon-remove"></i> Delete This Template
 						</a></li>
