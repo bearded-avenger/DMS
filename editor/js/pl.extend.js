@@ -69,7 +69,7 @@ console.debug( ext )
 			buttons = sprintf('<a href="%s" class="btn btn-primary x-remove"><i class="icon-cloud-download"></i> Install</a> ', InstallLink)
 
 		if(overviewLink)
-			buttons += sprintf('<a href="%s" class="btn x-remove" target="_blank"><i class="icon-folder-open"></i> Overview</a> ', overviewLink)
+			buttons += sprintf('<a href="%s" class="btn x-remove" target="_blank"><i class="icon-external-link"></i> Full Overview</a> ', overviewLink)
 
 		if(demoLink)
 			buttons += sprintf('<a href="%s" class="btn x-remove" target="_blank"><i class="icon-desktop"></i> Demo</a> ', demoLink)

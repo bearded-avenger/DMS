@@ -1183,9 +1183,7 @@
 				float: left;
 				font-size: 11px;
 				line-height: 1.2em;
-				&.x-close{
-					width: 30px;
-				}
+				
 				&.x-templates{
 					font-size: 13px;
 					line-height: 1.3em;
@@ -1265,6 +1263,7 @@
 					&:hover{ cursor: not-allowed; }
 				}
 				&.x-pane{
+					width: 480px;
 					font-size: 14px;
 					line-height: 1.5em;
 					.x-pane-pad{
@@ -1272,16 +1271,28 @@
 
 					}
 
-					width: 480px;
+					
 					.x-pane-frame{
 						margin-bottom: 20px;
 						min-height: 230px;
 					}
+					.x-pane-title{
+						font-weight: 300;
+						margin-bottom: 10px;
+					}
 					.x-pane-info{
 						margin: 1.5em 0;
 					}
+					.x-pane-btns{
+						background: #f7f7f7; 
+						padding: 10px; 
+						margin-bottom: 14px;
+					}
 					.x-pane-btns .btn{
 						margin-right: .5em;
+					}
+					.x-close{
+						float: right;
 					}
 				}
 				&.ui-draggable .x-item-frame:hover{
