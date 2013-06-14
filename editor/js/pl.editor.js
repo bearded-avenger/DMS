@@ -373,6 +373,7 @@
 
 		, sectionControls: function() {
 
+			$('.s-control').tooltip({placement: 'top'})
 			$('.s-control').on('click.sectionControls', function(e){
 
 				e.preventDefault()

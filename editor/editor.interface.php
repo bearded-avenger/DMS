@@ -442,18 +442,18 @@ class EditorInterface {
 		?>
 		<div class="pl-section-controls fix" >
 			<div class="controls-left">
-				<a title="Section Decrease Width" href="#" class="s-control s-control-icon section-decrease"><i class="icon-caret-left"></i></a>
+				<a title="Decrease Width" href="#" class="s-control s-control-icon section-decrease"><i class="icon-caret-left"></i></a>
 				<span title="Column Width" class="s-control section-size"></span>
-				<a title="Section Increase Width" href="#" class="s-control s-control-icon section-increase"><i class="icon-caret-right"></i></a>
-				<a title="Reduce Offset" href="#" class="s-control s-control-icon section-offset-reduce"><i class="icon-angle-left"></i></a>
-				<span title="Offset Size" class="s-control offset-size"></span>
-				<a title="Increase Offset" href="#" class="s-control s-control-icon section-offset-increase"><i class="icon-angle-right"></i></a>
-				<a title="Force New Row" href="#" class="s-control s-control-icon section-start-row"><i class="icon-double-angle-left"></i></a>
+				<a title="Increase Width" href="#" class="s-control s-control-icon section-increase"><i class="icon-caret-right"></i></a>
+				<a title="Offset Left" href="#" class="s-control s-control-icon section-offset-reduce"><i class="icon-angle-left"></i></a>
+				<span title="Offset Amount" class="s-control offset-size"></span>
+				<a title="Offset Right" href="#" class="s-control s-control-icon section-offset-increase"><i class="icon-angle-right"></i></a>
+				<a title="Force to New Row" href="#" class="s-control s-control-icon section-start-row"><i class="icon-double-angle-left"></i></a>
 			</div>
 			<div class="controls-right">
-				<a title="Edit Section" href="#" class="s-control s-control-icon section-edit s-loaded"><i class="icon-pencil"></i></a>
-				<a title="Clone Section" href="#" class="s-control s-control-icon section-clone s-loaded"><i class="icon-copy"></i></a>
-				<a title="Delete Section" href="#" class="s-control s-control-icon section-delete"><i class="icon-remove"></i></a>
+				<a title="Edit" href="#" class="s-control s-control-icon section-edit s-loaded"><i class="icon-pencil"></i></a>
+				<a title="Clone" href="#" class="s-control s-control-icon section-clone s-loaded"><i class="icon-copy"></i></a>
+				<a title="Delete" href="#" class="s-control s-control-icon section-delete"><i class="icon-remove"></i></a>
 			</div>
 			<div class="controls-title"><span class="ctitle"><?php echo $s->name;?></span></div>
 		</div>

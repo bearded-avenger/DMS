@@ -77,13 +77,13 @@ class PageLinesAreas {
 		?>
 
 		<div class="pl-area-controls">
-			<a class="area-control area-delete area-hide" data-area-action="delete" >
+			<a class="area-control area-delete area-hide" data-area-action="delete" title="Delete">
 				<i class="icon-remove"></i>
-			</a><a class="area-control area-clone area-hide" data-area-action="clone" >
+			</a><a class="area-control area-clone area-hide" data-area-action="clone" title="Clone">
 				<i class="icon-copy"></i>
-			</a><a class="area-control area-reorder area-hide" data-area-action="reorder" >
+			</a><a class="area-control area-reorder area-hide" data-area-action="reorder" title="Move">
 				<i class="icon-reorder"></i>
-			</a><a class="area-control area-edit" data-area-action="settings" >
+			</a><a class="area-control area-edit" data-area-action="settings" title="Edit">
 				<i class="icon-pencil"></i>
 			</a>
 		</div>
