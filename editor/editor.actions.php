@@ -180,11 +180,13 @@ function pl_editor_actions(){
 			$fileOpts = new EditorFileOpts;		
 			$response['export'] = $fileOpts->init( $data );
 			$response['export_data'] = $data;
+		} elseif( $run == 'reset_global_child' ) {
+				$settings->reset_global_child();
 		}
 
 	} elseif ( $mode == 'fileupload' ){
 		$response['hello'] = 'we got here!';
-	}
+	} 
 
 
 	// RESPONSE

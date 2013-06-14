@@ -195,21 +195,27 @@ class PageLinesSettings extends PageLinesData {
 	}
 
 	/*
-	 *  Resets global options to an empty set
+	 *  Resets global options using custom child theme config file.
 	 */
-	function reset_global(  ){
+	function reset_global_child(){
 
 		$fileOpts = new EditorFileOpts;		
-		if( $fileOpts->file_exists() ) {
+		if( $fileOpts->file_exists() )
 			$fileOpts->import( $fileOpts->file_exists() );
-		} else {
-			$set = $this->opt( PL_SETTINGS, $this->default );
+	}
+
+
+	/*
+	 *  Resets global options to an empty set
+	 */
+	function reset_global(){
+
+		$set = $this->opt( PL_SETTINGS, $this->default );
 		
-			$set['draft'] = $this->default['draft'];
+		$set['draft'] = $this->default['draft'];
 		
-			$this->opt_update( PL_SETTINGS, $set );
-			$this->set_default_settings();
-		}
+		$this->opt_update( PL_SETTINGS, $set );
+		$this->set_default_settings();
 	}
 
 	/*

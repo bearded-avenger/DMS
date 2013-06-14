@@ -668,7 +668,7 @@
 				var btn = $(this)
 				, 	theAction = btn.data('action')
 
-				if( theAction == 'reset_global' || theAction == 'reset_local'){
+				if( theAction == 'reset_global' || theAction == 'reset_local' || theAction == 'reset_global_child' ){
 
 					var context = (theAction == 'reset_global') ? "global site options" : "local page options"
 
@@ -709,10 +709,41 @@
 						}
 					var response = $.plAJAX.run( args )
 
-					var url = $.pl.config.siteURL + '?pl_exp'
-					
+
 					if( ! dump) {
-						window.location.href = url
+						// need to make a special url here...
+
+						var export_global = formDataObject.export_global || false
+						var templates = formDataObject.templates || false
+						var export_types = formDataObject.export_types || false
+						var url = $.pl.config.siteURL + '?pl_exp'
+
+						var endpoint = ''
+
+						if( export_global ) {
+							endpoint = endpoint + '&export_global=1'
+						}
+						if( templates ) {
+							
+							console.debug(templates)
+							var tpls = []
+							$.each( templates, function(key, value){
+								if(value) {
+									tpls.push(key)
+								}
+							})
+							var tplsSlug = tpls.join('|') || false
+							if(tplsSlug) {
+								endpoint = endpoint + '&templates=' + tplsSlug
+							}
+						}
+						if( export_types ) {
+							endpoint = endpoint + '&export_types=1'
+						}
+						if(endpoint) {
+							console.debug(url + endpoint)
+							window.location.href = url + endpoint
+						}
 					}
 				}
 			})
@@ -746,6 +777,9 @@
 				, complete: function (response) {
 					console.log('success!')
 					console.log( $.parseJSON( response.responseText) )
+					var url = $.pl.config.siteURL
+					window.location.href = url
+					
 				}
 			});
 
