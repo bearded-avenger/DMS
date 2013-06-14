@@ -54,10 +54,6 @@ $.plExtend = {
 		,	Deactivate 		= sprintf('%sadmin.php?page=install-pl-extensions&plugin=%s&tgmpa-deactivate=deactivate-plugin&pl_type=plugin&_wpnonce=%s&front=1', adminURL, Slug, $.pl.config.nonce)
 
 
-console.debug( ext )
-
-
-
 		if(!Owned && !Status)
 			buttons = sprintf('<a href="https://www.pagelines.com/api/paypal/button.php?paypal=%s" class="btn btn-primary x-remove"><i class="icon-money"></i> Purchase</a> ', payLink)
 
