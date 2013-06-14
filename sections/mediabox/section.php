@@ -110,8 +110,10 @@ class PageLinesMediaBox extends PageLinesSection {
 
 		if( $image || $media_html )
 			$img = ($image) ? sprintf('<img data-sync="mediabox_image" src="%s" />', $image) : '';
-		else
+		elseif(!$bg)
 			$img = sprintf('<img data-sync="mediabox_image" src="%s" />', $this->base_url.'/default.png'); // DEFAULT
+		else 
+			$img = '';
 		
 		$classes = array(); 
 		$align_class = array(); 
