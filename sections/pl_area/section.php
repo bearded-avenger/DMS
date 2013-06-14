@@ -93,10 +93,11 @@ class PLSectionArea extends PageLinesSection {
 
 	function section_template( ) {
 		
-		$section_output = render_nested_sections( $this->meta['content'] );
+		$section_output = (!$this->active_loading) ? render_nested_sections( $this->meta['content'] ) : false;
 		
 		$style = '';
 		
+		// If there is no output, there should be no padding or else the empty area will have height.
 		if( $section_output ){
 						
 			$padding = ($this->opt('pl_area_pad')) ? $this->opt('pl_area_pad') : '20px'; 

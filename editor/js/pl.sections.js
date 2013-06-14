@@ -123,6 +123,7 @@ $.plSections = {
 							return
 						
 						var controlType = (type == 'section') ? '.pl-section-controls' : '.pl-area-controls'
+						,	wrapper = (type == 'section') ? '<div class="pl-section-pad fix">%s</div>' : '<div class="pl-area-pad fix">%s</div>'
 						,	controls = $( controlType ).first().clone()	
 					
 						controls
@@ -130,7 +131,7 @@ $.plSections = {
 							.html(name)
 
 						element
-							.html( sprintf('<div class="pl-section-pad">%s</div>', response.template) )
+							.html( sprintf(wrapper, response.template) )
 							.prepend( controls )
 						
 						element
@@ -155,6 +156,9 @@ $.plSections = {
 							.off('click.areaControl')
 
 						$.areaControl.listen()
+						
+						$.pageBuilder.startDroppable( )
+						$.widthResize.startUp()
 						
 						$.pageBuilder.reloadConfig( {location: 'active load'} )
 				

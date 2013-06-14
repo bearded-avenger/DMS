@@ -148,6 +148,9 @@ class PageLinesSection {
 		$this->deprecated_setup();
 
 		load_plugin_textdomain($this->id, false, sprintf( 'pagelines-sections/%s/lang', $this->id ) );
+		
+		// set to true before ajax load
+		$this->active_loading = false; 
 
 
 	}

@@ -68,6 +68,7 @@ function pl_editor_actions(){
 				$response['opts'] = $s->section_opts();
 				
 				ob_start();
+					$s->active_loading = true;
 					$s->section_template();
 				$section_template = ob_get_clean();
 				

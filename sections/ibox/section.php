@@ -118,6 +118,7 @@ class pliBox extends PageLinesSection {
 
 
    function section_template( ) {
+
 		$boxes = ($this->opt('ibox_count')) ? $this->opt('ibox_count') : $this->default_limit;
 		$cols = ($this->opt('ibox_cols')) ? $this->opt('ibox_cols') : 3;
 
