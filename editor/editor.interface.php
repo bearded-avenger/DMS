@@ -50,6 +50,7 @@ class EditorInterface {
 
 			// Sprintf
 			wp_enqueue_script( 'js-sprintf', $this->url . '/js/utils.sprintf.js', array( 'jquery' ), PL_CORE_VERSION, true );
+			
 
 			// Forms handling
 			wp_enqueue_script( 'form-params', $this->url . '/js/form.params.js', array('jquery'), PL_CORE_VERSION, true );
@@ -71,6 +72,8 @@ class EditorInterface {
 			wp_enqueue_script( 'pl-ajax', $this->url . '/js/pl.ajax.js', array( 'jquery' ), PL_CORE_VERSION, true );
 			wp_enqueue_script( 'pl-library', $this->url . '/js/pl.library.js', array( 'jquery' ), PL_CORE_VERSION, true );
 			wp_enqueue_script( 'pl-layout', $this->url . '/js/pl.layout.js', array( 'jquery' ), PL_CORE_VERSION, true );
+			
+			wp_enqueue_script( 'js-hotkeys', $this->url . '/js/utils.hotkeys.js', array( 'jquery'), PL_CORE_VERSION );
 
 		// Action in to scripts here...
 		pagelines_register_hook('pagelines_editor_scripts'); // Hook
@@ -131,6 +134,7 @@ class EditorInterface {
 			),
 			'toggle-grid' => array(
 				'icon'	=> 'icon-screenshot',
+				'tip'	=> 'Preview (alt+a)',
 				'type'	=> 'btn',
 				'pos'	=> 199
 			),
@@ -148,7 +152,8 @@ class EditorInterface {
 		$toolbar_config =  apply_filters('pl_toolbar_config', $this->toolbar_config());
 
 		$default = array(
-			'pos'	=> 100
+			'pos'	=> 100,
+			'tip'	=> ''
 		);
 
 
@@ -252,13 +257,16 @@ class EditorInterface {
 
 						$name = (isset($tab['name'])) ? sprintf('<span class="txt">%s</span>', $tab['name']) : '';
 						$icon = (isset($tab['icon'])) ? sprintf('<i class="uxi %s"></i> ', $tab['icon']) : '';
+						
+						$tip = (isset($tab['tip'])) ? sprintf('title="%s"', $tab['tip']) : '';
 
 						printf(
-							'<li class="%s"><span class="btn-toolbox %s" data-action="%s" %s>%s%s%s</span>%s</li>',
+							'<li class="%s"><span class="btn-toolbox %s" data-action="%s" %s %s>%s%s%s</span>%s</li>',
 							$li_classes,
 							$classes,
 							$key,
 							$data,
+							$tip,
 							$icon,
 							$name,
 							$suffix,
@@ -284,7 +292,7 @@ class EditorInterface {
 			<ul class="unstyled controls send-right">
 				
 				<!--<li class="li-draft"><span class="btn-toolbox btn-save btn-draft" data-mode="draft"><i class="icon-save"></i> <span class="txt">Preview</span></li>-->
-				<li class="li-publish"><span class="btn-toolbox btn-save btn-publish" data-mode="publish"><i class="icon-ok"></i> <span class="txt">Publish</span></li>
+				<li class="li-publish"><span class="btn-toolbox btn-save btn-publish" data-mode="publish" title="Publish Live (alt+s)"><i class="icon-ok"></i> <span class="txt">Publish</span></li>
 
 			</ul>
 			<ul class="unstyled controls not-btn send-right">
