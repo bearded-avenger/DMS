@@ -380,6 +380,9 @@ function pl_check_color_hash( $color ) {
  */
 function pl_hashify( $color ){
 
+	if( is_int( $color ) )
+		$color = strval( $color );
+
 	$clean_hex = str_replace('#', '', $color);
 
 	return sprintf('#%s', $clean_hex);
