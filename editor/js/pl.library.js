@@ -22,8 +22,12 @@ function plPrint(variable){
 /* Data cleanup and handling
  * ============================================= */
 function pl_html_input( text ) {
-	return jQuery.trim( pl_htmlEntities( pl_stripSlashes( text ) ) );
-}
+	
+	if( typeof text != 'string')
+		return text
+	else 	
+		return jQuery.trim( pl_htmlEntities( pl_stripSlashes( text ) ) )
+}	
 
 function pl_stripSlashes (str) {
 
