@@ -108,32 +108,47 @@ class PageLinesExtendPanel{
 	function search_callback(){
 			?>
 
-			<form class="opt standard-form form-save-template">
+			<form class="opt standard-form form-store-search">
 				<fieldset>
 					<span class="help-block">Search the PageLines store for extensions.</span>
 
 					<input class="" id="appendedInputButton" type="text">
-					<button id="ssearch" class="btn" type="button">Search!</button>
+					
+					<button id="ssearch" class="btn btn-primary" type="submit">Search Store</button>
 
 				</fieldset>
 			</form>
-			<ul id='results'>
+			<ul id='results' class="store-search-results">
 			</ul>
 		<script>
 		jQuery(document).ready(function(){
-			jQuery("#ssearch").click(function(){
-				jQuery('#results').empty()
+			jQuery(".form-store-search").on('submit', function(e){
+				e.preventDefault()
+				jQuery('.store-search-results').empty()
+				
 				jQuery.ajaxSetup({ cache: false });
+				
 				var s = jQuery('#appendedInputButton').val()
+				
 				var url = sprintf('http://api.pagelines.com/v4/search/?s=%s&callback=?',s)
-				console.debug(url)
+				//console.debug(url)
+				
 				jQuery.getJSON(url,function(result){
 					console.debug(result)
 					
-					jQuery("#results").append("<li>" + result.results + " results found for <strong>" + s + "</strong></li>");
+					jQuery(".store-search-results").append("<li><strong>" + result.results + " results</strong> found for <strong>" + s + "</strong></li>");
+					
 					jQuery.each(result.data, function(i, field){
-				    jQuery("#results").append("<li>" + field.description + "</li>");
-				      });
+						
+						var btns = sprintf('<br/><a href="%s" class="btn btn-mini">Overview <i class="icon-external-link" target="_blank"></i></a> <a href="%s" class="btn btn-mini">Demo <i class="icon-picture" target="_blank"></i></a>', field.external, field.demo)
+						
+						var output = sprintf('<div class="img" style="max-width: 130px;"><img src="%s" /></div><div class="bd"><h4>%s</h4><p>%s %s</p></div>', field.thumb, field.name, field.description, btns)
+						
+						var wrap = sprintf('<li style="search-results"><div class="media fix">%s</div></li>', output)
+						
+				    	jQuery("#results").append(wrap);
+				
+				     });
 		    });
 		  });
 		});
