@@ -113,9 +113,9 @@ class PLSectionArea extends PageLinesSection {
 		
 		$style = '';
 		
-		$height = ($this->opt('pl_area_height')) ? $this->opt('pl_area_height') : false; 
+		$style .= ($this->opt('pl_area_height')) ? sprintf('min-height: %spx;', $this->opt('pl_area_height')) : '';
 		
-		$style .= sprintf('min-height: %spx;', $height);
+		$style .= ($this->opt('pl_area_image')) ? sprintf('background-image: url(%s);', $this->opt('pl_area_image')) : '';
 		
 		// If there is no output, there should be no padding or else the empty area will have height.
 		if( $section_output ){
@@ -129,8 +129,7 @@ class PLSectionArea extends PageLinesSection {
 			$style .= sprintf('padding-top: %s; padding-bottom: %s;', $padding, $padding_bottom);
 			
 			
-			if($this->opt('pl_area_image'))
-				$style .= sprintf('background-image: url(%s);', $this->opt('pl_area_image')); 
+			
 		
 			$content_class = ( $padding != '0px	' ) ? 'nested-section-area' : '';
 			
