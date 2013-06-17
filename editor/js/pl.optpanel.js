@@ -422,6 +422,8 @@
 				,	remove = '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>'
 				,	thm = (o.value != '') ? sprintf('<div class="img-wrap"><img src="%s" style="max-%s: %s" /></div>', o.value, sizeMode, size) : ''
 
+				oHTML += '<div class="img-upload-box">'
+
 				oHTML += sprintf('<div class="upload-thumb-%s upload-thumb" data-imgstyle="max-%s: %s">%s</div>', o.key, sizeMode, size, thm);
 
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, optLabel )
@@ -430,7 +432,7 @@
 
 				oHTML += sprintf('<div id="upload-%1$s" class="fineupload upload-%1$s fileupload-new" data-provides="fileupload"></div>', o.key)
 
-
+				oHTML += '</div>'
 
 			}
 
@@ -1007,7 +1009,7 @@
 
 				}).on('complete', function(event, id, fileName, response) {
 
-					var optBox = $(this).closest('.opt-box')
+					var optBox = $(this).closest('.img-upload-box')
 
 						if (response.success) {
 							var theThumb = optBox.find('.upload-thumb')
