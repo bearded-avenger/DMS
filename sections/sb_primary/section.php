@@ -19,6 +19,16 @@
 */
 class PrimarySidebar extends PageLinesSection {
 
+	function section_persistent(){
+		
+		register_sidebar( array(
+		    'id'          => $this->id,
+		    'name'        => $this->name,
+		    'description' => $this->description
+		) );
+		
+	}
+
 	/**
 	* Section template.
 	*/
