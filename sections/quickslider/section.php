@@ -148,7 +148,7 @@ jQuery(window).load(function() {
 				'inputlabel' 	=> __( 'Number of Slides to Configure', 'pagelines' ),
 				'title' 		=> __( 'Number of Slides', 'pagelines' ),
 				'shortexp' 		=> __( 'Enter the number of QuickSlider slides. <strong>Default is 3</strong>', 'pagelines' ),
-				'exp' 			=> __( "This number will be used to generate slides and option setup.", 'pagelines' ),
+				'exp' 			=> __( "This number will be used to generate slides and option setup. <strong>(Page refresh is required to see the new options!)</strong>", 'pagelines' ),
 
 			);
 
