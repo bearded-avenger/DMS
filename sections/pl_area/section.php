@@ -63,19 +63,35 @@ class PLSectionArea extends PageLinesSection {
 		
 		$options[] = array(
 
+			'key'			=> 'pl_area_styling',
+			'type' 			=> 'multi',
+			'label' 	=> __( 'Area Styling', 'pagelines' ),
+			'opts'	=> array(
+				array(
+
+					'key'			=> 'pl_area_class',
+					'type' 			=> 'text',
+					'label' 	=> __( 'Styling Classes', 'pagelines' ),
+					'help'		=> __( 'Separate with a space " "', 'pagelines' ),
+				),
+				array(
+					'key'			=> 'pl_area_height',
+					'type' 			=> 'text',
+					'label' 	=> __( 'Area Minimum Height (px)', 'pagelines' ),
+				)
+			),
+			
+
+		);
+		
+		$options[] = array(
+
 			'key'			=> 'pl_area_image',
 			'type' 			=> 'image_upload',
 			'sizelimit'		=> 800000,
 			'label' 	=> __( 'Background Image', 'pagelines' ),
 		);
 		
-		$options[] = array(
-
-			'key'			=> 'pl_area_class',
-			'type' 			=> 'text',
-			'label' 	=> __( 'Styling Classes', 'pagelines' ),
-			'help'		=> __( 'Separate with a space " "', 'pagelines' ),
-		);
 		
 		
 
@@ -96,6 +112,10 @@ class PLSectionArea extends PageLinesSection {
 		$section_output = (!$this->active_loading) ? render_nested_sections( $this->meta['content'] ) : false;
 		
 		$style = '';
+		
+		$height = ($this->opt('pl_area_height')) ? $this->opt('pl_area_height') : false; 
+		
+		$style .= sprintf('min-height: %spx;', $height);
 		
 		// If there is no output, there should be no padding or else the empty area will have height.
 		if( $section_output ){
