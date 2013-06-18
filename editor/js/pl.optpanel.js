@@ -681,6 +681,7 @@
 		, onceOffScripts: function() {
 
 			var that = this
+			
 
 			// Settings Actions
 			$(".settings-action").on("click.settingsAction", function(e) {
@@ -785,8 +786,8 @@
 					
 				}
 				
-		    });
-		
+		    })
+
 			$('#fileupload').fileupload({
 				url: ajaxurl
 				, dataType: 'json'
@@ -796,17 +797,31 @@
 					, refresh: true
 					, run: 'upload_config'
 				}
-				, beforeSend: function (){
-					alert('test')
+				, add: function (e, data) {
+					
+					var toolBoxOpen = $.toolbox('open')
+					
+					$.toolbox('hide')
+					
+					bootbox.confirm("<h3>Are you sure?</h3><p>Importing this file will replace your global and post type settings.</p>", function( result ){
+
+						if(result == true){
+
+							data.submit()
+
+						} else {
+							$('body').toolbox('show')
+						}
+
+					})
 				}
 				, complete: function (response) {
-					//console.log('success!')
-					//console.log( $.parseJSON( response.responseText) )
 					var url = $.pl.config.siteURL
 					window.location.href = url
-					
+
 				}
-			});
+			})
+			
 
 			// Color picker buttons
 			$('.trigger-color').on('click', function(){
