@@ -110,9 +110,6 @@ class EditorDraft{
 
 		$settings['global'] = pl_opt( PL_SETTINGS );
 
-	//	$settings['map-local'] = $map->map_local( $pageID );
-	//	$settings['map-global'] = $map->map_global();
-
 		foreach( $settings as $scope => $set ){
 
 			$set = wp_parse_args($set, $default);

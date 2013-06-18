@@ -42,16 +42,14 @@ class PageLinesTemplates {
 			
 			$map = false;
 			
-			if(is_page())
-				$set = $this->set->local; 
-			else 
-				$set = $this->set->type;
+			$set = (is_page()) ? $this->set->local : $this->set->type;
 	
 			
 			$tpl = ( isset($set['page-template']) ) ? $set['page-template'] : false;
 
-			if( (!$tpl || $tpl == 'custom') && isset( $set['custom-map'] ) && is_array( $set['custom-map'] ) ){
-
+			if( isset( $set['custom-map'] ) && is_array( $set['custom-map'] ) ){
+				
+				plprint( $set['custom-map']);
 				$map = $set['custom-map'];
 
 			} elseif( $tpl ){
@@ -70,8 +68,6 @@ class PageLinesTemplates {
 			
 		}
 		
-		// TO DEPRECATE for UPGRADE
-		$map = (isset($map['draft'])) ? $map['draft'] : $map;
 	
 		return ( $map && isset($map[ $region ]) ) ? $map[ $region ] : $this->default_region( $region );		
 		
@@ -296,7 +292,7 @@ class EditorTemplates {
 			$classes[] = sprintf('template_key_%s', $index);
 
 			$action_classes = array('x-item-actions'); 
-			$action_classes[] = ($index === $this->page->template) ? 'active-template' : '';
+			//$action_classes[] = ($index === $this->page->template) ? 'active-template' : '';
 			$action_classes[] = ($index === $this->default_global_tpl) ? 'active-global' : '';
 			$action_classes[] = ($index === $this->default_type_tpl && !$this->page->is_special()) ? 'active-type' : '';
 			
@@ -416,15 +412,17 @@ class EditorTemplates {
 
 	
 
-	function set_new_local_template( $pageID, $templateID ){
+	function set_new_local_template( $pageID, $typeID, $templateID ){
 
 		$t = $this->get_template_data( $templateID ); 
 
 		$page_settings = pl_meta( $pageID, PL_SETTINGS, pl_settings_default() ); 
 
-		$page_settings['draft'] = $t['settings'];
+		$page_settings[ 'draft' ] = $t['settings'];
 		
-		$page_settings['draft']['page-template'] = $templateID;
+		$page_settings[ 'draft' ][ 'custom-map' ][ 'template' ] = $t['map'];
+		
+		$page_settings[ 'draft' ][ 'page-template' ] = $templateID;
 		
 		pl_meta_update($pageID, PL_SETTINGS, $page_settings);
 		

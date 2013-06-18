@@ -548,10 +548,10 @@
 			,	obj = obj || {}
 			, 	location = obj.location || 'none'
 			, 	refresh  = obj.refresh || false
-			,	storeMap = obj.storeMap || true
+			,	storeMap = (obj.storeMap !== 'undefined') ? obj.storeMap : true
 			,	templateMode = $.pl.config.templateMode || 'local'
 			,	map = that.updatePage( obj )
-
+			
 			if( storeMap ){
 
 				if( refresh ){
