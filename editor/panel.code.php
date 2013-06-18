@@ -9,17 +9,11 @@ class EditorCode{
 		add_filter('pl_toolbar_config', array(&$this, 'toolbar'));
 		add_action('pagelines_editor_scripts', array(&$this, 'scripts'));
 
-		add_action( 'wp_enqueue_scripts', array( &$this, 'load_less_js' ) );
-
 		add_action( 'pagelines_head_last', array( &$this, 'draw_custom_styles' ), 200 );
 			
 		add_action( 'pagelines_head_last', array( &$this, 'draw_custom_scripts' ) );
 
 		$this->url = PL_PARENT_URL . '/editor';
-	}
-
-	function load_less_js(){
-		wp_enqueue_script( 'pl-less-parser', $this->url . '/js/utils.less.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
 	
 	function scripts(){
@@ -38,6 +32,7 @@ class EditorCode{
 
 		// PageLines Specific JS @Code Stuff
 		wp_enqueue_script( 'pl-js-code', $this->url . '/js/pl.code.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
+		wp_enqueue_script( 'pl-less-parser', $this->url . '/js/utils.less.js', array( 'jquery' ), PL_CORE_VERSION, true );
 		
 		
 	}
@@ -70,7 +65,9 @@ class EditorCode{
 
 	function draw_custom_styles(){
 
-	//	if( true == ( $css = pl_setting( 'custom_less') ) )
+		global $pldraft;
+		if( ! is_object( $pldraft ) || is_object( $pldraft ) && $pldraft->mode != 'draft' )
+			return;
 		$css = pl_setting( 'custom_less' );
 	
 		printf(
