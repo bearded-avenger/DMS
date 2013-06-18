@@ -14,7 +14,15 @@
 class EditorInterface {
 
 
-	function __construct( PageLinesPage $pg, EditorSettings $siteset, EditorDraft $draft, EditorTemplates $templates, PageLinesTemplates $map, EditorExtensions $extensions, EditorThemeHandler $theme ) {
+	function __construct( 
+		PageLinesPage $pg, 
+		EditorSettings $siteset, 
+		EditorDraft $draft, 
+		EditorTemplates $templates, 
+		PageLinesTemplates $map, 
+		EditorExtensions $extensions, 
+		EditorThemeHandler $theme 
+		) {
 
 		$this->theme = $theme;
 		$this->page = $pg;

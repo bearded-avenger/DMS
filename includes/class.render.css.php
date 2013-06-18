@@ -34,7 +34,9 @@ class PageLinesRenderCSS {
 		if(pl_has_editor()){
 			$files[] = 'pl-structure';
 			$files[] = 'pl-editor';
-		} else {
+		}
+		
+		if(!pl_deprecate_v2()) {
 
 			$files[] = 'pl-core';
 			$files[] = 'deprecated';

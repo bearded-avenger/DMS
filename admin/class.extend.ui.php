@@ -569,6 +569,8 @@ function pane_template_old( $e, $count ){
 
 }
 
+
+
 /**
  *
  *  Returns Extension Array Config

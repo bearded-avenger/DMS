@@ -57,6 +57,15 @@ jQuery(document).ready(function(){
 	if(jQuery("#pagelines-settings-two_headerscripts").length){
 		var editor2 = CodeMirror.fromTextArea(jQuery("#pagelines-settings-two_headerscripts").get(0), cm_headers);
 	}
+	
+	if(jQuery("#pl-dms-less").length){
+	
+		var editor3 = CodeMirror.fromTextArea(jQuery("#pl-dms-less").get(0), cm_customcss);
+	}
+
+	if(jQuery("#pl-dms-scripts").length){
+		var editor4 = CodeMirror.fromTextArea(jQuery("#pl-dms-scripts").get(0), cm_headers);
+	}
 
 
 	jQuery('.graphic_selector .graphic_select_border').click(function(){

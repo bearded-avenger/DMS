@@ -203,10 +203,9 @@ add_action('wp_ajax_upload_config_file', 'pl_upload_config_file');
 function pl_upload_config_file(){
 	
 	$fileOpts = new EditorFileOpts;
-	$response['files'] = $_FILES['files'];	
+	$filename = $_FILES['files']['name'][0];
 
-	// 
-	if( $_FILES['files']['name'][0] == $fileOpts->configfile )
+	if( preg_match( '/pl\-config[0-9_-]+\.json/', $filename ) ) {
 		$file = $_FILES['files']['tmp_name'][0];
 		
 	$response['file'] = $file;
@@ -214,8 +213,14 @@ function pl_upload_config_file(){
 	if( isset( $file ) )
 		$response['out'] = $fileOpts->import( $file );
 	
-	echo json_encode(  pl_arrays_to_objects( $response ) );
 
+		$response['import_file'] = $file;
+		$response['import_data'] = $fileOpts->import( $file );
+	} else {
+		$reponse['import_error'] = 'filename?';
+	}
+	
+	echo json_encode(  pl_arrays_to_objects( $response ) );
 	die();
 }
 

@@ -28,6 +28,7 @@ function pagelines_add_admin_menus() {
 
 	$_pagelines_account_hook = pagelines_insert_menu( PL_MAIN_DASH, __( 'Dashboard', 'pagelines' ), 'edit_theme_options', PL_MAIN_DASH, 'pagelines_build_account_interface' );
 
+	
 	if(!pl_deprecate_v2()){
 
 		$_pagelines_options_page_hook = pagelines_insert_menu( PL_MAIN_DASH, __( 'Site Options', 'pagelines' ), 'edit_theme_options', 'pagelines', 'pagelines_build_option_interface' );
@@ -38,10 +39,19 @@ function pagelines_add_admin_menus() {
 
 		$_pagelines_ext_hook = pagelines_insert_menu( PL_MAIN_DASH, __( 'Extend', 'pagelines' ), 'edit_theme_options', PL_ADMIN_STORE_SLUG, 'pagelines_build_extension_interface' );
 
+	} else {
+		
+		
+		
 	}
+	
+	
 
+	
 
 }
+
+
 
 /**
  *
@@ -65,7 +75,7 @@ function pagelines_add_admin_menu() {
 		$menu['2.995'] = array( '', 'edit_theme_options', 'separator-pagelines', '', 'wp-menu-separator' );
 
 		// Create the new top-level Menu
-		add_menu_page( 'Page Title', 'PageLines', 'edit_theme_options', PL_MAIN_DASH, 'pagelines_build_account_interface', PL_ADMIN_IMAGES. '/favicon-pagelines.png', '2.996' );
+		add_menu_page( 'Page Title', 'PageLines', 'edit_theme_options', PL_MAIN_DASH, 'pagelines_build_account_interface', 'div', '2.996' );
 }
 
 
@@ -83,6 +93,8 @@ function pagelines_build_option_interface(){
 	);
 	$optionUI = new PageLinesOptionsUI( $args );
 }
+
+
 
 /**
  * Build Extension Interface
@@ -177,6 +189,7 @@ function pagelines_theme_settings_init() {
 	global $_pagelines_special_hook;
 	global $_pagelines_templates_hook;
 	global $_pagelines_account_hook;
+	global $_pagelines_dms_tools_hook;
 
 	// Call only on PL pages
 	add_action( "admin_print_scripts-{$_pagelines_options_page_hook}", 'pagelines_theme_settings_scripts' );
@@ -184,6 +197,7 @@ function pagelines_theme_settings_init() {
 	add_action( "admin_print_scripts-{$_pagelines_special_hook}", 'pagelines_theme_settings_scripts' );
 	add_action( "admin_print_scripts-{$_pagelines_templates_hook}", 'pagelines_theme_settings_scripts' );
 	add_action( "admin_print_scripts-{$_pagelines_account_hook}", 'pagelines_theme_settings_scripts' );
+	add_action( "admin_print_scripts-{$_pagelines_dms_tools_hook}", 'pagelines_theme_settings_scripts' );
 
 	// WordPress Page types
 	add_action( 'load-post.php',  'pagelines_theme_settings_scripts' );
@@ -216,6 +230,19 @@ function pagelines_theme_settings_scripts() {
 	wp_enqueue_script( 'jquery-ui-sortable' );
 	wp_enqueue_script( 'script-pagelines-common', PL_ADMIN_JS . '/script.common.js', array( 'jquery' ), PL_CORE_VERSION );
 
+
+	if(!pl_deprecate_v2()){
+		wp_enqueue_script( 'jquery-layout', PL_ADMIN_JS . '/jquery.layout.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_script( 'thickbox' );
+		wp_enqueue_style( 'thickbox' );
+		// Color Picker
+		wp_enqueue_script( 'colorpicker-js', PL_ADMIN_JS . '/colorpicker/js/colorpicker.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_style( 'colorpicker', PL_ADMIN_JS . '/colorpicker/css/colorpicker.css' );
+
+		wp_enqueue_script( 'jquery-colorbox', PL_ADMIN_JS . '/colorbox/jquery.colorbox-min.js', array( 'jquery' ), PL_CORE_VERSION );
+		wp_enqueue_style( 'colorbox', PL_ADMIN_JS . '/colorbox/colorbox.css' );
+	}
+	
 	// Prettify
 	wp_enqueue_script( 'codemirror', PL_ADMIN_JS . '/codemirror/codemirror.js', array( 'jquery' ), PL_CORE_VERSION );
 	wp_enqueue_script( 'codemirror-css', PL_ADMIN_JS . '/codemirror/css/css.js', array( 'jquery' ), PL_CORE_VERSION );
@@ -225,17 +252,6 @@ function pagelines_theme_settings_scripts() {
 	wp_enqueue_script( 'codemirror-html', PL_ADMIN_JS . '/codemirror/htmlmixed/htmlmixed.js', array( 'jquery' ), PL_CORE_VERSION );
 	wp_enqueue_style( 'codemirror', PL_ADMIN_JS . '/codemirror/codemirror.css' );
 
-	// Color Picker
-	wp_enqueue_script( 'colorpicker-js', PL_ADMIN_JS . '/colorpicker/js/colorpicker.js', array( 'jquery' ), PL_CORE_VERSION );
-	wp_enqueue_style( 'colorpicker', PL_ADMIN_JS . '/colorpicker/css/colorpicker.css' );
-
-	wp_enqueue_script( 'jquery-colorbox', PL_ADMIN_JS . '/colorbox/jquery.colorbox-min.js', array( 'jquery' ), PL_CORE_VERSION );
-	wp_enqueue_style( 'colorbox', PL_ADMIN_JS . '/colorbox/colorbox.css' );
-
-	wp_enqueue_script( 'thickbox' );
-	wp_enqueue_style( 'thickbox' );
-
-	wp_enqueue_script( 'jquery-layout', PL_ADMIN_JS . '/jquery.layout.js', array( 'jquery' ), PL_CORE_VERSION );
 
 	$custom_css = array(
 

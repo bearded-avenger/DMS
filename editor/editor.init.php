@@ -36,6 +36,8 @@ class PageLinesEditor {
 	}
 
 	function load_files(){
+		require_once( PL_EDITOR . '/editor.admin.php' ); // admin stuff
+		
 		require_once( PL_EDITOR . '/editor.settings.php' );
 		require_once( PL_EDITOR . '/editor.actions.php' );
 		require_once( PL_EDITOR . '/editor.draft.php' );

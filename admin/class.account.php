@@ -45,23 +45,13 @@ class PageLinesAccount {
 	 */
 	function pagelines_account_array(){
 
+		$dms_tools = new EditorAdmin;
+
 		$d = array();
 
 
-			$d['updates']	= $this->pl_add_dashboard();
-
-
-			if(!pl_deprecate_v2()){
-				$d['_getting_started'] = $this->pl_add_welcome();
-			}
-
-
-			$d['_plus_extensions'] = $this->pl_add_extensions_dash();
-			$d['_live_chat'] = $this->pl_add_live_chat_dash();
-			$d['_resources'] = $this->pl_add_support_dash();
-
-
-
+			$d['dashboard']	= $this->pl_add_dashboard();
+			
 			$d['Your_Account']	= array(
 				'icon'			=> PL_ADMIN_ICONS.'/user.png',
 				'credentials' 	=> array(
@@ -71,8 +61,19 @@ class PageLinesAccount {
 					'layout'	=> 'full',
 				)
 			);
+			
+			$d['DMS_tools']	= $dms_tools->admin_interface();
+
+
+			$d['_plus_extensions'] = $this->pl_add_extensions_dash();
+			
 
 			if(!pl_deprecate_v2()){
+				
+				$d['_live_chat'] = $this->pl_add_live_chat_dash();
+				$d['_resources'] = $this->pl_add_support_dash();
+				
+				$d['_getting_started'] = $this->pl_add_welcome();
 
 				$d['Import-Export']	= array(
 					'icon'			=> PL_ADMIN_ICONS.'/extend-inout.png',
