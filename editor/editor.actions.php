@@ -176,17 +176,19 @@ function pl_editor_actions(){
 			
 			
 		}elseif( $run == 'exporter' ) {
+			
 			$data = $postdata['formData'];
 			$data = stripslashes_deep( $data );
 			$fileOpts = new EditorFileOpts;		
 			$response['export'] = $fileOpts->init( $data );
 			$response['export_data'] = $data;
+			
 		} elseif( $run == 'reset_global_child' ) {
 				$settings->reset_global_child();
 		}
 
 	} elseif ( $mode == 'fileupload' ){
-		$response['hello'] = 'we got here!';
+	
 	} 
 
 
@@ -208,9 +210,7 @@ function pl_upload_config_file(){
 		$file = $_FILES['files']['tmp_name'][0];
 		
 	$response['file'] = $file;
-	// 
-	// 
-	// 
+
 	if( isset( $file ) )
 		$response['out'] = $fileOpts->import( $file );
 	
