@@ -65,10 +65,12 @@ class EditorFileOpts {
 
 	function make_download(){
 
+		$timestamp = date("Y-m-d_H:i:s");
+		$filename = sprintf( 'pl-config_%s.json', $timestamp );
 		header('Cache-Control: public, must-revalidate');
 		header('Pragma: hack');
 		header('Content-Type: text/plain');
-		header('Content-Disposition: attachment; filename=' . $this->configfile );
+		header('Content-Disposition: attachment; filename=' . $filename );
 		echo $this->getopts();		
 		exit();	
 	}
