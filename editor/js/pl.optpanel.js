@@ -195,7 +195,7 @@
 		, setBinding: function(){
 			var that = this
 
-			$('.lstn').on('keyup blur change', function( e ){
+			$('.lstn').on('keyup blur change paste', function( e ){
 
 				var theInput = $(this)
 				,	thePanel = theInput.closest('.tab-panel')
@@ -218,6 +218,7 @@
 
 				}
 
+				console.log($.pl.data[scope])
 				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
 		
 				$.pl.flags.refreshOnSave = true;
@@ -342,10 +343,13 @@
 			if (that.config.mode == 'settings')
 				scope = 'global'
 
-
 			// Set option value
-			if( pageData[ scope ] && pageData[ scope ][ that.uniqueID ] && pageData[ scope ][ that.uniqueID ][ key ])
+			if( pageData[ scope ] && pageData[ scope ][ that.uniqueID ] && pageData[ scope ][ that.uniqueID ][ key ]){
+			
+			
 				return pl_html_input( pageData[ scope ][ that.uniqueID ][ key ] )
+			}
+				
 			else
 				return ''
 
@@ -418,6 +422,8 @@
 				,	remove = '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>'
 				,	thm = (o.value != '') ? sprintf('<div class="img-wrap"><img src="%s" style="max-%s: %s" /></div>', o.value, sizeMode, size) : ''
 
+				oHTML += '<div class="img-upload-box">'
+
 				oHTML += sprintf('<div class="upload-thumb-%s upload-thumb" data-imgstyle="max-%s: %s">%s</div>', o.key, sizeMode, size, thm);
 
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, optLabel )
@@ -426,7 +432,7 @@
 
 				oHTML += sprintf('<div id="upload-%1$s" class="fineupload upload-%1$s fileupload-new" data-provides="fileupload"></div>', o.key)
 
-
+				oHTML += '</div>'
 
 			}
 
@@ -521,10 +527,12 @@
 				|| o.type == 'select_taxonomy'
 				|| o.type == 'select_icon'
 				|| o.type == 'select_animation'
+				|| o.type == 'select_multi'
 			){
 
-				var select_opts = '<option value="" >&mdash; Select &mdash;</option>'
-
+			
+				var select_opts = (o.type != 'select_multi') ? '<option value="" >&mdash; Select &mdash;</option>' : ''
+				
 				if(o.type == 'count_select' || o.type == 'count_select_same'){
 
 					var cnt_start = (o.count_start) ? o.count_start : 0
@@ -572,21 +580,35 @@
 				if(o.opts){
 
 					$.each(o.opts, function(key, s){
-
+						
 						var optValue = (o.type == 'select_same') ? s : key
 						,	optName = (o.type == 'select_same') ? s : s.name
-						,	selected = (o.value == optValue) ? 'selected' : ''
-
+						
+						// Multi Select
+						if(typeof o.value == 'object'){
+							var selected = ''
+							$.each(o.value, function(k, val){
+								if(optValue == val)
+									selected = 'selected'
+							})
+							
+						} else {
+							var selected = (o.value == optValue) ? 'selected' : ''
+						}
+							
+					
+						
 						select_opts += sprintf('<option value="%s" %s >%s</option>', optValue, selected, optName)
 
 					})
 				}
+				
 
-
-
+				var multi = (o.type == 'select_multi') ? 'multiple' : ''
+					
 
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, optLabel )
-				oHTML += sprintf('<select id="%s" name="%s" class="%s lstn" data-type="%s">%s</select>', o.key, o.name, o.classes, o.type, select_opts)
+				oHTML += sprintf('<select id="%s" name="%s" class="%s lstn" data-type="%s" %s>%s</select>', o.key, o.name, o.classes, o.type, multi, select_opts)
 
 				if(o.type == 'select_taxonomy' && o.post_type)
 					oHTML += sprintf(
@@ -987,7 +1009,7 @@
 
 				}).on('complete', function(event, id, fileName, response) {
 
-					var optBox = $(this).closest('.opt-box')
+					var optBox = $(this).closest('.img-upload-box')
 
 						if (response.success) {
 							var theThumb = optBox.find('.upload-thumb')

@@ -276,11 +276,10 @@
 		} else if (!this.isShown) {
 			this.$panel.off('keyup.dismiss.toolbox')
 		}
+	
 		
-		$('body').on('keyup', function(e){
-			//console.log(e)
-		})
-
+	
+		
 	}
 
 

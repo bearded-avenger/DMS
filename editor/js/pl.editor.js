@@ -1,6 +1,7 @@
 // PageLines Editor - Copyright 2013
 
 !function ($) {
+	 
 
 	// --> Initialize
 	$(document).ready(function() {
@@ -13,8 +14,30 @@
 		$(".dropdown-toggle").dropdown()
 
 		$.pageTools.startUp()
+		
+		
+		$.plHotKeys.init()
 
 	})
+	
+	$.plHotKeys = {
+		init: function(){
+			
+			
+			$.jQee('alt+a', function() {
+
+				$('[data-action="toggle-grid"]')
+					.trigger('click')
+			})
+			
+			$.jQee('alt+s', function() {
+
+				$('[data-mode="publish"]')
+					.trigger('click')
+			})
+			
+		}
+	}
 
 	// Event Listening
 	$.pageTools = {
@@ -32,7 +55,8 @@
 			$.plTemplates.init()
 
 			this.bindUIActions()
-
+			
+			that.toggleGrid( true )
 
 
 		}
@@ -41,6 +65,7 @@
 
 			that = this
 
+			$('.btn-toolbox').tooltip({placement: 'top', delay: { show: 1000 }})
 			// Click event listener
 			$(".btn-toolbox").on("click.toolboxHandle", function(e) {
 
@@ -55,7 +80,7 @@
 				else if( btn.hasClass('btn-panel') )
 					that.showPanel(btnAction)
 				else if( btn.hasClass('btn-toggle-grid') )
-					that.toggleGrid( btn )
+					that.toggleGrid( )
 			})
 
 			$(".btn-action").on("click.actionButton", function(e) {
@@ -73,17 +98,27 @@
 
 			})
 			
-
+	
+			
+			
         }
 
-		, toggleGrid: function( btn ){
+		, toggleGrid: function( load ){
 
-			if($('body').hasClass('drag-drop-editing')){
-				btn.addClass('active-tab')
+			var load = load || false 
+			
+			
+			if( 
+				(!load && $('body').hasClass('drag-drop-editing')) 
+				|| (load && store.get('plPagePreview') == true)
+			){
+				$('[data-action="toggle-grid"]').addClass('active-tab')
 				$('body').removeClass('drag-drop-editing width-resize')
+				store.set('plPagePreview', true)
 			} else {
-				btn.removeClass('active-tab')
+				$('[data-action="toggle-grid"]').removeClass('active-tab')
 				$('body').addClass('drag-drop-editing width-resize')
+				store.set('plPagePreview', false)
 			}
 
 		}

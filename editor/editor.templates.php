@@ -480,15 +480,15 @@ class EditorTemplates {
 	}
 
 
-	function default_template(){
+	function default_template( $standard = false ){
 	
-		if( $this->page->type == '404_page' ){
+		if( $this->page->type == '404_page' && !$standard){
 			
 				$t = array(
 					'content'	=> array( array( 'object' => 'PageLinesNoPosts' ) )
 				);
 			
-		} elseif( $this->page->type == 'page' ){
+		} elseif( $this->page->type == 'page' && !$standard){
 			
 			$t = array(
 				'content'	=> array(
@@ -549,15 +549,15 @@ class EditorTemplates {
 
 		$t[ 'default' ] = array(
 				'name'	=> 'Default Template',
-				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.',
+				'desc'	=> 'Standard page configuration. (Content and Primary Sidebar.)',
 				'map'	=> array(
-					'template' => $this->default_template()
+					'template' => $this->default_template( true )
 				)
 			);
 
 		$t[ 'feature' ] = array(
 			'name'	=> 'Feature Template',
-			'desc'	=> 'Standard page configuration with right aligned sidebar and content area.',
+			'desc'	=> 'A page template designed to quickly and concisely show off key features or points. (RevSlider, iBoxes, Flipper)',
 			'map'	=> array(
 				array(
 					'object'	=> 'plRevSlider',
@@ -579,7 +579,7 @@ class EditorTemplates {
 
 		$t[ 'landing' ] = array(
 				'name'	=> 'Landing Page',
-				'desc'	=> 'Standard page configuration with right aligned sidebar and content area.',
+				'desc'	=> 'A simple page design with highlight section and postloop (content).',
 				'map'	=> array(
 					'template' => array(
 						'area'	=> 'TemplateAreaID',
