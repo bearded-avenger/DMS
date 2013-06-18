@@ -74,6 +74,7 @@ jQuery(document).ready(function(){
 	
 		var theSetting = jQuery(this).data('setting')
 		,	theValue = jQuery('.input_'+theSetting).val()
+		,	saveText = jQuery('.ajax-saved .ajax-saved-pad .ajax-saved-icon');
 
 		jQuery.ajax({
 			type: 'POST',
@@ -85,11 +86,31 @@ jQuery(document).ready(function(){
 				, mode: 'setting_update'
 			},
 			beforeSend: function(){
-				console.log('before')
+				jQuery('.ajax-saved')
+					.center('.pl_opt_ui')
+					.removeClass('success')
+					.show()
+					.addClass('uploading');
+					
+					saveText.text('Saving'); // text while saving
+					
+					interval = window.setInterval(function(){
+						var text = saveText.text();
+						if (text.length < 10){	saveText.text(text + '.'); }
+						else { saveText.text('Saving'); }
+					}, 400);
+					
+				
 			},
 			success: function(response) {
-				console.log('after')
-				console.log( response )
+				window.clearInterval(interval); // clear dots...
+			
+				saveText.text('Saved!');
+				
+				jQuery('.ajax-saved')
+					.show()
+					.delay(800)
+					.fadeOut('slow')
 			}
 		});
 
