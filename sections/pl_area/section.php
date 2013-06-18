@@ -112,8 +112,9 @@ class PLSectionArea extends PageLinesSection {
 		$section_output = (!$this->active_loading) ? render_nested_sections( $this->meta['content'] ) : false;
 		
 		$style = '';
+		$inner_style = '';
 		
-		$style .= ($this->opt('pl_area_height')) ? sprintf('min-height: %spx;', $this->opt('pl_area_height')) : '';
+		$inner_style .= ($this->opt('pl_area_height')) ? sprintf('min-height: %spx;', $this->opt('pl_area_height')) : '';
 		
 		$style .= ($this->opt('pl_area_image')) ? sprintf('background-image: url(%s);', $this->opt('pl_area_image')) : '';
 		
@@ -150,7 +151,7 @@ class PLSectionArea extends PageLinesSection {
 	?>
 	<div class="pl-area-wrap <?php echo $class;?>" style="<?php echo $style;?>">
 		<div class="pl-content <?php echo $content_class;?>">
-			<div class="pl-inner area-region pl-sortable-area">
+			<div class="pl-inner area-region pl-sortable-area" style="<?php echo $inner_style;?>">
 				<?php  echo $section_output; ?>
 			</div>
 		</div>
