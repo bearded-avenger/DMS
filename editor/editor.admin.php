@@ -21,15 +21,15 @@ class EditorAdmin {
 				'default'	=> '',
 				'type'		=> 'dms_less',
 				'layout'	=> 'full',
-				'title'		=> __( 'DMS Admin Tools and Settings', 'pagelines' ),
-				'shortexp'	=> __( 'Most options are in the editor, you will find fallbacks and other controls here.', 'pagelines' ),
+				'title'		=> __( 'DMS LESS Fallback', 'pagelines' ),
+				'shortexp'	=> __( 'Use this to fix LESS if you change something that breaks the front end editor.', 'pagelines' ),
 			),
 			'tools2'		=> array(
 				'default'	=> '',
 				'type'		=> 'dms_scripts',
 				'layout'	=> 'full',
-				'title'		=> __( 'DMS Admin Tools and Settings', 'pagelines' ),
-				'shortexp'	=> __( 'Most options are in the editor, you will find fallbacks and other controls here.', 'pagelines' ),
+				'title'		=> __( 'DMS Header Scripts Fallback', 'pagelines' ),
+				'shortexp'	=> __( 'Use this to fix scripts if you change something that breaks the front end editor.', 'pagelines' ),
 			)
 		);
 
@@ -43,9 +43,9 @@ class EditorAdmin {
 		<div class="optin">
 			<div class="oinputs">
 				<div class='oinputs-pad'>
-					<form id="pl-dms-less-form">
+					<form id="pl-dms-less-form" class="dms-update-setting" data-setting="custom_less">
 						<label class="lbl">LESS/CSS Fallback</label>
-						<textarea id="pl-dms-less" class="html-textarea code_textarea"><?php echo pl_setting('custom_less');?></textarea>
+						<textarea id="pl-dms-less" name="pl-dms-less" class="html-textarea code_textarea input_custom_less"><?php echo pl_setting('custom_less');?></textarea>
 						<p><input class="button button-primary" type="submit" value="Save LESS" /></p>
 					</form>
 				</div>
@@ -62,9 +62,9 @@ class EditorAdmin {
 			<div class="optin">
 				<div class="oinputs">
 					<div class='oinputs-pad'>
-						<form id="pl-dms-scripts-form">
+						<form id="pl-dms-scripts-form" class="dms-update-setting" data-setting="custom_scripts">
 							<label class="lbl">Custom Scripts Fallback</label>
-							<textarea id="pl-dms-scripts" class="html-textarea code_textarea"><?php echo pl_setting('custom_scripts');?></textarea>
+							<textarea id="pl-dms-scripts" name="pl-dms-scripts" class="html-textarea code_textarea input_custom_scripts"><?php echo pl_setting('custom_scripts');?></textarea>
 							<p><input class="button button-primary" type="submit" value="Save Scripts" /></p>
 						</form>
 					</div>

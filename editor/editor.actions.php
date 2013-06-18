@@ -184,11 +184,11 @@ function pl_editor_actions(){
 			$response['export_data'] = $data;
 			
 		} elseif( $run == 'reset_global_child' ) {
-				$settings->reset_global_child();
+			
+			$settings->reset_global_child();
+		
 		}
 
-	} elseif ( $mode == 'fileupload' ){
-	
 	} 
 
 
@@ -242,6 +242,21 @@ function pl_editor_mode(){
 	die();
 }
 
+add_action('wp_ajax_pl_dms_admin_actions', 'pl_dms_admin_actions');
+function pl_dms_admin_actions(){
+	$response = array();
+	$postdata = $_POST;
+	$response['post'] = $_POST;
+
+	$field = $postdata['setting'];
+	$value = $_POST['value'];
+	
+	pl_setting_update($field, $value);
+	
+	echo json_encode(  pl_arrays_to_objects( $response ) );
+	die();
+	
+}
 
 
 add_action( 'wp_ajax_pl_up_image', 'pl_up_image' );

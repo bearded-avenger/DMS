@@ -58,6 +58,8 @@ jQuery(document).ready(function(){
 		var editor2 = CodeMirror.fromTextArea(jQuery("#pagelines-settings-two_headerscripts").get(0), cm_headers);
 	}
 	
+	
+	
 	if(jQuery("#pl-dms-less").length){
 	
 		var editor3 = CodeMirror.fromTextArea(jQuery("#pl-dms-less").get(0), cm_customcss);
@@ -66,6 +68,34 @@ jQuery(document).ready(function(){
 	if(jQuery("#pl-dms-scripts").length){
 		var editor4 = CodeMirror.fromTextArea(jQuery("#pl-dms-scripts").get(0), cm_headers);
 	}
+	
+	jQuery('.dms-update-setting').on('submit', function(e){
+		
+	
+		var theSetting = jQuery(this).data('setting')
+		,	theValue = jQuery('.input_'+theSetting).val()
+
+		jQuery.ajax({
+			type: 'POST',
+			url: ajaxurl,
+			data: {
+				action: 'pl_dms_admin_actions'
+				, value: theValue
+				, setting: theSetting
+				, mode: 'setting_update'
+			},
+			beforeSend: function(){
+				console.log('before')
+			},
+			success: function(response) {
+				console.log('after')
+				console.log( response )
+			}
+		});
+
+		return false;
+		
+	})
 
 
 	jQuery('.graphic_selector .graphic_select_border').click(function(){

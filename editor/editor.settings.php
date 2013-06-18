@@ -303,20 +303,20 @@ class PageLinesSettings extends PageLinesData {
 		$val = $a['val'];
 
 		// Allow for an array of key/value pairs
-		$set = ( !is_array($val) && $key != '' ) ? array( $key => $value ) : $val;
+		$set = ( !is_array($val) && $key != '' ) ? array( $key => $val ) : $val;
 
 		if( $scope == 'global'){
 
-			$settings = $this->opt( $this->pl_settings, $this->default );
+			$settings = $this->opt( PL_SETTINGS, pl_settings_default() );
+			
+			$old_settings = (isset($settings[ $mode ]['settings'])) ? $settings[ $mode ]['settings'] : array();
 
-			if( isset($settings[ $mode ]) ){
+	
+			$settings[ $mode ]['settings'] = wp_parse_args($set, $old_settings);
 
-				$settings[ $mode ] = wp_parse_args($set, $settings[ $mode ]);
-
-				pl_opt_update( PL_SETTINGS, $option_set );
-
-			}
-
+			pl_opt_update( PL_SETTINGS, $settings );
+			
+			echo $set; 
 
 		}
 	}

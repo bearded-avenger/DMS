@@ -44,7 +44,7 @@ class EditorCode{
 
 	function toolbar( $toolbar ){
 		$toolbar['pl-design'] = array(
-				'name'	=> 'Customize',
+				'name'	=> 'Custom Code',
 				'icon'	=> 'icon-magic',
 				'form'	=> true,
 				'pos'	=> 40,
