@@ -102,6 +102,7 @@ class PLSectionArea extends PageLinesSection {
 	function before_section_template( $location = '' ) {
 
 		$this->wrapper_classes['background'] = $this->opt('pl_area_bg');
+		$this->wrapper_classes['user_classes'] = $this->opt('pl_area_class');
 
 	}
 
@@ -145,11 +146,8 @@ class PLSectionArea extends PageLinesSection {
 			
 		}
 		
-
-		$class = $this->opt('pl_area_class');
-	
 	?>
-	<div class="pl-area-wrap <?php echo $class;?>" style="<?php echo $style;?>">
+	<div class="pl-area-wrap" style="<?php echo $style;?>">
 		<div class="pl-content <?php echo $content_class;?>">
 			<div class="pl-inner area-region pl-sortable-area" style="<?php echo $inner_style;?>">
 				<?php  echo $section_output; ?>
