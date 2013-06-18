@@ -49,7 +49,7 @@ class PageLinesTemplates {
 
 			if( isset( $set['custom-map'] ) && is_array( $set['custom-map'] ) ){
 				
-				plprint( $set['custom-map']);
+				
 				$map = $set['custom-map'];
 
 			} elseif( $tpl ){
