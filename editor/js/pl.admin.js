@@ -1,0 +1,8 @@
+!function ($) {
+
+$.plAdmin = {
+
+
+}
+
+}(window.jQuery);

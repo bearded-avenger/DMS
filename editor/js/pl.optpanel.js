@@ -796,9 +796,12 @@
 					, refresh: true
 					, run: 'upload_config'
 				}
+				, beforeSend: function (){
+					alert('test')
+				}
 				, complete: function (response) {
-					console.log('success!')
-					console.log( $.parseJSON( response.responseText) )
+					//console.log('success!')
+					//console.log( $.parseJSON( response.responseText) )
 					var url = $.pl.config.siteURL
 					window.location.href = url
 					
