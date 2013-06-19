@@ -273,11 +273,6 @@ class EditorTemplates {
 		return $toolbar;
 	}
 
-	function post_type_config(){
-		echo 'working on this still';
-		
-	}
-
 	function user_templates(){
 		$slug = $this->default_template_slug;
 		$this->xlist = new EditorXList;
@@ -309,15 +304,20 @@ class EditorTemplates {
 				  <a class="btn btn-mini dropdown-toggle actions-toggle" data-toggle="dropdown" href="#">
 				    Actions	<i class="icon-caret-down"></i>
 				  </a>
-				  <ul class="dropdown-menu">
-					  <li ><a class="update-template">
-						  <i class="icon-edit"></i> Update Template with Current Configuration
-					  </a></li>
-
-						<li><a class="delete-template">
-							<i class="icon-remove"></i> Delete This Template
+					<ul class="dropdown-menu">
+						<li ><a class="update-template">
+						<i class="icon-edit"></i> Update Template with Current Configuration
 						</a></li>
-				  </ul>
+						
+						<li><a class="set-tpl" data-run="global">
+						<i class="icon-globe"></i> Set as Global Default
+						</a></li>
+						
+						<li><a class="delete-template">
+						<i class="icon-remove"></i> Delete This Template
+						</a></li>
+						
+					</ul>
 				</div>
 				<button class="btn btn-mini tpl-tag global-tag" title="Current Sitewide Default"><i class="icon-globe"></i></button>
 				<button class="btn btn-mini tpl-tag posttype-tag" title="Current Post Type Default"><i class="icon-pushpin"></i></button>
@@ -387,7 +387,6 @@ class EditorTemplates {
 
 	}
 
-	
 	
 	function get_template_data( $key ){
 		
@@ -546,7 +545,7 @@ class EditorTemplates {
 		$t = array();
 
 		$t[ 'default' ] = array(
-				'name'	=> 'Default Template',
+				'name'	=> 'Default',
 				'desc'	=> 'Standard page configuration. (Content and Primary Sidebar.)',
 				'map'	=> array(
 					'template' => $this->default_template( true )
