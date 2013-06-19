@@ -89,13 +89,14 @@
 				
 				if( !siteWrap.hasClass('show-mm') ){
 					
-					siteWrap.addClass('show-mm')
+					mobileMenu.show()
+					
+					siteWrap
+						.addClass('show-mm')
 					
 					$('.site-wrap, .mm-close').one('click touchstart', function(){
-						
 						siteWrap.removeClass('show-mm')
 					})
-					
 					
 					
 					$('.mm-holder').waypoint(function() {
@@ -109,6 +110,10 @@
 				} else {
 					
 					siteWrap.removeClass('show-mm')
+					
+					setTimeout(function () {
+					    mobileMenu.hide()
+					}, 500)
 					
 				}
 			
