@@ -361,8 +361,15 @@ class EditorLessHandler{
 		$sections = array();
 		$sections['parent'] = $available['parent'];
 		unset( $available['parent'] );
-		$sections['child'] = (array) $available['child'];
-		unset( $available['child'] );
+		$sections['child'] = $available['custom']; // load child theme sections that override.
+		unset( $available['child'] );	
+		
+		// remove core section less if child theme has a less file
+		foreach( $sections['child'] as $c => $cdata) {
+			if( isset( $sections['parent'][$c] ) && is_file( $cdata['base_dir'] . '/style.less' ) )
+				unset( $sections['parent'][$c] );
+		}
+
 		if ( is_array( $available ) )
 			$sections = array_merge( $sections, $available );
 		foreach( $sections as $t ) {
@@ -375,6 +382,7 @@ class EditorLessHandler{
 				}
 			}
 		}
+		
 		return apply_filters('pagelines_lesscode', $out);
 	}
 
