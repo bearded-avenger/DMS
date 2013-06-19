@@ -360,9 +360,12 @@ class EditorLessHandler{
 		*/
 		$sections = array();
 		$sections['parent'] = $available['parent'];
+		$sections['child'] = array();
 		unset( $available['parent'] );
-		$sections['child'] = $available['custom']; // load child theme sections that override.
-		unset( $available['child'] );	
+		if( isset( $available['custom'] ) && is_array( $available['custom'] ) ) {
+			$sections['child'] = $available['custom']; // load child theme sections that override.
+			unset( $available['custom'] );	
+		}
 		
 		// remove core section less if child theme has a less file
 		foreach( $sections['child'] as $c => $cdata) {
