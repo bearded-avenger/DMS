@@ -548,7 +548,7 @@
 			,	obj = obj || {}
 			, 	location = obj.location || 'none'
 			, 	refresh  = obj.refresh || false
-			,	storeMap = (obj.storeMap !== 'undefined') ? obj.storeMap : true
+			,	storeMap = (typeof obj.storeMap !== 'undefined') ? obj.storeMap : true
 			,	templateMode = $.pl.config.templateMode || 'local'
 			,	map = that.updatePage( obj )
 			
