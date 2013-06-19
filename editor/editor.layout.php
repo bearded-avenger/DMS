@@ -98,6 +98,7 @@ class EditorLayout {
 		// if percent mode assign percent option
 
 		$less_vars['plContentWidth'] = $value;
+		$less_vars['pl-page-width'] = $value;
 
 		return $less_vars;
 
