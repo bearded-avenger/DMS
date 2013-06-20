@@ -69,5 +69,19 @@ function basename (path, suffix) {
   return b;
 }
 
-
-
+/* Simple Shortcode System
+ * ============================================= */
+function pl_do_shortcode(opt) {
+	
+	var match = opt.match( /\[([^\]]*)/ ) || false
+	var shortcode = (match) ? match[1] : false
+	
+	if(!shortcode)
+		return opt
+		
+	switch(shortcode) {
+		case 'pl_child_url':
+			opt = opt.replace(/\[pl_child_url\]/g, jQuery.pl.config.urls.StyleSheetURL)
+	}
+	return opt
+}

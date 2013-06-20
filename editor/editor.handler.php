@@ -123,6 +123,7 @@ class PageLinesTemplateHandler {
 							, editPost: '<?php echo $this->edit_post_link(); ?>'
 							, menus: '<?php echo admin_url( "nav-menus.php" );?>'
 							, widgets: '<?php echo $this->edit_post_link();?>'
+							, StyleSheetURL: '<?php echo get_stylesheet_directory_uri(); ?>'
 						}
 					}
 
