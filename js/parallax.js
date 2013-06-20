@@ -1,73 +1,41 @@
-/*
-Plugin: jQuery Parallax
-Version 1.1.3
-Author: Ian Lunn
-Twitter: @IanLunn
-Author URL: http://www.ianlunn.co.uk/
-Plugin URL: http://www.ianlunn.co.uk/plugins/jquery-parallax/
+// jquery.parallax.js
+// @weblinc, @jsantell, (c) 2012
 
-Dual licensed under the MIT and GPL licenses:
-http://www.opensource.org/licenses/mit-license.php
-http://www.gnu.org/licenses/gpl.html
-*/
+;(function( $ ) {
+    $.fn.parallax = function ( userSettings ) {
+        var options = $.extend( {}, $.fn.parallax.defaults, userSettings );
 
-(function( $ ){
-	var $window = $(window);
-	var windowHeight = $window.height();
+        return this.each(function () {
+            var $this   = $(this),
+                isX     = options.axis === 'x',
+                origPos = ( $this.css( 'background-position' ) || '' ).split(' '),
+                origX   = $this.css( 'background-position-x' ) || origPos[ 0 ],
+                origY   = $this.css( 'background-position-y' ) || origPos[ 1 ],
+                dist    = function () {
+                    return -$( window )[ isX ? 'scrollLeft' : 'scrollTop' ]();
+                };
+            $this
+                .css( 'background-attachment', 'fixed' )
+                .addClass( 'inview' );
 
-	$window.resize(function () {
-		windowHeight = $window.height();
-	});
+            $this.bind('inview', function ( e, visible ) {
+                $this[ visible ? 'addClass' : 'removeClass' ]( 'inview' );
+            });
 
-	$.fn.parallax = function(xpos, speedFactor, outerHeight) {
-		var $this = $(this);
-		var getHeight;
-		var firstTop;
-		var paddingTop = 0;
-		
-		//get the starting position of each element to have parallax applied to it		
-		$this.each(function(){
-		    firstTop = $this.offset().top;
-		});
+            $( window ).bind( 'scroll', function () {
+                if ( !$this.hasClass( 'inview' )) { return; }
+                var xPos = isX ? ( dist() * options.speed ) + 'px' : origX,
+                    yPos = isX ? origY : ( dist() * options.speed ) + 'px';
+                $this.css( 'background-position', xPos + ' ' + yPos );
+            });
+        });
+    };
 
-		if (outerHeight) {
-			getHeight = function(jqo) {
-				return jqo.outerHeight(true);
-			};
-		} else {
-			getHeight = function(jqo) {
-				return jqo.height();
-			};
-		}
-			
-		// setup defaults if arguments aren't specified
-		if (arguments.length < 1 || xpos === null) xpos = "50%";
-		if (arguments.length < 2 || speedFactor === null) speedFactor = 0.1;
-		if (arguments.length < 3 || outerHeight === null) outerHeight = true;
-		
-		// function to be called whenever the window is scrolled or resized
-		function update(){
-			var pos = $window.scrollTop();				
+    $.fn.parallax.defaults = {
+        start: 0,
+        stop: $( document ).height(),
+        speed: 1,
+        axis: 'x'
+    };
 
-			$this.each(function(){
-				var $element = $(this);
-				var top = $element.offset().top;
-				var height = getHeight($element);
-
-				// Check if totally above or totally below viewport
-				if (top + height < pos || top > pos + windowHeight) {
-					return;
-				}
-				
-				var theBGOffset = Math.round((firstTop - pos) * speedFactor)
-				
-				theBGOffset = (theBGOffset > 0) ? 0 : theBGOffset
-
-				$this.css('backgroundPosition', xpos + " " + theBGOffset + "px");
-			});
-		}		
-
-		$window.bind('scroll', update).resize(update);
-		update();
-	};
-})(jQuery);
+})( jQuery );

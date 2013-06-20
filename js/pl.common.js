@@ -75,7 +75,7 @@
 
 			if( $('.pl-parallax').length >= 1){
 				
-				$('.pl-parallax').parallax("50%", 0.3)
+				$('.pl-parallax').parallax( {speed: 0.4 } )
 			}
 			
 			
