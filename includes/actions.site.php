@@ -155,7 +155,7 @@ add_action( 'wp_enqueue_scripts', 'pagelines_supersize_bg' );
 
 
 
-add_action( 'template_redirect', 'pagelines_check_lessdev' );
+add_action( 'template_redirect', 'pagelines_check_lessdev', 9 );
 function pagelines_check_lessdev(){
 	if ( ! isset( $_GET['pagedraft'] )
 		&& defined( 'PL_LESS_DEV' )
