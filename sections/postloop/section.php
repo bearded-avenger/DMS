@@ -80,13 +80,11 @@ class PageLinesPostLoop extends PageLinesSection {
 
 
 			array(
-				'case'		=> 'special',
 				'title' 	=> __( 'Metabar Config', 'pagelines' ),
 				'type'		=> 'multi',
 				'ref'			=> __( 'Use shortcodes to control the dynamic information in your metabar. Example shortcodes you can use are: <ul><li><strong>[post_categories]</strong> - List of categories</li><li><strong>[post_edit]</strong> - Link for admins to edit the post</li><li><strong>[post_tags]</strong> - List of post tags</li><li><strong>[post_comments]</strong> - Link to post comments</li><li><strong>[post_author_posts_link]</strong> - Author and link to archive</li><li><strong>[post_author_link]</strong> - Link to author URL</li><li><strong>[post_author]</strong> - Post author with no link</li><li><strong>[post_time]</strong> - Time of post</li><li><strong>[post_date]</strong> - Date of post</li><li><strong>[post_type]</strong> - Type of post</li></ul>', 'pagelines' ),
 				'opts'		=> array(
 					array(
-						'case'			=> 'special',
 						'key'			=> 'metabar_standard',
 						'default'		=> 'By [post_author_posts_link] On [post_date] &middot; [post_comments] [post_edit]',
 						'type'			=> 'text',
@@ -107,14 +105,12 @@ class PageLinesPostLoop extends PageLinesSection {
 			),
 
 			array(
-				'case'		=> 'special',
 				'title' 	=> __( 'Thumbs', 'pagelines' ),
 				'type'		=> 'multi',
 				'opts'		=> array(
 					
 
 					array(
-						'case'		=> 'special',
 						'type'		=> 'select',
 						'key'		=> 'excerpt_mode_full',
 						'default'	=> 'left',
