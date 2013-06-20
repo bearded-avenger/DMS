@@ -74,7 +74,8 @@
 			var that = this
 
 			if( $('.pl-parallax').length >= 1){
-				$('.pl-parallax').parallax("50%", 0.4)
+				
+				$('.pl-parallax').parallax("50%", 0.3)
 			}
 			
 			

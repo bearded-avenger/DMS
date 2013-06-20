@@ -13,6 +13,34 @@
 class PLSectionArea extends PageLinesSection {
 
 
+	function section_persistent(){
+	
+		add_filter('pl_layout_settings', array(&$this, 'add_global_options'));
+	}
+	
+	function add_global_options( $settings ){
+		$settings[] = array(
+
+			'key'			=> 'layout_areas',
+			'type' 			=> 'multi',
+			'label' 	=> __( 'Section Areas', 'pagelines' ),
+			'opts'	=> array(
+				array(
+					'key'		=> 'section_area_default_pad',
+					'type' 		=> 'count_select',
+					'label' 	=> __( 'Default Area Padding (px)', 'pagelines' ),
+					'count_start'	=> 0,
+					'count_number'	=> 200,
+					'suffix'		=> 'px',
+					'help'	 	=> __( 'If sections are added to full width areas, the area will be givin this default padding.', 'pagelines' )
+				),
+				
+			),
+		);
+		
+		return $settings;
+	}
+	
 	function section_opts(){
 
 		$options = array();
@@ -140,7 +168,9 @@ class PLSectionArea extends PageLinesSection {
 		// If there is no output, there should be no padding or else the empty area will have height.
 		if( $section_output ){
 						
-			$padding = ($this->opt('pl_area_pad')) ? $this->opt('pl_area_pad') : '20px'; 
+			$default_padding = (pl_setting('section_area_default_pad'))	? pl_setting('section_area_default_pad') : '20px';		
+					
+			$padding = ($this->opt('pl_area_pad')) ? $this->opt('pl_area_pad') : $default_padding; 
 			
 			$padding = ( strpos($padding, 'px') ) ? $padding : $padding.'px';
 			
