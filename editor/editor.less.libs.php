@@ -373,8 +373,16 @@ class EditorLessHandler{
 				unset( $sections['parent'][$c] );
 		}
 
-		if ( is_array( $available ) )
-			$sections = array_merge( $sections, $available );
+		if ( is_array( $available ) ) {
+			foreach( $available as $type => $data ) {
+				if( ! empty( $data ) )
+					$sections[$type] = $data;
+			}
+		}
+		
+
+			
+
 		foreach( $sections as $t ) {
 			foreach( $t as $key => $data ) {
 				if ( $data['less'] && $data['loadme'] ) {
