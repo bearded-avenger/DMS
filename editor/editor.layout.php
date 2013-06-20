@@ -61,26 +61,39 @@ class EditorLayout {
 				'default'	=> 'display-full',
 				'help'	 	=> __( '"Full" display mode allows areas to be the full width of the window, with content width sections.<br/><br/> "Boxed" mode contains everything in a central content box. Boxed mode is ideal for use with backgtround images.', 'pagelines' )
 			),
-			array(
-				'key'		=> 'primary_navigation_menu',
-				'type' 		=> 'select_menu',
-				'label' 	=> __( 'Select Primary Navigation Menu', 'pagelines' ),
-				'title' 	=> __( 'Primary Navigation Menu', 'pagelines' ),
-				'help'	 	=> __( 'This will be used in mobile menus and optionally other places throughout your site.', 'pagelines' )
-			),
-			array(
-				'key'		=> 'secondary_navigation_menu',
-				'type' 		=> 'select_menu',
-				'label' 	=> __( 'Select Secondary Navigation Menu', 'pagelines' ),
-				'title' 	=> __( 'Secondary Navigation Menu', 'pagelines' ),
-				'help'	 	=> __( 'This will be shown subtly in areas throughout the site and in your mobile menu.', 'pagelines' )
-			),
-
+			
+			
 
 		);
 
 
-		return $settings;
+		$settings[] = array(
+
+			'key'			=> 'layout_navigations',
+			'type' 			=> 'multi',
+			'label' 	=> __( 'Standard Navigation', 'pagelines' ),
+			'opts'	=> array(
+				array(
+					'key'		=> 'primary_navigation_menu',
+					'type' 		=> 'select_menu',
+					'label' 	=> __( 'Select Primary Navigation Menu', 'pagelines' ),
+				
+					'help'	 	=> __( 'This will be used in mobile menus and optionally other places throughout your site.', 'pagelines' )
+				),
+				array(
+					'key'		=> 'secondary_navigation_menu',
+					'type' 		=> 'select_menu',
+					'label' 	=> __( 'Select Secondary Navigation Menu', 'pagelines' ),
+				
+					'help'	 	=> __( 'This will be shown subtly in areas throughout the site and in your mobile menu.', 'pagelines' )
+				),
+				
+			),
+		);
+		
+		
+
+		return apply_filters('pl_layout_settings', $settings);
 
 	}
 
