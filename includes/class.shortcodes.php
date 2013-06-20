@@ -119,7 +119,8 @@ class PageLines_ShortCodes {
 			'link'						=>	array( 'function' => 'create_pagelink' ),
 			'bookmark'					=>	array( 'function' => 'bookmark_link' ),
 			'pl_raw'					=>	array( 'function' => 'do_raw' ),
-			'pl_video'					=>	array( 'function' => 'pl_video_shortcode' )
+			'pl_video'					=>	array( 'function' => 'pl_video_shortcode' ),
+			'pl_child_url'				=>	array( 'function' => 'pl_child_url' )
 			);
 
 		return $core;
@@ -1432,7 +1433,9 @@ class PageLines_ShortCodes {
 	    return $out;
     }
 
-
+	function pl_child_url() {
+		return get_stylesheet_directory_uri();
+	}
 
 	function filters() {
 
