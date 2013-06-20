@@ -148,7 +148,7 @@ class PageLinesPosts {
 
 		if( $this->pagelines_show_content( $id ) ){
 
-			$excerpt_mode = $this->section->opt( 'excerpt_mode_full' );
+			$excerpt_mode = ($this->section->opt( 'excerpt_mode_full' )) ? $this->section->opt( 'excerpt_mode_full' ) : 'top';
 
 
 			if( ( $excerpt_mode == 'left-excerpt' || $excerpt_mode == 'right-excerpt' ) && is_single() && $this->pagelines_show_thumb( $id ) )
