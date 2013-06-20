@@ -104,7 +104,7 @@ class PLImportExport{
 		<label class="checklist-label media <?php echo (!$publish_active) ? 'disabled': '';?>" for="publish_config">
 			<div class="img"><input id="publish_config" name="publish_config" type="checkbox" <?php echo (!$publish_active) ? 'disabled="disabled"': '';?> /></div>
 			<div class="bd">
-				<div class="ttl"><?php echo (!$publish_active) ? '(Disabled! No child theme active)': '';?> Publish Configuration to Child Theme</div>
+				<div class="ttl"><?php echo (!$publish_active) ? '(Disabled! No child theme active)': '';?> Publish Configuration to Child Theme (No Download File)</div>
 				<p>Check this to publish your site configuration as a theme configuration file in your theme's root directory. When a user activates your theme it will ask if it can overwrite their settings to attain a desired initial experience to the theme.</p>
 			</div>
 		</label>
