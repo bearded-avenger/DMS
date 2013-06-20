@@ -86,11 +86,27 @@ class PLSectionArea extends PageLinesSection {
 		
 		$options[] = array(
 
-			'key'			=> 'pl_area_image',
-			'type' 			=> 'image_upload',
-			'sizelimit'		=> 800000,
-			'label' 	=> __( 'Background Image', 'pagelines' ),
+			'key'			=> 'pl_area_bg',
+			'type' 			=> 'multi',
+			'label' 	=> __( 'Area Background', 'pagelines' ),
+			'opts'	=> array(
+				array(
+
+					'key'			=> 'pl_area_image',
+					'type' 			=> 'image_upload',
+					'sizelimit'		=> 800000,
+					'label' 	=> __( 'Background Image', 'pagelines' ),
+				),
+				array(
+					'key'			=> 'pl_area_parallax',
+					'type' 			=> 'check',
+					'label' 	=> __( 'Enable Background Parallax', 'pagelines' ),
+				)
+			),
+			
+
 		);
+		
 		
 		
 		
@@ -118,6 +134,8 @@ class PLSectionArea extends PageLinesSection {
 		$inner_style .= ($this->opt('pl_area_height')) ? sprintf('min-height: %spx;', $this->opt('pl_area_height')) : '';
 		
 		$style .= ($this->opt('pl_area_image')) ? sprintf('background-image: url(%s);', $this->opt('pl_area_image')) : '';
+		
+		$classes = ($this->opt('pl_area_parallax')) ? 'pl-parallax' : '';
 		
 		// If there is no output, there should be no padding or else the empty area will have height.
 		if( $section_output ){
@@ -147,7 +165,7 @@ class PLSectionArea extends PageLinesSection {
 		}
 		
 	?>
-	<div class="pl-area-wrap" style="<?php echo $style;?>">
+	<div class="pl-area-wrap <?php echo $classes;?>" style="<?php echo $style;?>">
 		<div class="pl-content <?php echo $content_class;?>">
 			<div class="pl-inner area-region pl-sortable-area" style="<?php echo $inner_style;?>">
 				<?php  echo $section_output; ?>

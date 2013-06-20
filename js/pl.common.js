@@ -14,6 +14,7 @@
 		
 		$.plNavigation.init()
 		
+		$.plParallax.init()
 	})
 	
 	$(window).load(function() {
@@ -63,6 +64,23 @@
 			$(".dropdown-toggle").dropdown()
 
 		}
+	}
+	
+	$.plParallax = {
+	
+
+		init: function(speed){
+			
+			var that = this
+
+			if( $('.pl-parallax').length >= 1){
+				$('.pl-parallax').parallax("50%", 0.4)
+			}
+			
+			
+
+		}
+	
 	}
 	
 	$.plMobilizer = {

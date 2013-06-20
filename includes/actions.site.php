@@ -132,7 +132,9 @@ function pagelines_register_js() {
 
 	wp_register_script( 'pagelines-easing', PL_JS . '/script.easing.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	wp_register_script( 'pagelines-fitvids', PL_JS . '/script.fitvids.js', array( 'jquery' ), PL_CORE_VERSION, true );
+	wp_register_script( 'pagelines-parallax', PL_JS . '/parallax.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	wp_register_script( 'pagelines-common', PL_JS . '/pl.common.js', array( 'jquery' ), PL_CORE_VERSION, true );
+	
 
 }
 
@@ -144,6 +146,7 @@ function pagelines_print_js() {
 	wp_enqueue_script( 'pagelines-viewport' );
 	wp_enqueue_script( 'pagelines-waypoints' );
 	wp_enqueue_script( 'pagelines-fitvids' );
+	wp_enqueue_script( 'pagelines-parallax' );
 	wp_enqueue_script( 'pagelines-common' );
 }
 
