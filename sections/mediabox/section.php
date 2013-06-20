@@ -120,13 +120,13 @@ class PageLinesMediaBox extends PageLinesSection {
 		
 		$align = $this->opt('mediabox_align');
 		
-		if($align == 'right'){
+		if($align == 'right')
 			$align_class = 'textright alignright';
-		} elseif($align == 'left'){
+		elseif($align == 'left')
 			$align_class = 'textleft alignleft';
-		} else {
+		else
 			$align_class = 'center';
-		}
+		
 		
 		$classes[] = ($disable_center) ? '' : 'pl-centerer';
 		$classes[] = ($this->opt('mediabox_animation')) ? $this->opt('mediabox_animation') : 'pla-fade';
@@ -139,7 +139,8 @@ class PageLinesMediaBox extends PageLinesSection {
 		printf(
 			'<div class="mediabox-wrap %s pl-animation fix" %s style="%s%s">
 				<div class="the-media fitvids pl-centered %s hentry">
-					%s%s%s
+					%s%s
+					<div class="the-media-html">%s</div>
 				</div>
 			</div>', 
 			join(' ', $classes), 
