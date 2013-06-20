@@ -353,6 +353,48 @@ p.form-allowed-tags{
 }
 
 // ----------------------------------------------------------------------
+// MULTISITE
+// ----------------------------------------------------------------------
+
+#multisite_area{
+	font-size: 1.1em;
+	line-height: 1.63em;
+	.mu_register {
+		width: auto;
+		input[type="submit"]{
+			width: auto;
+			padding: 8px 18px;
+			font-size: @buttonFontSize;
+			font-family: @buttonFontFamily;
+		}
+		h1, h2, h3{
+			margin: 1em 0 .5em 0;
+		}
+		ul {
+			padding-left: 25px;
+			list-style-type: none;
+		}
+		p{
+			font-size: 16px;
+			line-height: 1.6em;
+			&.submit, 
+			&.submit:hover, 
+			&.submit:active{
+				background: none;
+				border: none;
+				box-shadow:none;
+				padding: 0;
+			}
+		}
+	}
+	.mu_alert{
+		margin: 1em 0;
+		font-weight: normal;
+	}
+}
+
+
+// ----------------------------------------------------------------------
 // Special/Misc WordPress Stuff
 // ----------------------------------------------------------------------
 

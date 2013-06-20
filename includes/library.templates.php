@@ -288,10 +288,6 @@ function pagelines_head_common(){
 	// Allow for extension deactivation of all css
 	if(!has_action('override_pagelines_css_output')){
 
-		// Multisite CSS
-		if(is_multisite())
-			pagelines_load_css_relative('css/multisite.css', 'pagelines-multisite');
-
 		// Allow for PHP include of Framework CSS
 //		if( !apply_filters( 'disable_pl_framework_css', '' ) )
 //			pagelines_load_css(  PL_PARENT_URL.'/style.css', 'pagelines-framework', pagelines_get_style_ver( true ));
