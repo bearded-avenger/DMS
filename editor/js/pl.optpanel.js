@@ -233,15 +233,16 @@
 						,	syncPost = el.data('sync-post') || ''
 						,	syncTarget = el.data('sync-target') || ''
 						,	tagName = el.prop('tagName')
+						, 	myValue = pl_do_shortcode(theInput.val())
 
 						if( tagName == 'IMG'){
 							
-							el.attr('src', theInput.val())
+							el.attr('src', myValue)
 							
 						} else if(syncMode == 'css') {
-							el.css( syncTarget, theInput.val() + syncPost)
+							el.css( syncTarget, myValue + syncPost)
 						} else {
-							el.html(theInput.val())
+							el.html(myValue)
 						}
 
 					})
@@ -424,7 +425,7 @@
 
 				oHTML += '<div class="img-upload-box">'
 
-				oHTML += sprintf('<div class="upload-thumb-%s upload-thumb" data-imgstyle="max-%s: %s">%s</div>', o.key, sizeMode, size, thm);
+				oHTML += sprintf('<div class="upload-thumb-%s upload-thumb" data-imgstyle="max-%s: %s">%s</div>', o.key, sizeMode, size, pl_do_shortcode(thm));
 
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, optLabel )
 
@@ -717,13 +718,11 @@
 				
 					var formDataObject = $('[data-scope="importexport"]').formParams()
 					var dump = formDataObject.publish_config || false
-					var confirmText = ( dump ) ? "<h3>Are you sure?</h3><p>This will dump all settings to a config file in your child theme</p>" : '<h3>Download settings?</h3>'
 					var confirmText = "<h3>Are you sure?</h3><p>This will write all settings to a config file in your child theme named pl-config.json</p>"
 					
 					var args = {
 								mode: 'settings'
 							,	run: 'exporter'
-							,	confirm: false
 							,	confirm: dump
 							,	confirmText: confirmText
 							,	savingText: 'Exporting Options'
