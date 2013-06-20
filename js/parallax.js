@@ -58,12 +58,8 @@ http://www.gnu.org/licenses/gpl.html
 				if (top + height < pos || top > pos + windowHeight) {
 					return;
 				}
-				
-				var theBGOffset = Math.round((firstTop - pos) * speedFactor)
-				
-				theBGOffset = (theBGOffset > 0) ? 0 : theBGOffset
 
-				$this.css('backgroundPosition', xpos + " " + theBGOffset + "px");
+				$this.css('backgroundPosition', xpos + " " + Math.round((firstTop - pos) * speedFactor) + "px");
 			});
 		}		
 

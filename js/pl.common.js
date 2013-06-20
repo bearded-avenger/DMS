@@ -75,7 +75,9 @@
 
 			if( $('.pl-parallax').length >= 1){
 				
-				$('.pl-parallax').parallax("50%", 0.3)
+				$('.pl-parallax').each(function(element){
+				$(this).parallax('50%', .3)
+				})
 			}
 			
 			
