@@ -153,9 +153,17 @@ function pagelines_print_js() {
 // Load Supersize BG Script
 add_action( 'wp_enqueue_scripts', 'pagelines_supersize_bg' );
 
-if ( defined( 'PL_LESS_DEV' ) && PL_LESS_DEV && pl_has_editor()) {
-//	PageLinesRenderCSS::flush_version( false );
-//	pl_flush_draft_caches();
+
+
+add_action( 'template_redirect', 'pagelines_check_lessdev' );
+function pagelines_check_lessdev(){
+	if ( ! isset( $_GET['pagedraft'] )
+		&& defined( 'PL_LESS_DEV' )
+		&& PL_LESS_DEV
+		&& false == EditorLessHandler::is_draft()
+		) {	
+		PageLinesRenderCSS::flush_version( false );
+	}
 }
 add_filter( 'generate_rewrite_rules', array( 'PageLinesRenderCSS', 'pagelines_less_rewrite' ) );
 add_action( 'wp_loaded', array( 'PageLinesRenderCSS', 'check_rules') );
