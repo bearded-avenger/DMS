@@ -81,9 +81,9 @@ class EditorFileOpts {
 
 		include_once( ABSPATH . 'wp-admin/includes/file.php' );
 		
-		if ( is_writable( $folder ) ){
+		if ( is_writable( $this->child_dir ) ){
 			
-			$creds = request_filesystem_credentials( $url, $method, false, false, null );
+			$creds = request_filesystem_credentials( site_url() );
 			if ( ! WP_Filesystem($creds) )
 				return false;
 		}
