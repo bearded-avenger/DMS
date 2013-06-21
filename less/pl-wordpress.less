@@ -361,14 +361,25 @@ p.form-allowed-tags{
 	line-height: 1.63em;
 	.mu_register {
 		width: auto;
+		
+		input[type="text"]{
+			height: auto;
+			font-size: 35px;
+			background: @baseContrastSlight;
+		}
 		input[type="submit"]{
 			width: auto;
 			padding: 8px 18px;
 			font-size: @buttonFontSize;
 			font-family: @buttonFontFamily;
 		}
-		h1, h2, h3{
+		h1, 
+		h2, 
+		h3{
 			margin: 1em 0 .5em 0;
+		}
+		> h2{
+			font-size: 28px;
 		}
 		ul {
 			padding-left: 25px;
