@@ -82,6 +82,8 @@ $.plSections = {
 		, 	theHTML = sprintf('<div class="pl-refresh-banner"><div class="banner-content">%s</div></div>', imageHTML	)
 
 
+		$.pageTools.toggleGrid(false, 'show')
+
 		element
 			.removeAttr("style")
 			.html(theHTML)

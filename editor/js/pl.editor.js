@@ -103,14 +103,17 @@
 			
         }
 
-		, toggleGrid: function( load ){
+		, toggleGrid: function( load, action){
 
-			var load = load || false 
+			var load = load || false
+			,	action = action || 'toggle'
 			
 			
-			if( 
-				(!load && $('body').hasClass('drag-drop-editing')) 
-				|| (load && store.get('plPagePreview') == true)
+			if( action != 'show' 
+				&& (
+					(!load && $('body').hasClass('drag-drop-editing')) 
+					|| (load && store.get('plPagePreview') == true)
+				)
 			){
 				$('[data-action="toggle-grid"]').addClass('active-tab')
 				$('body').removeClass('drag-drop-editing width-resize')
@@ -414,7 +417,7 @@
 				e.preventDefault()
 
 				var btn = $(this)
-				,	section = btn.closest(".pl-sortable")
+				,	section = btn.closest(".pl-section")
 				,	scope = ( section.parents(".template-region-wrap").length == 1 ) ? 'local' : 'global'
 				,	config	= {
 						sid: section.data('sid')
