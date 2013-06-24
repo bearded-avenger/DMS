@@ -478,12 +478,11 @@ function pl_enqueue_script(  $handle, $src = false, $deps = array(), $ver = fals
 	
 	global $wp_scripts;
 	
-	if(!$src && is_object( $wp_scripts->registered[ $handle ] )){
-		
-	}
+	// if(!$src && is_object( $wp_scripts->registered[ $handle ] )){
+	// 	
+	// }
 	
-	wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false );
-	
+	wp_enqueue_script( $handle, $src, $deps, $ver, $in_footer );
 }
 
 
