@@ -1127,12 +1127,12 @@ $.fn.colorpicker = function(options){
 	if(!this.length){
 		return this;
 	}
-
 	if(!$.colorpicker.initialized){
 		$(document).mousedown($.colorpicker._checkExternalClick)
-			.find('body').append($.colorpicker.cpDiv.hide())
+			.find('.toolbox-content').append($.colorpicker.cpDiv.hide())
 			.find('#'+mainDivId+'-'+$.colorpicker.mode).closest('li').addClass('selected');
 
+			
 		for(var i in cpDiv.inputs){
 			if(i){
 				var $input = $(cpDiv.inputs[i]);
