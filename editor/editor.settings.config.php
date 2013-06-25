@@ -37,8 +37,6 @@ class EditorSettings {
 			'opts' 	=> $this->social()
 		);
 		
-	
-
 		$this->settings['advanced'] = array(
 			'name' 	=> 'Advanced',
 			'icon'	=> 'icon-wrench',
@@ -52,6 +50,38 @@ class EditorSettings {
 			'pos'	=> 55,
 			'opts' 	=> $this->resets()
 		);
+	}
+	
+
+	function standard_section_options( ){
+		$options = array();
+
+		$options['standard'] = array(
+
+			'key'			=> 'pl_section_styling',
+			'type' 			=> 'multi',
+			'label' 	=> __( 'Standard Options', 'pagelines' ),
+			'opts'	=> array(
+				array(
+
+					'key'		=> 'pl_area_class',
+					'type' 		=> 'text',
+					'label' 	=> __( 'Styling Classes', 'pagelines' ),
+					'help'		=> __( 'Separate with a space " "', 'pagelines' ),
+				)
+				// , array(
+				// 
+				// 					'key'		=> 'pl_disabled_section',
+				// 					'type' 		=> 'check',
+				// 					'label' 	=> __( 'Hide On Current Page?', 'pagelines' ),
+				// 					'scope'		=> 'local'
+				// 				)
+			),
+			
+
+		);
+		
+		return $options;
 	}
 
 	function get_set( ){

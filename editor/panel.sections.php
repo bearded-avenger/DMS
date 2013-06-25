@@ -189,17 +189,13 @@ class PageLinesSectionsPanel{
 
 			$list .= $this->xlist->get_x_list_item( $args );
 
-
-
 		}
 
 		printf('<div class="x-list x-sections" data-panel="x-sections">%s</div>', $list);
 
 	}
 	
-	function load_section_data( $object ){
-		
-	}
+	
 
 
 }
