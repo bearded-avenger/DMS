@@ -65,9 +65,6 @@ class PageLinesTemplateHandler {
 			add_action( 'wp_footer', array( &$this, 'json_blob' ) );
 		}
 
-
-
-
 	}
 
 	function json_blob(){
@@ -430,9 +427,10 @@ class PageLinesTemplateHandler {
 					unset($o); // set by reference
 				}
 
+				$opts = array_merge($opts, $this->siteset->standard_section_options());
+
 				$opts_config[ $s->meta['clone'] ][ 'opts' ] = $opts;
 
-			
 				
 			}
 
@@ -474,8 +472,6 @@ class PageLinesTemplateHandler {
 								$o['opts'][ $term->slug ] = array('name' => $term->name);
 						}
 
-
-							//$o['type'] = 'select';
 
 					}
 
@@ -699,15 +695,15 @@ class PageLinesTemplateHandler {
 				$this->section_template_load( $s ); // Check if in child theme, if not load section_template
 
 			$output =  ob_get_clean(); // Load in buffer, so we can check if empty
-
-			
-				
+	
 			$render = (!isset($output) || $output == '') ? false : true;
 
 			if( $level >= 1 )
 				$this->grid_row_start( $s, $count, $total, $render, $level );
 
 			if( $render ){
+				
+				$s->wrapper_classes['user_classes'] = $s->opt('pl_area_class');
 				
 				$s->before_section_template( );
 
@@ -718,12 +714,11 @@ class PageLinesTemplateHandler {
 				$this->after_section( $s );
 
 				$s->after_section_template( );
+				
 			}
 
 			if( $level >= 1 )
 				$this->grid_row_stop( $s, $count, $total, $render, $level );
-
-
 
 			wp_reset_postdata(); // Reset $post data
 			wp_reset_query(); // Reset wp_query

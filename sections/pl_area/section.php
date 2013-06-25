@@ -71,23 +71,6 @@ class PLSectionArea extends PageLinesSection {
 			
 
 		);
-
-		$options[] = array(
-
-			'key'			=> 'pl_area_bg',
-			'type' 			=> 'select',
-			'opts'	=> array(
-				'pl-trans'		=> array('name'=> 'Transparent Background and Default Text Color'),
-				'pl-contrast'	=> array('name'=> 'Contast Color and Default Text Color'),
-				'pl-black'		=> array('name'=> 'Black Background &amp; White Text'),
-				'pl-grey'		=> array('name'=> 'Dark Grey Background &amp; White Text'),
-				'pl-dark-img'	=> array('name'=> 'Image-Dark: Embossed Light Text.'),
-				'pl-light-img'	=> array('name'=> 'Image-Light: Embossed Dark Text.'),
-				'pl-base'		=> array('name'=> 'Base Background and Default Text Color'),
-			),
-			'label' 	=> __( 'Area Theme', 'pagelines' ),
-
-		);
 		
 		$options[] = array(
 
@@ -95,12 +78,28 @@ class PLSectionArea extends PageLinesSection {
 			'type' 			=> 'multi',
 			'label' 	=> __( 'Area Styling', 'pagelines' ),
 			'opts'	=> array(
+				// array(
+				// 
+				// 				'key'			=> 'pl_area_class',
+				// 				'type' 			=> 'text',
+				// 				'label' 	=> __( 'Styling Classes', 'pagelines' ),
+				// 				'help'		=> __( 'Separate with a space " "', 'pagelines' ),
+				// 			),
 				array(
 
-					'key'			=> 'pl_area_class',
-					'type' 			=> 'text',
-					'label' 	=> __( 'Styling Classes', 'pagelines' ),
-					'help'		=> __( 'Separate with a space " "', 'pagelines' ),
+					'key'			=> 'pl_area_bg',
+					'type' 			=> 'select',
+					'opts'	=> array(
+						'pl-trans'		=> array('name'=> 'Transparent Background and Default Text Color'),
+						'pl-contrast'	=> array('name'=> 'Contast Color and Default Text Color'),
+						'pl-black'		=> array('name'=> 'Black Background &amp; White Text'),
+						'pl-grey'		=> array('name'=> 'Dark Grey Background &amp; White Text'),
+						'pl-dark-img'	=> array('name'=> 'Image-Dark: Embossed Light Text.'),
+						'pl-light-img'	=> array('name'=> 'Image-Light: Embossed Dark Text.'),
+						'pl-base'		=> array('name'=> 'Base Background and Default Text Color'),
+					),
+					'label' 	=> __( 'Area Theme', 'pagelines' ),
+
 				),
 				array(
 					'key'			=> 'pl_area_height',
@@ -146,7 +145,7 @@ class PLSectionArea extends PageLinesSection {
 	function before_section_template( $location = '' ) {
 
 		$this->wrapper_classes['background'] = $this->opt('pl_area_bg');
-		$this->wrapper_classes['user_classes'] = $this->opt('pl_area_class');
+		//$this->wrapper_classes['user_classes'] = $this->opt('pl_area_class');
 
 	}
 
