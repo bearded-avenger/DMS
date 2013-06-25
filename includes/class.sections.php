@@ -890,10 +890,17 @@ function setup_section_notify( $section, $text = '', $user_url = null, $ltext = 
 	if(current_user_can('edit_themes')){
 
 		$banner_title = sprintf('<strong><i class="icon-pencil"></i> %s</strong>', $section->name);
-
+		$extra = '';
 		if(pl_has_editor()){
 			$url = (isset($user_url)) ? $user_url : '#';
-			$class = (isset($user_url)) ? '' : 's-control section-edit';
+			
+			if($section->filter == 'full-width'){
+				$class = (isset($user_url)) ? '' : 'area-control';
+				$extra .= 'data-area-action="settings"';
+			} else {
+				$class = (isset($user_url)) ? '' : 's-control section-edit';
+			}
+			
 		} else {
 			$class = '';
 			$url = (isset($url)) ? $url : pl_meta_set_url( $tab );
@@ -902,7 +909,7 @@ function setup_section_notify( $section, $text = '', $user_url = null, $ltext = 
 
 		$link_text = (isset($ltext)) ? $ltext : sprintf(__('Configure %s <i class="icon-arrow-right"></i>', 'pagelines'), $section->name);
 
-		$link = sprintf('</br><a href="%s" class="btn btn-mini %s">%s</a>', $url, $class, $link_text);
+		$link = sprintf('</br><a href="%s" class="btn btn-mini %s" %s>%s</a>', $url, $class, $extra, $link_text);
 
 		$text = ($text != '') ? $text : __('Configure this section');
 
