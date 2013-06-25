@@ -130,7 +130,7 @@ class PageLinesExtendPanel{
 				
 				var s = jQuery('#appendedInputButton').val()
 				
-				var url = sprintf('http://api.pagelines.com/v4/search/?s=%s&callback=?',s)
+				var url = sprintf('http://api.pagelines.com/v4/search/index.php?s=%s&callback=?',s)
 				//console.debug(url)
 				
 				jQuery.getJSON(url,function(result){
