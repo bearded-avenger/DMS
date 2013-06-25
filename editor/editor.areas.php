@@ -55,7 +55,7 @@ class PageLinesAreas {
 						'key'	=> 'area_class',
 						'type'	=> 'text',
 						'title'	=> 'Area Class or Classes',
-						'help'	=> 'Add classes to this section. Separate multiple classes with a space.'
+						'help'	=> 'Add classes to this section. Seperate multiple classes with a space.'
 					),
 					array(
 						'key'	=> 'area_name',
