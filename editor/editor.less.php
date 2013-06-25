@@ -35,8 +35,6 @@ class EditorLess extends EditorLessHandler {
 			if( is_file( $this->draft_less_file ) ) {
 				echo readfile( $this->draft_less_file );
 			} else {
-				echo 'NO';
-				echo $this->draft_less_file;
 				$core = $this->googlefont_replace( $this->get_draft_core() );
 				$css = $this->minify( $core['compiled_core'] );
 				$css .= $this->minify( $core['compiled_sections'] );
