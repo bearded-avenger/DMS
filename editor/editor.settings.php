@@ -215,7 +215,11 @@ class PageLinesSettings extends PageLinesData {
 		$set['draft'] = $this->default['draft'];
 		
 		$this->opt_update( PL_SETTINGS, $set );
+		
 		$this->set_default_settings();
+	
+	
+		return $set;
 	}
 
 	/*

@@ -711,6 +711,8 @@
 						,	refreshText: 'Successfully Reset. Refreshing page'
 						, 	log: true
 					}
+					
+				//	console.log(theAction)
 
 					var response = $.plAJAX.run( args )
 
