@@ -383,7 +383,7 @@
 			o.classes = o.classes || ''
 			//o.label = o.label || o.title
 			
-			if(o.type != 'edit_post' && o.type != 'link'){
+			if( o.type != 'edit_post' && o.type != 'link' && o.type != 'action_button' ){
 				optLabel += sprintf(' <span data-key="%s" class="pl-help-text btn btn-mini pl-tooltip sync-btn-%s" title="%s"><i class="icon-%s"></i></span>', o.key, syncType, syncTooltip, syncIcon)
 			}
 				

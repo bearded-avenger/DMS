@@ -139,6 +139,20 @@ class PLImportExport{
 		
 
 		);
+		
+		$fileOpts = new EditorFileOpts;
+		
+		if( $fileOpts->file_exists() ) {
+			$child = array();
+			$child[] = array(
+				'key'		=> 'reset_global_child',
+				'type'		=> 'action_button',
+				'classes'	=> 'btn-warning',
+				'label'		=> __( '<i class="icon-download"></i> Load Child Theme Config', 'pagelines' ),
+				'help'		=> __( "Reset theme settings using custom config file from child theme.<br/><strong>Note:</strong> Once you've completed this action, you may want to publish these changes to your live site.", 'pagelines' )
+			);
+			$settings = array_merge( $settings, $child );
+		}
 
 
 		return $settings;

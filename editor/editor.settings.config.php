@@ -302,19 +302,7 @@ class EditorSettings {
 			)
 		);
 		
-		$fileOpts = new EditorFileOpts;
-		if( $fileOpts->file_exists() ) {
-			$child = array();
-			$child[] = array(
-				'key'		=> 'reset_global_child',
-				'type'		=> 'action_button',
-				'classes'	=> 'btn-warning',
-				'label'		=> __( '<i class="icon-undo"></i> Reset Theme Settings', 'pagelines' ),
-				'title'		=> __( 'Reset Theme Settings', 'pagelines' ),
-				'help'		=> __( "Reset theme settings using custom config file from child theme.<br/><strong>Note:</strong> Once you've completed this action, you may want to publish these changes to your live site.", 'pagelines' )
-			);
-		$settings = array_merge( $child, $settings );
-		}	
+		
 		return $settings;
 	}
 }
