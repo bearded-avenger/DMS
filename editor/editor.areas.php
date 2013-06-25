@@ -73,6 +73,9 @@ class PageLinesAreas {
 
 	function area_controls($a){
 
+		if( !pl_draft_mode() )
+			return '';
+
 		ob_start();
 		?>
 
@@ -123,10 +126,8 @@ class PageLinesAreas {
 	function area_sortable_buffer(){
 
 		return ( pl_draft_mode() ) ? sprintf('<div class="pl-sortable pl-sortable-buffer span12 offset0"></div>') : '';
+		
 	}
-
-
-
 
 
 }

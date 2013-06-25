@@ -183,7 +183,7 @@ class PLSectionArea extends PageLinesSection {
 		
 			$content_class = ( $padding != '0px	' ) ? 'nested-section-area' : '';
 			
-			$buffer = sprintf('<div class="pl-sortable pl-sortable-buffer span12 offset0"></div>');
+			$buffer = ( pl_draft_mode() ) ? sprintf('<div class="pl-sortable pl-sortable-buffer span12 offset0"></div>') : '';
 			
 			$section_output = $buffer . $section_output . $buffer;
 			
@@ -193,7 +193,7 @@ class PLSectionArea extends PageLinesSection {
 			$content_class = '';
 			
 		}
-		
+			
 	?>
 	<div class="pl-area-wrap <?php echo $classes;?>" style="<?php echo $style;?>">
 		<div class="pl-content <?php echo $content_class;?>">
