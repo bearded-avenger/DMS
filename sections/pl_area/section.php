@@ -22,19 +22,16 @@ class PLSectionArea extends PageLinesSection {
 		$settings[] = array(
 
 			'key'			=> 'layout_areas',
-			'type' 			=> 'multi',
+			'type' 			=> 'textarea',
 			'label' 	=> __( 'Section Areas', 'pagelines' ),
 			'opts'	=> array(
 				array(
-					'key'		=> 'section_area_default_pad',
-					'type' 		=> 'count_select',
-					'label' 	=> __( 'Default Area Padding (px)', 'pagelines' ),
-					'count_start'	=> 0,
-					'count_number'	=> 200,
+					'key'		=> 'section_area_default_css',
+					'type' 		=> 'textarea',
+					'label' 	=> __( 'Section Area LESS/CSS', 'pagelines' ),
 					'suffix'		=> 'px',
-					'help'	 	=> __( 'If sections are added to full width areas, the area will be givin this default padding.', 'pagelines' )
+					'help'	 	=> __( 'If sections are added to full width areas, the area will be given this default padding.', 'pagelines' )
 				),
-				
 			),
 		);
 		
@@ -46,27 +43,16 @@ class PLSectionArea extends PageLinesSection {
 		$options = array();
 
 		$options[] = array(
-
-			'key'			=> 'pl_area_pad_selects',
+			'key'			=> 'pl_area_css',
 			'type' 			=> 'multi',
-			'label' 	=> __( 'Set Area Padding', 'pagelines' ),
+			'label' 	=> __( 'Section Area LESS/CSS', 'pagelines' ),
 			'opts'	=> array(
 				array(
-					'key'			=> 'pl_area_pad',
-					'type' 			=> 'count_select_same',
-					'count_start'	=> 0,
-					'count_number'	=> 200,
+					'key'			=> 'pl_area_css',
+					'type' 			=> 'textarea',
 					'suffix'		=> 'px',
-					'label' 	=> __( 'Area Padding (px)', 'pagelines' ),
+					'label' 	=> __( 'Section Area LESS/CSS', 'pagelines' ),
 				),
-				array(
-					'key'			=> 'pl_area_pad_bottom',
-					'type' 			=> 'count_select_same',
-					'count_start'	=> 0,
-					'count_number'	=> 200,
-					'suffix'		=> 'px',
-					'label' 	=> __( 'Area Padding Bottom (if different)', 'pagelines' ),
-				)
 			),
 			
 
@@ -77,8 +63,8 @@ class PLSectionArea extends PageLinesSection {
 			'key'			=> 'pl_area_bg',
 			'type' 			=> 'select',
 			'opts'	=> array(
-				'pl-trans'		=> array('name'=> 'Transparent Background and Default Text Color'),
-				'pl-contrast'	=> array('name'=> 'Contast Color and Default Text Color'),
+				'pl-trans'		=> array('name'=> 'transparent Background and Default Text Color'),
+				'pl-contrast'	=> array('name'=> 'Contrast Color and Default Text Color'),
 				'pl-black'		=> array('name'=> 'Black Background &amp; White Text'),
 				'pl-grey'		=> array('name'=> 'Dark Grey Background &amp; White Text'),
 				'pl-dark-img'	=> array('name'=> 'Image-Dark: Embossed Light Text.'),
@@ -168,15 +154,13 @@ class PLSectionArea extends PageLinesSection {
 		// If there is no output, there should be no padding or else the empty area will have height.
 		if( $section_output ){
 						
-			$default_padding = (pl_setting('section_area_default_pad'))	? pl_setting('section_area_default_pad') : '20px';		
+			$default_css = (pl_setting('section_area_default_css'))	? pl_setting('section_area_default_css') : 'padding:20px;';		
 					
-			$padding = ($this->opt('pl_area_pad')) ? $this->opt('pl_area_pad') : $default_padding; 
+			$customcss = ($this->opt('pl_area_css')) ? $this->opt('pl_area_css') : $default_css; 
 			
-			$padding = ( strpos($padding, 'px') ) ? $padding : $padding.'px';
+			$customcss = ( strpos($customcss) ) ? $customcss : $customcss;
 			
-			$padding_bottom = ($this->opt('pl_area_pad_bottom')) ? $this->opt('pl_area_pad_bottom') : $padding; 
-			
-			$style .= sprintf('padding-top: %s; padding-bottom: %s;', $padding, $padding_bottom);
+			$style .= sprintf('%s', $customcss);
 			
 			
 			
