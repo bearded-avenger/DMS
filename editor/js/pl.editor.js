@@ -394,15 +394,20 @@
 			cloned
 				.attr('data-clone', newUniqueID)
 				.data('clone', newUniqueID)
+				.find('.tooltip')
+					.removeClass('in')
 
-			var globalDat = (plIsset( $.pl.data.global[ oldUniqueID ] )) ? $.pl.data.global[ oldUniqueID ] : ''
-			,	localDat = (plIsset( $.pl.data.local[ oldUniqueID ])) ? $.pl.data.local[ oldUniqueID ] : ''
-			,	theOpts = (plIsset( $.pl.config.opts[ oldUniqueID ])) ? $.pl.config.opts[ oldUniqueID ] : ''
+			var globalDat 	= (plIsset( $.pl.data.global[ oldUniqueID ] )) ? $.pl.data.global[ oldUniqueID ] : ''
+			,	typeDat 	= (plIsset( $.pl.data.type[ oldUniqueID ])) ? $.pl.data.type[ oldUniqueID ] : ''
+			,	localDat 	= (plIsset( $.pl.data.local[ oldUniqueID ])) ? $.pl.data.local[ oldUniqueID ] : ''
+			,	theOpts 	= (plIsset( $.pl.config.opts[ oldUniqueID ])) ? $.pl.config.opts[ oldUniqueID ] : ''
 
 			// Copy and move around meta data
 			$.pl.data.global[ newUniqueID ] = $.extend({}, globalDat) // must clone the element, not just assign as they stay connected
 				
-			$.pl.data.local[ newUniqueID ] = $.extend({}, localDat) // must clone the element, not just assign as they stay connected
+			$.pl.data.type[ newUniqueID ] 	= $.extend({}, typeDat) // must clone the element, not just assign as they stay connected
+			
+			$.pl.data.local[ newUniqueID ] 	= $.extend({}, localDat) // must clone the element, not just assign as they stay connected
 			
 			$.pl.config.opts[ newUniqueID ] = theOpts
 			
@@ -532,20 +537,17 @@
 			
 			var map = $.plMapping.getCurrentMap()
 			
-			$.pl.data[templateMode]['custom-map'] = {
-				template: map.template
-			}
 			
-			$.pl.data.global.regions = {
-				header: map.header
-				, footer: map.footer
-			}
+			$.pl.data[templateMode]['custom-map'] = $.extend({}, { template: map.template })
 			
+			$.pl.data.global.regions = $.extend({}, { header: map.header, footer: map.footer })
+
 			return map
 			
 		} 
 
         , reloadConfig: function( obj ) {
+			
 
 			var that = this
 			,	obj = obj || {}
@@ -554,6 +556,7 @@
 			,	storeMap = (typeof obj.storeMap !== 'undefined') ? obj.storeMap : true
 			,	templateMode = $.pl.config.templateMode || 'local'
 			,	map = that.updatePage( obj )
+			
 			
 			if( storeMap ){
 
@@ -683,19 +686,6 @@
 
         }
 
-
-		, storeMap: function( refresh ) {
-
-			
-
-		}
-		
-
-		
-
-
-
-
 		, isAreaEmpty: function(area){
 			var addTo = (area.hasClass('pl-sortable-column')) ? area.parent() : area
 
@@ -781,6 +771,12 @@
 							$( '.ui-sortable' ).sortable( 'refresh' )
 
 						}
+						
+						// Use this to help keep data clean when moving between scopes
+						var templateMode = $.pl.config.templateMode || 'local'
+						,	startScope = (ui.item.parents(".template-region-wrap").length == 1) ? templateMode : 'global'
+						
+						ui.item.attr('data-start-scope', startScope)
 
 					}
 					, stop: function(event, ui){
@@ -832,21 +828,28 @@
 		}
 
 		// Moves data when changing scopes
-		, moveDataOnDrag: function( element ){
+		, moveDataOnDrag: function( element ){	
 			
 			var uniqueID = element.attr('data-clone')
-			,	newScope = (element.parents(".template-region-wrap").length == 1) ? 'local' : 'global'
-			, 	oldScope = (newScope == 'global') ? 'local' : 'global'
+			, 	templateMode = $.pl.config.templateMode || 'local'
+			,	newScope = (element.parents(".template-region-wrap").length == 1) ? templateMode : 'global'
+			, 	oldScope = element.attr('data-start-scope')
 				
+			
 			// if data wasn't set or scope wasn't changed
-			if( !plIsset( $.pl.data[ oldScope ][ uniqueID ] ) ) 
+			if( !plIsset( $.pl.data[ oldScope ][ uniqueID ] ) || newScope == oldScope ) 
 				return
 				
+			element
+				.attr('data-start-scope', newScope)
 		
 			//	console.log($.pl.data[ oldScope ])
 			// move scope, then delete from old scope
 			$.pl.data[ newScope ][ uniqueID ] = $.pl.data[ oldScope ][ uniqueID ]
+			
 			delete $.pl.data[ oldScope ][ uniqueID ]
+			
+			
 			
 			$.plAJAX.saveData()
 			
