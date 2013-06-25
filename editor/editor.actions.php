@@ -97,7 +97,9 @@ function pl_editor_actions(){
 
 		if ( $run == 'load' ){
 
-			$response['loaded'] = $tpl->set_new_local_template( $pageID, $typeID, $postdata['key'] );
+			$metaID = (isset($postdata['templateMode']) && $postdata['templateMode'] == 'type') ? $typeID : $pageID;
+
+			$response['loaded'] = $tpl->load_template( $metaID, $postdata['key'] );
 
 		} elseif ( $run == 'update'){
 

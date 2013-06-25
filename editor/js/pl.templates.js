@@ -32,6 +32,7 @@ $.plTemplates = {
 				,	refreshText: 'Successfully Loaded. Refreshing page'
 				, 	log: true
 				,	key: $(this).closest('.x-item').data('key')
+				,	templateMode: $.pl.config.templateMode
 			}
 
 			var response = $.plAJAX.run( args )

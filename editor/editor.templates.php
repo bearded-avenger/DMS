@@ -411,11 +411,11 @@ class EditorTemplates {
 
 	
 
-	function set_new_local_template( $pageID, $typeID, $templateID ){
+	function load_template( $metaID, $templateID ){
 
 		$t = $this->get_template_data( $templateID ); 
 
-		$page_settings = pl_meta( $pageID, PL_SETTINGS, pl_settings_default() ); 
+		$page_settings = pl_meta( $metaID, PL_SETTINGS, pl_settings_default() ); 
 
 		$page_settings[ 'draft' ] = $t['settings'];
 		
@@ -423,7 +423,7 @@ class EditorTemplates {
 		
 		$page_settings[ 'draft' ][ 'page-template' ] = $templateID;
 		
-		pl_meta_update($pageID, PL_SETTINGS, $page_settings);
+		pl_meta_update($metaID, PL_SETTINGS, $page_settings);
 		
 		return $page_settings;
 
