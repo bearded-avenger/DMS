@@ -135,23 +135,26 @@
 			$('[data-tab-action]').show()
 			
 			if(panelScope == 'global'){
+				
 				theTabs.tabs("option", {
-				    "selected": 0,
 				    "disabled": [1, 2]
 				})
+				theTabs.tabs( "option", "active", 0 )
 				$('[data-tab-action="type"], [data-tab-action="local"]').hide()
+				
 			} else if(panelScope == 'local'){
 				
 				theTabs.tabs("option", {
-				    "selected": 2,
 				    "disabled": [0, 1]
 				})
+				theTabs.tabs( "option", "active", 2 )
 				$('[data-tab-action="global"], [data-tab-action="type"]').hide()
+				
 			} else {
 				theTabs.tabs("option", {
-				    "selected": 1,
 				    "disabled": [0]
 				})
+				theTabs.tabs( "option", "active", 1 )
 				$('[data-tab-action="global"]').hide()
 			}
 			
