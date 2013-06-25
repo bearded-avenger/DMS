@@ -720,7 +720,9 @@
 					var dump = formDataObject.publish_config || false
 					var confirmText = "<h3>Are you sure?</h3><p>This will write all settings to a config file in your child theme named pl-config.json</p>"
 					
-					var args = {
+					if(dump) {
+						
+						var args = {
 								mode: 'settings'
 							,	run: 'exporter'
 							,	confirm: dump
@@ -729,12 +731,12 @@
 							,	refresh: false
 							,	refreshText: ''
 							, 	log: true
-							,	formData: JSON.stringify(formDataObject)
+							,	formData: JSON.stringify( formDataObject )
 						}
-					var response = $.plAJAX.run( args )
+						var response = $.plAJAX.run( args )
 
 
-					if( ! dump) {
+					} else if( ! dump) {
 						// need to make a special url here...
 
 						var export_global = formDataObject.export_global || false
@@ -769,6 +771,7 @@
 							window.location.href = url + endpoint
 						}
 					}
+					
 				}
 			})
 			
@@ -789,6 +792,7 @@
 				
 		    })
 
+			
 			$('#fileupload').fileupload({
 				url: ajaxurl
 				, dataType: 'json'
@@ -798,23 +802,27 @@
 					, refresh: true
 					, run: 'upload_config'
 				}
-				, add: function (e, data) {
-					
+				, add: function(e, data){
 					var toolBoxOpen = $.toolbox('open')
-					
+
 					$.toolbox('hide')
-					
-					bootbox.confirm("<h3>Are you sure?</h3><p>Importing this file will replace your global and post type settings.</p>", function( result ){
 
-						if(result == true){
+					bootbox.confirm(
+						"<h3>Are you sure?</h3><p>Importing this file will replace your global and post type settings.</p>"
+						, function( result ){
 
-							data.submit()
+							if(result == true){
 
-						} else {
-							$('body').toolbox('show')
-						}
+								data.submit()
+
+							} else if( toolBoxOpen ){
+
+								$('body').toolbox('show')
+
+							}
 
 					})
+					
 				}
 				, complete: function (response) {
 					var url = $.pl.config.siteURL
@@ -822,7 +830,7 @@
 
 				}
 			})
-			
+
 
 			// Color picker buttons
 			$('.trigger-color').on('click', function(){
