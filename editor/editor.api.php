@@ -260,12 +260,14 @@ function pl_cache_del( $id ) {
  *
  *	@since 3.0
  */
-function pl_flush_draft_caches() {
+function pl_flush_draft_caches( $file ) {
 
 	$caches = array( 'draft_core_raw', 'draft_core_compiled', 'draft_sections_compiled' );
 	foreach( $caches as $key ) {
 		pl_cache_del( $key );
 	}
+	if( is_file( $file ) )
+		unlink( $file );
 }
 
 /**

@@ -197,7 +197,7 @@ class EditorLessHandler{
 
 
 		if( true == $flush )
-			pl_flush_draft_caches();
+			pl_flush_draft_caches( $this->draft_less_file );
 	}
 
 	/**
@@ -430,5 +430,23 @@ class EditorLessHandler{
 
 		$draft = $pldraft->mode;
 		return ( 'draft' == $draft ) ? true : false;
+	}
+	
+	function write_draft_less_file($css) {
+		$folder = PageLinesRenderCSS::get_css_dir( 'path' );
+		$file = 'editor-draft.css';
+		if( !is_dir( $folder ) )
+			wp_mkdir_p( $folder );
+		include_once( ABSPATH . 'wp-admin/includes/file.php' );
+		if ( is_writable( $folder ) ){
+			$creds = request_filesystem_credentials('', '', false, false, null);
+			if ( ! WP_Filesystem($creds) )
+				return false;
+		}
+		global $wp_filesystem;
+		if( is_object( $wp_filesystem ) )
+			$wp_filesystem->put_contents( trailingslashit( $folder ) . $file, $css, FS_CHMOD_FILE);
+		else
+			return false;
 	}
 }

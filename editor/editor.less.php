@@ -9,6 +9,7 @@ class EditorLess extends EditorLessHandler {
 
 		$this->pless = $pless;
 		$this->lessfiles = $this->get_core_lessfiles();
+		$this->draft_less_file = sprintf( '%s/editor-draft.css', PageLinesRenderCSS::get_css_dir( 'path' ) );
 
 		if( $this->is_draft() )
 			$this->draft_init();
@@ -31,12 +32,19 @@ class EditorLess extends EditorLessHandler {
 			header( 'Expires: ' );
 			header( 'Cache-Control: max-age=604100, public' );
 
-			$core = $this->googlefont_replace( $this->get_draft_core() );
-
-			echo $this->minify( $core['compiled_core'] );
-			echo $this->minify( $core['compiled_sections'] );
-			echo $this->minify( $core['type'] );
-			echo $this->minify( $core['dynamic'] );
+			if( is_file( $this->draft_less_file ) ) {
+				echo readfile( $this->draft_less_file );
+			} else {
+				echo 'NO';
+				echo $this->draft_less_file;
+				$core = $this->googlefont_replace( $this->get_draft_core() );
+				$css = $this->minify( $core['compiled_core'] );
+				$css .= $this->minify( $core['compiled_sections'] );
+				$css .= $this->minify( $core['type'] );
+				$css .= $this->minify( $core['dynamic'] );
+				$this->write_draft_less_file( $css );
+				echo $css;
+			}
 			die();
 		}
 	}
