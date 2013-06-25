@@ -81,9 +81,14 @@
 
 
 					}
+				, 	error: function( jqXHR, status, error ){
+					plPrint('AJAX Error')
+					plPrint( status )
+					plPrint( error )
+				}
 				, 	success: function( response ){
 
-//						plPrint(response)
+					//	plPrint(response)
 
 						that.runSuccess( theData, response )
 
