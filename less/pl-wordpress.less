@@ -7,32 +7,27 @@
 .current_posts_info {
 	padding:5px 10px;
 	position: relative;
-	background-color: @dark-base;
 	a{
 		text-decoration: none;
-		color: @textColorSubtle;
+		color: inherit;
+		opacity: .6;
 		&:hover{
-			color: @textColor;
-
+			opacity: 1;
 		}
 	}
 	.previous a {
 		float: left;
-		padding-left: 24px;
-		background: url(@{plRoot}/images/post-previous@2x.png) no-repeat left center;
 
 	}
 	.next a {
 		float: right;
-		padding-right: 24px;
 		text-align: right;
-		background: url(@{plRoot}/images/post-next@2x.png) no-repeat right center;
 	}
-	.previous, .next{
+	.previous, 
+	.next{
 		a{
 			line-height: 16px;
 			display: block;
-			background-size: 16px 16px;
 		}
 	}
 
@@ -366,6 +361,7 @@ p.form-allowed-tags{
 			height: auto;
 			font-size: 35px;
 			background: @baseContrastSlight;
+			padding: 7px 6px;
 		}
 		input[type="submit"]{
 			width: auto;
