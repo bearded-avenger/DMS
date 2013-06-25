@@ -207,7 +207,7 @@ function pl_upload_config_file(){
 	$fileOpts = new EditorFileOpts;
 	$filename = $_FILES['files']['name'][0];
 
-	if( preg_match( '/pl\-config[0-9_-]+\.json/', $filename ) ) {
+	if( preg_match( '/pl\-config[^\.]*\.json/', $filename ) ) {
 		$file = $_FILES['files']['tmp_name'][0];
 		
 	$response['file'] = $file;
