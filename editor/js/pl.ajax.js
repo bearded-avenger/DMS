@@ -182,7 +182,7 @@
 
 
 							bootbox.dialog( that.dialogText('Editor deactivated! Reloading page.'), [], {animate: false})
-
+							
 							window.location = $.pl.config.currentURL
 						}
 					})
@@ -267,9 +267,10 @@
 
 		, dialogText: function( text ){
 
-			var icon = '<i class="icon-spin icon-refresh"></i>&nbsp;'
-			, 	theHTML = sprintf('<div class="spn"><div class="spn-txt">%s %s</div></div>', icon, text)
-
+			var dynamo = '<div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div>'
+			, 	theHTML = sprintf('<div class="spn"><div class="spn-txt">%s</div>%s</div>', text, dynamo)
+			
+			
 			return theHTML
 
 
