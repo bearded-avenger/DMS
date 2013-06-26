@@ -61,7 +61,7 @@ class PLNavBar extends PageLinesSection {
 							'label' 	=> __( 'Standard NavBar - Select Theme', 'pagelines' ),
 							'opts'	=> array(
 								'base'			=> array( 'name'	=> __( 'Base Color', 'pagelines' ) ),
-								'black-trans'	=> array( 'name'	=> __( 'Black Transparent (Default)', 'pagelines' ) ),
+								'black-trans'	=> array( 'name'	=> __( 'Black (Default)', 'pagelines' ) ),
 								'blue'			=> array( 'name'	=> __( 'Blue', 'pagelines' ) ),
 								'grey'			=> array( 'name'	=> __( 'Light Grey', 'pagelines' ) ),
 								'orange'		=> array( 'name'	=> __( 'Orange', 'pagelines' ) ),
@@ -362,7 +362,7 @@ class PLNavBar extends PageLinesSection {
 								'type' 			=> 'select',
 								'inputlabel' 	=> __( 'Fixed NavBar - Select Theme', 'pagelines' ),
 								'selectvalues'	=> array(
-									'black-trans'	=> array( 'name'	=> __( 'Black Transparent (Default)', 'pagelines' ) ),
+									'black-trans'	=> array( 'name'	=> __( 'Black (Default)', 'pagelines' ) ),
 									'blue'			=> array( 'name'	=> __( 'Blue', 'pagelines' ) ),
 									'grey'			=> array( 'name'	=> __( 'Light Grey', 'pagelines' ) ),
 									'orange'		=> array( 'name'	=> __( 'Orange', 'pagelines' ) ),
@@ -374,7 +374,7 @@ class PLNavBar extends PageLinesSection {
 								'type' 			=> 'select',
 								'inputlabel' 	=> __( 'Standard NavBar - Select Theme', 'pagelines' ),
 								'selectvalues'	=> array(
-									'black-trans'	=> array( 'name'	=> __( 'Black Transparent (Default)', 'pagelines' ) ),
+									'black-trans'	=> array( 'name'	=> __( 'Black (Default)', 'pagelines' ) ),
 									'blue'			=> array( 'name'	=> __( 'Blue', 'pagelines' ) ),
 									'grey'			=> array( 'name'	=> __( 'Light Grey', 'pagelines' ) ),
 									'orange'		=> array( 'name'	=> __( 'Orange', 'pagelines' ) ),
