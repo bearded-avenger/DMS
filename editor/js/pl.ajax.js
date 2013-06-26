@@ -202,7 +202,7 @@
 
 				$.plAJAX.saveData( { 
 					run: run, 
-					refresh: true 
+					refresh: $.pl.flags.refreshOnSave 
 				} )
 
 

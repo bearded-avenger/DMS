@@ -228,26 +228,34 @@
 				if(uniqueID){
 					var sel = sprintf('[data-clone="%s"] [data-sync="%s"]', uniqueID, theInput.attr('id'))
 
-					$( sel ).each(function(i){
-						var el = $(this)
-						,	syncMode = el.data('sync-mode') || ''
-						,	syncPrepend = el.data('sync-pre') || ''
-						,	syncPost = el.data('sync-post') || ''
-						,	syncTarget = el.data('sync-target') || ''
-						,	tagName = el.prop('tagName')
-						, 	myValue = pl_do_shortcode(theInput.val())
+					if(sel.length > 0){
+						
+						$( sel ).each(function(i){
+							var el = $(this)
+							,	syncMode = el.data('sync-mode') || ''
+							,	syncPrepend = el.data('sync-pre') || ''
+							,	syncPost = el.data('sync-post') || ''
+							,	syncTarget = el.data('sync-target') || ''
+							,	tagName = el.prop('tagName')
+							, 	myValue = pl_do_shortcode(theInput.val())
 
-						if( tagName == 'IMG'){
-							
-							el.attr('src', myValue)
-							
-						} else if(syncMode == 'css') {
-							el.css( syncTarget, myValue + syncPost)
-						} else {
-							el.html(myValue)
-						}
+							if( tagName == 'IMG'){
 
-					})
+								el.attr('src', myValue)
+
+							} else if(syncMode == 'css') {
+								el.css( syncTarget, myValue + syncPost)
+							} else {
+								el.html(myValue)
+							}
+
+						})
+						
+					} else {
+						$.pl.flags.refreshOnSave = true
+					}
+
+					
 				}
 
 				if(e.type == 'change' || e.type == 'blur'){
