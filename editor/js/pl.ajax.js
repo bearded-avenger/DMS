@@ -253,7 +253,7 @@
 					$('#stateTool').addClass(el)
 				})
 				
-				if( Object.keys(state).length > 0 ){
+				if( typeof state == 'object' && Object.keys(state).length > 0 ){
 					window.onbeforeunload = function(){ return 'Draft changes on this page are not published to your live website.' }
 				} else {
 					window.onbeforeunload = null
