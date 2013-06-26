@@ -59,11 +59,11 @@ class PageLinesTemplates {
 			}
 			
 							
-			if( !$map && isset( $this->set->type['page-template']) )
-				$map = $this->get_map_from_template_key( $this->set->type['page-template'] ); 
+			// if( !$map && isset( $this->set->type['page-template']) )
+			// 	$map = $this->get_map_from_template_key( $this->set->type['page-template'] ); 
 				
 			
-			if( !$map && isset( $this->set->global['page-template']) )
+			if( is_page() && !$map && isset( $this->set->global['page-template']) )
 				$map = $this->get_map_from_template_key( $this->set->global['page-template'] ); 
 			
 		}
@@ -310,7 +310,7 @@ class EditorTemplates {
 						</a></li>
 						
 						<li><a class="set-tpl" data-run="global">
-						<i class="icon-globe"></i> Set as Global Default
+						<i class="icon-globe"></i> Set as Page Global Default
 						</a></li>
 						
 						<li><a class="delete-template">
