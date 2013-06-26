@@ -231,9 +231,8 @@
 					.find('.panel-tab-content')
 					.html(liveFrame)
 
-			}
-
-			 else if (key == 'pl-design'){
+			} else if (key == 'pl-design'){
+				
 				$.plCode.activateLESS()
 
 			} else if (key == 'section-options'){
@@ -374,7 +373,12 @@
 		
 		, handleCloneData: function( cloned ){
 
-			var newUniqueID = $.pageBuilder.setCloneData( cloned ) // recursive function
+			var that = this
+			,	newUniqueID = $.pageBuilder.setCloneData( cloned ) // recursive function
+			
+			cloned
+				.find('.tooltip')
+				.removeClass('in')
 			
 			return newUniqueID
 
@@ -394,9 +398,7 @@
 			cloned
 				.attr('data-clone', newUniqueID)
 				.data('clone', newUniqueID)
-				.find('.tooltip')
-					.removeClass('in')
-
+				
 			var globalDat 	= (plIsset( $.pl.data.global[ oldUniqueID ] )) ? $.pl.data.global[ oldUniqueID ] : ''
 			,	typeDat 	= (plIsset( $.pl.data.type[ oldUniqueID ])) ? $.pl.data.type[ oldUniqueID ] : ''
 			,	localDat 	= (plIsset( $.pl.data.local[ oldUniqueID ])) ? $.pl.data.local[ oldUniqueID ] : ''
@@ -415,11 +417,12 @@
 		}
 
 		, sectionControls: function() {
-
+			var that = this
 			$('.s-control').tooltip({placement: 'top'})
 			$('.s-control').on('click.sectionControls', function(e){
 
 				e.preventDefault()
+				e.stopPropagation()
 
 				var btn = $(this)
 				,	section = btn.closest(".pl-section")
@@ -432,6 +435,11 @@
 						, scope: scope
 					}
 				,	storeData = true
+				
+				// Remove tool tips, sometimes there's quirks
+				$('.pl-section-controls')
+					.find('.tooltip')
+					.removeClass('in')
 					
 
 				if(btn.hasClass('section-edit')){
@@ -471,16 +479,15 @@
 
 				} else if (btn.hasClass('section-clone')){
 
-					var	cloned = section.clone( true )
-
+					var	cloned = section.clone( true, true )
+					
 					cloned
 						.insertAfter(section)
 						.hide()
 						.fadeIn()
 
 					$.pageBuilder.handleCloneData( cloned )
-
-
+					
 				} else if ( btn.hasClass('section-increase')){
 
 					var sizes = $.plMapping.getColumnSize(section)
@@ -522,6 +529,8 @@
 				// "delete" has a confirm, so doesn't need this
 				if( storeData )
 					$.pageBuilder.reloadConfig( { location: 'section-control' } )
+					
+			
 
 			})
 
@@ -698,20 +707,14 @@
 
 
 
-		, startDroppable: function(){
+		, startDroppable: function( reloadSort ){
 
 			var that = this
+			,	reloadSort = reloadSort || false
 			,	sortableArgs = {}
 
-
-
-			$( '.section-plcolumn' ).on('mousedown', function(e){
-				$('.section-plcolumn .pl-sortable-area').sortable( "disable" )
-				$( '.section-plcolumn .pl-section' ).removeClass('pl-sortable')
-			}).on('mouseup', function(e){
-				$('.section-plcolumn .pl-sortable-area').sortable( "enable" )
-				$( '.section-plcolumn .pl-section' ).addClass('pl-sortable')
-			})
+			
+			that.preventNestedColumns()
 
 		    $( '.pl-sortable-area' ).sortable( that.sortableArguments( 'section' ) )
 
@@ -719,9 +722,27 @@
 			// AREA drag and drop
 			$( '.pl-area-container' ).sortable( that.sortableArguments( 'area' ) )
 
-
-
-
+		}
+		
+		, preventNestedColumns: function(){
+			
+			// if( $('.section-plcolumn .pl-sortable-area').hasClass('ui-sortable') ){
+			// 			
+			// 			$( '.section-plcolumn' )
+			// 					.off('mousedown.noNested')
+			// 					.off('mouseup.noNested')
+			// 			
+			// 			$('.section-plcolumn .pl-sortable-area').sortable( "enable" )
+			// 			$( '.section-plcolumn .pl-section' ).addClass('pl-sortable')
+			// 		}
+			// 		
+			// 		$( '.section-plcolumn' ).on('mousedown.noNested', function(e){
+			// 			$('.section-plcolumn .pl-sortable-area').sortable( "disable" )
+			// 			$( '.section-plcolumn .pl-section' ).removeClass('pl-sortable')
+			// 		}).on('mouseup.noNested', function(e){
+			// 			$('.section-plcolumn .pl-sortable-area').sortable( "enable" )
+			// 			$( '.section-plcolumn .pl-section' ).addClass('pl-sortable')
+			// 		})
 		}
 
 		, sortableArguments: function( type ){

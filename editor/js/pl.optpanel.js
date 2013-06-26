@@ -130,7 +130,7 @@
 			else 
 				panelScope = $.pl.config.templateMode
 				
-			console.log(panelScope)
+			
 			
 			$('[data-tab-action]').show()
 			
@@ -221,7 +221,6 @@
 
 				}
 
-				console.log($.pl.data[scope])
 				$.pl.data[scope] = $.extend(true, $.pl.data[scope], that.activeForm.formParams())
 		
 				$.pl.flags.refreshOnSave = true;

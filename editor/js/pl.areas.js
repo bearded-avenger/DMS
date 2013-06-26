@@ -29,7 +29,7 @@
 		, listen: function() {
 			$('.btn-region').tooltip({placement: 'right'})
 			
-			$('.area-control').tooltip({placement: 'top'})
+			$('.area-control').tooltip({ placement: 'top' })
 
 			$('.area-control').on('click.areaControl', function(e){
 				e.preventDefault()
@@ -67,15 +67,21 @@
 				}
 				
 			if( action == 'clone'){
+				
 				var	cloned = theArea.clone( true )
 
 				cloned
 					.insertAfter( theArea )
 					.hide()
 					.slideDown()
+					
+				cloned.find('.area-control').data('tooltip', false).tooltip('destroy')
+				cloned.find('.area-control').tooltip({placement: 'top'})
+
+				console.log(cloned.data())
 
 				$.pageBuilder.handleCloneData( cloned )
-				
+			
 				$.pageBuilder.reloadConfig( {location: 'area clone'} )
 			}
 
