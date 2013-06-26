@@ -304,7 +304,7 @@ class EditorInterface {
 
 			</ul>
 			<ul class="unstyled controls not-btn send-right">
-				<li class="switch-btn btn-saving"><span class="btn-toolbox not-btn"><i class="icon-save"></i> <span class="txt">Saving</span></li>
+				<li class="switch-btn btn-saving"><span class="btn-toolbox not-btn"><i class="icon-spinner icon-spin"></i> <span class="txt">Saving</span></li>
 				<li class="switch-btn btn-layout-resize"><span class="btn-toolbox  not-btn">
 					<i class="icon-fullscreen"></i> <span class="txt">Width: <span class="resize-px"></span> / <span class="resize-percent"></span></span>
 				</li>
