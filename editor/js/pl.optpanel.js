@@ -137,10 +137,10 @@
 			if(panelScope == 'global'){
 				
 				theTabs.tabs("option", {
-				    "disabled": [1, 2]
+				    "disabled": [1]
 				})
 				theTabs.tabs( "option", "active", 0 )
-				$('[data-tab-action="type"], [data-tab-action="local"]').hide()
+				$('[data-tab-action="type"]').hide()
 				
 			} else if(panelScope == 'local'){
 				
