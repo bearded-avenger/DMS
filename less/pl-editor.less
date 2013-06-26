@@ -5,6 +5,7 @@
 @interfaceBG: rgba(0,0,0,.6);
 
 @editorBorder: #35eafd;
+@editorBorderTrans: rgba(53, 234, 253, .5);
 @editorText: #038196;
 
 .pl-editor{
@@ -427,6 +428,7 @@
 		.box-sizing(border-box);
 		.border-radius(5px);
 		#gradient > .vertical(rgba(182, 242, 253, .2), rgba(125, 233, 253, .2));
+		outline: 1px solid @editorBorderTrans;
 		// Used in nested columns
 		&.hidden-placeholder{
 			display: none;
