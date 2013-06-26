@@ -95,7 +95,7 @@ class PLICallout extends PageLinesSection {
 		<div class="icallout-container <?php echo $format;?>">
 			
 			<h2 class="icallout-head" data-sync="icallout_text"><?php echo $text; ?></h2> 
-			<span class="icallout-action btn <?php echo $theme;?> btn-large" href="<?php echo $link; ?>"  data-sync="icallout_link_text"><?php echo $link_text; ?></span>
+			<a class="icallout-action btn <?php echo $theme;?> btn-large" href="<?php echo $link; ?>"  data-sync="icallout_link_text"><?php echo $link_text; ?></a>
 		
 		</div>
 	<?php
