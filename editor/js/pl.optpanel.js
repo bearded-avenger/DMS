@@ -225,38 +225,43 @@
 		
 				$.pl.flags.refreshOnSave = true;
 
-				if(uniqueID){
+				if(uniqueID)
 					var sel = sprintf('[data-clone="%s"] [data-sync="%s"]', uniqueID, theInput.attr('id'))
-
-					if(sel.length > 0){
-						
-						$( sel ).each(function(i){
-							var el = $(this)
-							,	syncMode = el.data('sync-mode') || ''
-							,	syncPrepend = el.data('sync-pre') || ''
-							,	syncPost = el.data('sync-post') || ''
-							,	syncTarget = el.data('sync-target') || ''
-							,	tagName = el.prop('tagName')
-							, 	myValue = pl_do_shortcode(theInput.val())
-
-							if( tagName == 'IMG'){
-
-								el.attr('src', myValue)
-
-							} else if(syncMode == 'css') {
-								el.css( syncTarget, myValue + syncPost)
-							} else {
-								el.html(myValue)
-							}
-
-						})
-						
-					} else {
-						$.pl.flags.refreshOnSave = true
-					}
-
+				else 	
+					var sel = sprintf('[data-sync="%s"]', theInput.attr('id'))
 					
+			
+
+				if( $( sel ).length > 0 ){
+					
+					$( sel ).each(function(i){
+						var el = $(this)
+						,	syncMode = el.data('sync-mode') || ''
+						,	syncPrepend = el.data('sync-pre') || ''
+						,	syncPost = el.data('sync-post') || ''
+						,	syncTarget = el.data('sync-target') || ''
+						,	tagName = el.prop('tagName')
+						, 	myValue = pl_do_shortcode(theInput.val())
+
+						if( tagName == 'IMG'){
+
+							el.attr('src', myValue)
+
+						} else if(syncMode == 'css') {
+							el.css( syncTarget, myValue + syncPost)
+						} else {
+							el.html(myValue)
+						}
+
+					})
+					
+				} else {
+				
+					$.pl.flags.refreshOnSave = true
+					$('.btn-save i').addClass('icon-refresh').removeClass('icon-ok')
 				}
+
+				
 
 				if(e.type == 'change' || e.type == 'blur'){
 					
