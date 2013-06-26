@@ -36,6 +36,11 @@
 					.trigger('click')
 			})
 			
+			$.jQee('meta+r', function() {
+
+				window.onbeforeunload = null
+			})
+			
 		}
 	}
 

@@ -99,6 +99,8 @@
 								store.set('toolboxShown', true)
 
 							bootbox.dialog( that.dialogText( theData.refreshText ), [ ], {animate: false})
+							
+							window.onbeforeunload = null
 							location.reload()
 
 						} else {

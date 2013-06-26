@@ -842,6 +842,7 @@
 					
 				}
 				, complete: function (response) {
+					window.onbeforeunload = null
 					var url = $.pl.config.siteURL
 					window.location.href = url
 
@@ -927,6 +928,7 @@
 			
 				e.preventDefault()
 				$(this).find('i').addClass('icon-spin')
+				window.onbeforeunload = null
 				location.reload()
 			})
 
