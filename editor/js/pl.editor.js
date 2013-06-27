@@ -154,10 +154,26 @@
 
 			$('.pl-toolbox .ui-tabs').tabs('destroy')
 
+			var activeTabSlug = selectedPanel.attr('data-tab-load')
+			, 	activeIndex = selectedPanel.find('[data-tab-action="'+activeTabSlug+'"]').index()
+			, 	activeTab = (activeIndex > 1) ? activeIndex-1 : 0
+		
 			
-	
+			if(activeTab == 0){
+				
+				tabMemory = store.get( 'plTabMemory' )
+				console.log(tabMemory)
+				if(typeof tabMemory[key] != 'undefined')
+					activeTab = tabMemory[key]	
+					
+			}
+			
+			
+
 			selectedPanel.tabs({
-				create: function(event, ui){
+				active: activeTab
+				
+				, create: function(event, ui){
 
 					selectedPanel.find('.tabs-nav li').on('click.panelTab', function(){
 						var theIsotope = selectedPanel.find('.isotope')
@@ -172,6 +188,14 @@
 
 
 					})
+					
+					
+					
+					
+					
+				}
+				, show: function(e, ui){
+					
 				}
 				, activate: function(e, ui){
 
@@ -179,6 +203,24 @@
 					, 	tabAction = theTab.attr('data-tab-action') || ''
 					,	tabPanel = $("[data-panel='"+tabAction+"']")
 					,	tabFlag = theTab.attr('data-flag') || ''
+					,	tabLink = theTab.attr('data-tab-link') || ''
+					,	tabSubLink = theTab.attr('data-stab-link') || ''
+					
+				
+					
+					if( tabLink != '' ){
+						
+						var tabLoad = (tabSubLink != '') ? tabSubLink : '0'
+						
+						$('.panel-'+tabLink)
+							.attr('data-tab-load', tabSubLink)
+							.data('tab-load', tabSubLink)
+						
+						$( '[data-action="'+tabLink+'"]' )
+							.trigger('click')
+						
+						return
+					}
 
 					if (tabFlag == 'custom-scripts'){
 
@@ -191,8 +233,20 @@
 
 						$('.btn-pl-extend')
 							.trigger('click')
+							
+						return
 
 					}
+					
+					
+					var tabMemory = store.get( 'plTabMemory' )
+					, 	obj = {}
+					
+					obj[key] = ui.newTab.index() - 1
+					
+					tabMemory = $.extend(tabMemory, obj)
+
+					store.set('plTabMemory', tabMemory)
 
 				}
 			})

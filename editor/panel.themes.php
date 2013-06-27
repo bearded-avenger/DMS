@@ -31,9 +31,10 @@ class EditorThemeHandler {
 					'icon'	=> 'icon-picture'
 				),
 				'export_themes'	=> array(
-					'name'	=> 'Export / Import',
-					'call'	=> array(&$this, 'themes_dashboard'),
-					'icon'	=> 'icon-picture'
+					'name'	=> 'Import Config',
+					'tab'	=> 'settings',
+					'stab'	=> 'importexport',	
+					'icon'	=> 'icon-th-large'
 				),
 				'more_themes'	=> array(
 					'name'	=> 'Get More Themes',

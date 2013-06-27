@@ -348,7 +348,9 @@ class EditorInterface {
 			'mode'		=> '',
 			'class'		=> '',
 			'call'		=> false,
-			'flag'		=> ''
+			'flag'		=> '',
+			'tab'		=> '', 
+			'stab'		=> ''
 		);
 		return $d;
 	}
@@ -385,9 +387,27 @@ class EditorInterface {
 								$class = ($t['class'] != '') ? $t['class'] : '';
 
 								$icon = ($t['icon'] != '') ? sprintf('<i class="%s"></i> ', $t['icon']) : '';
+								
+								$link_tab = ($t['tab'] != '') ? sprintf('data-tab-link="%s"', $t['tab']) : '';
+								
+								$link_sub_tab = ($t['stab'] != '') ? sprintf('data-stab-link="%s"', $t['stab']) : '';
 
+								$tab_action = sprintf('data-tab-action="%s"', $tab_key);
 
-								printf('<li class="%s" data-tab-action="%s" %s %s %s><a href="%s">%s%s</a></li>', $class, $tab_key, $hook, $filter, $flag, $href, $icon, $t['name']);
+								printf(
+									'<li class="%s" %s %s %s %s %s %s><a href="%s">%s%s</a></li>', 
+									$class, 
+									$tab_action, 
+									$link_tab,
+									$link_sub_tab,
+									$hook, 
+									$filter, 
+									$flag, 
+									$href, 
+									$icon, 
+									$t['name']
+								);
+								
 							}
 
 						}
@@ -414,7 +434,7 @@ class EditorInterface {
 						call_user_func($t['call']);
 						$content = ob_get_clean();
 					} else {
-						$content = sprintf('<div class="error-panel"><i class="icon-refresh icon-spin"></i> Panel Error</div>', rand());
+						$content = sprintf('<div class="error-panel"><i class="icon-refresh icon-spin"></i></div>', rand());
 					}
 
 					$clip = ( isset($t['clip']) ) ? sprintf('<span class="clip-desc">%s</span>', $t['clip']) : '';
