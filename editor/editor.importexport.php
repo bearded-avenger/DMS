@@ -29,6 +29,29 @@ class PLImportExport{
 		
 		
 		?>
+		
+		<label class="checklist-label media" for="page_tpl_import">
+			<div class="img"><input name="page_tpl_import" id="page_tpl_import" type="checkbox" checked /></div>
+			<div class="bd">
+				<div class="ttl">Import Page Templates</div>
+				<p>Add new templates and overwrite ones with the same name.</p>
+			</div>
+		</label>
+		<label class="checklist-label media" for="global_import">
+			<div class="img"><input name="global_import" id="global_import" type="checkbox" checked /></div>
+			<div class="bd">
+				<div class="ttl">Import New Global Settings</div>
+				<p>Overwrite global settings with ones from this import.</p>
+			</div>
+		</label>
+		<label class="checklist-label media" for="type_import">
+			<div class="img"><input name="type_import" id="type_import" type="checkbox" checked /></div>
+			<div class="bd">
+				<div class="ttl">Import Post Type Settings</div>
+				<p>Overwrite post type settings with ones from this import.</p>
+			</div>
+		</label>
+		
 		<label>DMS Config Import</label>
 		
 		<span class="btn btn-success fileinput-button">
