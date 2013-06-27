@@ -249,15 +249,17 @@ function pl_dms_admin_actions(){
 	$response = array();
 	$postdata = $_POST;
 	$response['post'] = $_POST;
+	$lessflush = ( isset( $postdata['flag'] ) ) ? $postdata['flag'] : false;
 
 	$field = $postdata['setting'];
-	$value = $_POST['value'];
+	$value = $postdata['value'];
 	
 	pl_setting_update($field, $value);
 	
 	echo json_encode(  pl_arrays_to_objects( $response ) );
-	die();
-	
+	if( $lessflush )
+		pl_flush_draft_caches( false );
+	die();	
 }
 
 

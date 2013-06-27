@@ -403,6 +403,9 @@ class PageLinesRenderCSS {
 		if ( defined( 'PL_NO_DYNAMIC_URL' ) )
 			return true;
 
+		if ( is_multisite() && in_array( $GLOBALS['pagenow'], array( 'wp-signup.php' ) ) )
+			return true;
+
 		if( site_url() !== get_home_url() )
 			return true;
 

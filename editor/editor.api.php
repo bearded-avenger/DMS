@@ -266,6 +266,8 @@ function pl_flush_draft_caches( $file ) {
 	foreach( $caches as $key ) {
 		pl_cache_del( $key );
 	}
+	if( false == $file )
+		$file = sprintf( '%s%s', trailingslashit( PageLinesRenderCSS::get_css_dir( 'path' ) ), 'editor-draft.css' ); 
 	if( is_file( $file ) )
 		unlink( $file );
 }
