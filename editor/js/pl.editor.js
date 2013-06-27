@@ -162,8 +162,8 @@
 			if(activeTab == 0){
 				
 				tabMemory = store.get( 'plTabMemory' )
-				console.log(tabMemory)
-				if(typeof tabMemory[key] != 'undefined')
+			
+				if(plIsset(tabMemory) && plIsset(tabMemory[key]))
 					activeTab = tabMemory[key]	
 					
 			}
