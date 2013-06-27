@@ -84,6 +84,7 @@ jQuery(document).ready(function(){
 				, value: theValue
 				, setting: theSetting
 				, mode: 'setting_update'
+				, flag: 'admin_fallback'
 			},
 			beforeSend: function(){
 				jQuery('.ajax-saved')
