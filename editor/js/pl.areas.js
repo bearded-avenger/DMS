@@ -68,7 +68,7 @@
 				
 			if( action == 'clone'){
 				
-				var	cloned = theArea.clone( true )
+				var	cloned = theArea.clone( false )
 
 				cloned
 					.insertAfter( theArea )
@@ -81,6 +81,20 @@
 				console.log(cloned.data())
 
 				$.pageBuilder.handleCloneData( cloned )
+				
+				// reload events
+				$('.s-control')
+					.off('click.sectionControls')
+
+				$.pageBuilder.sectionControls()
+
+				$('.area-control')
+					.off('click.areaControl')
+
+				$.areaControl.listen()
+			
+				$.pageBuilder.startDroppable( )
+				$.widthResize.startUp()
 			
 				$.pageBuilder.reloadConfig( {location: 'area clone'} )
 			}

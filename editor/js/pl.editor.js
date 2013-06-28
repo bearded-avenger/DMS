@@ -6,10 +6,7 @@
 	// --> Initialize
 	$(document).ready(function() {
 
-		$('.pl-sortable-area')
-			.addClass('editor-row')
-			.find('.pl-section')
-			.addClass('pl-sortable')
+		
 
 		$(".dropdown-toggle").dropdown()
 
@@ -39,7 +36,7 @@
 			})		
 			
 			$.jQee('meta+r ctrl+r', function() {
-				
+			
 				window.onbeforeunload = null
 				return true
 			})
@@ -78,7 +75,7 @@
 			// Show unload if state is changed from live, will be overridden if 
 			// the state changes or by other user actions.
 			if( $('#stateTool').data('show-unload') == 'yes' )
-				pl_show_unload()
+				//pl_show_unload()
 			
 			// Click event listener
 			$(".btn-toolbox").on("click.toolboxHandle", function(e) {
@@ -630,6 +627,10 @@
 
         , reloadConfig: function( obj ) {
 			
+			$('.pl-sortable-area')
+				.addClass('editor-row')
+				.find('.pl-section')
+				.addClass('pl-sortable')
 
 			var that = this
 			,	obj = obj || {}
