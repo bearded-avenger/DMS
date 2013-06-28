@@ -175,10 +175,11 @@
 			$('.pl-toolbox .ui-tabs').tabs('destroy')
 
 			var activeTabSlug = selectedPanel.attr('data-tab-load')
-			, 	activeIndex = selectedPanel.find('[data-tab-action="'+activeTabSlug+'"]').index()
-			, 	activeTab = (activeIndex > 1) ? activeIndex-1 : 0
+			, 	theATab = selectedPanel.find('[data-tab-action="'+activeTabSlug+'"]')
+			, 	activeIndex = theATab.parent().children('li').index( theATab )
+			, 	activeTab = (activeIndex > 1) ? activeIndex : 0
 		
-			
+		
 			if(activeTab == 0){
 				
 				tabMemory = store.get( 'plTabMemory' )
@@ -247,9 +248,12 @@
 					var tabMemory = store.get( 'plTabMemory' )
 					, 	obj = {}
 					
-					obj[key] = ui.newTab.index() - 1
+					obj[key] = ui.newTab.parent().children('li').index(ui.newTab)
+				
 					
 					tabMemory = $.extend(tabMemory, obj)
+					
+					console.log(tabMemory)
 
 					store.set('plTabMemory', tabMemory)
 
