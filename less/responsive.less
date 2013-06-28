@@ -139,18 +139,22 @@
   .row {
     margin-left: 0;
   }
-  // Make all columns even
-  .row > [class*="span"],
-  .row-grid > [class*="span"],
-  .editor-row > [class*="span"]{
-    float: none;
-    display: block;
-    width: auto;
-    margin-left: 0;
-  }
-  .row > [class*="offset"]:first-child {
-   margin-left: 0;
-  }
+	// Make all columns even
+	.row > [class*="span"],
+	.row-grid > [class*="span"],
+	.editor-row > [class*="span"],
+	.row > [class*="offset"],
+	.row-grid > [class*="offset"],
+	.editor-row > [class*="offset"]{
+		float: none;
+		display: block;
+		width: auto;
+		margin-left: 0;
+	}
+	.row > [class*="offset"]:first-child,
+	.editor-row > [class*="offset"].sortable-first{
+	margin-left: 0;
+	}
   // THUMBNAILS
   // ----------
   .thumbnails [class*="span"] {
