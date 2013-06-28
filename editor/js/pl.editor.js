@@ -136,10 +136,24 @@
 			}
 
 		}
+		
+		, filterItems: function( tab, panel ){
+			var theIsotope = panel.find('.isotope')
+			,	removeItems = $('.x-remove')
+			
+			
+			if( tab.data('filter') ){
+				theIsotope
+					.isotope({ filter: tab.data('filter') })
+					.isotope('remove', removeItems)
+					.removeClass('x-pane-mode')
+			}
+		}
 
 		, showPanel: function( key ){
 
-			var selectedPanel = $('.panel-'+key)
+			var that = this
+			,	selectedPanel = $('.panel-'+key)
 			, 	selectedTab = $('[data-action="'+key+'"]')
 			, 	allPanels = $('.tabbed-set')
 			
@@ -180,31 +194,16 @@
 				active: activeTab
 				
 				, create: function(event, ui){
-
+					
 					selectedPanel.find('.tabs-nav li').on('click.panelTab', function(){
-						var theIsotope = selectedPanel.find('.isotope')
-						,	removeItems = $('.x-remove')
-
-						if( $(this).data('filter') ){
-							theIsotope
-								.isotope({ filter: $(this).data('filter') })
-								.isotope('remove', removeItems)
-								.removeClass('x-pane-mode')
-						}
-
-
+						
+						that.filterItems($(this), selectedPanel)
+						
 					})
-					
-					
-					
-					
-					
-				}
-				, show: function(e, ui){
 					
 				}
 				, activate: function(e, ui){
-
+					
 					var theTab = ui.newTab
 					, 	tabAction = theTab.attr('data-tab-action') || ''
 					,	tabPanel = $("[data-panel='"+tabAction+"']")
@@ -319,6 +318,8 @@
 			$.xList.listStop()
 
 			$.xList.listStart(selectedPanel, key)
+			
+		
 
 		}
 

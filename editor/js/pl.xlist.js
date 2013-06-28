@@ -23,12 +23,15 @@
 
 			var that = this
 			,	layout = (key == 'pl-extend') ? 'masonry' : 'fitRows';
+		
+			var filter = (panel.find('.ui-tabs-active').data('filter')) ? panel.find('.ui-tabs-active').data('filter') : '*'
 
 			panel.imagesLoaded( function(){
 				panel.find('.x-list').isotope({
 					itemSelector : '.x-item'
 					, layoutMode : layout
 					, sortBy: 'number'
+					, filter: filter
 					, containerStyle: { position: 'relative', overflow: 'visible' }
 					, getSortData : {
 						number : function ( $elem ) {
