@@ -142,6 +142,7 @@ add_action( 'wp_print_scripts', 'pagelines_print_js' );
 function pagelines_print_js() {
 
 	wp_enqueue_script( 'pagelines-bootstrap-all' );
+	wp_enqueue_script( 'pagelines-easing' );
 	wp_enqueue_script( 'pagelines-resizer' );
 	wp_enqueue_script( 'pagelines-viewport' );
 	wp_enqueue_script( 'pagelines-waypoints' );
