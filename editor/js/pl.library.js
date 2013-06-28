@@ -95,7 +95,7 @@ function pl_show_unload(){
 			}, 500);
 		},1);
 		
-		return 'Draft changes on this page are not published to your live website.' 
+		return "« PUBLISH CHANGES ? »\n\nDraft changes on this page aren't published live.\n\nFeel free to navigate; however, your visitors won't see changes until they're published." 
 		
 
 	}

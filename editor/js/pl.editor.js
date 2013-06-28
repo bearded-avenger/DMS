@@ -13,10 +13,12 @@
 
 		$(".dropdown-toggle").dropdown()
 
+		$.plHotKeys.init()
+
 		$.pageTools.startUp()
 		
 		
-		$.plHotKeys.init()
+		
 
 	})
 	
@@ -34,11 +36,12 @@
 
 				$('[data-mode="publish"]')
 					.trigger('click')
-			})
+			})		
 			
-			$.jQee('meta+r', function() {
-
+			$.jQee('meta+r ctrl+r', function() {
+				
 				window.onbeforeunload = null
+				return true
 			})
 			
 		}
