@@ -256,7 +256,7 @@
 				})
 				
 				if( typeof state == 'object' && Object.keys(state).length > 0 ){
-					window.onbeforeunload = function(){ return 'Draft changes on this page are not published to your live website.' }
+					pl_show_unload( )
 				} else {
 					window.onbeforeunload = null
 				}

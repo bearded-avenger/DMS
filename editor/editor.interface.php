@@ -282,8 +282,10 @@ class EditorInterface {
 						);
 
 					}
+					
+					$show_unload = ($state_class != '') ? 'yes' : ''
 				?>
-				<li id="stateTool" class="dropup <?php echo $state_class;?>">
+				<li id="stateTool" class="dropup <?php echo $state_class;?>" data-show-unload="<?php echo $show_unload;?>">
 					<span class="btn-toolbox btn-state " data-toggle="dropdown">
 						<span id="update-state" class="state-draft state-tag">&nbsp;</span>
 					</span>

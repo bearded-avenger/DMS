@@ -85,3 +85,19 @@ function pl_do_shortcode(opt) {
 	}
 	return opt
 }
+
+function pl_show_unload(){
+	window.onbeforeunload = function(){ 
+		
+		setTimeout(function() {
+			setTimeout(function() {
+				bootbox.hideAll()
+			}, 500);
+		},1);
+		
+		return 'Draft changes on this page are not published to your live website.' 
+		
+
+	}
+	
+}
