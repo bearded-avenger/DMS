@@ -226,7 +226,7 @@ class EditorSettings {
 				'imgsize' 			=> 	'72',
 				'title' 		=> __( 'Mobile Touch Image', 'pagelines' ),
 				'default'		=> PL_EDITOR_URL . '/images/default-touch-icon.png',
-				'help'			=> __( 'Enter the full URL location of your Apple Touch Icon which is visible when your users set your site as a <strong>webclip</strong> in Apple Iphone and Touch Products. It is an image approximately 57px by 57px in either .jpg, .gif or .png format.', 'pagelines' )
+				'help'			=> __( 'Enter the full URL location of your Apple Touch Icon which is visible when your users set your site as a <strong>webclip</strong> in Apple Iphone and Touch Products. It is an image approximately 144px by 144px in either .jpg, .gif or .png format.', 'pagelines' )
 			),
 
 		);
