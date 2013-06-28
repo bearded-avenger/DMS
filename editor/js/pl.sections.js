@@ -148,21 +148,8 @@ $.plSections = {
 						}
 						
 						$.extend($.pl.config.opts, newOpts)
-						// reload events
-						$('.s-control')
-							.off('click.sectionControls')
-
-						$.pageBuilder.sectionControls()
-
-						$('.area-control')
-							.off('click.areaControl')
-
-						$.areaControl.listen()
 						
-						$.pageBuilder.startDroppable( )
-						$.widthResize.startUp()
-						
-						$.pageBuilder.reloadConfig( {location: 'active load'} )
+						$.pageBuilder.reloadAllEvents()
 				
 					}
 				,	beforeSend: function( ){

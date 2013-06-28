@@ -65,7 +65,8 @@
 
 
 		}
-
+		
+		
 		, bindUIActions: function() {
 
 			that = this
@@ -404,6 +405,25 @@
 
 
 		}
+		
+		, reloadAllEvents: function(){
+			// reload events
+			$('.s-control')
+				.off('click.sectionControls')
+
+			$.pageBuilder.sectionControls()
+
+			$('.area-control')
+				.off('click.areaControl')
+
+			$.areaControl.listen()
+			
+			$.pageBuilder.startDroppable( )
+			$.widthResize.startUp()
+			
+			$.pageBuilder.reloadConfig( {location: 'reload all'} )
+		}
+		
 
 		, hide: function() {
 

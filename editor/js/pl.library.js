@@ -87,17 +87,19 @@ function pl_do_shortcode(opt) {
 }
 
 function pl_show_unload(){
+	
+
 	window.onbeforeunload = function(){ 
-		
+	
 		setTimeout(function() {
 			setTimeout(function() {
 				bootbox.hideAll()
 			}, 500);
 		},1);
-		
+	
 		return "« PUBLISH CHANGES ? »\n\nDraft changes on this page aren't published live.\n\nFeel free to navigate; however, your visitors won't see changes until they're published." 
-		
+	
 
 	}
-	
+
 }

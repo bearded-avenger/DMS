@@ -82,21 +82,7 @@
 
 				$.pageBuilder.handleCloneData( cloned )
 				
-				// reload events
-				$('.s-control')
-					.off('click.sectionControls')
-
-				$.pageBuilder.sectionControls()
-
-				$('.area-control')
-					.off('click.areaControl')
-
-				$.areaControl.listen()
-			
-				$.pageBuilder.startDroppable( )
-				$.widthResize.startUp()
-			
-				$.pageBuilder.reloadConfig( {location: 'area clone'} )
+				$.pageBuilder.reloadAllEvents()
 			}
 
 		}
