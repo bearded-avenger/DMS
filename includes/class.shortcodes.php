@@ -1321,7 +1321,7 @@ class PageLines_ShortCodes {
 	    		?>
 				<script>
 	            	jQuery(function(){
-						jQuery('#modal_<?php echo $hash; ?>').modal({
+						jQuery('#modal_<?php echo $hash; ?>').appendTo(jQuery('body')).modal({
 							keyboard: true
 							, show: <?php echo $show; ?>
 						});
