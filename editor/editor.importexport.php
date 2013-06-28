@@ -28,6 +28,12 @@ class PLImportExport{
 		ob_start();
 		
 		
+		$fileOpts = new EditorFileOpts;
+		
+		$show_child_import = ($fileOpts->file_exists()) ? true : false;
+		
+		
+		
 		?>
 		
 		<label class="checklist-label media" for="page_tpl_import">
@@ -52,6 +58,9 @@ class PLImportExport{
 			</div>
 		</label>
 		
+	
+	
+		
 		<label>DMS Config Import</label>
 		
 		<span class="btn btn-success fileinput-button">
@@ -60,9 +69,24 @@ class PLImportExport{
 	        <!-- The file input field used as target for the file upload widget -->
 	        <input id="fileupload" type="file" name="files[]" multiple>
 	    </span>
-		
-		<?php 
-		
+	
+	
+		<?php if($show_child_import):  ?>
+
+			<label>Child Theme Config Import</label>
+
+			<div class="child-import">
+				<a href="#" data-action="reset_global_child" class="btn settings-action btn-warning"><i class="icon-download"></i> Load Child Theme Config</a>
+
+				<div class="help-block">
+					Reset theme settings using custom config file from child theme.<br />
+					<strong>Note:</strong> Once you've completed this action, you may want to publish these changes to your live site.
+				</div>
+			</div>
+		<?php endif;?>
+	
+	
+		<?php
 		return ob_get_clean();
 	}
 	
@@ -163,20 +187,7 @@ class PLImportExport{
 
 		);
 		
-		$fileOpts = new EditorFileOpts;
 		
-		if( $fileOpts->file_exists() ) {
-			$child = array();
-			$child[] = array(
-				'key'		=> 'reset_global_child',
-				'type'		=> 'action_button',
-				'classes'	=> 'btn-warning',
-				'label'		=> __( '<i class="icon-download"></i> Load Child Theme Config', 'pagelines' ),
-				'help'		=> __( "Reset theme settings using custom config file from child theme.<br/><strong>Note:</strong> Once you've completed this action, you may want to publish these changes to your live site.", 'pagelines' )
-			);
-			$settings = array_merge( $settings, $child );
-		}
-
 
 		return $settings;
 		
