@@ -87,7 +87,7 @@ function pl_editor_actions(){
 
 		if( $run == 'activate' ){
 			$response = $theme->activate( $response );
-			pl_flush_draft_caches();
+			pl_flush_draft_caches( false );
 		}
 
 
