@@ -39,6 +39,20 @@
 						}
 					}
 				})
+				
+				panel.find('.opt-form').isotope({
+					itemSelector : '.opt'
+					, masonry: {
+						columnWidth: 315
+					  }
+					, layoutMode : 'masonry'
+					, sortBy: 'number'
+					, getSortData : {
+						number : function ( $elem ) {
+							return $elem.data('number');
+						}
+					}
+				})
 			})
 
 			//this.listPopOverStart()

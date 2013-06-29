@@ -141,14 +141,14 @@
 		, filterItems: function( tab, panel ){
 			var theIsotope = panel.find('.isotope')
 			,	removeItems = $('.x-remove')
+			, 	theFilter = tab.data('filter') || '*'
 			
 			
-			if( tab.data('filter') ){
-				theIsotope
-					.isotope({ filter: tab.data('filter') })
-					.isotope('remove', removeItems)
-					.removeClass('x-pane-mode')
-			}
+			theIsotope
+				.isotope({ filter: theFilter })
+				.isotope('remove', removeItems)
+				.removeClass('x-pane-mode')
+		
 		}
 
 		, showPanel: function( key ){

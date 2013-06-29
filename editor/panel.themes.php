@@ -59,8 +59,9 @@ class EditorThemeHandler {
 		$settings = $this->user_theme_tabs( $settings );
 		
 		$default = array(
-			'icon'	=> 'icon-edit',
-			'pos'	=> 100
+			'icon'		=> 'icon-edit',
+			'pos'		=> 100,
+			'filter'	=> '*'
 		);
 		
 		foreach($settings as $key => &$info){

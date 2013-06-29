@@ -305,6 +305,7 @@
 					that.optSID = that.activeForm.data('sid')
 
 					that.activeForm.imagesLoaded( function(){
+						
 						that.activeForm.isotope({
 							itemSelector : '.opt'
 							, masonry: {
@@ -714,6 +715,8 @@
 		, runScriptEngine: function ( tabIndex, opts ) {
 
 			var that = this
+			
+			
 
 			$.each(opts, function(index, o){
 				that.scriptEngine(tabIndex, o)
