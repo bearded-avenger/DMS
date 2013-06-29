@@ -197,6 +197,14 @@
 				
 				, create: function(event, ui){
 					
+					var theTab = ui.tab
+					,	tabMeta = theTab.attr('data-tab-meta') || ''
+					, 	tabAction = theTab.attr('data-tab-action') || ''
+					
+					if(tabMeta == 'options'){
+						that.loadPanelOptions( selectedPanel, tabAction, tabAction )
+					}
+					
 					selectedPanel.find('.tabs-nav li').on('click.panelTab', function(){
 						
 						that.filterItems($(this), selectedPanel)
@@ -212,9 +220,15 @@
 					,	tabFlag = theTab.attr('data-flag') || ''
 					,	tabLink = theTab.attr('data-tab-link') || ''
 					,	tabSubLink = theTab.attr('data-stab-link') || ''
+					,	tabMeta = theTab.attr('data-tab-meta') || ''
 					
+					
+					if(tabMeta == 'options'){
+						that.loadPanelOptions( selectedPanel, tabAction )
+					
+					}
+						
 				
-					
 					if( tabLink != '' ){
 						
 						var tabLoad = (tabSubLink != '') ? tabSubLink : '0'
@@ -277,22 +291,7 @@
 
 				$.optPanel.render( config )
 
-			}
-			else if( key == 'area_settings'){
-				areaID = store.get('lastAreaConfig')
-
-				if(areaID != ''){
-					$.areaControl.areaPanelRender(areaID)
-				} else {
-					$('body')
-						.toolbox('hide')
-				}
-
-
-
-
-			}
-			else if( key == 'live'){
+			} else if( key == 'live'){
 
 				var liveFrame = '<div class="live-wrap"><iframe class="live_chat_iframe" src="http://pagelines.campfirenow.com/6cd04"></iframe></div>'
 
@@ -326,6 +325,26 @@
 			
 		
 
+		}
+		
+		, loadPanelOptions: function( panel, key, load ){
+			
+			var set = $.pl.config.panels[key] || false
+			
+			
+			if(set){
+				var config = {
+						mode: 'panel'
+						, panel: panel.data('key')
+						, settings: set
+						, tab: key
+						, load: load
+					}
+
+				$.optPanel.render( config )
+			}
+			
+			
 		}
 
 		, stateInit: function( key, call_on_true, call_on_false, toggle ){

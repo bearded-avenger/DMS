@@ -494,7 +494,17 @@ function pl_enqueue_script(  $handle, $src = false, $deps = array(), $ver = fals
 	wp_enqueue_script( $handle, $src, $deps, $ver, $in_footer );
 }
 
-function pl_add_global_tab( $array ){
+function pl_add_theme_tab( $array ){
+	
+	global $pl_user_theme_tabs;
+	
+	if(!isset($pl_user_theme_tabs) || !is_array($pl_user_theme_tabs))
+		$pl_user_theme_tabs = array(); 
+		
+		
+	$pl_user_theme_tabs = array_merge($array, $pl_user_theme_tabs); 
+	
+	
 	
 }
 

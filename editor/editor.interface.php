@@ -395,11 +395,14 @@ class EditorInterface {
 								$link_sub_tab = ($t['stab'] != '') ? sprintf('data-stab-link="%s"', $t['stab']) : '';
 
 								$tab_action = sprintf('data-tab-action="%s"', $tab_key);
+								
+								$tab_meta = (isset($t['opts']) && !empty($t['opts'])) ? sprintf('data-tab-meta="%s"', 'options') : '';
 
 								printf(
-									'<li class="%s" %s %s %s %s %s %s><a href="%s">%s%s</a></li>', 
+									'<li class="%s" %s %s %s %s %s %s %s><a href="%s">%s%s</a></li>', 
 									$class, 
 									$tab_action, 
+									$tab_meta, 
 									$link_tab,
 									$link_sub_tab,
 									$hook, 

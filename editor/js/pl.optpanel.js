@@ -41,12 +41,16 @@
 
 			that.panel = $('.panel-'+panel)
 
-
+			// On tab load, the activation hasn't been fired yet
+			// so its hard to tell if panel is active. This is used as a workaround
+			that.load = that.config.load || false
 
 			if( mode == 'section-options' )
 				that.sectionOptionRender()
 			else if ( mode == 'settings' )
 				that.settingsRender( that.config.settings )
+			else if ( mode == 'panel' )
+				that.panelRender( that.config.tab, that.config.settings.opts )
 
 			that.onceOffScripts()
 
@@ -56,6 +60,19 @@
 
 			$('.ui-tabs li').on('click.options-tab', $.proxy(that.setPanel, that))
 
+		}
+		
+		, panelRender: function( index, theOptions ){
+			var that = this
+			
+			tab = $("[data-panel='"+index+"']")
+
+			opts = that.runEngine( theOptions, index )
+
+			tab.find('.panel-tab-content').html( opts )
+
+			that.runScriptEngine( index, theOptions )
+			
 		}
 
 		, settingsRender: function( settings ) {
@@ -277,13 +294,13 @@
 			var that = this
 
 			$('.opt-form.isotope').isotope( 'destroy' )
-
+			
 			that.panel.find('.tab-panel').each(function(){
-
-				if($(this).is(":visible")){
-
+				
+				if( $(this).is(":visible") || that.load == $(this).data('panel') ){
+					
 					that.activeForm = $(this).find('.opt-form')
-
+					
 					that.optScope = that.activeForm.data('scope')
 					that.optSID = that.activeForm.data('sid')
 
@@ -356,7 +373,7 @@
 			, 	pageData = $.pl.data
 
 			// global settings are always related to 'global'
-			if (that.config.mode == 'settings')
+			if (that.config.mode == 'settings' || that.config.mode == 'panel')
 				scope = 'global'
 
 			// Set option value
@@ -386,7 +403,7 @@
 
 			var that = this
 			, 	oHTML = ''
-			, 	scope = (that.config.mode == 'settings') ? 'global' : tabIndex
+			, 	scope = (that.config.mode == 'settings' || that.config.mode == 'panel') ? 'global' : tabIndex
 			, 	level = optLevel || 1
 			,	optLabel = o.label || o.title
 			,	sel = sprintf('[data-clone="%s"] [data-sync="%s"]', that.uniqueID, o.key)

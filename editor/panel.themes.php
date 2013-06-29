@@ -17,36 +17,84 @@ class EditorThemeHandler {
 	function scripts(){
 		wp_enqueue_script( 'pl-js-themes', $this->url . '/js/pl.themes.js', array( 'jquery' ), PL_CORE_VERSION, true );
 	}
-
+	
 	function toolbar( $toolbar ){
 		$toolbar['theme'] = array(
 			'name'	=> 'Theme',
 			'icon'	=> 'icon-picture',
 			'pos'	=> 50,
-			'panel'	=> array(
-				'heading'	=> "Select Theme",
-				'avail_themes'	=> array(
-					'name'	=> 'Available Themes',
-					'call'	=> array(&$this, 'themes_dashboard'),
-					'icon'	=> 'icon-picture'
-				),
-				'export_themes'	=> array(
-					'name'	=> 'Import Config',
-					'tab'	=> 'settings',
-					'stab'	=> 'importexport',	
-					'icon'	=> 'icon-th-large'
-				),
-				'more_themes'	=> array(
-					'name'	=> 'Get More Themes',
-					'flag'	=> 'link-storefront',
-					'icon'	=> 'icon-download'
-				)
-			)
+			'panel'	=> $this->get_settings()
 
 		);
-
-		return $toolbar;
+		
+		return apply_filters('pl_themes_tabs_final', $toolbar);
 	}
+
+	function get_settings(){
+		
+		$settings = array(
+			
+			'avail_themes'	=> array(
+				'pos'	=> 30,
+				'name'	=> 'Available Themes',
+				'call'	=> array(&$this, 'themes_dashboard'),
+				'icon'	=> 'icon-picture',
+				'filter'=> '*'
+			),
+			'export_themes'	=> array(
+				'pos'	=> 50,
+				'name'	=> 'Import Config',
+				'tab'	=> 'settings',
+				'stab'	=> 'importexport',	
+				'icon'	=> 'icon-th-large'
+			),
+			'more_themes'	=> array(
+				'pos'	=> 120,
+				'name'	=> 'Get More Themes',
+				'flag'	=> 'link-storefront',
+				'icon'	=> 'icon-download'
+			)
+		); 
+		
+		$settings = $this->user_theme_tabs( $settings );
+		
+		$default = array(
+			'icon'	=> 'icon-edit',
+			'pos'	=> 100
+		);
+		
+		foreach($settings as $key => &$info){
+			$info = wp_parse_args( $info, $default );
+		}
+		unset($info);
+
+		uasort($settings, array(&$this, "cmp_by_position") );
+	
+		$settings = array_merge( array( 'heading' => 'Theme Options' ), $settings );
+	
+		return $settings;
+	}
+	
+	function user_theme_tabs($settings){
+		global $pl_user_theme_tabs; 
+		
+		if( isset( $pl_user_theme_tabs ) && !empty( $pl_user_theme_tabs ) && is_array( $pl_user_theme_tabs ) )
+			$settings = array_merge($pl_user_theme_tabs, $settings); 
+			
+		return $settings;
+		
+	}
+
+
+	function cmp_by_position($a, $b) {
+
+		if( isset( $a['pos'] ) && is_int( $a['pos'] ) && isset( $b['pos'] ) && is_int( $b['pos'] ) )
+			return $a['pos'] - $b['pos'];
+		else
+			return 0;
+	}
+	
+	
 
 	function themes_dashboard(){
 		$this->xlist = new EditorXList;

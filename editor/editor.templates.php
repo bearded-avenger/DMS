@@ -259,7 +259,7 @@ class EditorTemplates {
 					'name'	=> 'Your Templates',
 					'call'	=> array(&$this, 'user_templates'),
 					'icon'	=> 'icon-copy',
-					//'tools'	=> '<button class="btn btn-mini btn-restore-global-areas"><i class="icon-repeat"></i> Restore Header/Footer</button>',
+					'filter' => '*'
 				),
 				'tmp_save'	=> array(
 					'name'	=> 'Save New Template',

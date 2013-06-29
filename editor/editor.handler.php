@@ -83,17 +83,16 @@ class PageLinesTemplateHandler {
 						
 						, global:  <?php echo json_encode( pl_arrays_to_objects( $this->current_page_data('global') ) ); ?>
 					}
-					, map: {
-						header: {}
-						, footer: {}
-						, template: {}
-					}
+					
+					, map: { header: {}, footer: {}, template: {} }
+					
 					, flags: {
 							refreshOnSave: false
 						,	savingDialog: 'Saving'
 						,	refreshingDialog: 'Success! Reloading page'
 						,	layoutMode: '<?php echo $this->layout->get_layout_mode();?>'
 					}
+					
 					, config: {
 						userID: '<?php echo $this->get_user_id();?>'
 						, currentURL: '<?php echo $this->current_url();?>'
@@ -109,7 +108,7 @@ class PageLinesTemplateHandler {
 						, isSpecial: '<?php echo $this->page->is_special(); ?>'
 						, opts: <?php echo json_encode( pl_arrays_to_objects( $this->get_options_config() ) ); ?>
 						, settings: <?php echo json_encode( pl_arrays_to_objects( $this->siteset->get_set('site') ) ); ?>
-						, areaSettings: <?php echo json_encode( pl_arrays_to_objects( $this->areas->settings() ) ); ?>
+						, panels: <?php echo json_encode( pl_arrays_to_objects( $this->get_panels_settings() ) ); ?>
 						, fonts: <?php echo json_encode( pl_arrays_to_objects( $this->foundry->get_foundry() ) ); ?>
 						, menus: <?php echo json_encode( pl_arrays_to_objects( $this->get_wp_menus() ) ); ?>
 						, extensions: <?php echo json_encode( pl_arrays_to_objects( $this->extensions->get_list() ) ); ?>
@@ -134,6 +133,15 @@ class PageLinesTemplateHandler {
 
 	}
 	
+	function get_panels_settings(){
+		global $pl_user_theme_tabs; 
+		
+		$settings = array(); 
+		
+		$settings = array_merge($settings, $pl_user_theme_tabs);
+		
+		return $settings;
+	}
 	
 	function get_template_mode(){
 		

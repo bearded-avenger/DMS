@@ -44,32 +44,6 @@ class PageLinesAreas {
 		return $tabs;
 	}
 
-	function settings(){
-		$settings = array();
-
-		$settings[ $this->settings_panel ] = array(
-			'name' 	=> 'Area Settings',
-			'icon'	=> 'icon-reorder',
-			'opts' 	=> array(
-					array(
-						'key'	=> 'area_class',
-						'type'	=> 'text',
-						'title'	=> 'Area Class or Classes',
-						'help'	=> 'Add classes to this section. Seperate multiple classes with a space.'
-					),
-					array(
-						'key'	=> 'area_name',
-						'type'	=> 'text',
-						'title'	=> 'Area Name',
-						'help'	=> 'Add a name for referencing this section.'
-					)
-				)
-		);
-
-
-		return $settings;
-	}
-
 
 	function area_controls($a){
 
