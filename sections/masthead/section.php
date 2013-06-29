@@ -112,17 +112,10 @@ class PLMasthead extends PageLinesSection {
 					),
 					array(
 						'key'		=> 'masthead_button_theme_'.$i,
-						'type'			=> 'select',
+						'type'			=> 'select_button',
 						'default'		=> false,
 						'label'		=> 'Select Button Color',
-						'opts'	=> array(
-							'primary'	=> array('name' => 'Blue'),
-							'warning'	=> array('name' => 'Orange'),
-							'important'	=> array('name' => 'Red'),
-							'success'	=> array('name' => 'Green'),
-							'info'		=> array('name' => 'Light Blue'),
-							'reverse'	=> array('name' => 'Grey'),
-						),
+					
 					),
 				)
 			);

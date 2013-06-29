@@ -448,6 +448,19 @@ function pl_icon_array(){
 	return $icons;
 }
 
+function pl_button_classes(){
+	$array = array(
+		''			 		=> 'Default',
+		'btn-primary'		=> 'Dark Blue',
+		'btn-info'			=> 'Light Blue',
+		'btn-success'		=> 'Green',
+		'btn-warning'		=> 'Orange',
+		'btn-danger'		=> 'Red',
+		'btn-inverse'		=> 'Black',
+	); 
+	return $array;
+}
+
 function get_sidebar_select(){
 
 
@@ -478,11 +491,11 @@ function pl_enqueue_script(  $handle, $src = false, $deps = array(), $ver = fals
 	
 	global $wp_scripts;
 	
-	// if(!$src && is_object( $wp_scripts->registered[ $handle ] )){
-	// 	
-	// }
-	
 	wp_enqueue_script( $handle, $src, $deps, $ver, $in_footer );
+}
+
+function pl_add_global_tab( $array ){
+	
 }
 
 

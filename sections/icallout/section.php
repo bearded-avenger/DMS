@@ -57,17 +57,8 @@ class PLICallout extends PageLinesSection {
 					),
 					array(
 						'key'			=> 'icallout_btn_theme',
-						'type' 			=> 'select',
+						'type' 			=> 'select_button',
 						'label'			=> 'Button Color',
-						'opts'	=> array(
-							''			 => array('name' => 'Default'),
-							'btn-primary'	=> array('name' => 'Dark Blue'),
-							'btn-info'		=> array('name' => 'Light Blue'),
-							'btn-success'		=> array('name' => 'Green'),
-							'btn-warning'		=> array('name' => 'Orange'),
-							'btn-danger'		=> array('name' => 'Red'),
-							'btn-inverse'		=> array('name' => 'Black'),
-						)
 					),
 					
 				)

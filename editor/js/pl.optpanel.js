@@ -544,6 +544,7 @@
 				|| o.type == 'select_icon'
 				|| o.type == 'select_animation'
 				|| o.type == 'select_multi'
+				|| o.type == 'select_button'
 			){
 
 			
@@ -588,6 +589,15 @@
 
 					o.opts = {}
 					$.each(anims, function(key, s){
+						o.opts[ key ] = {name: s}
+					})
+
+				} else if( o.type == 'select_button' ){
+
+					var btns = $.pl.config.btns
+
+					o.opts = {}
+					$.each(btns, function(key, s){
 						o.opts[ key ] = {name: s}
 					})
 
