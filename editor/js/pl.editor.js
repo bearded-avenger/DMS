@@ -72,7 +72,7 @@
 			that = this
 
 			$('.btn-toolbox').tooltip({placement: 'top', delay: { show: 1000 }})
-			
+			$(".alert").alert()
 			// Show unload if state is changed from live, will be overridden if 
 			// the state changes or by other user actions.
 		//	if( $('#stateTool').data('show-unload') == 'yes' )

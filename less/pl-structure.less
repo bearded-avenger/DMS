@@ -56,6 +56,36 @@ body .pl-area .pl-section{
 	
 }
 
+.pl-credit{
+	position: fixed; 
+	top: 15%; 
+	right: -32px; 
+	background: rgba(0,0,0,.9); 
+	font-family: @buttonFontFamily;
+	font-weight: 300;
+	color: #fff; 
+	opacity: .4;
+	padding: 0 6px 0px 8px;
+	font-size: 14px;
+	//width: 28px; 
+	height: 29px; 
+	line-height: 29px;
+	text-align: center;
+	.transition(all .5s ease);
+	.fademein{
+		opacity: 0;
+		.transition(all .5s ease);
+	}
+	&:hover{
+		.fademein{
+			opacity: 1;
+		}
+		right:0;
+		color: #fff;
+		opacity: 1;
+	}
+}
+
 /*
  * STANDARD COLORING
  ***********************************/

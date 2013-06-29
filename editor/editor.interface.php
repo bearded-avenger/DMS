@@ -443,21 +443,27 @@ class EditorInterface {
 
 					$tools = ( isset($t['tools']) ) ? sprintf('<span class="clip-tools">%s</span>', $t['tools']) : '';
 
+					
+
+					$notification = (!pl_is_pro()) ? $this->free_version_note() : '';
 
 					printf(
 						'<div id="%s" class="tab-panel" data-panel="%s" data-type="%s" data-scope="%s">
 							<div class="tab-panel-inner">
+								%s
 								<legend>%s %s %s</legend>
-								<div class="panel-tab-content">%s</div>
+								<div class="panel-tab-content"> %s</div>
 							</div>
 						</div>',
 						$tab_key,
 						$tab_key,
 						$t['type'],
 						$t['scope'],
+						$notification,
 						$t['name'],
 						$clip,
 						$tools,
+						
 						$content
 					);
 				}
@@ -467,7 +473,17 @@ class EditorInterface {
 		<?php
 	}
 
-
+	function free_version_note(){
+		ob_start(); ?>
+		
+		<div class="alert alert-info">
+			<button type="button" class="close" data-dismiss="alert" href="#">&times;</button>
+		  	<strong><i class="icon-pro"></i> Upgrade To Pro!</strong> You are using the free version of PageLines DMS. Upgrade to Pro for tons of additional features.
+			<a href="http://www.pagelines.com/upgrade" class="btn btn-primary btn-mini" target="_blank">Upgrade Now</a>
+		</div>
+		
+		<?php return ob_get_clean();
+	}
 
 
 	function section_controls( $s ){
