@@ -103,7 +103,7 @@ class PageLinesMediaBox extends PageLinesSection {
 		$title = ( $this->opt('mediabox_title') ) ? sprintf('<h3 data-sync="mediabox_title">%s</h3>', $this->opt('mediabox_title')) : '';
 		$bg = ( $this->opt('mediabox_background') ) ? sprintf('background-image: url(%s);', $this->opt('mediabox_background')) : '';
 		
-		$set_height = ( $this->opt('mediabox_height') )  ? $this->opt('mediabox_height') : 350;
+		$set_height = ( $this->opt('mediabox_height') )  ? $this->opt('mediabox_height') : 200;
 		$height = sprintf('min-height: %spx', $set_height);
 		
 
