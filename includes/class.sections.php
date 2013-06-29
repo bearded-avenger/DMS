@@ -887,7 +887,7 @@ function get_unavailable_section_areas(){
 function setup_section_notify( $section, $text = '', $user_url = null, $ltext = null){
 
 
-	if(current_user_can('edit_themes')){
+	if(current_user_can('edit_theme_options')){
 
 		$banner_title = sprintf('<strong><i class="icon-pencil"></i> %s</strong>', $section->name);
 		$extra = '';

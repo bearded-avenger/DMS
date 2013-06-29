@@ -38,7 +38,7 @@ class EditorInterface {
 			add_action( 'wp_footer', array( &$this, 'pagelines_toolbox' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_scripts' ) );
 
-		} elseif(current_user_can('edit_themes')) {
+		} elseif(current_user_can('edit_theme_options')) {
 
 			add_action( 'wp_footer', array( &$this, 'pagelines_editor_activate' ) );
 

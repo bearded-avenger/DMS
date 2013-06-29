@@ -30,7 +30,7 @@ class EditorDraft{
 		}
 
 
-		if( current_user_can('edit_themes') && $state != 'off' && $is_chrome )
+		if( current_user_can('edit_theme_options') && $state != 'off' && $is_chrome )
 			return 'draft';
 		else {
 			return 'live';
@@ -38,7 +38,7 @@ class EditorDraft{
 	}
 
 	function show_editor(){
-		if(current_user_can('edit_themes') && $this->mode == 'draft')
+		if(current_user_can('edit_theme_options') && $this->mode == 'draft')
 			return true;
 		else
 			return false;
