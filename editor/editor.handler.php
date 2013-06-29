@@ -138,7 +138,8 @@ class PageLinesTemplateHandler {
 		
 		$settings = array(); 
 		
-		$settings = array_merge($settings, $pl_user_theme_tabs);
+		if(!empty($pl_user_theme_tabs) && is_array($pl_user_theme_tabs))
+			$settings = array_merge($settings, $pl_user_theme_tabs);
 		
 		return $settings;
 	}
