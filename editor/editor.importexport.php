@@ -63,7 +63,7 @@ class PLImportExport{
 		
 		<label>DMS Config Import</label>
 		
-		<span class="btn btn-success fileinput-button">
+		<span class="btn btn-success fileinput-button import-button">
 	        <i class="icon-plus"></i>
 	        <span>Select config file (.json)</span>
 	        <!-- The file input field used as target for the file upload widget -->
