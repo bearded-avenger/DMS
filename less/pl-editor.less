@@ -588,7 +588,7 @@
 	}
 	.fademein{
 		opacity: 0;
-		
+		.transition(all .7s ease);
 	}
 	&:hover{
 		.fademein{
@@ -601,12 +601,14 @@
 			color: #35eafd;
 			text-shadow: -1px 1px 8px rgba(53, 254, 253, .4), 1px -1px 8px rgba(53, 254, 253, .4);
 		}
+		
 	}
 }
 
 .pl-credit{
 	.border-top-left-radius(3px);
 	right: -33px; 
+	box-shadow: -1px -1px 0 rgba(255,255,255,.2);
 	&:hover{
 		right:0;
 	}
@@ -624,7 +626,7 @@
 .toolbox-activate{
 	.border-top-right-radius(3px);
 	left: 0;
-
+	box-shadow: 1px -1px 0 rgba(255,255,255,.2);
 }
 
 
