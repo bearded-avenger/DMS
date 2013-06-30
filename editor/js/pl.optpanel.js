@@ -746,9 +746,9 @@
 					,	page_tpl_import = $('[data-scope="importexport"] #page_tpl_import').attr('checked') || 'undefined'
 					,	global_import = $('[data-scope="importexport"] #global_import').attr('checked') || 'undefined'
 					,	type_import = $('[data-scope="importexport"] #type_import').attr('checked') || 'undefined'
-					,	page_tpl_ = ('checked' == page_tpl_import ) ? ' Page Templates ': ''
-					,	global_ = ('checked' == global_import ) ? ' Global Options ': ''
-					,	type_ = ('checked' == type_import ) ? ' Type Options ': ''
+					,	page_tpl_ = ('checked' == page_tpl_import ) ? '<span class="btn btn-mini btn-info">Page Templates</span>&nbsp;': ''
+					,	global_ = ('checked' == global_import ) ? '<span class="btn btn-mini btn-info">Global Options</span>&nbsp;': ''
+					,	type_ = ('checked' == type_import ) ? '<span class="btn btn-mini btn-info">Type Options</span>': ''
 
 					if( theAction == 'reset_global_child' ) {
 						confirmText = sprintf( "<h3>Are you sure?</h3><p>Importing this file will replace the following settings.<br /><strong>%s%s%s</strong></p>", page_tpl_, global_,type_ )
@@ -868,9 +868,9 @@
 		
 		
 					$.toolbox('hide')
-					var page_tpl_import = ('checked' == $('[data-scope="importexport"] #page_tpl_import').attr('checked') ) ? ' Page Templates ': ''
-					, global_import = ('checked' == $('[data-scope="importexport"] #global_import').attr('checked') ) ? ' Global Options ': ''
-					, type_import = ('checked' == $('[data-scope="importexport"] #type_import').attr('checked') ) ? ' Type Options ': ''
+					var page_tpl_import = ('checked' == $('[data-scope="importexport"] #page_tpl_import').attr('checked') ) ? '<span class="btn btn-mini btn-info">Page Templates</span>&nbsp;': ''
+					, global_import = ('checked' == $('[data-scope="importexport"] #global_import').attr('checked') ) ? '<span class="btn btn-mini btn-info">Global Options</span>&nbsp;': ''
+					, type_import = ('checked' == $('[data-scope="importexport"] #type_import').attr('checked') ) ? '<span class="btn btn-mini btn-info">Type Options</span>': ''
 
 					bootbox.confirm(
 						sprintf( "<h3>Are you sure?</h3><p>Importing this file will replace the following settings.<br /><strong>%s%s%s</strong></p>", page_tpl_import, global_import,type_import )
