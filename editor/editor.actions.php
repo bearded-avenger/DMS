@@ -187,7 +187,11 @@ function pl_editor_actions(){
 			
 		} elseif( $run == 'reset_global_child' ) {
 			
-			$settings->reset_global_child();
+			$opts = array();
+			$opts['global_import'] = $_POST['global_import'];
+			$opts['type_import'] = $_POST['type_import'];
+			$opts['page_tpl_import'] = $_POST['page_tpl_import'];
+			$settings->reset_global_child( $opts );
 		
 		}
 
@@ -207,17 +211,22 @@ function pl_upload_config_file(){
 	$fileOpts = new EditorFileOpts;
 	$filename = $_FILES['files']['name'][0];
 
+	$opts = array();
+	$opts['global_import'] = $_POST['global_import'];
+	$opts['type_import'] = $_POST['type_import'];
+	$opts['page_tpl_import'] = $_POST['page_tpl_import'];
+
 	if( preg_match( '/pl\-config[^\.]*\.json/', $filename ) ) {
 		$file = $_FILES['files']['tmp_name'][0];
 		
 	$response['file'] = $file;
 
 	if( isset( $file ) )
-		$response['out'] = $fileOpts->import( $file );
+		$response['import_reponse'] = $fileOpts->import( $file, $opts );
 	
 
 		$response['import_file'] = $file;
-		$response['import_data'] = $fileOpts->import( $file );
+		$response['post'] = $_POST;
 	} else {
 		$reponse['import_error'] = 'filename?';
 	}

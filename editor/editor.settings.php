@@ -197,11 +197,11 @@ class PageLinesSettings extends PageLinesData {
 	/*
 	 *  Resets global options using custom child theme config file.
 	 */
-	function reset_global_child(){
+	function reset_global_child( $opts ){
 
 		$fileOpts = new EditorFileOpts;		
 		if( $fileOpts->file_exists() )
-			$fileOpts->import( $fileOpts->file_exists() );
+			$fileOpts->import( $fileOpts->file_exists() , $opts);
 	}
 
 
