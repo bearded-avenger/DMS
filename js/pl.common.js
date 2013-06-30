@@ -218,6 +218,17 @@
 			$('.pl-fixed-top').on('resize', function(){
 				that.setHeight()
 			})
+			
+			$('.pl-make-link').on('click', function(){
+				var url = $(this).data('href') || '#'
+				, 	newWindow = $(this).attr('target') || false
+				
+				if( newWindow )
+					window.open( url, newWindow )
+				else
+					window.location.href = url
+			
+			})
 
 		}
 

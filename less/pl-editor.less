@@ -565,39 +565,72 @@
 }
 
 
+.pl-credit,
+.toolbox-activate{
+	
+	position: fixed; 
+	bottom: 0; 
+	background: rgba(0,0,0,.9); 
+	font-family: @buttonFontFamily;
+	font-weight: 300;
+	color: #fff; 
+	text-shadow: 0 -1px 0 #000;
+	opacity: .6;
+	padding: 0 8px 0px 9px;
+	font-size: 14px;
+	height: 29px; 
+	line-height: 29px;
+	text-align: center;
+	.transition(all .5s ease);
+	cursor: pointer;
+	.transit{
+		.transition(all .5s ease);
+	}
+	.fademein{
+		opacity: 0;
+		
+	}
+	&:hover{
+		.fademein{
+			opacity: 1;
+		}
+		
+		color: #fff;
+		opacity: 1;
+		i{
+			color: #35eafd;
+			text-shadow: -1px 1px 8px rgba(53, 254, 253, .4), 1px -1px 8px rgba(53, 254, 253, .4);
+		}
+	}
+}
+
+.pl-credit{
+	.border-top-left-radius(3px);
+	right: -33px; 
+	&:hover{
+		right:0;
+	}
+	&::after{
+		content: '';
+		display: block;
+		width: 200px;
+		height: 160%;
+		position: absolute;
+		top: -20px;
+		right: 0;
+		z-index: -100;
+	}
+}
+.toolbox-activate{
+	.border-top-right-radius(3px);
+	left: 0;
+
+}
+
+
 // Toolbox/Toolbar
 // --------------------------------------------------
-#toolbox-activate{
-	position: fixed;
-	display: block;
-	bottom: 15px;
-	left: 15px;
-	padding: 0px 18px;
-	font-family: @defaultFont;
-	font-weight: bold;
-	line-height: 25px;
-	font-size: 10px;
-	.buttonBackground(#eee, #ddd);
-	box-shadow: inset 1px 1px 0 rgba(255,255,255,.8), 0 1px 3px rgba(0,0,0,.2);
-	border: 1px solid rgba(0,0,0,.3);
-	.border-radius(4px);
-	cursor: pointer;
-	color:#000;
-	text-shadow: 0 1px 0 #fff;
-	&:hover{
-		.buttonBackground(#e1e1e1, #ccc);
-		border-color:#999;
-	}
-	&:active{
-		box-shadow: inset 1px 1px 0 rgba(0,0,0,.1);
-		.buttonBackground(#bbb, #ddd);
-		border-color:#999;
-	}
-	i{
-		color: #0083e8;
-	}
-	.txt{margin-left: 5px;}
-}
+
 #PageLinesToolbox.pl-toolbox{
 	position: fixed;
 	bottom: 0;
