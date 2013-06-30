@@ -743,6 +743,11 @@
 
 					,	confirmText = sprintf("<h3>Are you sure?</h3><p>This will reset <strong>%s</strong> to their defaults.<br/>(Once reset, this will still need to be published live.)</p>", context)
 
+					,	page_tpl_import = $('[data-scope="importexport"] #page_tpl_import').attr('checked') || 'undefined'
+					,	global_import = $('[data-scope="importexport"] #global_import').attr('checked') || 'undefined'
+					,	type_import = $('[data-scope="importexport"] #type_import').attr('checked') || 'undefined'
+
+
 					var args = {
 							mode: 'settings'
 						,	run: theAction
@@ -752,9 +757,13 @@
 						,	refresh: true
 						,	refreshText: 'Successfully Reset. Refreshing page'
 						, 	log: true
+						,	page_tpl_import: page_tpl_import
+						,	global_import: global_import
+						,	type_import: type_import
+
 					}
 					
-				//	console.log(theAction)
+					console.log(theAction)
 
 					var response = $.plAJAX.run( args )
 
@@ -839,19 +848,19 @@
 				
 		    })
 
+
+		
 			
 			$('#fileupload').fileupload({
 				url: ajaxurl
 				, dataType: 'json'
 				, formData: {
-					action: 'upload_config_file'
-					, mode: 'fileupload'
-					, refresh: true
-					, run: 'upload_config'
+					
 				}
 				, add: function(e, data){
 					var toolBoxOpen = $.toolbox('open')
-
+		
+		
 					$.toolbox('hide')
 
 					bootbox.confirm(
@@ -875,8 +884,23 @@
 					window.onbeforeunload = null
 					var url = $.pl.config.siteURL
 					window.location.href = url
-
+			//		console.debug(response)
 				}
+			})
+			
+			$('#fileupload').bind('fileuploadsubmit', function (e, data) {
+			    
+			    data.formData = {
+					action: 'upload_config_file'
+					, mode: 'fileupload'
+					, refresh: true
+					, run: 'upload_config'
+					, page_tpl_import: $('[data-scope="importexport"] #page_tpl_import').attr('checked')
+					, global_import: $('[data-scope="importexport"] #global_import').attr('checked')
+					, type_import: $('[data-scope="importexport"] #type_import').attr('checked')
+				}
+				return true
+
 			})
 
 

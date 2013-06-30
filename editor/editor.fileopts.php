@@ -97,8 +97,19 @@ class EditorFileOpts {
 	}
 
 
-	function import( $file ) {
+	function import( $file, $opts = array() ) {
 
+
+		$def_opts = array(
+			'page_tpl_import' 	=> 'checked',
+			'global_import'		=> 'checked',
+			'type_import'		=> 'checked'
+		);
+
+
+		$opts = wp_parse_args( $opts, $def_opts );
+
+		$parsed['opts'] = $opts;
 		$parsed = array( 'nothing' );
 		$file_contents = pl_file_get_contents( $file ) ;
 		
@@ -106,33 +117,21 @@ class EditorFileOpts {
 
 		$file_data = json_decode( $file_data );
 		$file_data = json_decode( json_encode( $file_data ), true);
-			
-		if( is_array( $file_data ) )
-			$parsed[] = 'arr!';
-
-		if( is_object( $file_data ) )
-			$parsed[] = 'ob';
 		
 		// IMPORT MAIN
-		if( isset( $file_data[PL_SETTINGS] ) ) {
+		if( isset( $file_data[PL_SETTINGS] ) && 'checked' == $opts['global_import'] ) {
 			update_option( PL_SETTINGS, $file_data[PL_SETTINGS] );
 			$parsed[] = 'globals';
 		}
-		
-		// IMPORT MAP
-		// if( isset( $file_data['pl-template-map'] ) ) {
-		// 	update_option( 'pl-template-map', $file_data['pl-template-map'] );
-		// 	$parsed[] = 'main-map';
-		// }
-		
+				
 		// IMPORT USER MAPS
-		if( isset( $file_data['pl-user-templates'] ) ) {
+		if( isset( $file_data['pl-user-templates'] ) && 'checked' == $opts['page_tpl_import'] ) {
 			update_option( 'pl-user-templates', $file_data['pl-user-templates'] );
 			$parsed[] = 'user_templates';
 		}
 		
 		// IMPORT AWESOMENESS
-		if( isset( $file_data['post_meta'] ) ) {
+		if( isset( $file_data['post_meta'] ) && 'checked' == $opts['type_import'] ) {
 			
 			foreach( $file_data['post_meta'] as $key => $data ) {
 				update_post_meta( $key, 'pl-settings', $data[0] );
