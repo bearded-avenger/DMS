@@ -139,7 +139,7 @@ class PageLinesColumnizer extends PageLinesSection {
 		$facebook = $this->opt('facebook_name'); 
 		?>
 
-		<li id="the_default_widget" class="span3 widget">
+		<li id="the_default_widget_social" class="span3 widget">
 			<div class="widget-pad">
 				<h3 class="widget-title"><?php _e('Stay in Touch!','pagelines'); ?></h3>
 				<div class="textwidget">
@@ -165,7 +165,7 @@ class PageLinesColumnizer extends PageLinesSection {
 		<?php
 		
 		?>
-		<li id="the_default_widget" class="span3 widget">
+		<li id="the_default_widget_latest" class="span3 widget">
 			<div class="widget-pad">
 				<h3 class="widget-title"><?php _e('The Latest','pagelines'); ?></h3>
 				<ul class="media-list">
@@ -189,7 +189,7 @@ class PageLinesColumnizer extends PageLinesSection {
 			</div>
 		</li>
 		
-		<li id="the_default_widget" class="span3 widget">
+		<li id="the_default_widget_tags" class="span3 widget">
 			<div class="widget-pad">
 				<h3 class="widget-title"><?php _e('Tags','pagelines'); ?></h3>
 				<div class="tags-list">
@@ -214,7 +214,7 @@ class PageLinesColumnizer extends PageLinesSection {
 			</div>
 		</li>
 
-		<li id="the_default_widget" class="span3 widget">
+		<li id="the_default_widget_more" class="span3 widget">
 			<div class="widget-pad">
 				<h3 class="widget-title"><?php _e('More Info','pagelines'); ?></h3>
 				<div class="textwidget">
