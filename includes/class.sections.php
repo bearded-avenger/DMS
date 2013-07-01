@@ -183,6 +183,10 @@ class PageLinesSection {
 		return $prefix;
 	}
 
+	function get_the_id() {
+		return ( isset( $this->meta['clone'] ) ) ? $this->meta['clone'] : '';
+	}
+
 	function opt( $key, $args = array() ){
 
 		$d = array(
