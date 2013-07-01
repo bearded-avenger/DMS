@@ -221,6 +221,13 @@ class PageLinesSettings extends PageLinesData {
 	
 		return $set;
 	}
+	/*
+	 *  Resets all cached data including any detected cache plugins.
+	 */
+	function reset_caches() {
+		do_action( 'extend_flush' );
+		pl_flush_draft_caches();
+	}
 
 	/*
 	 *  Resets local options to an empty set based on ID (works for type ID)

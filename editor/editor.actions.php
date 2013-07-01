@@ -193,6 +193,8 @@ function pl_editor_actions(){
 			$opts['page_tpl_import'] = $_POST['page_tpl_import'];
 			$settings->reset_global_child( $opts );
 		
+		} elseif( 'reset_cache' == $run ) {
+			$settings->reset_caches();
 		}
 
 	} 

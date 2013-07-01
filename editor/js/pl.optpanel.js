@@ -775,6 +775,21 @@
 
 				}
 				
+				if( theAction = 'reset_cache') {
+					var confirmText = "<h3>Are you sure?</h3><p>This will clear the LESS/CSS cached data.</p>"
+					var args = {
+							mode: 'settings'
+						,	run: theAction
+						,	confirm: true
+						,	confirmText: confirmText
+						,	savingText: 'Flushing Caches'
+						,	refresh: false
+						,	refreshText: 'Success! Refreshing page'
+						, 	log: true
+					}
+					var response = $.plAJAX.run( args )
+				}
+				
 				
 				if( theAction == 'opt_dump' ){
 				

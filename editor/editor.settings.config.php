@@ -329,7 +329,15 @@ class EditorSettings {
 					'label'		=> __( '<i class="icon-undo"></i> Reset Current Page Settings', 'pagelines' ),
 					'title'		=> __( 'Reset Current Page Settings', 'pagelines' ),
 					'help'		=> __( "Use this button to reset all settings on the current page back to their default state. <br/><strong>Note:</strong> Once you've completed this action, you may want to publish these changes to your live site.", 'pagelines' )
-			)
+			),
+			array(
+					'key'		=> 'reset_cache',
+					'type'		=> 'action_button',
+					'classes'	=> 'btn-info',
+					'label'		=> __( '<i class="icon-trash"></i> Flush Caches.', 'pagelines' ),
+					'title'		=> __( 'Clear all CSS/LESS cached data.', 'pagelines' ),
+					'help'		=> __( "Use this button to purge the stored LESS/CSS data. This will also clear cached pages if wp-super-cache or w3-total-cache are detected.", 'pagelines' )
+			),
 		);
 		
 		
