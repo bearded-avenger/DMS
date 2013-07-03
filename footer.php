@@ -51,7 +51,7 @@ if(!has_action('override_pagelines_body_output')):
 	</div>
 	<?php if(!pl_is_pro()):?>
 	<a class="pl-credit" href="http://www.pagelines.com/" title="Built with PageLines DMS [basic]" target="_blank" style="display: block; visibility: visible;">
-		<i class="icon-leaf pl-transit"></i> <span class="fademein">DMS</span>
+		<i class="icon-pagelines pl-transit"></i> <span class="fademein">DMS</span>
 	</a>
 	<?php endif; ?>
 	<div id="supersized"></div>
