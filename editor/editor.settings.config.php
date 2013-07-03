@@ -306,6 +306,13 @@ class EditorSettings {
 					'help'		=> sprintf( __( 'This information can be useful in the forums if you have a problem. %s', 'pagelines' ),
 								   sprintf( '%s', ( pl_setting( 'enable_debug' ) ) ?
 								   sprintf( '<br /><a href="%s">Click here</a> for your debug info.', site_url( '?pldebug=1' ) ) : '' ) )								  
+			),
+			array(
+					'key'		=> 'enable_v2',
+					'type'		=> 'check',
+					'label'		=> __( 'Enable v2 Compatibility Mode?', 'pagelines' ),
+					'title'		=> __( 'v2 Compatibility Mode', 'pagelines' ),
+					'help'		=> __( 'Use this option to enable v2 interfaces and options. You can then set which pages should use DMS and which pages should use v2. ', 'pagelines' ),				  
 			)
 		);
 		return $settings;
