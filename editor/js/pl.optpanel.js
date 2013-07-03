@@ -411,6 +411,7 @@
 			,	syncType = (o.type != 'multi' && $(sel).length > 0) ? 'exchange' : 'refresh'
 			,	syncTooltip = (syncType == 'refresh') ? 'Refresh for preview.' : 'Syncs with element.'
 			,	syncIcon = (syncType == 'refresh') ? 'refresh' : 'exchange' 
+			,	optDefault = o.default || ''
 
 
 			o.classes = o.classes || ''
@@ -442,8 +443,10 @@
 			else if( o.type == 'disabled' ){ }
 
 			else if( o.type == 'color' ){
-
-				var prepend = '<span class="btn add-on trigger-color"> <i class="icon-tint"></i> </span>';
+				
+				var prepend = '<span class="btn add-on trigger-color"> <i class="icon-tint"></i> </span>'
+				,	colorVal = (o.value != '') ? o.value : optDefault
+				
 				oHTML += sprintf('<label for="%s">%s</label>', o.key, optLabel )
 				oHTML += sprintf('<div class="input-prepend">%4$s<input type="text" id="%1$s" name="%3$s" class="lstn color-%1$s" value="%2$s" /></div>', o.key, o.value, o.name, prepend )
 
@@ -1075,11 +1078,17 @@
 			}
 
 			else if( o.type == 'color' ){
-
+				
+			
+				
+				var dflt = o.default.replace('#', '');
+				console.log(dflt)
 				$( '.color-'+o.key ).colorpicker({
-
-					beforeShow: function(input, inst){
-
+					color: dflt
+					, allowNull: true
+					, beforeShow: function(input, inst){
+						console.log('123'+o.val)
+					
 					}
 					, onClose: function(color, inst){
 
