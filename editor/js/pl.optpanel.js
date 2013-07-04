@@ -1078,10 +1078,10 @@
 			}
 
 			else if( o.type == 'color' ){
+
+				var dflt = ( isset( o.default ) ) ? o.default : '#ffffff'
 				
-			
-				
-				var dflt = o.default.replace('#', '');
+				dflt = dflt.replace('#', '');
 				console.log(dflt)
 				$( '.color-'+o.key ).colorpicker({
 					color: dflt
