@@ -67,7 +67,7 @@ class PLAccountPanel{
 		<input type="text" class="pl-text-input" />
 		
 		<label>PageLines Password</label>
-		<input type="text" class="pl-text-input" />
+		<input type="password" class="pl-text-input" />
 		<div class="submit-area">
 			<button class="btn btn-primary" >Submit</button>
 		</div>
