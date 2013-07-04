@@ -26,6 +26,7 @@
 	width: 100%;
 	margin: 0 auto;
 	position: relative;
+	max-width: @plContentWidth;
 	.content-pad{
 		padding: 15px;
 	}
@@ -35,21 +36,6 @@
 	padding-top: 10px;
 }
 
-/* @ Footer */
-.footer {
-	clear:both;
-	text-align: left;
-	position: relative;
-	color: fadeout(@pl-footer, 40%);
-	li.link-list a,
-	.widget-title{
-		color: fadeout(@pl-footer, 40%);
-	}
-	a,
-	li h5 a{
-		color: @pl-footer;
-	}
-}
 
 section.container{
 	margin: 0;
@@ -378,178 +364,6 @@ a.site-title{
 	}
 }
 
-// Clips - Only used in blog listing
-// ------------------------------------
-.clip_box{
-	margin: 0 0 1.8em;
-	border-color: @dark-base;
-}
-.clip{
-	width:47%;
-	clear: none;
-	float: left;
-	.hentry{
-		margin: 0;
-	}
-	&.clip-right{
-		float: right;
-	}
-	.post-meta .c_img {
-		padding: 2px;
-	}
-	.clip-header {
-		padding: 4px 0 4px 0;
-		display: table-cell;
-		width: 10000px;
-	}
-	.clip-thumb{
-		a{
-			float:left;
-			margin-right: 10px;
-		}
-		img{
-			padding: 2px;
-			display:block;
-			margin:0 0 0.4em;
-		}
-	}
-	.post-excerpt{
-		font-size: 90%;
-		line-height: 1.6em;
-		margin-bottom:1.5em;
-		margin-top:.5em;
-		.post-thumb.img {
-			margin-right: 10px
-		}
-	}
-
-	.entry-title,
-	.metabar{
-		padding: 0;
-	}
-}
-
-
-
-/* @ Post Navigation */
-.post-nav,
-.current_posts_info {
-	padding:5px 10px;
-	position: relative;
-	background-color: @dark-base;
-	a{
-		text-decoration: none;
-		color: @textColorSubtle;
-		&:hover{
-			color: @textColor;
-
-		}
-	}
-	.previous a {
-		float: left;
-		padding-left: 24px;
-		background: url(@{plRoot}/images/post-previous@2x.png) no-repeat left center;
-
-	}
-	.next a {
-		float: right;
-		padding-right: 24px;
-		text-align: right;
-		background: url(@{plRoot}/images/post-next@2x.png) no-repeat right center;
-	}
-	.previous, .next{
-		a{
-			line-height: 16px;
-			display: block;
-			background-size: 16px 16px;
-		}
-	}
-
-}
-
-/* Blows up text huge */
-.boomboard{
-	padding: 100px;
-	min-height: 350px;
-	h2.hugetext {
-		font-size: 8em;
-	}
-}
-.billboard {
-	padding: 60px 15px;
-	margin: 0 0 2.5em 0;
-}
-
-/* @ Previewing Alert */
-h2.notavail{
-	margin-bottom: 1.5em;
-}
-
-
-/* secondary text */
-
-hr,
-.fpost,
-.navigation_wrap,
-.setup_area,
-.fpost .post-thumb img,
-.clip .clip-thumb img,
-.author-thumb img{
-	border-color: @dark-base;
-}
-
-	.item-avatar a,
-	ins{
-		background-color: lighten(@dark-base, 1.6);
-	}
-
-
-
-/*
- * Text Colors
- ***********************************/
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-a.site-title,
-.entry-title a{
-	> a{
-		color: @pl-header;
-	}
-	color: @pl-header;
-}
-
-#page{
-	color: @pl-text;
-}
-
-a{
-	color: @pl-link;
-	&:hover{
-		color: fadeout(@pl-link, 20%);
-	}
-}
-
-.subhead{
-	color: @textColorAlt;
-	font-size: 86%;
-}
-
-
-
-/* @ PageLines Leaf */
-#cred {
-	text-align: center;
-	padding: 15px;
-
-	a.plimage {
-		text-align: center;
-
-	}
-}
 
 /*
  * Responsive Design

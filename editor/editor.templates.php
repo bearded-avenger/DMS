@@ -599,8 +599,10 @@ class EditorTemplates {
 	}
 
 	function admin_page_meta_box(){
-		remove_meta_box( 'pageparentdiv', 'page', 'side' );
-		add_meta_box('specialpagelines', __('Page Setup'), array(&$this, 'page_attributes_meta_box'), 'page', 'side');
+		if(pl_deprecate_v2())
+			remove_meta_box( 'pageparentdiv', 'page', 'side' );
+			
+		add_meta_box('specialpagelines', __('DMS Page Setup'), array(&$this, 'page_attributes_meta_box'), 'page', 'side');
 
 	}
 

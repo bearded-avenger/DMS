@@ -67,10 +67,11 @@ class EditorLessHandler{
 		if(pl_has_editor()){
 			$files[] = 'pl-structure';
 			$files[] = 'pl-editor';
-		} else {
+		} 
+		
+		if(!pl_deprecate_v2()) {
 
-			$files[] = 'pl-core';
-			$files[] = 'deprecated';
+			$files[] = 'pl-v2';
 		}
 
 		$bootstrap = array(
@@ -139,7 +140,6 @@ class EditorLessHandler{
 		$compiled_sections	= pl_cache_get( 'draft_sections_compiled', array( &$this, 'compile' ), array( $raw['sections'] ) );
 
 		return array(
-			'type'	=> $raw['type'],
 			'dynamic'	=> $raw['dynamic'],
 			'compiled_core'	=> $compiled_core,
 			'compiled_sections'	=> $compiled_sections,
@@ -262,17 +262,9 @@ class EditorLessHandler{
 	private function get_dynamic_css(){
 
 		$pagelines_dynamic_css = new PageLinesCSS;
-
-		$pagelines_dynamic_css->typography();
-
-		$typography = $pagelines_dynamic_css->css;
-
-		unset( $pagelines_dynamic_css->css );
 		$pagelines_dynamic_css->layout();
-		$pagelines_dynamic_css->options();
 
 		$out = array(
-			'type'		=>	$typography,
 			'dynamic'	=>	apply_filters('pl-dynamic-css', $pagelines_dynamic_css->css)
 		);
 		return $out;
