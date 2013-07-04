@@ -93,7 +93,7 @@ class PageLines_ShortCodes {
 			'pl_blockquote'				=>	array( 'function' => 'pl_blockquote_shortcode' ),
 			'pl_alertbox'				=>	array( 'function' => 'pl_alertbox_shortcode' ),
 			'show_authors'				=>	array( 'function' => 'show_multiple_authors' ),
-			'pl_codebox'			    =>	array( 'function' =>	'pl_codebox_shortcode' ),
+			'pl_codebox'			    =>	array( 'function' => 'pl_codebox_shortcode' ),
 			'pl_label'				    =>	array( 'function' => 'pl_label_shortcode' ),
 			'pl_badge'			        =>	array( 'function' => 'pl_badge_shortcode' ),
 			'googleplus'				=>	array( 'function' => 'pl_googleplus_button' ),
@@ -120,7 +120,8 @@ class PageLines_ShortCodes {
 			'bookmark'					=>	array( 'function' => 'bookmark_link' ),
 			'pl_raw'					=>	array( 'function' => 'do_raw' ),
 			'pl_video'					=>	array( 'function' => 'pl_video_shortcode' ),
-			'pl_child_url'				=>	array( 'function' => 'pl_child_url' )
+			'pl_child_url'				=>	array( 'function' => 'pl_child_url' ),
+			'pl_parent_url'				=>	array( 'function' => 'get_themeurl' )
 			);
 
 		return $core;
@@ -184,7 +185,9 @@ class PageLines_ShortCodes {
 
 	// 3. Function for getting template path
 	// USAGE: [themeurl]
-	function get_themeurl( $atts ){ return get_template_directory_uri();	 }
+	function get_themeurl( $atts ) {
+		return get_template_directory_uri();
+	}
 
 	// 4. GOOGLE MAPS //////////////////////////////////////////////////
 

@@ -82,6 +82,8 @@ function pl_do_shortcode(opt) {
 	switch(shortcode) {
 		case 'pl_child_url':
 			opt = opt.replace(/\[pl_child_url\]/g, jQuery.pl.config.urls.StyleSheetURL)
+		case 'pl_parent_url':
+			opt = opt.replace(/\[pl_parent_url\]/g, jQuery.pl.config.urls.ParentStyleSheetURL)
 	}
 	return opt
 }
