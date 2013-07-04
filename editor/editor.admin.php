@@ -30,7 +30,7 @@ class EditorAdmin {
 				'layout'	=> 'full',
 				'title'		=> __( 'DMS Header Scripts Fallback', 'pagelines' ),
 				'shortexp'	=> __( 'Use this to fix scripts if you change something that breaks the front end editor.', 'pagelines' ),
-			)
+			), 
 		);
 
 		return $d;

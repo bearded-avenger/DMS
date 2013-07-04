@@ -57,7 +57,8 @@ class PageLinesEditor {
 		// Interfaces
 		require_once( PL_EDITOR . '/editor.xlist.php' );
 		require_once( PL_EDITOR . '/panel.code.php' );
-		require_once( PL_EDITOR . '/panel.live.php' );
+		//require_once( PL_EDITOR . '/panel.live.php' );
+		require_once( PL_EDITOR . '/editor.account.php' );
 		require_once( PL_EDITOR . '/panel.sections.php' );
 		require_once( PL_EDITOR . '/panel.extend.php' );
 		require_once( PL_EDITOR . '/panel.themes.php' );
@@ -128,7 +129,8 @@ class PageLinesEditor {
 		$this->add_sections = new PageLinesSectionsPanel;
 		$this->extend_panel = new PageLinesExtendPanel;
 		$this->settings_panel = new PageLinesSettingsPanel;
-		$this->live_panel = new PageLinesLivePanel;
+	//	$this->live_panel = new PageLinesLivePanel;
+		$this->account_panel = new PLAccountPanel;
 		$this->themer = new EditorThemeHandler;
 
 		$this->code = new EditorCode( $this->draft );

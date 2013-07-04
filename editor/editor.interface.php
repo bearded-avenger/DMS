@@ -223,7 +223,7 @@ class EditorInterface {
 		<div class="toolbox-handle fix">
 
 			<ul class="unstyled controls">
-				<li ><span class="btn-toolbox btn-closer" title="Close [esc]"><i class="icon-remove-sign"></i></span></li>
+				<li ><span class="btn-toolbox btn-closer" title="Close [esc]"><i class="icon-remove"></i></span></li>
 
 				<?php
 
@@ -483,8 +483,9 @@ class EditorInterface {
 		
 		<div class="alert alert-info">
 			<button type="button" class="close" data-dismiss="alert" href="#">&times;</button>
-		  	<strong><i class="icon-pro"></i> Upgrade To Pro!</strong> You are using the free version of PageLines DMS. Upgrade to Pro for tons of additional features.
+		  	<strong><i class="icon-pro"></i> Upgrade To Pro!</strong> You are using the basic version of PageLines DMS. Upgrade to Pro for tons of additional features and support.
 			<a href="http://www.pagelines.com/upgrade" class="btn btn-primary btn-mini" target="_blank">Upgrade Now</a>
+			or <a href="http://www.pagelines.com/upgrade" class="btn btn-mini" target="_blank">Learn More</a>
 		</div>
 		
 		<?php return ob_get_clean();

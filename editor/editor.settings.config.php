@@ -312,7 +312,7 @@ class EditorSettings {
 					'type'		=> 'check',
 					'label'		=> __( 'Enable v2 Compatibility Mode?', 'pagelines' ),
 					'title'		=> __( 'v2 Compatibility Mode', 'pagelines' ),
-					'help'		=> __( 'Use this option to enable v2 interfaces and options. You can then set which pages should use DMS and which pages should use v2. ', 'pagelines' ),				  
+					'help'		=> __( 'Use this option to enable v2 interfaces and options. Not all v2 options work in DMS due to specificity; but it allows you to reference your old settings as you are rebuilding your site using the DMS system.', 'pagelines' ),				  
 			)
 		);
 		return $settings;

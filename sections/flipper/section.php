@@ -1,5 +1,5 @@
 <?php
- 	/*
+/*
 	Section: Flipper
 	Author: PageLines
 	Author URI: http://www.pagelines.com
