@@ -250,7 +250,7 @@ class EditorTemplates {
 		
 		$toolbar['page-setup'] = array(
 			'name'	=> 'Templates',
-			'icon'	=> 'icon-map-marker',
+			'icon'	=> 'icon-file-text',
 			'pos'	=> 30,
 			'panel'	=> array(
 				
