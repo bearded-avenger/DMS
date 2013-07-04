@@ -62,6 +62,8 @@
 			this.bindUIActions()
 			
 			that.toggleGrid( true )
+			
+			
 
 
 		}
@@ -110,10 +112,53 @@
 
 			})
 			
-	
+			$("[data-tab-link]").on("click.tabLink", function(e) {
+
+				e.preventDefault()
+				
+				var that = this
+				,	tabLink =  $(this).data('tab-link') || ''
+				,	tabSubLink = $(this).data('stab-link')|| ''
+				
+				that.tabLink( tabLink, tabSubLink)
+				
+
+			})
 			
-			
+			if(getURLParameter('tablink')){
+				var tabLink = getURLParameter('tablink')
+				, 	tabSubLink = getURLParameter('tabsublink')|| ''
+				
+				that.tabLink(tabLink, tabSubLink)
+			}
         }
+
+		, tabLink: function(tabLink, tabSubLink){
+			
+			var tabLink =  tabLink || ''
+			,	tabSubLink = tabSubLink || ''
+			
+			tabSubLink = ( tabSubLink != '') ? tabSubLink : '0'
+			
+			if( tabLink != '' ){
+				
+				var tabLoad = (tabSubLink != '') ? tabSubLink : '0'
+				
+				$('.panel-'+tabLink)
+					.attr('data-tab-load', tabSubLink)
+					.data('tab-load', tabSubLink)
+				
+				$( '[data-action="'+tabLink+'"]' )
+					.trigger('click')
+					
+				$('[data-tab-action="account"] a')
+					.trigger('click')
+				
+				return
+			}
+			
+			
+		}
 
 		, toggleGrid: function( load, action){
 

@@ -47,7 +47,7 @@ class PLAccountPanel{
 		<p>
 			Welcome to PageLines DMS, the world's first comprehensive drag and drop design management system.<br/>
 			You've made it this far, now let's take a minute to show you around. <br/>
-			<a href="#" class="dms-tab-link btn btn-success btn-mini"><i class="icon-user"></i> Add Account Info</a>
+			<a href="#" class="dms-tab-link btn btn-success btn-mini" data-tab-link="account" data-stab-link="account"><i class="icon-user"></i> Add Account Info</a>
 			
 		</p>
 		<p>

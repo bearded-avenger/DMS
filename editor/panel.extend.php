@@ -28,7 +28,7 @@ class PageLinesExtendPanel{
 					'filter'=> '*',
 					'type'	=> 'call',
 					'call'	=> array(&$this, 'the_store_callback'),
-					'icon'	=> 'icon-briefcase'
+					'icon'	=> 'icon-gears'
 				),
 				'heading2'	=> "<i class='icon-filter'></i> Filters",
 				'plus'		=> array(

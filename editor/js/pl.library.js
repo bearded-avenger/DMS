@@ -29,6 +29,12 @@ function pl_html_input( text ) {
 		return jQuery.trim( pl_htmlEntities( pl_stripSlashes( text ) ) )
 }	
 
+function getURLParameter(name) {
+    return decodeURI(
+        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+    );
+}
+
 function pl_stripSlashes (str) {
 
   return (str + '').replace(/\\(.?)/g, function (s, n1) {
