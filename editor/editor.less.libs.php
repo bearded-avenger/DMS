@@ -391,18 +391,12 @@ class EditorLessHandler{
 
 	/**
 	 *
-	 *  Move googlefont code to top of compiled css.
+	 *  DEPRECATED
 	 *
-	 *  @package PageLines Framework
-	 *  @since 3.0
 	 */
 	public function googlefont_replace( $data ) {
 
-		$gfonts = preg_match( '#(@import[^;]*;)#', $data['type'], $g );
-		if ( $gfonts ) {
-			$data['compiled_core'] = sprintf( "%s\n%s", $g[1], $data['compiled_core'] );
-			$data['type'] = str_replace( $g[1], '', $data['type'] );
-		}
+	
 		return $data;
 	}
 
