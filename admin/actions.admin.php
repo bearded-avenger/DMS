@@ -7,7 +7,7 @@
  * Move users to front end after activation
  */
 if( is_admin() && isset($_GET['activated'] ) && $pagenow == "themes.php" )
-	wp_redirect( home_url() );
+	wp_redirect( apply_filters('pl_activate_url', home_url().'?tablink=account&tabsublink=welcome') );
 
 /**
  * Add Javascript for Layout Controls from the Layout UI class

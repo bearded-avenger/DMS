@@ -13,7 +13,7 @@ class PLAccountPanel{
 
 	function toolbar( $toolbar ){
 		$toolbar['account'] = array(
-			'name'	=> 'PageLines',
+			'name'	=> 'Account',
 			'icon'	=> 'icon-pagelines',
 			'pos'	=> 110,
 		//	'type'	=> 'btn',

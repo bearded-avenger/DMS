@@ -116,8 +116,7 @@
 
 				e.preventDefault()
 				
-				var that = this
-				,	tabLink =  $(this).data('tab-link') || ''
+				var tabLink =  $(this).data('tab-link') || ''
 				,	tabSubLink = $(this).data('stab-link')|| ''
 				
 				that.tabLink( tabLink, tabSubLink)
@@ -151,8 +150,9 @@
 				$( '[data-action="'+tabLink+'"]' )
 					.trigger('click')
 					
-				$('[data-tab-action="account"] a')
+				$('[data-tab-action="'+tabSubLink+'"] a')
 					.trigger('click')
+					
 				
 				return
 			}
@@ -221,10 +221,11 @@
 			$('.pl-toolbox .ui-tabs').tabs('destroy')
 
 			var activeTabSlug = selectedPanel.attr('data-tab-load')
-			, 	theATab = selectedPanel.find('[data-tab-action="'+activeTabSlug+'"]')
+			, 	theSlug = activeTabSlug || getURLParameter('tabsublink')
+			, 	theATab = selectedPanel.find('[data-tab-action="'+theSlug+'"]')
 			, 	activeIndex = theATab.parent().children('li').index( theATab )
 			, 	activeTab = (activeIndex > 1) ? activeIndex : 0
-		
+			
 		
 			if(activeTab == 0){
 				
