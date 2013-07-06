@@ -68,6 +68,10 @@ class EditorCode{
 		global $pldraft;
 		if( ! is_object( $pldraft ) || is_object( $pldraft ) && $pldraft->mode != 'draft' )
 			return;
+		
+		if( is_pl_debug() )
+			echo '<script>var less = {env: "development"};</script>';
+		
 		$css = pl_setting( 'custom_less' );
 	
 		printf(
