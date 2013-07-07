@@ -38,57 +38,26 @@ class PageLinesRegister {
 
 		global $pl_section_factory;
 
-		if ( $reset === true )
+		if ( $reset )
 			delete_transient( 'pagelines_sections_cache' );
 
-		/**
-		* Load our main section folders
-		* @filter pagelines_section_dirs
-		*/
-		$section_dirs =  array(
+		$section_dirs = pl_get_section_dirs();
 
-			'child'		=> PL_EXTEND_DIR,
-			'parent'	=> PL_SECTIONS
-			);
-
-		if ( is_child_theme() && is_dir( get_stylesheet_directory()  . '/sections' ) )
-			$section_dirs = array_merge( array( 'custom' => get_stylesheet_directory()  . '/sections' ), $section_dirs );
-
-		$section_dirs = apply_filters( 'pagelines_sections_dirs', $section_dirs );
-
-		// load v3 section/plugins...
-		//
-
-	//	$storeapi = new EditorStoreFront;
-	//	$mixed = $storeapi->get_latest();
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		$plugins = get_plugins();
-
-		foreach( $plugins as $plugin => $data ) {
-
-			$path = trailingslashit( WP_PLUGIN_DIR ) . plugin_dir_path( $plugin ) . 'sections/';
-
-			if( is_dir( $path ) )
-				$section_dirs[ untrailingslashit( plugin_dir_path( $plugin ) ) ] = $path;
-
-		}
-//plprint( $section_dirs );
 		/**
 		* If cache exists load into $sections array
 		* If not populate array and prime cache
 		*/
 		if ( ! $sections = get_transient( 'pagelines_sections_cache' ) ) {
 
-			foreach ( $section_dirs as $type => $dir ) {
-				$sections[$type] = $this->pagelines_getsections( $dir, $type );
-			}
+			foreach ( $section_dirs as $type => $dir )
+				$sections[ $type ] = $this->get_sections( $dir, $type );
 
 			// check for deps within the main parent sections, load last if found.
-			foreach ($sections['parent'] as $key => $section ) {
+			foreach ( $sections['parent'] as $key => $section ) {
 
-				if ( !empty($section['depends']) ) {
-					unset($sections['parent'][$key]);
-					$sections['parent'][$key] = $section;
+				if ( !empty( $section['depends'] ) ) {
+					unset( $sections['parent'][ $key ] );
+					$sections['parent'][ $key ] = $section;
 				}
 			}
 			/**
@@ -98,67 +67,68 @@ class PageLinesRegister {
 			set_transient( 'pagelines_sections_cache', $sections, 86400 );
 		}
 
-		if ( true === $echo )
+		if ( $echo )
 			return $sections;
 
 		// filter main array containing child and parent and any custom sections
 		$sections = apply_filters( 'pagelines_section_admin', $sections );
-		$disabled = get_option( 'pagelines_sections_disabled', array( 'child' => array(), 'parent' => array(), 'custom' => array() ) );
+		$disabled = pl_get_disabled_sections();
 
 		foreach ( $sections as $type ) {
-			if(is_array($type)){
 
-				foreach( $type as $section ) {
+			if ( !is_array( $type ) )
+				continue;
 
-					if ( ! isset( $section['loadme'] ) )
-						$section['loadme'] = false;
+			foreach ( $type as $section ) {
 
-					if ( 'parent' == $section['type'] || ! is_multisite() ) {
-						$section['loadme'] = true;
+				if ( ! isset( $section['loadme'] ) )
+					$section['loadme'] = false;
+
+				if ( 'parent' == $section['type'] || ! is_multisite() )
+					$section['loadme'] = true;
+				
+				/**
+				* Checks to see if we are a child section, if so disable the parent
+				* Also if a parent section and disabled, skip.
+				*/
+				if ( 'parent' != $section['type'] && isset( $sections['parent'][ $section['class'] ] ) )
+					$disabled['parent'][ $section['class'] ] = true;
+
+				if ( isset( $disabled[ $section['type'] ][ $section['class'] ] ) && ! $section['persistant'] )
+					continue;
+
+				// consolidate array vars
+				$dep = ( 'parent' != $section['type'] && $section['depends'] ) ? $section['depends'] : null;
+				$parent_dep = isset( $sections['parent'][ $section['depends'] ] ) ? $sections['parent'][ $section['depends'] ] : null;
+
+				$dep_data = array(
+					'base_dir'  => isset( $parent_dep['base_dir'] )		? $parent_dep['base_dir']	: null,
+					'base_url'  => isset( $parent_dep['base_url'] )		? $parent_dep['base_url']	: null,
+					'base_file' => isset( $parent_dep['base_file'] )	? $parent_dep['base_file']	: null,
+					'name'		=> isset( $parent_dep['name'] )			? $parent_dep['name']		: null
+				);
+
+				$section_data = array(
+					'base_dir'  => $section['base_dir'],
+					'base_url'  => $section['base_url'],
+					'base_file' => $section['base_file'],
+					'name'		=> $section['name']
+				);
+
+				if ( isset( $dep ) && $section['loadme'] ) { // do we have a dependency?
+					if ( !class_exists( $dep ) && is_file( $dep_data['base_file'] ) ) {
+						include( $dep_data['base_file'] );
+						$pl_section_factory->register( $dep, $dep_data );
 					}
-					/**
-					* Checks to see if we are a child section, if so disable the parent
-					* Also if a parent section and disabled, skip.
-					*/
-					if ( 'parent' != $section['type'] && isset( $sections['parent'][$section['class']]) )
-						$disabled['parent'][$section['class']] = true;
-
-					if (isset( $disabled[$section['type']][$section['class']] ) && ! $section['persistant'] )
-						continue;
-
-					// consolidate array vars
-					$dep = ( 'parent' != $section['type'] && $section['depends'] != '') ? $section['depends'] : null;
-					$parent_dep = (isset($sections['parent'][$section['depends']])) ? $sections['parent'][$section['depends']] : null;
-
-					$dep_data = array(
-						'base_dir'  => (isset($parent_dep['base_dir'])) ? $parent_dep['base_dir'] : null,
-						'base_url'  => (isset($parent_dep['base_url'])) ? $parent_dep['base_url'] : null,
-						'base_file' => (isset($parent_dep['base_file'])) ? $parent_dep['base_file'] : null,
-						'name'		=> (isset($parent_dep['name'])) ? $parent_dep['name'] : null
-					);
-
-					$section_data = array(
-						'base_dir'  => $section['base_dir'],
-						'base_url'  => $section['base_url'],
-						'base_file' => $section['base_file'],
-						'name'		=> $section['name']
-					);
-
-					if ( isset( $dep ) && $section['loadme'] ) { // do we have a dependency?
-						if ( !class_exists( $dep ) && is_file( $dep_data['base_file'] ) ) {
-							include( $dep_data['base_file'] );
-							$pl_section_factory->register( $dep, $dep_data );
-						}
-						// dep loaded...
-						if ( !class_exists( $section['class'] ) && class_exists( $dep ) && is_file( $section['base_file'] ) ) {
-							include( $section['base_file'] );
-							$pl_section_factory->register( $section['class'], $section_data );
-						}
-					} else {
-							if ( !class_exists( $section['class'] ) && is_file( $section['base_file'] ) && ! isset( $disabled['parent'][$section['depends']] ) ) {
-								include( $section['base_file'] );
-								$pl_section_factory->register( $section['class'], $section_data );
-							}
+					// dep loaded...
+					if ( !class_exists( $section['class'] ) && class_exists( $dep ) && is_file( $section['base_file'] ) ) {
+						include( $section['base_file'] );
+						$pl_section_factory->register( $section['class'], $section_data );
+					}
+				} else {
+					if ( !class_exists( $section['class'] ) && is_file( $section['base_file'] ) && ! isset( $disabled['parent'][$section['depends']] ) ) {
+						include( $section['base_file'] );
+						$pl_section_factory->register( $section['class'], $section_data );
 					}
 				}
 			}
@@ -172,14 +142,13 @@ class PageLinesRegister {
 	 * @return array of php files
 	 * @author Simon Prosser
 	 **/
-	function pagelines_getsections( $dir, $type ) {
+	function get_sections( $dir, $type ) {
 
-		if ( 'parent' != $type && ! is_dir($dir) )
+		if ( 'parent' != $type && ! is_dir( $dir ) )
 			return;
 
-		if ( is_multisite() ) {
+		if ( is_multisite() )
 			$store_sections = $this->get_latest_cached( 'sections' );
-		}
 
 		$default_headers = array(
 			'External'		=> 'External',
@@ -203,190 +172,183 @@ class PageLinesRegister {
 			'classes'		=> 'Classes',
 			'filter'		=> 'Filter',
 			'loading'		=> 'Loading'
-			);
+		);
 
 		$sections = array();
 
 		// setup out directory iterator.
 		// symlinks were only supported after 5.3.1
 		// so we need to check first ;)
-		$it = ( strnatcmp( phpversion(), '5.3.1' ) >= 0 ) ? new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, FilesystemIterator::FOLLOW_SYMLINKS) , RecursiveIteratorIterator::SELF_FIRST ) : new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, RecursiveIteratorIterator::CHILD_FIRST ) );
+		$it = ( strnatcmp( phpversion(), '5.3.1' ) >= 0 )
+			? new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, FilesystemIterator::FOLLOW_SYMLINKS		) , RecursiveIteratorIterator::SELF_FIRST )
+			: new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, RecursiveIteratorIterator::CHILD_FIRST	)
+		);
 
-		foreach( $it as $fullFileName => $fileSPLObject ) {
+		foreach ( $it as $fullFileName => $fileSPLObject ) {
 
-			if ( basename( $fullFileName) == PL_EXTEND_SECTIONS_PLUGIN )
+			if ( basename( $fullFileName ) == PL_EXTEND_SECTIONS_PLUGIN )
 				continue;
 
-			if (pathinfo($fileSPLObject->getFilename(), PATHINFO_EXTENSION ) == 'php') {
+			if ( 'php' != pathinfo( $fileSPLObject->getFilename(), PATHINFO_EXTENSION ) )
+				continue;
 
-				$base_url = null;
-				$base_dir = null;
-				$load = true;
-				$price = '';
-				$uid = '';
-				$headers = get_file_data( $fullFileName, $default_headers );
+			$base_url = null;
+			$base_dir = null;
+			$load     = true;
+			$price    = '';
+			$uid      = '';
+			$headers  = get_file_data( $fullFileName, $default_headers );
 
-				// If no pagelines class headers ignore this file.
-				if ( !$headers['classname'] )
+			// If no pagelines class headers ignore this file.
+			// beyond this point $fullFileName should refer to a section.php
+			if ( !$headers['classname'] )
+				continue;
+			
+			preg_match( '#[\/|\-]sections[\/|\\\]([^\/|\\\]+)#', $fullFileName, $out );
+			$folder = sprintf( '/%s', $out[1] );
+			
+			// base values
+			$version  = $headers['version'] ? $headers['version'] : PL_CORE_VERSION;
+			$base_dir = PL_SECTIONS . $folder;
+			$base_url = PL_SECTION_ROOT . $folder;
+
+			if ( 'child' == $type ) {
+				$base_url =  PL_EXTEND_URL . $folder;
+				$base_dir =  PL_EXTEND_DIR . $folder;
+			}
+			if ( 'custom' == $type ) {
+				$base_url =  get_stylesheet_directory_uri()  . '/sections' . $folder;
+				$base_dir =  get_stylesheet_directory()  . '/sections' . $folder;
+			}
+
+			/*
+			* Look for custom dirs.
+			*/
+			if ( !in_array( $type, array('custom','child','parent') ) ) {
+
+				// Ok so we're a plugin then.. if not active then bypass.
+
+				$check = str_replace('\\', '/', $fullFileName); // must convert backslashes before preg_match
+				preg_match( '#\/sections\/([^\/]+)#', $check, $out );
+
+				if ( ! isset( $out[1] ) )
 					continue;
 
-				preg_match( '#[\/|\-]sections[\/|\\\]([^\/|\\\]+)#', $fullFileName, $out );
+				$section_slug = $type;
+				$file  = basename( $dir );
+				$pfile = sprintf( '%s/%s.php', $section_slug, $section_slug );
 
- 				$version = ( '' != $headers['version'] ) ? $headers['version'] : PL_CORE_VERSION;
+				if ( ! is_plugin_active( $pfile ) )
+					continue;
 
-				$folder = sprintf( '/%s', $out[1] );
+				$url  = plugins_url( $type );
 
-				$base_dir = get_template_directory()  . '/sections' . $folder;
-
-				if ( 'child' == $type ) {
-
-					$base_url =  PL_EXTEND_URL . $folder;
-					$base_dir =  PL_EXTEND_DIR . $folder;
-
-				}
-
-				if ( 'custom' == $type ) {
-
-					$base_url =  get_stylesheet_directory_uri()  . '/sections' . $folder;
-					$base_dir =  get_stylesheet_directory()  . '/sections' . $folder;
-
-				}
-
-				/*
-				* Look for custom dirs.
-				*/
-				if ( 'custom' != $type && 'child' != $type && 'parent' != $type ) {
-
-					// Ok so were a plugin then.. if not active then bypass.
-					// prepare url
-
-					$pname = preg_match( '#\/sections\/([^\/]+)#', $fullFileName, $out );
-
-					if( ! isset( $out[1] ) )
-						continue;
-
-					$file = basename( $dir );
-
-					$pfile = sprintf( '%s/%s.php', $type, $type );
-
-					if( ! is_plugin_active( $pfile ) )
-						continue;
-					$path = plugin_dir_path( $file );
-
-					$url = plugins_url( $type );
-
-					$base_url = sprintf( '%s/%s/%s', untrailingslashit( $url ), $file, $out[1]  );
-					$base_dir = sprintf( '%s/%s/', untrailingslashit( $dir ), $out[1] );
-
-				}
-				$base_dir = ( isset( $base_dir ) ) ? $base_dir : PL_SECTIONS . $folder;
-				$base_url = ( isset( $base_url ) ) ? $base_url : PL_SECTION_ROOT . $folder;
-
-				// do we need to load this section?
-				if ( 'child' == $type && is_multisite() ) {
-					$load = false;
-					$slug = basename( $folder );
-					$purchased = ( isset( $store_sections->$slug->purchased ) ) ? $store_sections->$slug->purchased : '';
-					$plus = ( isset( $store_sections->$slug->plus_product ) ) ? $store_sections->$slug->plus_product : '';
-					$price = ( isset( $store_sections->$slug->price ) ) ? $store_sections->$slug->price : '';
-					$uid = ( isset( $store_sections->$slug->uid ) ) ? $store_sections->$slug->uid : '';
-					if ( 'purchased' === $purchased ) {
-						$load = true;
-					} elseif( $plus && pagelines_check_credentials( 'plus' ) ) {
-						$load = true;
-					} else {
-
-						$disabled = get_option( 'pagelines_sections_disabled', array( 'child' => array(), 'parent' => array() ) );
-
-						if ( ! isset( $disabled['child'][$headers['classname']] ) )
-							$load = true;
-					}
-				}
-
-				if ( $load )
-					$purchased = 'purchased';
-
-				$sections[ $headers['classname'] ] = array(
-					'class'			=> $headers['classname'],
-					'depends'		=> $headers['depends'],
-					'type'			=> $type,
-					'tags'			=> $headers['tags'],
-					'author'		=> $headers['author'],
-					'version'		=> $version,
-					'authoruri'		=> ( isset( $headers['authoruri'] ) ) ? $headers['authoruri'] : '',
-					'description'	=> $headers['description'],
-					'name'			=> $headers['section'],
-					'base_url'		=> $base_url,
-					'base_dir'		=> $base_dir,
-					'base_file'		=> $fullFileName,
-					'workswith'		=> ( $headers['workswith'] ) ? array_map( 'trim', explode( ',', $headers['workswith'] ) ) : '',
-					'isolate'		=> ( $headers['isolate'] ) ? array_map( 'trim', explode( ',', $headers['isolate'] ) ) : '',
-					'edition'		=> $headers['edition'],
-					'cloning'		=> ( 'true' === $headers['cloning'] ) ? true : '',
-					'failswith'		=> ( $headers['failswith'] ) ? array_map( 'trim', explode( ',', $headers['failswith'] ) ) : '',
-					'tax'			=> $headers['tax'],
-					'demo'			=> $headers['Demo'],
-					'external'		=> $headers['External'],
-					'persistant'	=> $headers['persistant'],
-					'format'		=> $headers['format'],
-					'classes'		=> $headers['classes'],
-					'screenshot'	=> ( is_file( $base_dir . '/thumb.png' ) ) ? $base_url . '/thumb.png' : '',
-					'less'			=> ( is_file( $base_dir . '/color.less' ) || is_file( $base_dir . '/style.less' ) ) ? true : false,
-					'loadme'		=> $load,
-					'price'			=> $price,
-					'purchased'		=> $purchased,
-					'uid'			=> $uid,
-					'filter'		=> $headers['filter'],
-					'loading'		=> $headers['loading']
-				);
-
+				$base_url = sprintf( '%s/%s/%s', untrailingslashit( $url ), $file, $section_slug );
+				$base_dir = sprintf( '%s/%s/', untrailingslashit( $dir ), $section_slug );
 			}
+
+
+			// do we need to load this section?
+			if ( 'child' == $type && is_multisite() ) {
+				$load      = false;
+				$slug      = basename( $folder );
+				$purchased = ( isset( $store_sections->$slug->purchased ) ) ? $store_sections->$slug->purchased : '';
+				$plus      = ( isset( $store_sections->$slug->plus_product ) ) ? $store_sections->$slug->plus_product : '';
+				$price     = ( isset( $store_sections->$slug->price ) ) ? $store_sections->$slug->price : '';
+				$uid       = ( isset( $store_sections->$slug->uid ) ) ? $store_sections->$slug->uid : '';
+
+				if ( 'purchased' === $purchased )
+					$load = true;
+				elseif ( $plus && pagelines_check_credentials( 'plus' ) )
+					$load = true;
+				else {
+					$disabled = pl_get_disabled_sections();
+
+					if ( ! isset( $disabled['child'][ $headers['classname'] ] ) )
+						$load = true;
+				}
+			}
+
+			if ( $load )
+				$purchased = 'purchased';
+
+			$sections[ $headers['classname'] ] = array(
+				'class'			=> $headers['classname'],
+				'depends'		=> $headers['depends'],
+				'type'			=> $type,
+				'tags'			=> $headers['tags'],
+				'author'		=> $headers['author'],
+				'version'		=> $version,
+				'authoruri'		=> ( isset( $headers['authoruri'] ) ) ? $headers['authoruri'] : '',
+				'description'	=> $headers['description'],
+				'name'			=> $headers['section'],
+				'base_url'		=> $base_url,
+				'base_dir'		=> $base_dir,
+				'base_file'		=> $fullFileName,
+				'workswith'		=> ( $headers['workswith'] ) ? array_map( 'trim', explode( ',', $headers['workswith'] ) ) : '',
+				'isolate'		=> ( $headers['isolate'] ) ? array_map( 'trim', explode( ',', $headers['isolate'] ) ) : '',
+				'edition'		=> $headers['edition'],
+				'cloning'		=> ( 'true' === $headers['cloning'] ) ? true : '',
+				'failswith'		=> ( $headers['failswith'] ) ? array_map( 'trim', explode( ',', $headers['failswith'] ) ) : '',
+				'tax'			=> $headers['tax'],
+				'demo'			=> $headers['Demo'],
+				'external'		=> $headers['External'],
+				'persistant'	=> $headers['persistant'],
+				'format'		=> $headers['format'],
+				'classes'		=> $headers['classes'],
+				'screenshot'	=> ( is_file( $base_dir . '/thumb.png' ) ) ? $base_url . '/thumb.png' : '',
+				'less'			=> ( is_file( $base_dir . '/color.less' ) || is_file( $base_dir . '/style.less' ) ) ? true : false,
+				'loadme'		=> $load,
+				'price'			=> $price,
+				'purchased'		=> $purchased,
+				'uid'			=> $uid,
+				'filter'		=> $headers['filter'],
+				'loading'		=> $headers['loading']
+			);
+
 		}
 		return $sections;
 	}
 
 	function register_sidebars() {
 
-		if(!pl_deprecate_v2()){
+		if ( !pl_deprecate_v2() ) {
 		
-				// This array contains the sidebars in the correct order.
-				$sidebars = array(
+			// This array contains the sidebars in the correct order.
+			$sidebars = array(
+				'sb_primary' => array(
+					'name'	=>	__( 'Primary Sidebar', 'pagelines' ),
+					'description'	=>	__( 'The main widgetized sidebar.', 'pagelines')
+				),
+				'sb_secondary' => array(
+					'name'	=>	sprintf( '%s%s', __( 'Secondary Sidebar', 'pagelines' ), ( !VPRO ) ? ' (Pro Only)' : '' ),
+					'description'	=>	__( 'The secondary widgetized sidebar for the theme.', 'pagelines')
+				),
+				'sb_tertiary' => array(
+					'name'	=>	__( 'Tertiary Sidebar', 'pagelines' ),
+					'description'	=>	__( 'A 3rd widgetized sidebar for the theme that can be used in standard sidebar templates.', 'pagelines')
+				),
+				'sb_universal' => array(
+					'name'	=>	__( 'Universal Sidebar', 'pagelines' ),
+					'description'	=>	__( 'A universal widgetized sidebar', 'pagelines'),
+					'pro'	=> true
+				),
+				'sb_fullwidth' => array(
+					'name'	=>	__( 'Full Width Sidebar', 'pagelines' ),
+					'description'	=>	__( 'Shows full width widgetized sidebar.', 'pagelines')
+				),
+				'sb_content' => array(
+					'name'	=>	__( 'Content Sidebar', 'pagelines' ),
+					'description'	=>	__( 'Displays a widgetized sidebar inside the main content area. Set it up in the widgets panel.', 'pagelines')
+				),
+			);
 
-					'sb_primary' => array(
-						'name'	=>	__( 'Primary Sidebar', 'pagelines' ),
-						'description'	=>	__( 'The main widgetized sidebar.', 'pagelines')
-					),
-					'sb_secondary' => array(
-						'name'	=>	sprintf( '%s%s', __( 'Secondary Sidebar', 'pagelines' ), ( !VPRO ) ? ' (Pro Only)' : '' ),
-						'description'	=>	__( 'The secondary widgetized sidebar for the theme.', 'pagelines')
-					),
-					'sb_tertiary' => array(
-						'name'	=>	__( 'Tertiary Sidebar', 'pagelines' ),
-						'description'	=>	__( 'A 3rd widgetized sidebar for the theme that can be used in standard sidebar templates.', 'pagelines')
-					),
-					'sb_universal' => array(
-						'name'	=>	__( 'Universal Sidebar', 'pagelines' ),
-						'description'	=>	__( 'A universal widgetized sidebar', 'pagelines'),
-						'pro'	=> true
-					),
-					'sb_fullwidth' => array(
-						'name'	=>	__( 'Full Width Sidebar', 'pagelines' ),
-						'description'	=>	__( 'Shows full width widgetized sidebar.', 'pagelines')
-					),
-					'sb_content' => array(
-						'name'	=>	__( 'Content Sidebar', 'pagelines' ),
-						'description'	=>	__( 'Displays a widgetized sidebar inside the main content area. Set it up in the widgets panel.', 'pagelines')
-					),
-				);
-				foreach( $sidebars as $key => $sidebar ) {
-					if ( isset( $sidebar['pro'] ) && ! VPRO )
-						continue;
-					pagelines_register_sidebar( pagelines_standard_sidebar( $sidebar['name'], $sidebar['description'] ) );
-				}
-			
+			foreach ( $sidebars as $key => $sidebar ) {
+				if ( isset( $sidebar['pro'] ) && ! VPRO )
+					continue;
+				pagelines_register_sidebar( pagelines_standard_sidebar( $sidebar['name'], $sidebar['description'] ) );
+			}
 		}
-		
-	
 	}
 
 	/**
@@ -428,4 +390,48 @@ class PageLinesRegister {
 		return json_decode( $api );
 	}
 
-} // end class
+} // PageLinesRegister
+
+function pl_get_section_dirs() {
+
+	$section_dirs = array(
+		'child'  => PL_EXTEND_DIR,
+		'parent' => PL_SECTIONS
+	);
+
+	$theme_sections_dir = PL_CHILD_DIR . '/sections';
+
+	if ( is_child_theme() && is_dir( $theme_sections_dir ) )
+		$section_dirs['custom'] = $theme_sections_dir;
+
+	// load v3 section/plugins...
+
+	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+	foreach ( get_plugins() as $plugin => $data ) {
+
+		$slug = dirname( $plugin );
+		$path = path_join( WP_PLUGIN_DIR, "$slug/sections" );
+
+		if ( is_dir( $path ) )
+			$section_dirs[ $slug ] = $path;
+	}
+
+	return apply_filters( 'pagelines_sections_dirs', $section_dirs );
+}
+
+function pl_get_disabled_sections() {
+
+	// get all section types - including any added/removed by filters
+	$types = array_keys( (array) pl_get_section_dirs() );
+	// make sure the base type keys are all there even if they were filtered out
+	$types = array_merge( array('child','parent','custom'), $types );
+
+	$d = array();
+	foreach ( $types as $type )
+		$d[ $type ] = array();
+
+	$saved = get_option( 'pagelines_sections_disabled', array() );
+
+	return wp_parse_args( $saved, $d );
+}
