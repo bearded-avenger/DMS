@@ -86,7 +86,7 @@ class EditorCode{
 	}
 
 	function draw_custom_scripts(){
-		printf( pl_setting('custom_scripts') );
+		echo stripslashes( pl_setting('custom_scripts') );
 	}
 
 
@@ -118,7 +118,7 @@ class EditorCode{
 				<div class="codetext-meta fix">
 					<label class="codetext-label">Custom Javascript or Header HTML</label>
 				</div>
-				<form class="code-form"><textarea class="custom-scripts" name="settings[custom_scripts]" placeholder=""><?php echo pl_setting('custom_scripts'); ?></textarea></form>
+				<form class="code-form"><textarea class="custom-scripts" name="settings[custom_scripts]" placeholder=""><?php echo stripslashes( pl_setting( 'custom_scripts' ) ); ?></textarea></form>
 			</div>
 		</div>
 

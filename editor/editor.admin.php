@@ -64,7 +64,7 @@ class EditorAdmin {
 					<div class='oinputs-pad'>
 						<form id="pl-dms-scripts-form" class="dms-update-setting" data-setting="custom_scripts">
 							<label class="lbl">Custom Scripts Fallback</label>
-							<textarea id="pl-dms-scripts" name="pl-dms-scripts" class="html-textarea code_textarea input_custom_scripts"><?php echo pl_setting('custom_scripts');?></textarea>
+							<textarea id="pl-dms-scripts" name="pl-dms-scripts" class="html-textarea code_textarea input_custom_scripts"><?php echo stripslashes( pl_setting( 'custom_scripts' ) );?></textarea>
 							<p><input class="button button-primary" type="submit" value="Save Scripts" /></p>
 						</form>
 					</div>
