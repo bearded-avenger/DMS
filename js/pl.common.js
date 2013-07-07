@@ -226,7 +226,7 @@
 				if( newWindow )
 					window.open( url, newWindow )
 				else
-					pl_url_refresh(url)
+					window.location.href = url
 			
 			})
 
