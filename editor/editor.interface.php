@@ -33,7 +33,7 @@ class EditorInterface {
 		$this->extensions = $extensions;
 
 		global $is_chrome;
-		if ( $this->draft->show_editor() && $is_chrome){
+		if ( $this->editor_user() && $this->draft->show_editor() && $is_chrome){
 
 			add_action( 'wp_footer', array( &$this, 'pagelines_toolbox' ) );
 			add_action( 'wp_enqueue_scripts', array(&$this, 'pl_editor_scripts' ) );
@@ -184,6 +184,9 @@ class EditorInterface {
 	function pagelines_editor_activate(){
 		global $wp;
 		global $is_chrome;
+
+		if( ! $this->editor_user() )
+			return;
 
 		if($is_chrome){
 
@@ -522,10 +525,29 @@ class EditorInterface {
 		return ob_get_clean();
 
 	}
-
-
-
-
+	
+	// checks if PL_EDITOR_LOCK is enabled and if so that the user is allowed to edit.
+	// example:
+	// define( 'PL_EDITOR_LOCK', 'admin' ); // only allow 'admin' to use editor.
+	// define( 'PL_EDITOR_LOCK', 'simon,stefan,andrew' ); // allow 3 users to use the editor.
+	// If not defined all users with edit_theme_options role have access to the editor.
+	function editor_user() {
+		
+		// defined (single user and multi user)
+		if( defined( 'PL_EDITOR_LOCK' ) && is_string( PL_EDITOR_LOCK ) && '' != PL_EDITOR_LOCK ) {
+			
+			// get current users info
+			$user_data = wp_get_current_user();
+			$user = $user_data->user_login;
+			
+			// explode the alowed users, if its a single name explode still returns an array.
+			$users = explode( ',', PL_EDITOR_LOCK );
+			
+			// if current user is not in the array of allowed users return false.
+			if( ! in_array( $user, $users ) )
+				return false;
+		}	
+		//	If we get this far either PL_EDITOR_LOCK is not defined or is not a string or the user is allowed so we just return true.
+		return true;
+	}
 }
-
-
