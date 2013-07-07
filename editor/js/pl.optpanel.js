@@ -848,7 +848,7 @@
 						}
 						if(endpoint) {
 							console.debug(url + endpoint)
-							window.location.href = url + endpoint
+							pl_url_refresh(url + endpoint)
 						}
 					}
 					
@@ -910,7 +910,7 @@
 				, complete: function (response) {
 					window.onbeforeunload = null
 					var url = $.pl.config.siteURL
-					window.location.href = url
+					pl_url_refresh(url)
 			//		console.debug(response)
 				}
 			})

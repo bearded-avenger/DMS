@@ -103,7 +103,8 @@ function basename (path, suffix) {
 }
 
 /* Simple Shortcode System
- * ============================================= */
+ * =============================================
+ */
 function pl_do_shortcode(opt) {
 	
 	var match = opt.match( /\[([^\]]*)/ ) || false
@@ -133,8 +134,16 @@ function pl_show_unload(){
 		},1);
 	
 		return "« PUBLISH CHANGES ? »\n\nDraft changes on this page aren't published live.\n\nFeel free to navigate; however, your visitors won't see changes until they're published." 
-	
-
 	}
+}
 
+/* Page refresh function with optional timeout.
+ * =============================================
+ */
+function pl_url_refresh(url,timeout){
+	if(!timeout)
+		var timeout = 0
+	setTimeout(function() {
+	  window.location.href = url;
+	}, timeout);
 }
