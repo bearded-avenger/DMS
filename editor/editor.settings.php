@@ -226,7 +226,7 @@ class PageLinesSettings extends PageLinesData {
 	 */
 	function reset_caches() {
 		do_action( 'extend_flush' );
-		pl_flush_draft_caches();
+		pl_flush_draft_caches( false );
 	}
 
 	/*
