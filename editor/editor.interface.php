@@ -467,7 +467,7 @@ class EditorInterface {
 						$tab_key,
 						$t['type'],
 						$t['scope'],
-						$notification,
+						apply_filters( 'pagelines_global_notification', $notification ),
 						$t['name'],
 						$clip,
 						$tools,
