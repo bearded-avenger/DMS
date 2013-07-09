@@ -1082,12 +1082,12 @@
 				var dflt = ( isset( o.default ) ) ? o.default : '#ffffff'
 				
 				dflt = dflt.replace('#', '');
-				console.log(dflt)
+				
 				$( '.color-'+o.key ).colorpicker({
 					color: dflt
 					, allowNull: true
 					, beforeShow: function(input, inst){
-						console.log('123'+o.val)
+					
 					
 					}
 					, onClose: function(color, inst){
