@@ -836,7 +836,7 @@
 						}
 						if( templates ) {
 							
-							console.debug(templates)
+							plPrint(templates)
 							var tpls = []
 							$.each( templates, function(key, value){
 								if(value) {
@@ -852,7 +852,7 @@
 							endpoint = endpoint + '&export_types=1'
 						}
 						if(endpoint) {
-							console.debug(url + endpoint)
+							plPrint(url + endpoint)
 							pl_url_refresh(url + endpoint)
 						}
 					}
@@ -917,7 +917,6 @@
 					bootbox.dialog( "<h3>Settings Imported</h3>" )
 					var url = $.pl.config.siteURL
 					pl_url_refresh(url, 2000)
-			//		console.debug(response)
 				}
 			})
 			
@@ -1090,12 +1089,12 @@
 				var dflt = ( isset( o.default ) ) ? o.default : '#ffffff'
 				
 				dflt = dflt.replace('#', '');
-				console.log(dflt)
+				plPrint(dflt)
 				$( '.color-'+o.key ).colorpicker({
 					color: dflt
 					, allowNull: true
 					, beforeShow: function(input, inst){
-						console.log('123'+o.val)
+						plPrint('123'+o.val)
 					
 					}
 					, onClose: function(color, inst){

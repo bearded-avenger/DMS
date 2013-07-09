@@ -161,7 +161,7 @@
 							if( true == rsp.refresh )
 								pl_url_refresh(url,1000)
 						
-						console.log(response)
+						plPrint(response)
 					}
 				})
 				
@@ -351,7 +351,7 @@
 					
 					tabMemory = $.extend(tabMemory, obj)
 					
-					console.log(tabMemory)
+					plPrint(tabMemory)
 
 					store.set('plTabMemory', tabMemory)
 

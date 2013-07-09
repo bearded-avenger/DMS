@@ -124,7 +124,7 @@
 				,	panel = theIsotope.data('panel') || false
 			
 				if(!theIsotope.hasClass('x-pane-mode') && ext){
-					console.log(ext)
+					plPrint(ext)
 
 					var splash	= sprintf('<div class="x-pane-frame"><img src="%s" /></div>', ext.splash)
 					,	btnClose = sprintf('<a class="x-close x-remove %s btn btn-close"><i class="icon-remove"></i> Close</a>', filterID)

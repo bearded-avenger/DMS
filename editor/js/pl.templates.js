@@ -168,8 +168,8 @@ $.plTemplates = {
 									.addClass('active-'+run)
 
 							}else {
-								console.log('Response was false.')
-								console.log( response )
+								plPrint('Response was false.')
+								plPrint( response )
 							}
 
 

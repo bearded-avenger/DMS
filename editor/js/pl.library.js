@@ -15,7 +15,7 @@ function plIsset(variable){
 }
 
 function plPrint(variable){
-	if(jQuery.pl.config.devMode == 1	)
+	if( true == jQuery.pl.config.devMode )
 		console.log( variable )
 }
 

@@ -131,10 +131,9 @@ class PageLinesExtendPanel{
 				var s = jQuery('#appendedInputButton').val()
 				
 				var url = sprintf('http://api.pagelines.com/v4/search/index.php?s=%s&callback=?',s)
-				//console.debug(url)
 				
 				jQuery.getJSON(url,function(result){
-					console.debug(result)
+					plPrint(result)
 					
 					jQuery(".store-search-results").append("<li><strong>" + result.results + " results</strong> found for <strong>" + s + "</strong></li>");
 					

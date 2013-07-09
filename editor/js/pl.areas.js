@@ -78,7 +78,7 @@
 				cloned.find('.area-control').data('tooltip', false).tooltip('destroy')
 				cloned.find('.area-control').tooltip({placement: 'top'})
 
-				console.log(cloned.data())
+				plPrint(cloned.data())
 
 				$.pageBuilder.handleCloneData( cloned )
 				
