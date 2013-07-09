@@ -620,10 +620,35 @@ class PageLinesTemplateHandler {
 
 					$s->section_head( $meta['clone'] );
 
-				$head = ob_get_clean();
+				$out = ob_get_clean();
 
-				if($head != '')
-					echo pl_source_comment($s->name.' | Section Head') . $head;
+				if($out != '')
+					echo pl_source_comment($s->name.' | Section Head') . $out;
+
+
+			}
+		}
+	}
+	
+	function process_foot(){
+
+
+		foreach($this->section_list as $key => $meta){
+
+			if( $this->in_factory( $meta['object'] ) ){
+
+				$s = $this->factory[ $meta['object'] ];
+
+				$s->meta = $meta;
+				
+				ob_start();
+
+					$s->section_foot( );
+
+				$out = ob_get_clean();
+
+				if($out != '')
+					echo pl_source_comment($s->name.' | Section Foot') . $out;
 
 
 			}

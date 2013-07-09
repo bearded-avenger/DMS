@@ -507,6 +507,14 @@ class PageLinesSection {
      * @since   ...
      */
 	function section_head(){}
+		
+	/**
+     * Section Foot
+     *
+     * Code added in this function will be run during the wp_footer hook
+     *
+     */
+	function section_foot(){}
 
 
     /**
