@@ -3,7 +3,11 @@
 
 function pl_is_pro(){	
 	
-	return false; 
+	$status = get_option( 'dms_activation', array( 'active' => false, 'key' => '', 'message' => '', 'email' => '' ) );
+	
+	$pro = (true === $status['active']) ? true : false;
+	
+	return $pro;
 	
 }
 
