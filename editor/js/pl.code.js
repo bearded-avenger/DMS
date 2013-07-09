@@ -10,12 +10,10 @@ $.plCode = {
 
 		if( !lessText.hasClass('mirrored') ){
 
-			var editor = CodeMirror.fromTextArea( lessText.addClass('mirrored').get(0), {
-					lineNumbers: true
-				,	mode: 'text/x-less'
-				, 	lineWrapping: true
-				, 	onKeyEvent: function(instance, e){
-
+			var editorDefaultObject = {
+					
+					onKeyEvent: function(instance, e){
+console.log('yo')
 					lessText.val( instance.getValue() )
 					var theCode = lessText.parent().formParams()
 
@@ -35,10 +33,12 @@ $.plCode = {
 						less.refresh()
 
 					}
-
-
 				}
-			})
+			}
+
+			$.extend(editorDefaultObject, CMCustomCSS)
+
+			var editor = CodeMirror.fromTextArea( lessText.addClass('mirrored').get(0), editorDefaultObject)
 
 			editor.on('blur', function(instance, changeObj){
 

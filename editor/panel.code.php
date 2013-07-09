@@ -34,7 +34,14 @@ class EditorCode{
 		wp_enqueue_script( 'pl-js-code', $this->url . '/js/pl.code.js', array( 'jquery', 'codemirror' ), PL_CORE_VERSION, true );
 		wp_enqueue_script( 'pl-less-parser', $this->url . '/js/utils.less.js', array( 'jquery' ), PL_CORE_VERSION, true );
 		
-		
+		// LESS/CSS Codebox defaults
+		$custom_css = array(
+
+				'lineNumbers'	=>	true,
+				'mode'	=> 'text/x-less',
+				'lineWrapping'	=> true,
+		);
+		wp_localize_script( 'codemirror', 'CMCustomCSS', apply_filters( 'pagelines_customcss_cm_options', $custom_css ) );
 	}
 
 	function toolbar( $toolbar ){
