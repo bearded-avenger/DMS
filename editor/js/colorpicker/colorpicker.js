@@ -471,20 +471,26 @@ $.extend(Colorpicker.prototype, {
 		var width = cpDiv.outerWidth();
 		var height = cpDiv.defaultHeight + a*cpDiv.alphaHeight + s*cpDiv.swatchHeight;
 		var winWidth = $(window).width();
-		var winHeight = $('.toolbox-panel').height();
+		
+		var winHeight = $('.tab-panel').height()
+		
 		var margin = 10;
+		
+		var FirstOffset = $('.toolbox-content').offset().top
+		var secondOffset = $input.offset().top
+		var finalOff = secondOffset -FirstOffset - height/2
+		
 		height += margin;
 		offset.left += $input.outerWidth() + margin;
-		offset.top = winHeight - height - 50;
 		
-		console.log('winheight'+winHeight+'height'+height+"offset top"+offset.top)
+		
+	//	console.log('winheight'+winHeight+' height'+height+" offset top"+offset.top)
 		
 		if(offset.left + width > winWidth){
 			offset.left = winWidth - width;
 		}
-		cpDiv.css({top:offset.top, left:offset.left})
-		console.log(cpDiv.offset())
-		//console.log(cpDiv.css({top:0, left:0}).offset(offset))
+		cpDiv.css({top:finalOff, left:offset.left})
+		
 	},
 
 	_hideColorpicker: function(input, noAnim){
