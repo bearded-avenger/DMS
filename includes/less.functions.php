@@ -36,6 +36,7 @@ class PageLinesLess {
 			'plPluginsRoot'			=> sprintf( "\"%s\"", WP_PLUGIN_URL ),
 			'plChildRoot'			=> sprintf( "\"%s\"", PL_CHILD_URL ),
 			'plExtendRoot'			=> sprintf( "\"%s\"", PL_EXTEND_URL ),
+			'plPluginsRoot'			=> sprintf( "\"%s\"", plugins_url() ),
 			'pl-base'				=> $this->base_color,
 			'pl-text'				=> pl_hashify( pl_text_color() ),
 			'pl-link'				=> pl_hashify( pl_link_color() ),
