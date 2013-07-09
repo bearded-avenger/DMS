@@ -100,7 +100,15 @@ class EditorThemeHandler {
 	function themes_dashboard(){
 		$this->xlist = new EditorXList;
 
-		$themes = wp_get_themes();
+		$args = array();
+
+		if( is_multisite() ) {
+			global $blog_id;
+			$args['allowed'] = 'network';
+			$args['blog_id'] = $blog_id;
+		}
+
+		$themes = wp_get_themes( $args );
 
 		$active_theme = wp_get_theme();
 
