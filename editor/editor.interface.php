@@ -129,7 +129,8 @@ class EditorInterface {
 			'pl-toggle' => array(
 				'icon'	=> 'icon-off',
 				'type'	=> 'btn',
-				'pos'	=> 1
+				'pos'	=> 1, 
+				'tip'	=> __('Disable Editor', 'pagelines')
 			),
 
 			'pl-actions' => array(
@@ -268,10 +269,14 @@ class EditorInterface {
 
 						$classes = join(' ', $class);
 
-						$name = (isset($tab['name'])) ? sprintf('<span class="txt">%s</span>', $tab['name']) : '';
+						$the_name = (isset($tab['name'])) ? $tab['name'] : '';
+
+						$name = sprintf('<span class="txt">%s</span>', $the_name);
 						$icon = (isset($tab['icon'])) ? sprintf('<i class="uxi %s"></i> ', $tab['icon']) : '';
 						
-						$tip = (isset($tab['tip'])) ? sprintf('title="%s"', $tab['tip']) : '';
+						$tip = (isset($tab['tip']) && $tab['tip'] != '') ? $tab['tip'] : $the_name;
+						
+						$title = sprintf('title="%s"', $tip);
 
 						printf(
 							'<li class="%s"><span class="btn-toolbox %s" data-action="%s" %s %s>%s%s%s</span>%s</li>',
@@ -279,7 +284,7 @@ class EditorInterface {
 							$classes,
 							$key,
 							$data,
-							$tip,
+							$title,
 							$icon,
 							$name,
 							$suffix,
