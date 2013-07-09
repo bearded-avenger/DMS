@@ -569,7 +569,7 @@
 			){
 
 			
-				var select_opts = (o.type != 'select_multi') ? '<option value="" >&mdash; Select &mdash;</option>' : ''
+				var select_opts = (o.type != 'select_multi') ? '<option value="" >&mdash; Default &mdash;</option>' : ''
 				
 				if(o.type == 'count_select' || o.type == 'count_select_same'){
 
