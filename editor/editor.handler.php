@@ -156,7 +156,7 @@ class PageLinesTemplateHandler {
 	}
 	
 	function get_dev_mode(){
-		return ( defined( 'PL_LESS_DEV' ) && PL_LESS_DEV ) ? 'true' : 'false';
+		return ( is_pl_debug() ) ? 'true' : 'false';
 	}
 
 

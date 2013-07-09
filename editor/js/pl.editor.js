@@ -130,6 +130,43 @@
 				
 				that.tabLink(tabLink, tabSubLink)
 			}
+			
+			$('[data-action="pagelines-account"]').on('click', function() {
+			
+			
+				var key = $('#pl_activation').val()
+				,	email = $('#pl_email').val()
+				,	revoke = $('#pl_revoke').val()
+				, 	theData = {
+					action: 'pl_account_actions'
+				,	key: key
+				,	email: email
+				,	revoke: revoke
+				}
+				
+				$.ajax({		
+						type: 'POST'
+					, 	url: ajaxurl
+					, 	data: theData
+					, 	beforeSend: function(){
+						
+					}
+					,	success: function( response ){
+						
+						var rsp	= $.parseJSON( response )
+						,	textRsp = sprintf('<div class="alert alert-info">%s</div>', rsp.message)
+							$('.account-description').html( textRsp )
+							
+							var url = sprintf( '%s?tablink=account&tabsublink=pl_account', $.pl.config.siteURL)
+							if( true == rsp.refresh )
+								pl_url_refresh(url,1000)
+						
+						plPrint(response)
+					}
+				})
+				
+				
+			})
         }
 
 		, tabLink: function(tabLink, tabSubLink){
@@ -314,7 +351,7 @@
 					
 					tabMemory = $.extend(tabMemory, obj)
 					
-					console.log(tabMemory)
+					plPrint(tabMemory)
 
 					store.set('plTabMemory', tabMemory)
 

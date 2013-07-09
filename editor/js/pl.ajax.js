@@ -88,8 +88,6 @@
 				}
 				, 	success: function( response ){
 
-					//	console.log(response)
-
 						that.runSuccess( theData, response )
 
 						if( theData.refresh ){
@@ -116,14 +114,14 @@
 
 		, runSuccess: function( theData, response ){
 			if(log == 'true')
-				console.log(response)
+				plPrint(response)
 
 			var that = this
 			,	rsp	= $.parseJSON( response )
 			,	log = (rsp.post) ? rsp.post.log || false : ''
 
 			if(log == 'true')
-				console.log(rsp)
+				plPrint(rsp)
 
 			if ( $.isFunction( theData.postSuccess ) )
 				theData.postSuccess.call( this, rsp )

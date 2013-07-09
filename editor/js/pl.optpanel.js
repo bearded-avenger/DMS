@@ -752,9 +752,14 @@
 					,	page_tpl_ = ('checked' == page_tpl_import ) ? '<span class="btn btn-mini btn-info">Page Templates</span>&nbsp;': ''
 					,	global_ = ('checked' == global_import ) ? '<span class="btn btn-mini btn-info">Global Options</span>&nbsp;': ''
 					,	type_ = ('checked' == type_import ) ? '<span class="btn btn-mini btn-info">Type Options</span>': ''
-
+					,	savingText = 'Resetting Options'
+					,	refreshText = 'Successfully Reset. Refreshing page'
+					
 					if( theAction == 'reset_global_child' ) {
-						confirmText = sprintf( "<h3>Are you sure?</h3><p>Importing this file will replace the following settings.<br /><strong>%s%s%s</strong></p>", page_tpl_, global_,type_ )
+						
+						var confirmText = sprintf( "<h3>Are you sure?</h3><p>Importing this file will replace the following settings.<br /><strong>%s%s%s</strong></p>", page_tpl_, global_,type_ )
+						,	savingText = 'Importing From Child Theme'
+ 						,	refreshText = 'Successfully Imported. Refreshing page'
 					}
 
 					var args = {
@@ -762,9 +767,9 @@
 						,	run: theAction
 						,	confirm: true
 						,	confirmText: confirmText
-						,	savingText: 'Resetting Options'
+						,	savingText: savingText
 						,	refresh: true
-						,	refreshText: 'Successfully Reset. Refreshing page'
+						,	refreshText: refreshText
 						, 	log: true
 						,	page_tpl_import: page_tpl_import
 						,	global_import: global_import
@@ -831,7 +836,7 @@
 						}
 						if( templates ) {
 							
-							console.debug(templates)
+							plPrint(templates)
 							var tpls = []
 							$.each( templates, function(key, value){
 								if(value) {
@@ -847,7 +852,7 @@
 							endpoint = endpoint + '&export_types=1'
 						}
 						if(endpoint) {
-							console.debug(url + endpoint)
+							plPrint(url + endpoint)
 							pl_url_refresh(url + endpoint)
 						}
 					}
@@ -909,9 +914,9 @@
 				}
 				, complete: function (response) {
 					window.onbeforeunload = null
+					bootbox.dialog( "<h3>Settings Imported</h3>" )
 					var url = $.pl.config.siteURL
-					pl_url_refresh(url)
-			//		console.debug(response)
+					pl_url_refresh(url, 2000)
 				}
 			})
 			
@@ -921,6 +926,8 @@
 					action: 'upload_config_file'
 					, mode: 'fileupload'
 					, refresh: true
+					, refreshText: 'Imported Settings'
+					, savingText: 'Importing'
 					, run: 'upload_config'
 					, page_tpl_import: $('[data-scope="importexport"] #page_tpl_import').attr('checked')
 					, global_import: $('[data-scope="importexport"] #global_import').attr('checked')
@@ -1082,12 +1089,11 @@
 				var dflt = ( isset( o.default ) ) ? o.default : '#ffffff'
 				
 				dflt = dflt.replace('#', '');
-				
+
 				$( '.color-'+o.key ).colorpicker({
 					color: dflt
 					, allowNull: true
 					, beforeShow: function(input, inst){
-					
 					
 					}
 					, onClose: function(color, inst){

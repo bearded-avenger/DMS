@@ -24,7 +24,7 @@ class PLAccountPanel{
 					'icon'	=> 'icon-star', 
 					'call'	=> array(&$this, 'pagelines_welcome'),
 				),
-				'account'	=> array(
+				'pl_account'	=> array(
 					'name'	=> 'Your Account',
 					'icon'	=> 'icon-user', 
 					'call'	=> array(&$this, 'pagelines_account'),
@@ -58,20 +58,48 @@ class PLAccountPanel{
 	}
 
 	function pagelines_account(){
-		?>
-		<h3><i class="icon-user"></i> Enter your PageLines user account information</h3>
-		<p>
-			This will be used to authenticate purchases and membership level. If you are a Pro member, it will unlock pro features.
-		</p>
-		<label>PageLines Username</label>
-		<input type="text" class="pl-text-input" />
 		
-		<label>PageLines Password</label>
-		<input type="password" class="pl-text-input" />
+		$disabled = '';
+		$email = '';
+		$key = '';
+		$activate_text = 'Activate';
+		if( pl_is_pro() ) {
+			$disabled = ' disabled';
+			$data = get_option( 'dms_activation' );
+			$email = sprintf( 'value="%s"', $data['email'] );
+			$key = sprintf( 'value="%s"', $data['key'] );
+			printf( '<div class="account-description"><div class="alert alert-info">%s</div></div>', $data['message'] );
+			$activate_text = 'Deactivate';
+		}
+		
+		if( ! pl_is_pro() ){
+		?>
+		<h3><i class="icon-user"></i> Enter your PageLines DMS Activation key</h3>
+		<p class="account-description">
+			If you are a Pro member, it will unlock pro features.
+		</p>
+		<?php }
+		?>
+		<label for="pl_activation">User email</label>
+		<input type="text" class="pl-text-input" name="pl_email" id="pl_email" <?php echo $email . $disabled ?> />
+		
+		<label for="pl_activation">Activation key</label>
+		<input type="text" class="pl-text-input" name="pl_activation" id="pl_activation" <?php echo $key . $disabled ?>/>
+
+
+		<?php
+		if( pl_is_pro() ) {
+			echo '<input type="hidden" name="pl_revoke" id="pl_revoke" value="true" />';
+		}
+		
+		?>
 		<div class="submit-area">
-			<button class="btn btn-primary" >Submit</button>
+			<button class="btn btn-primary settings-action" data-action="pagelines-account"><?php echo $activate_text; ?></button>
 		</div>
 		<?php
+
+
+
 	}
 	
 	function pagelines_support(){

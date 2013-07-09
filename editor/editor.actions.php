@@ -323,10 +323,63 @@ function pl_up_image (){
 		echo json_encode(array('url' => $uploaded_file['url'], 'success' => TRUE));
 
 	}
-
-
-
-
 	die(); // don't forget this, always returns 0 w/o
+}
 
+add_action( 'wp_ajax_pl_account_actions', 'pl_account_actions' );
+
+function pl_account_actions() {
+	$postdata = $_POST;
+	$response = array();
+	
+	$response['key'] = $postdata['key'];
+	$response['email'] = $postdata['email'];
+	$response['active'] = false;
+	$response['refresh'] = false;
+	
+	$activated = array( 'active' => false, 'key' => '', 'message' => '', 'email' => '' );
+	
+	if( $postdata['key'] && $postdata['email'] ) {
+		$state = 'activation';
+		
+		if( true == $postdata['revoke'] )
+			$state = 'deactivation';
+	
+		$url = sprintf( 'http://www.pagelines.com/?wc-api=software-api&request=%s&product_id=dmspro&licence_key=%s&email=%s&instance=%s', $state, $response['key'], $response['email'], site_url() );
+	
+		$response['url'] = $url;
+//		$response['postdata'] = $postdata;
+		$data = wp_remote_get( $url );
+	
+
+	
+		$rsp = json_decode( $data['body'] );
+	
+		if( isset( $rsp->activated ) ) {
+			$response['active'] = $rsp->activated;		
+		}		
+		$response['message'] = ( isset( $rsp->error ) ) ? $rsp->error : $rsp->message;
+
+		} else {
+			$response['message'] = 'There was an error!';
+		}
+	if( true == $rsp->activated ) {
+		$activated['message'] = $rsp->message;
+		$activated['instance'] = $rsp->instance;
+		$activated['active'] = true;
+		$activated['key'] = $response['key'];
+		$activated['email'] = $response['email'];
+		$response['refresh'] = true;
+	}
+	
+	if( isset( $rsp->reset ) && true == $rsp->reset ){
+		$response['message'] = 'Deactivated activation for ' . site_url();
+		$response['refresh'] = true;
+	}
+	
+//	$response['rsp'] = $rsp;
+	update_option( 'dms_activation', $activated );
+	echo json_encode(  pl_arrays_to_objects( $response ) );
+	
+	exit();
 }
